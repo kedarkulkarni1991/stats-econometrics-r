@@ -291,28 +291,28 @@ values are possible, but they are uncommon.</p>
 earnings of individual workers are highly skewed, the distribution of the
 sample means is much more symmetric and concentrated.</p>
 <p>The thousand means are not just a collection of numbers. They form a
-distribution of their own. Notice what this distribution is describing. It is
-not the earnings of workers — those were the observations in our original
-dataset. Instead, it describes the values taken by the sample mean when the
-sampling process is repeated. The object of interest has changed. We are no
-longer studying workers; we are studying an estimator.</p>
-<div class="keyidea">
-<p>This distinction is the key to statistical inference. The original distribution
-tells us about the variability in earnings across individuals. The new
-distribution tells us about the variability in our estimate of the population
-mean.</p>
-<p>It is this second source of variation that determines how much confidence we
-should place in the average computed from a single survey.</p>
-</div>
+distribution of their own. Notice what this distribution describes. It is not
+the distribution of workers’ earnings — that was the distribution we began
+with. Instead, it is the distribution of the sample mean obtained by repeating
+the survey many times. The object of interest has changed. We are no longer
+studying individual workers; we are studying the behaviour of the sample mean.</p>
+<p>This distinction lies at the heart of inferential statistics. The original
+distribution describes the variability in earnings across workers. The new
+distribution describes the variability in the sample mean across repeated
+samples. It is this second source of variation that determines how much
+confidence we should place in the average computed from a single survey.</p>
 <p>The distribution formed by a statistic over repeated samples is called its
-<strong>sampling distribution</strong>. It is one of the central ideas in statistics because
-it connects the data we observe to the population we wish to understand.</p>
+<strong>sampling distribution</strong>. Every statistic has a sampling distribution: the
+mean, the median, the standard deviation, and many others. In this chapter we
+focus on the sampling distribution of the sample mean because it provides the
+foundation for much of statistical inference.</p>
 <p>Two features of Figure <a href="u1-frequentist.html#fig:u1-many-plot">1.5</a> are too striking to ignore.
 First, the sample means are tightly concentrated around the population mean.
-Second, despite the strong skewness of individual earnings, the sampling
-distribution is almost bell-shaped. These are not accidents. They are
-consequences of two remarkable mathematical results — the Law of Large Numbers
-and the Central Limit Theorem — which we study next.</p>
+Second, despite the strong skewness of individual earnings, their sampling
+distribution is almost bell-shaped. Neither feature is a coincidence. Both are
+consequences of two fundamental results in probability theory: the Law of Large
+Numbers and the Central Limit Theorem. Together, these results explain why a
+single sample can provide reliable information about an entire population.</p>
 </div>
 <script>
 // Solutions are written as plain fenced divs in the source, so the PDF edition
