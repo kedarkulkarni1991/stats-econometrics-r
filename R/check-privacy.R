@@ -44,13 +44,21 @@ if (file.exists(cls)) {
   }
 }
 
-## 3. Nothing matching the private-file patterns may be present --------------
+## 3. No private-pattern file may be TRACKED by git ---------------------------
+##
+## The test is whether git would publish the file, not whether it exists.
+## private/ is meant to hold local-only material — a name key, a restricted
+## dataset — so its presence on disk is fine and its presence in `git ls-files`
+## is not.
 
-private <- c(list.files(".", pattern = "-(identifying|namekey)\\.csv$",
-                        recursive = TRUE),
-             list.files(".", pattern = "^private$", include.dirs = TRUE))
-if (length(private)) {
-  fail <- c(fail, sprintf("private file present in repo: %s", private))
+tracked <- tryCatch(
+  system2("git", c("ls-files"), stdout = TRUE, stderr = FALSE),
+  error = function(e) character()
+)
+
+leaked <- grep("^private/|-(identifying|namekey)\\.csv$", tracked, value = TRUE)
+if (length(leaked)) {
+  fail <- c(fail, sprintf("private file is tracked by git: %s", leaked))
 }
 
 ## Report ---------------------------------------------------------------------

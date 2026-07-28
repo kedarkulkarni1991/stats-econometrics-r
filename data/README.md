@@ -32,7 +32,7 @@ belong in the text.
 | `student-survey-height.csv` | 100 | region, residence, age, household size, height | Two-sample tests (North vs South, Urban vs Rural), sampling |
 | `student-survey-sleep.csv` | 106 | region, residence, age, social media hours, sleep, household size | Correlation, two-sample tests, multiple regression |
 | `marriage-ages.csv` | 10 | ages of both partners in 10 couples | **Paired-sample t-test** — the one design a two-sample test gets wrong |
-| `wages.csv` | 526 | monthly salary, education, experience, caste, gender, marital status | Wage regressions, dummy variables, discrimination, log-linear form |
+| *(wage data pending)* | — | — | **Withdrawn — see below.** Wage regressions, dummy variables, discrimination |
 | `beauty-wages.csv` | 1260 | log wage, experience, gender, city size, relationship | Multiple regression, interaction terms, functional form |
 | `leisure-labor.csv` | 239 | total work, sleep hours, gender, relationship, health | The work–sleep tradeoff; two-sample tests; controls |
 | `marital-happiness.csv` | 492 | age, marital happiness, gender, income | Categorical predictors, ordered outcomes |
@@ -78,6 +78,53 @@ example: compute the mean age of the sleep survey, notice it is nearly a year
 above the median, find the 82-year-old, and decide what to do. A student who
 has seen one outlier drag a mean around will check for them ever after; a
 student handed pre-cleaned data never learns that they exist.
+
+## Withdrawn: the wage dataset
+
+`wages.csv` has been removed pending a replacement. It was not what it claimed
+to be.
+
+It was **Wooldridge's `wage1` — US Census data from 1976 — relabelled**.
+`education` and `experience` were byte-identical to `educ` and `exper`;
+`gender` and `marital_status` matched `female` and `married` exactly; salary
+was `wage` multiplied by a constant. And the US variable **`nonwhite` had been
+relabelled `caste`**, with `nonwhite == 1` becoming "Lower Caste".
+
+A student regressing log salary on caste in that file and reporting "the caste
+wage gap in India" would in fact have measured the Black–white wage gap in
+1976 America. In a public textbook from an Indian university, that is a false
+claim about Indian society, not a harmless teaching shortcut.
+
+The file is recoverable from git history, and is in any case just
+`wooldridge::wage1`.
+
+### Why IHDS is not the replacement
+
+The obvious substitute is IHDS, and it fails on two independent counts:
+
+1. **Redistribution is prohibited.** IHDS is distributed through ICPSR under a
+   data use agreement that forbids redistributing the data or derived extracts
+   without written permission. Publishing an extract in this repository would
+   breach the agreement personally signed by whoever downloaded it.
+2. **The caste variable is masked anyway.** In the public-use file, both
+   `GROUPS` and `ID13` are 100% `MASKED BY ICPSR` — 79,956 of 80,036
+   households, with zero usable values. The caste analysis cannot be done with
+   the public file at all, redistribution question aside.
+
+### What a replacement needs
+
+- Genuinely Indian, with an unmasked social-group variable
+- A licence that permits redistribution, so it can ship with the book
+- Individual-level earnings, education and sex
+
+PLFS or the NSS Employment–Unemployment rounds are the natural candidates.
+Both require download from MoSPI's microdata portal, and their redistribution
+terms need checking before anything is committed here.
+
+Until that is settled, the wage-regression, dummy-variable and discrimination
+chapters have no dataset. `beauty-wages.csv` and `nba-salaries.csv` can carry
+the regression mechanics in the meantime, but neither supports an Indian
+discrimination example.
 
 ## Settled decisions
 

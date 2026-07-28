@@ -103,10 +103,6 @@ clean(d, "student-survey-sleep.csv")
 d <- trim_chars(read.csv(raw("student-survey-height.csv")))
 clean(d, "student-survey-height.csv")
 
-## 6. Wages (n = 526) ---------------------------------------------------------
-
-d <- trim_chars(read.csv(raw("wages.csv")))
-clean(d, "wages.csv")
 
 ## 7. Beauty and wages (n = 1260) ---------------------------------------------
 
