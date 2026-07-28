@@ -736,19 +736,16 @@ sampling distribution is centred, how it behaves, and how uncertainty can be
 quantified.
 
 ::: {.keyidea}
-This is the central message of the unit. Different samples produce different
-answers, but those answers are not arbitrary. They follow regular patterns. The
-Law of Large Numbers describes one such regularity; the Central Limit Theorem
-describes another.
-
-**Inference is possible because repeated samples behave in remarkably regular
-ways.**
+The central idea of inferential statistics is that although different samples
+produce different answers, those differences are not arbitrary. They follow
+systematic patterns that can be described mathematically. By understanding how
+statistics behave across repeated samples, we can quantify the uncertainty
+associated with the single sample we actually observe.
 :::
 
-These ideas form the foundation of confidence intervals, hypothesis tests and
-much of modern statistics. Before developing those methods, however, we need a
-formal language for describing randomness. That is the purpose of the next
-section.
+The ideas developed so far are largely intuitive. To understand them more
+deeply — and to express them precisely — we now introduce the notation and
+concepts that statisticians use to describe random phenomena.
 
 
 ## A language for randomness {#u1-random-variables}
@@ -961,15 +958,60 @@ last two columns of the table: the observed standard deviation of the sample
 means matches $\sigma/\sqrt{n}$ almost exactly.
 
 ::: {.keyidea}
-Two results, which we prove in the next section:
+Two results, both of which can be established directly:
 
 $$E(\bar{X}) = \mu \qquad\qquad \mathrm{Var}(\bar{X}) = \frac{\sigma^2}{n}$$
 
 The sample mean is centred on the population mean, and its spread falls as the
-sample grows. The quantity $\sigma/\sqrt{n}$ is the **standard error**, and it
-is the single most important number in applied statistics: it is how wrong you
-should expect to be.
+sample grows. The quantity $\sigma/\sqrt{n}$ is called the **standard error**
+of the sample mean.
 :::
+
+### Where these results come from {-}
+
+Neither result requires anything beyond the definition of the sample mean.
+
+::: {.theory}
+**The sample mean is centred on the population mean.**
+
+$$
+\begin{aligned}
+E(\bar{X}) &= E\!\left(\frac{X_1 + X_2 + \cdots + X_n}{n}\right) \\[4pt]
+&= \frac{1}{n}\Big(E(X_1) + E(X_2) + \cdots + E(X_n)\Big) \\[4pt]
+&= \frac{1}{n}\underbrace{(\mu + \mu + \cdots + \mu)}_{n \text{ times}} \\[4pt]
+&= \frac{n\mu}{n} \;=\; \mu
+\end{aligned}
+$$
+
+Every observation is drawn from the same distribution, so each has expectation
+$\mu$. Averaging $n$ of them leaves $\mu$ unchanged. A statistic with this
+property is described as **unbiased**: it is not systematically too high or too
+low, although any particular value of it will still differ from $\mu$.
+:::
+
+::: {.theory}
+**Its spread falls as the sample grows.**
+
+$$
+\begin{aligned}
+\mathrm{Var}(\bar{X}) &= \mathrm{Var}\!\left(\frac{1}{n}(X_1 + \cdots + X_n)\right) \\[4pt]
+&= \frac{1}{n^2}\,\mathrm{Var}(X_1 + \cdots + X_n) \\[4pt]
+&= \frac{1}{n^2}\underbrace{(\sigma^2 + \sigma^2 + \cdots + \sigma^2)}_{n \text{ times}} \\[4pt]
+&= \frac{n\sigma^2}{n^2} \;=\; \frac{\sigma^2}{n}
+\end{aligned}
+$$
+
+The second line uses $\mathrm{Var}(aX) = a^2\mathrm{Var}(X)$. The third uses
+**independence**: the variance of a sum equals the sum of the variances only
+when the observations do not influence one another. This is the single point at
+which the independence assumption is required.
+:::
+
+Together these two results account for what Figure \@ref(fig:u1-lln-plot)
+showed. The sampling distribution is centred on $\mu$ at every sample size,
+and its width is $\sigma/\sqrt{n}$, which falls as $n$ grows. The Law of
+Large Numbers is the consequence: a distribution centred on the right value,
+whose spread tends to zero, must eventually concentrate on that value.
 
 ::: {.watchout}
 Note the square root. To halve your standard error you must **quadruple** your
@@ -1124,31 +1166,44 @@ economist from someone who can run regressions.
 
 ## Summary {#u1-summary}
 
+The argument of this unit can be stated in a few sentences.
+
+Observations vary, and they vary because the processes that generate them
+involve chance. Descriptive statistics summarises the variation in the data we
+have, accurately and completely. But the data we have is a sample, and a
+different sample would have produced different summaries. That difference —
+sampling variation — is not a defect in the data, and cannot be removed by
+working more carefully.
+
+The resolution is to change the object of study. Instead of asking what a
+particular sample says, we ask how a statistic behaves across the many samples
+that might have been drawn. The pattern formed by a statistic under repeated
+sampling is its sampling distribution, and it is the foundation on which
+inference rests.
+
+Two results describe that pattern. The Law of Large Numbers establishes that
+the sample mean approaches the population mean as the sample grows. The Central
+Limit Theorem establishes that the sampling distribution of the sample mean is
+approximately normal, whatever the shape of the population — although how large
+a sample this requires depends on how skewed that population is.
+
 ::: {.keyidea}
-1. **Description** summarises data you have. **Inference** reaches beyond it and
-   must report how far it has reached.
-2. A **distribution** is a pattern emerging from repetition under randomness.
-   No randomness, no distribution, no statistics.
-3. Greek letters ($\mu$, $\sigma$) are population parameters you never observe.
-   Roman letters ($\bar{x}$, $s$) are sample statistics you compute.
-4. Inference is licensed by the **i.i.d. assumption** — that your sample is
-   drawn from the same distribution as the population. A badly drawn sample
-   cannot be repaired later.
-5. A **sampling distribution** describes how a statistic varies across repeated
-   samples. It is the pivot on which all inference turns.
-6. $E(\bar{X}) = \mu$ and $\mathrm{Var}(\bar{X}) = \sigma^2/n$. The sample mean
-   is unbiased, and its **standard error** $\sigma/\sqrt{n}$ falls with the
-   square root of the sample size.
-7. The **Law of Large Numbers**: as $n$ grows, $\bar{X}$ converges on $\mu$.
-   It says the *proportion* settles down, not that deviations get corrected —
-   which is why it is no help to a gambler.
-8. The **Central Limit Theorem**: for large enough $n$, the sampling
-   distribution of $\bar{X}$ is approximately normal whatever the population
-   looks like. "Large enough" depends on skewness, and $n = 30$ is a rule of
-   thumb, not a guarantee — Indian industrial data is still lopsided there.
-9. **The mean is one feature of a distribution, not a summary of it.** Indian
-   earnings have a mean more than twice their median. Always ask about spread,
-   and about who sits in the tails.
+Points worth carrying forward:
+
+1. A distribution is a pattern that emerges from repetition under randomness.
+   Where nothing varies, there is nothing for statistics to describe.
+2. Greek letters ($\mu$, $\sigma$) denote population quantities, which are
+   never observed. Roman letters ($\bar{x}$, $s$) denote quantities computed
+   from a sample.
+3. Inference relies on the sample being drawn from the same distribution as the
+   population. A poorly drawn sample cannot be repaired by later analysis.
+4. $E(\bar{X}) = \mu$ and $\mathrm{Var}(\bar{X}) = \sigma^2/n$. The sample
+   mean is unbiased, and its standard error $\sigma/\sqrt{n}$ falls with the
+   square root of the sample size — so halving it requires quadrupling the
+   sample.
+5. The mean is one feature of a distribution, not a summary of it. Indian
+   earnings have a mean more than twice their median. Spread, and the position
+   of those in the tails, are separate questions requiring separate tools.
 :::
 
 This unit opened by claiming that the average computed from a sample is almost

@@ -173,6 +173,7 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="1.8" data-path="u1-sampling-distribution.html"><a href="u1-sampling-distribution.html"><i class="fa fa-check"></i><b>1.8</b> A population where we know the answer</a>
 <ul>
 <li class="chapter" data-level="" data-path="u1-sampling-distribution.html"><a href="u1-sampling-distribution.html#what-happens-as-the-sample-grows"><i class="fa fa-check"></i>What happens as the sample grows</a></li>
+<li class="chapter" data-level="" data-path="u1-sampling-distribution.html"><a href="u1-sampling-distribution.html#where-these-results-come-from"><i class="fa fa-check"></i>Where these results come from</a></li>
 </ul></li>
 <li class="chapter" data-level="1.9" data-path="u1-average.html"><a href="u1-average.html"><i class="fa fa-check"></i><b>1.9</b> The average is not the distribution</a></li>
 <li class="chapter" data-level="1.10" data-path="u1-what-goes-wrong.html"><a href="u1-what-goes-wrong.html"><i class="fa fa-check"></i><b>1.10</b> What can go wrong before any mathematics</a></li>
@@ -236,32 +237,40 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="u1-summary" class="section level2 hasAnchor" number="1.11">
 <h2><span class="header-section-number">1.11</span> Summary<a href="u1-summary.html#u1-summary" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The argument of this unit can be stated in a few sentences.</p>
+<p>Observations vary, and they vary because the processes that generate them
+involve chance. Descriptive statistics summarises the variation in the data we
+have, accurately and completely. But the data we have is a sample, and a
+different sample would have produced different summaries. That difference —
+sampling variation — is not a defect in the data, and cannot be removed by
+working more carefully.</p>
+<p>The resolution is to change the object of study. Instead of asking what a
+particular sample says, we ask how a statistic behaves across the many samples
+that might have been drawn. The pattern formed by a statistic under repeated
+sampling is its sampling distribution, and it is the foundation on which
+inference rests.</p>
+<p>Two results describe that pattern. The Law of Large Numbers establishes that
+the sample mean approaches the population mean as the sample grows. The Central
+Limit Theorem establishes that the sampling distribution of the sample mean is
+approximately normal, whatever the shape of the population — although how large
+a sample this requires depends on how skewed that population is.</p>
 <div class="keyidea">
+<p>Points worth carrying forward:</p>
 <ol style="list-style-type: decimal">
-<li><strong>Description</strong> summarises data you have. <strong>Inference</strong> reaches beyond it and
-must report how far it has reached.</li>
-<li>A <strong>distribution</strong> is a pattern emerging from repetition under randomness.
-No randomness, no distribution, no statistics.</li>
-<li>Greek letters (<span class="math inline">\(\mu\)</span>, <span class="math inline">\(\sigma\)</span>) are population parameters you never observe.
-Roman letters (<span class="math inline">\(\bar{x}\)</span>, <span class="math inline">\(s\)</span>) are sample statistics you compute.</li>
-<li>Inference is licensed by the <strong>i.i.d. assumption</strong> — that your sample is
-drawn from the same distribution as the population. A badly drawn sample
-cannot be repaired later.</li>
-<li>A <strong>sampling distribution</strong> describes how a statistic varies across repeated
-samples. It is the pivot on which all inference turns.</li>
-<li><span class="math inline">\(E(\bar{X}) = \mu\)</span> and <span class="math inline">\(\mathrm{Var}(\bar{X}) = \sigma^2/n\)</span>. The sample mean
-is unbiased, and its <strong>standard error</strong> <span class="math inline">\(\sigma/\sqrt{n}\)</span> falls with the
-square root of the sample size.</li>
-<li>The <strong>Law of Large Numbers</strong>: as <span class="math inline">\(n\)</span> grows, <span class="math inline">\(\bar{X}\)</span> converges on <span class="math inline">\(\mu\)</span>.
-It says the <em>proportion</em> settles down, not that deviations get corrected —
-which is why it is no help to a gambler.</li>
-<li>The <strong>Central Limit Theorem</strong>: for large enough <span class="math inline">\(n\)</span>, the sampling
-distribution of <span class="math inline">\(\bar{X}\)</span> is approximately normal whatever the population
-looks like. “Large enough” depends on skewness, and <span class="math inline">\(n = 30\)</span> is a rule of
-thumb, not a guarantee — Indian industrial data is still lopsided there.</li>
-<li><strong>The mean is one feature of a distribution, not a summary of it.</strong> Indian
-earnings have a mean more than twice their median. Always ask about spread,
-and about who sits in the tails.</li>
+<li>A distribution is a pattern that emerges from repetition under randomness.
+Where nothing varies, there is nothing for statistics to describe.</li>
+<li>Greek letters (<span class="math inline">\(\mu\)</span>, <span class="math inline">\(\sigma\)</span>) denote population quantities, which are
+never observed. Roman letters (<span class="math inline">\(\bar{x}\)</span>, <span class="math inline">\(s\)</span>) denote quantities computed
+from a sample.</li>
+<li>Inference relies on the sample being drawn from the same distribution as the
+population. A poorly drawn sample cannot be repaired by later analysis.</li>
+<li><span class="math inline">\(E(\bar{X}) = \mu\)</span> and <span class="math inline">\(\mathrm{Var}(\bar{X}) = \sigma^2/n\)</span>. The sample
+mean is unbiased, and its standard error <span class="math inline">\(\sigma/\sqrt{n}\)</span> falls with the
+square root of the sample size — so halving it requires quadrupling the
+sample.</li>
+<li>The mean is one feature of a distribution, not a summary of it. Indian
+earnings have a mean more than twice their median. Spread, and the position
+of those in the tails, are separate questions requiring separate tools.</li>
 </ol>
 </div>
 <p>This unit opened by claiming that the average computed from a sample is almost

@@ -173,6 +173,7 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="1.8" data-path="u1-sampling-distribution.html"><a href="u1-sampling-distribution.html"><i class="fa fa-check"></i><b>1.8</b> A population where we know the answer</a>
 <ul>
 <li class="chapter" data-level="" data-path="u1-sampling-distribution.html"><a href="u1-sampling-distribution.html#what-happens-as-the-sample-grows"><i class="fa fa-check"></i>What happens as the sample grows</a></li>
+<li class="chapter" data-level="" data-path="u1-sampling-distribution.html"><a href="u1-sampling-distribution.html#where-these-results-come-from"><i class="fa fa-check"></i>Where these results come from</a></li>
 </ul></li>
 <li class="chapter" data-level="1.9" data-path="u1-average.html"><a href="u1-average.html"><i class="fa fa-check"></i><b>1.9</b> The average is not the distribution</a></li>
 <li class="chapter" data-level="1.10" data-path="u1-what-goes-wrong.html"><a href="u1-what-goes-wrong.html"><i class="fa fa-check"></i><b>1.10</b> What can go wrong before any mathematics</a></li>
@@ -317,13 +318,51 @@ the spread shrinks steadily, and in a completely predictable way. Compare the
 last two columns of the table: the observed standard deviation of the sample
 means matches <span class="math inline">\(\sigma/\sqrt{n}\)</span> almost exactly.</p>
 <div class="keyidea">
-<p>Two results, which we prove in the next section:</p>
+<p>Two results, both of which can be established directly:</p>
 <p><span class="math display">\[E(\bar{X}) = \mu \qquad\qquad \mathrm{Var}(\bar{X}) = \frac{\sigma^2}{n}\]</span></p>
 <p>The sample mean is centred on the population mean, and its spread falls as the
-sample grows. The quantity <span class="math inline">\(\sigma/\sqrt{n}\)</span> is the <strong>standard error</strong>, and it
-is the single most important number in applied statistics: it is how wrong you
-should expect to be.</p>
+sample grows. The quantity <span class="math inline">\(\sigma/\sqrt{n}\)</span> is called the <strong>standard error</strong>
+of the sample mean.</p>
 </div>
+</div>
+<div id="where-these-results-come-from" class="section level3 unnumbered hasAnchor">
+<h3>Where these results come from<a href="u1-sampling-distribution.html#where-these-results-come-from" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Neither result requires anything beyond the definition of the sample mean.</p>
+<div class="theory">
+<p><strong>The sample mean is centred on the population mean.</strong></p>
+<p><span class="math display">\[
+\begin{aligned}
+E(\bar{X}) &amp;= E\!\left(\frac{X_1 + X_2 + \cdots + X_n}{n}\right) \\[4pt]
+&amp;= \frac{1}{n}\Big(E(X_1) + E(X_2) + \cdots + E(X_n)\Big) \\[4pt]
+&amp;= \frac{1}{n}\underbrace{(\mu + \mu + \cdots + \mu)}_{n \text{ times}} \\[4pt]
+&amp;= \frac{n\mu}{n} \;=\; \mu
+\end{aligned}
+\]</span></p>
+<p>Every observation is drawn from the same distribution, so each has expectation
+<span class="math inline">\(\mu\)</span>. Averaging <span class="math inline">\(n\)</span> of them leaves <span class="math inline">\(\mu\)</span> unchanged. A statistic with this
+property is described as <strong>unbiased</strong>: it is not systematically too high or too
+low, although any particular value of it will still differ from <span class="math inline">\(\mu\)</span>.</p>
+</div>
+<div class="theory">
+<p><strong>Its spread falls as the sample grows.</strong></p>
+<p><span class="math display">\[
+\begin{aligned}
+\mathrm{Var}(\bar{X}) &amp;= \mathrm{Var}\!\left(\frac{1}{n}(X_1 + \cdots + X_n)\right) \\[4pt]
+&amp;= \frac{1}{n^2}\,\mathrm{Var}(X_1 + \cdots + X_n) \\[4pt]
+&amp;= \frac{1}{n^2}\underbrace{(\sigma^2 + \sigma^2 + \cdots + \sigma^2)}_{n \text{ times}} \\[4pt]
+&amp;= \frac{n\sigma^2}{n^2} \;=\; \frac{\sigma^2}{n}
+\end{aligned}
+\]</span></p>
+<p>The second line uses <span class="math inline">\(\mathrm{Var}(aX) = a^2\mathrm{Var}(X)\)</span>. The third uses
+<strong>independence</strong>: the variance of a sum equals the sum of the variances only
+when the observations do not influence one another. This is the single point at
+which the independence assumption is required.</p>
+</div>
+<p>Together these two results account for what Figure <a href="u1-lln.html#fig:u1-lln-plot">1.6</a>
+showed. The sampling distribution is centred on <span class="math inline">\(\mu\)</span> at every sample size,
+and its width is <span class="math inline">\(\sigma/\sqrt{n}\)</span>, which falls as <span class="math inline">\(n\)</span> grows. The Law of
+Large Numbers is the consequence: a distribution centred on the right value,
+whose spread tends to zero, must eventually concentrate on that value.</p>
 <div class="watchout">
 <p>Note the square root. To halve your standard error you must <strong>quadruple</strong> your
 sample. Precision is expensive, and it grows more expensive the more of it you
