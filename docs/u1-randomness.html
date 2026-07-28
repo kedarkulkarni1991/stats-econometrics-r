@@ -248,12 +248,11 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <p>The uncertainty that surrounds every statistical estimate has a single source:
 randomness.</p>
-<p>A sample differs from the population because the particular observations that
-enter it are determined, at least in part, by chance. Draw a different sample
-and you obtain a different average. Repeat the process often enough and the
-averages continue to change. Inferential statistics is concerned with
-understanding this variation. Without randomness there would be nothing to
-estimate, no uncertainty to quantify and no need for statistical inference.</p>
+<p>If we were to repeat the same study with a different sample, we would almost
+certainly obtain a different average. Inferential statistics is concerned with
+understanding this variability. Without randomness, every sample would be
+identical, every estimate would equal the population value, and there would be
+no uncertainty to quantify.</p>
 <p>The idea is easiest to see with a die.</p>
 <p>Suppose we roll a fair die once.</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="u1-randomness.html#cb2-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
@@ -280,11 +279,9 @@ one-sixth of the time, exactly as we would expect from a fair die.</p>
 Figure 1.1: Ten thousand rolls of a fair die. No single roll was predictable. The pattern across all of them is.
 </p>
 </div>
-<p>The important point is not that the die is fair. It is that randomness does not
-imply disorder. Individual outcomes are uncertain, yet repeated observations
-exhibit regularity. Statistics is possible because random processes possess
-this remarkable property.</p>
-<p>To appreciate this more clearly, imagine removing the randomness altogether.
+<p>The important point is not that the die turned out to be fair. It is that a
+pattern exists at all.</p>
+<p>To see why that matters, imagine removing the randomness altogether.
 Suppose every face of the die is labelled three.</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="u1-randomness.html#cb6-1" tabindex="-1"></a>loaded <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">3</span>, <span class="dv">10000</span>)</span>
 <span id="cb6-2"><a href="u1-randomness.html#cb6-2" tabindex="-1"></a></span>
@@ -299,21 +296,18 @@ uncertainty and no pattern waiting to emerge through repetition. The average is
 always three. The standard deviation is zero. Repeating the experiment a
 million times teaches us nothing that we did not already know after the first
 roll.</p>
-<div class="keyidea">
-<p>This contrast captures the central idea. Statistics exists because observations
-vary. That variation is not an inconvenience to be ignored; it is the
-phenomenon that statistics seeks to understand.</p>
-<p>The methods developed in this book — from sampling distributions to confidence
-intervals and hypothesis tests — are all attempts to answer the same question:
-how does randomness influence the conclusions we draw from data?</p>
-</div>
+<p>The contrast between the two dice illustrates a fundamental idea. Randomness
+makes individual outcomes unpredictable, but repeated observations reveal
+stable patterns. Statistics is built on this coexistence of uncertainty and
+regularity. If outcomes never varied, there would be no need for inference; if
+they varied without any underlying regularity, inference would be impossible.</p>
 <p>Dice provide a simple illustration, but the same principle governs every
 empirical investigation. Household surveys interview different families.
 Election polls reach different voters. Clinical trials recruit different
 patients. Agricultural experiments observe different harvests. Every study
-could have produced a different dataset, and consequently different numerical
-summaries. Inferential statistics begins by recognising this simple fact and
-asking what can nevertheless be learned despite it.</p>
+could have produced a different dataset. The central challenge of inferential
+statistics is to understand what can be learned from <strong>one realisation of a
+process that could have produced many others</strong>.</p>
 </div>
 <script>
 // Solutions are written as plain fenced divs in the source, so the PDF edition

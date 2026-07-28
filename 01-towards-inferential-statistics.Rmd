@@ -72,12 +72,11 @@ Where does the uncertainty come from?
 The uncertainty that surrounds every statistical estimate has a single source:
 randomness.
 
-A sample differs from the population because the particular observations that
-enter it are determined, at least in part, by chance. Draw a different sample
-and you obtain a different average. Repeat the process often enough and the
-averages continue to change. Inferential statistics is concerned with
-understanding this variation. Without randomness there would be nothing to
-estimate, no uncertainty to quantify and no need for statistical inference.
+If we were to repeat the same study with a different sample, we would almost
+certainly obtain a different average. Inferential statistics is concerned with
+understanding this variability. Without randomness, every sample would be
+identical, every estimate would equal the population value, and there would be
+no uncertainty to quantify.
 
 The idea is easiest to see with a die.
 
@@ -118,12 +117,10 @@ ggplot(data.frame(x = factor(rolls)), aes(x)) +
   theme_book()
 ```
 
-The important point is not that the die is fair. It is that randomness does not
-imply disorder. Individual outcomes are uncertain, yet repeated observations
-exhibit regularity. Statistics is possible because random processes possess
-this remarkable property.
+The important point is not that the die turned out to be fair. It is that a
+pattern exists at all.
 
-To appreciate this more clearly, imagine removing the randomness altogether.
+To see why that matters, imagine removing the randomness altogether.
 Suppose every face of the die is labelled three.
 
 ```{r u1-die-loaded}
@@ -139,23 +136,19 @@ always three. The standard deviation is zero. Repeating the experiment a
 million times teaches us nothing that we did not already know after the first
 roll.
 
-::: {.keyidea}
-This contrast captures the central idea. Statistics exists because observations
-vary. That variation is not an inconvenience to be ignored; it is the
-phenomenon that statistics seeks to understand.
-
-The methods developed in this book — from sampling distributions to confidence
-intervals and hypothesis tests — are all attempts to answer the same question:
-how does randomness influence the conclusions we draw from data?
-:::
+The contrast between the two dice illustrates a fundamental idea. Randomness
+makes individual outcomes unpredictable, but repeated observations reveal
+stable patterns. Statistics is built on this coexistence of uncertainty and
+regularity. If outcomes never varied, there would be no need for inference; if
+they varied without any underlying regularity, inference would be impossible.
 
 Dice provide a simple illustration, but the same principle governs every
 empirical investigation. Household surveys interview different families.
 Election polls reach different voters. Clinical trials recruit different
 patients. Agricultural experiments observe different harvests. Every study
-could have produced a different dataset, and consequently different numerical
-summaries. Inferential statistics begins by recognising this simple fact and
-asking what can nevertheless be learned despite it.
+could have produced a different dataset. The central challenge of inferential
+statistics is to understand what can be learned from **one realisation of a
+process that could have produced many others**.
 
 ## Describing variation {#u1-describing}
 
