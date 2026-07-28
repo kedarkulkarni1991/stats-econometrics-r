@@ -14,19 +14,12 @@ ifeq ($(shell command -v pandoc 2>/dev/null),)
   endif
 endif
 
-.PHONY: book pdf all serve data check clean
+.PHONY: book serve data check clean
 
 ## Render the book into docs/
 book:
 	Rscript -e 'bookdown::render_book("index.Rmd", "bookdown::gitbook")'
 	@touch docs/.nojekyll
-
-## Render the PDF edition into docs/
-pdf:
-	Rscript -e 'bookdown::render_book("index.Rmd", "bookdown::pdf_book")'
-
-## Both editions
-all: book pdf
 
 ## Live preview that reloads as you edit
 serve:

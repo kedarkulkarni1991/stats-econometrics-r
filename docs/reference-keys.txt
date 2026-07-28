@@ -2,6 +2,14 @@ fig:d2i-die-plot
 fig:d2i-sampdist-plot
 fig:d2i-nsizes-plot
 fig:d2i-skew-plot
+fig:os-sim-plot
+tab:os-claim-table
+fig:os-reject-plot
+tab:os-pval-table
+fig:os-ci-plot
+fig:os-t-vs-z
+tab:os-ref-z
+tab:os-ref-crit
 towards-inference
 d2i-descriptive
 d2i-two-questions

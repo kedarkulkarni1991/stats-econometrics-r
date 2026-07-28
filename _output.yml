@@ -16,9 +16,6 @@ bookdown::gitbook:
         <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a></li>
     toolbar:
       position: fixed
-    # Puts a download icon in the toolbar linking to the PDF edition, so a
-    # reader who wants to print or read offline does not have to go hunting.
-    download: ["pdf"]
     search:
       engine: fuse
     fontsettings:
@@ -40,12 +37,3 @@ bookdown::gitbook:
       whatsapp: no
       all: no
     info: false
-
-bookdown::pdf_book:
-  latex_engine: xelatex
-  toc_depth: 2
-  number_sections: true
-  keep_tex: false
-  pandoc_args: ["--lua-filter=latex/callouts.lua"]
-  includes:
-    in_header: latex/preamble.tex

@@ -231,16 +231,16 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <p>Before leaving description behind, it is worth seeing the tools on real data.</p>
 <p>The Annual Survey of Industries records value added by registered factories
 in each Indian state:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="d2i-descriptive.html#cb1-1" tabindex="-1"></a>asi <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/asi-state-gva.csv&quot;</span>)</span>
-<span id="cb1-2"><a href="d2i-descriptive.html#cb1-2" tabindex="-1"></a>asi_2010 <span class="ot">&lt;-</span> <span class="fu">subset</span>(asi, yr <span class="sc">==</span> <span class="dv">2010</span> <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(gva))</span>
-<span id="cb1-3"><a href="d2i-descriptive.html#cb1-3" tabindex="-1"></a></span>
-<span id="cb1-4"><a href="d2i-descriptive.html#cb1-4" tabindex="-1"></a><span class="co"># ASI reports value added in rupees lakh; 100 lakh = 1 crore</span></span>
-<span id="cb1-5"><a href="d2i-descriptive.html#cb1-5" tabindex="-1"></a>asi_2010<span class="sc">$</span>gva_crore <span class="ot">&lt;-</span> asi_2010<span class="sc">$</span>gva <span class="sc">/</span> <span class="dv">100</span></span>
-<span id="cb1-6"><a href="d2i-descriptive.html#cb1-6" tabindex="-1"></a></span>
-<span id="cb1-7"><a href="d2i-descriptive.html#cb1-7" tabindex="-1"></a><span class="fu">c</span>(<span class="at">states =</span> <span class="fu">nrow</span>(asi_2010),</span>
-<span id="cb1-8"><a href="d2i-descriptive.html#cb1-8" tabindex="-1"></a>  <span class="at">mean   =</span> <span class="fu">mean</span>(asi_2010<span class="sc">$</span>gva_crore),</span>
-<span id="cb1-9"><a href="d2i-descriptive.html#cb1-9" tabindex="-1"></a>  <span class="at">median =</span> <span class="fu">median</span>(asi_2010<span class="sc">$</span>gva_crore),</span>
-<span id="cb1-10"><a href="d2i-descriptive.html#cb1-10" tabindex="-1"></a>  <span class="at">sd     =</span> <span class="fu">sd</span>(asi_2010<span class="sc">$</span>gva_crore))</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="d2i-descriptive.html#cb2-1" tabindex="-1"></a>asi <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/asi-state-gva.csv&quot;</span>)</span>
+<span id="cb2-2"><a href="d2i-descriptive.html#cb2-2" tabindex="-1"></a>asi_2010 <span class="ot">&lt;-</span> <span class="fu">subset</span>(asi, yr <span class="sc">==</span> <span class="dv">2010</span> <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(gva))</span>
+<span id="cb2-3"><a href="d2i-descriptive.html#cb2-3" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="d2i-descriptive.html#cb2-4" tabindex="-1"></a><span class="co"># ASI reports value added in rupees lakh; 100 lakh = 1 crore</span></span>
+<span id="cb2-5"><a href="d2i-descriptive.html#cb2-5" tabindex="-1"></a>asi_2010<span class="sc">$</span>gva_crore <span class="ot">&lt;-</span> asi_2010<span class="sc">$</span>gva <span class="sc">/</span> <span class="dv">100</span></span>
+<span id="cb2-6"><a href="d2i-descriptive.html#cb2-6" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="d2i-descriptive.html#cb2-7" tabindex="-1"></a><span class="fu">c</span>(<span class="at">states =</span> <span class="fu">nrow</span>(asi_2010),</span>
+<span id="cb2-8"><a href="d2i-descriptive.html#cb2-8" tabindex="-1"></a>  <span class="at">mean   =</span> <span class="fu">mean</span>(asi_2010<span class="sc">$</span>gva_crore),</span>
+<span id="cb2-9"><a href="d2i-descriptive.html#cb2-9" tabindex="-1"></a>  <span class="at">median =</span> <span class="fu">median</span>(asi_2010<span class="sc">$</span>gva_crore),</span>
+<span id="cb2-10"><a href="d2i-descriptive.html#cb2-10" tabindex="-1"></a>  <span class="at">sd     =</span> <span class="fu">sd</span>(asi_2010<span class="sc">$</span>gva_crore))</span></code></pre></div>
 <pre><code>#&gt; states   mean median     sd 
 #&gt;     32  25785  12752  36814</code></pre>
 <p>Nothing here is mysterious. We have taken 32
@@ -311,7 +311,7 @@ gitbook.start({
     "link": null,
     "text": null
   },
-  "download": ["stats-econometrics-r.pdf"],
+  "download": null,
   "search": {
     "engine": "fuse",
     "options": null

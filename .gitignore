@@ -32,3 +32,6 @@ Thumbs.db
 *.toc
 *.out
 *.tex
+
+# Stray device output R sometimes leaves behind
+Rplots.pdf
