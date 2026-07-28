@@ -4,12 +4,12 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>1.6 The average is not the distribution | Statistics and Econometrics with R</title>
+  <title>1.8 The average is not the distribution | Statistics and Econometrics with R</title>
   <meta name="description" content="<p>A first course in statistics and econometrics, where every idea is developed
 on paper and then immediately carried out in R.</p>" />
   <meta name="generator" content="bookdown 0.47 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="1.6 The average is not the distribution | Statistics and Econometrics with R" />
+  <meta property="og:title" content="1.8 The average is not the distribution | Statistics and Econometrics with R" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="<p>A first course in statistics and econometrics, where every idea is developed
@@ -17,7 +17,7 @@ on paper and then immediately carried out in R.</p>" />
   <meta name="github-repo" content="kedarkulkarni1991/stats-econometrics-r" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="1.6 The average is not the distribution | Statistics and Econometrics with R" />
+  <meta name="twitter:title" content="1.8 The average is not the distribution | Statistics and Econometrics with R" />
   
   <meta name="twitter:description" content="<p>A first course in statistics and econometrics, where every idea is developed
 on paper and then immediately carried out in R.</p>" />
@@ -32,7 +32,7 @@ on paper and then immediately carried out in R.</p>" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="d2i-sampling-distribution.html"/>
+<link rel="prev" href="d2i-clt.html"/>
 <link rel="next" href="d2i-what-goes-wrong.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
@@ -166,9 +166,22 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="1.5.2" data-path="d2i-sampling-distribution.html"><a href="d2i-sampling-distribution.html#d2i-samplesize"><i class="fa fa-check"></i><b>1.5.2</b> What happens as the sample grows</a></li>
 <li class="chapter" data-level="1.5.3" data-path="d2i-sampling-distribution.html"><a href="d2i-sampling-distribution.html#d2i-asi-sampling"><i class="fa fa-check"></i><b>1.5.3</b> The same logic on Indian data</a></li>
 </ul></li>
-<li class="chapter" data-level="1.6" data-path="d2i-average.html"><a href="d2i-average.html"><i class="fa fa-check"></i><b>1.6</b> The average is not the distribution</a></li>
-<li class="chapter" data-level="1.7" data-path="d2i-what-goes-wrong.html"><a href="d2i-what-goes-wrong.html"><i class="fa fa-check"></i><b>1.7</b> What can go wrong before any mathematics</a></li>
-<li class="chapter" data-level="1.8" data-path="d2i-summary.html"><a href="d2i-summary.html"><i class="fa fa-check"></i><b>1.8</b> Summary</a></li>
+<li class="chapter" data-level="1.6" data-path="d2i-lln.html"><a href="d2i-lln.html"><i class="fa fa-check"></i><b>1.6</b> The Law of Large Numbers</a>
+<ul>
+<li class="chapter" data-level="" data-path="d2i-lln.html"><a href="d2i-lln.html#watching-it-happen"><i class="fa fa-check"></i>Watching it happen</a></li>
+<li class="chapter" data-level="" data-path="d2i-lln.html"><a href="d2i-lln.html#why-it-works"><i class="fa fa-check"></i>Why it works</a></li>
+<li class="chapter" data-level="" data-path="d2i-lln.html"><a href="d2i-lln.html#what-it-does-not-say"><i class="fa fa-check"></i>What it does not say</a></li>
+</ul></li>
+<li class="chapter" data-level="1.7" data-path="d2i-clt.html"><a href="d2i-clt.html"><i class="fa fa-check"></i><b>1.7</b> The Central Limit Theorem</a>
+<ul>
+<li class="chapter" data-level="" data-path="d2i-clt.html"><a href="d2i-clt.html#watching-it-happen-1"><i class="fa fa-check"></i>Watching it happen</a></li>
+<li class="chapter" data-level="" data-path="d2i-clt.html"><a href="d2i-clt.html#why-it-works-1"><i class="fa fa-check"></i>Why it works</a></li>
+<li class="chapter" data-level="" data-path="d2i-clt.html"><a href="d2i-clt.html#how-large-is-large-enough"><i class="fa fa-check"></i>How large is “large enough”?</a></li>
+<li class="chapter" data-level="" data-path="d2i-clt.html"><a href="d2i-clt.html#why-this-is-the-foundation"><i class="fa fa-check"></i>Why this is the foundation</a></li>
+</ul></li>
+<li class="chapter" data-level="1.8" data-path="d2i-average.html"><a href="d2i-average.html"><i class="fa fa-check"></i><b>1.8</b> The average is not the distribution</a></li>
+<li class="chapter" data-level="1.9" data-path="d2i-what-goes-wrong.html"><a href="d2i-what-goes-wrong.html"><i class="fa fa-check"></i><b>1.9</b> What can go wrong before any mathematics</a></li>
+<li class="chapter" data-level="1.10" data-path="d2i-summary.html"><a href="d2i-summary.html"><i class="fa fa-check"></i><b>1.10</b> Summary</a></li>
 </ul></li>
 <li class="chapter" data-level="2" data-path="one-sample.html"><a href="one-sample.html"><i class="fa fa-check"></i><b>2</b> Hypothesis Testing: One Sample</a>
 <ul>
@@ -226,8 +239,8 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="d2i-average" class="section level2 hasAnchor" number="1.6">
-<h2><span class="header-section-number">1.6</span> The average is not the distribution<a href="d2i-average.html#d2i-average" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="d2i-average" class="section level2 hasAnchor" number="1.8">
+<h2><span class="header-section-number">1.8</span> The average is not the distribution<a href="d2i-average.html#d2i-average" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>A habit worth forming now, before any technique gets in the way.</p>
 <p>Almost all of inferential statistics is about averages. Nearly every method in
 this book estimates a mean, compares two means, or fits a line through
@@ -236,26 +249,26 @@ sampling distributions are tractable, and the two great theorems are statements
 about them.</p>
 <p>But the mean is only <strong>one</strong> feature of a distribution, and often not the one a
 policy question cares about.</p>
-<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="d2i-average.html#cb28-1" tabindex="-1"></a><span class="fu">c</span>(<span class="at">mean   =</span> <span class="fu">mean</span>(asi_2010<span class="sc">$</span>gva_crore),</span>
-<span id="cb28-2"><a href="d2i-average.html#cb28-2" tabindex="-1"></a>  <span class="at">median =</span> <span class="fu">median</span>(asi_2010<span class="sc">$</span>gva_crore))</span></code></pre></div>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="d2i-average.html#cb40-1" tabindex="-1"></a><span class="fu">c</span>(<span class="at">mean   =</span> <span class="fu">mean</span>(asi_2010<span class="sc">$</span>gva_crore),</span>
+<span id="cb40-2"><a href="d2i-average.html#cb40-2" tabindex="-1"></a>  <span class="at">median =</span> <span class="fu">median</span>(asi_2010<span class="sc">$</span>gva_crore))</span></code></pre></div>
 <pre><code>#&gt;   mean median 
 #&gt;  25785  12752</code></pre>
-<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="d2i-average.html#cb30-1" tabindex="-1"></a><span class="fu">mean</span>(asi_2010<span class="sc">$</span>gva_crore) <span class="sc">/</span> <span class="fu">median</span>(asi_2010<span class="sc">$</span>gva_crore)</span></code></pre></div>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="d2i-average.html#cb42-1" tabindex="-1"></a><span class="fu">mean</span>(asi_2010<span class="sc">$</span>gva_crore) <span class="sc">/</span> <span class="fu">median</span>(asi_2010<span class="sc">$</span>gva_crore)</span></code></pre></div>
 <pre><code>#&gt; [1] 2.022</code></pre>
 <p>The mean is more than <strong>twice</strong> the median. When those two diverge that
 sharply, the average has stopped describing a typical state.</p>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:d2i-skew-plot"></span>
 <img src="stats-econometrics-r_files/figure-html/d2i-skew-plot-1.png" alt="Industrial value added across Indian states, 2010. The mean sits far to the right of most states, dragged there by a handful of large ones." width="90%" />
 <p class="caption">
-Figure 1.4: Industrial value added across Indian states, 2010. The mean sits far to the right of most states, dragged there by a handful of large ones.
+Figure 1.7: Industrial value added across Indian states, 2010. The mean sits far to the right of most states, dragged there by a handful of large ones.
 </p>
 </div>
 <p>How concentrated is it?</p>
-<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="d2i-average.html#cb32-1" tabindex="-1"></a>top5 <span class="ot">&lt;-</span> <span class="fu">sort</span>(asi_2010<span class="sc">$</span>gva_crore, <span class="at">decreasing =</span> <span class="cn">TRUE</span>)[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>]</span>
-<span id="cb32-2"><a href="d2i-average.html#cb32-2" tabindex="-1"></a></span>
-<span id="cb32-3"><a href="d2i-average.html#cb32-3" tabindex="-1"></a><span class="fu">round</span>(<span class="dv">100</span> <span class="sc">*</span> <span class="fu">sum</span>(top5) <span class="sc">/</span> <span class="fu">sum</span>(asi_2010<span class="sc">$</span>gva_crore))                 <span class="co"># % of all GVA</span></span></code></pre></div>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="d2i-average.html#cb44-1" tabindex="-1"></a>top5 <span class="ot">&lt;-</span> <span class="fu">sort</span>(asi_2010<span class="sc">$</span>gva_crore, <span class="at">decreasing =</span> <span class="cn">TRUE</span>)[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>]</span>
+<span id="cb44-2"><a href="d2i-average.html#cb44-2" tabindex="-1"></a></span>
+<span id="cb44-3"><a href="d2i-average.html#cb44-3" tabindex="-1"></a><span class="fu">round</span>(<span class="dv">100</span> <span class="sc">*</span> <span class="fu">sum</span>(top5) <span class="sc">/</span> <span class="fu">sum</span>(asi_2010<span class="sc">$</span>gva_crore))                 <span class="co"># % of all GVA</span></span></code></pre></div>
 <pre><code>#&gt; [1] 59</code></pre>
-<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="d2i-average.html#cb34-1" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">max</span>(asi_2010<span class="sc">$</span>gva_crore) <span class="sc">/</span> <span class="fu">median</span>(asi_2010<span class="sc">$</span>gva_crore), <span class="dv">1</span>)   <span class="co"># top vs median</span></span></code></pre></div>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="d2i-average.html#cb46-1" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">max</span>(asi_2010<span class="sc">$</span>gva_crore) <span class="sc">/</span> <span class="fu">median</span>(asi_2010<span class="sc">$</span>gva_crore), <span class="dv">1</span>)   <span class="co"># top vs median</span></span></code></pre></div>
 <pre><code>#&gt; [1] 13.2</code></pre>
 <p>Five states hold about 59% of registered industrial value added. The largest
 produces roughly thirteen times the median state.</p>
@@ -321,7 +334,7 @@ document.addEventListener("DOMContentLoaded", function () {
           </div>
         </div>
       </div>
-<a href="d2i-sampling-distribution.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="d2i-clt.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
 <a href="d2i-what-goes-wrong.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>

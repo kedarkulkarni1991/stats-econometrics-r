@@ -1,6 +1,9 @@
 fig:d2i-die-plot
 fig:d2i-sampdist-plot
 fig:d2i-nsizes-plot
+fig:d2i-lln-plot
+fig:d2i-clt-plot
+fig:d2i-dice-plot
 fig:d2i-skew-plot
 fig:os-sim-plot
 tab:os-claim-table
@@ -21,6 +24,8 @@ d2i-sampling-distribution
 d2i-cards
 d2i-samplesize
 d2i-asi-sampling
+d2i-lln
+d2i-clt
 d2i-average
 d2i-what-goes-wrong
 d2i-summary

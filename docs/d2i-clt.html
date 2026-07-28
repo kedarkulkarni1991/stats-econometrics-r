@@ -4,12 +4,12 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>2.3 How far is too far? | Statistics and Econometrics with R</title>
+  <title>1.7 The Central Limit Theorem | Statistics and Econometrics with R</title>
   <meta name="description" content="<p>A first course in statistics and econometrics, where every idea is developed
 on paper and then immediately carried out in R.</p>" />
   <meta name="generator" content="bookdown 0.47 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="2.3 How far is too far? | Statistics and Econometrics with R" />
+  <meta property="og:title" content="1.7 The Central Limit Theorem | Statistics and Econometrics with R" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="<p>A first course in statistics and econometrics, where every idea is developed
@@ -17,7 +17,7 @@ on paper and then immediately carried out in R.</p>" />
   <meta name="github-repo" content="kedarkulkarni1991/stats-econometrics-r" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="2.3 How far is too far? | Statistics and Econometrics with R" />
+  <meta name="twitter:title" content="1.7 The Central Limit Theorem | Statistics and Econometrics with R" />
   
   <meta name="twitter:description" content="<p>A first course in statistics and econometrics, where every idea is developed
 on paper and then immediately carried out in R.</p>" />
@@ -32,8 +32,8 @@ on paper and then immediately carried out in R.</p>" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="os-hypotheses.html"/>
-<link rel="next" href="os-worked.html"/>
+<link rel="prev" href="d2i-lln.html"/>
+<link rel="next" href="d2i-average.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -239,57 +239,146 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="os-critical" class="section level2 hasAnchor" number="2.3">
-<h2><span class="header-section-number">2.3</span> How far is too far?<a href="os-critical.html#os-critical" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>Write <span class="math inline">\(\mu_0\)</span> for the value the null claims (here, 165). We will reject <span class="math inline">\(H_0\)</span>
-when the sample mean lands too far from <span class="math inline">\(\mu_0\)</span> — that is, when</p>
-<p><span class="math display">\[|\bar{x} - \mu_0| \geq c\]</span></p>
-<p>for some cutoff <span class="math inline">\(c\)</span>. Everything now hinges on choosing <span class="math inline">\(c\)</span>.</p>
-<div class="theory">
-<p>We choose <span class="math inline">\(c\)</span> so that, <strong>if the null were true</strong>, a gap that large would occur
-with probability only <span class="math inline">\(\alpha\)</span> — a small risk we decide in advance, typically
-0.05:</p>
-<p><span class="math display">\[P\big[|\bar{x} - \mu_0| \geq c\big] = \alpha\]</span></p>
-<p>From the Central Limit Theorem (Chapter <a href="one-sample.html#one-sample">2</a>) we know <span class="math inline">\(\bar{x}\)</span> is
-normally distributed with mean <span class="math inline">\(\mu\)</span> and standard deviation <span class="math inline">\(\sigma/\sqrt{n}\)</span>.
-Dividing through by that standard error turns the left-hand side into a standard
-normal:</p>
-<p><span class="math display">\[
-\begin{aligned}
-P\left[\frac{|\bar{x} - \mu_0|}{\sigma/\sqrt{n}} \geq \frac{c}{\sigma/\sqrt{n}}\right] &amp;= \alpha \\[4pt]
-P\left[|Z| \geq \frac{c}{\sigma/\sqrt{n}}\right] &amp;= \alpha
-\end{aligned}
-\]</span></p>
-<p>The event <span class="math inline">\(|Z| \ge k\)</span> splits into two symmetric tails, each carrying half the
-probability:</p>
-<p><span class="math display">\[
-2 \cdot P\left[Z \geq \frac{c}{\sigma/\sqrt{n}}\right] = \alpha
-\qquad\Longrightarrow\qquad
-P\left[Z \geq \frac{c}{\sigma/\sqrt{n}}\right] = \frac{\alpha}{2}
-\]</span></p>
-<p>By definition <span class="math inline">\(P[Z \geq Z_{\alpha/2}] = \alpha/2\)</span>, so the bracketed quantity
-<em>is</em> <span class="math inline">\(Z_{\alpha/2}\)</span>, and therefore</p>
-<p><span class="math display">\[\boxed{\ c = Z_{\alpha/2}\,\frac{\sigma}{\sqrt{n}}\ }\]</span></p>
+<div id="d2i-clt" class="section level2 hasAnchor" number="1.7">
+<h2><span class="header-section-number">1.7</span> The Central Limit Theorem<a href="d2i-clt.html#d2i-clt" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The Law of Large Numbers tells us <em>where</em> the sample mean ends up. It says
+nothing about the <strong>shape</strong> of its distribution along the way — and without a
+shape we cannot compute the probability of anything.</p>
+<p>That is what the Central Limit Theorem supplies, and it supplies far more than
+seems reasonable.</p>
+<div class="keyidea">
+<p><strong>Central Limit Theorem.</strong> For a sufficiently large sample, the sampling
+distribution of the mean is approximately normal — <em>whatever the shape of the
+population it was drawn from</em>.</p>
+<p>Standardised,</p>
+<p><span class="math display">\[Z = \frac{\bar{X} - \mu}{\sigma / \sqrt{n}} \;\longrightarrow\; N(0, 1)\]</span></p>
 </div>
-<p>Substituting that <span class="math inline">\(c\)</span> back into the rejection rule and dividing both sides by
-the standard error gives the form you will actually use:</p>
-<p><span class="math display">\[
-\frac{|\bar{x} - \mu_0|}{\sigma/\sqrt{n}} \geq Z_{\alpha/2}
-\]</span></p>
-<p>The quantity on the left is the <strong>test statistic</strong>, written <span class="math inline">\(Z_{calc}\)</span>. The
-value on the right is the <strong>critical value</strong>. The rule is simply: <em>if the
-statistic exceeds the critical value, reject the null.</em></p>
-<div class="inr">
-<p>Those critical values are the ones you have been reading off a printed table.
-There is no need — <code>qnorm()</code> gives you any of them to as many decimals as you
-like.</p>
-<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="os-critical.html#cb54-1" tabindex="-1"></a>alpha <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.10</span>, <span class="fl">0.05</span>, <span class="fl">0.01</span>)</span>
-<span id="cb54-2"><a href="os-critical.html#cb54-2" tabindex="-1"></a></span>
-<span id="cb54-3"><a href="os-critical.html#cb54-3" tabindex="-1"></a><span class="co"># Two-tailed: we want the value leaving alpha/2 in the upper tail</span></span>
-<span id="cb54-4"><a href="os-critical.html#cb54-4" tabindex="-1"></a><span class="fu">qnorm</span>(<span class="dv">1</span> <span class="sc">-</span> alpha <span class="sc">/</span> <span class="dv">2</span>)</span></code></pre></div>
-<pre><code>#&gt; [1] 1.645 1.960 2.576</code></pre>
-<p>Those three numbers are the 1.645, 1.96 and 2.58 you have memorised. Now you
-know where they come from, and you will never need the table again.</p>
+<p>Read that again, because the strength of the claim is easy to miss. The
+population may be a coin flip taking only the values 0 and 1. It may be a count
+with a long right tail. It may be industrial value added across Indian states,
+where five states hold most of the total. <strong>It does not matter.</strong> Average
+enough draws and the distribution of that average is bell-shaped.</p>
+<div id="watching-it-happen-1" class="section level3 unnumbered hasAnchor">
+<h3>Watching it happen<a href="d2i-clt.html#watching-it-happen-1" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Four populations, chosen to look as unlike a normal distribution as possible.
+For each we take samples of size 1, then 5, then 30, and plot the distribution
+of the sample mean.</p>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="d2i-clt.html#cb34-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">3</span>)</span>
+<span id="cb34-2"><a href="d2i-clt.html#cb34-2" tabindex="-1"></a></span>
+<span id="cb34-3"><a href="d2i-clt.html#cb34-3" tabindex="-1"></a>draw_mean <span class="ot">&lt;-</span> <span class="cf">function</span>(parent, n) {</span>
+<span id="cb34-4"><a href="d2i-clt.html#cb34-4" tabindex="-1"></a>  <span class="cf">switch</span>(parent,</span>
+<span id="cb34-5"><a href="d2i-clt.html#cb34-5" tabindex="-1"></a>    <span class="st">&quot;Bernoulli&quot;</span>  <span class="ot">=</span> <span class="fu">mean</span>(<span class="fu">rbinom</span>(n, <span class="dv">1</span>, <span class="fl">0.3</span>)),</span>
+<span id="cb34-6"><a href="d2i-clt.html#cb34-6" tabindex="-1"></a>    <span class="st">&quot;Poisson&quot;</span>    <span class="ot">=</span> <span class="fu">mean</span>(<span class="fu">rpois</span>(n, <span class="dv">2</span>)),</span>
+<span id="cb34-7"><a href="d2i-clt.html#cb34-7" tabindex="-1"></a>    <span class="st">&quot;Uniform&quot;</span>    <span class="ot">=</span> <span class="fu">mean</span>(<span class="fu">runif</span>(n)),</span>
+<span id="cb34-8"><a href="d2i-clt.html#cb34-8" tabindex="-1"></a>    <span class="st">&quot;ASI (real)&quot;</span> <span class="ot">=</span> <span class="fu">mean</span>(<span class="fu">sample</span>(pop, n, <span class="at">replace =</span> <span class="cn">TRUE</span>)))</span>
+<span id="cb34-9"><a href="d2i-clt.html#cb34-9" tabindex="-1"></a>}</span>
+<span id="cb34-10"><a href="d2i-clt.html#cb34-10" tabindex="-1"></a></span>
+<span id="cb34-11"><a href="d2i-clt.html#cb34-11" tabindex="-1"></a>parents <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Bernoulli&quot;</span>, <span class="st">&quot;Poisson&quot;</span>, <span class="st">&quot;Uniform&quot;</span>, <span class="st">&quot;ASI (real)&quot;</span>)</span>
+<span id="cb34-12"><a href="d2i-clt.html#cb34-12" tabindex="-1"></a>sizes   <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">5</span>, <span class="dv">30</span>)</span>
+<span id="cb34-13"><a href="d2i-clt.html#cb34-13" tabindex="-1"></a></span>
+<span id="cb34-14"><a href="d2i-clt.html#cb34-14" tabindex="-1"></a>clt <span class="ot">&lt;-</span> <span class="fu">do.call</span>(rbind, <span class="fu">lapply</span>(parents, <span class="cf">function</span>(p)</span>
+<span id="cb34-15"><a href="d2i-clt.html#cb34-15" tabindex="-1"></a>  <span class="fu">do.call</span>(rbind, <span class="fu">lapply</span>(sizes, <span class="cf">function</span>(n)</span>
+<span id="cb34-16"><a href="d2i-clt.html#cb34-16" tabindex="-1"></a>    <span class="fu">data.frame</span>(<span class="at">parent =</span> p,</span>
+<span id="cb34-17"><a href="d2i-clt.html#cb34-17" tabindex="-1"></a>               <span class="at">n      =</span> <span class="fu">factor</span>(<span class="fu">paste</span>(<span class="st">&quot;n =&quot;</span>, n), <span class="at">levels =</span> <span class="fu">paste</span>(<span class="st">&quot;n =&quot;</span>, sizes)),</span>
+<span id="cb34-18"><a href="d2i-clt.html#cb34-18" tabindex="-1"></a>               <span class="at">m      =</span> <span class="fu">replicate</span>(<span class="dv">4000</span>, <span class="fu">draw_mean</span>(p, n)))))))</span>
+<span id="cb34-19"><a href="d2i-clt.html#cb34-19" tabindex="-1"></a></span>
+<span id="cb34-20"><a href="d2i-clt.html#cb34-20" tabindex="-1"></a><span class="co"># Standardise within each panel, so all twelve are on one scale and the</span></span>
+<span id="cb34-21"><a href="d2i-clt.html#cb34-21" tabindex="-1"></a><span class="co"># comparison is purely about shape.</span></span>
+<span id="cb34-22"><a href="d2i-clt.html#cb34-22" tabindex="-1"></a>clt<span class="sc">$</span>z <span class="ot">&lt;-</span> <span class="fu">ave</span>(clt<span class="sc">$</span>m, clt<span class="sc">$</span>parent, clt<span class="sc">$</span>n,</span>
+<span id="cb34-23"><a href="d2i-clt.html#cb34-23" tabindex="-1"></a>             <span class="at">FUN =</span> <span class="cf">function</span>(x) (x <span class="sc">-</span> <span class="fu">mean</span>(x)) <span class="sc">/</span> <span class="fu">sd</span>(x))</span>
+<span id="cb34-24"><a href="d2i-clt.html#cb34-24" tabindex="-1"></a></span>
+<span id="cb34-25"><a href="d2i-clt.html#cb34-25" tabindex="-1"></a><span class="fu">head</span>(clt, <span class="dv">3</span>)</span></code></pre></div>
+<pre><code>#&gt;      parent     n m       z
+#&gt; 1 Bernoulli n = 1 0 -0.6569
+#&gt; 2 Bernoulli n = 1 1  1.5219
+#&gt; 3 Bernoulli n = 1 0 -0.6569</code></pre>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:d2i-clt-plot"></span>
+<img src="stats-econometrics-r_files/figure-html/d2i-clt-plot-1.png" alt="Sampling distributions of the mean from four very different populations, standardised, against the standard normal curve in orange. At $n = 1$ you are looking at each population itself. By $n = 30$ all four track the curve — though look closely at the last row." width="90%" />
+<p class="caption">
+Figure 1.5: Sampling distributions of the mean from four very different populations, standardised, against the standard normal curve in orange. At <span class="math inline">\(n = 1\)</span> you are looking at each population itself. By <span class="math inline">\(n = 30\)</span> all four track the curve — though look closely at the last row.
+</p>
+</div>
+<p>Read the grid left to right. The first column is each population itself — a
+two-spike coin, a discrete count, a flat rectangle, a badly lopsided economic
+distribution. Not one of them is normal. By the third column all four are
+tracking the orange curve.</p>
+<p>Notice how differently they get there. The uniform population is nearly normal
+by <span class="math inline">\(n = 5\)</span>. The Bernoulli is still visibly stepped at <span class="math inline">\(n = 30\)</span>, because a mean
+of thirty zeros and ones can only take thirty-one distinct values. And the ASI
+row — real Indian data — is still leaning right at <span class="math inline">\(n = 30\)</span>. Convergence is
+guaranteed; its speed is not.</p>
+</div>
+<div id="why-it-works-1" class="section level3 unnumbered hasAnchor">
+<h3>Why it works<a href="d2i-clt.html#why-it-works-1" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>The intuition is easier than the proof, and it is worth having.</p>
+<div class="intuition">
+<p>Roll one die: every face is equally likely. Now roll two and add them.</p>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="d2i-clt.html#cb36-1" tabindex="-1"></a>sums <span class="ot">&lt;-</span> <span class="fu">outer</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>, <span class="st">&quot;+&quot;</span>)</span>
+<span id="cb36-2"><a href="d2i-clt.html#cb36-2" tabindex="-1"></a><span class="fu">table</span>(sums)</span></code></pre></div>
+<pre><code>#&gt; sums
+#&gt;  2  3  4  5  6  7  8  9 10 11 12 
+#&gt;  1  2  3  4  5  6  5  4  3  2  1</code></pre>
+<p>Seven can be made six ways — <span class="math inline">\(1+6\)</span>, <span class="math inline">\(2+5\)</span>, <span class="math inline">\(3+4\)</span>, <span class="math inline">\(4+3\)</span>, <span class="math inline">\(5+2\)</span>, <span class="math inline">\(6+1\)</span>. Two can
+be made exactly one way. The middle values have more routes to them than the
+extremes do, so they turn up more often.</p>
+<p>That is the whole idea. To get an extreme <em>average</em>, every draw has to be
+extreme in the same direction, and that is rare. To get a middling average,
+the draws only have to offset one another, and there are enormously many ways
+for that to happen. Adding more draws multiplies the number of routes to the
+middle far faster than the routes to the edges — and the shape that results is
+the bell.</p>
+</div>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:d2i-dice-plot"></span>
+<img src="stats-econometrics-r_files/figure-html/d2i-dice-plot-1.png" alt="The sum of two dice. Combinations pile up in the middle, and the flat distribution of a single die has already started to become a mound." width="90%" />
+<p class="caption">
+Figure 1.6: The sum of two dice. Combinations pile up in the middle, and the flat distribution of a single die has already started to become a mound.
+</p>
+</div>
+</div>
+<div id="how-large-is-large-enough" class="section level3 unnumbered hasAnchor">
+<h3>How large is “large enough”?<a href="d2i-clt.html#how-large-is-large-enough" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Textbooks often give <span class="math inline">\(n \geq 30\)</span>. It is a serviceable rule and it is not a law.</p>
+<p>How quickly the CLT takes hold depends on how skewed the population is. A
+symmetric population needs very few observations; a badly lopsided one needs
+many more.</p>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="d2i-clt.html#cb38-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">9</span>)</span>
+<span id="cb38-2"><a href="d2i-clt.html#cb38-2" tabindex="-1"></a></span>
+<span id="cb38-3"><a href="d2i-clt.html#cb38-3" tabindex="-1"></a><span class="co"># A crude measure of how far a distribution is from symmetric</span></span>
+<span id="cb38-4"><a href="d2i-clt.html#cb38-4" tabindex="-1"></a>skewness <span class="ot">&lt;-</span> <span class="cf">function</span>(x) <span class="fu">mean</span>((x <span class="sc">-</span> <span class="fu">mean</span>(x))<span class="sc">^</span><span class="dv">3</span>) <span class="sc">/</span> <span class="fu">sd</span>(x)<span class="sc">^</span><span class="dv">3</span></span>
+<span id="cb38-5"><a href="d2i-clt.html#cb38-5" tabindex="-1"></a></span>
+<span id="cb38-6"><a href="d2i-clt.html#cb38-6" tabindex="-1"></a><span class="fu">sapply</span>(<span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">30</span>, <span class="dv">100</span>, <span class="dv">500</span>), <span class="cf">function</span>(n)</span>
+<span id="cb38-7"><a href="d2i-clt.html#cb38-7" tabindex="-1"></a>  <span class="fu">round</span>(<span class="fu">skewness</span>(<span class="fu">replicate</span>(<span class="dv">2000</span>, <span class="fu">mean</span>(<span class="fu">sample</span>(pop, n, <span class="at">replace =</span> <span class="cn">TRUE</span>)))), <span class="dv">2</span>))</span></code></pre></div>
+<pre><code>#&gt; [1] 1.18 0.50 0.19 0.15</code></pre>
+<p>The ASI population has a skewness of about
+2.3.
+At <span class="math inline">\(n = 5\)</span> the sampling distribution is still visibly lopsided. By <span class="math inline">\(n = 100\)</span> it
+is close to symmetric.</p>
+<div class="watchout">
+<p>Do not treat <span class="math inline">\(n = 30\)</span> as a guarantee. It is a rule of thumb calibrated on
+mildly non-normal populations.</p>
+<p>Economic data is frequently <em>not</em> mildly non-normal. Incomes, firm sizes, land
+holdings and city populations all have long right tails, and for these the
+approximation can still be poor at <span class="math inline">\(n = 30\)</span>. When your variable is heavily
+skewed, either use a larger sample or check the sampling distribution by
+simulation, exactly as we have just done.</p>
+</div>
+</div>
+<div id="why-this-is-the-foundation" class="section level3 unnumbered hasAnchor">
+<h3>Why this is the foundation<a href="d2i-clt.html#why-this-is-the-foundation" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="keyidea">
+<p>The Central Limit Theorem is what makes inference practical. Because of it we
+can say, for a sample of reasonable size and <em>without knowing the shape of the
+population</em>:</p>
+<ul>
+<li>the sample mean is centred on <span class="math inline">\(\mu\)</span> — from the LLN</li>
+<li>its spread is <span class="math inline">\(\sigma/\sqrt{n}\)</span> — the standard error</li>
+<li>its shape is approximately normal — from the CLT</li>
+</ul>
+<p>Knowing the centre, the spread and the shape of a distribution is knowing the
+distribution. That is enough to attach a probability to any statement about
+<span class="math inline">\(\bar{X}\)</span>, which is exactly what confidence intervals and hypothesis tests do.</p>
+<p>Everything in the rest of this book rests on these three lines.</p>
+</div>
 </div>
 </div>
 <script>
@@ -313,8 +402,8 @@ document.addEventListener("DOMContentLoaded", function () {
           </div>
         </div>
       </div>
-<a href="os-hypotheses.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="os-worked.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="d2i-lln.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="d2i-average.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -345,7 +434,7 @@ gitbook.start({
     "size": 2
   },
   "edit": {
-    "link": "https://github.com/kedarkulkarni1991/stats-econometrics-r/edit/main/06-hypothesis-testing-one-sample.Rmd",
+    "link": "https://github.com/kedarkulkarni1991/stats-econometrics-r/edit/main/01-towards-inferential-statistics.Rmd",
     "text": "Edit"
   },
   "history": {
