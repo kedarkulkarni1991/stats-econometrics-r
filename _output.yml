@@ -19,5 +19,18 @@ bookdown::gitbook:
       theme: white
       family: sans
       size: 2
-    sharing: no
+    # Puts an "edit" pencil on every page, pointing at that chapter's source.
+    # A student who spots a typo can open a pull request without cloning
+    # anything, which is most of the value of publishing the source at all.
+    edit: https://github.com/kedarkulkarni1991/stats-econometrics-r/edit/main/%s
+    sharing:
+      github: yes
+      facebook: no
+      twitter: no
+      linkedin: no
+      weibo: no
+      instapaper: no
+      vk: no
+      whatsapp: no
+      all: no
     info: false

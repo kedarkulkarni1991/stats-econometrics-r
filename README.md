@@ -3,7 +3,7 @@
 Source for an open textbook used in *Introduction to Statistics and
 Programming* and *Econometric Methods* at Azim Premji University.
 
-**Read it here:** https://USERNAME.github.io/stats-econometrics-r/
+**Read it here:** https://kedarkulkarni1991.github.io/stats-econometrics-r/
 
 Every idea is developed three times in a row — in plain words, then on paper,
 then in R on the same numbers. There is no separate "R chapter". Every result

@@ -7,8 +7,8 @@ documentclass: book
 description: |
   A first course in statistics and econometrics, where every idea is developed
   on paper and then immediately carried out in R.
-url: https://example.com/stats-econometrics-r
-github-repo: ""
+url: https://kedarkulkarni1991.github.io/stats-econometrics-r/
+github-repo: kedarkulkarni1991/stats-econometrics-r
 ---
 
 # Welcome {-}
