@@ -246,34 +246,46 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <div class="question">
 <p>Where does the uncertainty come from?</p>
 </div>
-<p>Statistics begins with an observation so ordinary that it is easy to walk past:
-<strong>identical experiments rarely produce identical outcomes.</strong></p>
-<p>Roll a die.</p>
+<p>The uncertainty that surrounds every statistical estimate has a single source:
+randomness.</p>
+<p>A sample differs from the population because the particular observations that
+enter it are determined, at least in part, by chance. Draw a different sample
+and you obtain a different average. Repeat the process often enough and the
+averages continue to change. Inferential statistics is concerned with
+understanding this variation. Without randomness there would be nothing to
+estimate, no uncertainty to quantify and no need for statistical inference.</p>
+<p>The idea is easiest to see with a die.</p>
+<p>Suppose we roll a fair die once.</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="u1-randomness.html#cb2-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
 <span id="cb2-2"><a href="u1-randomness.html#cb2-2" tabindex="-1"></a><span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>, <span class="at">size =</span> <span class="dv">1</span>)</span></code></pre></div>
 <pre><code>#&gt; [1] 1</code></pre>
-<p>A three. That is all. One roll tells you almost nothing — not whether the die
-is fair, not what to expect next, not anything you could act on.</p>
-<p>Now roll it ten thousand times and count how often each face appears.</p>
+<p>The outcome is a one. Beyond that, there is little to say. A single observation
+tells us almost nothing about the process that generated it. Was the die fair?
+Would the next roll also be a one? Is one an unusually common outcome? One
+observation cannot answer these questions.</p>
+<p>Now imagine repeating the experiment ten thousand times.</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="u1-randomness.html#cb4-1" tabindex="-1"></a>rolls <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>, <span class="at">size =</span> <span class="dv">10000</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb4-2"><a href="u1-randomness.html#cb4-2" tabindex="-1"></a></span>
 <span id="cb4-3"><a href="u1-randomness.html#cb4-3" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">prop.table</span>(<span class="fu">table</span>(rolls)), <span class="dv">3</span>)</span></code></pre></div>
 <pre><code>#&gt; rolls
 #&gt;     1     2     3     4     5     6 
 #&gt; 0.169 0.162 0.160 0.170 0.173 0.166</code></pre>
+<p>Each individual roll remains unpredictable, but something remarkable happens
+collectively. The outcomes no longer appear as isolated events. They form a
+stable pattern. Every face occurs with almost the same frequency, close to
+one-sixth of the time, exactly as we would expect from a fair die.</p>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:u1-die-plot"></span>
 <img src="stats-econometrics-r_files/figure-html/u1-die-plot-1.png" alt="Ten thousand rolls of a fair die. No single roll was predictable. The pattern across all of them is." width="90%" />
 <p class="caption">
 Figure 1.1: Ten thousand rolls of a fair die. No single roll was predictable. The pattern across all of them is.
 </p>
 </div>
-<p>Something has appeared that was not there before. Each face turns up close to
-one-sixth of the time. No individual roll was predictable, yet the <em>pattern
-across many rolls</em> is highly predictable — so much so that you would be
-surprised if it came out otherwise.</p>
-<p>That pattern is called a <strong>distribution</strong>. It is not a property of any single
-roll. It only exists across repetition.</p>
-<p>Now take the randomness away. Imagine a die with a 3 painted on all six faces.</p>
+<p>The important point is not that the die is fair. It is that randomness does not
+imply disorder. Individual outcomes are uncertain, yet repeated observations
+exhibit regularity. Statistics is possible because random processes possess
+this remarkable property.</p>
+<p>To appreciate this more clearly, imagine removing the randomness altogether.
+Suppose every face of the die is labelled three.</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="u1-randomness.html#cb6-1" tabindex="-1"></a>loaded <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">3</span>, <span class="dv">10000</span>)</span>
 <span id="cb6-2"><a href="u1-randomness.html#cb6-2" tabindex="-1"></a></span>
 <span id="cb6-3"><a href="u1-randomness.html#cb6-3" tabindex="-1"></a><span class="fu">table</span>(loaded)</span></code></pre></div>
@@ -282,23 +294,26 @@ roll. It only exists across repetition.</p>
 #&gt; 10000</code></pre>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="u1-randomness.html#cb8-1" tabindex="-1"></a><span class="fu">sd</span>(loaded)</span></code></pre></div>
 <pre><code>#&gt; [1] 0</code></pre>
-<p>Ten thousand rolls, one outcome, spread of exactly zero. There is no pattern to
-find, because there is nothing to be uncertain about. Every question you might
-ask has the same answer. What would a histogram of this show? A single bar.
-What is the average? Three. What is the chance of a three? One.</p>
+<p>Every roll now produces exactly the same outcome. There is no variation, no
+uncertainty and no pattern waiting to emerge through repetition. The average is
+always three. The standard deviation is zero. Repeating the experiment a
+million times teaches us nothing that we did not already know after the first
+roll.</p>
 <div class="keyidea">
-<p><strong>Randomness creates variation. Variation is the raw material of statistics.</strong></p>
-<p>Where outcomes vary, there is a pattern to describe, a spread to measure and an
-uncertainty to quantify. Where they do not, there is nothing for statistics to
-do.</p>
-<p>Every technique in this book is a way of handling variation. Take the variation
-away and the entire subject falls silent.</p>
+<p>This contrast captures the central idea. Statistics exists because observations
+vary. That variation is not an inconvenience to be ignored; it is the
+phenomenon that statistics seeks to understand.</p>
+<p>The methods developed in this book — from sampling distributions to confidence
+intervals and hypothesis tests — are all attempts to answer the same question:
+how does randomness influence the conclusions we draw from data?</p>
 </div>
-<p>This is not a fact about dice. Every roll of a die produces a different
-outcome. Every household survey contains different households. Every election
-poll interviews different voters. Every harvest yields a different quantity.
-Statistics exists because the world is variable — and it is variable whether or
-not we are looking.</p>
+<p>Dice provide a simple illustration, but the same principle governs every
+empirical investigation. Household surveys interview different families.
+Election polls reach different voters. Clinical trials recruit different
+patients. Agricultural experiments observe different harvests. Every study
+could have produced a different dataset, and consequently different numerical
+summaries. Inferential statistics begins by recognising this simple fact and
+asking what can nevertheless be learned despite it.</p>
 </div>
 <script>
 // Solutions are written as plain fenced divs in the source, so the PDF edition

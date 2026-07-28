@@ -5,9 +5,12 @@
 .Ruserdata
 *.Rproj
 
-# bookdown build intermediates
-_bookdown_files/
-*_files/
+# bookdown build intermediates.
+# The leading slash anchors these to the project root. Without it, `*_files/`
+# also matched docs/stats-econometrics-r_files/ — the rendered figures — and
+# silently kept every plot in the book out of the published site.
+/_bookdown_files/
+/*_files/
 *.knit.md
 *.utf8.md
 *.rds

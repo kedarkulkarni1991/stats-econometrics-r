@@ -69,26 +69,42 @@ from. The answer lies in randomness.
 Where does the uncertainty come from?
 :::
 
-Statistics begins with an observation so ordinary that it is easy to walk past:
-**identical experiments rarely produce identical outcomes.**
+The uncertainty that surrounds every statistical estimate has a single source:
+randomness.
 
-Roll a die.
+A sample differs from the population because the particular observations that
+enter it are determined, at least in part, by chance. Draw a different sample
+and you obtain a different average. Repeat the process often enough and the
+averages continue to change. Inferential statistics is concerned with
+understanding this variation. Without randomness there would be nothing to
+estimate, no uncertainty to quantify and no need for statistical inference.
+
+The idea is easiest to see with a die.
+
+Suppose we roll a fair die once.
 
 ```{r u1-die-one}
 set.seed(1)
 sample(1:6, size = 1)
 ```
 
-A three. That is all. One roll tells you almost nothing — not whether the die
-is fair, not what to expect next, not anything you could act on.
+The outcome is a one. Beyond that, there is little to say. A single observation
+tells us almost nothing about the process that generated it. Was the die fair?
+Would the next roll also be a one? Is one an unusually common outcome? One
+observation cannot answer these questions.
 
-Now roll it ten thousand times and count how often each face appears.
+Now imagine repeating the experiment ten thousand times.
 
 ```{r u1-die-many}
 rolls <- sample(1:6, size = 10000, replace = TRUE)
 
 round(prop.table(table(rolls)), 3)
 ```
+
+Each individual roll remains unpredictable, but something remarkable happens
+collectively. The outcomes no longer appear as isolated events. They form a
+stable pattern. Every face occurs with almost the same frequency, close to
+one-sixth of the time, exactly as we would expect from a fair die.
 
 ```{r u1-die-plot, echo = FALSE, fig.height = 3.2, fig.cap = "Ten thousand rolls of a fair die. No single roll was predictable. The pattern across all of them is."}
 ggplot(data.frame(x = factor(rolls)), aes(x)) +
@@ -102,15 +118,13 @@ ggplot(data.frame(x = factor(rolls)), aes(x)) +
   theme_book()
 ```
 
-Something has appeared that was not there before. Each face turns up close to
-one-sixth of the time. No individual roll was predictable, yet the *pattern
-across many rolls* is highly predictable — so much so that you would be
-surprised if it came out otherwise.
+The important point is not that the die is fair. It is that randomness does not
+imply disorder. Individual outcomes are uncertain, yet repeated observations
+exhibit regularity. Statistics is possible because random processes possess
+this remarkable property.
 
-That pattern is called a **distribution**. It is not a property of any single
-roll. It only exists across repetition.
-
-Now take the randomness away. Imagine a die with a 3 painted on all six faces.
+To appreciate this more clearly, imagine removing the randomness altogether.
+Suppose every face of the die is labelled three.
 
 ```{r u1-die-loaded}
 loaded <- rep(3, 10000)
@@ -119,27 +133,29 @@ table(loaded)
 sd(loaded)
 ```
 
-Ten thousand rolls, one outcome, spread of exactly zero. There is no pattern to
-find, because there is nothing to be uncertain about. Every question you might
-ask has the same answer. What would a histogram of this show? A single bar.
-What is the average? Three. What is the chance of a three? One.
+Every roll now produces exactly the same outcome. There is no variation, no
+uncertainty and no pattern waiting to emerge through repetition. The average is
+always three. The standard deviation is zero. Repeating the experiment a
+million times teaches us nothing that we did not already know after the first
+roll.
 
 ::: {.keyidea}
-**Randomness creates variation. Variation is the raw material of statistics.**
+This contrast captures the central idea. Statistics exists because observations
+vary. That variation is not an inconvenience to be ignored; it is the
+phenomenon that statistics seeks to understand.
 
-Where outcomes vary, there is a pattern to describe, a spread to measure and an
-uncertainty to quantify. Where they do not, there is nothing for statistics to
-do.
-
-Every technique in this book is a way of handling variation. Take the variation
-away and the entire subject falls silent.
+The methods developed in this book — from sampling distributions to confidence
+intervals and hypothesis tests — are all attempts to answer the same question:
+how does randomness influence the conclusions we draw from data?
 :::
 
-This is not a fact about dice. Every roll of a die produces a different
-outcome. Every household survey contains different households. Every election
-poll interviews different voters. Every harvest yields a different quantity.
-Statistics exists because the world is variable — and it is variable whether or
-not we are looking.
+Dice provide a simple illustration, but the same principle governs every
+empirical investigation. Household surveys interview different families.
+Election polls reach different voters. Clinical trials recruit different
+patients. Agricultural experiments observe different harvests. Every study
+could have produced a different dataset, and consequently different numerical
+summaries. Inferential statistics begins by recognising this simple fact and
+asking what can nevertheless be learned despite it.
 
 ## Describing variation {#u1-describing}
 
