@@ -84,6 +84,21 @@
   margin-top: 1em;
 }
 
+/* --- Section questions ---------------------------------------------------
+   Each section of Unit 1 opens with the question it exists to answer, so the
+   unit reads as one investigation rather than a sequence of definitions.
+   -------------------------------------------------------------------------- */
+
+.question {
+  margin: 0 0 1.8em;
+  padding: 0.1em 0 0.1em 1em;
+  border-left: 3px solid var(--accent);
+  font-size: 1.15em;
+  line-height: 1.45;
+  color: var(--ink);
+}
+.question p { margin: 0; }
+
 /* --- Callout blocks ------------------------------------------------------ */
 
 .intuition, .theory, .inr, .watchout, .yourturn, .keyidea {

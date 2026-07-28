@@ -4,12 +4,12 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>2.7 When \(\sigma\) is unknown: the \(t\)-test | Statistics and Econometrics with R</title>
+  <title>1.9 The Central Limit Theorem | Statistics and Econometrics with R</title>
   <meta name="description" content="<p>A first course in statistics and econometrics, where every idea is developed
 on paper and then immediately carried out in R.</p>" />
   <meta name="generator" content="bookdown 0.47 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="2.7 When \(\sigma\) is unknown: the \(t\)-test | Statistics and Econometrics with R" />
+  <meta property="og:title" content="1.9 The Central Limit Theorem | Statistics and Econometrics with R" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="<p>A first course in statistics and econometrics, where every idea is developed
@@ -17,7 +17,7 @@ on paper and then immediately carried out in R.</p>" />
   <meta name="github-repo" content="kedarkulkarni1991/stats-econometrics-r" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="2.7 When \(\sigma\) is unknown: the \(t\)-test | Statistics and Econometrics with R" />
+  <meta name="twitter:title" content="1.9 The Central Limit Theorem | Statistics and Econometrics with R" />
   
   <meta name="twitter:description" content="<p>A first course in statistics and econometrics, where every idea is developed
 on paper and then immediately carried out in R.</p>" />
@@ -32,8 +32,8 @@ on paper and then immediately carried out in R.</p>" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="os-ci.html"/>
-<link rel="next" href="os-onetailed.html"/>
+<link rel="prev" href="u1-lln.html"/>
+<link rel="next" href="u1-average.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -241,144 +241,147 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="os-ttest" class="section level2 hasAnchor" number="2.7">
-<h2><span class="header-section-number">2.7</span> When <span class="math inline">\(\sigma\)</span> is unknown: the <span class="math inline">\(t\)</span>-test<a href="os-ttest.html#os-ttest" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>Everything so far assumed we knew the population standard deviation <span class="math inline">\(\sigma\)</span>.
-We almost never do. Replacing it with the sample standard deviation <span class="math inline">\(s\)</span> adds a
-second source of uncertainty, and the statistic</p>
-<p><span class="math display">\[t_{calc} = \frac{\bar{x} - \mu_0}{s/\sqrt{n}}\]</span></p>
-<p>no longer follows a normal distribution. It follows Student’s <span class="math inline">\(t\)</span> with
-<span class="math inline">\(n - 1\)</span> <strong>degrees of freedom</strong> — a distribution with fatter tails, which demands
-more evidence before it will let you reject.</p>
-<div class="figure" style="text-align: center"><span style="display:block;" id="fig:os-t-vs-z"></span>
-<img src="stats-econometrics-r_files/figure-html/os-t-vs-z-1.png" alt="Student's $t$ against the standard normal. With few degrees of freedom the tails are noticeably heavier, so critical values sit further out." width="90%" />
+<div id="u1-clt" class="section level2 hasAnchor" number="1.9">
+<h2><span class="header-section-number">1.9</span> The Central Limit Theorem<a href="u1-clt.html#u1-clt" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="question">
+<p>Why was that picture of a thousand survey means bell-shaped?</p>
+</div>
+<p>The Law of Large Numbers tells us <em>where</em> the sample mean ends up. It says
+nothing about the <strong>shape</strong> of its distribution along the way — and without a
+shape we cannot compute the probability of anything.</p>
+<p>That is what the Central Limit Theorem supplies, and it supplies far more than
+seems reasonable.</p>
+<div class="keyidea">
+<p><strong>Central Limit Theorem.</strong> For a sufficiently large sample, the sampling
+distribution of the mean is approximately normal — <em>whatever the shape of the
+population it was drawn from</em>.</p>
+<p>Standardised,</p>
+<p><span class="math display">\[Z = \frac{\bar{X} - \mu}{\sigma / \sqrt{n}} \;\longrightarrow\; N(0, 1)\]</span></p>
+</div>
+<p>Read that again, because the strength of the claim is easy to miss. The
+population may be a coin flip taking only the values 0 and 1. It may be a count
+with a long right tail. It may be Indian earnings, where a
+small minority hold most of the total. <strong>It does not matter.</strong> Average
+enough draws and the distribution of that average is bell-shaped.</p>
+<div id="watching-it-happen-1" class="section level3 unnumbered hasAnchor">
+<h3>Watching it happen<a href="u1-clt.html#watching-it-happen-1" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Four populations, chosen to look as unlike a normal distribution as possible.
+For each we take samples of size 1, then 5, then 30, and plot the distribution
+of the sample mean.</p>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="u1-clt.html#cb47-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">3</span>)</span>
+<span id="cb47-2"><a href="u1-clt.html#cb47-2" tabindex="-1"></a></span>
+<span id="cb47-3"><a href="u1-clt.html#cb47-3" tabindex="-1"></a>draw_mean <span class="ot">&lt;-</span> <span class="cf">function</span>(parent, n) {</span>
+<span id="cb47-4"><a href="u1-clt.html#cb47-4" tabindex="-1"></a>  <span class="cf">switch</span>(parent,</span>
+<span id="cb47-5"><a href="u1-clt.html#cb47-5" tabindex="-1"></a>    <span class="st">&quot;Bernoulli&quot;</span>  <span class="ot">=</span> <span class="fu">mean</span>(<span class="fu">rbinom</span>(n, <span class="dv">1</span>, <span class="fl">0.3</span>)),</span>
+<span id="cb47-6"><a href="u1-clt.html#cb47-6" tabindex="-1"></a>    <span class="st">&quot;Poisson&quot;</span>    <span class="ot">=</span> <span class="fu">mean</span>(<span class="fu">rpois</span>(n, <span class="dv">2</span>)),</span>
+<span id="cb47-7"><a href="u1-clt.html#cb47-7" tabindex="-1"></a>    <span class="st">&quot;Uniform&quot;</span>    <span class="ot">=</span> <span class="fu">mean</span>(<span class="fu">runif</span>(n)),</span>
+<span id="cb47-8"><a href="u1-clt.html#cb47-8" tabindex="-1"></a>    <span class="st">&quot;Earnings&quot;</span>   <span class="ot">=</span> <span class="fu">mean</span>(<span class="fu">sample</span>(earn, n, <span class="at">replace =</span> <span class="cn">TRUE</span>)))</span>
+<span id="cb47-9"><a href="u1-clt.html#cb47-9" tabindex="-1"></a>}</span>
+<span id="cb47-10"><a href="u1-clt.html#cb47-10" tabindex="-1"></a></span>
+<span id="cb47-11"><a href="u1-clt.html#cb47-11" tabindex="-1"></a>parents <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Bernoulli&quot;</span>, <span class="st">&quot;Poisson&quot;</span>, <span class="st">&quot;Uniform&quot;</span>, <span class="st">&quot;Earnings&quot;</span>)</span>
+<span id="cb47-12"><a href="u1-clt.html#cb47-12" tabindex="-1"></a>sizes   <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">5</span>, <span class="dv">30</span>)</span>
+<span id="cb47-13"><a href="u1-clt.html#cb47-13" tabindex="-1"></a></span>
+<span id="cb47-14"><a href="u1-clt.html#cb47-14" tabindex="-1"></a>clt <span class="ot">&lt;-</span> <span class="fu">do.call</span>(rbind, <span class="fu">lapply</span>(parents, <span class="cf">function</span>(p)</span>
+<span id="cb47-15"><a href="u1-clt.html#cb47-15" tabindex="-1"></a>  <span class="fu">do.call</span>(rbind, <span class="fu">lapply</span>(sizes, <span class="cf">function</span>(n)</span>
+<span id="cb47-16"><a href="u1-clt.html#cb47-16" tabindex="-1"></a>    <span class="fu">data.frame</span>(<span class="at">parent =</span> p,</span>
+<span id="cb47-17"><a href="u1-clt.html#cb47-17" tabindex="-1"></a>               <span class="at">n      =</span> <span class="fu">factor</span>(<span class="fu">paste</span>(<span class="st">&quot;n =&quot;</span>, n), <span class="at">levels =</span> <span class="fu">paste</span>(<span class="st">&quot;n =&quot;</span>, sizes)),</span>
+<span id="cb47-18"><a href="u1-clt.html#cb47-18" tabindex="-1"></a>               <span class="at">m      =</span> <span class="fu">replicate</span>(<span class="dv">4000</span>, <span class="fu">draw_mean</span>(p, n)))))))</span>
+<span id="cb47-19"><a href="u1-clt.html#cb47-19" tabindex="-1"></a></span>
+<span id="cb47-20"><a href="u1-clt.html#cb47-20" tabindex="-1"></a><span class="co"># Standardise within each panel, so all twelve are on one scale and the</span></span>
+<span id="cb47-21"><a href="u1-clt.html#cb47-21" tabindex="-1"></a><span class="co"># comparison is purely about shape.</span></span>
+<span id="cb47-22"><a href="u1-clt.html#cb47-22" tabindex="-1"></a>clt<span class="sc">$</span>z <span class="ot">&lt;-</span> <span class="fu">ave</span>(clt<span class="sc">$</span>m, clt<span class="sc">$</span>parent, clt<span class="sc">$</span>n,</span>
+<span id="cb47-23"><a href="u1-clt.html#cb47-23" tabindex="-1"></a>             <span class="at">FUN =</span> <span class="cf">function</span>(x) (x <span class="sc">-</span> <span class="fu">mean</span>(x)) <span class="sc">/</span> <span class="fu">sd</span>(x))</span>
+<span id="cb47-24"><a href="u1-clt.html#cb47-24" tabindex="-1"></a></span>
+<span id="cb47-25"><a href="u1-clt.html#cb47-25" tabindex="-1"></a><span class="fu">head</span>(clt, <span class="dv">3</span>)</span></code></pre></div>
+<pre><code>#&gt;      parent     n m       z
+#&gt; 1 Bernoulli n = 1 0 -0.6569
+#&gt; 2 Bernoulli n = 1 1  1.5219
+#&gt; 3 Bernoulli n = 1 0 -0.6569</code></pre>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:d2i-clt-plot"></span>
+<img src="stats-econometrics-r_files/figure-html/d2i-clt-plot-1.png" alt="Sampling distributions of the mean from four very different populations, standardised, against the standard normal curve in orange. At $n = 1$ you are looking at each population itself. By $n = 30$ all four track the curve — though look closely at the last row." width="90%" />
 <p class="caption">
-Figure 2.4: Student’s <span class="math inline">\(t\)</span> against the standard normal. With few degrees of freedom the tails are noticeably heavier, so critical values sit further out.
+Figure 1.9: Sampling distributions of the mean from four very different populations, standardised, against the standard normal curve in orange. At <span class="math inline">\(n = 1\)</span> you are looking at each population itself. By <span class="math inline">\(n = 30\)</span> all four track the curve — though look closely at the last row.
 </p>
 </div>
-<div id="settling-the-question-with-the-actual-class" class="section level3 unnumbered hasAnchor">
-<h3>Settling the question with the actual class<a href="os-ttest.html#settling-the-question-with-the-actual-class" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>We opened this chapter with a made-up sample of 36 students. We can now do the
-real thing. <code>stats-class.csv</code> holds the survey this class filled in — names,
-ages, heights, gender:</p>
-<div class="sourceCode" id="cb78"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb78-1"><a href="os-ttest.html#cb78-1" tabindex="-1"></a>students <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/stats-class.csv&quot;</span>)</span>
-<span id="cb78-2"><a href="os-ttest.html#cb78-2" tabindex="-1"></a></span>
-<span id="cb78-3"><a href="os-ttest.html#cb78-3" tabindex="-1"></a><span class="fu">str</span>(students)</span></code></pre></div>
-<pre><code>#&gt; &#39;data.frame&#39;:    33 obs. of  4 variables:
-#&gt;  $ student_id: chr  &quot;S01&quot; &quot;S02&quot; &quot;S03&quot; &quot;S04&quot; ...
-#&gt;  $ age       : int  31 19 18 18 19 18 18 21 18 19 ...
-#&gt;  $ height    : int  178 161 181 164 170 175 176 186 161 170 ...
-#&gt;  $ gender    : chr  &quot;M&quot; &quot;F&quot; &quot;M&quot; &quot;F&quot; ...</code></pre>
-<p>Thirty-three rows, but look at the last one. One student left age and height
-blank, and another did not give a gender:</p>
-<div class="sourceCode" id="cb80"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb80-1"><a href="os-ttest.html#cb80-1" tabindex="-1"></a>students[<span class="sc">!</span><span class="fu">complete.cases</span>(students), ]</span></code></pre></div>
-<pre><code>#&gt;    student_id age height gender
-#&gt; 8         S08  21    186   &lt;NA&gt;
-#&gt; 33        S33  NA     NA      F</code></pre>
-<div class="watchout">
-<p><strong>A blank is not always an <code>NA</code>.</strong> In a numeric column an empty field is read
-as <code>NA</code>, but in a text column it is read as the empty string <code>""</code> — and <code>""</code>
-is a perfectly ordinary value as far as <code>is.na()</code>, <code>complete.cases()</code> and
-<code>na.rm</code> are concerned. A gap in a text column can therefore hide in plain
-sight.</p>
-<p>If a dataset you did not prepare yourself has blanks, say so explicitly when
-you read it:</p>
-<div class="sourceCode" id="cb82"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb82-1"><a href="os-ttest.html#cb82-1" tabindex="-1"></a><span class="fu">read.csv</span>(<span class="st">&quot;somefile.csv&quot;</span>, <span class="at">na.strings =</span> <span class="fu">c</span>(<span class="st">&quot;&quot;</span>, <span class="st">&quot;NA&quot;</span>))</span></code></pre></div>
-<p>The files in this book are already written so that plain <code>read.csv()</code> does the
-right thing.</p>
+<p>Read the grid left to right. The first column is each population itself — a
+two-spike coin, a discrete count, a flat rectangle, a badly lopsided earnings
+distribution. Not one of them is normal. By the third column all four are
+tracking the orange curve.</p>
+<p>Notice how differently they get there. The uniform population is nearly normal
+by <span class="math inline">\(n = 5\)</span>. The Bernoulli is still visibly stepped at <span class="math inline">\(n = 30\)</span>, because a mean
+of thirty zeros and ones can only take thirty-one distinct values. And the ASI
+row — real Indian data — is still leaning right at <span class="math inline">\(n = 30\)</span>. Convergence is
+guaranteed; its speed is not.</p>
 </div>
-<div class="watchout">
-<p><code>mean()</code> returns <code>NA</code> if even one value is missing — it refuses to guess what
-you meant. Pass <code>na.rm = TRUE</code> to drop the gaps, and always know how many you
-dropped.</p>
-<div class="sourceCode" id="cb83"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb83-1"><a href="os-ttest.html#cb83-1" tabindex="-1"></a><span class="fu">mean</span>(students<span class="sc">$</span>height)                  <span class="co"># NA — one height is missing</span></span></code></pre></div>
-<pre><code>#&gt; [1] NA</code></pre>
-<div class="sourceCode" id="cb85"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb85-1"><a href="os-ttest.html#cb85-1" tabindex="-1"></a><span class="fu">mean</span>(students<span class="sc">$</span>height, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)    <span class="co"># 32 students</span></span></code></pre></div>
-<pre><code>#&gt; [1] 169.5</code></pre>
-</div>
-<p>Now the test. We do <strong>not</strong> know the population standard deviation of student
-heights, so this is a <span class="math inline">\(t\)</span>-test, not a <span class="math inline">\(Z\)</span>-test:</p>
-<div class="sourceCode" id="cb87"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb87-1"><a href="os-ttest.html#cb87-1" tabindex="-1"></a>heights_real <span class="ot">&lt;-</span> students<span class="sc">$</span>height[<span class="sc">!</span><span class="fu">is.na</span>(students<span class="sc">$</span>height)]</span>
-<span id="cb87-2"><a href="os-ttest.html#cb87-2" tabindex="-1"></a></span>
-<span id="cb87-3"><a href="os-ttest.html#cb87-3" tabindex="-1"></a><span class="fu">c</span>(<span class="at">n =</span> <span class="fu">length</span>(heights_real),</span>
-<span id="cb87-4"><a href="os-ttest.html#cb87-4" tabindex="-1"></a>  <span class="at">mean =</span> <span class="fu">mean</span>(heights_real),</span>
-<span id="cb87-5"><a href="os-ttest.html#cb87-5" tabindex="-1"></a>  <span class="at">sd =</span> <span class="fu">sd</span>(heights_real))</span></code></pre></div>
-<pre><code>#&gt;      n   mean     sd 
-#&gt;  32.00 169.50   8.71</code></pre>
-<div class="sourceCode" id="cb89"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb89-1"><a href="os-ttest.html#cb89-1" tabindex="-1"></a><span class="fu">t.test</span>(heights_real, <span class="at">mu =</span> <span class="dv">165</span>)</span></code></pre></div>
-<pre><code>#&gt; 
-#&gt;  One Sample t-test
-#&gt; 
-#&gt; data:  heights_real
-#&gt; t = 2.9, df = 31, p-value = 0.006
-#&gt; alternative hypothesis: true mean is not equal to 165
-#&gt; 95 percent confidence interval:
-#&gt;  166.4 172.6
-#&gt; sample estimates:
-#&gt; mean of x 
-#&gt;     169.5</code></pre>
-<p><span class="math inline">\(t = 2.92\)</span> on 31 degrees of freedom, with a
-<span class="math inline">\(p\)</span>-value of 0.0064. We <strong>reject</strong> the claim that the average
-is 165 cm. The 95% interval,
-<span class="math inline">\([166.4,\ 172.6]\)</span>, excludes 165 —
-the same verdict, as always.</p>
+<div id="why-it-works-1" class="section level3 unnumbered hasAnchor">
+<h3>Why it works<a href="u1-clt.html#why-it-works-1" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>The intuition is easier than the proof, and it is worth having.</p>
 <div class="intuition">
-<p>Notice how much narrower this is than the textbook version of the problem. The
-opening example assumed we somehow knew <span class="math inline">\(\sigma = 8\)</span>. Here we had to estimate
-it from 32 people, and the <span class="math inline">\(t\)</span> distribution charges us for that uncertainty
-with a wider interval and a higher bar to clear.</p>
-<p>Also notice what the data is not: 32 students in one classroom are not a random
-sample of all APU students. The arithmetic is correct; whether it answers the
-question about <em>the university</em> is a separate matter, and a harder one.</p>
+<p>Roll one die: every face is equally likely. Now roll two and add them.</p>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="u1-clt.html#cb49-1" tabindex="-1"></a>sums <span class="ot">&lt;-</span> <span class="fu">outer</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>, <span class="st">&quot;+&quot;</span>)</span>
+<span id="cb49-2"><a href="u1-clt.html#cb49-2" tabindex="-1"></a><span class="fu">table</span>(sums)</span></code></pre></div>
+<pre><code>#&gt; sums
+#&gt;  2  3  4  5  6  7  8  9 10 11 12 
+#&gt;  1  2  3  4  5  6  5  4  3  2  1</code></pre>
+<p>Seven can be made six ways — <span class="math inline">\(1+6\)</span>, <span class="math inline">\(2+5\)</span>, <span class="math inline">\(3+4\)</span>, <span class="math inline">\(4+3\)</span>, <span class="math inline">\(5+2\)</span>, <span class="math inline">\(6+1\)</span>. Two can
+be made exactly one way. The middle values have more routes to them than the
+extremes do, so they turn up more often.</p>
+<p>That is the whole idea. To get an extreme <em>average</em>, every draw has to be
+extreme in the same direction, and that is rare. To get a middling average,
+the draws only have to offset one another, and there are enormously many ways
+for that to happen. Adding more draws multiplies the number of routes to the
+middle far faster than the routes to the edges — and the shape that results is
+the bell.</p>
+</div>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:d2i-dice-plot"></span>
+<img src="stats-econometrics-r_files/figure-html/d2i-dice-plot-1.png" alt="The sum of two dice. Combinations pile up in the middle, and the flat distribution of a single die has already started to become a mound." width="90%" />
+<p class="caption">
+Figure 1.10: The sum of two dice. Combinations pile up in the middle, and the flat distribution of a single die has already started to become a mound.
+</p>
 </div>
 </div>
-<div id="worked-example" class="section level3 unnumbered hasAnchor">
-<h3>Worked example<a href="os-ttest.html#worked-example" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>The dean estimates that full-time faculty teach 11.0 classroom hours per week.
-You sample eight faculty members. Can you reject the dean’s claim at
-<span class="math inline">\(\alpha = 0.10\)</span>? At <span class="math inline">\(\alpha = 0.01\)</span>?</p>
-<div class="sourceCode" id="cb91"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb91-1"><a href="os-ttest.html#cb91-1" tabindex="-1"></a>hours <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">11.8</span>, <span class="fl">8.6</span>, <span class="fl">10.5</span>, <span class="fl">7.9</span>, <span class="fl">6.4</span>, <span class="fl">10.4</span>, <span class="fl">10.0</span>, <span class="fl">8.2</span>)</span>
-<span id="cb91-2"><a href="os-ttest.html#cb91-2" tabindex="-1"></a></span>
-<span id="cb91-3"><a href="os-ttest.html#cb91-3" tabindex="-1"></a><span class="fu">c</span>(<span class="at">n =</span> <span class="fu">length</span>(hours), <span class="at">mean =</span> <span class="fu">mean</span>(hours), <span class="at">sd =</span> <span class="fu">sd</span>(hours))</span></code></pre></div>
-<pre><code>#&gt;     n  mean    sd 
-#&gt; 8.000 9.225 1.749</code></pre>
-<p><strong>On paper.</strong> With <span class="math inline">\(\bar{x} = 9.225\)</span>, <span class="math inline">\(s = 1.749\)</span>, <span class="math inline">\(n = 8\)</span> and <span class="math inline">\(df = 7\)</span>:</p>
-<p><span class="math display">\[
-t_{calc} = \frac{9.225 - 11}{1.749/\sqrt{8}}
-= \frac{-1.775}{0.618}
-= -2.87
-\]</span></p>
-<p>The critical values are <span class="math inline">\(t_{0.05,\,7} = 1.895\)</span> and <span class="math inline">\(t_{0.005,\,7} = 3.499\)</span>.</p>
+<div id="how-large-is-large-enough" class="section level3 unnumbered hasAnchor">
+<h3>How large is “large enough”?<a href="u1-clt.html#how-large-is-large-enough" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Textbooks often give <span class="math inline">\(n \geq 30\)</span>. It is a serviceable rule and it is not a law.</p>
+<p>How quickly the CLT takes hold depends on how skewed the population is. A
+symmetric population needs very few observations; a badly lopsided one needs
+many more.</p>
+<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="u1-clt.html#cb51-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">9</span>)</span>
+<span id="cb51-2"><a href="u1-clt.html#cb51-2" tabindex="-1"></a></span>
+<span id="cb51-3"><a href="u1-clt.html#cb51-3" tabindex="-1"></a><span class="co"># A crude measure of how far a distribution is from symmetric</span></span>
+<span id="cb51-4"><a href="u1-clt.html#cb51-4" tabindex="-1"></a>skewness <span class="ot">&lt;-</span> <span class="cf">function</span>(x) <span class="fu">mean</span>((x <span class="sc">-</span> <span class="fu">mean</span>(x))<span class="sc">^</span><span class="dv">3</span>) <span class="sc">/</span> <span class="fu">sd</span>(x)<span class="sc">^</span><span class="dv">3</span></span>
+<span id="cb51-5"><a href="u1-clt.html#cb51-5" tabindex="-1"></a></span>
+<span id="cb51-6"><a href="u1-clt.html#cb51-6" tabindex="-1"></a><span class="fu">sapply</span>(<span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">30</span>, <span class="dv">100</span>, <span class="dv">500</span>), <span class="cf">function</span>(n)</span>
+<span id="cb51-7"><a href="u1-clt.html#cb51-7" tabindex="-1"></a>  <span class="fu">round</span>(<span class="fu">skewness</span>(<span class="fu">replicate</span>(<span class="dv">2000</span>, <span class="fu">mean</span>(<span class="fu">sample</span>(earn, n, <span class="at">replace =</span> <span class="cn">TRUE</span>)))), <span class="dv">2</span>))</span></code></pre></div>
+<pre><code>#&gt; [1] 2.99 1.20 0.76 0.27</code></pre>
+<p>The earnings population has a skewness of about 7.3. At <span class="math inline">\(n = 5\)</span> the
+sampling distribution is still visibly lopsided. By <span class="math inline">\(n = 100\)</span> it is close to
+symmetric.</p>
+<div class="watchout">
+<p>Do not treat <span class="math inline">\(n = 30\)</span> as a guarantee. It is a rule of thumb calibrated on
+mildly non-normal populations.</p>
+<p>Economic data is frequently <em>not</em> mildly non-normal. Incomes, firm sizes, land
+holdings and city populations all have long right tails, and for these the
+approximation can still be poor at <span class="math inline">\(n = 30\)</span>. When your variable is heavily
+skewed, either use a larger sample or check the sampling distribution by
+simulation, exactly as we have just done.</p>
+</div>
+</div>
+<div id="why-this-is-the-foundation" class="section level3 unnumbered hasAnchor">
+<h3>Why this is the foundation<a href="u1-clt.html#why-this-is-the-foundation" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="keyidea">
+<p>The Central Limit Theorem is what makes inference practical. Because of it we
+can say, for a sample of reasonable size and <em>without knowing the shape of the
+population</em>:</p>
 <ul>
-<li>At <span class="math inline">\(\alpha = 0.10\)</span>: <span class="math inline">\(2.87 &gt; 1.895\)</span> <span class="math inline">\(\Rightarrow\)</span> <strong>reject</strong> <span class="math inline">\(H_0\)</span>.</li>
-<li>At <span class="math inline">\(\alpha = 0.01\)</span>: <span class="math inline">\(2.87 &lt; 3.499\)</span> <span class="math inline">\(\Rightarrow\)</span> <strong>fail to reject</strong> <span class="math inline">\(H_0\)</span>.</li>
+<li>the sample mean is centred on <span class="math inline">\(\mu\)</span> — from the LLN</li>
+<li>its spread is <span class="math inline">\(\sigma/\sqrt{n}\)</span> — the standard error</li>
+<li>its shape is approximately normal — from the CLT</li>
 </ul>
-<p><strong>In R.</strong> Both the pieces and the packaged version:</p>
-<div class="sourceCode" id="cb93"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb93-1"><a href="os-ttest.html#cb93-1" tabindex="-1"></a>t_calc <span class="ot">&lt;-</span> (<span class="fu">mean</span>(hours) <span class="sc">-</span> <span class="dv">11</span>) <span class="sc">/</span> (<span class="fu">sd</span>(hours) <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="fu">length</span>(hours)))</span>
-<span id="cb93-2"><a href="os-ttest.html#cb93-2" tabindex="-1"></a>t_crit <span class="ot">&lt;-</span> <span class="fu">qt</span>(<span class="fu">c</span>(<span class="fl">0.95</span>, <span class="fl">0.995</span>), <span class="at">df =</span> <span class="dv">7</span>)     <span class="co"># 10% and 1%, two-tailed</span></span>
-<span id="cb93-3"><a href="os-ttest.html#cb93-3" tabindex="-1"></a></span>
-<span id="cb93-4"><a href="os-ttest.html#cb93-4" tabindex="-1"></a><span class="fu">c</span>(<span class="at">t_calc =</span> t_calc, <span class="at">crit_10pct =</span> t_crit[<span class="dv">1</span>], <span class="at">crit_1pct =</span> t_crit[<span class="dv">2</span>])</span></code></pre></div>
-<pre><code>#&gt;     t_calc crit_10pct  crit_1pct 
-#&gt;     -2.870      1.895      3.499</code></pre>
-<div class="sourceCode" id="cb95"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb95-1"><a href="os-ttest.html#cb95-1" tabindex="-1"></a><span class="fu">t.test</span>(hours, <span class="at">mu =</span> <span class="dv">11</span>, <span class="at">conf.level =</span> <span class="fl">0.90</span>)</span></code></pre></div>
-<pre><code>#&gt; 
-#&gt;  One Sample t-test
-#&gt; 
-#&gt; data:  hours
-#&gt; t = -2.9, df = 7, p-value = 0.02
-#&gt; alternative hypothesis: true mean is not equal to 11
-#&gt; 90 percent confidence interval:
-#&gt;   8.053 10.397
-#&gt; sample estimates:
-#&gt; mean of x 
-#&gt;     9.225</code></pre>
-<p>The <span class="math inline">\(p\)</span>-value is 0.024 — below 0.10 but
-above 0.01, exactly matching the two different verdicts we reached by hand.</p>
-<div class="intuition">
-<p>The same data can be “significant” at one level and not at another. Nothing has
-changed about the world between those two lines — only how much risk of a false
-alarm we were willing to tolerate. This is why reporting the <span class="math inline">\(p\)</span>-value itself
-is far more informative than reporting a bare “significant / not significant.”</p>
+<p>Knowing the centre, the spread and the shape of a distribution is knowing the
+distribution. That is enough to attach a probability to any statement about
+<span class="math inline">\(\bar{X}\)</span>, which is exactly what confidence intervals and hypothesis tests do.</p>
+<p>Everything in the rest of this book rests on these three lines.</p>
 </div>
 </div>
 </div>
@@ -403,8 +406,8 @@ document.addEventListener("DOMContentLoaded", function () {
           </div>
         </div>
       </div>
-<a href="os-ci.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="os-onetailed.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="u1-lln.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="u1-average.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -435,7 +438,7 @@ gitbook.start({
     "size": 2
   },
   "edit": {
-    "link": "https://github.com/kedarkulkarni1991/stats-econometrics-r/edit/main/06-hypothesis-testing-one-sample.Rmd",
+    "link": "https://github.com/kedarkulkarni1991/stats-econometrics-r/edit/main/01-towards-inferential-statistics.Rmd",
     "text": "Edit"
   },
   "history": {

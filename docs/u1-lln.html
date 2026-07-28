@@ -4,12 +4,12 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>2.7 When \(\sigma\) is unknown: the \(t\)-test | Statistics and Econometrics with R</title>
+  <title>1.8 The Law of Large Numbers | Statistics and Econometrics with R</title>
   <meta name="description" content="<p>A first course in statistics and econometrics, where every idea is developed
 on paper and then immediately carried out in R.</p>" />
   <meta name="generator" content="bookdown 0.47 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="2.7 When \(\sigma\) is unknown: the \(t\)-test | Statistics and Econometrics with R" />
+  <meta property="og:title" content="1.8 The Law of Large Numbers | Statistics and Econometrics with R" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="<p>A first course in statistics and econometrics, where every idea is developed
@@ -17,7 +17,7 @@ on paper and then immediately carried out in R.</p>" />
   <meta name="github-repo" content="kedarkulkarni1991/stats-econometrics-r" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="2.7 When \(\sigma\) is unknown: the \(t\)-test | Statistics and Econometrics with R" />
+  <meta name="twitter:title" content="1.8 The Law of Large Numbers | Statistics and Econometrics with R" />
   
   <meta name="twitter:description" content="<p>A first course in statistics and econometrics, where every idea is developed
 on paper and then immediately carried out in R.</p>" />
@@ -32,8 +32,8 @@ on paper and then immediately carried out in R.</p>" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="os-ci.html"/>
-<link rel="next" href="os-onetailed.html"/>
+<link rel="prev" href="u1-sampling-distribution.html"/>
+<link rel="next" href="u1-clt.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -241,144 +241,128 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="os-ttest" class="section level2 hasAnchor" number="2.7">
-<h2><span class="header-section-number">2.7</span> When <span class="math inline">\(\sigma\)</span> is unknown: the <span class="math inline">\(t\)</span>-test<a href="os-ttest.html#os-ttest" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>Everything so far assumed we knew the population standard deviation <span class="math inline">\(\sigma\)</span>.
-We almost never do. Replacing it with the sample standard deviation <span class="math inline">\(s\)</span> adds a
-second source of uncertainty, and the statistic</p>
-<p><span class="math display">\[t_{calc} = \frac{\bar{x} - \mu_0}{s/\sqrt{n}}\]</span></p>
-<p>no longer follows a normal distribution. It follows Student’s <span class="math inline">\(t\)</span> with
-<span class="math inline">\(n - 1\)</span> <strong>degrees of freedom</strong> — a distribution with fatter tails, which demands
-more evidence before it will let you reject.</p>
-<div class="figure" style="text-align: center"><span style="display:block;" id="fig:os-t-vs-z"></span>
-<img src="stats-econometrics-r_files/figure-html/os-t-vs-z-1.png" alt="Student's $t$ against the standard normal. With few degrees of freedom the tails are noticeably heavier, so critical values sit further out." width="90%" />
+<div id="u1-lln" class="section level2 hasAnchor" number="1.8">
+<h2><span class="header-section-number">1.8</span> The Law of Large Numbers<a href="u1-lln.html#u1-lln" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="question">
+<p>Why does a bigger sample give a better answer?</p>
+</div>
+<p>We have now seen twice, in simulation, that sample means cluster around the
+population mean and tighten as the sample grows. The <strong>Law of Large Numbers</strong>
+is the theorem that says this must happen.</p>
+<div class="keyidea">
+<p><strong>Law of Large Numbers.</strong> Let <span class="math inline">\(X_1, X_2, \ldots, X_n\)</span> be independent draws from
+a distribution with mean <span class="math inline">\(\mu\)</span>. As <span class="math inline">\(n\)</span> grows, the probability that the sample
+mean <span class="math inline">\(\bar{X}_n\)</span> lies close to <span class="math inline">\(\mu\)</span> approaches 1.</p>
+<p>Informally: take a big enough sample and your average will be near the truth.</p>
+</div>
+<div id="watching-it-happen" class="section level3 unnumbered hasAnchor">
+<h3>Watching it happen<a href="u1-lln.html#watching-it-happen" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>The cleanest way to see it is to compute a <strong>running mean</strong> — the average after
+one observation, after two, after three, and so on — and watch where it goes.</p>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="u1-lln.html#cb41-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">20</span>)</span>
+<span id="cb41-2"><a href="u1-lln.html#cb41-2" tabindex="-1"></a></span>
+<span id="cb41-3"><a href="u1-lln.html#cb41-3" tabindex="-1"></a>rolls_seq <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>, <span class="at">size =</span> <span class="dv">5000</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb41-4"><a href="u1-lln.html#cb41-4" tabindex="-1"></a>running   <span class="ot">&lt;-</span> <span class="fu">cumsum</span>(rolls_seq) <span class="sc">/</span> <span class="fu">seq_along</span>(rolls_seq)</span>
+<span id="cb41-5"><a href="u1-lln.html#cb41-5" tabindex="-1"></a></span>
+<span id="cb41-6"><a href="u1-lln.html#cb41-6" tabindex="-1"></a>running[<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">5</span>, <span class="dv">10</span>, <span class="dv">100</span>, <span class="dv">1000</span>, <span class="dv">5000</span>)]</span></code></pre></div>
+<pre><code>#&gt; [1] 6.000 2.800 3.700 3.600 3.488 3.488</code></pre>
+<p>The first few averages are all over the place. By a thousand rolls the running
+mean has settled close to 3.5, and it stays there.</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:d2i-lln-plot"></span>
+<img src="stats-econometrics-r_files/figure-html/d2i-lln-plot-1.png" alt="The running average of a fair die, over 5,000 rolls. Early on it swings wildly; it then converges on the expected value of 3.5 and stops moving." width="90%" />
 <p class="caption">
-Figure 2.4: Student’s <span class="math inline">\(t\)</span> against the standard normal. With few degrees of freedom the tails are noticeably heavier, so critical values sit further out.
+Figure 1.8: The running average of a fair die, over 5,000 rolls. Early on it swings wildly; it then converges on the expected value of 3.5 and stops moving.
 </p>
 </div>
-<div id="settling-the-question-with-the-actual-class" class="section level3 unnumbered hasAnchor">
-<h3>Settling the question with the actual class<a href="os-ttest.html#settling-the-question-with-the-actual-class" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>We opened this chapter with a made-up sample of 36 students. We can now do the
-real thing. <code>stats-class.csv</code> holds the survey this class filled in — names,
-ages, heights, gender:</p>
-<div class="sourceCode" id="cb78"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb78-1"><a href="os-ttest.html#cb78-1" tabindex="-1"></a>students <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/stats-class.csv&quot;</span>)</span>
-<span id="cb78-2"><a href="os-ttest.html#cb78-2" tabindex="-1"></a></span>
-<span id="cb78-3"><a href="os-ttest.html#cb78-3" tabindex="-1"></a><span class="fu">str</span>(students)</span></code></pre></div>
-<pre><code>#&gt; &#39;data.frame&#39;:    33 obs. of  4 variables:
-#&gt;  $ student_id: chr  &quot;S01&quot; &quot;S02&quot; &quot;S03&quot; &quot;S04&quot; ...
-#&gt;  $ age       : int  31 19 18 18 19 18 18 21 18 19 ...
-#&gt;  $ height    : int  178 161 181 164 170 175 176 186 161 170 ...
-#&gt;  $ gender    : chr  &quot;M&quot; &quot;F&quot; &quot;M&quot; &quot;F&quot; ...</code></pre>
-<p>Thirty-three rows, but look at the last one. One student left age and height
-blank, and another did not give a gender:</p>
-<div class="sourceCode" id="cb80"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb80-1"><a href="os-ttest.html#cb80-1" tabindex="-1"></a>students[<span class="sc">!</span><span class="fu">complete.cases</span>(students), ]</span></code></pre></div>
-<pre><code>#&gt;    student_id age height gender
-#&gt; 8         S08  21    186   &lt;NA&gt;
-#&gt; 33        S33  NA     NA      F</code></pre>
-<div class="watchout">
-<p><strong>A blank is not always an <code>NA</code>.</strong> In a numeric column an empty field is read
-as <code>NA</code>, but in a text column it is read as the empty string <code>""</code> — and <code>""</code>
-is a perfectly ordinary value as far as <code>is.na()</code>, <code>complete.cases()</code> and
-<code>na.rm</code> are concerned. A gap in a text column can therefore hide in plain
-sight.</p>
-<p>If a dataset you did not prepare yourself has blanks, say so explicitly when
-you read it:</p>
-<div class="sourceCode" id="cb82"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb82-1"><a href="os-ttest.html#cb82-1" tabindex="-1"></a><span class="fu">read.csv</span>(<span class="st">&quot;somefile.csv&quot;</span>, <span class="at">na.strings =</span> <span class="fu">c</span>(<span class="st">&quot;&quot;</span>, <span class="st">&quot;NA&quot;</span>))</span></code></pre></div>
-<p>The files in this book are already written so that plain <code>read.csv()</code> does the
-right thing.</p>
+<p>The same thing happens with the earnings data. Draw surveys of growing size and
+watch how far the survey mean sits from the truth:</p>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="u1-lln.html#cb43-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">20</span>)</span>
+<span id="cb43-2"><a href="u1-lln.html#cb43-2" tabindex="-1"></a></span>
+<span id="cb43-3"><a href="u1-lln.html#cb43-3" tabindex="-1"></a>earn <span class="ot">&lt;-</span> workers<span class="sc">$</span>annual_earnings</span>
+<span id="cb43-4"><a href="u1-lln.html#cb43-4" tabindex="-1"></a></span>
+<span id="cb43-5"><a href="u1-lln.html#cb43-5" tabindex="-1"></a>lln_earn <span class="ot">&lt;-</span> <span class="fu">t</span>(<span class="fu">sapply</span>(<span class="fu">c</span>(<span class="dv">10</span>, <span class="dv">50</span>, <span class="dv">100</span>, <span class="dv">500</span>, <span class="dv">2000</span>, <span class="dv">10000</span>), <span class="cf">function</span>(n) {</span>
+<span id="cb43-6"><a href="u1-lln.html#cb43-6" tabindex="-1"></a>  errs <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">400</span>, <span class="fu">abs</span>(<span class="fu">mean</span>(<span class="fu">sample</span>(earn, n, <span class="at">replace =</span> <span class="cn">TRUE</span>)) <span class="sc">-</span> <span class="fu">mean</span>(earn)))</span>
+<span id="cb43-7"><a href="u1-lln.html#cb43-7" tabindex="-1"></a>  <span class="fu">c</span>(<span class="at">n =</span> n, <span class="at">avg_error =</span> <span class="fu">mean</span>(errs))</span>
+<span id="cb43-8"><a href="u1-lln.html#cb43-8" tabindex="-1"></a>}))</span>
+<span id="cb43-9"><a href="u1-lln.html#cb43-9" tabindex="-1"></a></span>
+<span id="cb43-10"><a href="u1-lln.html#cb43-10" tabindex="-1"></a><span class="fu">round</span>(lln_earn)</span></code></pre></div>
+<pre><code>#&gt;          n avg_error
+#&gt; [1,]    10     22814
+#&gt; [2,]    50     11140
+#&gt; [3,]   100      7146
+#&gt; [4,]   500      3669
+#&gt; [5,]  2000      1715
+#&gt; [6,] 10000       830</code></pre>
+<p>The average distance between a survey mean and the truth falls steadily towards
+zero. Nothing about earnings being violently skewed prevents it — it only means
+you need a bigger survey to get equally close.</p>
 </div>
-<div class="watchout">
-<p><code>mean()</code> returns <code>NA</code> if even one value is missing — it refuses to guess what
-you meant. Pass <code>na.rm = TRUE</code> to drop the gaps, and always know how many you
-dropped.</p>
-<div class="sourceCode" id="cb83"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb83-1"><a href="os-ttest.html#cb83-1" tabindex="-1"></a><span class="fu">mean</span>(students<span class="sc">$</span>height)                  <span class="co"># NA — one height is missing</span></span></code></pre></div>
-<pre><code>#&gt; [1] NA</code></pre>
-<div class="sourceCode" id="cb85"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb85-1"><a href="os-ttest.html#cb85-1" tabindex="-1"></a><span class="fu">mean</span>(students<span class="sc">$</span>height, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)    <span class="co"># 32 students</span></span></code></pre></div>
-<pre><code>#&gt; [1] 169.5</code></pre>
-</div>
-<p>Now the test. We do <strong>not</strong> know the population standard deviation of student
-heights, so this is a <span class="math inline">\(t\)</span>-test, not a <span class="math inline">\(Z\)</span>-test:</p>
-<div class="sourceCode" id="cb87"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb87-1"><a href="os-ttest.html#cb87-1" tabindex="-1"></a>heights_real <span class="ot">&lt;-</span> students<span class="sc">$</span>height[<span class="sc">!</span><span class="fu">is.na</span>(students<span class="sc">$</span>height)]</span>
-<span id="cb87-2"><a href="os-ttest.html#cb87-2" tabindex="-1"></a></span>
-<span id="cb87-3"><a href="os-ttest.html#cb87-3" tabindex="-1"></a><span class="fu">c</span>(<span class="at">n =</span> <span class="fu">length</span>(heights_real),</span>
-<span id="cb87-4"><a href="os-ttest.html#cb87-4" tabindex="-1"></a>  <span class="at">mean =</span> <span class="fu">mean</span>(heights_real),</span>
-<span id="cb87-5"><a href="os-ttest.html#cb87-5" tabindex="-1"></a>  <span class="at">sd =</span> <span class="fu">sd</span>(heights_real))</span></code></pre></div>
-<pre><code>#&gt;      n   mean     sd 
-#&gt;  32.00 169.50   8.71</code></pre>
-<div class="sourceCode" id="cb89"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb89-1"><a href="os-ttest.html#cb89-1" tabindex="-1"></a><span class="fu">t.test</span>(heights_real, <span class="at">mu =</span> <span class="dv">165</span>)</span></code></pre></div>
-<pre><code>#&gt; 
-#&gt;  One Sample t-test
-#&gt; 
-#&gt; data:  heights_real
-#&gt; t = 2.9, df = 31, p-value = 0.006
-#&gt; alternative hypothesis: true mean is not equal to 165
-#&gt; 95 percent confidence interval:
-#&gt;  166.4 172.6
-#&gt; sample estimates:
-#&gt; mean of x 
-#&gt;     169.5</code></pre>
-<p><span class="math inline">\(t = 2.92\)</span> on 31 degrees of freedom, with a
-<span class="math inline">\(p\)</span>-value of 0.0064. We <strong>reject</strong> the claim that the average
-is 165 cm. The 95% interval,
-<span class="math inline">\([166.4,\ 172.6]\)</span>, excludes 165 —
-the same verdict, as always.</p>
-<div class="intuition">
-<p>Notice how much narrower this is than the textbook version of the problem. The
-opening example assumed we somehow knew <span class="math inline">\(\sigma = 8\)</span>. Here we had to estimate
-it from 32 people, and the <span class="math inline">\(t\)</span> distribution charges us for that uncertainty
-with a wider interval and a higher bar to clear.</p>
-<p>Also notice what the data is not: 32 students in one classroom are not a random
-sample of all APU students. The arithmetic is correct; whether it answers the
-question about <em>the university</em> is a separate matter, and a harder one.</p>
-</div>
-</div>
-<div id="worked-example" class="section level3 unnumbered hasAnchor">
-<h3>Worked example<a href="os-ttest.html#worked-example" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>The dean estimates that full-time faculty teach 11.0 classroom hours per week.
-You sample eight faculty members. Can you reject the dean’s claim at
-<span class="math inline">\(\alpha = 0.10\)</span>? At <span class="math inline">\(\alpha = 0.01\)</span>?</p>
-<div class="sourceCode" id="cb91"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb91-1"><a href="os-ttest.html#cb91-1" tabindex="-1"></a>hours <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">11.8</span>, <span class="fl">8.6</span>, <span class="fl">10.5</span>, <span class="fl">7.9</span>, <span class="fl">6.4</span>, <span class="fl">10.4</span>, <span class="fl">10.0</span>, <span class="fl">8.2</span>)</span>
-<span id="cb91-2"><a href="os-ttest.html#cb91-2" tabindex="-1"></a></span>
-<span id="cb91-3"><a href="os-ttest.html#cb91-3" tabindex="-1"></a><span class="fu">c</span>(<span class="at">n =</span> <span class="fu">length</span>(hours), <span class="at">mean =</span> <span class="fu">mean</span>(hours), <span class="at">sd =</span> <span class="fu">sd</span>(hours))</span></code></pre></div>
-<pre><code>#&gt;     n  mean    sd 
-#&gt; 8.000 9.225 1.749</code></pre>
-<p><strong>On paper.</strong> With <span class="math inline">\(\bar{x} = 9.225\)</span>, <span class="math inline">\(s = 1.749\)</span>, <span class="math inline">\(n = 8\)</span> and <span class="math inline">\(df = 7\)</span>:</p>
+<div id="why-it-works" class="section level3 unnumbered hasAnchor">
+<h3>Why it works<a href="u1-lln.html#why-it-works" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Two results do all the work, and both follow from the definition of the sample
+mean.</p>
+<div class="theory">
+<p><strong>The sample mean is centred on the population mean.</strong></p>
 <p><span class="math display">\[
-t_{calc} = \frac{9.225 - 11}{1.749/\sqrt{8}}
-= \frac{-1.775}{0.618}
-= -2.87
+\begin{aligned}
+E(\bar{X}) &amp;= E\!\left(\frac{X_1 + X_2 + \cdots + X_n}{n}\right) \\[4pt]
+&amp;= \frac{1}{n}\Big(E(X_1) + E(X_2) + \cdots + E(X_n)\Big) \\[4pt]
+&amp;= \frac{1}{n}\underbrace{(\mu + \mu + \cdots + \mu)}_{n \text{ times}} \\[4pt]
+&amp;= \frac{n\mu}{n} \;=\; \mu
+\end{aligned}
 \]</span></p>
-<p>The critical values are <span class="math inline">\(t_{0.05,\,7} = 1.895\)</span> and <span class="math inline">\(t_{0.005,\,7} = 3.499\)</span>.</p>
-<ul>
-<li>At <span class="math inline">\(\alpha = 0.10\)</span>: <span class="math inline">\(2.87 &gt; 1.895\)</span> <span class="math inline">\(\Rightarrow\)</span> <strong>reject</strong> <span class="math inline">\(H_0\)</span>.</li>
-<li>At <span class="math inline">\(\alpha = 0.01\)</span>: <span class="math inline">\(2.87 &lt; 3.499\)</span> <span class="math inline">\(\Rightarrow\)</span> <strong>fail to reject</strong> <span class="math inline">\(H_0\)</span>.</li>
-</ul>
-<p><strong>In R.</strong> Both the pieces and the packaged version:</p>
-<div class="sourceCode" id="cb93"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb93-1"><a href="os-ttest.html#cb93-1" tabindex="-1"></a>t_calc <span class="ot">&lt;-</span> (<span class="fu">mean</span>(hours) <span class="sc">-</span> <span class="dv">11</span>) <span class="sc">/</span> (<span class="fu">sd</span>(hours) <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="fu">length</span>(hours)))</span>
-<span id="cb93-2"><a href="os-ttest.html#cb93-2" tabindex="-1"></a>t_crit <span class="ot">&lt;-</span> <span class="fu">qt</span>(<span class="fu">c</span>(<span class="fl">0.95</span>, <span class="fl">0.995</span>), <span class="at">df =</span> <span class="dv">7</span>)     <span class="co"># 10% and 1%, two-tailed</span></span>
-<span id="cb93-3"><a href="os-ttest.html#cb93-3" tabindex="-1"></a></span>
-<span id="cb93-4"><a href="os-ttest.html#cb93-4" tabindex="-1"></a><span class="fu">c</span>(<span class="at">t_calc =</span> t_calc, <span class="at">crit_10pct =</span> t_crit[<span class="dv">1</span>], <span class="at">crit_1pct =</span> t_crit[<span class="dv">2</span>])</span></code></pre></div>
-<pre><code>#&gt;     t_calc crit_10pct  crit_1pct 
-#&gt;     -2.870      1.895      3.499</code></pre>
-<div class="sourceCode" id="cb95"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb95-1"><a href="os-ttest.html#cb95-1" tabindex="-1"></a><span class="fu">t.test</span>(hours, <span class="at">mu =</span> <span class="dv">11</span>, <span class="at">conf.level =</span> <span class="fl">0.90</span>)</span></code></pre></div>
-<pre><code>#&gt; 
-#&gt;  One Sample t-test
-#&gt; 
-#&gt; data:  hours
-#&gt; t = -2.9, df = 7, p-value = 0.02
-#&gt; alternative hypothesis: true mean is not equal to 11
-#&gt; 90 percent confidence interval:
-#&gt;   8.053 10.397
-#&gt; sample estimates:
-#&gt; mean of x 
-#&gt;     9.225</code></pre>
-<p>The <span class="math inline">\(p\)</span>-value is 0.024 — below 0.10 but
-above 0.01, exactly matching the two different verdicts we reached by hand.</p>
-<div class="intuition">
-<p>The same data can be “significant” at one level and not at another. Nothing has
-changed about the world between those two lines — only how much risk of a false
-alarm we were willing to tolerate. This is why reporting the <span class="math inline">\(p\)</span>-value itself
-is far more informative than reporting a bare “significant / not significant.”</p>
+<p>Every draw comes from the same distribution, so each has expectation <span class="math inline">\(\mu\)</span>.
+Averaging <span class="math inline">\(n\)</span> of them leaves <span class="math inline">\(\mu\)</span> untouched. This is what <strong>unbiasedness</strong>
+means: the estimator is not systematically too high or too low.</p>
+</div>
+<div class="theory">
+<p><strong>Its spread falls as the sample grows.</strong></p>
+<p><span class="math display">\[
+\begin{aligned}
+\mathrm{Var}(\bar{X}) &amp;= \mathrm{Var}\!\left(\frac{1}{n}(X_1 + \cdots + X_n)\right) \\[4pt]
+&amp;= \frac{1}{n^2}\,\mathrm{Var}(X_1 + \cdots + X_n) \\[4pt]
+&amp;= \frac{1}{n^2}\underbrace{(\sigma^2 + \sigma^2 + \cdots + \sigma^2)}_{n \text{ times}} \\[4pt]
+&amp;= \frac{n\sigma^2}{n^2} \;=\; \frac{\sigma^2}{n}
+\end{aligned}
+\]</span></p>
+<p>The step from the first line to the second uses <span class="math inline">\(\mathrm{Var}(aX) = a^2\mathrm{Var}(X)\)</span>.
+The step to the third uses <strong>independence</strong>: the variance of a sum equals the
+sum of the variances only when the draws do not influence one another. This is
+the single place where the independence assumption earns its keep.</p>
+</div>
+<p>Put the two together. The sample mean sits on top of <span class="math inline">\(\mu\)</span>, and the width of
+its distribution is <span class="math inline">\(\sigma/\sqrt{n}\)</span>, which shrinks to nothing as <span class="math inline">\(n\)</span> grows.
+A distribution centred on the right answer with vanishing spread must
+eventually be concentrated at the right answer. That is the Law of Large
+Numbers.</p>
+</div>
+<div id="what-it-does-not-say" class="section level3 unnumbered hasAnchor">
+<h3>What it does not say<a href="u1-lln.html#what-it-does-not-say" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="watchout">
+<p>The LLN is the most frequently misapplied result in statistics, usually in the
+following form: <em>“the coin has come up heads six times in a row, so tails is
+due.”</em></p>
+<p>It is not. The coin has no memory, and the LLN promises nothing of the kind.
+What converges is the <strong>proportion</strong>, and it converges by being progressively
+diluted, not by being corrected.</p>
+<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="u1-lln.html#cb45-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">5</span>)</span>
+<span id="cb45-2"><a href="u1-lln.html#cb45-2" tabindex="-1"></a>flips <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(<span class="dv">20000</span>, <span class="dv">1</span>, <span class="fl">0.5</span>)</span>
+<span id="cb45-3"><a href="u1-lln.html#cb45-3" tabindex="-1"></a></span>
+<span id="cb45-4"><a href="u1-lln.html#cb45-4" tabindex="-1"></a>check <span class="ot">&lt;-</span> <span class="fu">t</span>(<span class="fu">sapply</span>(<span class="fu">c</span>(<span class="dv">10</span>, <span class="dv">100</span>, <span class="dv">1000</span>, <span class="dv">20000</span>), <span class="cf">function</span>(n) {</span>
+<span id="cb45-5"><a href="u1-lln.html#cb45-5" tabindex="-1"></a>  h <span class="ot">&lt;-</span> <span class="fu">sum</span>(flips[<span class="dv">1</span><span class="sc">:</span>n])</span>
+<span id="cb45-6"><a href="u1-lln.html#cb45-6" tabindex="-1"></a>  <span class="fu">c</span>(<span class="at">tosses =</span> n, <span class="at">heads =</span> h,</span>
+<span id="cb45-7"><a href="u1-lln.html#cb45-7" tabindex="-1"></a>    <span class="at">excess_heads =</span> h <span class="sc">-</span> n <span class="sc">/</span> <span class="dv">2</span>,        <span class="co"># absolute gap from half</span></span>
+<span id="cb45-8"><a href="u1-lln.html#cb45-8" tabindex="-1"></a>    <span class="at">proportion   =</span> h <span class="sc">/</span> n)            <span class="co"># the thing that converges</span></span>
+<span id="cb45-9"><a href="u1-lln.html#cb45-9" tabindex="-1"></a>}))</span>
+<span id="cb45-10"><a href="u1-lln.html#cb45-10" tabindex="-1"></a><span class="fu">round</span>(check, <span class="dv">3</span>)</span></code></pre></div>
+<pre><code>#&gt;      tosses heads excess_heads proportion
+#&gt; [1,]     10     6            1      0.600
+#&gt; [2,]    100    49           -1      0.490
+#&gt; [3,]   1000   491           -9      0.491
+#&gt; [4,]  20000  9946          -54      0.497</code></pre>
+<p>The proportion marches towards 0.5. The <strong>absolute</strong> surplus of heads does not
+shrink — it typically grows. Nothing pushes the count back; the early
+imbalance simply becomes a smaller and smaller share of the total.</p>
 </div>
 </div>
 </div>
@@ -403,8 +387,8 @@ document.addEventListener("DOMContentLoaded", function () {
           </div>
         </div>
       </div>
-<a href="os-ci.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="os-onetailed.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="u1-sampling-distribution.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="u1-clt.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -435,7 +419,7 @@ gitbook.start({
     "size": 2
   },
   "edit": {
-    "link": "https://github.com/kedarkulkarni1991/stats-econometrics-r/edit/main/06-hypothesis-testing-one-sample.Rmd",
+    "link": "https://github.com/kedarkulkarni1991/stats-econometrics-r/edit/main/01-towards-inferential-statistics.Rmd",
     "text": "Edit"
   },
   "history": {

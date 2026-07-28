@@ -60,112 +60,37 @@ smaller. Understanding how statistics vary across these hypothetical samples
 allows us to assess how much confidence we should place in the estimate
 computed from the one sample we actually observe.
 
-The rest of this unit develops that idea systematically. We begin with
-probability, because statistical inference requires a language for describing
-randomness. We then introduce **sampling distributions**, which describe the
-behaviour of statistics across repeated samples. Finally, we study the two
-fundamental results that make statistical inference possible: the **Law of
-Large Numbers**, which explains why sample averages converge towards the
-population mean as the sample size increases, and the **Central Limit
-Theorem**, which explains why sampling distributions are approximately normal
-under remarkably general conditions. Together, these results provide the
-theoretical foundation for confidence intervals, hypothesis testing and much of
-modern empirical research.
+Before we can understand why, we need to understand where the uncertainty comes
+from. The answer lies in randomness.
 
-## Descriptive statistics, briefly {#d2i-descriptive}
+## Randomness and variation {#u1-randomness}
 
-Those tools are worth seeing on real data before we leave them behind. The
-Annual Survey of Industries records value added by registered factories in
-each Indian state:
-
-```{r d2i-desc}
-asi <- read.csv("data/asi-state-gva.csv")
-asi_2010 <- subset(asi, yr == 2010 & !is.na(gva))
-
-# ASI reports value added in rupees lakh; 100 lakh = 1 crore
-asi_2010$gva_crore <- asi_2010$gva / 100
-
-c(states = nrow(asi_2010),
-  mean   = mean(asi_2010$gva_crore),
-  median = median(asi_2010$gva_crore),
-  sd     = sd(asi_2010$gva_crore))
-```
-
-Nothing here is mysterious. We have taken `r nrow(subset(read.csv("data/asi-state-gva.csv"), yr == 2010 & !is.na(gva)))`
-numbers and replaced them with four. That is **descriptive statistics**: the
-art of summarising the data you have so that a human can hold it in mind.
-
-## Where description runs out {#d2i-two-questions}
-
-To see the limit sharply, compare two questions that look identical.
-
-**First.** What is the average height in this class?
-
-```{r d2i-class}
-students <- read.csv("data/stats-class.csv")
-
-mean(students$height, na.rm = TRUE)
-```
-
-About `r round(mean(read.csv("data/stats-class.csv")$height, na.rm = TRUE), 1)` cm.
-
-Now: how confident are you in that number?
-
-::: {.intuition}
-Completely confident — and the question is almost meaningless. You measured
-everyone. The average height of this class is not an estimate of anything; it
-is a fact you computed. There is no margin of error. Asking "is it
-statistically significant?" would be incoherent: significantly different from
-what?
+::: {.question}
+Where does the uncertainty come from?
 :::
 
-**Second.** What is the average industrial value added of an Indian state?
+Statistics begins with an observation so ordinary that it is easy to walk past:
+**identical experiments rarely produce identical outcomes.**
 
-```{r d2i-asi}
-mean(asi_2010$gva_crore)
-```
+Roll a die.
 
-Identical arithmetic. Completely different situation — for two distinct
-reasons, and it is worth separating them.
-
-::: {.watchout}
-**The ASI is a survey, not a census.** It does not visit every factory; it
-samples them. Each state figure is already an estimate carrying sampling error,
-before we compute anything.
-
-**And what do you want the number *for*?** If you genuinely care only about
-those 32 states in that one year, the mean is a fact, like the class average.
-But nobody wants that. They want to say something about *Indian industry* —
-next year too, unregistered firms too, under a different policy too. The moment
-you want that, you have left description behind.
-:::
-
-::: {.keyidea}
-A number without an honest account of its uncertainty is not a finding. It is
-an anecdote with decimal places.
-:::
-
-Before we can make the leap, we must be clear about what we are leaping
-between. That requires the idea of a distribution.
-
-## What a distribution actually is {#d2i-distribution}
-
-A **distribution** is a pattern that emerges from repetition under randomness.
-It tells you which outcomes are common, which are rare, and where values tend
-to concentrate.
-
-The key word is *repetition*. A single observation has no distribution. Roll a
-die once and you get a four; that tells you almost nothing. To see the pattern
-you must roll again and again, recording outcomes, until the shape appears.
-
-```{r d2i-die}
+```{r u1-die-one}
 set.seed(1)
+sample(1:6, size = 1)
+```
+
+A three. That is all. One roll tells you almost nothing — not whether the die
+is fair, not what to expect next, not anything you could act on.
+
+Now roll it ten thousand times and count how often each face appears.
+
+```{r u1-die-many}
 rolls <- sample(1:6, size = 10000, replace = TRUE)
 
 round(prop.table(table(rolls)), 3)
 ```
 
-```{r d2i-die-plot, echo = FALSE, fig.height = 3.4, fig.cap = "Ten thousand rolls of a fair die. Each face turns up close to one-sixth of the time."}
+```{r u1-die-plot, echo = FALSE, fig.height = 3.2, fig.cap = "Ten thousand rolls of a fair die. No single roll was predictable. The pattern across all of them is."}
 ggplot(data.frame(x = factor(rolls)), aes(x)) +
   geom_bar(aes(y = after_stat(count / sum(count))),
            fill = book_palette$fill, width = 0.7) +
@@ -173,186 +98,523 @@ ggplot(data.frame(x = factor(rolls)), aes(x)) +
              linetype = "dashed", linewidth = 0.7) +
   annotate("text", x = 6.4, y = 1/6, label = "1/6", vjust = -0.8,
            colour = book_palette$reject, size = 3.6) +
-  labs(x = "outcome", y = "relative frequency") +
+  labs(x = "outcome", y = "share of rolls") +
   theme_book()
 ```
 
-Each face appears roughly one-sixth of the time. That pattern *is* the
-distribution of a fair die, and it became visible only through repetition.
+Something has appeared that was not there before. Each face turns up close to
+one-sixth of the time. No individual roll was predictable, yet the *pattern
+across many rolls* is highly predictable — so much so that you would be
+surprised if it came out otherwise.
 
-### Randomness is not optional {#d2i-degenerate}
+That pattern is called a **distribution**. It is not a property of any single
+roll. It only exists across repetition.
 
-Now take the randomness away. Imagine a die with a 3 on every face.
+Now take the randomness away. Imagine a die with a 3 painted on all six faces.
 
-```{r d2i-degenerate}
-rolls_fixed <- rep(3, 10000)
+```{r u1-die-loaded}
+loaded <- rep(3, 10000)
 
-table(rolls_fixed)
-sd(rolls_fixed)
+table(loaded)
+sd(loaded)
 ```
 
-Every observation is identical. No spread, no uncertainty, standard deviation
-exactly zero. The distribution has collapsed onto a single point — what is
-called a **degenerate** distribution.
+Ten thousand rolls, one outcome, spread of exactly zero. There is no pattern to
+find, because there is nothing to be uncertain about. Every question you might
+ask has the same answer. What would a histogram of this show? A single bar.
+What is the average? Three. What is the chance of a three? One.
 
 ::: {.keyidea}
-**A distribution is not a property of a single observation. It is a property of
-repeated observations generated by a random process.**
+**Randomness creates variation. Variation is the raw material of statistics.**
 
-Where there is no randomness there is nothing to describe, nothing to be
-uncertain about, and no statistics to do. Every technique in this book is a way
-of handling variation. Remove the variation and the entire subject falls
-silent.
+Where outcomes vary, there is a pattern to describe, a spread to measure and an
+uncertainty to quantify. Where they do not, there is nothing for statistics to
+do.
+
+Every technique in this book is a way of handling variation. Take the variation
+away and the entire subject falls silent.
 :::
 
-This is why statistics is built on **random variables** — quantities whose
-value depends on the outcome of a random process. Height, income, rainfall, the
-number on a die: all vary, and it is precisely their variation that we model.
+This is not a fact about dice. Every roll of a die produces a different
+outcome. Every household survey contains different households. Every election
+poll interviews different voters. Every harvest yields a different quantity.
+Statistics exists because the world is variable — and it is variable whether or
+not we are looking.
 
-### Expectation as a long-run average {#d2i-expectation}
+## Describing variation {#u1-describing}
+
+::: {.question}
+Once variation exists, how do we describe it?
+:::
+
+A die has six outcomes and you can list them. Real data does not work like
+that.
+
+Here are the annual earnings of twenty thousand Indian workers.
+
+```{r u1-earnings}
+workers <- read.csv("data/wages-india-synthetic.csv")
+
+nrow(workers)
+head(workers$annual_earnings)
+```
+
+Twenty thousand numbers, no two households alike. Reading them one at a time
+would take a day and teach you nothing. We need to compress.
+
+::: {.watchout}
+A word about this data. The Indian Human Development Survey records exactly
+these variables for real households, and it is the natural source for a book
+like this one. It cannot be redistributed, so the file used here is a
+**simulation calibrated to IHDS-II** — the return to a year of education, the
+gender gap, the urban premium and the shape of the earnings distribution all
+match the real survey to within a rounding error.
+
+Everything you learn from it transfers. But it is simulated, and you should
+never be left guessing about that. See `data/README.md`.
+:::
+
+The first thing to do with any dataset is look at it.
+
+```{r u1-earnings-hist, fig.height = 3.6, fig.cap = "Annual earnings of 20,000 Indian workers. Most people are bunched at the left; a thin tail runs a long way right."}
+ggplot(workers, aes(annual_earnings / 1000)) +
+  geom_histogram(bins = 60, fill = book_palette$fill, colour = "white",
+                 linewidth = 0.15) +
+  scale_x_continuous(labels = scales::comma) +
+  labs(x = "annual earnings (₹ thousand)", y = "number of workers") +
+  theme_book()
+```
+
+The shape tells you a great deal at a glance. Earnings are not spread evenly.
+Most workers are packed into the left, and a small number stretch far to the
+right. The distribution is **skewed**.
+
+Now the summaries. Where is the centre?
+
+```{r u1-centre}
+c(mean   = mean(workers$annual_earnings),
+  median = median(workers$annual_earnings))
+```
+
+Two answers, and they disagree — the mean is more than twice the median. The
+**mean** balances every observation against the others, so a handful of very
+high earners pull it upward. The **median** simply splits the group in half,
+and does not care how far the top of the distribution extends.
+
+How spread out are they?
+
+```{r u1-spread}
+c(sd  = sd(workers$annual_earnings),
+  iqr = IQR(workers$annual_earnings))
+```
+
+The **standard deviation** measures the typical distance of an observation from
+the mean. The **interquartile range** gives the width of the middle half. Both
+say the same thing here: the spread is enormous relative to the centre.
+
+And a smooth version of the shape, which makes comparison across groups easy:
+
+```{r u1-density, fig.height = 3.4, fig.cap = "The same data as a density curve, split by where people live. The urban distribution sits to the right of the rural one throughout."}
+ggplot(workers, aes(annual_earnings / 1000, colour = residence)) +
+  geom_density(linewidth = 0.8) +
+  scale_colour_manual(values = c(Rural = book_palette$ink,
+                                 Urban = book_palette$accent), name = NULL) +
+  coord_cartesian(xlim = c(0, 400)) +
+  labs(x = "annual earnings (₹ thousand)", y = NULL) +
+  theme_book() +
+  theme(axis.text.y = element_blank(), legend.position = "top")
+```
+
+Look at what has happened. Twenty thousand numbers have become a picture and
+four figures: a centre, a spread, a shape, and a comparison between two groups.
+Nothing has been invented and nothing has been assumed. We have simply replaced
+tens of thousands of observations with a handful of carefully chosen summaries.
+
+This is **descriptive statistics**: the business of summarising the data in
+front of you so that a human mind can hold it.
+
+It is genuinely useful and it is always the first thing to do. Trends,
+outliers, data-entry errors and interesting patterns all surface here, and no
+amount of later sophistication rescues an analysis that skipped this step.
+
+## Why description isn't enough {#u1-not-enough}
+
+::: {.question}
+Why isn't description enough?
+:::
+
+Here is the question that changes everything.
+
+Those twenty thousand workers were not chosen by anyone in particular. A survey
+team went out, followed a sampling design, and ended up with these people
+rather than others. Suppose they had gone out on a different week and found a
+different twenty thousand.
+
+**Would the histogram look the same?**
+
+Let us find out. Treat the full file as the group we could have drawn from, and
+take three separate samples of two thousand workers each — three parallel
+universes in which the survey went slightly differently.
+
+```{r u1-three-samples}
+set.seed(1)
+
+s1 <- workers$annual_earnings[sample(nrow(workers), 2000)]
+s2 <- workers$annual_earnings[sample(nrow(workers), 2000)]
+s3 <- workers$annual_earnings[sample(nrow(workers), 2000)]
+```
+
+```{r u1-three-plot, echo = FALSE, fig.height = 4.4, fig.cap = "Three surveys of two thousand workers each, drawn from the same group. Same shape. Not the same numbers."}
+three <- rbind(
+  data.frame(survey = "Survey 1", x = s1),
+  data.frame(survey = "Survey 2", x = s2),
+  data.frame(survey = "Survey 3", x = s3))
+
+means <- aggregate(x ~ survey, three, mean)
+
+ggplot(three, aes(x / 1000)) +
+  geom_histogram(bins = 45, fill = book_palette$fill, colour = "white",
+                 linewidth = 0.12) +
+  geom_vline(data = means, aes(xintercept = x / 1000),
+             colour = book_palette$reject, linewidth = 0.8) +
+  facet_wrap(~ survey, ncol = 1) +
+  coord_cartesian(xlim = c(0, 500)) +
+  labs(x = "annual earnings (₹ thousand)", y = NULL) +
+  theme_book() +
+  theme(axis.text.y = element_blank())
+```
+
+The shapes are recognisably the same. Skewed, bunched at the left, long tail
+right. Nothing about the picture would lead you to say one of these surveys got
+it wrong.
+
+**Would the mean change?**
+
+```{r u1-three-means}
+c(survey1 = mean(s1), survey2 = mean(s2), survey3 = mean(s3))
+```
+
+Yes. Three surveys, three answers, differing by thousands of rupees.
+
+**Would the median change?**
+
+```{r u1-three-medians}
+c(survey1 = median(s1), survey2 = median(s2), survey3 = median(s3))
+```
+
+Yes. And the standard deviation:
+
+```{r u1-three-sds}
+c(survey1 = sd(s1), survey2 = sd(s2), survey3 = sd(s3))
+```
+
+Yes again. Every summary we computed in the last section — every single one —
+comes out differently depending on who happened to be surveyed.
+
+So here is the question to sit with:
+
+::: {.question}
+Which one is the correct mean?
+:::
+
+None of them.
+
+Each survey was conducted properly. Each calculation is arithmetically perfect.
+And each gives a different answer. There is no error to find and nobody to
+blame. The numbers differ because *the people differ*, and the people differ
+because they were selected by a process with randomness in it.
+
+::: {.keyidea}
+Now the vocabulary, for ideas you have already met.
+
+The **population** is the entire group you want to know about — every worker in
+India, not the two thousand in your file.
+
+The **sample** is the part you actually observed.
+
+**Sampling variation** is what you have just watched: the fact that a statistic
+computed from a sample changes when the sample changes.
+
+Sampling variation is not a mistake. It is not caused by sloppy work and it
+cannot be removed by being careful. It is a permanent feature of learning about
+a large group by looking at a small part of it.
+:::
+
+This is why description is not enough. Descriptive statistics answers questions
+about the data in front of you, perfectly and with certainty. But the question
+you actually care about — *what are earnings like in India?* — is about the
+population, and your sample is one of countless samples that might have turned
+up instead.
+
+Your average is almost certainly wrong because it is one draw from a process
+that could have handed you a different answer.
+
+## What if we repeated the survey? {#u1-frequentist}
+
+::: {.question}
+What happens if we repeat the sample?
+:::
+
+We saw three surveys give three answers. That is unsettling, but it also
+contains a clue. Three is a small number. What if we could see more?
+
+Imagine running the survey again. And again. And again. Not three times but a
+thousand times, each with a fresh two thousand workers, each producing its own
+mean. In reality this is impossible — nobody has the budget. On a computer it
+takes a moment.
+
+```{r u1-many-surveys}
+set.seed(2)
+
+many_means <- replicate(1000, mean(sample(workers$annual_earnings, 2000)))
+
+head(round(many_means), 8)
+```
+
+A thousand surveys, a thousand different answers. Now stop looking at them one
+at a time and look at all of them together.
+
+```{r u1-many-plot, echo = FALSE, fig.height = 3.6, fig.cap = "A thousand surveys, each of two thousand workers. Individual surveys scatter. Collectively they form a tight, symmetric, entirely predictable pattern."}
+ggplot(data.frame(m = many_means / 1000), aes(m)) +
+  geom_histogram(bins = 45, fill = book_palette$fill, colour = "white",
+                 linewidth = 0.15) +
+  geom_vline(xintercept = mean(workers$annual_earnings) / 1000,
+             colour = book_palette$reject, linewidth = 0.9) +
+  annotate("label", x = mean(workers$annual_earnings) / 1000, y = Inf,
+           vjust = 1.4, label = "true mean", colour = book_palette$reject,
+           fill = "white", size = 3.5, label.size = 0.3) +
+  labs(x = "survey mean (₹ thousand)", y = "number of surveys") +
+  theme_book()
+```
+
+Look at that shape.
+
+The individual earnings we started with were violently skewed — most people
+bunched left, a few stretching far right. The *survey means* are nothing like
+that. They are symmetric. They are tightly clustered. They pile up around the
+true value and thin out smoothly on both sides. And notice how narrow the
+spread is: individual earnings run from near zero into the millions, while the
+survey means barely stray from one another.
+
+::: {.intuition}
+This is the turn the whole subject rests on, so it is worth saying slowly.
+
+We stopped asking *what does my sample say?* and started asking *how do samples
+behave?*
+
+One sample mean, on its own, is a number with no error attached — you cannot
+tell from it alone how far off it might be. But the *collection* of sample
+means has a shape, and that shape is regular enough to describe. If we can
+describe it, we can say how far a typical sample mean falls from the truth.
+
+And if we can say that, then we can take our one real survey and attach an
+honest margin of error to it — even though we will only ever run it once.
+:::
+
+That picture — the distribution of a statistic across repeated samples — has a
+name, and we will come to it properly in a moment. For now the important thing
+is not the name but the move: **from studying one sample to studying the
+behaviour of samples.**
+
+This way of reasoning is called the **frequentist** approach. It answers
+questions about uncertainty by asking what would happen in the long run, over
+many repetitions, even when only one repetition will ever actually occur.
+
+## Where we are going {#u1-roadmap}
+
+::: {.question}
+Can we predict how those averages behave?
+:::
+
+We now have the question in its sharpest form. Survey means vary. Their
+variation has a shape. If we could predict that shape *in advance* — without
+running a thousand surveys, from the single sample we actually have — we could
+say precisely how much to trust our answer.
+
+That is exactly what the rest of this unit does, and it needs three things.
+
+**Probability**, first, because we need a language for describing randomness.
+We have been using words like "varies" and "typical" loosely. To get numbers we
+need to be precise about what a random quantity is, what its long-run average
+means, and how to measure its spread.
+
+**The sampling distribution**, next, defined properly rather than merely drawn.
+We will find that its centre and its spread can both be worked out on paper,
+from facts about a single sample.
+
+**Two theorems**, finally, which are the reason any of this works. The **Law of
+Large Numbers** explains why sample averages close in on the truth as samples
+grow. The **Central Limit Theorem** explains why the picture above was
+bell-shaped — and, remarkably, why it would have been bell-shaped no matter
+what the earnings distribution looked like.
+
+Together they turn "your average is almost certainly wrong" into something far
+more useful: *your average is wrong by about this much, with about this
+probability.* That sentence is what separates an estimate from an anecdote, and
+everything in the rest of this book is built from it.
+
+## A language for randomness {#u1-random-variables}
+
+::: {.question}
+How do we talk about a quantity that changes every time we look?
+:::
+
+Return to the sentence from the first section: every roll of a die produces a
+different outcome, every survey contains different households, every poll
+interviews different voters.
+
+A quantity whose value changes from one repetition to the next is called a
+**random variable**. The die roll is one. A worker's earnings, drawn at random
+from the population, is another. So — and this is the step that matters — is
+the *mean* of a sample, because it too changes every time the sample changes.
+
+::: {.keyidea}
+The sample mean is itself a random variable.
+
+This single realisation is what makes inference possible. If $\bar{X}$ is a
+random variable, then it has a distribution. If it has a distribution, that
+distribution has a centre and a spread. And if we can find them, we can say how
+wrong a typical sample mean is.
+:::
+
+### The long-run average {-}
 
 If a random variable takes value $x_i$ with probability $p(x_i)$, its
 **expected value** is
 
 $$E[X] = \sum_i x_i \, p(x_i)$$
 
-The name invites a misunderstanding. $E[X]$ is not the value you expect on any
-given try — for a fair die it is 3.5, a number the die cannot produce. It is
-the **long-run average** over many repetitions.
+The name invites a misunderstanding. $E[X]$ is not the value you expect to see
+on any given try. For a fair die it is 3.5 — a number the die cannot produce.
+It is the **long-run average** over many repetitions.
 
-```{r d2i-expectation}
-mean(rolls)                # average over 10,000 actual rolls
-sum(1:6 * rep(1/6, 6))     # theoretical E[X]
+```{r u1-expectation}
+mean(rolls)                # average of our 10,000 actual rolls
+sum(1:6 * rep(1/6, 6))     # E[X], computed on paper
 ```
 
 ::: {.intuition}
-That the two agree is neither a coincidence nor trivial. It is the first
-appearance of the Law of Large Numbers, which we will meet properly later: run
-a random process enough times and the average of what you observe closes in on
-the expectation you calculated on paper.
+That these agree is neither a coincidence nor a triviality. It is the first
+appearance of the Law of Large Numbers: run a random process enough times, and
+the average of what you observe closes in on the number you calculated in
+advance.
 
-Notice how unremarkable that felt. We are about to need it for something much
+Notice how unremarkable that felt. We are about to need it for something far
 less obvious.
 :::
 
-## Population, sample, and the assumption that licenses everything {#d2i-population}
+When the random variable is a draw from a population, its expected value *is*
+the population mean, which is why both are written $\mu$. And the spread of a
+random variable around its expectation is its **variance**, written $\sigma^2$,
+with the standard deviation $\sigma$ its square root.
 
-Now the vocabulary of the leap.
-
-The **population** is the entire collection you want to know about. Every
-registered factory in India. Every agricultural labourer. Every household
-eligible for a job guarantee scheme.
-
-The **sample** is the part you actually observe.
-
-A **parameter** is a number describing the population — the true mean $\mu$,
-the true standard deviation $\sigma$. You never see these. They are written as
-Greek letters as a permanent reminder that they are out of reach.
-
-A **statistic** is a number computed from your sample — $\bar{x}$, $s$. You can
-always see these. They are your only evidence.
+### Population and sample, in notation {-}
 
 ::: {.keyidea}
+A **parameter** describes the population: the true mean $\mu$, the true
+standard deviation $\sigma$. You never observe these. They are written as Greek
+letters as a permanent reminder that they are out of reach.
+
+A **statistic** is computed from your sample: $\bar{x}$, $s$. You can always
+see these. They are your only evidence.
+
 The whole problem of inference, in one line:
 
 $$\underbrace{\bar{x}}_{\text{you have this}} \quad\longrightarrow\quad \underbrace{\mu}_{\text{you want this}}$$
 
-The arrow is not an equals sign. Making it trustworthy, and saying precisely
-how much to trust it, is what the rest of this book is for.
+The arrow is not an equals sign.
 :::
 
-Why should a sample tell us anything at all about a population? Because of an
-assumption we make — and it is worth stating explicitly, because everything
-rests on it.
+### The assumption that licenses everything {-}
 
-We assume the population has an underlying probability distribution, and that
-the members of our sample are **independent and identically distributed**
-(i.i.d.) draws from it.
+One more thing must be said before the machinery works, and it is usually said
+too quickly.
+
+We assume the population has an underlying distribution, and that the members
+of our sample are **independent and identically distributed** draws from it.
 
 - **Identically distributed**: every observation comes from the same
   distribution. No drift, no changing the rules partway through.
 - **Independent**: knowing one observation tells you nothing about another.
 
-::: {.keyidea}
-It is this assumption — that the sample is drawn from the same distribution as
-the population — that licenses inference at all.
+::: {.watchout}
+It is this assumption — that your sample is drawn from the same distribution as
+the population you care about — that licenses inference at all.
 
-If the sample came from a *different* distribution than the population, no
-amount of arithmetic could bridge them. This is why sampling design matters so
-much, and why a badly drawn sample cannot be repaired by clever statistics
-afterwards. The formulas will still run. They will simply be answering a
-question about a population you did not mean.
+If the sample came from a *different* distribution, no amount of arithmetic
+could bridge them. This is why sampling design matters so much, and why a badly
+drawn sample cannot be repaired by clever statistics afterwards. The formulas
+will still run. They will simply be answering a question about a population you
+did not mean.
 :::
 
-## The pivot: distributions of statistics {#d2i-sampling-distribution}
+## The sampling distribution {#u1-sampling-distribution}
 
-Here is the conceptual step that makes inference possible, and it is the most
-important idea in this unit.
-
-Everything so far concerned the distribution of **raw observations**: repeat an
-experiment, record individual outcomes, watch a pattern form. Now we shift
-attention from raw observations to **summaries of observations**.
-
-Instead of recording one die roll at a time, roll the die thirty times,
-calculate the average, and record *only that average*. Then do the whole thing
-again: a fresh thirty rolls, a fresh average. And again, hundreds of times.
-
-The pattern formed by those averages is a **sampling distribution**.
-
-::: {.keyidea}
-The distribution of a **random variable** describes how raw observations vary.
-
-A **sampling distribution** describes how a *statistic* — a sample mean, a
-proportion, a standard deviation — varies across repeated samples of a fixed
-size.
-
-It answers the question inference actually turns on: *if I took another sample,
-how different would my answer be?*
+::: {.question}
+What exactly was that picture of a thousand survey means?
 :::
 
-### A worked example: a deck of cards {#d2i-cards}
+Now we can name it properly.
 
-Take a standard deck as the population. Score the cards A = 1, J = 11, Q = 12,
-K = 13, and 2 through 10 at face value. Because we built this population
-ourselves, we know its parameters exactly — a luxury we will never have again.
+The distribution of a **random variable** describes how raw observations vary —
+how earnings differ from worker to worker.
 
-```{r d2i-deck}
+A **sampling distribution** describes how a *statistic* varies across repeated
+samples of a fixed size — how the survey mean differs from survey to survey.
+
+::: {.keyidea}
+These are two different distributions and confusing them is the most common
+error in this material.
+
+The earnings of 20,000 workers form one distribution: skewed, wide, running
+from near zero into the millions.
+
+The means of 1,000 surveys form quite another: symmetric, narrow, clustered
+around the truth.
+
+The second is not a summary of the first. It is a distribution of a *different
+quantity* — not of people, but of surveys.
+:::
+
+### A worked example we can check {-}
+
+Real data has a drawback for learning: we never know the true answer, so we
+cannot tell how well the machinery is doing. So build a population where the
+truth is known exactly.
+
+Take a deck of cards, scored A = 1, J = 11, Q = 12, K = 13, and 2 through 10 at
+face value.
+
+```{r u1-deck}
 deck <- rep(1:13, times = 4)
 
 c(N = length(deck), mu = mean(deck), sigma = sd(deck))
 ```
 
-The population mean is exactly $\mu = 7$.
+The population mean is exactly $\mu = 7$. Now draw ten cards and average them:
 
-Now draw a sample of 10 cards and take its mean:
-
-```{r d2i-onesample}
+```{r u1-onesample}
 set.seed(7)
 mean(sample(deck, size = 10, replace = TRUE))
 ```
 
 ::: {.watchout}
-Note `replace = TRUE`: each card is returned to the deck before the next draw.
+Note `replace = TRUE`: each card goes back before the next draw.
 
-That is not a technicality. It is what makes the draws **independent** — the
-i.i.d. assumption from the previous section. Draw *without* replacement and
-each card removed changes what remains, so the draws are dependent and the
-sample mean varies slightly less than the theory predicts. (The adjustment is
-called the finite population correction, and you can see it at work in the
-exercises.)
+That is not a technicality. It is what makes the draws **independent**, the
+assumption we just spent a page on. Draw *without* replacement and each card
+removed changes what is left, so the draws are dependent and the sample mean
+varies slightly less than theory predicts.
 
-Sampling with replacement is also the better model of what we usually mean.
-When you survey 2,000 Indians you are not meaningfully depleting a population
-of a billion.
+It is also the better model of what we usually mean. Surveying 2,000 people
+does not meaningfully deplete a population of a billion.
 :::
 
-Not 7. Draw again and you would get something else again. **The sample mean is
-itself a random variable** — it has its own distribution, because it changes
-every time you draw.
+Not 7. Draw again and you would get something else again — sampling variation,
+exactly as with the earnings surveys. So look at the whole sampling
+distribution:
 
-So let us look at that distribution. Repeat the exercise a thousand times:
-
-```{r d2i-sampdist}
+```{r u1-sampdist}
 set.seed(7)
 sample_means <- replicate(1000, mean(sample(deck, size = 10, replace = TRUE)))
 
@@ -360,7 +622,7 @@ c(mean_of_sample_means = mean(sample_means),
   sd_of_sample_means   = sd(sample_means))
 ```
 
-```{r d2i-sampdist-plot, echo = FALSE, fig.height = 3.8, fig.cap = "One thousand sample means, each from 10 cards. Individual samples miss the population mean constantly. Their average lands almost exactly on it."}
+```{r u1-sampdist-plot, echo = FALSE, fig.height = 3.6, fig.cap = "One thousand sample means, each from 10 cards. Individual samples miss the population mean constantly. Their average lands almost exactly on it."}
 ggplot(data.frame(m = sample_means), aes(m)) +
   geom_histogram(bins = 32, fill = book_palette$fill, colour = "white",
                  linewidth = 0.2) +
@@ -375,21 +637,18 @@ ggplot(data.frame(m = sample_means), aes(m)) +
 Two things happened, and both matter.
 
 **The sample means are centred on the population mean.** No single sample got
-it right, but their average is `r round(mean(sample_means), 3)` — essentially 7.
-This is the result $E(\bar{X}) = \mu$: the sample mean is an **unbiased**
-estimator. It is not right, but it is not *systematically* wrong, which is a
-different and far more useful property.
+it right, but their average is `r round(mean(sample_means), 3)` — essentially
+7. The sample mean is an **unbiased** estimator: not right, but not
+*systematically* wrong, which is a different and far more useful property.
 
 **The sample means vary much less than the cards do.** The population standard
 deviation is about `r round(sd(rep(1:13, 4)), 2)`; the sample means have a
 standard deviation of about `r round(sd(sample_means), 2)`. Averaging has
 cancelled out much of the noise.
 
-### What happens as the sample grows {#d2i-samplesize}
+### What happens as the sample grows {-}
 
-That second observation is worth pushing on. What if we take bigger samples?
-
-```{r d2i-nsizes}
+```{r u1-nsizes}
 set.seed(7)
 
 sizes <- c(5, 10, 20, 40, 80)
@@ -401,7 +660,7 @@ results <- t(sapply(sizes, function(n) {
 round(results, 3)
 ```
 
-```{r d2i-nsizes-plot, echo = FALSE, fig.height = 4.4, fig.cap = "Sampling distributions of the mean for growing sample sizes. The centre never moves. The spread collapses."}
+```{r u1-nsizes-plot, echo = FALSE, fig.height = 4.4, fig.cap = "Sampling distributions of the mean for growing sample sizes. The centre never moves. The spread collapses."}
 set.seed(7)
 dd <- do.call(rbind, lapply(c(5, 20, 80), function(n) {
   data.frame(n = paste("n =", n),
@@ -421,11 +680,11 @@ ggplot(dd, aes(m)) +
 
 Every row is centred on 7 — the sample mean is unbiased at any sample size. But
 the spread shrinks steadily, and in a completely predictable way. Compare the
-last two columns: the observed standard deviation of the sample means matches
-$\sigma/\sqrt{n}$ almost exactly.
+last two columns of the table: the observed standard deviation of the sample
+means matches $\sigma/\sqrt{n}$ almost exactly.
 
 ::: {.keyidea}
-Two results, which we will prove in a later unit:
+Two results, which we prove in the next section:
 
 $$E(\bar{X}) = \mu \qquad\qquad \mathrm{Var}(\bar{X}) = \frac{\sigma^2}{n}$$
 
@@ -441,47 +700,16 @@ sample. Precision is expensive, and it grows more expensive the more of it you
 already have.
 
 This is why surveys of two thousand people are common and surveys of two lakh
-people are not: the second costs a hundred times as much for about seven times
-the precision.
+are not: the second costs a hundred times as much for about seven times the
+precision.
 :::
 
-::: {.intuition}
-Look again at what just happened, because it is genuinely remarkable.
 
-We began knowing nothing about how wrong a single sample would be. By studying
-how the sample mean behaves *across many hypothetical samples*, we worked out
-exactly how much it varies — and obtained a formula, $\sigma/\sqrt{n}$, that
-can be computed from a single real sample.
+## The Law of Large Numbers {#u1-lln}
 
-In practice you only ever draw one sample. The sampling distribution tells you
-what would have happened had you drawn many, and that is enough to attach an
-honest margin of error to the one you have.
+::: {.question}
+Why does a bigger sample give a better answer?
 :::
-
-### The same logic on Indian data {#d2i-asi-sampling}
-
-Cards are a clean laboratory. Real data is messier, and the ASI figures let us
-watch the same logic operate on something considerably less well behaved.
-
-Treat the 32 state values as a population and sample from it:
-
-```{r d2i-asi-sampling}
-set.seed(11)
-
-pop <- asi_2010$gva_crore
-asi_means <- replicate(2000, mean(sample(pop, size = 10, replace = TRUE)))
-
-c(population_mean      = mean(pop),
-  mean_of_sample_means = mean(asi_means),
-  population_sd        = sd(pop),
-  se_of_sample_means   = sd(asi_means))
-```
-
-Once again the sample means centre on the population mean, and once again they
-vary far less than the underlying data. The machinery does not care that
-industrial value added looks nothing like a deck of cards.
-
-## The Law of Large Numbers {#d2i-lln}
 
 We have now seen twice, in simulation, that sample means cluster around the
 population mean and tighten as the sample grows. The **Law of Large Numbers**
@@ -524,23 +752,25 @@ ggplot(data.frame(n = seq_along(running), m = running), aes(n, m)) +
   theme_book()
 ```
 
-The same thing happens with real data. Draw samples of growing size from the
-ASI state figures and watch how far the sample mean sits from the population
-mean:
+The same thing happens with the earnings data. Draw surveys of growing size and
+watch how far the survey mean sits from the truth:
 
-```{r d2i-lln-asi}
+```{r u1-lln-earnings}
 set.seed(20)
 
-lln_asi <- t(sapply(c(2, 5, 10, 25, 50, 100, 500), function(n) {
-  errs <- replicate(500, abs(mean(sample(pop, n, replace = TRUE)) - mean(pop)))
+earn <- workers$annual_earnings
+
+lln_earn <- t(sapply(c(10, 50, 100, 500, 2000, 10000), function(n) {
+  errs <- replicate(400, abs(mean(sample(earn, n, replace = TRUE)) - mean(earn)))
   c(n = n, avg_error = mean(errs))
 }))
 
-round(lln_asi)
+round(lln_earn)
 ```
 
-The average distance between the sample mean and the truth falls steadily
-towards zero. Nothing about the industrial data being lopsided prevents it.
+The average distance between a survey mean and the truth falls steadily towards
+zero. Nothing about earnings being violently skewed prevents it — it only means
+you need a bigger survey to get equally close.
 
 ### Why it works {-}
 
@@ -617,7 +847,11 @@ shrink — it typically grows. Nothing pushes the count back; the early
 imbalance simply becomes a smaller and smaller share of the total.
 :::
 
-## The Central Limit Theorem {#d2i-clt}
+## The Central Limit Theorem {#u1-clt}
+
+::: {.question}
+Why was that picture of a thousand survey means bell-shaped?
+:::
 
 The Law of Large Numbers tells us *where* the sample mean ends up. It says
 nothing about the **shape** of its distribution along the way — and without a
@@ -638,8 +872,8 @@ $$Z = \frac{\bar{X} - \mu}{\sigma / \sqrt{n}} \;\longrightarrow\; N(0, 1)$$
 
 Read that again, because the strength of the claim is easy to miss. The
 population may be a coin flip taking only the values 0 and 1. It may be a count
-with a long right tail. It may be industrial value added across Indian states,
-where five states hold most of the total. **It does not matter.** Average
+with a long right tail. It may be Indian earnings, where a
+small minority hold most of the total. **It does not matter.** Average
 enough draws and the distribution of that average is bell-shaped.
 
 ### Watching it happen {-}
@@ -656,10 +890,10 @@ draw_mean <- function(parent, n) {
     "Bernoulli"  = mean(rbinom(n, 1, 0.3)),
     "Poisson"    = mean(rpois(n, 2)),
     "Uniform"    = mean(runif(n)),
-    "ASI (real)" = mean(sample(pop, n, replace = TRUE)))
+    "Earnings"   = mean(sample(earn, n, replace = TRUE)))
 }
 
-parents <- c("Bernoulli", "Poisson", "Uniform", "ASI (real)")
+parents <- c("Bernoulli", "Poisson", "Uniform", "Earnings")
 sizes   <- c(1, 5, 30)
 
 clt <- do.call(rbind, lapply(parents, function(p)
@@ -692,7 +926,7 @@ ggplot(clt, aes(z)) +
 ```
 
 Read the grid left to right. The first column is each population itself — a
-two-spike coin, a discrete count, a flat rectangle, a badly lopsided economic
+two-spike coin, a discrete count, a flat rectangle, a badly lopsided earnings
 distribution. Not one of them is normal. By the third column all four are
 tracking the orange curve.
 
@@ -755,13 +989,16 @@ set.seed(9)
 skewness <- function(x) mean((x - mean(x))^3) / sd(x)^3
 
 sapply(c(5, 30, 100, 500), function(n)
-  round(skewness(replicate(2000, mean(sample(pop, n, replace = TRUE)))), 2))
+  round(skewness(replicate(2000, mean(sample(earn, n, replace = TRUE)))), 2))
 ```
 
-The ASI population has a skewness of about
-`r round(mean((subset(read.csv("data/asi-state-gva.csv"), yr == 2010 & !is.na(gva))$gva/100 - mean(subset(read.csv("data/asi-state-gva.csv"), yr == 2010 & !is.na(gva))$gva/100))^3) / sd(subset(read.csv("data/asi-state-gva.csv"), yr == 2010 & !is.na(gva))$gva/100)^3, 1)`.
-At $n = 5$ the sampling distribution is still visibly lopsided. By $n = 100$ it
-is close to symmetric.
+```{r u1-clt-popskew, echo = FALSE}
+pop_skew <- round(mean((earn - mean(earn))^3) / sd(earn)^3, 1)
+```
+
+The earnings population has a skewness of about `r pop_skew`. At $n = 5$ the
+sampling distribution is still visibly lopsided. By $n = 100$ it is close to
+symmetric.
 
 ::: {.watchout}
 Do not treat $n = 30$ as a guarantee. It is a rule of thumb calibrated on
@@ -793,7 +1030,11 @@ Everything in the rest of this book rests on these three lines.
 :::
 
 
-## The average is not the distribution {#d2i-average}
+## The average is not the distribution {#u1-average}
+
+::: {.question}
+And what does an average hide?
+:::
 
 A habit worth forming now, before any technique gets in the way.
 
@@ -806,59 +1047,58 @@ about them.
 But the mean is only **one** feature of a distribution, and often not the one a
 policy question cares about.
 
-```{r d2i-skew}
-c(mean   = mean(asi_2010$gva_crore),
-  median = median(asi_2010$gva_crore))
+```{r u1-skew}
+c(mean   = mean(earn),
+  median = median(earn))
 
-mean(asi_2010$gva_crore) / median(asi_2010$gva_crore)
+mean(earn) / median(earn)
 ```
 
 The mean is more than **twice** the median. When those two diverge that
-sharply, the average has stopped describing a typical state.
+sharply, the average has stopped describing a typical worker.
 
-```{r d2i-skew-plot, echo = FALSE, fig.height = 4.2, fig.cap = "Industrial value added across Indian states, 2010. The mean sits far to the right of most states, dragged there by a handful of large ones."}
-ggplot(asi_2010, aes(gva_crore)) +
-  geom_histogram(bins = 22, fill = book_palette$fill, colour = "white",
-                 linewidth = 0.25) +
-  geom_vline(xintercept = median(asi_2010$gva_crore),
+```{r u1-skew-plot, echo = FALSE, fig.height = 4, fig.cap = "Annual earnings of 20,000 Indian workers. The mean sits far to the right of most people, dragged there by a thin tail of high earners."}
+ggplot(workers, aes(annual_earnings / 1000)) +
+  geom_histogram(bins = 60, fill = book_palette$fill, colour = "white",
+                 linewidth = 0.15) +
+  geom_vline(xintercept = median(earn) / 1000,
              colour = book_palette$ink, linetype = "dashed", linewidth = 0.7) +
-  geom_vline(xintercept = mean(asi_2010$gva_crore),
+  geom_vline(xintercept = mean(earn) / 1000,
              colour = book_palette$reject, linewidth = 0.9) +
-  annotate("label", x = mean(asi_2010$gva_crore), y = Inf, vjust = 1.4,
+  annotate("label", x = mean(earn) / 1000, y = Inf, vjust = 1.4,
            label = "mean", colour = book_palette$reject, fill = "white",
            size = 3.5, label.size = 0.3) +
-  annotate("label", x = median(asi_2010$gva_crore), y = Inf, vjust = 3.2,
+  annotate("label", x = median(earn) / 1000, y = Inf, vjust = 3.2,
            label = "median", colour = book_palette$ink, fill = "white",
            size = 3.5, label.size = 0.3) +
-  scale_x_continuous(labels = scales::comma) +
-  labs(x = "gross value added (₹ crore)", y = "number of states") +
+  coord_cartesian(xlim = c(0, 400)) +
+  labs(x = "annual earnings (₹ thousand)", y = "number of workers") +
   theme_book()
 ```
 
 How concentrated is it?
 
-```{r d2i-concentration}
-top5 <- sort(asi_2010$gva_crore, decreasing = TRUE)[1:5]
+```{r u1-concentration}
+top10 <- earn[earn >= quantile(earn, 0.90)]
 
-round(100 * sum(top5) / sum(asi_2010$gva_crore))                 # % of all GVA
-round(max(asi_2010$gva_crore) / median(asi_2010$gva_crore), 1)   # top vs median
+round(100 * sum(top10) / sum(earn))              # % of all earnings, top tenth
+round(quantile(earn, 0.90) / median(earn), 1)    # top-decile threshold vs median
 ```
 
-Five states hold about 59% of registered industrial value added. The largest
-produces roughly thirteen times the median state.
+The best-paid tenth of workers take a large share of all earnings, and the
+threshold for entering that tenth is several times the median wage.
 
 ::: {.intuition}
-Now ask what "average industrial value added across states" is good for.
+Now ask what "average earnings in India" is good for.
 
-Asking how much industry India has in total? Fine — the mean times the number
-of states is the total, by construction.
+Asking how much India earns in total? Fine — the mean times the number of
+workers is the total, by construction.
 
-Asking what industry looks like in a typical Indian state? Badly misleading. No
-state sits near the mean. The distribution is really two countries: a few
-industrial giants and a long tail of states doing something else.
+Asking what a typical Indian worker earns? Badly misleading. Very few people
+earn anything near the mean; most earn far less.
 
-Asking whether industrial growth is spreading? The mean can rise while every
-state but one falls further behind. **An average can move in the opposite
+Asking whether a policy helped? The mean can rise while the majority are worse
+off, if the gains land at the top. **An average can move in the opposite
 direction to almost everybody inside it.**
 :::
 
@@ -895,7 +1135,11 @@ summary of the data. Decide which question you are asking before deciding the
 mean answers it.
 :::
 
-## What can go wrong before any mathematics {#d2i-what-goes-wrong}
+## What can go wrong before any mathematics {#u1-what-goes-wrong}
+
+::: {.question}
+When does none of this machinery help?
+:::
 
 Inference assumes your sample carries information about the population you care
 about. Three ways that fails, none of which any formula will warn you about.
@@ -926,7 +1170,7 @@ That question — not any particular estimator — is what separates a good appl
 economist from someone who can run regressions.
 :::
 
-## Summary {#d2i-summary}
+## Summary {#u1-summary}
 
 ::: {.keyidea}
 1. **Description** summarises data you have. **Inference** reaches beyond it and
@@ -951,8 +1195,8 @@ economist from someone who can run regressions.
    looks like. "Large enough" depends on skewness, and $n = 30$ is a rule of
    thumb, not a guarantee — Indian industrial data is still lopsided there.
 9. **The mean is one feature of a distribution, not a summary of it.** Indian
-   industrial value added has a mean twice its median, with five states holding
-   59% of the total. Always ask about spread, and about the tails.
+   earnings have a mean more than twice their median. Always ask about spread,
+   and about who sits in the tails.
 :::
 
 We opened by claiming that the average you compute from a sample is almost
