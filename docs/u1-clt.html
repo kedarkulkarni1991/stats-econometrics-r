@@ -159,10 +159,10 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="1.5" data-path="u1-lln.html"><a href="u1-lln.html"><i class="fa fa-check"></i><b>1.5</b> Why do larger samples give more reliable answers?</a></li>
 <li class="chapter" data-level="1.6" data-path="u1-clt.html"><a href="u1-clt.html"><i class="fa fa-check"></i><b>1.6</b> The Central Limit Theorem</a>
 <ul>
-<li class="chapter" data-level="" data-path="u1-clt.html"><a href="u1-clt.html#watching-it-happen"><i class="fa fa-check"></i>Watching it happen</a></li>
-<li class="chapter" data-level="" data-path="u1-clt.html"><a href="u1-clt.html#why-it-works"><i class="fa fa-check"></i>Why it works</a></li>
+<li class="chapter" data-level="" data-path="u1-clt.html"><a href="u1-clt.html#a-simulation"><i class="fa fa-check"></i>A simulation</a></li>
+<li class="chapter" data-level="" data-path="u1-clt.html"><a href="u1-clt.html#an-intuition"><i class="fa fa-check"></i>An intuition</a></li>
 <li class="chapter" data-level="" data-path="u1-clt.html"><a href="u1-clt.html#how-large-is-large-enough"><i class="fa fa-check"></i>How large is “large enough”?</a></li>
-<li class="chapter" data-level="" data-path="u1-clt.html"><a href="u1-clt.html#why-this-is-the-foundation"><i class="fa fa-check"></i>Why this is the foundation</a></li>
+<li class="chapter" data-level="" data-path="u1-clt.html"><a href="u1-clt.html#why-inference-is-possible"><i class="fa fa-check"></i>Why inference is possible</a></li>
 </ul></li>
 <li class="chapter" data-level="1.7" data-path="u1-random-variables.html"><a href="u1-random-variables.html"><i class="fa fa-check"></i><b>1.7</b> A language for randomness</a>
 <ul>
@@ -239,30 +239,31 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <div class="question">
 <p>Why do the sample means look bell-shaped?</p>
 </div>
-<p>The Law of Large Numbers tells us <em>where</em> the sample mean ends up. It says
-nothing about the <strong>shape</strong> of its distribution along the way — and without a
-shape we cannot compute the probability of anything.</p>
-<p>That is what the Central Limit Theorem supplies, and it supplies far more than
-seems reasonable.</p>
+<p>The Law of Large Numbers explains why the sample mean approaches the population
+mean as the sample size increases. It does not, however, tell us how the sample
+means are distributed for any given sample size. Without that distribution we
+cannot quantify the uncertainty associated with a single survey.</p>
+<p>The Central Limit Theorem answers precisely this question. The result is
+surprisingly general.</p>
 <div class="keyidea">
-<p><strong>Central Limit Theorem.</strong> For a sufficiently large sample, the sampling
-distribution of the mean is approximately normal — <em>whatever the shape of the
-population it was drawn from</em>.</p>
+<p><strong>Central Limit Theorem.</strong> For sufficiently large samples, the sampling
+distribution of the sample mean is approximately normal, regardless of the
+shape of the population from which the sample is drawn.</p>
 <p>The result is stated precisely, in notation, once we have the vocabulary for
 it later in this unit. Its content is already visible in
 Figure <a href="u1-lln.html#fig:u1-lln-plot">1.6</a>: a strongly skewed population, yet sample means
 that grow steadily more symmetric.</p>
 </div>
-<p>Read that again, because the strength of the claim is easy to miss. The
-population may be a coin flip taking only the values 0 and 1. It may be a count
-with a long right tail. It may be Indian earnings, where a
-small minority hold most of the total. <strong>It does not matter.</strong> Average
-enough draws and the distribution of that average is bell-shaped.</p>
-<div id="watching-it-happen" class="section level3 unnumbered hasAnchor">
-<h3>Watching it happen<a href="u1-clt.html#watching-it-happen" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>Four populations, chosen to look as unlike a normal distribution as possible.
-For each we take samples of size 1, then 5, then 30, and plot the distribution
-of the sample mean.</p>
+<p>The strength of this statement is easy to overlook. The underlying population
+may be binary, highly skewed or heavily concentrated in one part of its range.
+Yet the distribution of the sample mean becomes increasingly close to a normal
+distribution as the sample size grows.</p>
+<div id="a-simulation" class="section level3 unnumbered hasAnchor">
+<h3>A simulation<a href="u1-clt.html#a-simulation" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>The theorem is easiest to appreciate by simulation. Figure
+<a href="u1-clt.html#fig:d2i-clt-plot">1.7</a> compares the sampling distributions of the sample mean
+for four populations with very different shapes, at sample sizes of one, five
+and thirty.</p>
 <div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="u1-clt.html#cb31-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">3</span>)</span>
 <span id="cb31-2"><a href="u1-clt.html#cb31-2" tabindex="-1"></a></span>
 <span id="cb31-3"><a href="u1-clt.html#cb31-3" tabindex="-1"></a>draw_mean <span class="ot">&lt;-</span> <span class="cf">function</span>(parent, n) {</span>
@@ -298,19 +299,18 @@ of the sample mean.</p>
 Figure 1.7: Sampling distributions of the mean from four very different populations, standardised, against the standard normal curve in orange. At <span class="math inline">\(n = 1\)</span> you are looking at each population itself. By <span class="math inline">\(n = 30\)</span> all four track the curve — though look closely at the last row.
 </p>
 </div>
-<p>Read the grid left to right. The first column is each population itself — a
-two-spike coin, a discrete count, a flat rectangle, a badly lopsided earnings
-distribution. Not one of them is normal. By the third column all four are
-tracking the orange curve.</p>
-<p>Notice how differently they get there. The uniform population is nearly normal
-by <span class="math inline">\(n = 5\)</span>. The Bernoulli is still visibly stepped at <span class="math inline">\(n = 30\)</span>, because a mean
-of thirty zeros and ones can only take thirty-one distinct values. And the ASI
-row — real Indian data — is still leaning right at <span class="math inline">\(n = 30\)</span>. Convergence is
-guaranteed; its speed is not.</p>
+<p>The first column shows the four underlying populations. None resembles a normal
+distribution. By the third column, however, the sampling distributions of the
+sample means all closely resemble the familiar bell-shaped curve.</p>
+<p>The theorem guarantees eventual convergence to normality, but it says nothing
+about the rate at which convergence occurs. Populations that are already fairly
+symmetric require only modest sample sizes, whereas heavily skewed populations
+may require substantially larger samples before the normal approximation
+becomes accurate. In the figure, the uniform population is close to normal by
+<span class="math inline">\(n = 5\)</span>; the earnings distribution is still visibly asymmetric at <span class="math inline">\(n = 30\)</span>.</p>
 </div>
-<div id="why-it-works" class="section level3 unnumbered hasAnchor">
-<h3>Why it works<a href="u1-clt.html#why-it-works" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>The intuition is easier than the proof, and it is worth having.</p>
+<div id="an-intuition" class="section level3 unnumbered hasAnchor">
+<h3>An intuition<a href="u1-clt.html#an-intuition" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <div class="intuition">
 <p>Roll one die: every face is equally likely. Now roll two and add them.</p>
 <div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="u1-clt.html#cb33-1" tabindex="-1"></a>sums <span class="ot">&lt;-</span> <span class="fu">outer</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>, <span class="st">&quot;+&quot;</span>)</span>
@@ -321,12 +321,12 @@ guaranteed; its speed is not.</p>
 <p>Seven can be made six ways — <span class="math inline">\(1+6\)</span>, <span class="math inline">\(2+5\)</span>, <span class="math inline">\(3+4\)</span>, <span class="math inline">\(4+3\)</span>, <span class="math inline">\(5+2\)</span>, <span class="math inline">\(6+1\)</span>. Two can
 be made exactly one way. The middle values have more routes to them than the
 extremes do, so they turn up more often.</p>
-<p>That is the whole idea. To get an extreme <em>average</em>, every draw has to be
-extreme in the same direction, and that is rare. To get a middling average,
-the draws only have to offset one another, and there are enormously many ways
-for that to happen. Adding more draws multiplies the number of routes to the
-middle far faster than the routes to the edges — and the shape that results is
-the bell.</p>
+<p>The intuition extends far beyond dice. To obtain an extreme average, every
+observation must be extreme in the same direction, which is rare. To obtain a
+middling average, the observations need only offset one another, and there are
+a great many ways for that to happen. Adding observations multiplies the routes
+to the middle far faster than the routes to the extremes, and the resulting
+shape is the familiar bell.</p>
 </div>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:d2i-dice-plot"></span>
 <img src="stats-econometrics-r_files/figure-html/d2i-dice-plot-1.png" alt="The sum of two dice. Combinations pile up in the middle, and the flat distribution of a single die has already started to become a mound." width="90%" />
@@ -337,10 +337,11 @@ Figure 1.8: The sum of two dice. Combinations pile up in the middle, and the fla
 </div>
 <div id="how-large-is-large-enough" class="section level3 unnumbered hasAnchor">
 <h3>How large is “large enough”?<a href="u1-clt.html#how-large-is-large-enough" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>Textbooks often give <span class="math inline">\(n \geq 30\)</span>. It is a serviceable rule and it is not a law.</p>
-<p>How quickly the CLT takes hold depends on how skewed the population is. A
-symmetric population needs very few observations; a badly lopsided one needs
-many more.</p>
+<p>Textbooks often give <span class="math inline">\(n \geq 30\)</span>. It is a useful rule of thumb, not a
+mathematical guarantee.</p>
+<p>How quickly the approximation takes hold depends on how skewed the population
+is. A symmetric population requires very few observations; a heavily skewed one
+requires many more.</p>
 <div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="u1-clt.html#cb35-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">9</span>)</span>
 <span id="cb35-2"><a href="u1-clt.html#cb35-2" tabindex="-1"></a></span>
 <span id="cb35-3"><a href="u1-clt.html#cb35-3" tabindex="-1"></a><span class="co"># A crude measure of how far a distribution is from symmetric</span></span>
@@ -353,29 +354,34 @@ many more.</p>
 sampling distribution is still visibly lopsided. By <span class="math inline">\(n = 100\)</span> it is close to
 symmetric.</p>
 <div class="watchout">
-<p>Do not treat <span class="math inline">\(n = 30\)</span> as a guarantee. It is a rule of thumb calibrated on
-mildly non-normal populations.</p>
-<p>Economic data is frequently <em>not</em> mildly non-normal. Incomes, firm sizes, land
-holdings and city populations all have long right tails, and for these the
-approximation can still be poor at <span class="math inline">\(n = 30\)</span>. When your variable is heavily
-skewed, either use a larger sample or check the sampling distribution by
-simulation, exactly as we have just done.</p>
+<p>Many economic variables — including incomes, firm sizes, land holdings and city
+populations — are strongly right-skewed. For such variables, the normal
+approximation may still be poor when the sample size is thirty. In these
+settings, larger samples or simulation-based checks of the sampling
+distribution are often preferable.</p>
 </div>
 </div>
-<div id="why-this-is-the-foundation" class="section level3 unnumbered hasAnchor">
-<h3>Why this is the foundation<a href="u1-clt.html#why-this-is-the-foundation" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="why-inference-is-possible" class="section level3 unnumbered hasAnchor">
+<h3>Why inference is possible<a href="u1-clt.html#why-inference-is-possible" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Together, the Law of Large Numbers and the Central Limit Theorem explain why
+statistical inference is possible. The Law of Large Numbers tells us that the
+sample mean is centred on the population mean as the sample size grows. The
+Central Limit Theorem tells us that the sampling distribution of the sample
+mean is approximately normal. Together, these results tell us where the
+sampling distribution is centred, how it behaves, and how uncertainty can be
+quantified.</p>
 <div class="keyidea">
-<p>The Central Limit Theorem is what makes inference practical. Taken with the Law
-of Large Numbers it tells us three things about the sampling distribution of
-the mean, for a sample of reasonable size and <em>without requiring us to know the
-shape of the population</em>: where it is centred, how wide it is, and what shape
-it has.</p>
-<p>Knowing the centre, the spread and the shape of a distribution is knowing the
-distribution. That is enough to attach a probability to any statement about the
-sample mean, which is precisely what confidence intervals and hypothesis tests
-do.</p>
-<p>The next section supplies the notation needed to state all three exactly.</p>
+<p>This is the central message of the unit. Different samples produce different
+answers, but those answers are not arbitrary. They follow regular patterns. The
+Law of Large Numbers describes one such regularity; the Central Limit Theorem
+describes another.</p>
+<p><strong>Inference is possible because repeated samples behave in remarkably regular
+ways.</strong></p>
 </div>
+<p>These ideas form the foundation of confidence intervals, hypothesis tests and
+much of modern statistics. Before developing those methods, however, we need a
+formal language for describing randomness. That is the purpose of the next
+section.</p>
 </div>
 </div>
 <script>

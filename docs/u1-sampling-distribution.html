@@ -159,10 +159,10 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="1.5" data-path="u1-lln.html"><a href="u1-lln.html"><i class="fa fa-check"></i><b>1.5</b> Why do larger samples give more reliable answers?</a></li>
 <li class="chapter" data-level="1.6" data-path="u1-clt.html"><a href="u1-clt.html"><i class="fa fa-check"></i><b>1.6</b> The Central Limit Theorem</a>
 <ul>
-<li class="chapter" data-level="" data-path="u1-clt.html"><a href="u1-clt.html#watching-it-happen"><i class="fa fa-check"></i>Watching it happen</a></li>
-<li class="chapter" data-level="" data-path="u1-clt.html"><a href="u1-clt.html#why-it-works"><i class="fa fa-check"></i>Why it works</a></li>
+<li class="chapter" data-level="" data-path="u1-clt.html"><a href="u1-clt.html#a-simulation"><i class="fa fa-check"></i>A simulation</a></li>
+<li class="chapter" data-level="" data-path="u1-clt.html"><a href="u1-clt.html#an-intuition"><i class="fa fa-check"></i>An intuition</a></li>
 <li class="chapter" data-level="" data-path="u1-clt.html"><a href="u1-clt.html#how-large-is-large-enough"><i class="fa fa-check"></i>How large is “large enough”?</a></li>
-<li class="chapter" data-level="" data-path="u1-clt.html"><a href="u1-clt.html#why-this-is-the-foundation"><i class="fa fa-check"></i>Why this is the foundation</a></li>
+<li class="chapter" data-level="" data-path="u1-clt.html"><a href="u1-clt.html#why-inference-is-possible"><i class="fa fa-check"></i>Why inference is possible</a></li>
 </ul></li>
 <li class="chapter" data-level="1.7" data-path="u1-random-variables.html"><a href="u1-random-variables.html"><i class="fa fa-check"></i><b>1.7</b> A language for randomness</a>
 <ul>
@@ -264,9 +264,9 @@ varies slightly less than theory predicts.</p>
 <p>It is also the better model of what we usually mean. Surveying 2,000 people
 does not meaningfully deplete a population of a billion.</p>
 </div>
-<p>Not 7. Draw again and you would get something else again — sampling variation,
-exactly as with the earnings surveys. So look at the whole sampling
-distribution:</p>
+<p>The result is not 7, and a second draw would give something else again. This is
+sampling variation, exactly as observed with the earnings surveys. Repeating
+the draw a thousand times gives the whole sampling distribution:</p>
 <div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="u1-sampling-distribution.html#cb45-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">7</span>)</span>
 <span id="cb45-2"><a href="u1-sampling-distribution.html#cb45-2" tabindex="-1"></a>deck_means <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">1000</span>, <span class="fu">mean</span>(<span class="fu">sample</span>(deck, <span class="at">size =</span> <span class="dv">10</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>)))</span>
 <span id="cb45-3"><a href="u1-sampling-distribution.html#cb45-3" tabindex="-1"></a></span>

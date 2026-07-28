@@ -159,10 +159,10 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="1.5" data-path="u1-lln.html"><a href="u1-lln.html"><i class="fa fa-check"></i><b>1.5</b> Why do larger samples give more reliable answers?</a></li>
 <li class="chapter" data-level="1.6" data-path="u1-clt.html"><a href="u1-clt.html"><i class="fa fa-check"></i><b>1.6</b> The Central Limit Theorem</a>
 <ul>
-<li class="chapter" data-level="" data-path="u1-clt.html"><a href="u1-clt.html#watching-it-happen"><i class="fa fa-check"></i>Watching it happen</a></li>
-<li class="chapter" data-level="" data-path="u1-clt.html"><a href="u1-clt.html#why-it-works"><i class="fa fa-check"></i>Why it works</a></li>
+<li class="chapter" data-level="" data-path="u1-clt.html"><a href="u1-clt.html#a-simulation"><i class="fa fa-check"></i>A simulation</a></li>
+<li class="chapter" data-level="" data-path="u1-clt.html"><a href="u1-clt.html#an-intuition"><i class="fa fa-check"></i>An intuition</a></li>
 <li class="chapter" data-level="" data-path="u1-clt.html"><a href="u1-clt.html#how-large-is-large-enough"><i class="fa fa-check"></i>How large is “large enough”?</a></li>
-<li class="chapter" data-level="" data-path="u1-clt.html"><a href="u1-clt.html#why-this-is-the-foundation"><i class="fa fa-check"></i>Why this is the foundation</a></li>
+<li class="chapter" data-level="" data-path="u1-clt.html"><a href="u1-clt.html#why-inference-is-possible"><i class="fa fa-check"></i>Why inference is possible</a></li>
 </ul></li>
 <li class="chapter" data-level="1.7" data-path="u1-random-variables.html"><a href="u1-random-variables.html"><i class="fa fa-check"></i><b>1.7</b> A language for randomness</a>
 <ul>
@@ -239,14 +239,14 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <div class="question">
 <p>And what does an average hide?</p>
 </div>
-<p>A habit worth forming now, before any technique gets in the way.</p>
-<p>Almost all of inferential statistics is about averages. Nearly every method in
-this book estimates a mean, compares two means, or fits a line through
-conditional means. That focus is not arbitrary — means are well behaved, their
-sampling distributions are tractable, and the two great theorems are statements
-about them.</p>
-<p>But the mean is only <strong>one</strong> feature of a distribution, and often not the one a
-policy question cares about.</p>
+<p>Before leaving this unit, one qualification deserves attention.</p>
+<p>Almost all of inferential statistics concerns averages. Most of the methods in
+this book estimate a mean, compare two means, or fit a line through conditional
+means. That emphasis is not arbitrary: means are well behaved, their sampling
+distributions are tractable, and both of the results we have just studied are
+statements about them.</p>
+<p>The mean, however, is only one feature of a distribution, and frequently not
+the feature that a policy question concerns.</p>
 <div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="u1-average.html#cb49-1" tabindex="-1"></a><span class="fu">c</span>(<span class="at">mean   =</span> <span class="fu">mean</span>(earn),</span>
 <span id="cb49-2"><a href="u1-average.html#cb49-2" tabindex="-1"></a>  <span class="at">median =</span> <span class="fu">median</span>(earn))</span></code></pre></div>
 <pre><code>#&gt;   mean median 
@@ -272,14 +272,14 @@ Figure 1.11: Annual earnings of 20,000 Indian workers. The mean sits far to the 
 <p>The best-paid tenth of workers take a large share of all earnings, and the
 threshold for entering that tenth is several times the median wage.</p>
 <div class="intuition">
-<p>Now ask what “average earnings in India” is good for.</p>
-<p>Asking how much India earns in total? Fine — the mean times the number of
-workers is the total, by construction.</p>
-<p>Asking what a typical Indian worker earns? Badly misleading. Very few people
-earn anything near the mean; most earn far less.</p>
-<p>Asking whether a policy helped? The mean can rise while the majority are worse
-off, if the gains land at the top. <strong>An average can move in the opposite
-direction to almost everybody inside it.</strong></p>
+<p>Consider what “average earnings in India” is able to answer.</p>
+<p>For total earnings it is exact: the mean multiplied by the number of workers is
+the total, by construction.</p>
+<p>For the earnings of a typical worker it is misleading. Very few people earn
+anything close to the mean, and most earn considerably less.</p>
+<p>For whether a policy has helped it can be actively deceptive. If the gains
+accrue at the top, the mean may rise while the majority are worse off. <strong>An
+average can move in the opposite direction to almost everyone within it.</strong></p>
 </div>
 <div class="keyidea">
 <p>Ask two questions of every average you meet, including your own:</p>

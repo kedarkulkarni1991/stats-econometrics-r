@@ -569,17 +569,18 @@ Theorem**.
 Why do the sample means look bell-shaped?
 :::
 
-The Law of Large Numbers tells us *where* the sample mean ends up. It says
-nothing about the **shape** of its distribution along the way — and without a
-shape we cannot compute the probability of anything.
+The Law of Large Numbers explains why the sample mean approaches the population
+mean as the sample size increases. It does not, however, tell us how the sample
+means are distributed for any given sample size. Without that distribution we
+cannot quantify the uncertainty associated with a single survey.
 
-That is what the Central Limit Theorem supplies, and it supplies far more than
-seems reasonable.
+The Central Limit Theorem answers precisely this question. The result is
+surprisingly general.
 
 ::: {.keyidea}
-**Central Limit Theorem.** For a sufficiently large sample, the sampling
-distribution of the mean is approximately normal — *whatever the shape of the
-population it was drawn from*.
+**Central Limit Theorem.** For sufficiently large samples, the sampling
+distribution of the sample mean is approximately normal, regardless of the
+shape of the population from which the sample is drawn.
 
 The result is stated precisely, in notation, once we have the vocabulary for
 it later in this unit. Its content is already visible in
@@ -587,17 +588,17 @@ Figure \@ref(fig:u1-lln-plot): a strongly skewed population, yet sample means
 that grow steadily more symmetric.
 :::
 
-Read that again, because the strength of the claim is easy to miss. The
-population may be a coin flip taking only the values 0 and 1. It may be a count
-with a long right tail. It may be Indian earnings, where a
-small minority hold most of the total. **It does not matter.** Average
-enough draws and the distribution of that average is bell-shaped.
+The strength of this statement is easy to overlook. The underlying population
+may be binary, highly skewed or heavily concentrated in one part of its range.
+Yet the distribution of the sample mean becomes increasingly close to a normal
+distribution as the sample size grows.
 
-### Watching it happen {-}
+### A simulation {-}
 
-Four populations, chosen to look as unlike a normal distribution as possible.
-For each we take samples of size 1, then 5, then 30, and plot the distribution
-of the sample mean.
+The theorem is easiest to appreciate by simulation. Figure
+\@ref(fig:d2i-clt-plot) compares the sampling distributions of the sample mean
+for four populations with very different shapes, at sample sizes of one, five
+and thirty.
 
 ```{r d2i-clt-sim}
 set.seed(3)
@@ -642,20 +643,18 @@ ggplot(clt, aes(z)) +
         strip.text.y = element_text(angle = 0, hjust = 0))
 ```
 
-Read the grid left to right. The first column is each population itself — a
-two-spike coin, a discrete count, a flat rectangle, a badly lopsided earnings
-distribution. Not one of them is normal. By the third column all four are
-tracking the orange curve.
+The first column shows the four underlying populations. None resembles a normal
+distribution. By the third column, however, the sampling distributions of the
+sample means all closely resemble the familiar bell-shaped curve.
 
-Notice how differently they get there. The uniform population is nearly normal
-by $n = 5$. The Bernoulli is still visibly stepped at $n = 30$, because a mean
-of thirty zeros and ones can only take thirty-one distinct values. And the ASI
-row — real Indian data — is still leaning right at $n = 30$. Convergence is
-guaranteed; its speed is not.
+The theorem guarantees eventual convergence to normality, but it says nothing
+about the rate at which convergence occurs. Populations that are already fairly
+symmetric require only modest sample sizes, whereas heavily skewed populations
+may require substantially larger samples before the normal approximation
+becomes accurate. In the figure, the uniform population is close to normal by
+$n = 5$; the earnings distribution is still visibly asymmetric at $n = 30$.
 
-### Why it works {-}
-
-The intuition is easier than the proof, and it is worth having.
+### An intuition {-}
 
 ::: {.intuition}
 Roll one die: every face is equally likely. Now roll two and add them.
@@ -669,12 +668,12 @@ Seven can be made six ways — $1+6$, $2+5$, $3+4$, $4+3$, $5+2$, $6+1$. Two can
 be made exactly one way. The middle values have more routes to them than the
 extremes do, so they turn up more often.
 
-That is the whole idea. To get an extreme *average*, every draw has to be
-extreme in the same direction, and that is rare. To get a middling average,
-the draws only have to offset one another, and there are enormously many ways
-for that to happen. Adding more draws multiplies the number of routes to the
-middle far faster than the routes to the edges — and the shape that results is
-the bell.
+The intuition extends far beyond dice. To obtain an extreme average, every
+observation must be extreme in the same direction, which is rare. To obtain a
+middling average, the observations need only offset one another, and there are
+a great many ways for that to happen. Adding observations multiplies the routes
+to the middle far faster than the routes to the extremes, and the resulting
+shape is the familiar bell.
 :::
 
 ```{r d2i-dice-plot, echo = FALSE, fig.height = 3.2, fig.cap = "The sum of two dice. Combinations pile up in the middle, and the flat distribution of a single die has already started to become a mound."}
@@ -693,11 +692,12 @@ ggplot(ds, aes(sum, ways)) +
 
 ### How large is "large enough"? {-}
 
-Textbooks often give $n \geq 30$. It is a serviceable rule and it is not a law.
+Textbooks often give $n \geq 30$. It is a useful rule of thumb, not a
+mathematical guarantee.
 
-How quickly the CLT takes hold depends on how skewed the population is. A
-symmetric population needs very few observations; a badly lopsided one needs
-many more.
+How quickly the approximation takes hold depends on how skewed the population
+is. A symmetric population requires very few observations; a heavily skewed one
+requires many more.
 
 ```{r d2i-clt-howbig}
 set.seed(9)
@@ -718,32 +718,37 @@ sampling distribution is still visibly lopsided. By $n = 100$ it is close to
 symmetric.
 
 ::: {.watchout}
-Do not treat $n = 30$ as a guarantee. It is a rule of thumb calibrated on
-mildly non-normal populations.
-
-Economic data is frequently *not* mildly non-normal. Incomes, firm sizes, land
-holdings and city populations all have long right tails, and for these the
-approximation can still be poor at $n = 30$. When your variable is heavily
-skewed, either use a larger sample or check the sampling distribution by
-simulation, exactly as we have just done.
+Many economic variables — including incomes, firm sizes, land holdings and city
+populations — are strongly right-skewed. For such variables, the normal
+approximation may still be poor when the sample size is thirty. In these
+settings, larger samples or simulation-based checks of the sampling
+distribution are often preferable.
 :::
 
-### Why this is the foundation {-}
+### Why inference is possible {-}
+
+Together, the Law of Large Numbers and the Central Limit Theorem explain why
+statistical inference is possible. The Law of Large Numbers tells us that the
+sample mean is centred on the population mean as the sample size grows. The
+Central Limit Theorem tells us that the sampling distribution of the sample
+mean is approximately normal. Together, these results tell us where the
+sampling distribution is centred, how it behaves, and how uncertainty can be
+quantified.
 
 ::: {.keyidea}
-The Central Limit Theorem is what makes inference practical. Taken with the Law
-of Large Numbers it tells us three things about the sampling distribution of
-the mean, for a sample of reasonable size and *without requiring us to know the
-shape of the population*: where it is centred, how wide it is, and what shape
-it has.
+This is the central message of the unit. Different samples produce different
+answers, but those answers are not arbitrary. They follow regular patterns. The
+Law of Large Numbers describes one such regularity; the Central Limit Theorem
+describes another.
 
-Knowing the centre, the spread and the shape of a distribution is knowing the
-distribution. That is enough to attach a probability to any statement about the
-sample mean, which is precisely what confidence intervals and hypothesis tests
-do.
-
-The next section supplies the notation needed to state all three exactly.
+**Inference is possible because repeated samples behave in remarkably regular
+ways.**
 :::
+
+These ideas form the foundation of confidence intervals, hypothesis tests and
+much of modern statistics. Before developing those methods, however, we need a
+formal language for describing randomness. That is the purpose of the next
+section.
 
 
 ## A language for randomness {#u1-random-variables}
@@ -882,9 +887,9 @@ It is also the better model of what we usually mean. Surveying 2,000 people
 does not meaningfully deplete a population of a billion.
 :::
 
-Not 7. Draw again and you would get something else again — sampling variation,
-exactly as with the earnings surveys. So look at the whole sampling
-distribution:
+The result is not 7, and a second draw would give something else again. This is
+sampling variation, exactly as observed with the earnings surveys. Repeating
+the draw a thousand times gives the whole sampling distribution:
 
 ```{r u1-sampdist}
 set.seed(7)
@@ -983,16 +988,16 @@ precision.
 And what does an average hide?
 :::
 
-A habit worth forming now, before any technique gets in the way.
+Before leaving this unit, one qualification deserves attention.
 
-Almost all of inferential statistics is about averages. Nearly every method in
-this book estimates a mean, compares two means, or fits a line through
-conditional means. That focus is not arbitrary — means are well behaved, their
-sampling distributions are tractable, and the two great theorems are statements
-about them.
+Almost all of inferential statistics concerns averages. Most of the methods in
+this book estimate a mean, compare two means, or fit a line through conditional
+means. That emphasis is not arbitrary: means are well behaved, their sampling
+distributions are tractable, and both of the results we have just studied are
+statements about them.
 
-But the mean is only **one** feature of a distribution, and often not the one a
-policy question cares about.
+The mean, however, is only one feature of a distribution, and frequently not
+the feature that a policy question concerns.
 
 ```{r u1-skew}
 c(mean   = mean(earn),
@@ -1036,17 +1041,17 @@ The best-paid tenth of workers take a large share of all earnings, and the
 threshold for entering that tenth is several times the median wage.
 
 ::: {.intuition}
-Now ask what "average earnings in India" is good for.
+Consider what "average earnings in India" is able to answer.
 
-Asking how much India earns in total? Fine — the mean times the number of
-workers is the total, by construction.
+For total earnings it is exact: the mean multiplied by the number of workers is
+the total, by construction.
 
-Asking what a typical Indian worker earns? Badly misleading. Very few people
-earn anything near the mean; most earn far less.
+For the earnings of a typical worker it is misleading. Very few people earn
+anything close to the mean, and most earn considerably less.
 
-Asking whether a policy helped? The mean can rise while the majority are worse
-off, if the gains land at the top. **An average can move in the opposite
-direction to almost everybody inside it.**
+For whether a policy has helped it can be actively deceptive. If the gains
+accrue at the top, the mean may rise while the majority are worse off. **An
+average can move in the opposite direction to almost everyone within it.**
 :::
 
 ::: {.keyidea}
@@ -1146,13 +1151,12 @@ economist from someone who can run regressions.
    and about who sits in the tails.
 :::
 
-We opened by claiming that the average you compute from a sample is almost
-certainly wrong. It is — and we can now say precisely how wrong, and with what
-probability. That is the whole of the difference between an anecdote and an
-estimate.
+This unit opened by claiming that the average computed from a sample is almost
+certainly wrong. It is — and we can now say how wrong, and with what
+probability.
 
-The next unit puts the machinery to work. If we know the sample mean is centred
-on $\mu$, spread by $\sigma/\sqrt{n}$ and approximately normal, we can turn
-a single sample into a **range** of plausible values for the population mean,
-with a stated level of confidence. That is estimation, and it is the first
-thing this apparatus was built for.
+The next unit puts that knowledge to use. Knowing that the sample mean is
+centred on $\mu$, has standard error $\sigma/\sqrt{n}$, and is approximately
+normally distributed, a single sample can be turned into a range of plausible
+values for the population mean, accompanied by a stated level of confidence.
+That is the subject of estimation.
