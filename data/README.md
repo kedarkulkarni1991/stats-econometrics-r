@@ -32,7 +32,7 @@ belong in the text.
 | `student-survey-height.csv` | 100 | region, residence, age, household size, height | Two-sample tests (North vs South, Urban vs Rural), sampling |
 | `student-survey-sleep.csv` | 106 | region, residence, age, social media hours, sleep, household size | Correlation, two-sample tests, multiple regression |
 | `marriage-ages.csv` | 10 | ages of both partners in 10 couples | **Paired-sample t-test** — the one design a two-sample test gets wrong |
-| *(wage data pending)* | — | — | **Withdrawn — see below.** Wage regressions, dummy variables, discrimination |
+| `wages-india-synthetic.csv` | 20,000 | annual earnings, education, age, religion, sex, urban/rural | **Simulated, calibrated to real IHDS-II estimates — see below.** Wage regressions, dummy variables, log-linear form, discrimination |
 | `beauty-wages.csv` | 1260 | log wage, experience, gender, city size, relationship | Multiple regression, interaction terms, functional form |
 | `leisure-labor.csv` | 239 | total work, sleep hours, gender, relationship, health | The work–sleep tradeoff; two-sample tests; controls |
 | `marital-happiness.csv` | 492 | age, marital happiness, gender, income | Categorical predictors, ordered outcomes |
@@ -111,20 +111,59 @@ The obvious substitute is IHDS, and it fails on two independent counts:
    households, with zero usable values. The caste analysis cannot be done with
    the public file at all, redistribution question aside.
 
-### What a replacement needs
+## The replacement: `wages-india-synthetic.csv`
 
-- Genuinely Indian, with an unmasked social-group variable
-- A licence that permits redistribution, so it can ship with the book
-- Individual-level earnings, education and sex
+The book ships a **simulated** dataset calibrated to real IHDS-II (2011–12)
+estimates, plus the script that produces the real ones.
 
-PLFS or the NSS Employment–Unemployment rounds are the natural candidates.
-Both require download from MoSPI's microdata portal, and their redistribution
-terms need checking before anything is committed here.
+**Why simulated.** The estimates below are genuine, from 44,361 wage earners
+aged 18–65 in IHDS-II. Regression coefficients and group means are research
+output — the thing every paper using IHDS publishes — and reproducing them in
+a simulation redistributes no microdata. The microdata itself cannot ship.
 
-Until that is settled, the wage-regression, dummy-variable and discrimination
-chapters have no dataset. `beauty-wages.csv` and `nba-salaries.csv` can carry
-the regression mechanics in the meantime, but neither supports an Indian
-discrimination example.
+**Why religion and not caste.** Caste would be the better variable, and it is
+unusable: both `GROUPS` and `ID13` are 100% masked in the public-use file.
+Religion is fully observed. Using it is a real limitation of the public data,
+not a modelling preference, and the book says so.
+
+### How faithful is it?
+
+`R/make-wages-synthetic.R` checks itself on every run:
+
+| Term | Real IHDS-II | Simulated | Difference |
+|:--|--:|--:|--:|
+| Year of education | 0.0734 | 0.0753 | +0.0020 |
+| Female | −0.7789 | −0.7690 | +0.0098 |
+| Urban | 0.8049 | 0.8084 | +0.0035 |
+| Muslim vs Hindu | 0.1063 | 0.1049 | −0.0015 |
+| Christian vs Hindu | 0.3940 | 0.4195 | +0.0255 |
+| Tribal vs Hindu | 0.3141 | 0.3184 | +0.0043 |
+| Education mean / sd | 5.80 / 4.97 | 5.71 / 4.97 | — |
+| R² | 0.347 | 0.324 | −0.023 |
+
+A student estimating the return to a year of schooling gets ≈7.5%, which is
+the real figure. The gender gap and urban premium are likewise right. R² runs
+slightly low because the simulation does not reproduce every correlation among
+the covariates.
+
+### Getting the real numbers
+
+`R/ihds-wages-real.R` runs the identical analysis against genuine IHDS. Edit
+`IHDS_PATH`, and it prints both the full regression and every calibration
+target above so the simulation can be audited. IHDS-II is
+[ICPSR study 36151](https://www.icpsr.umich.edu/web/DSDR/studies/36151);
+registration is free.
+
+**Do not commit IHDS files to this repository.** `data/raw/` is tracked.
+`private/` is git-ignored if you need somewhere local.
+
+### What the book must say
+
+Wherever this dataset appears, the text has to state plainly that it is
+simulated and cite the IHDS estimates it reproduces. Students may absolutely
+learn regression mechanics on simulated data; they may not be led to believe
+they have measured something about India when they have not. That distinction
+is exactly what went wrong with the dataset this one replaces.
 
 ## Settled decisions
 

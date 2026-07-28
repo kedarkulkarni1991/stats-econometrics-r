@@ -25,9 +25,10 @@ book:
 serve:
 	Rscript -e 'bookdown::serve_book(dir = ".", output_dir = "docs", preview = TRUE)'
 
-## Rebuild data/ from data/raw/
+## Rebuild data/ from data/raw/, and regenerate the simulated wage dataset
 data:
 	Rscript R/prepare-data.R
+	@Rscript R/make-wages-synthetic.R
 
 ## Fail if identifying student data has crept back in. Run before publishing.
 check:
