@@ -363,7 +363,7 @@ provides a framework for assessing the uncertainty associated with
 sample-based conclusions and for drawing conclusions about the underlying
 population.
 
-## From one sample to many {#u1-frequentist}
+## What if we repeated the survey? {#u1-frequentist}
 
 ::: {.question}
 If our conclusions depend on the particular sample we happened to observe, how
@@ -390,24 +390,29 @@ observing a different subset of the population.
 
 Of course, conducting thousands of nationwide surveys would be prohibitively
 expensive. Fortunately, we do not need to. Since we are treating our dataset as
-the population, drawing a fresh sample of two thousand workers and computing
-its mean is the computational equivalent of sending out another survey team.
-What would take years and a considerable budget in the field takes a moment on
-a computer.
+the population for the purposes of this chapter, we can recreate this thought
+experiment on a computer.
+
+Suppose we repeatedly draw random samples of 2,000 workers from our population.
+For each sample we calculate the mean annual earnings and store the result.
+After repeating this process one thousand times, we have one thousand sample
+means.
 
 ```{r u1-many-samples}
-set.seed(2)
+set.seed(1)
 
-many_means <- replicate(1000, mean(sample(workers$annual_earnings, 2000)))
-
-head(round(many_means), 8)
+sample_means <- replicate(
+  1000,
+  mean(sample(workers$annual_earnings,
+              size = 2000,
+              replace = TRUE))
+)
 ```
 
-A thousand samples, a thousand different answers. Considered one at a time they
-are simply a list of numbers. Considered together they are something else.
+What do these one thousand means look like?
 
-```{r u1-many-plot, echo = FALSE, fig.height = 3.6, fig.cap = "The means of a thousand samples, each of two thousand workers."}
-ggplot(data.frame(m = many_means / 1000), aes(m)) +
+```{r u1-many-plot, echo = FALSE, fig.height = 3.6, fig.cap = "Distribution of the sample mean based on 1,000 samples of 2,000 workers."}
+ggplot(data.frame(m = sample_means / 1000), aes(m)) +
   geom_histogram(bins = 45, fill = book_palette$fill, colour = "white",
                  linewidth = 0.15) +
   geom_vline(xintercept = mean(workers$annual_earnings) / 1000,
@@ -419,70 +424,47 @@ ggplot(data.frame(m = many_means / 1000), aes(m)) +
   theme_book()
 ```
 
-The individual earnings from which these samples were drawn are heavily skewed.
-The sample means are not. They are symmetric, closely clustered, and
-concentrated around the population mean. Their spread is also far narrower:
-individual earnings range from almost nothing to several million rupees, while
-the sample means differ from one another only modestly.
+Several features stand out immediately.
 
-Two features of this figure deserve attention. The sample means are centred on
-the population mean, and they vary in a regular and apparently predictable way.
-Neither was guaranteed in advance, and together they are what make inference
-possible.
+First, the sample means are not all identical. Even though every sample was
+drawn from the same population using the same procedure, each survey produced a
+slightly different estimate of average earnings.
 
-::: {.intuition}
-Notice what has changed. We are no longer asking what a particular sample says.
-We are asking how sample means behave when the sampling is repeated.
+Second, the variation is not arbitrary. Most of the sample means cluster within
+a relatively narrow range, while only a few lie far from the centre. Extreme
+values are possible, but they are uncommon.
 
-A single sample mean carries no indication of its own accuracy. The
-distribution of many sample means does: it has a centre and a spread, and both
-can be described. Knowing how far a typical sample mean falls from the
-population mean is precisely what allows a margin of error to be attached to
-the one sample we actually possess.
+Finally, the distribution itself has a remarkably regular shape. Although the
+earnings of individual workers are highly skewed, the distribution of the
+sample means is much more symmetric and concentrated.
+
+The thousand means are not just a collection of numbers. They form a
+distribution of their own. Notice what this distribution is describing. It is
+not the earnings of workers — those were the observations in our original
+dataset. Instead, it describes the values taken by the sample mean when the
+sampling process is repeated. The object of interest has changed. We are no
+longer studying workers; we are studying an estimator.
+
+::: {.keyidea}
+This distinction is the key to statistical inference. The original distribution
+tells us about the variability in earnings across individuals. The new
+distribution tells us about the variability in our estimate of the population
+mean.
+
+It is this second source of variation that determines how much confidence we
+should place in the average computed from a single survey.
 :::
 
-This way of reasoning — treating an observed sample as one realisation of a
-process that could have produced many others, and asking what would happen
-across those repetitions — is known as the **frequentist** approach. It
-underlies almost every method in this book.
+The distribution formed by a statistic over repeated samples is called its
+**sampling distribution**. It is one of the central ideas in statistics because
+it connects the data we observe to the population we wish to understand.
 
-It also leaves us with an obvious difficulty. In practice we cannot draw a
-thousand samples. We draw one. The figure above was constructed by repeating
-something that, in any real study, happens only once.
-
-The remainder of this unit resolves that difficulty. It turns out that the
-centre and spread of the pattern in this figure can be determined without
-constructing it, from a single sample and a small amount of theory.
-
-## Where we are going {#u1-roadmap}
-
-::: {.question}
-Can we predict how those averages behave?
-:::
-
-Three things are required, and the remainder of this unit supplies them in
-turn.
-
-**Probability** comes first, because describing randomness precisely requires a
-language for it. So far we have relied on words such as "varies" and
-"typical". To obtain numbers we must be exact about what a random quantity is,
-what its long-run average represents, and how its spread is measured.
-
-**The sampling distribution** follows, defined properly rather than merely
-displayed. Its centre and its spread both turn out to be obtainable on paper,
-from quantities that a single sample provides.
-
-**Two theorems** complete the account. The **Law of Large Numbers** establishes
-that sample averages approach the population mean as the sample grows. The
-**Central Limit Theorem** establishes that the pattern in Figure
-\@ref(fig:u1-many-plot) is approximately normal — and, more surprisingly, that
-it would have been approximately normal whatever the earnings distribution had
-looked like.
-
-Taken together, these results allow a single sample to yield not merely an
-estimate of the population mean, but a statement of how far that estimate is
-likely to lie from it. Every method in the remainder of this book — confidence
-intervals, hypothesis tests, regression — is an application of that idea.
+Two features of Figure \@ref(fig:u1-many-plot) are too striking to ignore.
+First, the sample means are tightly concentrated around the population mean.
+Second, despite the strong skewness of individual earnings, the sampling
+distribution is almost bell-shaped. These are not accidents. They are
+consequences of two remarkable mathematical results — the Law of Large Numbers
+and the Central Limit Theorem — which we study next.
 
 ## A language for randomness {#u1-random-variables}
 
@@ -579,39 +561,18 @@ will still run. They will simply be answering a question about a population you
 did not mean.
 :::
 
-## The sampling distribution {#u1-sampling-distribution}
+## A population where we know the answer {#u1-sampling-distribution}
 
 ::: {.question}
-What exactly was that picture of a thousand sample means?
+Can we check that any of this actually works?
 :::
 
-Now we can name it properly.
+The earnings data has a drawback for learning. We treated it as a population,
+but in a real study we would never see the population at all, and so could
+never confirm that a sampling distribution behaves as claimed.
 
-The distribution of a **random variable** describes how raw observations vary —
-how earnings differ from worker to worker.
-
-A **sampling distribution** describes how a *statistic* varies across repeated
-samples of a fixed size — how the sample mean differs from sample to sample.
-
-::: {.keyidea}
-These are two different distributions and confusing them is the most common
-error in this material.
-
-The earnings of 20,000 workers form one distribution: skewed, wide, running
-from near zero into the millions.
-
-The means of 1,000 surveys form quite another: symmetric, narrow, clustered
-around the truth.
-
-The second is not a summary of the first. It is a distribution of a *different
-quantity* — not of people, but of surveys.
-:::
-
-### A worked example we can check {-}
-
-Real data has a drawback for learning: we never know the true answer, so we
-cannot tell how well the machinery is doing. So build a population where the
-truth is known exactly.
+The remedy is to build a population small enough that its true mean can be
+written down exactly, and then see whether the machinery recovers it.
 
 Take a deck of cards, scored A = 1, J = 11, Q = 12, K = 13, and 2 through 10 at
 face value.
@@ -647,14 +608,14 @@ distribution:
 
 ```{r u1-sampdist}
 set.seed(7)
-sample_means <- replicate(1000, mean(sample(deck, size = 10, replace = TRUE)))
+deck_means <- replicate(1000, mean(sample(deck, size = 10, replace = TRUE)))
 
-c(mean_of_sample_means = mean(sample_means),
-  sd_of_sample_means   = sd(sample_means))
+c(mean_of_deck_means = mean(deck_means),
+  sd_of_deck_means   = sd(deck_means))
 ```
 
 ```{r u1-sampdist-plot, echo = FALSE, fig.height = 3.6, fig.cap = "One thousand sample means, each from 10 cards. Individual samples miss the population mean constantly. Their average lands almost exactly on it."}
-ggplot(data.frame(m = sample_means), aes(m)) +
+ggplot(data.frame(m = deck_means), aes(m)) +
   geom_histogram(bins = 32, fill = book_palette$fill, colour = "white",
                  linewidth = 0.2) +
   geom_vline(xintercept = 7, colour = book_palette$reject, linewidth = 0.9) +
@@ -668,13 +629,13 @@ ggplot(data.frame(m = sample_means), aes(m)) +
 Two things happened, and both matter.
 
 **The sample means are centred on the population mean.** No single sample got
-it right, but their average is `r round(mean(sample_means), 3)` — essentially
+it right, but their average is `r round(mean(deck_means), 3)` — essentially
 7. The sample mean is an **unbiased** estimator: not right, but not
 *systematically* wrong, which is a different and far more useful property.
 
 **The sample means vary much less than the cards do.** The population standard
 deviation is about `r round(sd(rep(1:13, 4)), 2)`; the sample means have a
-standard deviation of about `r round(sd(sample_means), 2)`. Averaging has
+standard deviation of about `r round(sd(deck_means), 2)`. Averaging has
 cancelled out much of the noise.
 
 ### What happens as the sample grows {-}
@@ -739,7 +700,7 @@ precision.
 ## The Law of Large Numbers {#u1-lln}
 
 ::: {.question}
-Why does a bigger sample give a better answer?
+What happens as the sample gets larger?
 :::
 
 We have now seen twice, in simulation, that sample means cluster around the
@@ -881,7 +842,7 @@ imbalance simply becomes a smaller and smaller share of the total.
 ## The Central Limit Theorem {#u1-clt}
 
 ::: {.question}
-Why was that picture of a thousand sample means bell-shaped?
+Why do the sample means look bell-shaped?
 :::
 
 The Law of Large Numbers tells us *where* the sample mean ends up. It says

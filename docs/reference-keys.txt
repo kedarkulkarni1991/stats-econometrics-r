@@ -22,7 +22,6 @@ u1-randomness
 u1-describing
 u1-not-enough
 u1-frequentist
-u1-roadmap
 u1-random-variables
 u1-sampling-distribution
 u1-lln
