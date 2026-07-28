@@ -228,54 +228,62 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="towards-inference" class="section level1 hasAnchor" number="1">
 <h1><span class="header-section-number">Unit 1</span> Towards Inferential Statistics<a href="towards-inference.html#towards-inference" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<p>Everything you have done with data so far has been <strong>descriptive</strong>. You take a
-set of numbers and summarise it: where the values sit, how far they spread, how
-often each one turns up. Those summaries tell you what the data look like, and
-they stop there. They make no claim about anything you did not measure.</p>
-<p>Two kinds of summary do most of the work. Measures of <strong>central tendency</strong> —
-the mean, the median, the mode — say where the data are concentrated. The mean
-matters most of the three, because it balances every observation against the
-others and gives a natural point of reference. Measures of <strong>dispersion</strong> — the
-variance and the standard deviation — say how far individual observations sit
-from that reference. The mean tells you what is typical; the variance tells you
-how much any single observation is likely to depart from it. In the language of
-distributions, these are the first and second moments.</p>
-<p>Numbers on their own hide things, so we also look. A histogram shows how often
-each range of values occurs, and makes symmetry, skewness and outliers visible
-at a glance. A bar chart does the same job for a variable that takes only a few
-distinct values. For a continuous variable, a smooth density curve captures the
-overall shape and makes two datasets easy to compare.</p>
-<p>All of this is essential, and it is always the first thing to do with a new
-dataset. It is how you notice trends, catch errors, and get a feel for what you
-are holding. But notice what it cannot do. <strong>Every descriptive statement is a
-statement about the data in front of you</strong> — and the data in front of you is
-almost never the thing you actually care about.</p>
-<p>You have a survey of two thousand households and you want to say something
-about the country. You have factory records for one year and you want to say
-something about Indian industry. You have a class of thirty-three students and
-you want to say something about young Indians. In each case the numbers you can
-compute describe your sample, while the question you want answered is about a
-population you did not observe.</p>
-<p>That gap is the problem, and it comes with a specific difficulty. Draw a
-different sample from the same population and you will get different numbers —
-a different mean, a different standard deviation. Every statistic you compute
-is part fact about the population and part accident of who happened to end up
-in your sample. Looking at one sample on its own, you have no way of telling
-how much of your answer is which.</p>
-<p><strong>Inferential statistics</strong> is the set of tools for making that leap and being
-honest about it. It works by asking a question that sounds strange the first
-time you hear it: not “what does my sample say?” but “if I drew samples like
-this over and over, how much would the answer move around?” Once you can answer
-that, you can say how far to trust the one sample you actually have.</p>
-<p>This unit builds that idea from the ground up. We begin with what a
-distribution is, and why it needs randomness to exist at all. We then meet the
-<strong>sampling distribution</strong> — the pattern formed not by raw observations but by a
-statistic computed from repeated samples — which is the pivot the whole subject
-turns on. The two units that follow take up the theorems that make it work: the
-<strong>Law of Large Numbers</strong>, which says the sample mean settles onto the
-population mean as samples grow, and the <strong>Central Limit Theorem</strong>, which says
-the shape of a sampling distribution is close to normal no matter what the
-population looks like.</p>
+<p>You already know how to calculate the average of a sample.</p>
+<p>In this unit, you will learn why that average is almost certainly wrong.</p>
+<p>At first glance, this seems like a strange claim. After all, there is only one
+way to calculate a sample mean, and if the arithmetic is correct, the answer
+must be correct as well. Yet the number you obtain from a sample is almost
+never exactly equal to the quantity you ultimately wish to know — the mean of
+the population from which that sample was drawn.</p>
+<p>Suppose you wish to estimate the average income of households in India. Since
+surveying every household is impossible, you select a sample of 2,000
+households and calculate its mean income. The calculation is straightforward,
+but the result immediately raises a question. How close is this sample mean to
+the true population mean?</p>
+<p>The difficulty is that the sample you have drawn is only one of many that could
+have been observed. Had a different 2,000 households been selected, the sample
+mean would almost certainly have been different. Draw another sample, and the
+answer changes again. Every statistic calculated from a sample therefore
+reflects two things at once: the characteristics of the underlying population,
+and the randomness introduced by the sampling process.</p>
+<p>This simple observation marks the boundary between descriptive and inferential
+statistics.</p>
+<p>Until now, our objective has been to describe the data that we observe.
+Measures of central tendency, such as the mean and the median, summarise where
+observations are concentrated. Measures of dispersion, such as the variance and
+standard deviation, describe how widely they are spread. Histograms, bar charts
+and density plots reveal the overall shape of a distribution and help us
+identify skewness, outliers and other important features. Together, these tools
+provide a concise description of a dataset and are the natural starting point
+of every empirical investigation.</p>
+<p>Most empirical research, however, is concerned not with the sample itself but
+with the population from which it was drawn. Economists survey a few thousand
+households to understand millions. Polling agencies interview a sample of
+voters to estimate national voting intentions. Medical researchers evaluate new
+treatments on a limited number of patients before recommending them to the
+wider population. In every case, the sample serves as evidence about a
+population that cannot be observed directly.</p>
+<p>The central problem of inferential statistics is therefore straightforward to
+state: <strong>how can we use the information contained in a sample to learn about
+the population from which it came?</strong></p>
+<p>Throughout this course we adopt the <strong>frequentist</strong> approach to answering this
+question. Rather than treating the observed sample as unique, we imagine
+drawing many samples from the same population and calculating the same
+statistic repeatedly. Some sample means will be larger than others, some
+smaller. Understanding how statistics vary across these hypothetical samples
+allows us to assess how much confidence we should place in the estimate
+computed from the one sample we actually observe.</p>
+<p>The rest of this unit develops that idea systematically. We begin with
+probability, because statistical inference requires a language for describing
+randomness. We then introduce <strong>sampling distributions</strong>, which describe the
+behaviour of statistics across repeated samples. The two units that follow take
+up the fundamental results that make inference possible: the <strong>Law of Large
+Numbers</strong>, which explains why sample averages converge towards the population
+mean as the sample size increases, and the <strong>Central Limit Theorem</strong>, which
+explains why sampling distributions are approximately normal under remarkably
+general conditions. Together, these results provide the theoretical foundation
+for confidence intervals, hypothesis testing and much of modern empirical
+research.</p>
 </div>
 <script>
 // Solutions are written as plain fenced divs in the source, so the PDF edition

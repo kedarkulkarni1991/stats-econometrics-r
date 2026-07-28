@@ -228,9 +228,9 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="d2i-descriptive" class="section level2 hasAnchor" number="1.1">
 <h2><span class="header-section-number">1.1</span> Descriptive statistics, briefly<a href="d2i-descriptive.html#d2i-descriptive" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>Before leaving description behind, it is worth seeing the tools on real data.</p>
-<p>The Annual Survey of Industries records value added by registered factories
-in each Indian state:</p>
+<p>Those tools are worth seeing on real data before we leave them behind. The
+Annual Survey of Industries records value added by registered factories in
+each Indian state:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="d2i-descriptive.html#cb2-1" tabindex="-1"></a>asi <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/asi-state-gva.csv&quot;</span>)</span>
 <span id="cb2-2"><a href="d2i-descriptive.html#cb2-2" tabindex="-1"></a>asi_2010 <span class="ot">&lt;-</span> <span class="fu">subset</span>(asi, yr <span class="sc">==</span> <span class="dv">2010</span> <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(gva))</span>
 <span id="cb2-3"><a href="d2i-descriptive.html#cb2-3" tabindex="-1"></a></span>

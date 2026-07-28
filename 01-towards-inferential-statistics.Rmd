@@ -5,68 +5,78 @@ source("_common.R")
 library(ggplot2)
 ```
 
-Everything you have done with data so far has been **descriptive**. You take a
-set of numbers and summarise it: where the values sit, how far they spread, how
-often each one turns up. Those summaries tell you what the data look like, and
-they stop there. They make no claim about anything you did not measure.
+You already know how to calculate the average of a sample.
 
-Two kinds of summary do most of the work. Measures of **central tendency** —
-the mean, the median, the mode — say where the data are concentrated. The mean
-matters most of the three, because it balances every observation against the
-others and gives a natural point of reference. Measures of **dispersion** — the
-variance and the standard deviation — say how far individual observations sit
-from that reference. The mean tells you what is typical; the variance tells you
-how much any single observation is likely to depart from it. In the language of
-distributions, these are the first and second moments.
+In this unit, you will learn why that average is almost certainly wrong.
 
-Numbers on their own hide things, so we also look. A histogram shows how often
-each range of values occurs, and makes symmetry, skewness and outliers visible
-at a glance. A bar chart does the same job for a variable that takes only a few
-distinct values. For a continuous variable, a smooth density curve captures the
-overall shape and makes two datasets easy to compare.
+At first glance, this seems like a strange claim. After all, there is only one
+way to calculate a sample mean, and if the arithmetic is correct, the answer
+must be correct as well. Yet the number you obtain from a sample is almost
+never exactly equal to the quantity you ultimately wish to know — the mean of
+the population from which that sample was drawn.
 
-All of this is essential, and it is always the first thing to do with a new
-dataset. It is how you notice trends, catch errors, and get a feel for what you
-are holding. But notice what it cannot do. **Every descriptive statement is a
-statement about the data in front of you** — and the data in front of you is
-almost never the thing you actually care about.
+Suppose you wish to estimate the average income of households in India. Since
+surveying every household is impossible, you select a sample of 2,000
+households and calculate its mean income. The calculation is straightforward,
+but the result immediately raises a question. How close is this sample mean to
+the true population mean?
 
-You have a survey of two thousand households and you want to say something
-about the country. You have factory records for one year and you want to say
-something about Indian industry. You have a class of thirty-three students and
-you want to say something about young Indians. In each case the numbers you can
-compute describe your sample, while the question you want answered is about a
-population you did not observe.
+The difficulty is that the sample you have drawn is only one of many that could
+have been observed. Had a different 2,000 households been selected, the sample
+mean would almost certainly have been different. Draw another sample, and the
+answer changes again. Every statistic calculated from a sample therefore
+reflects two things at once: the characteristics of the underlying population,
+and the randomness introduced by the sampling process.
 
-That gap is the problem, and it comes with a specific difficulty. Draw a
-different sample from the same population and you will get different numbers —
-a different mean, a different standard deviation. Every statistic you compute
-is part fact about the population and part accident of who happened to end up
-in your sample. Looking at one sample on its own, you have no way of telling
-how much of your answer is which.
+This simple observation marks the boundary between descriptive and inferential
+statistics.
 
-**Inferential statistics** is the set of tools for making that leap and being
-honest about it. It works by asking a question that sounds strange the first
-time you hear it: not "what does my sample say?" but "if I drew samples like
-this over and over, how much would the answer move around?" Once you can answer
-that, you can say how far to trust the one sample you actually have.
+Until now, our objective has been to describe the data that we observe.
+Measures of central tendency, such as the mean and the median, summarise where
+observations are concentrated. Measures of dispersion, such as the variance and
+standard deviation, describe how widely they are spread. Histograms, bar charts
+and density plots reveal the overall shape of a distribution and help us
+identify skewness, outliers and other important features. Together, these tools
+provide a concise description of a dataset and are the natural starting point
+of every empirical investigation.
 
-This unit builds that idea from the ground up. We begin with what a
-distribution is, and why it needs randomness to exist at all. We then meet the
-**sampling distribution** — the pattern formed not by raw observations but by a
-statistic computed from repeated samples — which is the pivot the whole subject
-turns on. The two units that follow take up the theorems that make it work: the
-**Law of Large Numbers**, which says the sample mean settles onto the
-population mean as samples grow, and the **Central Limit Theorem**, which says
-the shape of a sampling distribution is close to normal no matter what the
-population looks like.
+Most empirical research, however, is concerned not with the sample itself but
+with the population from which it was drawn. Economists survey a few thousand
+households to understand millions. Polling agencies interview a sample of
+voters to estimate national voting intentions. Medical researchers evaluate new
+treatments on a limited number of patients before recommending them to the
+wider population. In every case, the sample serves as evidence about a
+population that cannot be observed directly.
+
+The central problem of inferential statistics is therefore straightforward to
+state: **how can we use the information contained in a sample to learn about
+the population from which it came?**
+
+Throughout this course we adopt the **frequentist** approach to answering this
+question. Rather than treating the observed sample as unique, we imagine
+drawing many samples from the same population and calculating the same
+statistic repeatedly. Some sample means will be larger than others, some
+smaller. Understanding how statistics vary across these hypothetical samples
+allows us to assess how much confidence we should place in the estimate
+computed from the one sample we actually observe.
+
+The rest of this unit develops that idea systematically. We begin with
+probability, because statistical inference requires a language for describing
+randomness. We then introduce **sampling distributions**, which describe the
+behaviour of statistics across repeated samples. The two units that follow take
+up the fundamental results that make inference possible: the **Law of Large
+Numbers**, which explains why sample averages converge towards the population
+mean as the sample size increases, and the **Central Limit Theorem**, which
+explains why sampling distributions are approximately normal under remarkably
+general conditions. Together, these results provide the theoretical foundation
+for confidence intervals, hypothesis testing and much of modern empirical
+research.
 
 ## Descriptive statistics, briefly {#d2i-descriptive}
 
-Before leaving description behind, it is worth seeing the tools on real data.
-
-The Annual Survey of Industries records value added by registered factories
-in each Indian state:
+Those tools are worth seeing on real data before we leave them behind. The
+Annual Survey of Industries records value added by registered factories in
+each Indian state:
 
 ```{r d2i-desc}
 asi <- read.csv("data/asi-state-gva.csv")
@@ -130,15 +140,7 @@ next year too, unregistered firms too, under a different policy too. The moment
 you want that, you have left description behind.
 :::
 
-**Inferential statistics** is the discipline of making that leap and being
-honest about how far you have jumped.
-
 ::: {.keyidea}
-Descriptive statistics summarises the data you have.
-
-Inferential statistics uses the data you have to make claims about data you do
-not have — and attaches a statement of how uncertain those claims are.
-
 A number without an honest account of its uncertainty is not a finding. It is
 an anecdote with decimal places.
 :::
