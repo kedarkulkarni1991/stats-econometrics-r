@@ -3,11 +3,16 @@ output_dir: "docs"
 delete_merged_file: true
 new_session: false
 
+# Part 1. Written in the order a student should read it: what inference is and
+# why it is hard, then the distributions that describe populations, then the
+# two theorems that let us reason from a sample to a population, then the
+# machinery that rests on them.
 rmd_files:
   - "index.Rmd"
-  - "11-hypothesis-testing-one-sample.Rmd"
+  - "01-description-to-inference.Rmd"
+  - "06-hypothesis-testing-one-sample.Rmd"
 
 language:
   ui:
-    chapter_name: "Chapter "
+    chapter_name: "Unit "
     appendix_name: "Appendix "

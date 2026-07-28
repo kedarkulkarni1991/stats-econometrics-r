@@ -1,0 +1,300 @@
+# From Description to Inference {#description-to-inference}
+
+```{r setup-01, include = FALSE}
+source("_common.R")
+library(ggplot2)
+```
+
+Almost everything in this book is an answer to one question:
+
+> **You have looked at some of the data. What can you say about the part you
+> did not look at?**
+
+That sentence is the whole subject. Everything else — distributions, the two
+great theorems, standard errors, $t$-statistics, regression — is machinery
+built to answer it honestly.
+
+## Two questions that look alike {#d2i-two-questions}
+
+Start with something you can settle completely.
+
+```{r d2i-class}
+students <- read.csv("data/stats-class.csv")
+
+mean(students$height, na.rm = TRUE)
+```
+
+The average height in this class is about
+`r round(mean(read.csv("data/stats-class.csv")$height, na.rm = TRUE), 1)` cm.
+
+Now: how confident are you in that number?
+
+::: {.intuition}
+Completely confident. There is nothing to be confident *about*. You measured
+everyone in the class, so the average height of the class is simply a fact you
+computed. There is no uncertainty, no margin of error, no $p$-value. Asking
+"but is it statistically significant?" would be meaningless — significantly
+different from what?
+
+This is **descriptive statistics**: you have the whole group you care about,
+and you are summarising it.
+:::
+
+Now a question that looks almost identical.
+
+The Annual Survey of Industries records value added by registered factories in
+each Indian state. Here is 2010:
+
+```{r d2i-asi}
+asi <- read.csv("data/asi-state-gva.csv")
+asi_2010 <- subset(asi, yr == 2010 & !is.na(gva))
+
+nrow(asi_2010)
+mean(asi_2010$gva)
+```
+
+The ASI reports value added in ₹ lakh, so that average is about
+₹`r format(round(mean(subset(read.csv("data/asi-state-gva.csv"), yr == 2010 & !is.na(gva))$gva) / 100), big.mark = ",")`
+crore per state.
+
+```{r d2i-crore}
+# 1 lakh = 100,000;  1 crore = 100 lakh = 10,000,000
+asi_2010$gva_crore <- asi_2010$gva / 100
+
+summary(asi_2010$gva_crore)
+```
+
+Same arithmetic. Completely different epistemic situation — for two separate
+reasons, and it is worth being precise about which is which.
+
+::: {.watchout}
+**Reason one: the ASI is a survey, not a census.** It does not visit every
+factory. It samples them. So the state figures are estimates, each carrying
+sampling error, before we compute anything at all.
+
+**Reason two, and the one that matters more here: what do you want the number
+*for*?** If you only want to describe the 32 states in 2010, the mean above is
+a fact, like the class average. But nobody wants that. They want to say
+something about *Indian industry* — including 2011, including unregistered
+firms, including what would happen under a different policy. The moment you
+want that, you have left description behind.
+:::
+
+**Inferential statistics** is the discipline of making that leap and being
+honest about how far you have jumped.
+
+::: {.keyidea}
+Descriptive statistics summarises the data you have.
+
+Inferential statistics uses the data you have to make claims about data you do
+not have — and, crucially, attaches a statement of how uncertain those claims
+are.
+
+A number without an honest account of its uncertainty is not a finding. It is
+an anecdote with decimal places.
+:::
+
+## The population you cannot see {#d2i-population}
+
+The leap needs vocabulary.
+
+The **population** is the entire collection you want to know about. Every
+registered factory in India. Every agricultural labourer. Every household that
+might be offered a job guarantee scheme.
+
+The **sample** is what you actually observe.
+
+A **parameter** is a number describing the population — the true mean $\mu$,
+the true standard deviation $\sigma$. You never see these. Write them as Greek
+letters to remember they are permanently out of reach.
+
+A **statistic** is a number computed from your sample — $\bar{x}$, $s$. You can
+always see these. They are your only evidence.
+
+::: {.keyidea}
+The entire problem of inference in one line:
+
+$$\underbrace{\bar{x}}_{\text{you see this}} \quad\longrightarrow\quad \underbrace{\mu}_{\text{you want this}}$$
+
+The arrow is not equality. Making that arrow trustworthy — and quantifying how
+much to trust it — is what the rest of this book is about.
+:::
+
+Why can we say anything at all? Because a sample drawn properly from a
+population carries information about it. Not perfect information. But
+information whose reliability we can *calculate*, which turns out to be enough.
+
+Two theorems make the calculation possible. The **Law of Large Numbers**
+says that as samples grow, the sample
+mean closes in on the population mean. The **Central Limit Theorem** says
+something more surprising: it tells us the *shape* of the error, and that shape
+turns out to be the same no matter what the population looks like. Together
+they convert "we are probably close" into a number.
+
+Before we get there, we need distributions — the objects that describe
+populations in the first place.
+
+## The average is not the distribution {#d2i-average}
+
+Here is a habit worth forming now, before any technique gets in the way.
+
+Almost all of inferential statistics is about averages. Nearly every method in
+this book estimates a mean, compares two means, or fits a line through
+conditional means. That focus is not an accident: means are well behaved,
+they have tractable sampling distributions, and the two theorems above are
+statements about them.
+
+But the mean is only *one* summary of a distribution, and often not the one a
+policy question actually cares about.
+
+Look again at industrial value added across states:
+
+```{r d2i-skew}
+c(mean   = mean(asi_2010$gva_crore),
+  median = median(asi_2010$gva_crore))
+
+mean(asi_2010$gva_crore) / median(asi_2010$gva_crore)
+```
+
+The mean is more than **twice** the median. When those two diverge that
+sharply, the average has stopped describing a typical state.
+
+```{r d2i-skew-plot, echo = FALSE, fig.height = 4.2, fig.cap = "Industrial value added across Indian states, 2010. The mean sits far to the right of most states, dragged there by a handful of large ones."}
+ggplot(asi_2010, aes(gva_crore)) +
+  geom_histogram(bins = 22, fill = book_palette$fill, colour = "white",
+                 linewidth = 0.25) +
+  geom_vline(xintercept = median(asi_2010$gva_crore),
+             colour = book_palette$ink, linetype = "dashed", linewidth = 0.7) +
+  geom_vline(xintercept = mean(asi_2010$gva_crore),
+             colour = book_palette$reject, linewidth = 0.9) +
+  annotate("label", x = mean(asi_2010$gva_crore), y = Inf, vjust = 1.4,
+           label = "mean", colour = book_palette$reject, fill = "white",
+           size = 3.5, label.size = 0.3) +
+  annotate("label", x = median(asi_2010$gva_crore), y = Inf, vjust = 3.2,
+           label = "median", colour = book_palette$ink, fill = "white",
+           size = 3.5, label.size = 0.3) +
+  scale_x_continuous(labels = scales::comma) +
+  labs(x = "gross value added (₹ crore)", y = "number of states") +
+  theme_book()
+```
+
+How concentrated is it really?
+
+```{r d2i-concentration}
+top5 <- sort(asi_2010$gva_crore, decreasing = TRUE)[1:5]
+
+round(100 * sum(top5) / sum(asi_2010$gva_crore))   # % of all value added
+round(max(asi_2010$gva_crore) / median(asi_2010$gva_crore), 1)   # top state vs median
+```
+
+Five states hold about 59% of registered industrial value added. The largest
+produces roughly thirteen times the median state.
+
+::: {.intuition}
+Now ask what "average industrial value added across states" is good for.
+
+If you are asking how much industry India has in total, it is fine — the mean
+times the number of states is the total, by construction.
+
+If you are asking what industry looks like in a typical Indian state, it is
+badly misleading. No state is near the mean. The distribution is two different
+countries: a handful of industrial giants and a long tail of states doing
+something else entirely.
+
+If you are asking whether industrial growth is spreading, the mean can rise
+while every state but one falls further behind. **The average can move in the
+opposite direction to almost everybody in it.**
+:::
+
+::: {.keyidea}
+Learn to ask two questions of every average you meet, including the ones you
+compute yourself:
+
+1. **What is the spread?** A mean with no measure of dispersion is half a
+   sentence.
+2. **Who is where?** Means are useless for questions about the bottom of a
+   distribution — poverty, vulnerability, who is hurt by a shock. Those are
+   questions about *tails*, and a mean is specifically the statistic that
+   averages tails away.
+:::
+
+This is not a philosophical aside; it changes what you estimate. Whole
+literatures in development economics exist because the mean was the wrong
+target: poverty measures weight the poor rather than averaging over everyone,
+vulnerability measures ask who is exposed to falling below a line, and
+distributional analyses ask whether a policy that raised average income raised
+*anyone's* income who was previously badly off.
+
+We will come back to this repeatedly. When we fit a regression, we will be
+modelling a conditional *mean*, and it will be worth asking each time what that
+choice hides. When we get to binary explanatory variables in
+the unit on binary explanatory variables, we will estimate an average
+treatment effect, and the
+word "average" in that phrase will deserve every bit of the suspicion you can
+give it.
+
+::: {.watchout}
+None of this means averages are bad. They are the right tool for an enormous
+number of questions, and this book spends most of its length on them for good
+reason.
+
+It means the average is an *answer to a specific question*, not a neutral
+summary of the data. Know which question you are asking before you decide the
+mean is the answer.
+:::
+
+## What can go wrong before any mathematics {#d2i-what-goes-wrong}
+
+Inference assumes your sample carries information about the population you care
+about. Three ways that assumption fails, none of which any formula will warn
+you about.
+
+**The sample is not from the population you mean.** The ASI covers
+*registered* factories. Most Indian manufacturing employment is unregistered.
+Conclusions about "Indian manufacturing" from ASI data are conclusions about a
+formal sliver of it. The arithmetic will not object.
+
+**The sample is not random.** Our class survey has 32 heights. They are not a
+random sample of APU students, let alone of young Indians — they are the people
+who took this course and turned up that day. You may compute a confidence
+interval from them, and it will mean nothing about the university.
+
+**The question is causal but the data is not.** Suppose states with more
+industry have higher literacy. Does industry raise literacy? Does literacy
+attract industry? Does something else drive both? The correlation is the same
+in all three cases. No amount of statistical machinery distinguishes them
+without an argument about *how the data came to be*.
+
+::: {.intuition}
+This last one is the reason this book is organised the way it is. From
+the unit on two-sample tests onwards, we stop asking only "what is this
+number?" and
+start asking "what would have to be true for this number to mean what I want it
+to mean?"
+
+That question — not any particular estimator — is what separates a good applied
+economist from someone who can run regressions.
+:::
+
+## What you should take from this unit {#d2i-summary}
+
+::: {.keyidea}
+1. **Description** summarises data you have. **Inference** reaches beyond it,
+   and must report how far it has reached.
+2. Greek letters ($\mu$, $\sigma$) are population parameters you never observe.
+   Roman letters ($\bar{x}$, $s$) are sample statistics you compute. Inference
+   is the bridge.
+3. The bridge is built from two theorems, the Law of Large Numbers and the
+   Central Limit Theorem, and it needs distributions first.
+4. **The mean is one feature of a distribution, not a summary of it.** Indian
+   industrial value added has a mean twice its median; five states hold 59% of
+   it. Always ask about spread, and about who sits in the tails.
+5. No formula can rescue a sample drawn from the wrong population, drawn
+   non-randomly, or asked a causal question it cannot answer.
+:::
+
+Next we look at the distributions themselves — binomial, Poisson, normal, and
+the difference between discrete and continuous. They are how we describe a
+population. What they do *not* do, on their own, is let us infer anything from
+a sample — and seeing exactly why is what makes the two theorems feel necessary
+rather than arbitrary.

@@ -173,4 +173,46 @@ d <- read.csv(raw("mexico-gdp.csv"), check.names = FALSE)
 names(d) <- c("year", "gdp", "employment", "capital")
 clean(d, "mexico-gdp.csv")
 
+## ---------------------------------------------------------------------------
+## Indian economy data
+## ---------------------------------------------------------------------------
+##
+## Public-source series: Annual Survey of Industries, NSS Employment-
+## Unemployment, Labour Bureau CPI for agricultural labourers, ICRISAT prices.
+## Assembled originally for research, reshaped here for teaching.
+##
+## Deliberately NOT included: the constructed analysis panels from the
+## climate-terms-of-trade paper (output_shares, terms_of_trade,
+## mechanism_panel, analysis_panel). That paper is under review, and this book
+## is CC BY, which would let anyone reuse the panels commercially the day it
+## goes up. Revisit once the paper is out.
+
+## 20. ASI state value added, 1980-2015 ---------------------------------------
+## Heavily right-skewed across states, which is the point: it is the book's
+## running example of an average that conceals more than it reveals.
+
+d <- trim_chars(read.csv(raw("asi-state-gva.csv")))
+clean(d, "asi-state-gva.csv")
+
+## 21. ASI state value added and profit ---------------------------------------
+
+d <- trim_chars(read.csv(raw("asi-state-profit.csv")))
+clean(d, "asi-state-profit.csv")
+
+## 22. NSS employment, 1983 cross-section (31 states) -------------------------
+## Small enough to regress by hand and check against lm().
+
+d <- read.csv(raw("nss-employment-1983.csv"))
+clean(d, "nss-employment-1983.csv")
+
+## 23. CPI inflation, agricultural labourers ----------------------------------
+
+d <- trim_chars(read.csv(raw("cpi-agri-labour.csv")))
+clean(d, "cpi-agri-labour.csv")
+
+## 24. ICRISAT agricultural price inflation -----------------------------------
+
+d <- trim_chars(read.csv(raw("icrisat-prices.csv")))
+clean(d, "icrisat-prices.csv")
+
 cat("Done.\n")

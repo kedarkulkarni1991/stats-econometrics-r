@@ -4,12 +4,12 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Licence and citation | Statistics and Econometrics with R</title>
+  <title>1.2 The population you cannot see | Statistics and Econometrics with R</title>
   <meta name="description" content="<p>A first course in statistics and econometrics, where every idea is developed
 on paper and then immediately carried out in R.</p>" />
   <meta name="generator" content="bookdown 0.47 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Licence and citation | Statistics and Econometrics with R" />
+  <meta property="og:title" content="1.2 The population you cannot see | Statistics and Econometrics with R" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="<p>A first course in statistics and econometrics, where every idea is developed
@@ -17,7 +17,7 @@ on paper and then immediately carried out in R.</p>" />
   <meta name="github-repo" content="kedarkulkarni1991/stats-econometrics-r" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Licence and citation | Statistics and Econometrics with R" />
+  <meta name="twitter:title" content="1.2 The population you cannot see | Statistics and Econometrics with R" />
   
   <meta name="twitter:description" content="<p>A first course in statistics and econometrics, where every idea is developed
 on paper and then immediately carried out in R.</p>" />
@@ -32,8 +32,8 @@ on paper and then immediately carried out in R.</p>" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="a-note-on-the-data.html"/>
-<link rel="next" href="description-to-inference.html"/>
+<link rel="prev" href="d2i-two-questions.html"/>
+<link rel="next" href="d2i-average.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -214,37 +214,43 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="licence-and-citation" class="section level2 unnumbered hasAnchor">
-<h2>Licence and citation<a href="licence-and-citation.html#licence-and-citation" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>This book is free, in both senses. The text, figures, exercises and datasets
-are released under
-<a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0</a>,
-and the code under the <a href="https://opensource.org/licenses/MIT">MIT licence</a>.</p>
-<p>You may copy it, print it, translate it, remix it, teach from it, and build on
-it — for any purpose, including commercially. The only condition is that you
-credit the source.</p>
-<p>If you spot an error, there is a <strong>pencil icon at the top of every page</strong>. It
-opens that chapter’s source on GitHub, where you can fix the mistake and send
-it back without installing anything. Corrections from students are genuinely
-welcome; several of the sharper points in this book exist because someone
-asked why.</p>
-<p>To cite:</p>
-<blockquote>
-<p>Kulkarni, K. (2026). <em>Statistics and Econometrics with R.</em>
-Azim Premji University.
-<a href="https://kedarkulkarni1991.github.io/stats-econometrics-r/" class="uri">https://kedarkulkarni1991.github.io/stats-econometrics-r/</a>
-Licensed under CC BY 4.0.</p>
-</blockquote>
-
+<div id="d2i-population" class="section level2 hasAnchor" number="1.2">
+<h2><span class="header-section-number">1.2</span> The population you cannot see<a href="d2i-population.html#d2i-population" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The leap needs vocabulary.</p>
+<p>The <strong>population</strong> is the entire collection you want to know about. Every
+registered factory in India. Every agricultural labourer. Every household that
+might be offered a job guarantee scheme.</p>
+<p>The <strong>sample</strong> is what you actually observe.</p>
+<p>A <strong>parameter</strong> is a number describing the population — the true mean <span class="math inline">\(\mu\)</span>,
+the true standard deviation <span class="math inline">\(\sigma\)</span>. You never see these. Write them as Greek
+letters to remember they are permanently out of reach.</p>
+<p>A <strong>statistic</strong> is a number computed from your sample — <span class="math inline">\(\bar{x}\)</span>, <span class="math inline">\(s\)</span>. You can
+always see these. They are your only evidence.</p>
+<div class="keyidea">
+<p>The entire problem of inference in one line:</p>
+<p><span class="math display">\[\underbrace{\bar{x}}_{\text{you see this}} \quad\longrightarrow\quad \underbrace{\mu}_{\text{you want this}}\]</span></p>
+<p>The arrow is not equality. Making that arrow trustworthy — and quantifying how
+much to trust it — is what the rest of this book is about.</p>
 </div>
-<!-- </div> -->
+<p>Why can we say anything at all? Because a sample drawn properly from a
+population carries information about it. Not perfect information. But
+information whose reliability we can <em>calculate</em>, which turns out to be enough.</p>
+<p>Two theorems make the calculation possible. The <strong>Law of Large Numbers</strong>
+says that as samples grow, the sample
+mean closes in on the population mean. The <strong>Central Limit Theorem</strong> says
+something more surprising: it tells us the <em>shape</em> of the error, and that shape
+turns out to be the same no matter what the population looks like. Together
+they convert “we are probably close” into a number.</p>
+<p>Before we get there, we need distributions — the objects that describe
+populations in the first place.</p>
+</div>
             </section>
 
           </div>
         </div>
       </div>
-<a href="a-note-on-the-data.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="description-to-inference.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="d2i-two-questions.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="d2i-average.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -275,7 +281,7 @@ gitbook.start({
     "size": 2
   },
   "edit": {
-    "link": "https://github.com/kedarkulkarni1991/stats-econometrics-r/edit/main/index.Rmd",
+    "link": "https://github.com/kedarkulkarni1991/stats-econometrics-r/edit/main/01-description-to-inference.Rmd",
     "text": "Edit"
   },
   "history": {

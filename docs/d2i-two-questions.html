@@ -4,12 +4,12 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Licence and citation | Statistics and Econometrics with R</title>
+  <title>1.1 Two questions that look alike | Statistics and Econometrics with R</title>
   <meta name="description" content="<p>A first course in statistics and econometrics, where every idea is developed
 on paper and then immediately carried out in R.</p>" />
   <meta name="generator" content="bookdown 0.47 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Licence and citation | Statistics and Econometrics with R" />
+  <meta property="og:title" content="1.1 Two questions that look alike | Statistics and Econometrics with R" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="<p>A first course in statistics and econometrics, where every idea is developed
@@ -17,7 +17,7 @@ on paper and then immediately carried out in R.</p>" />
   <meta name="github-repo" content="kedarkulkarni1991/stats-econometrics-r" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Licence and citation | Statistics and Econometrics with R" />
+  <meta name="twitter:title" content="1.1 Two questions that look alike | Statistics and Econometrics with R" />
   
   <meta name="twitter:description" content="<p>A first course in statistics and econometrics, where every idea is developed
 on paper and then immediately carried out in R.</p>" />
@@ -32,8 +32,8 @@ on paper and then immediately carried out in R.</p>" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="a-note-on-the-data.html"/>
-<link rel="next" href="description-to-inference.html"/>
+<link rel="prev" href="description-to-inference.html"/>
+<link rel="next" href="d2i-population.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -214,37 +214,75 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="licence-and-citation" class="section level2 unnumbered hasAnchor">
-<h2>Licence and citation<a href="licence-and-citation.html#licence-and-citation" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>This book is free, in both senses. The text, figures, exercises and datasets
-are released under
-<a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0</a>,
-and the code under the <a href="https://opensource.org/licenses/MIT">MIT licence</a>.</p>
-<p>You may copy it, print it, translate it, remix it, teach from it, and build on
-it — for any purpose, including commercially. The only condition is that you
-credit the source.</p>
-<p>If you spot an error, there is a <strong>pencil icon at the top of every page</strong>. It
-opens that chapter’s source on GitHub, where you can fix the mistake and send
-it back without installing anything. Corrections from students are genuinely
-welcome; several of the sharper points in this book exist because someone
-asked why.</p>
-<p>To cite:</p>
-<blockquote>
-<p>Kulkarni, K. (2026). <em>Statistics and Econometrics with R.</em>
-Azim Premji University.
-<a href="https://kedarkulkarni1991.github.io/stats-econometrics-r/" class="uri">https://kedarkulkarni1991.github.io/stats-econometrics-r/</a>
-Licensed under CC BY 4.0.</p>
-</blockquote>
-
+<div id="d2i-two-questions" class="section level2 hasAnchor" number="1.1">
+<h2><span class="header-section-number">1.1</span> Two questions that look alike<a href="d2i-two-questions.html#d2i-two-questions" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Start with something you can settle completely.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="d2i-two-questions.html#cb2-1" tabindex="-1"></a>students <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/stats-class.csv&quot;</span>)</span>
+<span id="cb2-2"><a href="d2i-two-questions.html#cb2-2" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="d2i-two-questions.html#cb2-3" tabindex="-1"></a><span class="fu">mean</span>(students<span class="sc">$</span>height, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<pre><code>#&gt; [1] 169.5</code></pre>
+<p>The average height in this class is about
+169.5 cm.</p>
+<p>Now: how confident are you in that number?</p>
+<div class="intuition">
+<p>Completely confident. There is nothing to be confident <em>about</em>. You measured
+everyone in the class, so the average height of the class is simply a fact you
+computed. There is no uncertainty, no margin of error, no <span class="math inline">\(p\)</span>-value. Asking
+“but is it statistically significant?” would be meaningless — significantly
+different from what?</p>
+<p>This is <strong>descriptive statistics</strong>: you have the whole group you care about,
+and you are summarising it.</p>
 </div>
-<!-- </div> -->
+<p>Now a question that looks almost identical.</p>
+<p>The Annual Survey of Industries records value added by registered factories in
+each Indian state. Here is 2010:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="d2i-two-questions.html#cb4-1" tabindex="-1"></a>asi <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/asi-state-gva.csv&quot;</span>)</span>
+<span id="cb4-2"><a href="d2i-two-questions.html#cb4-2" tabindex="-1"></a>asi_2010 <span class="ot">&lt;-</span> <span class="fu">subset</span>(asi, yr <span class="sc">==</span> <span class="dv">2010</span> <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(gva))</span>
+<span id="cb4-3"><a href="d2i-two-questions.html#cb4-3" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="d2i-two-questions.html#cb4-4" tabindex="-1"></a><span class="fu">nrow</span>(asi_2010)</span></code></pre></div>
+<pre><code>#&gt; [1] 32</code></pre>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="d2i-two-questions.html#cb6-1" tabindex="-1"></a><span class="fu">mean</span>(asi_2010<span class="sc">$</span>gva)</span></code></pre></div>
+<pre><code>#&gt; [1] 2578542</code></pre>
+<p>The ASI reports value added in ₹ lakh, so that average is about
+₹25,785
+crore per state.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="d2i-two-questions.html#cb8-1" tabindex="-1"></a><span class="co"># 1 lakh = 100,000;  1 crore = 100 lakh = 10,000,000</span></span>
+<span id="cb8-2"><a href="d2i-two-questions.html#cb8-2" tabindex="-1"></a>asi_2010<span class="sc">$</span>gva_crore <span class="ot">&lt;-</span> asi_2010<span class="sc">$</span>gva <span class="sc">/</span> <span class="dv">100</span></span>
+<span id="cb8-3"><a href="d2i-two-questions.html#cb8-3" tabindex="-1"></a></span>
+<span id="cb8-4"><a href="d2i-two-questions.html#cb8-4" tabindex="-1"></a><span class="fu">summary</span>(asi_2010<span class="sc">$</span>gva_crore)</span></code></pre></div>
+<pre><code>#&gt;     Min.  1st Qu.   Median     Mean  3rd Qu.     Max. 
+#&gt;     19.6   3672.8  12752.1  25785.4  26132.8 168467.5</code></pre>
+<p>Same arithmetic. Completely different epistemic situation — for two separate
+reasons, and it is worth being precise about which is which.</p>
+<div class="watchout">
+<p><strong>Reason one: the ASI is a survey, not a census.</strong> It does not visit every
+factory. It samples them. So the state figures are estimates, each carrying
+sampling error, before we compute anything at all.</p>
+<p><strong>Reason two, and the one that matters more here: what do you want the number
+<em>for</em>?</strong> If you only want to describe the 32 states in 2010, the mean above is
+a fact, like the class average. But nobody wants that. They want to say
+something about <em>Indian industry</em> — including 2011, including unregistered
+firms, including what would happen under a different policy. The moment you
+want that, you have left description behind.</p>
+</div>
+<p><strong>Inferential statistics</strong> is the discipline of making that leap and being
+honest about how far you have jumped.</p>
+<div class="keyidea">
+<p>Descriptive statistics summarises the data you have.</p>
+<p>Inferential statistics uses the data you have to make claims about data you do
+not have — and, crucially, attaches a statement of how uncertain those claims
+are.</p>
+<p>A number without an honest account of its uncertainty is not a finding. It is
+an anecdote with decimal places.</p>
+</div>
+</div>
             </section>
 
           </div>
         </div>
       </div>
-<a href="a-note-on-the-data.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="description-to-inference.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="description-to-inference.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="d2i-population.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -275,7 +313,7 @@ gitbook.start({
     "size": 2
   },
   "edit": {
-    "link": "https://github.com/kedarkulkarni1991/stats-econometrics-r/edit/main/index.Rmd",
+    "link": "https://github.com/kedarkulkarni1991/stats-econometrics-r/edit/main/01-description-to-inference.Rmd",
     "text": "Edit"
   },
   "history": {

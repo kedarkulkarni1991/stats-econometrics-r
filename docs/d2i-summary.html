@@ -4,12 +4,12 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Licence and citation | Statistics and Econometrics with R</title>
+  <title>1.5 What you should take from this unit | Statistics and Econometrics with R</title>
   <meta name="description" content="<p>A first course in statistics and econometrics, where every idea is developed
 on paper and then immediately carried out in R.</p>" />
   <meta name="generator" content="bookdown 0.47 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Licence and citation | Statistics and Econometrics with R" />
+  <meta property="og:title" content="1.5 What you should take from this unit | Statistics and Econometrics with R" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="<p>A first course in statistics and econometrics, where every idea is developed
@@ -17,7 +17,7 @@ on paper and then immediately carried out in R.</p>" />
   <meta name="github-repo" content="kedarkulkarni1991/stats-econometrics-r" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Licence and citation | Statistics and Econometrics with R" />
+  <meta name="twitter:title" content="1.5 What you should take from this unit | Statistics and Econometrics with R" />
   
   <meta name="twitter:description" content="<p>A first course in statistics and econometrics, where every idea is developed
 on paper and then immediately carried out in R.</p>" />
@@ -32,8 +32,8 @@ on paper and then immediately carried out in R.</p>" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="a-note-on-the-data.html"/>
-<link rel="next" href="description-to-inference.html"/>
+<link rel="prev" href="d2i-what-goes-wrong.html"/>
+<link rel="next" href="one-sample.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -214,27 +214,29 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="licence-and-citation" class="section level2 unnumbered hasAnchor">
-<h2>Licence and citation<a href="licence-and-citation.html#licence-and-citation" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>This book is free, in both senses. The text, figures, exercises and datasets
-are released under
-<a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0</a>,
-and the code under the <a href="https://opensource.org/licenses/MIT">MIT licence</a>.</p>
-<p>You may copy it, print it, translate it, remix it, teach from it, and build on
-it — for any purpose, including commercially. The only condition is that you
-credit the source.</p>
-<p>If you spot an error, there is a <strong>pencil icon at the top of every page</strong>. It
-opens that chapter’s source on GitHub, where you can fix the mistake and send
-it back without installing anything. Corrections from students are genuinely
-welcome; several of the sharper points in this book exist because someone
-asked why.</p>
-<p>To cite:</p>
-<blockquote>
-<p>Kulkarni, K. (2026). <em>Statistics and Econometrics with R.</em>
-Azim Premji University.
-<a href="https://kedarkulkarni1991.github.io/stats-econometrics-r/" class="uri">https://kedarkulkarni1991.github.io/stats-econometrics-r/</a>
-Licensed under CC BY 4.0.</p>
-</blockquote>
+<div id="d2i-summary" class="section level2 hasAnchor" number="1.5">
+<h2><span class="header-section-number">1.5</span> What you should take from this unit<a href="d2i-summary.html#d2i-summary" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="keyidea">
+<ol style="list-style-type: decimal">
+<li><strong>Description</strong> summarises data you have. <strong>Inference</strong> reaches beyond it,
+and must report how far it has reached.</li>
+<li>Greek letters (<span class="math inline">\(\mu\)</span>, <span class="math inline">\(\sigma\)</span>) are population parameters you never observe.
+Roman letters (<span class="math inline">\(\bar{x}\)</span>, <span class="math inline">\(s\)</span>) are sample statistics you compute. Inference
+is the bridge.</li>
+<li>The bridge is built from two theorems, the Law of Large Numbers and the
+Central Limit Theorem, and it needs distributions first.</li>
+<li><strong>The mean is one feature of a distribution, not a summary of it.</strong> Indian
+industrial value added has a mean twice its median; five states hold 59% of
+it. Always ask about spread, and about who sits in the tails.</li>
+<li>No formula can rescue a sample drawn from the wrong population, drawn
+non-randomly, or asked a causal question it cannot answer.</li>
+</ol>
+</div>
+<p>Next we look at the distributions themselves — binomial, Poisson, normal, and
+the difference between discrete and continuous. They are how we describe a
+population. What they do <em>not</em> do, on their own, is let us infer anything from
+a sample — and seeing exactly why is what makes the two theorems feel necessary
+rather than arbitrary.</p>
 
 </div>
 <!-- </div> -->
@@ -243,8 +245,8 @@ Licensed under CC BY 4.0.</p>
           </div>
         </div>
       </div>
-<a href="a-note-on-the-data.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="description-to-inference.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="d2i-what-goes-wrong.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="one-sample.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -275,7 +277,7 @@ gitbook.start({
     "size": 2
   },
   "edit": {
-    "link": "https://github.com/kedarkulkarni1991/stats-econometrics-r/edit/main/index.Rmd",
+    "link": "https://github.com/kedarkulkarni1991/stats-econometrics-r/edit/main/01-description-to-inference.Rmd",
     "text": "Edit"
   },
   "history": {

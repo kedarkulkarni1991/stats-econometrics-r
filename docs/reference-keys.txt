@@ -1,3 +1,4 @@
+fig:d2i-skew-plot
 fig:os-sim-plot
 tab:os-claim-table
 fig:os-reject-plot
@@ -6,6 +7,12 @@ fig:os-ci-plot
 fig:os-t-vs-z
 tab:os-ref-z
 tab:os-ref-crit
+description-to-inference
+d2i-two-questions
+d2i-population
+d2i-average
+d2i-what-goes-wrong
+d2i-summary
 one-sample
 os-problem
 os-hypotheses

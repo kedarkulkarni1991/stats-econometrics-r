@@ -10,7 +10,12 @@ knitr::opts_chunk$set(
   fig.width = 7,
   fig.height = 4.2,
   dpi       = 150,
-  out.width = "90%"
+  out.width = "90%",
+  ## The default png device on macOS has no glyph for the rupee sign and draws
+  ## a hollow box instead. In a book about the Indian economy that is not a
+  ## cosmetic issue. ragg handles the full Unicode range, so every figure uses
+  ## it. If ragg is missing, fall back rather than fail the build.
+  dev = if (requireNamespace("ragg", quietly = TRUE)) "ragg_png" else "png"
 )
 
 options(digits = 4, scipen = 999)

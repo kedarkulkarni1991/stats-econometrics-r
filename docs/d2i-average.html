@@ -4,12 +4,12 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Licence and citation | Statistics and Econometrics with R</title>
+  <title>1.3 The average is not the distribution | Statistics and Econometrics with R</title>
   <meta name="description" content="<p>A first course in statistics and econometrics, where every idea is developed
 on paper and then immediately carried out in R.</p>" />
   <meta name="generator" content="bookdown 0.47 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Licence and citation | Statistics and Econometrics with R" />
+  <meta property="og:title" content="1.3 The average is not the distribution | Statistics and Econometrics with R" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="<p>A first course in statistics and econometrics, where every idea is developed
@@ -17,7 +17,7 @@ on paper and then immediately carried out in R.</p>" />
   <meta name="github-repo" content="kedarkulkarni1991/stats-econometrics-r" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Licence and citation | Statistics and Econometrics with R" />
+  <meta name="twitter:title" content="1.3 The average is not the distribution | Statistics and Econometrics with R" />
   
   <meta name="twitter:description" content="<p>A first course in statistics and econometrics, where every idea is developed
 on paper and then immediately carried out in R.</p>" />
@@ -32,8 +32,8 @@ on paper and then immediately carried out in R.</p>" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="a-note-on-the-data.html"/>
-<link rel="next" href="description-to-inference.html"/>
+<link rel="prev" href="d2i-population.html"/>
+<link rel="next" href="d2i-what-goes-wrong.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -214,37 +214,93 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="licence-and-citation" class="section level2 unnumbered hasAnchor">
-<h2>Licence and citation<a href="licence-and-citation.html#licence-and-citation" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>This book is free, in both senses. The text, figures, exercises and datasets
-are released under
-<a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0</a>,
-and the code under the <a href="https://opensource.org/licenses/MIT">MIT licence</a>.</p>
-<p>You may copy it, print it, translate it, remix it, teach from it, and build on
-it — for any purpose, including commercially. The only condition is that you
-credit the source.</p>
-<p>If you spot an error, there is a <strong>pencil icon at the top of every page</strong>. It
-opens that chapter’s source on GitHub, where you can fix the mistake and send
-it back without installing anything. Corrections from students are genuinely
-welcome; several of the sharper points in this book exist because someone
-asked why.</p>
-<p>To cite:</p>
-<blockquote>
-<p>Kulkarni, K. (2026). <em>Statistics and Econometrics with R.</em>
-Azim Premji University.
-<a href="https://kedarkulkarni1991.github.io/stats-econometrics-r/" class="uri">https://kedarkulkarni1991.github.io/stats-econometrics-r/</a>
-Licensed under CC BY 4.0.</p>
-</blockquote>
-
+<div id="d2i-average" class="section level2 hasAnchor" number="1.3">
+<h2><span class="header-section-number">1.3</span> The average is not the distribution<a href="d2i-average.html#d2i-average" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Here is a habit worth forming now, before any technique gets in the way.</p>
+<p>Almost all of inferential statistics is about averages. Nearly every method in
+this book estimates a mean, compares two means, or fits a line through
+conditional means. That focus is not an accident: means are well behaved,
+they have tractable sampling distributions, and the two theorems above are
+statements about them.</p>
+<p>But the mean is only <em>one</em> summary of a distribution, and often not the one a
+policy question actually cares about.</p>
+<p>Look again at industrial value added across states:</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="d2i-average.html#cb10-1" tabindex="-1"></a><span class="fu">c</span>(<span class="at">mean   =</span> <span class="fu">mean</span>(asi_2010<span class="sc">$</span>gva_crore),</span>
+<span id="cb10-2"><a href="d2i-average.html#cb10-2" tabindex="-1"></a>  <span class="at">median =</span> <span class="fu">median</span>(asi_2010<span class="sc">$</span>gva_crore))</span></code></pre></div>
+<pre><code>#&gt;   mean median 
+#&gt;  25785  12752</code></pre>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="d2i-average.html#cb12-1" tabindex="-1"></a><span class="fu">mean</span>(asi_2010<span class="sc">$</span>gva_crore) <span class="sc">/</span> <span class="fu">median</span>(asi_2010<span class="sc">$</span>gva_crore)</span></code></pre></div>
+<pre><code>#&gt; [1] 2.022</code></pre>
+<p>The mean is more than <strong>twice</strong> the median. When those two diverge that
+sharply, the average has stopped describing a typical state.</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:d2i-skew-plot"></span>
+<img src="stats-econometrics-r_files/figure-html/d2i-skew-plot-1.png" alt="Industrial value added across Indian states, 2010. The mean sits far to the right of most states, dragged there by a handful of large ones." width="90%" />
+<p class="caption">
+Figure 1.1: Industrial value added across Indian states, 2010. The mean sits far to the right of most states, dragged there by a handful of large ones.
+</p>
 </div>
-<!-- </div> -->
+<p>How concentrated is it really?</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="d2i-average.html#cb14-1" tabindex="-1"></a>top5 <span class="ot">&lt;-</span> <span class="fu">sort</span>(asi_2010<span class="sc">$</span>gva_crore, <span class="at">decreasing =</span> <span class="cn">TRUE</span>)[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>]</span>
+<span id="cb14-2"><a href="d2i-average.html#cb14-2" tabindex="-1"></a></span>
+<span id="cb14-3"><a href="d2i-average.html#cb14-3" tabindex="-1"></a><span class="fu">round</span>(<span class="dv">100</span> <span class="sc">*</span> <span class="fu">sum</span>(top5) <span class="sc">/</span> <span class="fu">sum</span>(asi_2010<span class="sc">$</span>gva_crore))   <span class="co"># % of all value added</span></span></code></pre></div>
+<pre><code>#&gt; [1] 59</code></pre>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="d2i-average.html#cb16-1" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">max</span>(asi_2010<span class="sc">$</span>gva_crore) <span class="sc">/</span> <span class="fu">median</span>(asi_2010<span class="sc">$</span>gva_crore), <span class="dv">1</span>)   <span class="co"># top state vs median</span></span></code></pre></div>
+<pre><code>#&gt; [1] 13.2</code></pre>
+<p>Five states hold about 59% of registered industrial value added. The largest
+produces roughly thirteen times the median state.</p>
+<div class="intuition">
+<p>Now ask what “average industrial value added across states” is good for.</p>
+<p>If you are asking how much industry India has in total, it is fine — the mean
+times the number of states is the total, by construction.</p>
+<p>If you are asking what industry looks like in a typical Indian state, it is
+badly misleading. No state is near the mean. The distribution is two different
+countries: a handful of industrial giants and a long tail of states doing
+something else entirely.</p>
+<p>If you are asking whether industrial growth is spreading, the mean can rise
+while every state but one falls further behind. <strong>The average can move in the
+opposite direction to almost everybody in it.</strong></p>
+</div>
+<div class="keyidea">
+<p>Learn to ask two questions of every average you meet, including the ones you
+compute yourself:</p>
+<ol style="list-style-type: decimal">
+<li><strong>What is the spread?</strong> A mean with no measure of dispersion is half a
+sentence.</li>
+<li><strong>Who is where?</strong> Means are useless for questions about the bottom of a
+distribution — poverty, vulnerability, who is hurt by a shock. Those are
+questions about <em>tails</em>, and a mean is specifically the statistic that
+averages tails away.</li>
+</ol>
+</div>
+<p>This is not a philosophical aside; it changes what you estimate. Whole
+literatures in development economics exist because the mean was the wrong
+target: poverty measures weight the poor rather than averaging over everyone,
+vulnerability measures ask who is exposed to falling below a line, and
+distributional analyses ask whether a policy that raised average income raised
+<em>anyone’s</em> income who was previously badly off.</p>
+<p>We will come back to this repeatedly. When we fit a regression, we will be
+modelling a conditional <em>mean</em>, and it will be worth asking each time what that
+choice hides. When we get to binary explanatory variables in
+the unit on binary explanatory variables, we will estimate an average
+treatment effect, and the
+word “average” in that phrase will deserve every bit of the suspicion you can
+give it.</p>
+<div class="watchout">
+<p>None of this means averages are bad. They are the right tool for an enormous
+number of questions, and this book spends most of its length on them for good
+reason.</p>
+<p>It means the average is an <em>answer to a specific question</em>, not a neutral
+summary of the data. Know which question you are asking before you decide the
+mean is the answer.</p>
+</div>
+</div>
             </section>
 
           </div>
         </div>
       </div>
-<a href="a-note-on-the-data.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="description-to-inference.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="d2i-population.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="d2i-what-goes-wrong.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -275,7 +331,7 @@ gitbook.start({
     "size": 2
   },
   "edit": {
-    "link": "https://github.com/kedarkulkarni1991/stats-econometrics-r/edit/main/index.Rmd",
+    "link": "https://github.com/kedarkulkarni1991/stats-econometrics-r/edit/main/01-description-to-inference.Rmd",
     "text": "Edit"
   },
   "history": {
