@@ -19,16 +19,35 @@
   --task-bg:    #fdf6e3;
 }
 
-/* --- Base reading experience --------------------------------------------- */
+/* --- Base reading experience ---------------------------------------------
+   CAREFUL: gitbook sets `html { font-size: 62.5% }`, so in this stylesheet
+   1rem = 10px, not 16px. Sizes here are therefore given in px, so that trap
+   cannot bite again.
+
+   The five rules below correspond to gitbook's own font-size classes, which
+   the "A" button in the toolbar cycles through. Defining all five keeps that
+   control working — a single font-size rule on section.normal has the same
+   specificity as gitbook's, wins on load order, and silently disables it.
+   -------------------------------------------------------------------------- */
 
 .book .book-body .page-inner section.normal {
   color: var(--ink);
-  font-size: 1.06rem;
   line-height: 1.72;
 }
 
-.book .book-body .page-inner {
-  max-width: 46rem;
+.book.font-size-0 .book-body .page-inner section.normal { font-size: 15px; }
+.book.font-size-1 .book-body .page-inner section.normal { font-size: 16.5px; }
+.book.font-size-2 .book-body .page-inner section.normal { font-size: 18px; }
+.book.font-size-3 .book-body .page-inner section.normal { font-size: 20.5px; }
+.book.font-size-4 .book-body .page-inner section.normal { font-size: 24px; }
+
+/* gitbook's own rule is `.book .book-body .page-wrapper .page-inner`, which
+   out-specifies a three-class selector and keeps its 800px. Match it exactly.
+   700px gives roughly 74 characters of prose at the default size — inside the
+   comfortable range — and, with the code size set below, fits the widest code
+   lines in the book without horizontal scrolling. */
+.book .book-body .page-wrapper .page-inner {
+  max-width: 700px;
 }
 
 .book .book-body .page-inner section.normal h1,
@@ -118,7 +137,9 @@
 .book .book-body .page-inner section.normal pre {
   border: 1px solid var(--rule);
   border-radius: 6px;
-  font-size: 0.9em;
+  /* Code is set smaller than prose, as usual, but the exact value is chosen so
+     the longest line in the book clears the column rather than scrolling. */
+  font-size: 0.8em;
   line-height: 1.55;
 }
 
@@ -176,7 +197,12 @@ details.solution > summary::-webkit-details-marker { display: none; }
 /* --- Print / small screens ----------------------------------------------- */
 
 @media (max-width: 600px) {
-  .book .book-body .page-inner section.normal { font-size: 1rem; }
+  /* One step down on a phone, but still respecting the reader's own choice
+     from the toolbar. */
+  .book.font-size-2 .book-body .page-inner section.normal { font-size: 16.5px; }
+  .book.font-size-3 .book-body .page-inner section.normal { font-size: 18px; }
+  .book.font-size-4 .book-body .page-inner section.normal { font-size: 21px; }
+
   .intuition, .theory, .inr, .watchout, .yourturn, .keyidea {
     padding: 0.9em 1em;
   }
