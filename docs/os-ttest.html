@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>1.7 When \(\sigma\) is unknown: the \(t\)-test | Statistics and Econometrics with R</title>
+  <meta name="description" content="<p>A first course in statistics and econometrics, where every idea is developed
+on paper and then immediately carried out in R.</p>" />
+  <meta name="generator" content="bookdown 0.47 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="1.7 When \(\sigma\) is unknown: the \(t\)-test | Statistics and Econometrics with R" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="<p>A first course in statistics and econometrics, where every idea is developed
+on paper and then immediately carried out in R.</p>" />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="1.7 When \(\sigma\) is unknown: the \(t\)-test | Statistics and Econometrics with R" />
+  
+  <meta name="twitter:description" content="<p>A first course in statistics and econometrics, where every idea is developed
+on paper and then immediately carried out in R.</p>" />
+  
+
+<meta name="author" content="Kedar Kulkarni" />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="os-ci.html"/>
+<link rel="next" href="os-onetailed.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  background-color: #f8f8f8; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } /* Alert */
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #204a87; } /* Attribute */
+code span.bn { color: #0000cf; } /* BaseN */
+code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4e9a06; } /* Char */
+code span.cn { color: #8f5902; } /* Constant */
+code span.co { color: #8f5902; font-style: italic; } /* Comment */
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code span.dt { color: #204a87; } /* DataType */
+code span.dv { color: #0000cf; } /* DecVal */
+code span.er { color: #a40000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #0000cf; } /* Float */
+code span.fu { color: #204a87; font-weight: bold; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code span.ot { color: #8f5902; } /* Other */
+code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code span.sc { color: #ce5c00; font-weight: bold; } /* SpecialChar */
+code span.ss { color: #4e9a06; } /* SpecialString */
+code span.st { color: #4e9a06; } /* String */
+code span.va { color: #000000; } /* Variable */
+code span.vs { color: #4e9a06; } /* VerbatimString */
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="css/style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="toc-logo"><a href="./"><strong>Statistics &amp; Econometrics with R</strong></a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Welcome</a>
+<ul>
+<li class="chapter" data-level="" data-path="how-to-use-this-book.html"><a href="how-to-use-this-book.html"><i class="fa fa-check"></i>How to use this book</a></li>
+<li class="chapter" data-level="" data-path="what-you-need.html"><a href="what-you-need.html"><i class="fa fa-check"></i>What you need</a></li>
+<li class="chapter" data-level="" data-path="notation-used-throughout.html"><a href="notation-used-throughout.html"><i class="fa fa-check"></i>Notation used throughout</a></li>
+<li class="chapter" data-level="" data-path="a-note-on-the-data.html"><a href="a-note-on-the-data.html"><i class="fa fa-check"></i>A note on the data</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="one-sample.html"><a href="one-sample.html"><i class="fa fa-check"></i><b>1</b> Hypothesis Testing: One Sample</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="os-problem.html"><a href="os-problem.html"><i class="fa fa-check"></i><b>1.1</b> The problem, before any formulas</a></li>
+<li class="chapter" data-level="1.2" data-path="os-hypotheses.html"><a href="os-hypotheses.html"><i class="fa fa-check"></i><b>1.2</b> Naming the two hypotheses</a>
+<ul>
+<li class="chapter" data-level="1.2.1" data-path="os-hypotheses.html"><a href="os-hypotheses.html#os-which-hypothesis"><i class="fa fa-check"></i><b>1.2.1</b> Which hypothesis does the claim go in?</a></li>
+</ul></li>
+<li class="chapter" data-level="1.3" data-path="os-critical.html"><a href="os-critical.html"><i class="fa fa-check"></i><b>1.3</b> How far is too far?</a></li>
+<li class="chapter" data-level="1.4" data-path="os-worked.html"><a href="os-worked.html"><i class="fa fa-check"></i><b>1.4</b> The worked example, both ways</a>
+<ul>
+<li class="chapter" data-level="" data-path="os-worked.html"><a href="os-worked.html#on-paper"><i class="fa fa-check"></i>On paper</a></li>
+<li class="chapter" data-level="" data-path="os-worked.html"><a href="os-worked.html#the-same-thing-in-r"><i class="fa fa-check"></i>The same thing in R</a></li>
+<li class="chapter" data-level="" data-path="os-worked.html"><a href="os-worked.html#letting-a-package-do-it"><i class="fa fa-check"></i>Letting a package do it</a></li>
+</ul></li>
+<li class="chapter" data-level="1.5" data-path="os-pvalue.html"><a href="os-pvalue.html"><i class="fa fa-check"></i><b>1.5</b> What a <span class="math inline">\(p\)</span>-value actually says</a></li>
+<li class="chapter" data-level="1.6" data-path="os-ci.html"><a href="os-ci.html"><i class="fa fa-check"></i><b>1.6</b> Confidence intervals are the same test in disguise</a></li>
+<li class="chapter" data-level="1.7" data-path="os-ttest.html"><a href="os-ttest.html"><i class="fa fa-check"></i><b>1.7</b> When <span class="math inline">\(\sigma\)</span> is unknown: the <span class="math inline">\(t\)</span>-test</a>
+<ul>
+<li class="chapter" data-level="" data-path="os-ttest.html"><a href="os-ttest.html#settling-the-question-with-the-actual-class"><i class="fa fa-check"></i>Settling the question with the actual class</a></li>
+<li class="chapter" data-level="" data-path="os-ttest.html"><a href="os-ttest.html#worked-example"><i class="fa fa-check"></i>Worked example</a></li>
+</ul></li>
+<li class="chapter" data-level="1.8" data-path="os-onetailed.html"><a href="os-onetailed.html"><i class="fa fa-check"></i><b>1.8</b> One-tailed tests</a>
+<ul>
+<li class="chapter" data-level="" data-path="os-onetailed.html"><a href="os-onetailed.html#the-one-sided-interval-looks-backwards"><i class="fa fa-check"></i>The one-sided interval looks backwards</a></li>
+</ul></li>
+<li class="chapter" data-level="1.9" data-path="os-reference.html"><a href="os-reference.html"><i class="fa fa-check"></i><b>1.9</b> Reference tables</a></li>
+<li class="chapter" data-level="1.10" data-path="os-exercises.html"><a href="os-exercises.html"><i class="fa fa-check"></i><b>1.10</b> Practice problems</a></li>
+<li class="chapter" data-level="1.11" data-path="os-question-bank.html"><a href="os-question-bank.html"><i class="fa fa-check"></i><b>1.11</b> Question bank</a>
+<ul>
+<li class="chapter" data-level="" data-path="os-question-bank.html"><a href="os-question-bank.html#multiple-choice"><i class="fa fa-check"></i>Multiple choice</a></li>
+<li class="chapter" data-level="" data-path="os-question-bank.html"><a href="os-question-bank.html#short-reasoning"><i class="fa fa-check"></i>Short reasoning</a></li>
+<li class="chapter" data-level="" data-path="os-question-bank.html"><a href="os-question-bank.html#numerical"><i class="fa fa-check"></i>Numerical</a></li>
+</ul></li>
+<li class="chapter" data-level="1.12" data-path="os-summary.html"><a href="os-summary.html"><i class="fa fa-check"></i><b>1.12</b> Summary</a></li>
+</ul></li>
+<li class="divider"></li>
+<li class="toc-after">Kedar Kulkarni · Azim Premji University</li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Statistics and Econometrics with R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="os-ttest" class="section level2 hasAnchor" number="1.7">
+<h2><span class="header-section-number">1.7</span> When <span class="math inline">\(\sigma\)</span> is unknown: the <span class="math inline">\(t\)</span>-test<a href="os-ttest.html#os-ttest" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Everything so far assumed we knew the population standard deviation <span class="math inline">\(\sigma\)</span>.
+We almost never do. Replacing it with the sample standard deviation <span class="math inline">\(s\)</span> adds a
+second source of uncertainty, and the statistic</p>
+<p><span class="math display">\[t_{calc} = \frac{\bar{x} - \mu_0}{s/\sqrt{n}}\]</span></p>
+<p>no longer follows a normal distribution. It follows Student’s <span class="math inline">\(t\)</span> with
+<span class="math inline">\(n - 1\)</span> <strong>degrees of freedom</strong> — a distribution with fatter tails, which demands
+more evidence before it will let you reject.</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:os-t-vs-z"></span>
+<img src="stats-econometrics-r_files/figure-html/os-t-vs-z-1.png" alt="Student's $t$ against the standard normal. With few degrees of freedom the tails are noticeably heavier, so critical values sit further out." width="90%" />
+<p class="caption">
+Figure 1.4: Student’s <span class="math inline">\(t\)</span> against the standard normal. With few degrees of freedom the tails are noticeably heavier, so critical values sit further out.
+</p>
+</div>
+<div id="settling-the-question-with-the-actual-class" class="section level3 unnumbered hasAnchor">
+<h3>Settling the question with the actual class<a href="os-ttest.html#settling-the-question-with-the-actual-class" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>We opened this chapter with a made-up sample of 36 students. We can now do the
+real thing. <code>stats-class.csv</code> holds the survey this class filled in — names,
+ages, heights, gender:</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="os-ttest.html#cb19-1" tabindex="-1"></a>students <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/stats-class.csv&quot;</span>)</span>
+<span id="cb19-2"><a href="os-ttest.html#cb19-2" tabindex="-1"></a></span>
+<span id="cb19-3"><a href="os-ttest.html#cb19-3" tabindex="-1"></a><span class="fu">str</span>(students)</span></code></pre></div>
+<pre><code>#&gt; &#39;data.frame&#39;:    33 obs. of  4 variables:
+#&gt;  $ student_id: chr  &quot;S01&quot; &quot;S02&quot; &quot;S03&quot; &quot;S04&quot; ...
+#&gt;  $ age       : int  31 19 18 18 19 18 18 21 18 19 ...
+#&gt;  $ height    : int  178 161 181 164 170 175 176 186 161 170 ...
+#&gt;  $ gender    : chr  &quot;M&quot; &quot;F&quot; &quot;M&quot; &quot;F&quot; ...</code></pre>
+<p>Thirty-three rows, but look at the last one. One student left age and height
+blank, and another did not give a gender:</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="os-ttest.html#cb21-1" tabindex="-1"></a>students[<span class="sc">!</span><span class="fu">complete.cases</span>(students), ]</span></code></pre></div>
+<pre><code>#&gt;    student_id age height gender
+#&gt; 8         S08  21    186   &lt;NA&gt;
+#&gt; 33        S33  NA     NA      F</code></pre>
+<div class="watchout">
+<p><strong>A blank is not always an <code>NA</code>.</strong> In a numeric column an empty field is read
+as <code>NA</code>, but in a text column it is read as the empty string <code>""</code> — and <code>""</code>
+is a perfectly ordinary value as far as <code>is.na()</code>, <code>complete.cases()</code> and
+<code>na.rm</code> are concerned. A gap in a text column can therefore hide in plain
+sight.</p>
+<p>If a dataset you did not prepare yourself has blanks, say so explicitly when
+you read it:</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="os-ttest.html#cb23-1" tabindex="-1"></a><span class="fu">read.csv</span>(<span class="st">&quot;somefile.csv&quot;</span>, <span class="at">na.strings =</span> <span class="fu">c</span>(<span class="st">&quot;&quot;</span>, <span class="st">&quot;NA&quot;</span>))</span></code></pre></div>
+<p>The files in this book are already written so that plain <code>read.csv()</code> does the
+right thing.</p>
+</div>
+<div class="watchout">
+<p><code>mean()</code> returns <code>NA</code> if even one value is missing — it refuses to guess what
+you meant. Pass <code>na.rm = TRUE</code> to drop the gaps, and always know how many you
+dropped.</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="os-ttest.html#cb24-1" tabindex="-1"></a><span class="fu">mean</span>(students<span class="sc">$</span>height)                  <span class="co"># NA — one height is missing</span></span></code></pre></div>
+<pre><code>#&gt; [1] NA</code></pre>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="os-ttest.html#cb26-1" tabindex="-1"></a><span class="fu">mean</span>(students<span class="sc">$</span>height, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)    <span class="co"># 32 students</span></span></code></pre></div>
+<pre><code>#&gt; [1] 169.5</code></pre>
+</div>
+<p>Now the test. We do <strong>not</strong> know the population standard deviation of student
+heights, so this is a <span class="math inline">\(t\)</span>-test, not a <span class="math inline">\(Z\)</span>-test:</p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="os-ttest.html#cb28-1" tabindex="-1"></a>heights_real <span class="ot">&lt;-</span> students<span class="sc">$</span>height[<span class="sc">!</span><span class="fu">is.na</span>(students<span class="sc">$</span>height)]</span>
+<span id="cb28-2"><a href="os-ttest.html#cb28-2" tabindex="-1"></a></span>
+<span id="cb28-3"><a href="os-ttest.html#cb28-3" tabindex="-1"></a><span class="fu">c</span>(<span class="at">n =</span> <span class="fu">length</span>(heights_real),</span>
+<span id="cb28-4"><a href="os-ttest.html#cb28-4" tabindex="-1"></a>  <span class="at">mean =</span> <span class="fu">mean</span>(heights_real),</span>
+<span id="cb28-5"><a href="os-ttest.html#cb28-5" tabindex="-1"></a>  <span class="at">sd =</span> <span class="fu">sd</span>(heights_real))</span></code></pre></div>
+<pre><code>#&gt;      n   mean     sd 
+#&gt;  32.00 169.50   8.71</code></pre>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="os-ttest.html#cb30-1" tabindex="-1"></a><span class="fu">t.test</span>(heights_real, <span class="at">mu =</span> <span class="dv">165</span>)</span></code></pre></div>
+<pre><code>#&gt; 
+#&gt;  One Sample t-test
+#&gt; 
+#&gt; data:  heights_real
+#&gt; t = 2.9, df = 31, p-value = 0.006
+#&gt; alternative hypothesis: true mean is not equal to 165
+#&gt; 95 percent confidence interval:
+#&gt;  166.4 172.6
+#&gt; sample estimates:
+#&gt; mean of x 
+#&gt;     169.5</code></pre>
+<p><span class="math inline">\(t = 2.92\)</span> on 31 degrees of freedom, with a
+<span class="math inline">\(p\)</span>-value of 0.0064. We <strong>reject</strong> the claim that the average
+is 165 cm. The 95% interval,
+<span class="math inline">\([166.4,\ 172.6]\)</span>, excludes 165 —
+the same verdict, as always.</p>
+<div class="intuition">
+<p>Notice how much narrower this is than the textbook version of the problem. The
+opening example assumed we somehow knew <span class="math inline">\(\sigma = 8\)</span>. Here we had to estimate
+it from 32 people, and the <span class="math inline">\(t\)</span> distribution charges us for that uncertainty
+with a wider interval and a higher bar to clear.</p>
+<p>Also notice what the data is not: 32 students in one classroom are not a random
+sample of all APU students. The arithmetic is correct; whether it answers the
+question about <em>the university</em> is a separate matter, and a harder one.</p>
+</div>
+</div>
+<div id="worked-example" class="section level3 unnumbered hasAnchor">
+<h3>Worked example<a href="os-ttest.html#worked-example" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>The dean estimates that full-time faculty teach 11.0 classroom hours per week.
+You sample eight faculty members. Can you reject the dean’s claim at
+<span class="math inline">\(\alpha = 0.10\)</span>? At <span class="math inline">\(\alpha = 0.01\)</span>?</p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="os-ttest.html#cb32-1" tabindex="-1"></a>hours <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">11.8</span>, <span class="fl">8.6</span>, <span class="fl">10.5</span>, <span class="fl">7.9</span>, <span class="fl">6.4</span>, <span class="fl">10.4</span>, <span class="fl">10.0</span>, <span class="fl">8.2</span>)</span>
+<span id="cb32-2"><a href="os-ttest.html#cb32-2" tabindex="-1"></a></span>
+<span id="cb32-3"><a href="os-ttest.html#cb32-3" tabindex="-1"></a><span class="fu">c</span>(<span class="at">n =</span> <span class="fu">length</span>(hours), <span class="at">mean =</span> <span class="fu">mean</span>(hours), <span class="at">sd =</span> <span class="fu">sd</span>(hours))</span></code></pre></div>
+<pre><code>#&gt;     n  mean    sd 
+#&gt; 8.000 9.225 1.749</code></pre>
+<p><strong>On paper.</strong> With <span class="math inline">\(\bar{x} = 9.225\)</span>, <span class="math inline">\(s = 1.749\)</span>, <span class="math inline">\(n = 8\)</span> and <span class="math inline">\(df = 7\)</span>:</p>
+<p><span class="math display">\[
+t_{calc} = \frac{9.225 - 11}{1.749/\sqrt{8}}
+= \frac{-1.775}{0.618}
+= -2.87
+\]</span></p>
+<p>The critical values are <span class="math inline">\(t_{0.05,\,7} = 1.895\)</span> and <span class="math inline">\(t_{0.005,\,7} = 3.499\)</span>.</p>
+<ul>
+<li>At <span class="math inline">\(\alpha = 0.10\)</span>: <span class="math inline">\(2.87 &gt; 1.895\)</span> → <strong>reject</strong> <span class="math inline">\(H_0\)</span>.</li>
+<li>At <span class="math inline">\(\alpha = 0.01\)</span>: <span class="math inline">\(2.87 &lt; 3.499\)</span> → <strong>fail to reject</strong> <span class="math inline">\(H_0\)</span>.</li>
+</ul>
+<p><strong>In R.</strong> Both the pieces and the packaged version:</p>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="os-ttest.html#cb34-1" tabindex="-1"></a>t_calc <span class="ot">&lt;-</span> (<span class="fu">mean</span>(hours) <span class="sc">-</span> <span class="dv">11</span>) <span class="sc">/</span> (<span class="fu">sd</span>(hours) <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="fu">length</span>(hours)))</span>
+<span id="cb34-2"><a href="os-ttest.html#cb34-2" tabindex="-1"></a>t_crit <span class="ot">&lt;-</span> <span class="fu">qt</span>(<span class="fu">c</span>(<span class="fl">0.95</span>, <span class="fl">0.995</span>), <span class="at">df =</span> <span class="dv">7</span>)     <span class="co"># 10% and 1%, two-tailed</span></span>
+<span id="cb34-3"><a href="os-ttest.html#cb34-3" tabindex="-1"></a></span>
+<span id="cb34-4"><a href="os-ttest.html#cb34-4" tabindex="-1"></a><span class="fu">c</span>(<span class="at">t_calc =</span> t_calc, <span class="at">crit_10pct =</span> t_crit[<span class="dv">1</span>], <span class="at">crit_1pct =</span> t_crit[<span class="dv">2</span>])</span></code></pre></div>
+<pre><code>#&gt;     t_calc crit_10pct  crit_1pct 
+#&gt;     -2.870      1.895      3.499</code></pre>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="os-ttest.html#cb36-1" tabindex="-1"></a><span class="fu">t.test</span>(hours, <span class="at">mu =</span> <span class="dv">11</span>, <span class="at">conf.level =</span> <span class="fl">0.90</span>)</span></code></pre></div>
+<pre><code>#&gt; 
+#&gt;  One Sample t-test
+#&gt; 
+#&gt; data:  hours
+#&gt; t = -2.9, df = 7, p-value = 0.02
+#&gt; alternative hypothesis: true mean is not equal to 11
+#&gt; 90 percent confidence interval:
+#&gt;   8.053 10.397
+#&gt; sample estimates:
+#&gt; mean of x 
+#&gt;     9.225</code></pre>
+<p>The <span class="math inline">\(p\)</span>-value is 0.024 — below 0.10 but
+above 0.01, exactly matching the two different verdicts we reached by hand.</p>
+<div class="intuition">
+<p>The same data can be “significant” at one level and not at another. Nothing has
+changed about the world between those two lines — only how much risk of a false
+alarm we were willing to tolerate. This is why reporting the <span class="math inline">\(p\)</span>-value itself
+is far more informative than reporting a bare “significant / not significant.”</p>
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="os-ci.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="os-onetailed.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+  "sharing": false,
+  "fontsettings": {
+    "theme": "white",
+    "family": "sans",
+    "size": 2
+  },
+  "edit": {
+    "link": null,
+    "text": null
+  },
+  "history": {
+    "link": null,
+    "text": null
+  },
+  "view": {
+    "link": null,
+    "text": null
+  },
+  "download": null,
+  "search": {
+    "engine": "fuse",
+    "options": null
+  },
+  "toc": {
+    "collapse": "subsection",
+    "scroll_highlight": true
+  },
+  "toolbar": {
+    "position": "fixed"
+  },
+  "info": false
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

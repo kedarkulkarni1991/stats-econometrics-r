@@ -1,0 +1,52 @@
+"state","region","population","total_murders","south"
+"Alabama","South",4800000,135,1
+"Alaska","West",710231,19,0
+"Arizona","West",6400000,232,0
+"Arkansas","South",2900000,93,1
+"California","West",3.7e+07,1257,0
+"Colorado","West",5e+06,65,0
+"Connecticut","Northeast",3600000,97,0
+"Delaware","South",897934,38,1
+"District of Columbia","South",601723,99,1
+"Florida","South",2e+07,669,1
+"Georgia","South",9900000,376,1
+"Hawaii","West",1400000,7,0
+"Idaho","West",1600000,12,0
+"Illinois","North Central",1.3e+07,364,0
+"Indiana","North Central",6500000,142,0
+"Iowa","North Central",3e+06,21,0
+"Kansas","North Central",2900000,63,0
+"Kentucky","South",4300000,116,1
+"Louisiana","South",4500000,351,1
+"Maine","Northeast",1300000,11,0
+"Maryland","South",5800000,293,1
+"Massachusetts","Northeast",6500000,118,0
+"Michigan","North Central",9900000,413,0
+"Minnesota","North Central",5300000,53,0
+"Mississippi","South",3e+06,120,1
+"Missouri","North Central",6e+06,321,0
+"Montana","West",989415,12,0
+"Nebraska","North Central",1800000,32,0
+"Nevada","West",2700000,84,0
+"New Hampshire","Northeast",1300000,5,0
+"New Jersey","Northeast",8800000,246,0
+"New Mexico","West",2100000,67,0
+"New York","Northeast",1.9e+07,517,0
+"North Carolina","South",9500000,286,1
+"North Dakota","North Central",672591,4,0
+"Ohio","North Central",1.2e+07,310,0
+"Oklahoma","South",3800000,111,1
+"Oregon","West",3800000,36,0
+"Pennsylvania","Northeast",1.3e+07,457,0
+"Rhode Island","Northeast",1100000,16,0
+"South Carolina","South",4600000,207,1
+"South Dakota","North Central",814180,8,0
+"Tennessee","South",6300000,219,1
+"Texas","South",2.5e+07,805,1
+"Utah","West",2800000,22,0
+"Vermont","Northeast",625741,2,0
+"Virginia","South",8e+06,250,1
+"Washington","West",6700000,93,0
+"West Virginia","South",1900000,27,1
+"Wisconsin","North Central",5700000,97,0
+"Wyoming","West",563626,5,0

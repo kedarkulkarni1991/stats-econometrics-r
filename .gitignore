@@ -1,0 +1,27 @@
+# R session junk
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+*.Rproj
+
+# bookdown build intermediates
+_bookdown_files/
+*_files/
+*.knit.md
+*.utf8.md
+*.rds
+
+# NOTE: docs/ is deliberately NOT ignored. GitHub Pages serves the book from
+# it, so the rendered output must be committed.
+
+# Anything holding identifying student data must never be committed.
+# The class survey in data/ is anonymised to S01-S33; if you ever keep a
+# name -> id key locally, name it to match this pattern.
+*-identifying.csv
+*-namekey.csv
+private/
+
+# OS noise
+.DS_Store
+Thumbs.db

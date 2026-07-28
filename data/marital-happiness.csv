@@ -1,0 +1,493 @@
+"id","age","marital_experience","gender","income"
+4,37,"happy","Male",932697.9
+5,27,"happy","Female",1011941
+6,27,"happy","Male",964848.7
+11,32,"happy","Female",967710.9
+12,27,"very happy","Female",1021528
+16,57,"very happy","Male",977299.3
+29,32,"very happy","Female",994818.1
+43,37,"unhappy","Male",1013000
+45,57,"happy","Male",1017115
+47,32,"unhappy","Female",1052678
+49,22,"very happy","Male",957274.3
+50,37,"unhappy","Male",1037915
+53,32,"unhappy","Female",984341.4
+55,27,"happy","Male",958876.6
+64,47,"happy","Male",994656.5
+67,22,"very happy","Male",975985.8
+79,22,"very happy","Female",929418.3
+80,22,"happy","Female",1047270
+86,27,"happy","Female",1061094
+93,37,"very happy","Female",1002266
+114,22,"happy","Female",1030929
+115,22,"very happy","Female",933026.2
+116,27,"very happy","Female",954309.9
+122,37,"unhappy","Male",965832.6
+123,22,"very happy","Female",1016913
+126,22,"happy","Female",992008.2
+127,22,"very happy","Female",1023760
+129,27,"happy","Female",1019544
+133,37,"happy","Male",1066130
+134,32,"very happy","Female",1023708
+137,37,"happy","Male",999393.8
+138,32,"unhappy","Female",975789.7
+139,22,"very happy","Female",1012558
+147,27,"very happy","Female",1001360
+151,42,"happy","Male",1025185
+153,27,"very happy","Male",1021259
+154,37,"unhappy","Female",978002.1
+155,27,"happy","Female",997463.8
+159,42,"happy","Female",985612.8
+163,22,"very happy","Female",946887.8
+165,27,"happy","Male",983271.6
+168,42,"happy","Female",1012177
+170,32,"happy","Male",1001264
+176,37,"unhappy","Male",918530
+181,32,"unhappy","Female",1040997
+182,27,"very happy","Male",976163.3
+184,42,"happy","Female",963766.5
+187,22,"very happy","Female",984881.2
+189,27,"very happy","Female",1038869
+192,22,"very happy","Male",959632.5
+194,22,"very happy","Female",1001843
+204,42,"very happy","Male",993450.3
+210,32,"very happy","Male",1003455
+215,47,"very happy","Female",989593.6
+220,22,"happy","Female",996528.5
+228,22,"very happy","Male",1021312
+232,27,"happy","Female",971667.4
+233,27,"happy","Female",1006439
+239,27,"very happy","Female",997301.3
+241,42,"happy","Female",979854.8
+245,27,"very happy","Male",976465.8
+249,42,"happy","Male",1013230
+252,27,"happy","Male",1021383
+253,27,"unhappy","Female",1020482
+262,22,"very happy","Female",1041901
+265,32,"happy","Male",993464.1
+267,27,"very happy","Male",963445.4
+269,27,"happy","Male",988624.8
+271,22,"very happy","Male",992867.7
+274,42,"happy","Female",1018826
+287,27,"unhappy","Male",1052095
+288,32,"happy","Male",928407.8
+290,22,"happy","Male",1033060
+292,37,"very happy","Female",1029592
+293,27,"happy","Female",955993.7
+295,32,"happy","Male",954463.9
+299,47,"unhappy","Female",951230.6
+320,37,"happy","Male",1098275
+321,22,"very happy","Female",1042986
+324,27,"very happy","Male",966866.7
+328,32,"happy","Female",987054.9
+334,32,"happy","Male",956414.4
+344,27,"unhappy","Male",994768.1
+351,42,"very happy","Male",1038864
+353,17.5,"very happy","Female",1010824
+354,32,"very happy","Female",1033006
+355,37,"happy","Male",957636.6
+361,47,"very happy","Female",987394.4
+362,22,"very happy","Female",1025167
+366,27,"happy","Female",1010542
+367,32,"happy","Female",935988.5
+369,37,"happy","Male",977949.1
+370,27,"very happy","Female",1018060
+374,32,"very happy","Female",976835.4
+378,22,"very happy","Female",994996.5
+382,32,"very happy","Male",1052985
+383,27,"very happy","Male",946608.5
+384,22,"very happy","Female",984835.4
+392,32,"very happy","Female",984862.5
+400,27,"very happy","Male",1018159
+403,22,"very happy","Female",1046614
+409,57,"unhappy","Male",973745.2
+412,17.5,"very happy","Male",949975.8
+413,57,"very happy","Male",985211
+416,22,"happy","Female",960347.4
+422,22,"very happy","Female",1029300
+423,52,"happy","Male",1045022
+435,22,"happy","Female",1040333
+439,32,"very happy","Female",986780.5
+445,27,"unhappy","Female",1015771
+447,22,"very happy","Female",1013796
+448,37,"happy","Female",983984.1
+449,32,"happy","Female",1023048
+482,37,"happy","Male",1020311
+483,37,"very happy","Male",1013814
+489,27,"happy","Male",1037627
+490,42,"very happy","Female",982493.3
+492,37,"happy","Male",1041342
+503,37,"very happy","Male",1004878
+508,37,"very happy","Male",1025669
+509,27,"very happy","Female",980578.7
+512,37,"happy","Male",905810
+513,22,"happy","Female",982640.5
+515,22,"very happy","Female",976397.3
+516,27,"unhappy","Male",1017741
+517,57,"very happy","Male",1030016
+518,27,"very happy","Male",1031408
+520,47,"very happy","Male",981579.3
+528,27,"happy","Male",970265.2
+532,37,"happy","Female",1024714
+533,22,"happy","Male",995084.1
+535,27,"happy","Male",946158.4
+537,57,"happy","Male",1089988
+543,22,"happy","Female",988723.8
+547,32,"very happy","Female",982177.1
+550,37,"very happy","Female",1025064
+553,32,"very happy","Female",996538.8
+558,32,"very happy","Female",1025761
+571,42,"happy","Male",1016784
+576,32,"happy","Male",1020260
+578,27,"happy","Female",998851
+583,37,"very happy","Male",1040067
+586,37,"unhappy","Male",928750.8
+594,32,"happy","Male",1001646
+597,22,"very happy","Female",1053601
+602,27,"happy","Female",986219.1
+603,27,"very happy","Female",1012454
+604,42,"happy","Female",1042975
+611,47,"happy","Male",957367.3
+613,27,"unhappy","Female",993473.4
+621,22,"very happy","Female",974607.4
+625,37,"happy","Male",1027759
+627,37,"very happy","Male",1074916
+630,22,"very happy","Female",994166.1
+631,27,"very happy","Male",1046966
+632,32,"very happy","Male",1021758
+635,22,"happy","Male",982721.6
+639,27,"very happy","Male",1016948
+646,27,"very happy","Male",944325.1
+647,42,"very happy","Male",1014029
+648,27,"very happy","Female",946181.1
+666,27,"happy","Female",1054582
+667,32,"happy","Female",1074642
+670,22,"very happy","Female",1018149
+671,37,"happy","Female",981595
+673,27,"very happy","Male",1012437
+679,32,"happy","Male",999451.1
+701,27,"happy","Male",996918.6
+705,27,"happy","Female",1020249
+706,32,"happy","Female",962754.9
+717,52,"happy","Male",1000252
+723,37,"happy","Male",931403
+724,27,"happy","Male",1012161
+734,57,"happy","Female",968816.1
+735,27,"happy","Male",978921.9
+752,37,"unhappy","Female",973612.6
+755,22,"unhappy","Male",971917.6
+758,22,"happy","Male",995483.6
+760,32,"very happy","Male",1047953
+763,27,"very happy","Female",981741.3
+770,42,"happy","Male",995082.5
+774,27,"very happy","Female",1037652
+776,37,"very happy","Male",993874.8
+779,47,"happy","Female",1026703
+784,32,"happy","Female",964878.1
+786,57,"happy","Female",1003540
+788,27,"unhappy","Female",960971
+794,57,"unhappy","Female",997790.6
+795,22,"happy","Female",1028710
+797,32,"unhappy","Female",954211.8
+798,42,"happy","Male",985949.7
+800,57,"unhappy","Male",986223.6
+803,57,"very happy","Male",1085729
+807,22,"very happy","Female",973344.1
+811,27,"happy","Male",993625.6
+812,32,"very happy","Female",978525.5
+820,42,"happy","Female",1005135
+823,27,"very happy","Female",1036291
+830,32,"unhappy","Male",981698
+834,32,"happy","Male",1033658
+843,27,"happy","Female",1044387
+848,27,"happy","Female",1012719
+854,37,"happy","Female",1060034
+856,42,"unhappy","Female",1015590
+857,32,"very happy","Male",975912
+858,57,"happy","Male",1007881
+863,37,"very happy","Female",976740.3
+865,22,"very happy","Female",1083446
+867,27,"very happy","Female",1091304
+870,27,"very happy","Male",993991.7
+873,27,"very happy","Male",949713.4
+875,32,"very happy","Male",1018393
+876,32,"very happy","Male",1007077
+877,22,"very happy","Male",990378.7
+880,27,"happy","Female",975169.4
+885,42,"unhappy","Female",952093.8
+903,27,"happy","Male",1040157
+904,37,"happy","Male",1004218
+908,22,"happy","Male",991477
+910,22,"very happy","Female",1010403
+912,52,"unhappy","Male",995603.3
+914,22,"very happy","Female",949334.4
+915,32,"very happy","Male",1061878
+916,32,"very happy","Male",947559
+920,22,"very happy","Female",1025592
+925,22,"unhappy","Female",1023006
+928,52,"happy","Female",1001018
+929,37,"unhappy","Female",980845.8
+931,22,"very happy","Female",981272.1
+945,37,"happy","Female",962025
+950,22,"very happy","Male",1044772
+951,32,"unhappy","Male",965480.1
+961,52,"unhappy","Male",1025212
+965,27,"very happy","Male",1053456
+966,27,"very happy","Female",950247
+967,42,"very happy","Male",1027316
+968,22,"very happy","Male",925541.5
+972,27,"happy","Male",1001579
+975,37,"very happy","Female",1012053
+981,27,"very happy","Female",971224.8
+987,22,"very happy","Male",1030845
+992,22,"happy","Female",939510.8
+995,37,"very happy","Male",988355.5
+1002,32,"happy","Male",1028082
+1007,42,"unhappy","Female",1028113
+1011,32,"happy","Male",1035936
+1021,42,"very happy","Male",1024410
+1026,47,"very happy","Female",996200.6
+1027,22,"happy","Male",997608.8
+1030,32,"happy","Female",980950.6
+1031,22,"very happy","Female",990780.9
+1034,32,"happy","Female",1025713
+1037,27,"happy","Male",1018480
+1038,37,"very happy","Male",961477.2
+1039,42,"very happy","Male",1038954
+1045,37,"happy","Female",1067901
+1046,32,"very happy","Female",995435.8
+1054,42,"very happy","Female",1012486
+1057,27,"very happy","Male",974729.6
+1059,27,"happy","Male",1013873
+1063,22,"very happy","Male",961018.3
+1070,22,"very happy","Female",1022686
+1072,52,"very happy","Female",990296.7
+1073,32,"very happy","Male",978877.3
+1075,37,"unhappy","Male",987865.1
+1077,37,"happy","Female",1002659
+1081,32,"happy","Male",1024291
+1083,42,"happy","Female",1021742
+1084,32,"very happy","Male",951350
+1086,27,"very happy","Male",985928.8
+1087,32,"happy","Female",984224.3
+1089,22,"happy","Male",922129.1
+1102,42,"very happy","Female",984878.9
+1103,52,"happy","Female",978381.1
+1107,37,"happy","Male",952817.8
+1115,57,"happy","Male",993301.2
+1119,32,"very happy","Male",1047200
+1124,27,"happy","Female",998682.6
+1125,27,"unhappy","Female",971940.3
+1126,22,"very happy","Male",1045953
+1128,22,"happy","Female",982429.6
+1129,22,"very happy","Female",1008443
+1130,42,"happy","Male",1024616
+1131,32,"happy","Male",1009284
+1133,57,"happy","Male",1008733
+1140,27,"very happy","Female",999345.3
+1143,22,"very happy","Female",1044359
+1150,32,"happy","Female",982074
+1153,32,"happy","Male",959636.1
+1156,22,"very happy","Female",977958.1
+1158,52,"very happy","Male",1007452
+1161,32,"very happy","Female",994591.5
+1166,42,"very happy","Male",1015548
+1169,32,"very happy","Male",988085.2
+1177,27,"very happy","Female",985970.9
+1178,37,"very happy","Male",1067047
+1180,27,"very happy","Male",969462.5
+1195,27,"happy","Female",1035227
+1198,27,"unhappy","Male",982125.3
+1209,37,"very happy","Female",979203.3
+1211,47,"happy","Male",1000579
+1215,27,"very happy","Male",989033.1
+1221,37,"happy","Male",976102
+1226,32,"happy","Female",974992.2
+1229,32,"happy","Female",979828.3
+1230,42,"unhappy","Female",999713.9
+1234,27,"happy","Female",1030431
+1235,27,"unhappy","Male",1034162
+1236,42,"happy","Male",1038655
+1242,22,"very happy","Male",1005431
+1245,27,"unhappy","Male",996819.4
+1247,32,"unhappy","Male",980742.1
+1260,27,"unhappy","Female",1014201
+1266,37,"happy","Female",1037899
+1271,37,"happy","Female",1005395
+1273,22,"very happy","Male",992674.2
+1276,37,"happy","Male",981605.5
+1282,32,"very happy","Female",1050368
+1294,57,"very happy","Male",950306.4
+1295,22,"very happy","Female",999659.4
+1298,27,"very happy","Female",1077086
+1304,37,"happy","Male",1012024
+1305,27,"unhappy","Female",950082.3
+1311,32,"very happy","Male",993615.4
+1314,32,"happy","Male",1010372
+1319,22,"very happy","Male",995856.4
+1322,22,"happy","Female",997023.3
+1324,17.5,"happy","Female",1013597
+1327,32,"very happy","Male",965924.1
+1332,32,"very happy","Male",1025124
+1333,27,"unhappy","Female",959799
+1336,22,"very happy","Female",964254.6
+1341,47,"very happy","Male",1024136
+1344,27,"happy","Male",1050498
+1353,47,"happy","Male",1021364
+1358,42,"very happy","Male",993797.3
+1359,32,"very happy","Female",922271.2
+1361,52,"happy","Male",1011079
+1364,22,"happy","Female",1032383
+1368,52,"happy","Male",1032700
+1384,22,"very happy","Female",960565.4
+1390,22,"very happy","Female",1024465
+1393,27,"happy","Male",1038245
+1394,32,"very happy","Female",1017026
+1402,27,"very happy","Female",1038306
+1407,32,"very happy","Male",939577.6
+1408,37,"happy","Male",1133759
+1412,32,"very happy","Female",985051.8
+1413,32,"very happy","Female",924442.9
+1417,32,"happy","Male",1031415
+1418,32,"happy","Female",1028742
+1419,47,"happy","Female",1039497
+1420,27,"very happy","Female",1061733
+1423,27,"very happy","Male",1076505
+1424,37,"unhappy","Female",979350.9
+1432,27,"very happy","Female",1075605
+1433,37,"very happy","Female",1007439
+1437,32,"very happy","Female",1065957
+1438,27,"very happy","Female",976331.1
+1439,27,"very happy","Male",1009413
+1445,37,"unhappy","Male",1016115
+1450,27,"happy","Male",933188.9
+1451,22,"very happy","Female",1040526
+1452,22,"happy","Male",964698
+1453,42,"happy","Male",1048169
+1456,27,"very happy","Male",984086
+1460,27,"happy","Male",952514.9
+1473,27,"unhappy","Male",1021917
+1480,37,"happy","Male",991982.5
+1481,27,"very happy","Female",990509.8
+1482,27,"very happy","Female",961759.9
+1496,22,"happy","Male",895291.6
+1497,27,"very happy","Female",1013909
+1504,27,"very happy","Female",988353.4
+1505,32,"unhappy","Female",999482.4
+1513,47,"very happy","Female",1020717
+1534,42,"very happy","Male",999313.1
+1535,22,"happy","Male",997262.8
+1536,27,"very happy","Male",928023.4
+1540,32,"very happy","Male",1043352
+1550,27,"very happy","Female",988780.1
+1551,22,"very happy","Female",928575
+1555,47,"happy","Female",1028149
+1557,32,"very happy","Female",980872.3
+1561,47,"unhappy","Female",991845.8
+1564,37,"happy","Male",993854
+1566,57,"very happy","Male",1007997
+1567,27,"very happy","Male",1001320
+1573,27,"very happy","Female",1082494
+1575,27,"very happy","Female",973292.6
+1576,32,"very happy","Female",989353.9
+1584,37,"very happy","Female",960052.4
+1585,32,"happy","Female",981987.1
+1590,22,"happy","Female",966259.6
+1594,27,"unhappy","Female",1040126
+1595,57,"unhappy","Male",989640.6
+1603,32,"very happy","Male",975103.2
+1609,22,"very happy","Male",1014251
+1615,22,"happy","Female",1002993
+1616,32,"very happy","Female",1014421
+1617,47,"happy","Female",944772.7
+1620,22,"very happy","Female",992990.9
+1621,22,"very happy","Female",981518.2
+1622,52,"very happy","Male",1029959
+1629,27,"very happy","Female",971470.8
+1637,27,"very happy","Female",978098.4
+1638,52,"very happy","Male",974875.3
+1650,32,"very happy","Male",980704.5
+1654,47,"happy","Male",990961.4
+1664,37,"happy","Female",1052114
+1665,27,"unhappy","Female",974861.8
+1670,22,"very happy","Female",957329.3
+1671,32,"happy","Female",998736.9
+1674,17.5,"very happy","Female",1015501
+1675,22,"happy","Female",1072160
+1682,32,"happy","Female",1008739
+1685,22,"very happy","Female",948234.6
+1688,22,"very happy","Female",1015214
+1691,42,"happy","Female",1011798
+1695,27,"very happy","Female",1036433
+1697,32,"happy","Male",972695.1
+1698,42,"happy","Male",1030719
+1704,57,"unhappy","Female",1012283
+1705,42,"unhappy","Male",971311.3
+1711,32,"unhappy","Female",950312.3
+1716,22,"unhappy","Female",918766.3
+1719,22,"very happy","Male",1068773
+1723,22,"very happy","Female",944384.9
+1726,22,"very happy","Female",982878.6
+1730,42,"happy","Female",973860.6
+1731,32,"happy","Male",1036515
+1732,37,"unhappy","Male",971904.3
+1749,32,"very happy","Female",977801.9
+1751,27,"happy","Male",1008238
+1754,27,"very happy","Male",964337.3
+1758,27,"very happy","Female",986925.1
+1761,42,"happy","Male",1096254
+1763,37,"happy","Male",1043376
+1772,32,"unhappy","Male",943243.9
+1776,32,"very happy","Male",1016681
+1782,52,"very happy","Female",977493.4
+1784,47,"very happy","Male",998257.6
+1786,37,"very happy","Male",978765.2
+1791,32,"happy","Female",1003431
+1793,52,"happy","Male",981241.6
+1799,47,"very happy","Male",962287.7
+1803,27,"happy","Female",1059019
+1806,27,"very happy","Female",995214.4
+1808,37,"very happy","Male",912460.1
+1815,42,"happy","Male",998537.6
+1818,22,"very happy","Female",1005254
+1831,32,"unhappy","Female",1012493
+1834,57,"very happy","Female",1030306
+1840,27,"unhappy","Female",1013557
+1843,27,"very happy","Female",981313.6
+1844,42,"unhappy","Male",971317.9
+1846,17.5,"very happy","Female",958154.7
+1850,22,"very happy","Male",1004860
+1851,27,"happy","Female",990221.8
+1856,42,"unhappy","Female",1054906
+1859,22,"happy","Female",1036117
+1861,27,"happy","Male",1005640
+1866,27,"very happy","Male",995072.1
+1873,22,"very happy","Male",968234.9
+1875,27,"happy","Female",1006350
+1876,27,"happy","Male",1025273
+1892,32,"happy","Male",1006544
+1895,32,"happy","Female",1001304
+1896,22,"very happy","Female",1022511
+1897,27,"happy","Male",1012098
+1899,52,"very happy","Female",998430.5
+1904,27,"unhappy","Female",1049327
+1905,27,"happy","Female",935209.5
+1908,42,"happy","Female",963652.5
+1916,42,"happy","Female",940580.5
+1920,27,"unhappy","Male",986622.7
+1935,47,"unhappy","Male",1012733
+1938,22,"very happy","Male",934673.1
+1940,27,"very happy","Male",1011727
+1941,32,"happy","Female",1010774
+1947,27,"happy","Female",955029.9
+1949,22,"very happy","Female",1003375
+1951,27,"happy","Female",1029776
+1952,22,"very happy","Female",987291.2
+1954,32,"very happy","Male",973391.8
+1959,22,"unhappy","Male",1010807
+1960,22,"very happy","Female",1039689
+9001,47,"happy","Male",1033914
+9010,32,"very happy","Female",1007013
+9012,37,"unhappy","Male",1000169
+9023,37,"happy","Male",945022.2
+9029,27,"happy","Female",983034.1

@@ -1,0 +1,52 @@
+state,region,population,total_murders,south
+Alabama,South,4.80E+06,135,1
+Alaska,West,710231,19,0
+Arizona,West,6.40E+06,232,0
+Arkansas,South,2.90E+06,93,1
+California,West,3.70E+07,1257,0
+Colorado,West,5.00E+06,65,0
+Connecticut,Northeast,3.60E+06,97,0
+Delaware,South,897934,38,1
+District of Columbia,South,601723,99,1
+Florida,South,2.00E+07,669,1
+Georgia,South,9.90E+06,376,1
+Hawaii,West,1.40E+06,7,0
+Idaho,West,1.60E+06,12,0
+Illinois,North Central,1.30E+07,364,0
+Indiana,North Central,6.50E+06,142,0
+Iowa,North Central,3.00E+06,21,0
+Kansas,North Central,2.90E+06,63,0
+Kentucky,South,4.30E+06,116,1
+Louisiana,South,4.50E+06,351,1
+Maine,Northeast,1.30E+06,11,0
+Maryland,South,5.80E+06,293,1
+Massachusetts,Northeast,6.50E+06,118,0
+Michigan,North Central,9.90E+06,413,0
+Minnesota,North Central,5.30E+06,53,0
+Mississippi,South,3.00E+06,120,1
+Missouri,North Central,6.00E+06,321,0
+Montana,West,989415,12,0
+Nebraska,North Central,1.80E+06,32,0
+Nevada,West,2.70E+06,84,0
+New Hampshire,Northeast,1.30E+06,5,0
+New Jersey,Northeast,8.80E+06,246,0
+New Mexico,West,2.10E+06,67,0
+New York,Northeast,1.90E+07,517,0
+North Carolina,South,9.50E+06,286,1
+North Dakota,North Central,672591,4,0
+Ohio,North Central,1.20E+07,310,0
+Oklahoma,South,3.80E+06,111,1
+Oregon,West,3.80E+06,36,0
+Pennsylvania,Northeast,1.30E+07,457,0
+Rhode Island,Northeast,1.10E+06,16,0
+South Carolina,South,4.60E+06,207,1
+South Dakota,North Central,814180,8,0
+Tennessee,South,6.30E+06,219,1
+Texas,South,2.50E+07,805,1
+Utah,West,2.80E+06,22,0
+Vermont,Northeast,625741,2,0
+Virginia,South,8.00E+06,250,1
+Washington,West,6.70E+06,93,0
+West Virginia,South,1.90E+06,27,1
+Wisconsin,North Central,5.70E+06,97,0
+Wyoming,West,563626,5,0

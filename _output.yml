@@ -1,0 +1,23 @@
+bookdown::gitbook:
+  css: css/style.css
+  highlight: tango
+  split_by: section
+  number_sections: true
+  config:
+    toc:
+      collapse: subsection
+      scroll_highlight: true
+      before: |
+        <li class="toc-logo"><a href="./"><strong>Statistics &amp; Econometrics with R</strong></a></li>
+      after: |
+        <li class="toc-after">Kedar Kulkarni · Azim Premji University</li>
+    toolbar:
+      position: fixed
+    search:
+      engine: fuse
+    fontsettings:
+      theme: white
+      family: sans
+      size: 2
+    sharing: no
+    info: false

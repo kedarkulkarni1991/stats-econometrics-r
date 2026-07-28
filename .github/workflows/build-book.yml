@@ -1,0 +1,64 @@
+name: Build book
+
+# OPTIONAL. The book is served from the committed docs/ folder, so GitHub Pages
+# works without this file. Enable it when you would rather edit a chapter,
+# push, and let GitHub do the rendering than run `make book` yourself.
+#
+# On success it commits the freshly rendered docs/ back to the branch, which is
+# what Pages then serves.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '**.Rmd'
+      - '_bookdown.yml'
+      - '_output.yml'
+      - '_common.R'
+      - 'css/**'
+      - 'data/**'
+      - 'R/**'
+      - '.github/workflows/build-book.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: r-lib/actions/setup-pandoc@v2
+
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          use-public-rspm: true
+
+      # Binary packages from the Posit package manager, so this takes ~1 minute
+      # rather than compiling everything from source.
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          packages: |
+            any::bookdown
+            any::rmarkdown
+            any::knitr
+            any::ggplot2
+            any::BSDA
+
+      - name: Render book
+        run: Rscript -e 'bookdown::render_book("index.Rmd", "bookdown::gitbook")'
+
+      - name: Commit rendered book
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          touch docs/.nojekyll
+          git add docs
+          if git diff --staged --quiet; then
+            echo "No change in rendered output."
+          else
+            git commit -m "Rebuild book [skip ci]"
+            git push
+          fi

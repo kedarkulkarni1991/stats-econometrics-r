@@ -1,0 +1,1041 @@
+# Hypothesis Testing: One Sample {#one-sample}
+
+```{r setup-11, include = FALSE}
+source("_common.R")
+library(ggplot2)
+```
+
+Someone makes a claim about a population. You collect a sample. The sample
+disagrees with the claim — a little. Is that disagreement real, or is it just
+the luck of the draw?
+
+That single question is what this chapter is about, and it is the engine
+underneath almost everything in the rest of the book.
+
+## The problem, before any formulas {#os-problem}
+
+The APU administration claims the average height of all students is 165 cm.
+
+You are sceptical. You could settle it by measuring all 3,500 students, but that
+costs weeks of work. So instead you measure 36 students chosen at random, and
+you find their average height is **168 cm**.
+
+The claim said 165. Your sample says 168. Is the administration wrong?
+
+::: {.watchout}
+The tempting answer is "yes, obviously — 168 is not 165." That answer is wrong,
+and understanding *why* it is wrong is the whole chapter.
+
+You did not measure everyone. You measured 36 people. Even if the true average
+really were exactly 165, your particular 36 students would almost never average
+exactly 165. Some samples come out high, some low. **A gap between the sample
+and the claim is guaranteed to exist even when the claim is perfectly true.**
+:::
+
+Let us actually watch that happen. Suppose we *know* the truth: the population
+mean is exactly 165 cm, with a standard deviation of 8 cm. Now let us draw a
+sample of 36 students, ten separate times, and look at the sample means.
+
+```{r os-sim-ten}
+set.seed(42)
+
+ten_samples <- replicate(10, mean(rnorm(n = 36, mean = 165, sd = 8)))
+round(ten_samples, 2)
+```
+
+Every one of those numbers came from a population whose mean is *exactly* 165.
+Not one of them is 165. Several are further from 165 than a full centimetre.
+
+So the real question is not "is 168 different from 165?" It obviously is. The
+real question is:
+
+::: {.intuition}
+**If the administration's claim were true, how often would a sample of 36
+students come out as far from 165 as ours did?**
+
+If the answer is "quite often" — then our sample is unremarkable, and we have no
+grounds to call anyone a liar.
+
+If the answer is "almost never" — then either something very unusual happened to
+us, or the claim is false. We go with the second explanation.
+:::
+
+We can answer that question by brute force before we do any algebra at all.
+Let's draw not ten samples but fifty thousand, still assuming the claim is true,
+and count how many stray at least 3 cm away from 165 (as ours did).
+
+```{r os-sim-many}
+set.seed(42)
+
+many_means <- replicate(50000, mean(rnorm(n = 36, mean = 165, sd = 8)))
+
+# How far did our real sample fall from the claim?
+observed_gap <- abs(168 - 165)
+
+mean(abs(many_means - 165) >= observed_gap)
+```
+
+About 2.5% of the time. So if the administration is telling the truth, a sample
+like ours turns up roughly once in forty tries. That is rare enough to be
+suspicious — and by the end of this chapter you will be able to get that same
+number exactly, in one line, with no simulation at all.
+
+```{r os-sim-plot, echo = FALSE, fig.cap = "50,000 sample means drawn from a population that truly averages 165 cm. Our observed sample mean of 168 sits far out in the tail."}
+df <- data.frame(m = many_means)
+
+ggplot(df, aes(m)) +
+  geom_histogram(bins = 60, fill = book_palette$fill, colour = "white",
+                 linewidth = 0.2) +
+  geom_vline(xintercept = 165, colour = book_palette$ink,
+             linetype = "dashed", linewidth = 0.7) +
+  geom_vline(xintercept = 168, colour = book_palette$reject, linewidth = 1) +
+  annotate("label", x = 168, y = Inf, vjust = 1.4, label = "our sample: 168",
+           colour = book_palette$reject, fill = "white", size = 3.6,
+           label.size = 0.3) +
+  annotate("label", x = 165, y = Inf, vjust = 3.4, label = "the claim: 165",
+           colour = book_palette$ink, fill = "white", size = 3.6,
+           label.size = 0.3) +
+  labs(x = "sample mean height (cm)", y = "how often") +
+  theme_book()
+```
+
+## Naming the two hypotheses {#os-hypotheses}
+
+We start from a sample $x_1, x_2, \ldots, x_n$ drawn from a population with
+unknown mean $\mu$ and standard deviation $\sigma$. The claim under scrutiny is
+the **null hypothesis**:
+
+$$H_0 : \mu = 165$$
+
+The position we would move to if the claim collapses is the **alternative
+hypothesis**:
+
+$$H_A : \mu \neq 165$$
+
+::: {.keyidea}
+The null hypothesis is always the *boring* option — nothing is going on, the
+claim stands, the difference is zero. We never *prove* it. We only ever fail to
+knock it down.
+
+This is why we say "**fail to reject** $H_0$" and never "accept $H_0$." A court
+that acquits has not proven innocence; it has failed to prove guilt.
+:::
+
+### Which hypothesis does the claim go in? {#os-which-hypothesis}
+
+This is where most marks are lost, so it is worth getting exactly right.
+
+There is one structural rule, and it is not negotiable:
+
+::: {.keyidea}
+**The equals sign always lives in $H_0$.**
+
+$H_0$ gets $=$, $\leq$, or $\geq$. $H_A$ gets $\neq$, $<$, or $>$ — never
+equality. This is not a convention; the test is *computed* assuming a specific
+value of $\mu$, and only $H_0$ supplies one.
+:::
+
+Given that, where the claim goes depends on what the question asks you to do
+with it:
+
+```{r os-claim-table, echo = FALSE}
+knitr::kable(
+  data.frame(
+    `The question asks` = c(
+      "\"Can you **reject** the claim?\"",
+      "\"Is there evidence to **support** the claim?\""
+    ),
+    `Put the claim in` = c("$H_0$", "$H_A$"),
+    `Because` = c(
+      "You are testing whether the data can knock the claim down.",
+      "The claim is what you need evidence *for*, and evidence accumulates against $H_0$."
+    ),
+    check.names = FALSE
+  ),
+  caption = "Where the claim goes."
+)
+```
+
+::: {.watchout}
+A claim phrased with a **strict** inequality — "the mean is *more than* 499" —
+cannot go into $H_0$ as stated, because $H_0$ must contain the equality. If you
+are asked for evidence supporting that claim, it becomes
+
+$$H_0 : \mu \leq 499 \qquad H_A : \mu > 499$$
+
+Writing $H_0: \mu \geq 499$ here is the common error. It puts the claim in the
+null *and* points the test in the wrong direction, so a sample mean **above**
+499 — evidence *for* the claim — ends up producing a $p$-value near 1 and a
+"fail to reject." The arithmetic is fine; the conclusion is backwards.
+:::
+
+Work it through. A report claims the mean CAT score of applicants is *more
+than* 499. A sample of 100 has mean 502, with $\sigma = 10.6$. Is there enough
+evidence at $\alpha = 0.01$ to support the report?
+
+The question says **support**, so the claim is the alternative:
+
+$$H_0 : \mu \leq 499 \qquad H_A : \mu > 499$$
+
+This is right-tailed. The critical value is $Z_{0.01} = 2.33$, not $-2.33$.
+
+```{r os-claim-worked}
+xbar_c <- 502; mu_c <- 499; sigma_c <- 10.6; n_c <- 100
+
+z_c <- (xbar_c - mu_c) / (sigma_c / sqrt(n_c))
+c(z_calc = z_c,
+  z_crit = qnorm(0.99),
+  p_value = pnorm(z_c, lower.tail = FALSE))   # upper tail: H_A is ">"
+```
+
+$Z_{calc} = 2.83 > 2.33$, and $p = 0.0023 < 0.01$. We **reject $H_0$**, which
+means the data **support** the report's claim.
+
+::: {.intuition}
+Sanity-check the direction before you trust any $p$-value. The sample mean is
+502 and the claim is "more than 499." The sample is *pointing the same way as
+the claim*, so the evidence must be favourable. If your arithmetic hands back
+$p = 0.998$ and "no support," you have pointed the tail the wrong way — go back
+to $H_A$.
+:::
+
+## How far is too far? {#os-critical}
+
+Write $\mu_0$ for the value the null claims (here, 165). We will reject $H_0$
+when the sample mean lands too far from $\mu_0$ — that is, when
+
+$$|\bar{x} - \mu_0| \geq c$$
+
+for some cutoff $c$. Everything now hinges on choosing $c$.
+
+::: {.theory}
+We choose $c$ so that, **if the null were true**, a gap that large would occur
+with probability only $\alpha$ — a small risk we decide in advance, typically
+0.05:
+
+$$P\big[|\bar{x} - \mu_0| \geq c\big] = \alpha$$
+
+From the Central Limit Theorem (Chapter \@ref(one-sample)) we know $\bar{x}$ is
+normally distributed with mean $\mu$ and standard deviation $\sigma/\sqrt{n}$.
+Dividing through by that standard error turns the left-hand side into a standard
+normal:
+
+$$
+\begin{aligned}
+P\left[\frac{|\bar{x} - \mu_0|}{\sigma/\sqrt{n}} \geq \frac{c}{\sigma/\sqrt{n}}\right] &= \alpha \\[4pt]
+P\left[|Z| \geq \frac{c}{\sigma/\sqrt{n}}\right] &= \alpha
+\end{aligned}
+$$
+
+The event $|Z| \ge k$ splits into two symmetric tails, each carrying half the
+probability:
+
+$$
+2 \cdot P\left[Z \geq \frac{c}{\sigma/\sqrt{n}}\right] = \alpha
+\qquad\Longrightarrow\qquad
+P\left[Z \geq \frac{c}{\sigma/\sqrt{n}}\right] = \frac{\alpha}{2}
+$$
+
+By definition $P[Z \geq Z_{\alpha/2}] = \alpha/2$, so the bracketed quantity
+*is* $Z_{\alpha/2}$, and therefore
+
+$$\boxed{\ c = Z_{\alpha/2}\,\frac{\sigma}{\sqrt{n}}\ }$$
+:::
+
+Substituting that $c$ back into the rejection rule and dividing both sides by
+the standard error gives the form you will actually use:
+
+$$
+\frac{|\bar{x} - \mu_0|}{\sigma/\sqrt{n}} \geq Z_{\alpha/2}
+$$
+
+The quantity on the left is the **test statistic**, written $Z_{calc}$. The
+value on the right is the **critical value**. The rule is simply: *if the
+statistic exceeds the critical value, reject the null.*
+
+::: {.inr}
+Those critical values are the ones you have been reading off a printed table.
+There is no need — `qnorm()` gives you any of them to as many decimals as you
+like.
+
+```{r os-crit-z}
+alpha <- c(0.10, 0.05, 0.01)
+
+# Two-tailed: we want the value leaving alpha/2 in the upper tail
+qnorm(1 - alpha / 2)
+```
+
+Those three numbers are the 1.645, 1.96 and 2.58 you have memorised. Now you
+know where they come from, and you will never need the table again.
+:::
+
+## The worked example, both ways {#os-worked}
+
+Back to the students. We have $\bar{x} = 168$, $\mu_0 = 165$, $\sigma = 8$,
+$n = 36$, and we will work at $\alpha = 0.05$.
+
+### On paper {-}
+
+**Step 1 — Hypotheses.**
+
+$$H_0 : \mu = 165 \qquad H_A : \mu \neq 165$$
+
+**Step 2 — Critical value.** Two-tailed at $\alpha = 0.05$, so
+$Z_{0.025} = 1.96$.
+
+**Step 3 — Test statistic.**
+
+$$
+Z_{calc} = \frac{\bar{x} - \mu_0}{\sigma/\sqrt{n}}
+= \frac{168 - 165}{8/\sqrt{36}}
+= \frac{3}{8/6}
+= \frac{3}{1.333}
+= 2.25
+$$
+
+**Step 4 — Decision.** $|2.25| > 1.96$, so we **reject** $H_0$ at the 5% level.
+
+**Step 5 — The $p$-value.**
+
+$$
+P(|Z| > 2.25) = 2 \times P(Z > 2.25) = 2 \times 0.01222 = 0.0244
+$$
+
+If the administration's claim were true, only 2.4% of samples would sit as far
+from 165 as ours. That is unlikely enough to reject the claim.
+
+### The same thing in R {-}
+
+Now watch every one of those numbers reappear.
+
+```{r os-byhand-r}
+xbar  <- 168
+mu0   <- 165
+sigma <- 8
+n     <- 36
+
+se     <- sigma / sqrt(n)          # standard error
+z_calc <- (xbar - mu0) / se        # the test statistic
+z_crit <- qnorm(1 - 0.05 / 2)      # the critical value
+p_val  <- 2 * pnorm(-abs(z_calc))  # the p-value
+
+c(se = se, z_calc = z_calc, z_crit = z_crit, p_value = p_val)
+```
+
+The standard error is `r round(8/6, 4)`, the test statistic is
+`r round((168-165)/(8/6), 3)`, and the $p$-value is
+`r round(2*pnorm(-2.25), 4)` — exactly the hand calculation, and near enough
+exactly the `r round(mean(abs(many_means - 165) >= 3), 4)` we got by brute-force
+simulation at the start of the chapter.
+
+::: {.intuition}
+Notice what just happened. The simulation, the algebra, and the R code are three
+descriptions of one idea. The formula is not a rule handed down from above — it
+is a shortcut for the counting exercise we did by hand in Section
+\@ref(os-problem).
+:::
+
+And here is the picture the numbers are describing:
+
+```{r os-reject-plot, fig.cap = "The rejection region at $\\alpha = 0.05$ (shaded), with our test statistic of 2.25 falling inside it."}
+plot_rejection(stat = 2.25, crit = 1.96, tails = "two",
+               stat_label = "Z = 2.25")
+```
+
+### Letting a package do it {-}
+
+For a real dataset rather than summary statistics, `z.test()` from the **BSDA**
+package does the whole thing at once. Since our problem quoted only summary
+statistics, we first build a sample consistent with them:
+
+```{r os-ztest}
+library(BSDA)
+
+heights <- make_sample(n = 36, mean = 168, sd = 8)
+
+z.test(heights, mu = 165, sigma.x = 8, conf.level = 0.95)
+```
+
+Read that output against the hand calculation: `z = 2.25`, `p-value = 0.0244`,
+and a confidence interval that we are about to explain.
+
+::: {.watchout}
+`z.test()` needs `sigma.x` — the **population** standard deviation. If you do
+not know it (and in real work you almost never do), you must not use a
+$Z$-test. Use `t.test()` instead; see Section \@ref(os-ttest).
+:::
+
+## What a $p$-value actually says {#os-pvalue}
+
+The $p$-value is the single most misquoted number in empirical work, so let us
+be exact.
+
+::: {.keyidea}
+The $p$-value is the probability of seeing a sample **at least as extreme as
+ours**, *given that the null hypothesis is true*.
+
+It is **not** the probability that the null is true. It is **not** the
+probability that we made a mistake. It is a statement about the data, computed
+under an assumption about the world — not a statement about the world.
+:::
+
+Small $p$-value means the data would be surprising if the null held, which is
+evidence against the null. Large $p$-value means the data are unremarkable
+under the null, so we have no case.
+
+```{r os-pval-table, echo = FALSE}
+knitr::kable(
+  data.frame(
+    `p-value` = c("0.60", "0.18", "0.049", "0.0001"),
+    `Read it as` = c(
+      "Completely ordinary under the null.",
+      "A bit high, but this happens roughly 1 time in 6.",
+      "Would happen about 1 time in 20. Reject at 5%.",
+      "Would happen 1 time in 10,000. Strong evidence."
+    ),
+    `At alpha = 0.05` = c("Fail to reject", "Fail to reject", "Reject", "Reject"),
+    check.names = FALSE
+  ),
+  caption = "Reading a p-value."
+)
+```
+
+## Confidence intervals are the same test in disguise {#os-ci}
+
+Rearranging the "do not reject" condition $|\bar{x} - \mu| \le
+Z_{\alpha/2}\,\sigma/\sqrt{n}$ for $\mu$ gives
+
+$$
+\bar{x} - Z_{\alpha/2}\frac{\sigma}{\sqrt{n}}
+\ \leq\ \mu\ \leq\
+\bar{x} + Z_{\alpha/2}\frac{\sigma}{\sqrt{n}}
+$$
+
+For our students:
+
+```{r os-ci-calc}
+xbar + c(-1, 1) * qnorm(0.975) * (8 / sqrt(36))
+```
+
+The 95% interval is roughly $[165.4,\ 170.6]$. The claimed value of 165 lies
+**outside** it — which is the same verdict we reached with the test statistic,
+and it is no coincidence.
+
+::: {.keyidea}
+A $(1-\alpha)$ confidence interval is exactly the set of values of $\mu_0$ that
+a two-tailed test at level $\alpha$ would **fail** to reject.
+
+Test and interval are one object viewed from two sides. If the interval misses
+the claimed value, the test rejects it. Always.
+:::
+
+::: {.watchout}
+"95% confident" does **not** mean there is a 95% probability that $\mu$ lies in
+this particular interval. $\mu$ is a fixed number; it is either in there or it
+is not.
+
+It means: *the procedure* that generated this interval captures the true $\mu$
+in 95% of repeated samples. The randomness lives in the interval, not in $\mu$.
+:::
+
+We can see that directly. Build 100 intervals from 100 samples of a population
+we know averages 165, and count the misses:
+
+```{r os-ci-coverage, fig.height = 4.6}
+set.seed(1)
+
+sims <- t(replicate(100, {
+  s <- rnorm(36, mean = 165, sd = 8)
+  mean(s) + c(-1, 1) * qnorm(0.975) * 8 / sqrt(36)
+}))
+
+ci <- data.frame(id = 1:100, lo = sims[, 1], hi = sims[, 2])
+ci$misses <- ci$lo > 165 | ci$hi < 165
+
+sum(ci$misses)   # how many of the 100 failed to capture the truth?
+```
+
+Five of the hundred missed. Run it again with a different seed and you will get
+four, or seven, or three — but over the long run, 5%.
+
+```{r os-ci-plot, echo = FALSE, fig.height = 4.6, fig.cap = "One hundred 95% confidence intervals from a population whose true mean is 165 (the vertical line). The intervals shown in orange are the ones that missed."}
+ggplot(ci, aes(y = id)) +
+  geom_segment(aes(x = lo, xend = hi, yend = id, colour = misses),
+               linewidth = 0.45) +
+  geom_vline(xintercept = 165, linewidth = 0.7, colour = book_palette$ink) +
+  scale_colour_manual(values = c("FALSE" = book_palette$soft,
+                                 "TRUE"  = book_palette$reject),
+                      guide = "none") +
+  labs(x = "height (cm)", y = "sample number") +
+  theme_book() +
+  theme(axis.text.y = element_blank())
+```
+
+## When $\sigma$ is unknown: the $t$-test {#os-ttest}
+
+Everything so far assumed we knew the population standard deviation $\sigma$.
+We almost never do. Replacing it with the sample standard deviation $s$ adds a
+second source of uncertainty, and the statistic
+
+$$t_{calc} = \frac{\bar{x} - \mu_0}{s/\sqrt{n}}$$
+
+no longer follows a normal distribution. It follows Student's $t$ with
+$n - 1$ **degrees of freedom** — a distribution with fatter tails, which demands
+more evidence before it will let you reject.
+
+```{r os-t-vs-z, echo = FALSE, fig.cap = "Student's $t$ against the standard normal. With few degrees of freedom the tails are noticeably heavier, so critical values sit further out."}
+grid <- expand.grid(x = seq(-4, 4, length.out = 400),
+                    dist = c("t, df = 5", "t, df = 30", "normal"))
+grid$y <- with(grid, ifelse(dist == "normal", dnorm(x),
+                     ifelse(dist == "t, df = 5", dt(x, 5), dt(x, 30))))
+
+ggplot(grid, aes(x, y, colour = dist, linewidth = dist)) +
+  geom_line() +
+  scale_colour_manual(values = c("t, df = 5" = book_palette$reject,
+                                 "t, df = 30" = book_palette$accent,
+                                 "normal" = book_palette$ink), name = NULL) +
+  scale_linewidth_manual(values = c("t, df = 5" = 0.8, "t, df = 30" = 0.8,
+                                    "normal" = 1.1), guide = "none") +
+  labs(x = NULL, y = NULL) +
+  theme_book() +
+  theme(axis.text.y = element_blank(), legend.position = "top")
+```
+
+### Settling the question with the actual class {-}
+
+We opened this chapter with a made-up sample of 36 students. We can now do the
+real thing. `stats-class.csv` holds the survey this class filled in — names,
+ages, heights, gender:
+
+```{r os-class-data}
+students <- read.csv("data/stats-class.csv")
+
+str(students)
+```
+
+Thirty-three rows, but look at the last one. One student left age and height
+blank, and another did not give a gender:
+
+```{r os-class-na}
+students[!complete.cases(students), ]
+```
+
+::: {.watchout}
+**A blank is not always an `NA`.** In a numeric column an empty field is read
+as `NA`, but in a text column it is read as the empty string `""` — and `""`
+is a perfectly ordinary value as far as `is.na()`, `complete.cases()` and
+`na.rm` are concerned. A gap in a text column can therefore hide in plain
+sight.
+
+If a dataset you did not prepare yourself has blanks, say so explicitly when
+you read it:
+
+```{r os-na-strings, eval = FALSE}
+read.csv("somefile.csv", na.strings = c("", "NA"))
+```
+
+The files in this book are already written so that plain `read.csv()` does the
+right thing.
+:::
+
+::: {.watchout}
+`mean()` returns `NA` if even one value is missing — it refuses to guess what
+you meant. Pass `na.rm = TRUE` to drop the gaps, and always know how many you
+dropped.
+
+```{r os-class-narm}
+mean(students$height)                  # NA — one height is missing
+mean(students$height, na.rm = TRUE)    # 32 students
+```
+:::
+
+Now the test. We do **not** know the population standard deviation of student
+heights, so this is a $t$-test, not a $Z$-test:
+
+```{r os-class-test}
+heights_real <- students$height[!is.na(students$height)]
+
+c(n = length(heights_real),
+  mean = mean(heights_real),
+  sd = sd(heights_real))
+
+t.test(heights_real, mu = 165)
+```
+
+```{r os-class-stash, include = FALSE}
+ct <- t.test(heights_real, mu = 165)
+```
+
+$t = `r round(ct$statistic, 2)`$ on `r ct$parameter` degrees of freedom, with a
+$p$-value of `r round(ct$p.value, 4)`. We **reject** the claim that the average
+is 165 cm. The 95% interval,
+$[`r round(ct$conf.int[1], 1)`,\ `r round(ct$conf.int[2], 1)`]$, excludes 165 —
+the same verdict, as always.
+
+::: {.intuition}
+Notice how much narrower this is than the textbook version of the problem. The
+opening example assumed we somehow knew $\sigma = 8$. Here we had to estimate
+it from 32 people, and the $t$ distribution charges us for that uncertainty
+with a wider interval and a higher bar to clear.
+
+Also notice what the data is not: 32 students in one classroom are not a random
+sample of all APU students. The arithmetic is correct; whether it answers the
+question about *the university* is a separate matter, and a harder one.
+:::
+
+### Worked example {-}
+
+The dean estimates that full-time faculty teach 11.0 classroom hours per week.
+You sample eight faculty members. Can you reject the dean's claim at
+$\alpha = 0.10$? At $\alpha = 0.01$?
+
+```{r os-t-data}
+hours <- c(11.8, 8.6, 10.5, 7.9, 6.4, 10.4, 10.0, 8.2)
+
+c(n = length(hours), mean = mean(hours), sd = sd(hours))
+```
+
+**On paper.** With $\bar{x} = 9.225$, $s = 1.749$, $n = 8$ and $df = 7$:
+
+$$
+t_{calc} = \frac{9.225 - 11}{1.749/\sqrt{8}}
+= \frac{-1.775}{0.618}
+= -2.87
+$$
+
+The critical values are $t_{0.05,\,7} = 1.895$ and $t_{0.005,\,7} = 3.499$.
+
+- At $\alpha = 0.10$: $2.87 > 1.895$ → **reject** $H_0$.
+- At $\alpha = 0.01$: $2.87 < 3.499$ → **fail to reject** $H_0$.
+
+**In R.** Both the pieces and the packaged version:
+
+```{r os-t-manual}
+t_calc <- (mean(hours) - 11) / (sd(hours) / sqrt(length(hours)))
+t_crit <- qt(c(0.95, 0.995), df = 7)     # 10% and 1%, two-tailed
+
+c(t_calc = t_calc, crit_10pct = t_crit[1], crit_1pct = t_crit[2])
+```
+
+```{r os-t-test}
+t.test(hours, mu = 11, conf.level = 0.90)
+```
+
+The $p$-value is `r round(t.test(hours, mu = 11)$p.value, 4)` — below 0.10 but
+above 0.01, exactly matching the two different verdicts we reached by hand.
+
+::: {.intuition}
+The same data can be "significant" at one level and not at another. Nothing has
+changed about the world between those two lines — only how much risk of a false
+alarm we were willing to tolerate. This is why reporting the $p$-value itself
+is far more informative than reporting a bare "significant / not significant."
+:::
+
+## One-tailed tests {#os-onetailed}
+
+Sometimes only one direction matters. A firm claims its new curing technique
+gets nicotine content *below* 1.5 mg; we only care if the true mean is lower.
+
+$$H_0 : \mu \geq 1.5 \qquad H_A : \mu < 1.5$$
+
+All the probability we are willing to risk now goes into a single tail, so the
+critical value moves *inward*: $-Z_{0.05} = -1.645$ rather than $\pm 1.96$.
+
+```{r os-onetail}
+qnorm(0.05)             # left-tailed critical value at 5%
+qnorm(0.95)             # right-tailed critical value at 5%
+```
+
+In R, add the `alternative` argument:
+
+```{r os-onetail-test}
+nicotine <- make_sample(n = 20, mean = 1.42, sd = 0.7)
+
+z.test(nicotine, mu = 1.5, sigma.x = 0.7, alternative = "less",
+       conf.level = 0.95)
+```
+
+$Z_{calc} = -0.51$, which is not below $-1.645$, so we fail to reject. The
+firm's claim is not supported — a sample mean of 1.42 would arise about 30% of
+the time even if the true mean were 1.5.
+
+### The one-sided interval looks backwards {-}
+
+This trips up nearly everyone. For the left-tailed test above, the confidence
+interval is
+
+$$\left(-\infty,\ \bar{x} + Z_\alpha \frac{\sigma}{\sqrt{n}}\right)$$
+
+An *upper* bound — for a *left*-tailed test. Why?
+
+::: {.theory}
+Start from the rejection rule and solve for $\mu_0$ rather than for $\bar{x}$:
+
+$$
+\begin{aligned}
+\frac{\bar{x} - \mu_0}{\sigma/\sqrt{n}} &< -Z_\alpha \\[4pt]
+\bar{x} - \mu_0 &< -Z_\alpha \frac{\sigma}{\sqrt{n}} \\[4pt]
+\mu_0 &> \bar{x} + Z_\alpha \frac{\sigma}{\sqrt{n}}
+\end{aligned}
+$$
+
+The inequality flipped when $\mu_0$ moved across. So we reject exactly when
+$\mu_0$ is **too large**, and the values we *fail* to reject are those with
+$\mu \le \bar{x} + Z_\alpha\,\sigma/\sqrt{n}$.
+:::
+
+::: {.intuition}
+The rejection region is defined in **$Z$-space**; the confidence interval lives
+in **parameter space**. Solving the inequality for $\mu$ reverses the direction.
+
+Put plainly: a left-tailed test rejects when the sample mean comes out too
+small. So the values of $\mu$ it rules out are the ones that are too *large*
+relative to what we saw. That leaves an upper bound.
+:::
+
+## Reference tables {#os-reference}
+
+```{r os-ref-z, echo = FALSE}
+knitr::kable(
+  data.frame(
+    Test = c("Two-tailed", "Left-tailed", "Right-tailed"),
+    `Hypotheses` = c("$H_0: \\mu = \\mu_0$ vs $H_A: \\mu \\neq \\mu_0$",
+                     "$H_0: \\mu \\geq \\mu_0$ vs $H_A: \\mu < \\mu_0$",
+                     "$H_0: \\mu \\leq \\mu_0$ vs $H_A: \\mu > \\mu_0$"),
+    `Reject when` = c("$|Z_{calc}| > Z_{\\alpha/2}$",
+                      "$Z_{calc} < -Z_{\\alpha}$",
+                      "$Z_{calc} > Z_{\\alpha}$"),
+    `R argument` = c("(default)", "`alternative = \"less\"`",
+                     "`alternative = \"greater\"`"),
+    check.names = FALSE
+  ),
+  caption = "One-sample tests at a glance. Use $Z$ and `z.test()` when $\\sigma$ is known; use $t$ with $df = n-1$ and `t.test()` when it is not."
+)
+```
+
+```{r os-ref-crit, echo = FALSE}
+crit <- data.frame(
+  alpha = c("10%", "5%", "1%"),
+  two   = round(qnorm(1 - c(0.10, 0.05, 0.01) / 2), 3),
+  one   = round(qnorm(1 - c(0.10, 0.05, 0.01)), 3)
+)
+names(crit) <- c("$\\alpha$", "Two-tailed ($Z_{\\alpha/2}$)", "One-tailed ($Z_\\alpha$)")
+knitr::kable(crit, caption = "Standard normal critical values, computed by `qnorm()` rather than copied from a table.")
+```
+
+## Practice problems {#os-exercises}
+
+::: {.yourturn}
+Work each one on paper first, then check yourself in R. The solutions are one
+click away, which makes them worth nothing unless you try first.
+
+These are for learning, so the workings are shown in full. The
+[question bank](#os-question-bank) that follows is for testing yourself, and
+has no answers.
+:::
+
+**11.1** A consumer research organisation states that the mean caffeine content
+per 12-ounce bottle of a caffeinated soft drink is 37.7 mg. A random sample of
+36 bottles has a mean of 35.28 mg. The population standard deviation is 10.8 mg.
+At $\alpha = 0.01$, can you reject the organisation's claim?
+
+<details class="solution">
+<summary>Show the solution</summary>
+
+$H_0: \mu = 37.7$ against $H_A: \mu \neq 37.7$. Two-tailed at $\alpha = 0.01$,
+so the critical value is $Z_{0.005} = 2.58$.
+
+$$
+Z_{calc} = \frac{35.28 - 37.7}{10.8/\sqrt{36}} = \frac{-2.42}{1.8} = -1.34
+$$
+
+```{r os-ex1}
+caffeine <- make_sample(n = 36, mean = 35.28, sd = 10.8)
+z.test(caffeine, mu = 37.7, sigma.x = 10.8, conf.level = 0.99)
+```
+
+$|-1.34| < 2.58$ and the $p$-value of 0.179 is far above 0.01, so we **fail to
+reject**. If the true mean really were 37.7 mg, a sample mean this far away
+would turn up about 18% of the time — thoroughly unremarkable.
+
+</details>
+
+**11.2** Historical data show household water use is normally distributed with
+mean 360 gallons and standard deviation 40 gallons per day. A sample of 200
+households averages 374 gallons. Are these data consistent with the historical
+distribution at the 5% level? What is the $p$-value?
+
+<details class="solution">
+<summary>Show the solution</summary>
+
+$$
+Z_{calc} = \frac{374 - 360}{40/\sqrt{200}} = \frac{14}{2.828} = 4.95
+$$
+
+```{r os-ex2}
+water <- make_sample(n = 200, mean = 374, sd = 40)
+z.test(water, mu = 360, sigma.x = 40, conf.level = 0.95)
+```
+
+$4.95 \gg 1.96$, and the $p$-value is about
+`r signif(2 * pnorm(-4.95), 2)` — under one in a million. **Reject $H_0$.**
+Water use has moved away from the historical mean.
+
+</details>
+
+**11.3** A study claims the average monthly salary of full professors in India
+is ₹87,800. Students at one university sample ten salaries (in thousands):
+
+```{r os-ex3-data, echo = FALSE, comment = NA}
+cat("91.0, 79.8, 102.0, 93.5, 82.0, 88.6, 90.0, 98.6, 101.0, 84.0")
+```
+
+They believe their professors earn *more*. Test at the 10% and 5% levels.
+
+<details class="solution">
+<summary>Show the solution</summary>
+
+The word "more" makes this **right-tailed**:
+$H_0: \mu \leq 87.8$ against $H_A: \mu > 87.8$. Since $\sigma$ is unknown and
+$n = 10$, use a $t$-test with $df = 9$.
+
+```{r os-ex3}
+salary <- c(91.0, 79.8, 102.0, 93.5, 82.0, 88.6, 90.0, 98.6, 101.0, 84.0)
+
+c(mean = mean(salary), sd = sd(salary))
+t.test(salary, mu = 87.8, alternative = "greater")
+```
+
+$t_{calc} = `r round((mean(c(91.0,79.8,102.0,93.5,82.0,88.6,90.0,98.6,101.0,84.0)) - 87.8) / (sd(c(91.0,79.8,102.0,93.5,82.0,88.6,90.0,98.6,101.0,84.0))/sqrt(10)), 3)`$,
+against critical values $t_{0.10,\,9} = `r round(qt(0.90, 9), 3)`$ and
+$t_{0.05,\,9} = `r round(qt(0.95, 9), 3)`$.
+
+The statistic falls short of both. **Fail to reject** at either level — there is
+not enough evidence that these professors are paid above the national figure.
+
+</details>
+
+**11.4** A Department of Transportation claims mean wait time is *at most* 6
+minutes. A sample of 34 locations has mean 10.3 minutes, standard deviation 8.0.
+Test at 5% and 1%.
+
+<details class="solution">
+<summary>Show the solution</summary>
+
+"At most" makes this right-tailed: $H_0: \mu \leq 6$ against $H_A: \mu > 6$,
+$t$-test with $df = 33$.
+
+```{r os-ex4}
+waits <- make_sample(n = 34, mean = 10.3, sd = 8.0)
+t.test(waits, mu = 6, alternative = "greater")
+```
+
+$t_{calc} = 3.14$, well beyond $t_{0.05,\,33} = `r round(qt(0.95, 33), 3)`$ and
+$t_{0.01,\,33} = `r round(qt(0.99, 33), 3)`$. **Reject at both levels** — wait
+times are longer than claimed.
+
+</details>
+
+**11.5** `marriage-ages.csv` records the ages of both partners in ten couples.
+Is there evidence that one partner tends to be older? Test at the 5% level.
+
+*Hint: the two columns are not independent samples — they are ten couples. What
+is the one number per couple that captures the question?*
+
+<details class="solution">
+<summary>Show the solution</summary>
+
+The two columns are **paired**: each row is one couple. Treating them as two
+independent samples throws away that pairing and inflates the standard error.
+The right move is to reduce each couple to a single number — the age gap — and
+run a **one-sample** test on it against zero.
+
+```{r os-ex5}
+couples <- read.csv("data/marriage-ages.csv")
+
+gap <- couples$partner1 - couples$partner2
+gap
+
+c(mean = mean(gap), sd = sd(gap), n = length(gap))
+```
+
+```{r os-ex5-test}
+t.test(gap, mu = 0)
+```
+
+The mean gap is 2.5 years, $t = 3.0$ on 9 degrees of freedom, $p = 0.015$.
+Since $0.015 < 0.05$, we **reject** $H_0$: partner 1 is reliably older.
+
+R will do the pairing for you if you ask:
+
+```{r os-ex5-paired}
+t.test(couples$partner1, couples$partner2, paired = TRUE)
+```
+
+Identical output — `paired = TRUE` computes exactly the differences we formed
+by hand. Compare what happens if you forget:
+
+```{r os-ex5-wrong}
+t.test(couples$partner1, couples$partner2, paired = FALSE)$p.value
+```
+
+```{r os-ex5-stash, include = FALSE}
+p_unpaired <- t.test(couples$partner1, couples$partner2, paired = FALSE)$p.value
+p_paired   <- t.test(couples$partner1, couples$partner2, paired = TRUE)$p.value
+```
+
+The same ten couples, a $p$-value of `r round(p_unpaired, 3)` instead of
+`r round(p_paired, 3)`, and the opposite conclusion. **Pairing is not a
+detail.**
+
+</details>
+
+**11.6** *(No computation.)* A classmate reports "$p = 0.03$, so there is a 3%
+chance the null hypothesis is true." Explain what is wrong, and state what
+$p = 0.03$ does mean.
+
+<details class="solution">
+<summary>Show the solution</summary>
+
+The $p$-value is computed **assuming the null is true**. It cannot then also be
+the probability that the null is true — that would be circular. Formally, your
+classmate has swapped $P(\text{data} \mid H_0)$ for $P(H_0 \mid \text{data})$,
+which are different quantities entirely.
+
+The correct reading: *if* $H_0$ were true, samples at least as extreme as this
+one would arise 3% of the time. Since that is unusual, we treat it as evidence
+against $H_0$ — but the statement is about how surprising the data are, not
+about how probable the hypothesis is.
+
+</details>
+
+## Question bank {#os-question-bank}
+
+::: {.watchout}
+**No solutions are given for this section, by design.** These questions are
+drawn from past quizzes and exams. If you can work them without checking an
+answer key, you are ready; if you cannot, the section to reread is named
+beside each one.
+
+They run from easiest to hardest. Do them in order.
+:::
+
+### Multiple choice {-}
+
+**QB 11.1** The level of significance, $\alpha$, is the risk of *(select all
+that apply)*
+
+a. Rejecting the null hypothesis when it is true
+b. Rejecting the null hypothesis when the alternative hypothesis is true
+c. Rejecting the alternative hypothesis when the null hypothesis is true
+d. Rejecting the alternative hypothesis when it is true
+
+*See Section \@ref(os-critical).*
+
+**QB 11.2** An economist sets the alternative hypothesis that the average CGPA
+of undergraduate students is less than 8. What type of test should be used, and
+what is the critical value at $\alpha = 5\%$?
+
+a. One-tailed test and $+1.96$
+b. One-tailed test and $-1.96$
+c. One-tailed test and $+1.645$
+d. One-tailed test and $-1.645$
+
+*See Section \@ref(os-onetailed).*
+
+**QB 11.3** The margin of error for a confidence interval is
+$\pm Z_{\alpha/2}\,\sigma/\sqrt{n}$. Which statements are correct? *(select all
+that apply)*
+
+a. Increasing the sample size will decrease the margin of error
+b. The margin of error decreases as $\alpha$ rises
+c. The larger the margin of error, the less confident one is about the estimate
+d. The margin of error increases with the population standard deviation $\sigma$
+
+*See Section \@ref(os-ci).*
+
+**QB 11.4** A 95% confidence interval for mean student height is
+$(165.41,\ 170.95)$. You now compute a 99% interval from the same data. Which
+statements are likely correct? *(select all that apply)*
+
+a. The 90%, 95% and 99% intervals are the same
+b. The 99% interval is $(164.54,\ 171.83)$
+c. The 99% interval is $(165.86,\ 170.51)$
+d. The answer cannot be determined from the information given
+
+*See Section \@ref(os-ci). Ask yourself which way an interval must move when you demand more confidence.*
+
+**QB 11.5** A company tests the null hypothesis that the average time to accept
+a job offer is at most 7 days. The test concludes that the average exceeds 7
+days. It is later learned that the true mean is exactly 7 days. What error
+occurred?
+
+a. Type II error
+b. Type I error
+c. A correct decision was made
+d. Cannot be determined from the information provided
+
+### Short reasoning {-}
+
+**QB 11.6** "A high $p$-value is evidence that the null hypothesis is true."
+Do you agree? Why or why not?
+
+*See Section \@ref(os-pvalue).*
+
+**QB 11.7** Two economists, Amit and Anand, collect data on Indian agricultural
+wages to test the effect of MNREGA. Amit concludes that wages after the policy
+are higher than before, when in fact wages have not changed. Anand concludes
+that wages before and after are the same — also incorrectly.
+
+It is claimed that Amit has committed a Type I error and Anand a Type II error.
+Do you agree? Why or why not?
+
+### Numerical {-}
+
+**QB 11.8** A researcher wants to estimate the average weekly study hours of
+university students. The population standard deviation is 6 hours. What sample
+size is needed to estimate the mean with a margin of error of 1 hour at 90%
+confidence?
+
+a. $n = 98$
+b. $n = 64$
+c. $n = 121$
+d. $n = 82$
+
+**QB 11.9** The numbers of people taking the morning university shuttle on 16
+randomly chosen days are:
+
+```{r qb-shuttle, echo = FALSE, comment = NA}
+cat("27, 46, 35, 33, 29, 45, 28, 24, 30, 40, 38, 35, 41, 27, 38, 29")
+```
+
+The administration claims the daily average is 30. Taking $\sigma = 7$:
+
+a. Construct a 99% confidence interval for the mean number of riders.
+b. Use that interval to test the administration's claim.
+c. Would your conclusion change at the 95% level? Explain *why* before you
+   compute it.
+
+*Part (c) is the one that separates understanding from arithmetic.*
+
+## Summary {#os-summary}
+
+::: {.keyidea}
+1. A gap between a sample and a claim proves nothing on its own — sampling
+   noise guarantees some gap. The test asks whether the gap is *bigger than
+   noise*.
+2. $\displaystyle Z_{calc} = \frac{\bar{x}-\mu_0}{\sigma/\sqrt{n}}$ when
+   $\sigma$ is known; $\displaystyle t_{calc} = \frac{\bar{x}-\mu_0}{s/\sqrt{n}}$
+   with $df = n-1$ when it is not.
+3. Reject when the statistic beats the critical value, or equivalently when the
+   $p$-value falls below $\alpha$. The two rules never disagree.
+4. A confidence interval is the set of null values a test would *not* reject.
+   Interval and test are the same statement.
+5. A $p$-value is $P(\text{data} \mid H_0)$, never $P(H_0 \mid \text{data})$.
+6. The equals sign always lives in $H_0$. "Can you reject the claim?" puts the
+   claim in $H_0$; "is there evidence supporting the claim?" puts it in $H_A$.
+7. `qnorm()` and `qt()` replace every printed table you own.
+:::
+
+Next we extend all of this from one sample to two, and ask whether *two groups*
+differ — the question behind almost every policy evaluation you will ever read.

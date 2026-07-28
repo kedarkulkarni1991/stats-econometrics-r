@@ -1,0 +1,183 @@
+/* ==========================================================================
+   Statistics & Econometrics with R — book styles
+   Design goal: a student can land on any page and read it without a guide.
+   ========================================================================== */
+
+:root {
+  --ink:        #1f2933;
+  --ink-soft:   #52606d;
+  --rule:       #e4e7eb;
+  --accent:     #2b6cb0;
+  --accent-bg:  #ebf4fb;
+  --theory:     #5a67d8;
+  --theory-bg:  #eef0fd;
+  --rcode:      #2f855a;
+  --rcode-bg:   #edf7f0;
+  --warn:       #c05621;
+  --warn-bg:    #fdf1e7;
+  --task:       #b7791f;
+  --task-bg:    #fdf6e3;
+}
+
+/* --- Base reading experience --------------------------------------------- */
+
+.book .book-body .page-inner section.normal {
+  color: var(--ink);
+  font-size: 1.06rem;
+  line-height: 1.72;
+}
+
+.book .book-body .page-inner {
+  max-width: 46rem;
+}
+
+.book .book-body .page-inner section.normal h1,
+.book .book-body .page-inner section.normal h2,
+.book .book-body .page-inner section.normal h3 {
+  font-weight: 650;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+
+.book .book-body .page-inner section.normal h2 {
+  margin-top: 2.6em;
+  padding-top: 0.6em;
+  border-top: 1px solid var(--rule);
+}
+
+/* --- Sidebar ------------------------------------------------------------- */
+
+.book .book-summary { border-right: 1px solid var(--rule); }
+
+.toc-logo a {
+  display: block;
+  padding: 1.1em 1.2em 0.4em;
+  font-size: 0.98em;
+  line-height: 1.35;
+  color: var(--ink) !important;
+}
+
+.toc-after {
+  padding: 1.4em 1.2em;
+  font-size: 0.78em;
+  color: var(--ink-soft);
+  border-top: 1px solid var(--rule);
+  margin-top: 1em;
+}
+
+/* --- Callout blocks ------------------------------------------------------ */
+
+.intuition, .theory, .inr, .watchout, .yourturn, .keyidea {
+  margin: 1.7em 0;
+  padding: 1.05em 1.25em 1.05em 1.35em;
+  border-left: 4px solid;
+  border-radius: 0 6px 6px 0;
+  font-size: 0.97em;
+}
+
+.intuition > :first-child, .theory > :first-child, .inr > :first-child,
+.watchout > :first-child, .yourturn > :first-child, .keyidea > :first-child {
+  margin-top: 0;
+}
+.intuition > :last-child, .theory > :last-child, .inr > :last-child,
+.watchout > :last-child, .yourturn > :last-child, .keyidea > :last-child {
+  margin-bottom: 0;
+}
+
+/* Each block announces itself, so a student never has to guess its role. */
+.intuition::before, .theory::before, .inr::before,
+.watchout::before, .yourturn::before, .keyidea::before {
+  display: block;
+  font-size: 0.72em;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  margin-bottom: 0.55em;
+}
+
+.intuition { border-color: var(--accent); background: var(--accent-bg); }
+.intuition::before { content: "The idea in plain words"; color: var(--accent); }
+
+.theory { border-color: var(--theory); background: var(--theory-bg); }
+.theory::before { content: "Where this comes from"; color: var(--theory); }
+
+.inr { border-color: var(--rcode); background: var(--rcode-bg); }
+.inr::before { content: "Doing it in R"; color: var(--rcode); }
+
+.watchout { border-color: var(--warn); background: var(--warn-bg); }
+.watchout::before { content: "Common mistake"; color: var(--warn); }
+
+.yourturn { border-color: var(--task); background: var(--task-bg); }
+.yourturn::before { content: "Your turn"; color: var(--task); }
+
+.keyidea { border-color: var(--ink); background: #f4f6f8; }
+.keyidea::before { content: "Remember this"; color: var(--ink); }
+
+/* --- Code ---------------------------------------------------------------- */
+
+.book .book-body .page-inner section.normal pre {
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  font-size: 0.9em;
+  line-height: 1.55;
+}
+
+/* Computed output is visually distinct from the code that produced it. */
+pre.sourceCode, div.sourceCode {
+  background: #fbfbfc;
+}
+
+.book .book-body .page-inner section.normal pre:not(.sourceCode) {
+  background: #ffffff;
+  border-left: 3px solid var(--rcode);
+  color: var(--ink-soft);
+}
+
+/* --- Collapsible solutions ----------------------------------------------- */
+
+details.solution {
+  margin: 1.2em 0 1.8em;
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  padding: 0 1.1em;
+  background: #fcfcfd;
+}
+
+details.solution > summary {
+  cursor: pointer;
+  padding: 0.75em 0;
+  font-weight: 600;
+  color: var(--accent);
+  list-style: none;
+}
+
+details.solution > summary::before {
+  content: "▸ ";
+  display: inline-block;
+  transition: transform 0.15s ease;
+}
+
+details.solution[open] > summary::before { content: "▾ "; }
+details.solution[open] { padding-bottom: 0.6em; }
+details.solution > summary::-webkit-details-marker { display: none; }
+
+/* --- Tables -------------------------------------------------------------- */
+
+.book .book-body table {
+  font-size: 0.93em;
+  margin: 1.6em auto;
+}
+
+.book .book-body table th {
+  border-bottom: 2px solid var(--ink);
+  font-weight: 650;
+}
+
+/* --- Print / small screens ----------------------------------------------- */
+
+@media (max-width: 600px) {
+  .book .book-body .page-inner section.normal { font-size: 1rem; }
+  .intuition, .theory, .inr, .watchout, .yourturn, .keyidea {
+    padding: 0.9em 1em;
+  }
+}
