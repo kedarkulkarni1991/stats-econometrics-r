@@ -4,12 +4,12 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>1.4 What can go wrong before any mathematics | Statistics and Econometrics with R</title>
+  <title>1.7 What can go wrong before any mathematics | Statistics and Econometrics with R</title>
   <meta name="description" content="<p>A first course in statistics and econometrics, where every idea is developed
 on paper and then immediately carried out in R.</p>" />
   <meta name="generator" content="bookdown 0.47 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="1.4 What can go wrong before any mathematics | Statistics and Econometrics with R" />
+  <meta property="og:title" content="1.7 What can go wrong before any mathematics | Statistics and Econometrics with R" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="<p>A first course in statistics and econometrics, where every idea is developed
@@ -17,7 +17,7 @@ on paper and then immediately carried out in R.</p>" />
   <meta name="github-repo" content="kedarkulkarni1991/stats-econometrics-r" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="1.4 What can go wrong before any mathematics | Statistics and Econometrics with R" />
+  <meta name="twitter:title" content="1.7 What can go wrong before any mathematics | Statistics and Econometrics with R" />
   
   <meta name="twitter:description" content="<p>A first course in statistics and econometrics, where every idea is developed
 on paper and then immediately carried out in R.</p>" />
@@ -152,11 +152,23 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="1" data-path="description-to-inference.html"><a href="description-to-inference.html"><i class="fa fa-check"></i><b>1</b> From Description to Inference</a>
 <ul>
-<li class="chapter" data-level="1.1" data-path="d2i-two-questions.html"><a href="d2i-two-questions.html"><i class="fa fa-check"></i><b>1.1</b> Two questions that look alike</a></li>
-<li class="chapter" data-level="1.2" data-path="d2i-population.html"><a href="d2i-population.html"><i class="fa fa-check"></i><b>1.2</b> The population you cannot see</a></li>
-<li class="chapter" data-level="1.3" data-path="d2i-average.html"><a href="d2i-average.html"><i class="fa fa-check"></i><b>1.3</b> The average is not the distribution</a></li>
-<li class="chapter" data-level="1.4" data-path="d2i-what-goes-wrong.html"><a href="d2i-what-goes-wrong.html"><i class="fa fa-check"></i><b>1.4</b> What can go wrong before any mathematics</a></li>
-<li class="chapter" data-level="1.5" data-path="d2i-summary.html"><a href="d2i-summary.html"><i class="fa fa-check"></i><b>1.5</b> What you should take from this unit</a></li>
+<li class="chapter" data-level="1.1" data-path="d2i-descriptive.html"><a href="d2i-descriptive.html"><i class="fa fa-check"></i><b>1.1</b> What we can already do</a></li>
+<li class="chapter" data-level="1.2" data-path="d2i-two-questions.html"><a href="d2i-two-questions.html"><i class="fa fa-check"></i><b>1.2</b> Where description runs out</a></li>
+<li class="chapter" data-level="1.3" data-path="d2i-distribution.html"><a href="d2i-distribution.html"><i class="fa fa-check"></i><b>1.3</b> What a distribution actually is</a>
+<ul>
+<li class="chapter" data-level="1.3.1" data-path="d2i-distribution.html"><a href="d2i-distribution.html#d2i-degenerate"><i class="fa fa-check"></i><b>1.3.1</b> Randomness is not optional</a></li>
+<li class="chapter" data-level="1.3.2" data-path="d2i-distribution.html"><a href="d2i-distribution.html#d2i-expectation"><i class="fa fa-check"></i><b>1.3.2</b> Expectation as a long-run average</a></li>
+</ul></li>
+<li class="chapter" data-level="1.4" data-path="d2i-population.html"><a href="d2i-population.html"><i class="fa fa-check"></i><b>1.4</b> Population, sample, and the assumption that licenses everything</a></li>
+<li class="chapter" data-level="1.5" data-path="d2i-sampling-distribution.html"><a href="d2i-sampling-distribution.html"><i class="fa fa-check"></i><b>1.5</b> The pivot: distributions of statistics</a>
+<ul>
+<li class="chapter" data-level="1.5.1" data-path="d2i-sampling-distribution.html"><a href="d2i-sampling-distribution.html#d2i-cards"><i class="fa fa-check"></i><b>1.5.1</b> A worked example: a deck of cards</a></li>
+<li class="chapter" data-level="1.5.2" data-path="d2i-sampling-distribution.html"><a href="d2i-sampling-distribution.html#d2i-samplesize"><i class="fa fa-check"></i><b>1.5.2</b> What happens as the sample grows</a></li>
+<li class="chapter" data-level="1.5.3" data-path="d2i-sampling-distribution.html"><a href="d2i-sampling-distribution.html#d2i-asi-sampling"><i class="fa fa-check"></i><b>1.5.3</b> The same logic on Indian data</a></li>
+</ul></li>
+<li class="chapter" data-level="1.6" data-path="d2i-average.html"><a href="d2i-average.html"><i class="fa fa-check"></i><b>1.6</b> The average is not the distribution</a></li>
+<li class="chapter" data-level="1.7" data-path="d2i-what-goes-wrong.html"><a href="d2i-what-goes-wrong.html"><i class="fa fa-check"></i><b>1.7</b> What can go wrong before any mathematics</a></li>
+<li class="chapter" data-level="1.8" data-path="d2i-summary.html"><a href="d2i-summary.html"><i class="fa fa-check"></i><b>1.8</b> Summary</a></li>
 </ul></li>
 <li class="chapter" data-level="2" data-path="one-sample.html"><a href="one-sample.html"><i class="fa fa-check"></i><b>2</b> Hypothesis Testing: One Sample</a>
 <ul>
@@ -214,30 +226,28 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="d2i-what-goes-wrong" class="section level2 hasAnchor" number="1.4">
-<h2><span class="header-section-number">1.4</span> What can go wrong before any mathematics<a href="d2i-what-goes-wrong.html#d2i-what-goes-wrong" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="d2i-what-goes-wrong" class="section level2 hasAnchor" number="1.7">
+<h2><span class="header-section-number">1.7</span> What can go wrong before any mathematics<a href="d2i-what-goes-wrong.html#d2i-what-goes-wrong" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Inference assumes your sample carries information about the population you care
-about. Three ways that assumption fails, none of which any formula will warn
-you about.</p>
-<p><strong>The sample is not from the population you mean.</strong> The ASI covers
-<em>registered</em> factories. Most Indian manufacturing employment is unregistered.
-Conclusions about “Indian manufacturing” from ASI data are conclusions about a
-formal sliver of it. The arithmetic will not object.</p>
+about. Three ways that fails, none of which any formula will warn you about.</p>
+<p><strong>The sample is not from the population you mean.</strong> The ASI covers <em>registered</em>
+factories. Most Indian manufacturing employment is unregistered. Conclusions
+about “Indian manufacturing” drawn from ASI data are conclusions about a formal
+sliver of it. The arithmetic will not object.</p>
 <p><strong>The sample is not random.</strong> Our class survey has 32 heights. They are not a
 random sample of APU students, let alone of young Indians — they are the people
 who took this course and turned up that day. You may compute a confidence
-interval from them, and it will mean nothing about the university.</p>
+interval from them and it will mean nothing about the university.</p>
 <p><strong>The question is causal but the data is not.</strong> Suppose states with more
 industry have higher literacy. Does industry raise literacy? Does literacy
-attract industry? Does something else drive both? The correlation is the same
-in all three cases. No amount of statistical machinery distinguishes them
-without an argument about <em>how the data came to be</em>.</p>
+attract industry? Does something else drive both? The correlation is identical
+in all three cases, and no statistical machinery separates them without an
+argument about <em>how the data came to exist</em>.</p>
 <div class="intuition">
-<p>This last one is the reason this book is organised the way it is. From
-the unit on two-sample tests onwards, we stop asking only “what is this
-number?” and
-start asking “what would have to be true for this number to mean what I want it
-to mean?”</p>
+<p>That last failure is why this book is organised as it is. From the unit on
+two-sample tests onwards, we stop asking only “what is this number?” and start
+asking “what would have to be true for this number to mean what I want it to
+mean?”</p>
 <p>That question — not any particular estimator — is what separates a good applied
 economist from someone who can run regressions.</p>
 </div>

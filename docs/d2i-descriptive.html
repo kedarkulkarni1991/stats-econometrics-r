@@ -4,12 +4,12 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Notation used throughout | Statistics and Econometrics with R</title>
+  <title>1.1 What we can already do | Statistics and Econometrics with R</title>
   <meta name="description" content="<p>A first course in statistics and econometrics, where every idea is developed
 on paper and then immediately carried out in R.</p>" />
   <meta name="generator" content="bookdown 0.47 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Notation used throughout | Statistics and Econometrics with R" />
+  <meta property="og:title" content="1.1 What we can already do | Statistics and Econometrics with R" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="<p>A first course in statistics and econometrics, where every idea is developed
@@ -17,7 +17,7 @@ on paper and then immediately carried out in R.</p>" />
   <meta name="github-repo" content="kedarkulkarni1991/stats-econometrics-r" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Notation used throughout | Statistics and Econometrics with R" />
+  <meta name="twitter:title" content="1.1 What we can already do | Statistics and Econometrics with R" />
   
   <meta name="twitter:description" content="<p>A first course in statistics and econometrics, where every idea is developed
 on paper and then immediately carried out in R.</p>" />
@@ -32,8 +32,8 @@ on paper and then immediately carried out in R.</p>" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="what-you-need.html"/>
-<link rel="next" href="a-note-on-the-data.html"/>
+<link rel="prev" href="description-to-inference.html"/>
+<link rel="next" href="d2i-two-questions.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -226,54 +226,52 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="notation-used-throughout" class="section level2 unnumbered hasAnchor">
-<h2>Notation used throughout<a href="notation-used-throughout.html#notation-used-throughout" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<table>
-<thead>
-<tr class="header">
-<th align="left">Symbol</th>
-<th align="left">Means</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="left"><span class="math inline">\(\mu,\ \sigma\)</span></td>
-<td align="left">population mean, population standard deviation</td>
-</tr>
-<tr class="even">
-<td align="left"><span class="math inline">\(\bar{x},\ s\)</span></td>
-<td align="left">sample mean, sample standard deviation</td>
-</tr>
-<tr class="odd">
-<td align="left"><span class="math inline">\(n\)</span></td>
-<td align="left">sample size</td>
-</tr>
-<tr class="even">
-<td align="left"><span class="math inline">\(\hat{\beta}\)</span></td>
-<td align="left">an <em>estimate</em> of the parameter <span class="math inline">\(\beta\)</span></td>
-</tr>
-<tr class="odd">
-<td align="left"><span class="math inline">\(\alpha\)</span></td>
-<td align="left">significance level (the risk we accept of being wrong)</td>
-</tr>
-<tr class="even">
-<td align="left"><span class="math inline">\(H_0,\ H_A\)</span></td>
-<td align="left">null hypothesis, alternative hypothesis</td>
-</tr>
-</tbody>
-</table>
-<p>Greek letters are things about the <strong>population</strong> that we never observe. Roman
-letters with hats or bars are things we <strong>compute from a sample</strong> in the hope
-that they are close to the Greek ones. Almost all of statistics is the gap
-between those two columns.</p>
+<div id="d2i-descriptive" class="section level2 hasAnchor" number="1.1">
+<h2><span class="header-section-number">1.1</span> What we can already do<a href="d2i-descriptive.html#d2i-descriptive" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Start with what is already familiar.</p>
+<p>Given a set of numbers, we know how to summarise them. We can ask where they
+are <strong>centred</strong> — the mean, the median, the mode. We can ask how <strong>spread out</strong>
+they are — the variance, the standard deviation, the range. In the language of
+distributions, the first describes the <strong>first moment</strong> and the second the
+<strong>second moment</strong>: where the mass sits, and how far it is scattered.</p>
+<p>We also know how to <em>look</em> at data rather than only compute from it. A
+histogram shows the frequency of numerical values and reveals symmetry,
+skewness and outliers at a glance. A bar chart does the same for a discrete
+variable. For a continuous variable, a smooth density curve captures the
+overall shape.</p>
+<p>Here is all of that on Indian data. The Annual Survey of Industries records
+value added by registered factories in each state:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="d2i-descriptive.html#cb2-1" tabindex="-1"></a>asi <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/asi-state-gva.csv&quot;</span>)</span>
+<span id="cb2-2"><a href="d2i-descriptive.html#cb2-2" tabindex="-1"></a>asi_2010 <span class="ot">&lt;-</span> <span class="fu">subset</span>(asi, yr <span class="sc">==</span> <span class="dv">2010</span> <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(gva))</span>
+<span id="cb2-3"><a href="d2i-descriptive.html#cb2-3" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="d2i-descriptive.html#cb2-4" tabindex="-1"></a><span class="co"># ASI reports value added in rupees lakh; 100 lakh = 1 crore</span></span>
+<span id="cb2-5"><a href="d2i-descriptive.html#cb2-5" tabindex="-1"></a>asi_2010<span class="sc">$</span>gva_crore <span class="ot">&lt;-</span> asi_2010<span class="sc">$</span>gva <span class="sc">/</span> <span class="dv">100</span></span>
+<span id="cb2-6"><a href="d2i-descriptive.html#cb2-6" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="d2i-descriptive.html#cb2-7" tabindex="-1"></a><span class="fu">c</span>(<span class="at">states =</span> <span class="fu">nrow</span>(asi_2010),</span>
+<span id="cb2-8"><a href="d2i-descriptive.html#cb2-8" tabindex="-1"></a>  <span class="at">mean   =</span> <span class="fu">mean</span>(asi_2010<span class="sc">$</span>gva_crore),</span>
+<span id="cb2-9"><a href="d2i-descriptive.html#cb2-9" tabindex="-1"></a>  <span class="at">median =</span> <span class="fu">median</span>(asi_2010<span class="sc">$</span>gva_crore),</span>
+<span id="cb2-10"><a href="d2i-descriptive.html#cb2-10" tabindex="-1"></a>  <span class="at">sd     =</span> <span class="fu">sd</span>(asi_2010<span class="sc">$</span>gva_crore))</span></code></pre></div>
+<pre><code>#&gt; states   mean median     sd 
+#&gt;     32  25785  12752  36814</code></pre>
+<p>Nothing here is mysterious. We have taken 32
+numbers and replaced them with four. That is <strong>descriptive statistics</strong>: the
+art of summarising the data you have so that a human can hold it in mind.</p>
+<div class="keyidea">
+<p>Descriptive statistics is genuinely useful and genuinely limited.</p>
+<p>Useful, because it is always the first thing you should do with data. Trends,
+outliers, data-entry errors and interesting patterns all show up here, and no
+amount of later sophistication rescues an analysis that skipped this step.</p>
+<p>Limited, because <strong>every statement it makes is about the data in front of
+you</strong> — and that is almost never what you actually want to know.</p>
+</div>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-<a href="what-you-need.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="a-note-on-the-data.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="description-to-inference.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="d2i-two-questions.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -304,7 +302,7 @@ gitbook.start({
     "size": 2
   },
   "edit": {
-    "link": "https://github.com/kedarkulkarni1991/stats-econometrics-r/edit/main/index.Rmd",
+    "link": "https://github.com/kedarkulkarni1991/stats-econometrics-r/edit/main/01-description-to-inference.Rmd",
     "text": "Edit"
   },
   "history": {

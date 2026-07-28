@@ -152,11 +152,23 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="1" data-path="description-to-inference.html"><a href="description-to-inference.html"><i class="fa fa-check"></i><b>1</b> From Description to Inference</a>
 <ul>
-<li class="chapter" data-level="1.1" data-path="d2i-two-questions.html"><a href="d2i-two-questions.html"><i class="fa fa-check"></i><b>1.1</b> Two questions that look alike</a></li>
-<li class="chapter" data-level="1.2" data-path="d2i-population.html"><a href="d2i-population.html"><i class="fa fa-check"></i><b>1.2</b> The population you cannot see</a></li>
-<li class="chapter" data-level="1.3" data-path="d2i-average.html"><a href="d2i-average.html"><i class="fa fa-check"></i><b>1.3</b> The average is not the distribution</a></li>
-<li class="chapter" data-level="1.4" data-path="d2i-what-goes-wrong.html"><a href="d2i-what-goes-wrong.html"><i class="fa fa-check"></i><b>1.4</b> What can go wrong before any mathematics</a></li>
-<li class="chapter" data-level="1.5" data-path="d2i-summary.html"><a href="d2i-summary.html"><i class="fa fa-check"></i><b>1.5</b> What you should take from this unit</a></li>
+<li class="chapter" data-level="1.1" data-path="d2i-descriptive.html"><a href="d2i-descriptive.html"><i class="fa fa-check"></i><b>1.1</b> What we can already do</a></li>
+<li class="chapter" data-level="1.2" data-path="d2i-two-questions.html"><a href="d2i-two-questions.html"><i class="fa fa-check"></i><b>1.2</b> Where description runs out</a></li>
+<li class="chapter" data-level="1.3" data-path="d2i-distribution.html"><a href="d2i-distribution.html"><i class="fa fa-check"></i><b>1.3</b> What a distribution actually is</a>
+<ul>
+<li class="chapter" data-level="1.3.1" data-path="d2i-distribution.html"><a href="d2i-distribution.html#d2i-degenerate"><i class="fa fa-check"></i><b>1.3.1</b> Randomness is not optional</a></li>
+<li class="chapter" data-level="1.3.2" data-path="d2i-distribution.html"><a href="d2i-distribution.html#d2i-expectation"><i class="fa fa-check"></i><b>1.3.2</b> Expectation as a long-run average</a></li>
+</ul></li>
+<li class="chapter" data-level="1.4" data-path="d2i-population.html"><a href="d2i-population.html"><i class="fa fa-check"></i><b>1.4</b> Population, sample, and the assumption that licenses everything</a></li>
+<li class="chapter" data-level="1.5" data-path="d2i-sampling-distribution.html"><a href="d2i-sampling-distribution.html"><i class="fa fa-check"></i><b>1.5</b> The pivot: distributions of statistics</a>
+<ul>
+<li class="chapter" data-level="1.5.1" data-path="d2i-sampling-distribution.html"><a href="d2i-sampling-distribution.html#d2i-cards"><i class="fa fa-check"></i><b>1.5.1</b> A worked example: a deck of cards</a></li>
+<li class="chapter" data-level="1.5.2" data-path="d2i-sampling-distribution.html"><a href="d2i-sampling-distribution.html#d2i-samplesize"><i class="fa fa-check"></i><b>1.5.2</b> What happens as the sample grows</a></li>
+<li class="chapter" data-level="1.5.3" data-path="d2i-sampling-distribution.html"><a href="d2i-sampling-distribution.html#d2i-asi-sampling"><i class="fa fa-check"></i><b>1.5.3</b> The same logic on Indian data</a></li>
+</ul></li>
+<li class="chapter" data-level="1.6" data-path="d2i-average.html"><a href="d2i-average.html"><i class="fa fa-check"></i><b>1.6</b> The average is not the distribution</a></li>
+<li class="chapter" data-level="1.7" data-path="d2i-what-goes-wrong.html"><a href="d2i-what-goes-wrong.html"><i class="fa fa-check"></i><b>1.7</b> What can go wrong before any mathematics</a></li>
+<li class="chapter" data-level="1.8" data-path="d2i-summary.html"><a href="d2i-summary.html"><i class="fa fa-check"></i><b>1.8</b> Summary</a></li>
 </ul></li>
 <li class="chapter" data-level="2" data-path="one-sample.html"><a href="one-sample.html"><i class="fa fa-check"></i><b>2</b> Hypothesis Testing: One Sample</a>
 <ul>
@@ -285,12 +297,12 @@ evidence at <span class="math inline">\(\alpha = 0.01\)</span> to support the re
 <p>The question says <strong>support</strong>, so the claim is the alternative:</p>
 <p><span class="math display">\[H_0 : \mu \leq 499 \qquad H_A : \mu &gt; 499\]</span></p>
 <p>This is right-tailed. The critical value is <span class="math inline">\(Z_{0.01} = 2.33\)</span>, not <span class="math inline">\(-2.33\)</span>.</p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="os-hypotheses.html#cb22-1" tabindex="-1"></a>xbar_c <span class="ot">&lt;-</span> <span class="dv">502</span>; mu_c <span class="ot">&lt;-</span> <span class="dv">499</span>; sigma_c <span class="ot">&lt;-</span> <span class="fl">10.6</span>; n_c <span class="ot">&lt;-</span> <span class="dv">100</span></span>
-<span id="cb22-2"><a href="os-hypotheses.html#cb22-2" tabindex="-1"></a></span>
-<span id="cb22-3"><a href="os-hypotheses.html#cb22-3" tabindex="-1"></a>z_c <span class="ot">&lt;-</span> (xbar_c <span class="sc">-</span> mu_c) <span class="sc">/</span> (sigma_c <span class="sc">/</span> <span class="fu">sqrt</span>(n_c))</span>
-<span id="cb22-4"><a href="os-hypotheses.html#cb22-4" tabindex="-1"></a><span class="fu">c</span>(<span class="at">z_calc =</span> z_c,</span>
-<span id="cb22-5"><a href="os-hypotheses.html#cb22-5" tabindex="-1"></a>  <span class="at">z_crit =</span> <span class="fu">qnorm</span>(<span class="fl">0.99</span>),</span>
-<span id="cb22-6"><a href="os-hypotheses.html#cb22-6" tabindex="-1"></a>  <span class="at">p_value =</span> <span class="fu">pnorm</span>(z_c, <span class="at">lower.tail =</span> <span class="cn">FALSE</span>))   <span class="co"># upper tail: H_A is &quot;&gt;&quot;</span></span></code></pre></div>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="os-hypotheses.html#cb40-1" tabindex="-1"></a>xbar_c <span class="ot">&lt;-</span> <span class="dv">502</span>; mu_c <span class="ot">&lt;-</span> <span class="dv">499</span>; sigma_c <span class="ot">&lt;-</span> <span class="fl">10.6</span>; n_c <span class="ot">&lt;-</span> <span class="dv">100</span></span>
+<span id="cb40-2"><a href="os-hypotheses.html#cb40-2" tabindex="-1"></a></span>
+<span id="cb40-3"><a href="os-hypotheses.html#cb40-3" tabindex="-1"></a>z_c <span class="ot">&lt;-</span> (xbar_c <span class="sc">-</span> mu_c) <span class="sc">/</span> (sigma_c <span class="sc">/</span> <span class="fu">sqrt</span>(n_c))</span>
+<span id="cb40-4"><a href="os-hypotheses.html#cb40-4" tabindex="-1"></a><span class="fu">c</span>(<span class="at">z_calc =</span> z_c,</span>
+<span id="cb40-5"><a href="os-hypotheses.html#cb40-5" tabindex="-1"></a>  <span class="at">z_crit =</span> <span class="fu">qnorm</span>(<span class="fl">0.99</span>),</span>
+<span id="cb40-6"><a href="os-hypotheses.html#cb40-6" tabindex="-1"></a>  <span class="at">p_value =</span> <span class="fu">pnorm</span>(z_c, <span class="at">lower.tail =</span> <span class="cn">FALSE</span>))   <span class="co"># upper tail: H_A is &quot;&gt;&quot;</span></span></code></pre></div>
 <pre><code>#&gt;   z_calc   z_crit  p_value 
 #&gt; 2.830189 2.326348 0.002326</code></pre>
 <p><span class="math inline">\(Z_{calc} = 2.83 &gt; 2.33\)</span>, and <span class="math inline">\(p = 0.0023 &lt; 0.01\)</span>. We <strong>reject <span class="math inline">\(H_0\)</span></strong>, which

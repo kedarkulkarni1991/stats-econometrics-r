@@ -152,11 +152,23 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="1" data-path="description-to-inference.html"><a href="description-to-inference.html"><i class="fa fa-check"></i><b>1</b> From Description to Inference</a>
 <ul>
-<li class="chapter" data-level="1.1" data-path="d2i-two-questions.html"><a href="d2i-two-questions.html"><i class="fa fa-check"></i><b>1.1</b> Two questions that look alike</a></li>
-<li class="chapter" data-level="1.2" data-path="d2i-population.html"><a href="d2i-population.html"><i class="fa fa-check"></i><b>1.2</b> The population you cannot see</a></li>
-<li class="chapter" data-level="1.3" data-path="d2i-average.html"><a href="d2i-average.html"><i class="fa fa-check"></i><b>1.3</b> The average is not the distribution</a></li>
-<li class="chapter" data-level="1.4" data-path="d2i-what-goes-wrong.html"><a href="d2i-what-goes-wrong.html"><i class="fa fa-check"></i><b>1.4</b> What can go wrong before any mathematics</a></li>
-<li class="chapter" data-level="1.5" data-path="d2i-summary.html"><a href="d2i-summary.html"><i class="fa fa-check"></i><b>1.5</b> What you should take from this unit</a></li>
+<li class="chapter" data-level="1.1" data-path="d2i-descriptive.html"><a href="d2i-descriptive.html"><i class="fa fa-check"></i><b>1.1</b> What we can already do</a></li>
+<li class="chapter" data-level="1.2" data-path="d2i-two-questions.html"><a href="d2i-two-questions.html"><i class="fa fa-check"></i><b>1.2</b> Where description runs out</a></li>
+<li class="chapter" data-level="1.3" data-path="d2i-distribution.html"><a href="d2i-distribution.html"><i class="fa fa-check"></i><b>1.3</b> What a distribution actually is</a>
+<ul>
+<li class="chapter" data-level="1.3.1" data-path="d2i-distribution.html"><a href="d2i-distribution.html#d2i-degenerate"><i class="fa fa-check"></i><b>1.3.1</b> Randomness is not optional</a></li>
+<li class="chapter" data-level="1.3.2" data-path="d2i-distribution.html"><a href="d2i-distribution.html#d2i-expectation"><i class="fa fa-check"></i><b>1.3.2</b> Expectation as a long-run average</a></li>
+</ul></li>
+<li class="chapter" data-level="1.4" data-path="d2i-population.html"><a href="d2i-population.html"><i class="fa fa-check"></i><b>1.4</b> Population, sample, and the assumption that licenses everything</a></li>
+<li class="chapter" data-level="1.5" data-path="d2i-sampling-distribution.html"><a href="d2i-sampling-distribution.html"><i class="fa fa-check"></i><b>1.5</b> The pivot: distributions of statistics</a>
+<ul>
+<li class="chapter" data-level="1.5.1" data-path="d2i-sampling-distribution.html"><a href="d2i-sampling-distribution.html#d2i-cards"><i class="fa fa-check"></i><b>1.5.1</b> A worked example: a deck of cards</a></li>
+<li class="chapter" data-level="1.5.2" data-path="d2i-sampling-distribution.html"><a href="d2i-sampling-distribution.html#d2i-samplesize"><i class="fa fa-check"></i><b>1.5.2</b> What happens as the sample grows</a></li>
+<li class="chapter" data-level="1.5.3" data-path="d2i-sampling-distribution.html"><a href="d2i-sampling-distribution.html#d2i-asi-sampling"><i class="fa fa-check"></i><b>1.5.3</b> The same logic on Indian data</a></li>
+</ul></li>
+<li class="chapter" data-level="1.6" data-path="d2i-average.html"><a href="d2i-average.html"><i class="fa fa-check"></i><b>1.6</b> The average is not the distribution</a></li>
+<li class="chapter" data-level="1.7" data-path="d2i-what-goes-wrong.html"><a href="d2i-what-goes-wrong.html"><i class="fa fa-check"></i><b>1.7</b> What can go wrong before any mathematics</a></li>
+<li class="chapter" data-level="1.8" data-path="d2i-summary.html"><a href="d2i-summary.html"><i class="fa fa-check"></i><b>1.8</b> Summary</a></li>
 </ul></li>
 <li class="chapter" data-level="2" data-path="one-sample.html"><a href="one-sample.html"><i class="fa fa-check"></i><b>2</b> Hypothesis Testing: One Sample</a>
 <ul>
@@ -224,7 +236,7 @@ Z_{\alpha/2}\,\sigma/\sqrt{n}\)</span> for <span class="math inline">\(\mu\)</sp
 \bar{x} + Z_{\alpha/2}\frac{\sigma}{\sqrt{n}}
 \]</span></p>
 <p>For our students:</p>
-<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="os-ci.html#cb31-1" tabindex="-1"></a>xbar <span class="sc">+</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>) <span class="sc">*</span> <span class="fu">qnorm</span>(<span class="fl">0.975</span>) <span class="sc">*</span> (<span class="dv">8</span> <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="dv">36</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="os-ci.html#cb49-1" tabindex="-1"></a>xbar <span class="sc">+</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>) <span class="sc">*</span> <span class="fu">qnorm</span>(<span class="fl">0.975</span>) <span class="sc">*</span> (<span class="dv">8</span> <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="dv">36</span>))</span></code></pre></div>
 <pre><code>#&gt; [1] 165.4 170.6</code></pre>
 <p>The 95% interval is roughly <span class="math inline">\([165.4,\ 170.6]\)</span>. The claimed value of 165 lies
 <strong>outside</strong> it — which is the same verdict we reached with the test statistic,
@@ -244,17 +256,17 @@ in 95% of repeated samples. The randomness lives in the interval, not in <span c
 </div>
 <p>We can see that directly. Build 100 intervals from 100 samples of a population
 we know averages 165, and count the misses:</p>
-<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="os-ci.html#cb33-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
-<span id="cb33-2"><a href="os-ci.html#cb33-2" tabindex="-1"></a></span>
-<span id="cb33-3"><a href="os-ci.html#cb33-3" tabindex="-1"></a>sims <span class="ot">&lt;-</span> <span class="fu">t</span>(<span class="fu">replicate</span>(<span class="dv">100</span>, {</span>
-<span id="cb33-4"><a href="os-ci.html#cb33-4" tabindex="-1"></a>  s <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">36</span>, <span class="at">mean =</span> <span class="dv">165</span>, <span class="at">sd =</span> <span class="dv">8</span>)</span>
-<span id="cb33-5"><a href="os-ci.html#cb33-5" tabindex="-1"></a>  <span class="fu">mean</span>(s) <span class="sc">+</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>) <span class="sc">*</span> <span class="fu">qnorm</span>(<span class="fl">0.975</span>) <span class="sc">*</span> <span class="dv">8</span> <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="dv">36</span>)</span>
-<span id="cb33-6"><a href="os-ci.html#cb33-6" tabindex="-1"></a>}))</span>
-<span id="cb33-7"><a href="os-ci.html#cb33-7" tabindex="-1"></a></span>
-<span id="cb33-8"><a href="os-ci.html#cb33-8" tabindex="-1"></a>ci <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">id =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">100</span>, <span class="at">lo =</span> sims[, <span class="dv">1</span>], <span class="at">hi =</span> sims[, <span class="dv">2</span>])</span>
-<span id="cb33-9"><a href="os-ci.html#cb33-9" tabindex="-1"></a>ci<span class="sc">$</span>misses <span class="ot">&lt;-</span> ci<span class="sc">$</span>lo <span class="sc">&gt;</span> <span class="dv">165</span> <span class="sc">|</span> ci<span class="sc">$</span>hi <span class="sc">&lt;</span> <span class="dv">165</span></span>
-<span id="cb33-10"><a href="os-ci.html#cb33-10" tabindex="-1"></a></span>
-<span id="cb33-11"><a href="os-ci.html#cb33-11" tabindex="-1"></a><span class="fu">sum</span>(ci<span class="sc">$</span>misses)   <span class="co"># how many of the 100 failed to capture the truth?</span></span></code></pre></div>
+<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="os-ci.html#cb51-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb51-2"><a href="os-ci.html#cb51-2" tabindex="-1"></a></span>
+<span id="cb51-3"><a href="os-ci.html#cb51-3" tabindex="-1"></a>sims <span class="ot">&lt;-</span> <span class="fu">t</span>(<span class="fu">replicate</span>(<span class="dv">100</span>, {</span>
+<span id="cb51-4"><a href="os-ci.html#cb51-4" tabindex="-1"></a>  s <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">36</span>, <span class="at">mean =</span> <span class="dv">165</span>, <span class="at">sd =</span> <span class="dv">8</span>)</span>
+<span id="cb51-5"><a href="os-ci.html#cb51-5" tabindex="-1"></a>  <span class="fu">mean</span>(s) <span class="sc">+</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>) <span class="sc">*</span> <span class="fu">qnorm</span>(<span class="fl">0.975</span>) <span class="sc">*</span> <span class="dv">8</span> <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="dv">36</span>)</span>
+<span id="cb51-6"><a href="os-ci.html#cb51-6" tabindex="-1"></a>}))</span>
+<span id="cb51-7"><a href="os-ci.html#cb51-7" tabindex="-1"></a></span>
+<span id="cb51-8"><a href="os-ci.html#cb51-8" tabindex="-1"></a>ci <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">id =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">100</span>, <span class="at">lo =</span> sims[, <span class="dv">1</span>], <span class="at">hi =</span> sims[, <span class="dv">2</span>])</span>
+<span id="cb51-9"><a href="os-ci.html#cb51-9" tabindex="-1"></a>ci<span class="sc">$</span>misses <span class="ot">&lt;-</span> ci<span class="sc">$</span>lo <span class="sc">&gt;</span> <span class="dv">165</span> <span class="sc">|</span> ci<span class="sc">$</span>hi <span class="sc">&lt;</span> <span class="dv">165</span></span>
+<span id="cb51-10"><a href="os-ci.html#cb51-10" tabindex="-1"></a></span>
+<span id="cb51-11"><a href="os-ci.html#cb51-11" tabindex="-1"></a><span class="fu">sum</span>(ci<span class="sc">$</span>misses)   <span class="co"># how many of the 100 failed to capture the truth?</span></span></code></pre></div>
 <pre><code>#&gt; [1] 5</code></pre>
 <p>Five of the hundred missed. Run it again with a different seed and you will get
 four, or seven, or three — but over the long run, 5%.</p>

@@ -4,12 +4,12 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Notation used throughout | Statistics and Econometrics with R</title>
+  <title>1.5 The pivot: distributions of statistics | Statistics and Econometrics with R</title>
   <meta name="description" content="<p>A first course in statistics and econometrics, where every idea is developed
 on paper and then immediately carried out in R.</p>" />
   <meta name="generator" content="bookdown 0.47 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Notation used throughout | Statistics and Econometrics with R" />
+  <meta property="og:title" content="1.5 The pivot: distributions of statistics | Statistics and Econometrics with R" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="<p>A first course in statistics and econometrics, where every idea is developed
@@ -17,7 +17,7 @@ on paper and then immediately carried out in R.</p>" />
   <meta name="github-repo" content="kedarkulkarni1991/stats-econometrics-r" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Notation used throughout | Statistics and Econometrics with R" />
+  <meta name="twitter:title" content="1.5 The pivot: distributions of statistics | Statistics and Econometrics with R" />
   
   <meta name="twitter:description" content="<p>A first course in statistics and econometrics, where every idea is developed
 on paper and then immediately carried out in R.</p>" />
@@ -32,8 +32,8 @@ on paper and then immediately carried out in R.</p>" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="what-you-need.html"/>
-<link rel="next" href="a-note-on-the-data.html"/>
+<link rel="prev" href="d2i-population.html"/>
+<link rel="next" href="d2i-average.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -226,54 +226,166 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="notation-used-throughout" class="section level2 unnumbered hasAnchor">
-<h2>Notation used throughout<a href="notation-used-throughout.html#notation-used-throughout" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<table>
-<thead>
-<tr class="header">
-<th align="left">Symbol</th>
-<th align="left">Means</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="left"><span class="math inline">\(\mu,\ \sigma\)</span></td>
-<td align="left">population mean, population standard deviation</td>
-</tr>
-<tr class="even">
-<td align="left"><span class="math inline">\(\bar{x},\ s\)</span></td>
-<td align="left">sample mean, sample standard deviation</td>
-</tr>
-<tr class="odd">
-<td align="left"><span class="math inline">\(n\)</span></td>
-<td align="left">sample size</td>
-</tr>
-<tr class="even">
-<td align="left"><span class="math inline">\(\hat{\beta}\)</span></td>
-<td align="left">an <em>estimate</em> of the parameter <span class="math inline">\(\beta\)</span></td>
-</tr>
-<tr class="odd">
-<td align="left"><span class="math inline">\(\alpha\)</span></td>
-<td align="left">significance level (the risk we accept of being wrong)</td>
-</tr>
-<tr class="even">
-<td align="left"><span class="math inline">\(H_0,\ H_A\)</span></td>
-<td align="left">null hypothesis, alternative hypothesis</td>
-</tr>
-</tbody>
-</table>
-<p>Greek letters are things about the <strong>population</strong> that we never observe. Roman
-letters with hats or bars are things we <strong>compute from a sample</strong> in the hope
-that they are close to the Greek ones. Almost all of statistics is the gap
-between those two columns.</p>
+<div id="d2i-sampling-distribution" class="section level2 hasAnchor" number="1.5">
+<h2><span class="header-section-number">1.5</span> The pivot: distributions of statistics<a href="d2i-sampling-distribution.html#d2i-sampling-distribution" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Here is the conceptual step that makes inference possible, and it is the most
+important idea in this unit.</p>
+<p>Everything so far concerned the distribution of <strong>raw observations</strong>: repeat an
+experiment, record individual outcomes, watch a pattern form. Now we shift
+attention from raw observations to <strong>summaries of observations</strong>.</p>
+<p>Instead of recording one die roll at a time, roll the die thirty times,
+calculate the average, and record <em>only that average</em>. Then do the whole thing
+again: a fresh thirty rolls, a fresh average. And again, hundreds of times.</p>
+<p>The pattern formed by those averages is a <strong>sampling distribution</strong>.</p>
+<div class="keyidea">
+<p>The distribution of a <strong>random variable</strong> describes how raw observations vary.</p>
+<p>A <strong>sampling distribution</strong> describes how a <em>statistic</em> — a sample mean, a
+proportion, a standard deviation — varies across repeated samples of a fixed
+size.</p>
+<p>It answers the question inference actually turns on: <em>if I took another sample,
+how different would my answer be?</em></p>
+</div>
+<div id="d2i-cards" class="section level3 hasAnchor" number="1.5.1">
+<h3><span class="header-section-number">1.5.1</span> A worked example: a deck of cards<a href="d2i-sampling-distribution.html#d2i-cards" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Take a standard deck as the population. Score the cards A = 1, J = 11, Q = 12,
+K = 13, and 2 through 10 at face value. Because we built this population
+ourselves, we know its parameters exactly — a luxury we will never have again.</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="d2i-sampling-distribution.html#cb18-1" tabindex="-1"></a>deck <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">13</span>, <span class="at">times =</span> <span class="dv">4</span>)</span>
+<span id="cb18-2"><a href="d2i-sampling-distribution.html#cb18-2" tabindex="-1"></a></span>
+<span id="cb18-3"><a href="d2i-sampling-distribution.html#cb18-3" tabindex="-1"></a><span class="fu">c</span>(<span class="at">N =</span> <span class="fu">length</span>(deck), <span class="at">mu =</span> <span class="fu">mean</span>(deck), <span class="at">sigma =</span> <span class="fu">sd</span>(deck))</span></code></pre></div>
+<pre><code>#&gt;      N     mu  sigma 
+#&gt; 52.000  7.000  3.778</code></pre>
+<p>The population mean is exactly <span class="math inline">\(\mu = 7\)</span>.</p>
+<p>Now draw a sample of 10 cards and take its mean:</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="d2i-sampling-distribution.html#cb20-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">7</span>)</span>
+<span id="cb20-2"><a href="d2i-sampling-distribution.html#cb20-2" tabindex="-1"></a><span class="fu">mean</span>(<span class="fu">sample</span>(deck, <span class="at">size =</span> <span class="dv">10</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>))</span></code></pre></div>
+<pre><code>#&gt; [1] 5.7</code></pre>
+<div class="watchout">
+<p>Note <code>replace = TRUE</code>: each card is returned to the deck before the next draw.</p>
+<p>That is not a technicality. It is what makes the draws <strong>independent</strong> — the
+i.i.d. assumption from the previous section. Draw <em>without</em> replacement and
+each card removed changes what remains, so the draws are dependent and the
+sample mean varies slightly less than the theory predicts. (The adjustment is
+called the finite population correction, and you can see it at work in the
+exercises.)</p>
+<p>Sampling with replacement is also the better model of what we usually mean.
+When you survey 2,000 Indians you are not meaningfully depleting a population
+of a billion.</p>
+</div>
+<p>Not 7. Draw again and you would get something else again. <strong>The sample mean is
+itself a random variable</strong> — it has its own distribution, because it changes
+every time you draw.</p>
+<p>So let us look at that distribution. Repeat the exercise a thousand times:</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="d2i-sampling-distribution.html#cb22-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">7</span>)</span>
+<span id="cb22-2"><a href="d2i-sampling-distribution.html#cb22-2" tabindex="-1"></a>sample_means <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">1000</span>, <span class="fu">mean</span>(<span class="fu">sample</span>(deck, <span class="at">size =</span> <span class="dv">10</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>)))</span>
+<span id="cb22-3"><a href="d2i-sampling-distribution.html#cb22-3" tabindex="-1"></a></span>
+<span id="cb22-4"><a href="d2i-sampling-distribution.html#cb22-4" tabindex="-1"></a><span class="fu">c</span>(<span class="at">mean_of_sample_means =</span> <span class="fu">mean</span>(sample_means),</span>
+<span id="cb22-5"><a href="d2i-sampling-distribution.html#cb22-5" tabindex="-1"></a>  <span class="at">sd_of_sample_means   =</span> <span class="fu">sd</span>(sample_means))</span></code></pre></div>
+<pre><code>#&gt; mean_of_sample_means   sd_of_sample_means 
+#&gt;                6.932                1.201</code></pre>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:d2i-sampdist-plot"></span>
+<img src="stats-econometrics-r_files/figure-html/d2i-sampdist-plot-1.png" alt="One thousand sample means, each from 10 cards. Individual samples miss the population mean constantly. Their average lands almost exactly on it." width="90%" />
+<p class="caption">
+Figure 1.2: One thousand sample means, each from 10 cards. Individual samples miss the population mean constantly. Their average lands almost exactly on it.
+</p>
+</div>
+<p>Two things happened, and both matter.</p>
+<p><strong>The sample means are centred on the population mean.</strong> No single sample got
+it right, but their average is 6.932 — essentially 7.
+This is the result <span class="math inline">\(E(\bar{X}) = \mu\)</span>: the sample mean is an <strong>unbiased</strong>
+estimator. It is not right, but it is not <em>systematically</em> wrong, which is a
+different and far more useful property.</p>
+<p><strong>The sample means vary much less than the cards do.</strong> The population standard
+deviation is about 3.78; the sample means have a
+standard deviation of about 1.2. Averaging has
+cancelled out much of the noise.</p>
+</div>
+<div id="d2i-samplesize" class="section level3 hasAnchor" number="1.5.2">
+<h3><span class="header-section-number">1.5.2</span> What happens as the sample grows<a href="d2i-sampling-distribution.html#d2i-samplesize" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>That second observation is worth pushing on. What if we take bigger samples?</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="d2i-sampling-distribution.html#cb24-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">7</span>)</span>
+<span id="cb24-2"><a href="d2i-sampling-distribution.html#cb24-2" tabindex="-1"></a></span>
+<span id="cb24-3"><a href="d2i-sampling-distribution.html#cb24-3" tabindex="-1"></a>sizes <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">10</span>, <span class="dv">20</span>, <span class="dv">40</span>, <span class="dv">80</span>)</span>
+<span id="cb24-4"><a href="d2i-sampling-distribution.html#cb24-4" tabindex="-1"></a>results <span class="ot">&lt;-</span> <span class="fu">t</span>(<span class="fu">sapply</span>(sizes, <span class="cf">function</span>(n) {</span>
+<span id="cb24-5"><a href="d2i-sampling-distribution.html#cb24-5" tabindex="-1"></a>  m <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">2000</span>, <span class="fu">mean</span>(<span class="fu">sample</span>(deck, <span class="at">size =</span> n, <span class="at">replace =</span> <span class="cn">TRUE</span>)))</span>
+<span id="cb24-6"><a href="d2i-sampling-distribution.html#cb24-6" tabindex="-1"></a>  <span class="fu">c</span>(<span class="at">n =</span> n, <span class="at">mean =</span> <span class="fu">mean</span>(m), <span class="at">sd =</span> <span class="fu">sd</span>(m), <span class="at">theoretical_sd =</span> <span class="fu">sd</span>(deck) <span class="sc">/</span> <span class="fu">sqrt</span>(n))</span>
+<span id="cb24-7"><a href="d2i-sampling-distribution.html#cb24-7" tabindex="-1"></a>}))</span>
+<span id="cb24-8"><a href="d2i-sampling-distribution.html#cb24-8" tabindex="-1"></a></span>
+<span id="cb24-9"><a href="d2i-sampling-distribution.html#cb24-9" tabindex="-1"></a><span class="fu">round</span>(results, <span class="dv">3</span>)</span></code></pre></div>
+<pre><code>#&gt;       n  mean    sd theoretical_sd
+#&gt; [1,]  5 6.932 1.688          1.690
+#&gt; [2,] 10 7.022 1.165          1.195
+#&gt; [3,] 20 7.009 0.845          0.845
+#&gt; [4,] 40 7.019 0.597          0.597
+#&gt; [5,] 80 6.996 0.415          0.422</code></pre>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:d2i-nsizes-plot"></span>
+<img src="stats-econometrics-r_files/figure-html/d2i-nsizes-plot-1.png" alt="Sampling distributions of the mean for growing sample sizes. The centre never moves. The spread collapses." width="90%" />
+<p class="caption">
+Figure 1.3: Sampling distributions of the mean for growing sample sizes. The centre never moves. The spread collapses.
+</p>
+</div>
+<p>Every row is centred on 7 — the sample mean is unbiased at any sample size. But
+the spread shrinks steadily, and in a completely predictable way. Compare the
+last two columns: the observed standard deviation of the sample means matches
+<span class="math inline">\(\sigma/\sqrt{n}\)</span> almost exactly.</p>
+<div class="keyidea">
+<p>Two results, which we will prove in a later unit:</p>
+<p><span class="math display">\[E(\bar{X}) = \mu \qquad\qquad \mathrm{Var}(\bar{X}) = \frac{\sigma^2}{n}\]</span></p>
+<p>The sample mean is centred on the population mean, and its spread falls as the
+sample grows. The quantity <span class="math inline">\(\sigma/\sqrt{n}\)</span> is the <strong>standard error</strong>, and it
+is the single most important number in applied statistics: it is how wrong you
+should expect to be.</p>
+</div>
+<div class="watchout">
+<p>Note the square root. To halve your standard error you must <strong>quadruple</strong> your
+sample. Precision is expensive, and it grows more expensive the more of it you
+already have.</p>
+<p>This is why surveys of two thousand people are common and surveys of two lakh
+people are not: the second costs a hundred times as much for about seven times
+the precision.</p>
+</div>
+<div class="intuition">
+<p>Look again at what just happened, because it is genuinely remarkable.</p>
+<p>We began knowing nothing about how wrong a single sample would be. By studying
+how the sample mean behaves <em>across many hypothetical samples</em>, we worked out
+exactly how much it varies — and obtained a formula, <span class="math inline">\(\sigma/\sqrt{n}\)</span>, that
+can be computed from a single real sample.</p>
+<p>In practice you only ever draw one sample. The sampling distribution tells you
+what would have happened had you drawn many, and that is enough to attach an
+honest margin of error to the one you have.</p>
+</div>
+</div>
+<div id="d2i-asi-sampling" class="section level3 hasAnchor" number="1.5.3">
+<h3><span class="header-section-number">1.5.3</span> The same logic on Indian data<a href="d2i-sampling-distribution.html#d2i-asi-sampling" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Cards are a clean laboratory. Real data is messier, and the ASI figures let us
+watch the same logic operate on something considerably less well behaved.</p>
+<p>Treat the 32 state values as a population and sample from it:</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="d2i-sampling-distribution.html#cb26-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">11</span>)</span>
+<span id="cb26-2"><a href="d2i-sampling-distribution.html#cb26-2" tabindex="-1"></a></span>
+<span id="cb26-3"><a href="d2i-sampling-distribution.html#cb26-3" tabindex="-1"></a>pop <span class="ot">&lt;-</span> asi_2010<span class="sc">$</span>gva_crore</span>
+<span id="cb26-4"><a href="d2i-sampling-distribution.html#cb26-4" tabindex="-1"></a>asi_means <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">2000</span>, <span class="fu">mean</span>(<span class="fu">sample</span>(pop, <span class="at">size =</span> <span class="dv">10</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>)))</span>
+<span id="cb26-5"><a href="d2i-sampling-distribution.html#cb26-5" tabindex="-1"></a></span>
+<span id="cb26-6"><a href="d2i-sampling-distribution.html#cb26-6" tabindex="-1"></a><span class="fu">c</span>(<span class="at">population_mean      =</span> <span class="fu">mean</span>(pop),</span>
+<span id="cb26-7"><a href="d2i-sampling-distribution.html#cb26-7" tabindex="-1"></a>  <span class="at">mean_of_sample_means =</span> <span class="fu">mean</span>(asi_means),</span>
+<span id="cb26-8"><a href="d2i-sampling-distribution.html#cb26-8" tabindex="-1"></a>  <span class="at">population_sd        =</span> <span class="fu">sd</span>(pop),</span>
+<span id="cb26-9"><a href="d2i-sampling-distribution.html#cb26-9" tabindex="-1"></a>  <span class="at">se_of_sample_means   =</span> <span class="fu">sd</span>(asi_means))</span></code></pre></div>
+<pre><code>#&gt;      population_mean mean_of_sample_means        population_sd 
+#&gt;                25785                25715                36814 
+#&gt;   se_of_sample_means 
+#&gt;                11543</code></pre>
+<p>Once again the sample means centre on the population mean, and once again they
+vary far less than the underlying data. The machinery does not care that
+industrial value added looks nothing like a deck of cards.</p>
+<p>Which brings us to the feature of this data we have so far ignored.</p>
+</div>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-<a href="what-you-need.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="a-note-on-the-data.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="d2i-population.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="d2i-average.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -304,7 +416,7 @@ gitbook.start({
     "size": 2
   },
   "edit": {
-    "link": "https://github.com/kedarkulkarni1991/stats-econometrics-r/edit/main/index.Rmd",
+    "link": "https://github.com/kedarkulkarni1991/stats-econometrics-r/edit/main/01-description-to-inference.Rmd",
     "text": "Edit"
   },
   "history": {
