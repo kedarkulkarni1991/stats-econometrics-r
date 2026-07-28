@@ -234,10 +234,10 @@ to concentrate.</p>
 <p>The key word is <em>repetition</em>. A single observation has no distribution. Roll a
 die once and you get a four; that tells you almost nothing. To see the pattern
 you must roll again and again, recording outcomes, until the shape appears.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="d2i-distribution.html#cb8-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
-<span id="cb8-2"><a href="d2i-distribution.html#cb8-2" tabindex="-1"></a>rolls <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>, <span class="at">size =</span> <span class="dv">10000</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb8-3"><a href="d2i-distribution.html#cb8-3" tabindex="-1"></a></span>
-<span id="cb8-4"><a href="d2i-distribution.html#cb8-4" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">prop.table</span>(<span class="fu">table</span>(rolls)), <span class="dv">3</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="d2i-distribution.html#cb7-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb7-2"><a href="d2i-distribution.html#cb7-2" tabindex="-1"></a>rolls <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>, <span class="at">size =</span> <span class="dv">10000</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb7-3"><a href="d2i-distribution.html#cb7-3" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="d2i-distribution.html#cb7-4" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">prop.table</span>(<span class="fu">table</span>(rolls)), <span class="dv">3</span>)</span></code></pre></div>
 <pre><code>#&gt; rolls
 #&gt;     1     2     3     4     5     6 
 #&gt; 0.169 0.162 0.160 0.170 0.173 0.166</code></pre>
@@ -252,13 +252,13 @@ distribution of a fair die, and it became visible only through repetition.</p>
 <div id="d2i-degenerate" class="section level3 hasAnchor" number="1.3.1">
 <h3><span class="header-section-number">1.3.1</span> Randomness is not optional<a href="d2i-distribution.html#d2i-degenerate" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Now take the randomness away. Imagine a die with a 3 on every face.</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="d2i-distribution.html#cb10-1" tabindex="-1"></a>rolls_fixed <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">3</span>, <span class="dv">10000</span>)</span>
-<span id="cb10-2"><a href="d2i-distribution.html#cb10-2" tabindex="-1"></a></span>
-<span id="cb10-3"><a href="d2i-distribution.html#cb10-3" tabindex="-1"></a><span class="fu">table</span>(rolls_fixed)</span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="d2i-distribution.html#cb9-1" tabindex="-1"></a>rolls_fixed <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">3</span>, <span class="dv">10000</span>)</span>
+<span id="cb9-2"><a href="d2i-distribution.html#cb9-2" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="d2i-distribution.html#cb9-3" tabindex="-1"></a><span class="fu">table</span>(rolls_fixed)</span></code></pre></div>
 <pre><code>#&gt; rolls_fixed
 #&gt;     3 
 #&gt; 10000</code></pre>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="d2i-distribution.html#cb12-1" tabindex="-1"></a><span class="fu">sd</span>(rolls_fixed)</span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="d2i-distribution.html#cb11-1" tabindex="-1"></a><span class="fu">sd</span>(rolls_fixed)</span></code></pre></div>
 <pre><code>#&gt; [1] 0</code></pre>
 <p>Every observation is identical. No spread, no uncertainty, standard deviation
 exactly zero. The distribution has collapsed onto a single point — what is
@@ -283,9 +283,9 @@ number on a die: all vary, and it is precisely their variation that we model.</p
 <p>The name invites a misunderstanding. <span class="math inline">\(E[X]\)</span> is not the value you expect on any
 given try — for a fair die it is 3.5, a number the die cannot produce. It is
 the <strong>long-run average</strong> over many repetitions.</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="d2i-distribution.html#cb14-1" tabindex="-1"></a><span class="fu">mean</span>(rolls)                <span class="co"># average over 10,000 actual rolls</span></span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="d2i-distribution.html#cb13-1" tabindex="-1"></a><span class="fu">mean</span>(rolls)                <span class="co"># average over 10,000 actual rolls</span></span></code></pre></div>
 <pre><code>#&gt; [1] 3.514</code></pre>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="d2i-distribution.html#cb16-1" tabindex="-1"></a><span class="fu">sum</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span> <span class="sc">*</span> <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">/</span><span class="dv">6</span>, <span class="dv">6</span>))     <span class="co"># theoretical E[X]</span></span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="d2i-distribution.html#cb15-1" tabindex="-1"></a><span class="fu">sum</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span> <span class="sc">*</span> <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">/</span><span class="dv">6</span>, <span class="dv">6</span>))     <span class="co"># theoretical E[X]</span></span></code></pre></div>
 <pre><code>#&gt; [1] 3.5</code></pre>
 <div class="intuition">
 <p>That the two agree is neither a coincidence nor trivial. It is the first

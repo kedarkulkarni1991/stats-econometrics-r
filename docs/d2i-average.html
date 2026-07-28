@@ -236,11 +236,11 @@ sampling distributions are tractable, and the two great theorems are statements
 about them.</p>
 <p>But the mean is only <strong>one</strong> feature of a distribution, and often not the one a
 policy question cares about.</p>
-<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="d2i-average.html#cb28-1" tabindex="-1"></a><span class="fu">c</span>(<span class="at">mean   =</span> <span class="fu">mean</span>(asi_2010<span class="sc">$</span>gva_crore),</span>
-<span id="cb28-2"><a href="d2i-average.html#cb28-2" tabindex="-1"></a>  <span class="at">median =</span> <span class="fu">median</span>(asi_2010<span class="sc">$</span>gva_crore))</span></code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="d2i-average.html#cb27-1" tabindex="-1"></a><span class="fu">c</span>(<span class="at">mean   =</span> <span class="fu">mean</span>(asi_2010<span class="sc">$</span>gva_crore),</span>
+<span id="cb27-2"><a href="d2i-average.html#cb27-2" tabindex="-1"></a>  <span class="at">median =</span> <span class="fu">median</span>(asi_2010<span class="sc">$</span>gva_crore))</span></code></pre></div>
 <pre><code>#&gt;   mean median 
 #&gt;  25785  12752</code></pre>
-<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="d2i-average.html#cb30-1" tabindex="-1"></a><span class="fu">mean</span>(asi_2010<span class="sc">$</span>gva_crore) <span class="sc">/</span> <span class="fu">median</span>(asi_2010<span class="sc">$</span>gva_crore)</span></code></pre></div>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="d2i-average.html#cb29-1" tabindex="-1"></a><span class="fu">mean</span>(asi_2010<span class="sc">$</span>gva_crore) <span class="sc">/</span> <span class="fu">median</span>(asi_2010<span class="sc">$</span>gva_crore)</span></code></pre></div>
 <pre><code>#&gt; [1] 2.022</code></pre>
 <p>The mean is more than <strong>twice</strong> the median. When those two diverge that
 sharply, the average has stopped describing a typical state.</p>
@@ -251,11 +251,11 @@ Figure 1.4: Industrial value added across Indian states, 2010. The mean sits far
 </p>
 </div>
 <p>How concentrated is it?</p>
-<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="d2i-average.html#cb32-1" tabindex="-1"></a>top5 <span class="ot">&lt;-</span> <span class="fu">sort</span>(asi_2010<span class="sc">$</span>gva_crore, <span class="at">decreasing =</span> <span class="cn">TRUE</span>)[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>]</span>
-<span id="cb32-2"><a href="d2i-average.html#cb32-2" tabindex="-1"></a></span>
-<span id="cb32-3"><a href="d2i-average.html#cb32-3" tabindex="-1"></a><span class="fu">round</span>(<span class="dv">100</span> <span class="sc">*</span> <span class="fu">sum</span>(top5) <span class="sc">/</span> <span class="fu">sum</span>(asi_2010<span class="sc">$</span>gva_crore))                 <span class="co"># % of all GVA</span></span></code></pre></div>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="d2i-average.html#cb31-1" tabindex="-1"></a>top5 <span class="ot">&lt;-</span> <span class="fu">sort</span>(asi_2010<span class="sc">$</span>gva_crore, <span class="at">decreasing =</span> <span class="cn">TRUE</span>)[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>]</span>
+<span id="cb31-2"><a href="d2i-average.html#cb31-2" tabindex="-1"></a></span>
+<span id="cb31-3"><a href="d2i-average.html#cb31-3" tabindex="-1"></a><span class="fu">round</span>(<span class="dv">100</span> <span class="sc">*</span> <span class="fu">sum</span>(top5) <span class="sc">/</span> <span class="fu">sum</span>(asi_2010<span class="sc">$</span>gva_crore))                 <span class="co"># % of all GVA</span></span></code></pre></div>
 <pre><code>#&gt; [1] 59</code></pre>
-<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="d2i-average.html#cb34-1" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">max</span>(asi_2010<span class="sc">$</span>gva_crore) <span class="sc">/</span> <span class="fu">median</span>(asi_2010<span class="sc">$</span>gva_crore), <span class="dv">1</span>)   <span class="co"># top vs median</span></span></code></pre></div>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="d2i-average.html#cb33-1" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">max</span>(asi_2010<span class="sc">$</span>gva_crore) <span class="sc">/</span> <span class="fu">median</span>(asi_2010<span class="sc">$</span>gva_crore), <span class="dv">1</span>)   <span class="co"># top vs median</span></span></code></pre></div>
 <pre><code>#&gt; [1] 13.2</code></pre>
 <p>Five states hold about 59% of registered industrial value added. The largest
 produces roughly thirteen times the median state.</p>

@@ -230,9 +230,9 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <h2><span class="header-section-number">1.2</span> Where description runs out<a href="d2i-two-questions.html#d2i-two-questions" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>To see the limit sharply, compare two questions that look identical.</p>
 <p><strong>First.</strong> What is the average height in this class?</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="d2i-two-questions.html#cb4-1" tabindex="-1"></a>students <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/stats-class.csv&quot;</span>)</span>
-<span id="cb4-2"><a href="d2i-two-questions.html#cb4-2" tabindex="-1"></a></span>
-<span id="cb4-3"><a href="d2i-two-questions.html#cb4-3" tabindex="-1"></a><span class="fu">mean</span>(students<span class="sc">$</span>height, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="d2i-two-questions.html#cb3-1" tabindex="-1"></a>students <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/stats-class.csv&quot;</span>)</span>
+<span id="cb3-2"><a href="d2i-two-questions.html#cb3-2" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="d2i-two-questions.html#cb3-3" tabindex="-1"></a><span class="fu">mean</span>(students<span class="sc">$</span>height, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 <pre><code>#&gt; [1] 169.5</code></pre>
 <p>About 169.5 cm.</p>
 <p>Now: how confident are you in that number?</p>
@@ -244,7 +244,7 @@ statistically significant?” would be incoherent: significantly different from
 what?</p>
 </div>
 <p><strong>Second.</strong> What is the average industrial value added of an Indian state?</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="d2i-two-questions.html#cb6-1" tabindex="-1"></a><span class="fu">mean</span>(asi_2010<span class="sc">$</span>gva_crore)</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="d2i-two-questions.html#cb5-1" tabindex="-1"></a><span class="fu">mean</span>(asi_2010<span class="sc">$</span>gva_crore)</span></code></pre></div>
 <pre><code>#&gt; [1] 25785</code></pre>
 <p>Identical arithmetic. Completely different situation — for two distinct
 reasons, and it is worth separating them.</p>
