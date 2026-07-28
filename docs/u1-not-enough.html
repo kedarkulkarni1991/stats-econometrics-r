@@ -4,12 +4,12 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>1.3 Why description isn’t enough | Statistics and Econometrics with R</title>
+  <title>1.3 The limits of descriptive statistics | Statistics and Econometrics with R</title>
   <meta name="description" content="<p>A first course in statistics and econometrics, where every idea is developed
 on paper and then immediately carried out in R.</p>" />
   <meta name="generator" content="bookdown 0.47 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="1.3 Why description isn’t enough | Statistics and Econometrics with R" />
+  <meta property="og:title" content="1.3 The limits of descriptive statistics | Statistics and Econometrics with R" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="<p>A first course in statistics and econometrics, where every idea is developed
@@ -17,7 +17,7 @@ on paper and then immediately carried out in R.</p>" />
   <meta name="github-repo" content="kedarkulkarni1991/stats-econometrics-r" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="1.3 Why description isn’t enough | Statistics and Econometrics with R" />
+  <meta name="twitter:title" content="1.3 The limits of descriptive statistics | Statistics and Econometrics with R" />
   
   <meta name="twitter:description" content="<p>A first course in statistics and econometrics, where every idea is developed
 on paper and then immediately carried out in R.</p>" />
@@ -154,8 +154,8 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li class="chapter" data-level="1.1" data-path="u1-randomness.html"><a href="u1-randomness.html"><i class="fa fa-check"></i><b>1.1</b> Randomness and variation</a></li>
 <li class="chapter" data-level="1.2" data-path="u1-describing.html"><a href="u1-describing.html"><i class="fa fa-check"></i><b>1.2</b> Describing variation</a></li>
-<li class="chapter" data-level="1.3" data-path="u1-not-enough.html"><a href="u1-not-enough.html"><i class="fa fa-check"></i><b>1.3</b> Why description isn’t enough</a></li>
-<li class="chapter" data-level="1.4" data-path="u1-frequentist.html"><a href="u1-frequentist.html"><i class="fa fa-check"></i><b>1.4</b> What if we repeated the survey?</a></li>
+<li class="chapter" data-level="1.3" data-path="u1-not-enough.html"><a href="u1-not-enough.html"><i class="fa fa-check"></i><b>1.3</b> The limits of descriptive statistics</a></li>
+<li class="chapter" data-level="1.4" data-path="u1-frequentist.html"><a href="u1-frequentist.html"><i class="fa fa-check"></i><b>1.4</b> Repeating the sample</a></li>
 <li class="chapter" data-level="1.5" data-path="u1-roadmap.html"><a href="u1-roadmap.html"><i class="fa fa-check"></i><b>1.5</b> Where we are going</a></li>
 <li class="chapter" data-level="1.6" data-path="u1-random-variables.html"><a href="u1-random-variables.html"><i class="fa fa-check"></i><b>1.6</b> A language for randomness</a>
 <ul>
@@ -242,74 +242,77 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 
             <section class="normal" id="section-">
 <div id="u1-not-enough" class="section level2 hasAnchor" number="1.3">
-<h2><span class="header-section-number">1.3</span> Why description isn’t enough<a href="u1-not-enough.html#u1-not-enough" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<h2><span class="header-section-number">1.3</span> The limits of descriptive statistics<a href="u1-not-enough.html#u1-not-enough" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <div class="question">
-<p>Why isn’t description enough?</p>
+<p>How far can description take us?</p>
 </div>
-<p>Those twenty thousand workers were not chosen by anyone in particular. A survey
-team went out, followed a sampling design, and ended up with these people
-rather than others. Suppose they had gone out on a different week and found a
-different twenty thousand.</p>
-<p><strong>Would the histogram look the same?</strong></p>
-<p>Let us find out. Treat the full file as the group we could have drawn from, and
-take three separate samples of two thousand workers each — three parallel
-universes in which the survey went slightly differently.</p>
+<p>Descriptive statistics tells us everything we could want to know about the data
+we have. The difficulty is that the data we have are rarely the data we
+ultimately care about.</p>
+<p>The twenty thousand workers in our dataset were not selected individually
+because they were special. They are one sample drawn from a much larger
+population of Indian workers. Had a different set of workers been surveyed, the
+dataset would have been different — and so too would the summaries we
+calculated in the previous section.</p>
+<p>To see this, let us treat our dataset as the population and repeatedly draw
+samples of two thousand workers.</p>
 <div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="u1-not-enough.html#cb20-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
 <span id="cb20-2"><a href="u1-not-enough.html#cb20-2" tabindex="-1"></a></span>
 <span id="cb20-3"><a href="u1-not-enough.html#cb20-3" tabindex="-1"></a>s1 <span class="ot">&lt;-</span> workers<span class="sc">$</span>annual_earnings[<span class="fu">sample</span>(<span class="fu">nrow</span>(workers), <span class="dv">2000</span>)]</span>
 <span id="cb20-4"><a href="u1-not-enough.html#cb20-4" tabindex="-1"></a>s2 <span class="ot">&lt;-</span> workers<span class="sc">$</span>annual_earnings[<span class="fu">sample</span>(<span class="fu">nrow</span>(workers), <span class="dv">2000</span>)]</span>
 <span id="cb20-5"><a href="u1-not-enough.html#cb20-5" tabindex="-1"></a>s3 <span class="ot">&lt;-</span> workers<span class="sc">$</span>annual_earnings[<span class="fu">sample</span>(<span class="fu">nrow</span>(workers), <span class="dv">2000</span>)]</span></code></pre></div>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:u1-three-plot"></span>
-<img src="stats-econometrics-r_files/figure-html/u1-three-plot-1.png" alt="Three surveys of two thousand workers each, drawn from the same group. Same shape. Not the same numbers." width="90%" />
+<img src="stats-econometrics-r_files/figure-html/u1-three-plot-1.png" alt="Three samples of two thousand workers drawn from the same population." width="90%" />
 <p class="caption">
-Figure 1.4: Three surveys of two thousand workers each, drawn from the same group. Same shape. Not the same numbers.
+Figure 1.4: Three samples of two thousand workers drawn from the same population.
 </p>
 </div>
-<p>The shapes are recognisably the same. Skewed, bunched at the left, long tail
-right. Nothing about the picture would lead you to say one of these surveys got
-it wrong.</p>
-<p><strong>Would the mean change?</strong></p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="u1-not-enough.html#cb21-1" tabindex="-1"></a><span class="fu">c</span>(<span class="at">survey1 =</span> <span class="fu">mean</span>(s1), <span class="at">survey2 =</span> <span class="fu">mean</span>(s2), <span class="at">survey3 =</span> <span class="fu">mean</span>(s3))</span></code></pre></div>
-<pre><code>#&gt; survey1 survey2 survey3 
+<p>The three histograms look remarkably similar. Each has the same broad shape:
+most workers earn relatively little, while a small number earn much more.
+Nothing suggests that one sample is “better” than another.</p>
+<p>Yet the numerical summaries are not identical.</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="u1-not-enough.html#cb21-1" tabindex="-1"></a><span class="fu">c</span>(<span class="at">sample1 =</span> <span class="fu">mean</span>(s1),</span>
+<span id="cb21-2"><a href="u1-not-enough.html#cb21-2" tabindex="-1"></a>  <span class="at">sample2 =</span> <span class="fu">mean</span>(s2),</span>
+<span id="cb21-3"><a href="u1-not-enough.html#cb21-3" tabindex="-1"></a>  <span class="at">sample3 =</span> <span class="fu">mean</span>(s3))</span></code></pre></div>
+<pre><code>#&gt; sample1 sample2 sample3 
 #&gt;   53727   54185   52176</code></pre>
-<p>Yes. Three surveys, three answers, differing by thousands of rupees.</p>
-<p><strong>Would the median change?</strong></p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="u1-not-enough.html#cb23-1" tabindex="-1"></a><span class="fu">c</span>(<span class="at">survey1 =</span> <span class="fu">median</span>(s1), <span class="at">survey2 =</span> <span class="fu">median</span>(s2), <span class="at">survey3 =</span> <span class="fu">median</span>(s3))</span></code></pre></div>
-<pre><code>#&gt; survey1 survey2 survey3 
+<p>Each sample produces a different mean.</p>
+<p>The same is true of the median.</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="u1-not-enough.html#cb23-1" tabindex="-1"></a><span class="fu">c</span>(<span class="at">sample1 =</span> <span class="fu">median</span>(s1),</span>
+<span id="cb23-2"><a href="u1-not-enough.html#cb23-2" tabindex="-1"></a>  <span class="at">sample2 =</span> <span class="fu">median</span>(s2),</span>
+<span id="cb23-3"><a href="u1-not-enough.html#cb23-3" tabindex="-1"></a>  <span class="at">sample3 =</span> <span class="fu">median</span>(s3))</span></code></pre></div>
+<pre><code>#&gt; sample1 sample2 sample3 
 #&gt;   24974   25238   24599</code></pre>
-<p>Yes. And the standard deviation:</p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="u1-not-enough.html#cb25-1" tabindex="-1"></a><span class="fu">c</span>(<span class="at">survey1 =</span> <span class="fu">sd</span>(s1), <span class="at">survey2 =</span> <span class="fu">sd</span>(s2), <span class="at">survey3 =</span> <span class="fu">sd</span>(s3))</span></code></pre></div>
-<pre><code>#&gt; survey1 survey2 survey3 
+<p>And of the standard deviation.</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="u1-not-enough.html#cb25-1" tabindex="-1"></a><span class="fu">c</span>(<span class="at">sample1 =</span> <span class="fu">sd</span>(s1),</span>
+<span id="cb25-2"><a href="u1-not-enough.html#cb25-2" tabindex="-1"></a>  <span class="at">sample2 =</span> <span class="fu">sd</span>(s2),</span>
+<span id="cb25-3"><a href="u1-not-enough.html#cb25-3" tabindex="-1"></a>  <span class="at">sample3 =</span> <span class="fu">sd</span>(s3))</span></code></pre></div>
+<pre><code>#&gt; sample1 sample2 sample3 
 #&gt;   99376   94857   86327</code></pre>
-<p>Yes again. Every summary we computed in the last section — every single one —
-comes out differently depending on who happened to be surveyed.</p>
-<p>So here is the question to sit with:</p>
-<div class="question">
-<p>Which one is the correct mean?</p>
-</div>
-<p>None of them.</p>
-<p>Each survey was conducted properly. Each calculation is arithmetically perfect.
-And each gives a different answer. There is no error to find and nobody to
-blame. The numbers differ because <em>the people differ</em>, and the people differ
-because they were selected by a process with randomness in it.</p>
-<div class="keyidea">
-<p>Now the vocabulary, for ideas you have already met.</p>
-<p>The <strong>population</strong> is the entire group you want to know about — every worker in
-India, not the two thousand in your file.</p>
-<p>The <strong>sample</strong> is the part you actually observed.</p>
-<p><strong>Sampling variation</strong> is what you have just watched: the fact that a statistic
-computed from a sample changes when the sample changes.</p>
-<p>Sampling variation is not a mistake. It is not caused by sloppy work and it
-cannot be removed by being careful. It is a permanent feature of learning about
-a large group by looking at a small part of it.</p>
-</div>
-<p>This is why description is not enough. Descriptive statistics answers questions
-about the data in front of you, perfectly and with certainty. But the question
-you actually care about — <em>what are earnings like in India?</em> — is about the
-population, and your sample is one of countless samples that might have turned
-up instead.</p>
-<p>Your average is almost certainly wrong because it is one draw from a process
-that could have handed you a different answer.</p>
+<p>Every statistic changes because the sample itself has changed. None of the
+calculations is incorrect, nor has anything gone wrong with the survey. The
+differences arise simply because different individuals happened to be included.</p>
+<p>The exercise above highlights a distinction that lies at the heart of
+statistical inference. The <strong>population</strong> is the complete collection of units
+about which we wish to draw conclusions, while the <strong>sample</strong> is the subset
+that we happen to observe. Because different samples contain different
+observations, the statistics computed from them also differ. This inherent
+variability is known as <strong>sampling variation</strong>.</p>
+<p>Sampling variation is neither a mistake nor evidence of poor data collection.
+It is an unavoidable consequence of drawing inferences about a population from
+a sample. Even when a survey is carefully designed and correctly implemented, a
+different sample would generally produce different numerical summaries.</p>
+<p>This observation also marks the boundary between descriptive and inferential
+statistics. Descriptive statistics summarises the sample accurately: the sample
+mean is the mean of the observed data, the sample median is its median, and so
+on. What descriptive statistics cannot tell us is how closely these sample
+summaries reflect the corresponding characteristics of the population, or how
+much they would differ had another sample been drawn.</p>
+<p>Inferential statistics addresses precisely these questions. By recognising that
+the observed sample is only one of many that could have been selected, it
+provides a framework for assessing the uncertainty associated with
+sample-based conclusions and for drawing conclusions about the underlying
+population.</p>
 </div>
 <script>
 // Solutions are written as plain fenced divs in the source, so the PDF edition

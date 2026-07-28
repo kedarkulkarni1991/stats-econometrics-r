@@ -4,12 +4,12 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>1.4 What if we repeated the survey? | Statistics and Econometrics with R</title>
+  <title>1.4 Repeating the sample | Statistics and Econometrics with R</title>
   <meta name="description" content="<p>A first course in statistics and econometrics, where every idea is developed
 on paper and then immediately carried out in R.</p>" />
   <meta name="generator" content="bookdown 0.47 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="1.4 What if we repeated the survey? | Statistics and Econometrics with R" />
+  <meta property="og:title" content="1.4 Repeating the sample | Statistics and Econometrics with R" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="<p>A first course in statistics and econometrics, where every idea is developed
@@ -17,7 +17,7 @@ on paper and then immediately carried out in R.</p>" />
   <meta name="github-repo" content="kedarkulkarni1991/stats-econometrics-r" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="1.4 What if we repeated the survey? | Statistics and Econometrics with R" />
+  <meta name="twitter:title" content="1.4 Repeating the sample | Statistics and Econometrics with R" />
   
   <meta name="twitter:description" content="<p>A first course in statistics and econometrics, where every idea is developed
 on paper and then immediately carried out in R.</p>" />
@@ -154,8 +154,8 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li class="chapter" data-level="1.1" data-path="u1-randomness.html"><a href="u1-randomness.html"><i class="fa fa-check"></i><b>1.1</b> Randomness and variation</a></li>
 <li class="chapter" data-level="1.2" data-path="u1-describing.html"><a href="u1-describing.html"><i class="fa fa-check"></i><b>1.2</b> Describing variation</a></li>
-<li class="chapter" data-level="1.3" data-path="u1-not-enough.html"><a href="u1-not-enough.html"><i class="fa fa-check"></i><b>1.3</b> Why description isn’t enough</a></li>
-<li class="chapter" data-level="1.4" data-path="u1-frequentist.html"><a href="u1-frequentist.html"><i class="fa fa-check"></i><b>1.4</b> What if we repeated the survey?</a></li>
+<li class="chapter" data-level="1.3" data-path="u1-not-enough.html"><a href="u1-not-enough.html"><i class="fa fa-check"></i><b>1.3</b> The limits of descriptive statistics</a></li>
+<li class="chapter" data-level="1.4" data-path="u1-frequentist.html"><a href="u1-frequentist.html"><i class="fa fa-check"></i><b>1.4</b> Repeating the sample</a></li>
 <li class="chapter" data-level="1.5" data-path="u1-roadmap.html"><a href="u1-roadmap.html"><i class="fa fa-check"></i><b>1.5</b> Where we are going</a></li>
 <li class="chapter" data-level="1.6" data-path="u1-random-variables.html"><a href="u1-random-variables.html"><i class="fa fa-check"></i><b>1.6</b> A language for randomness</a>
 <ul>
@@ -242,47 +242,47 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 
             <section class="normal" id="section-">
 <div id="u1-frequentist" class="section level2 hasAnchor" number="1.4">
-<h2><span class="header-section-number">1.4</span> What if we repeated the survey?<a href="u1-frequentist.html#u1-frequentist" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<h2><span class="header-section-number">1.4</span> Repeating the sample<a href="u1-frequentist.html#u1-frequentist" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <div class="question">
 <p>What happens if we repeat the sample?</p>
 </div>
-<p>We saw three surveys give three answers. That is unsettling, but it also
-contains a clue. Three is a small number. What if we could see more?</p>
-<p>Imagine running the survey again. And again. And again. Not three times but a
-thousand times, each with a fresh two thousand workers, each producing its own
-mean. In reality this is impossible — nobody has the budget. On a computer it
-takes a moment.</p>
+<p>Three samples gave three answers, which tells us that sampling variation
+exists. It does not yet tell us how large it is, or whether it follows any
+pattern of its own. Three observations are far too few to say.</p>
+<p>So let us take many more. Suppose the survey were repeated a thousand times,
+each on a fresh two thousand workers, each producing its own mean. No research
+budget would permit this. A computer performs it in a moment.</p>
 <div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="u1-frequentist.html#cb27-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2</span>)</span>
 <span id="cb27-2"><a href="u1-frequentist.html#cb27-2" tabindex="-1"></a></span>
 <span id="cb27-3"><a href="u1-frequentist.html#cb27-3" tabindex="-1"></a>many_means <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">1000</span>, <span class="fu">mean</span>(<span class="fu">sample</span>(workers<span class="sc">$</span>annual_earnings, <span class="dv">2000</span>)))</span>
 <span id="cb27-4"><a href="u1-frequentist.html#cb27-4" tabindex="-1"></a></span>
 <span id="cb27-5"><a href="u1-frequentist.html#cb27-5" tabindex="-1"></a><span class="fu">head</span>(<span class="fu">round</span>(many_means), <span class="dv">8</span>)</span></code></pre></div>
 <pre><code>#&gt; [1] 53031 55248 56174 49595 59577 55611 55206 54323</code></pre>
-<p>A thousand surveys, a thousand different answers. Now stop looking at them one
-at a time and look at all of them together.</p>
+<p>A thousand samples, a thousand different answers. Considered one at a time they
+are simply a list of numbers. Considered together they are something else.</p>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:u1-many-plot"></span>
-<img src="stats-econometrics-r_files/figure-html/u1-many-plot-1.png" alt="A thousand surveys, each of two thousand workers. Individual surveys scatter. Collectively they form a tight, symmetric, entirely predictable pattern." width="90%" />
+<img src="stats-econometrics-r_files/figure-html/u1-many-plot-1.png" alt="The means of a thousand samples, each of two thousand workers." width="90%" />
 <p class="caption">
-Figure 1.5: A thousand surveys, each of two thousand workers. Individual surveys scatter. Collectively they form a tight, symmetric, entirely predictable pattern.
+Figure 1.5: The means of a thousand samples, each of two thousand workers.
 </p>
 </div>
-<p>Look at that shape.</p>
-<p>The individual earnings we started with were violently skewed — most people
-bunched left, a few stretching far right. The <em>survey means</em> are nothing like
-that. They are symmetric. They are tightly clustered. They pile up around the
-true value and thin out smoothly on both sides. And notice how narrow the
-spread is: individual earnings run from near zero into the millions, while the
-survey means barely stray from one another.</p>
+<p>The individual earnings from which these samples were drawn are heavily
+skewed. The sample means are not. They are symmetric, closely clustered, and
+concentrated around the population mean. Their spread is also far narrower:
+individual earnings range from almost nothing to several million rupees, while
+the sample means differ from one another only modestly.</p>
+<p>Two features of this figure deserve attention. The sample means are centred on
+the population mean, and they vary in a regular and apparently predictable way.
+Neither was guaranteed in advance, and together they are what make inference
+possible.</p>
 <div class="intuition">
-<p>This is the turn the whole subject rests on, so it is worth saying slowly.</p>
-<p>We stopped asking <em>what does my sample say?</em> and started asking <em>how do samples
-behave?</em></p>
-<p>One sample mean, on its own, is a number with no error attached — you cannot
-tell from it alone how far off it might be. But the <em>collection</em> of sample
-means has a shape, and that shape is regular enough to describe. If we can
-describe it, we can say how far a typical sample mean falls from the truth.</p>
-<p>And if we can say that, then we can take our one real survey and attach an
-honest margin of error to it — even though we will only ever run it once.</p>
+<p>Notice what has changed. We are no longer asking what a particular sample says.
+We are asking how sample means behave when the sampling is repeated.</p>
+<p>A single sample mean carries no indication of its own accuracy. The
+distribution of many sample means does: it has a centre and a spread, and both
+can be described. Knowing how far a typical sample mean falls from the
+population mean is precisely what allows a margin of error to be attached to
+the one sample we actually possess.</p>
 </div>
 <p>That picture — the distribution of a statistic across repeated samples — has a
 name, and we will come to it properly in a moment. For now the important thing

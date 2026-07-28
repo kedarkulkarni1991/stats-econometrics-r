@@ -257,22 +257,24 @@ observed data look like. Only then can we ask the central question of this
 unit: if we had collected a different sample, would these summaries have been
 different?
 
-## Why description isn't enough {#u1-not-enough}
+## The limits of descriptive statistics {#u1-not-enough}
 
 ::: {.question}
-Why isn't description enough?
+How far can description take us?
 :::
 
-Those twenty thousand workers were not chosen by anyone in particular. A survey
-team went out, followed a sampling design, and ended up with these people
-rather than others. Suppose they had gone out on a different week and found a
-different twenty thousand.
+Descriptive statistics tells us everything we could want to know about the data
+we have. The difficulty is that the data we have are rarely the data we
+ultimately care about.
 
-**Would the histogram look the same?**
+The twenty thousand workers in our dataset were not selected individually
+because they were special. They are one sample drawn from a much larger
+population of Indian workers. Had a different set of workers been surveyed, the
+dataset would have been different — and so too would the summaries we
+calculated in the previous section.
 
-Let us find out. Treat the full file as the group we could have drawn from, and
-take three separate samples of two thousand workers each — three parallel
-universes in which the survey went slightly differently.
+To see this, let us treat our dataset as the population and repeatedly draw
+samples of two thousand workers.
 
 ```{r u1-three-samples}
 set.seed(1)
@@ -282,104 +284,98 @@ s2 <- workers$annual_earnings[sample(nrow(workers), 2000)]
 s3 <- workers$annual_earnings[sample(nrow(workers), 2000)]
 ```
 
-```{r u1-three-plot, echo = FALSE, fig.height = 4.4, fig.cap = "Three surveys of two thousand workers each, drawn from the same group. Same shape. Not the same numbers."}
+```{r u1-three-plot, echo = FALSE, fig.height = 4.4, fig.cap = "Three samples of two thousand workers drawn from the same population."}
 three <- rbind(
-  data.frame(survey = "Survey 1", x = s1),
-  data.frame(survey = "Survey 2", x = s2),
-  data.frame(survey = "Survey 3", x = s3))
+  data.frame(sample = "Sample 1", x = s1),
+  data.frame(sample = "Sample 2", x = s2),
+  data.frame(sample = "Sample 3", x = s3))
 
-means <- aggregate(x ~ survey, three, mean)
+means <- aggregate(x ~ sample, three, mean)
 
 ggplot(three, aes(x / 1000)) +
   geom_histogram(bins = 45, fill = book_palette$fill, colour = "white",
                  linewidth = 0.12) +
   geom_vline(data = means, aes(xintercept = x / 1000),
              colour = book_palette$reject, linewidth = 0.8) +
-  facet_wrap(~ survey, ncol = 1) +
+  facet_wrap(~ sample, ncol = 1) +
   coord_cartesian(xlim = c(0, 500)) +
-  labs(x = "annual earnings (₹ thousand)", y = NULL) +
+  labs(x = "Annual earnings (₹ thousand)", y = NULL) +
   theme_book() +
   theme(axis.text.y = element_blank())
 ```
 
-The shapes are recognisably the same. Skewed, bunched at the left, long tail
-right. Nothing about the picture would lead you to say one of these surveys got
-it wrong.
+The three histograms look remarkably similar. Each has the same broad shape:
+most workers earn relatively little, while a small number earn much more.
+Nothing suggests that one sample is "better" than another.
 
-**Would the mean change?**
+Yet the numerical summaries are not identical.
 
 ```{r u1-three-means}
-c(survey1 = mean(s1), survey2 = mean(s2), survey3 = mean(s3))
+c(sample1 = mean(s1),
+  sample2 = mean(s2),
+  sample3 = mean(s3))
 ```
 
-Yes. Three surveys, three answers, differing by thousands of rupees.
+Each sample produces a different mean.
 
-**Would the median change?**
+The same is true of the median.
 
 ```{r u1-three-medians}
-c(survey1 = median(s1), survey2 = median(s2), survey3 = median(s3))
+c(sample1 = median(s1),
+  sample2 = median(s2),
+  sample3 = median(s3))
 ```
 
-Yes. And the standard deviation:
+And of the standard deviation.
 
 ```{r u1-three-sds}
-c(survey1 = sd(s1), survey2 = sd(s2), survey3 = sd(s3))
+c(sample1 = sd(s1),
+  sample2 = sd(s2),
+  sample3 = sd(s3))
 ```
 
-Yes again. Every summary we computed in the last section — every single one —
-comes out differently depending on who happened to be surveyed.
+Every statistic changes because the sample itself has changed. None of the
+calculations is incorrect, nor has anything gone wrong with the survey. The
+differences arise simply because different individuals happened to be included.
 
-So here is the question to sit with:
+The exercise above highlights a distinction that lies at the heart of
+statistical inference. The **population** is the complete collection of units
+about which we wish to draw conclusions, while the **sample** is the subset
+that we happen to observe. Because different samples contain different
+observations, the statistics computed from them also differ. This inherent
+variability is known as **sampling variation**.
 
-::: {.question}
-Which one is the correct mean?
-:::
+Sampling variation is neither a mistake nor evidence of poor data collection.
+It is an unavoidable consequence of drawing inferences about a population from
+a sample. Even when a survey is carefully designed and correctly implemented, a
+different sample would generally produce different numerical summaries.
 
-None of them.
+This observation also marks the boundary between descriptive and inferential
+statistics. Descriptive statistics summarises the sample accurately: the sample
+mean is the mean of the observed data, the sample median is its median, and so
+on. What descriptive statistics cannot tell us is how closely these sample
+summaries reflect the corresponding characteristics of the population, or how
+much they would differ had another sample been drawn.
 
-Each survey was conducted properly. Each calculation is arithmetically perfect.
-And each gives a different answer. There is no error to find and nobody to
-blame. The numbers differ because *the people differ*, and the people differ
-because they were selected by a process with randomness in it.
+Inferential statistics addresses precisely these questions. By recognising that
+the observed sample is only one of many that could have been selected, it
+provides a framework for assessing the uncertainty associated with
+sample-based conclusions and for drawing conclusions about the underlying
+population.
 
-::: {.keyidea}
-Now the vocabulary, for ideas you have already met.
-
-The **population** is the entire group you want to know about — every worker in
-India, not the two thousand in your file.
-
-The **sample** is the part you actually observed.
-
-**Sampling variation** is what you have just watched: the fact that a statistic
-computed from a sample changes when the sample changes.
-
-Sampling variation is not a mistake. It is not caused by sloppy work and it
-cannot be removed by being careful. It is a permanent feature of learning about
-a large group by looking at a small part of it.
-:::
-
-This is why description is not enough. Descriptive statistics answers questions
-about the data in front of you, perfectly and with certainty. But the question
-you actually care about — *what are earnings like in India?* — is about the
-population, and your sample is one of countless samples that might have turned
-up instead.
-
-Your average is almost certainly wrong because it is one draw from a process
-that could have handed you a different answer.
-
-## What if we repeated the survey? {#u1-frequentist}
+## Repeating the sample {#u1-frequentist}
 
 ::: {.question}
 What happens if we repeat the sample?
 :::
 
-We saw three surveys give three answers. That is unsettling, but it also
-contains a clue. Three is a small number. What if we could see more?
+Three samples gave three answers, which tells us that sampling variation
+exists. It does not yet tell us how large it is, or whether it follows any
+pattern of its own. Three observations are far too few to say.
 
-Imagine running the survey again. And again. And again. Not three times but a
-thousand times, each with a fresh two thousand workers, each producing its own
-mean. In reality this is impossible — nobody has the budget. On a computer it
-takes a moment.
+So let us take many more. Suppose the survey were repeated a thousand times,
+each on a fresh two thousand workers, each producing its own mean. No research
+budget would permit this. A computer performs it in a moment.
 
 ```{r u1-many-surveys}
 set.seed(2)
@@ -389,10 +385,10 @@ many_means <- replicate(1000, mean(sample(workers$annual_earnings, 2000)))
 head(round(many_means), 8)
 ```
 
-A thousand surveys, a thousand different answers. Now stop looking at them one
-at a time and look at all of them together.
+A thousand samples, a thousand different answers. Considered one at a time they
+are simply a list of numbers. Considered together they are something else.
 
-```{r u1-many-plot, echo = FALSE, fig.height = 3.6, fig.cap = "A thousand surveys, each of two thousand workers. Individual surveys scatter. Collectively they form a tight, symmetric, entirely predictable pattern."}
+```{r u1-many-plot, echo = FALSE, fig.height = 3.6, fig.cap = "The means of a thousand samples, each of two thousand workers."}
 ggplot(data.frame(m = many_means / 1000), aes(m)) +
   geom_histogram(bins = 45, fill = book_palette$fill, colour = "white",
                  linewidth = 0.15) +
@@ -401,32 +397,30 @@ ggplot(data.frame(m = many_means / 1000), aes(m)) +
   annotate("label", x = mean(workers$annual_earnings) / 1000, y = Inf,
            vjust = 1.4, label = "true mean", colour = book_palette$reject,
            fill = "white", size = 3.5, label.size = 0.3) +
-  labs(x = "survey mean (₹ thousand)", y = "number of surveys") +
+  labs(x = "Sample mean (₹ thousand)", y = "Number of samples") +
   theme_book()
 ```
 
-Look at that shape.
+The individual earnings from which these samples were drawn are heavily
+skewed. The sample means are not. They are symmetric, closely clustered, and
+concentrated around the population mean. Their spread is also far narrower:
+individual earnings range from almost nothing to several million rupees, while
+the sample means differ from one another only modestly.
 
-The individual earnings we started with were violently skewed — most people
-bunched left, a few stretching far right. The *survey means* are nothing like
-that. They are symmetric. They are tightly clustered. They pile up around the
-true value and thin out smoothly on both sides. And notice how narrow the
-spread is: individual earnings run from near zero into the millions, while the
-survey means barely stray from one another.
+Two features of this figure deserve attention. The sample means are centred on
+the population mean, and they vary in a regular and apparently predictable way.
+Neither was guaranteed in advance, and together they are what make inference
+possible.
 
 ::: {.intuition}
-This is the turn the whole subject rests on, so it is worth saying slowly.
+Notice what has changed. We are no longer asking what a particular sample says.
+We are asking how sample means behave when the sampling is repeated.
 
-We stopped asking *what does my sample say?* and started asking *how do samples
-behave?*
-
-One sample mean, on its own, is a number with no error attached — you cannot
-tell from it alone how far off it might be. But the *collection* of sample
-means has a shape, and that shape is regular enough to describe. If we can
-describe it, we can say how far a typical sample mean falls from the truth.
-
-And if we can say that, then we can take our one real survey and attach an
-honest margin of error to it — even though we will only ever run it once.
+A single sample mean carries no indication of its own accuracy. The
+distribution of many sample means does: it has a centre and a spread, and both
+can be described. Knowing how far a typical sample mean falls from the
+population mean is precisely what allows a margin of error to be attached to
+the one sample we actually possess.
 :::
 
 That picture — the distribution of a statistic across repeated samples — has a
