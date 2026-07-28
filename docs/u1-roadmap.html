@@ -155,7 +155,7 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="1.1" data-path="u1-randomness.html"><a href="u1-randomness.html"><i class="fa fa-check"></i><b>1.1</b> Randomness and variation</a></li>
 <li class="chapter" data-level="1.2" data-path="u1-describing.html"><a href="u1-describing.html"><i class="fa fa-check"></i><b>1.2</b> Describing variation</a></li>
 <li class="chapter" data-level="1.3" data-path="u1-not-enough.html"><a href="u1-not-enough.html"><i class="fa fa-check"></i><b>1.3</b> The limits of descriptive statistics</a></li>
-<li class="chapter" data-level="1.4" data-path="u1-frequentist.html"><a href="u1-frequentist.html"><i class="fa fa-check"></i><b>1.4</b> Repeating the sample</a></li>
+<li class="chapter" data-level="1.4" data-path="u1-frequentist.html"><a href="u1-frequentist.html"><i class="fa fa-check"></i><b>1.4</b> From one sample to many</a></li>
 <li class="chapter" data-level="1.5" data-path="u1-roadmap.html"><a href="u1-roadmap.html"><i class="fa fa-check"></i><b>1.5</b> Where we are going</a></li>
 <li class="chapter" data-level="1.6" data-path="u1-random-variables.html"><a href="u1-random-variables.html"><i class="fa fa-check"></i><b>1.6</b> A language for randomness</a>
 <ul>
@@ -246,27 +246,25 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <div class="question">
 <p>Can we predict how those averages behave?</p>
 </div>
-<p>We now have the question in its sharpest form. Survey means vary. Their
-variation has a shape. If we could predict that shape <em>in advance</em> — without
-running a thousand surveys, from the single sample we actually have — we could
-say precisely how much to trust our answer.</p>
-<p>That is exactly what the rest of this unit does, and it needs three things.</p>
-<p><strong>Probability</strong>, first, because we need a language for describing randomness.
-We have been using words like “varies” and “typical” loosely. To get numbers we
-need to be precise about what a random quantity is, what its long-run average
-means, and how to measure its spread.</p>
-<p><strong>The sampling distribution</strong>, next, defined properly rather than merely drawn.
-We will find that its centre and its spread can both be worked out on paper,
-from facts about a single sample.</p>
-<p><strong>Two theorems</strong>, finally, which are the reason any of this works. The <strong>Law of
-Large Numbers</strong> explains why sample averages close in on the truth as samples
-grow. The <strong>Central Limit Theorem</strong> explains why the picture above was
-bell-shaped — and, remarkably, why it would have been bell-shaped no matter
-what the earnings distribution looked like.</p>
-<p>Together they turn “your average is almost certainly wrong” into something far
-more useful: <em>your average is wrong by about this much, with about this
-probability.</em> That sentence is what separates an estimate from an anecdote, and
-everything in the rest of this book is built from it.</p>
+<p>Three things are required, and the remainder of this unit supplies them in
+turn.</p>
+<p><strong>Probability</strong> comes first, because describing randomness precisely requires a
+language for it. So far we have relied on words such as “varies” and
+“typical”. To obtain numbers we must be exact about what a random quantity is,
+what its long-run average represents, and how its spread is measured.</p>
+<p><strong>The sampling distribution</strong> follows, defined properly rather than merely
+displayed. Its centre and its spread both turn out to be obtainable on paper,
+from quantities that a single sample provides.</p>
+<p><strong>Two theorems</strong> complete the account. The <strong>Law of Large Numbers</strong> establishes
+that sample averages approach the population mean as the sample grows. The
+<strong>Central Limit Theorem</strong> establishes that the pattern in Figure
+<a href="u1-frequentist.html#fig:u1-many-plot">1.5</a> is approximately normal — and, more surprisingly, that
+it would have been approximately normal whatever the earnings distribution had
+looked like.</p>
+<p>Taken together, these results allow a single sample to yield not merely an
+estimate of the population mean, but a statement of how far that estimate is
+likely to lie from it. Every method in the remainder of this book — confidence
+intervals, hypothesis tests, regression — is an application of that idea.</p>
 </div>
 <script>
 // Solutions are written as plain fenced divs in the source, so the PDF edition

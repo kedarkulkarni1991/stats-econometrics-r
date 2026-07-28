@@ -363,21 +363,39 @@ provides a framework for assessing the uncertainty associated with
 sample-based conclusions and for drawing conclusions about the underlying
 population.
 
-## Repeating the sample {#u1-frequentist}
+## From one sample to many {#u1-frequentist}
 
 ::: {.question}
-What happens if we repeat the sample?
+If our conclusions depend on the particular sample we happened to observe, how
+can we learn anything about the population?
 :::
 
-Three samples gave three answers, which tells us that sampling variation
-exists. It does not yet tell us how large it is, or whether it follows any
-pattern of its own. Three observations are far too few to say.
+The previous section ended with a simple but unsettling observation. A
+different sample produces a different mean. The same is true of the median, the
+standard deviation and every other statistic we compute.
 
-So let us take many more. Suppose the survey were repeated a thousand times,
-each on a fresh two thousand workers, each producing its own mean. No research
-budget would permit this. A computer performs it in a moment.
+One possibility is to collect another sample.
 
-```{r u1-many-surveys}
+Imagine repeating the survey. A new team visits a different set of households,
+following exactly the same sampling design. They compute the average annual
+earnings and obtain a value that differs slightly from the first survey.
+
+Now imagine repeating the exercise again.
+
+And again.
+
+Every new survey produces a new sample, and every sample produces a new mean.
+None of these means is "correct" or "incorrect". Each is simply the result of
+observing a different subset of the population.
+
+Of course, conducting thousands of nationwide surveys would be prohibitively
+expensive. Fortunately, we do not need to. Since we are treating our dataset as
+the population, drawing a fresh sample of two thousand workers and computing
+its mean is the computational equivalent of sending out another survey team.
+What would take years and a considerable budget in the field takes a moment on
+a computer.
+
+```{r u1-many-samples}
 set.seed(2)
 
 many_means <- replicate(1000, mean(sample(workers$annual_earnings, 2000)))
@@ -395,14 +413,14 @@ ggplot(data.frame(m = many_means / 1000), aes(m)) +
   geom_vline(xintercept = mean(workers$annual_earnings) / 1000,
              colour = book_palette$reject, linewidth = 0.9) +
   annotate("label", x = mean(workers$annual_earnings) / 1000, y = Inf,
-           vjust = 1.4, label = "true mean", colour = book_palette$reject,
+           vjust = 1.4, label = "Population mean", colour = book_palette$reject,
            fill = "white", size = 3.5, label.size = 0.3) +
   labs(x = "Sample mean (₹ thousand)", y = "Number of samples") +
   theme_book()
 ```
 
-The individual earnings from which these samples were drawn are heavily
-skewed. The sample means are not. They are symmetric, closely clustered, and
+The individual earnings from which these samples were drawn are heavily skewed.
+The sample means are not. They are symmetric, closely clustered, and
 concentrated around the population mean. Their spread is also far narrower:
 individual earnings range from almost nothing to several million rupees, while
 the sample means differ from one another only modestly.
@@ -423,14 +441,18 @@ population mean is precisely what allows a margin of error to be attached to
 the one sample we actually possess.
 :::
 
-That picture — the distribution of a statistic across repeated samples — has a
-name, and we will come to it properly in a moment. For now the important thing
-is not the name but the move: **from studying one sample to studying the
-behaviour of samples.**
+This way of reasoning — treating an observed sample as one realisation of a
+process that could have produced many others, and asking what would happen
+across those repetitions — is known as the **frequentist** approach. It
+underlies almost every method in this book.
 
-This way of reasoning is called the **frequentist** approach. It answers
-questions about uncertainty by asking what would happen in the long run, over
-many repetitions, even when only one repetition will ever actually occur.
+It also leaves us with an obvious difficulty. In practice we cannot draw a
+thousand samples. We draw one. The figure above was constructed by repeating
+something that, in any real study, happens only once.
+
+The remainder of this unit resolves that difficulty. It turns out that the
+centre and spread of the pattern in this figure can be determined without
+constructing it, from a single sample and a small amount of theory.
 
 ## Where we are going {#u1-roadmap}
 
@@ -438,32 +460,29 @@ many repetitions, even when only one repetition will ever actually occur.
 Can we predict how those averages behave?
 :::
 
-We now have the question in its sharpest form. Survey means vary. Their
-variation has a shape. If we could predict that shape *in advance* — without
-running a thousand surveys, from the single sample we actually have — we could
-say precisely how much to trust our answer.
+Three things are required, and the remainder of this unit supplies them in
+turn.
 
-That is exactly what the rest of this unit does, and it needs three things.
+**Probability** comes first, because describing randomness precisely requires a
+language for it. So far we have relied on words such as "varies" and
+"typical". To obtain numbers we must be exact about what a random quantity is,
+what its long-run average represents, and how its spread is measured.
 
-**Probability**, first, because we need a language for describing randomness.
-We have been using words like "varies" and "typical" loosely. To get numbers we
-need to be precise about what a random quantity is, what its long-run average
-means, and how to measure its spread.
+**The sampling distribution** follows, defined properly rather than merely
+displayed. Its centre and its spread both turn out to be obtainable on paper,
+from quantities that a single sample provides.
 
-**The sampling distribution**, next, defined properly rather than merely drawn.
-We will find that its centre and its spread can both be worked out on paper,
-from facts about a single sample.
+**Two theorems** complete the account. The **Law of Large Numbers** establishes
+that sample averages approach the population mean as the sample grows. The
+**Central Limit Theorem** establishes that the pattern in Figure
+\@ref(fig:u1-many-plot) is approximately normal — and, more surprisingly, that
+it would have been approximately normal whatever the earnings distribution had
+looked like.
 
-**Two theorems**, finally, which are the reason any of this works. The **Law of
-Large Numbers** explains why sample averages close in on the truth as samples
-grow. The **Central Limit Theorem** explains why the picture above was
-bell-shaped — and, remarkably, why it would have been bell-shaped no matter
-what the earnings distribution looked like.
-
-Together they turn "your average is almost certainly wrong" into something far
-more useful: *your average is wrong by about this much, with about this
-probability.* That sentence is what separates an estimate from an anecdote, and
-everything in the rest of this book is built from it.
+Taken together, these results allow a single sample to yield not merely an
+estimate of the population mean, but a statement of how far that estimate is
+likely to lie from it. Every method in the remainder of this book — confidence
+intervals, hypothesis tests, regression — is an application of that idea.
 
 ## A language for randomness {#u1-random-variables}
 
@@ -563,7 +582,7 @@ did not mean.
 ## The sampling distribution {#u1-sampling-distribution}
 
 ::: {.question}
-What exactly was that picture of a thousand survey means?
+What exactly was that picture of a thousand sample means?
 :::
 
 Now we can name it properly.
@@ -572,7 +591,7 @@ The distribution of a **random variable** describes how raw observations vary �
 how earnings differ from worker to worker.
 
 A **sampling distribution** describes how a *statistic* varies across repeated
-samples of a fixed size — how the survey mean differs from survey to survey.
+samples of a fixed size — how the sample mean differs from sample to sample.
 
 ::: {.keyidea}
 These are two different distributions and confusing them is the most common
@@ -765,7 +784,7 @@ ggplot(data.frame(n = seq_along(running), m = running), aes(n, m)) +
 ```
 
 The same thing happens with the earnings data. Draw surveys of growing size and
-watch how far the survey mean sits from the truth:
+watch how far the sample mean sits from the truth:
 
 ```{r u1-lln-earnings}
 set.seed(20)
@@ -780,9 +799,9 @@ lln_earn <- t(sapply(c(10, 50, 100, 500, 2000, 10000), function(n) {
 round(lln_earn)
 ```
 
-The average distance between a survey mean and the truth falls steadily towards
-zero. Nothing about earnings being violently skewed prevents it — it only means
-you need a bigger survey to get equally close.
+The average distance between a sample mean and the truth falls steadily towards
+zero. Nothing about earnings being heavily skewed prevents it — it only means
+a larger sample is needed to get equally close.
 
 ### Why it works {-}
 
@@ -862,7 +881,7 @@ imbalance simply becomes a smaller and smaller share of the total.
 ## The Central Limit Theorem {#u1-clt}
 
 ::: {.question}
-Why was that picture of a thousand survey means bell-shaped?
+Why was that picture of a thousand sample means bell-shaped?
 :::
 
 The Law of Large Numbers tells us *where* the sample mean ends up. It says
