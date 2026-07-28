@@ -230,20 +230,28 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <h2>How to use this book<a href="how-to-use-this-book.html#how-to-use-this-book" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p><strong>Read it in order, at least the first time.</strong> Chapters build on each other;
 Part II assumes Part I.</p>
-<p><strong>Type the code out yourself.</strong> Copy-paste teaches you very little. Every code
-block has a copy button in the top-right corner, but resist it on the first
-pass. Change a number and see what breaks — that is where the learning is.</p>
-<p><strong>Do the exercises before opening the solutions.</strong> Solutions are hidden behind a
-click, like this:</p>
-<details class="solution">
-<summary>
-Show the solution
-</summary>
-<p>Try it first. Genuinely. The click will still be here in ten minutes.</p>
-</details>
-<p><strong>Use the search box.</strong> The magnifying glass at the top-left searches the whole
-book. If you have forgotten what a <span class="math inline">\(p\)</span>-value is, that is faster than scrolling.</p>
+<p><strong>Type the code out yourself.</strong> Copy-paste teaches you very little. Change a
+number and see what breaks — that is where the learning is.</p>
+<p><strong>Do the exercises before reading the solutions.</strong> They are worth nothing
+unless you have already tried.</p>
+<p><strong>Use the search box.</strong> The magnifying glass at the top-left searches the whole book. If you have forgotten what a <span class="math inline">\(p\)</span>-value is, that is faster than scrolling.</p>
 </div>
+<script>
+// Solutions are written as plain fenced divs in the source, so the PDF edition
+// can typeset them as boxes. On the web they should stay hidden until asked
+// for, so wrap each one in a <details> here.
+document.addEventListener("DOMContentLoaded", function () {
+  document.querySelectorAll("div.solution").forEach(function (div) {
+    var d = document.createElement("details");
+    d.className = "solution";
+    var s = document.createElement("summary");
+    s.textContent = "Show the solution";
+    d.appendChild(s);
+    while (div.firstChild) d.appendChild(div.firstChild);
+    div.parentNode.replaceChild(d, div);
+  });
+});
+</script>
             </section>
 
           </div>
@@ -292,7 +300,7 @@ gitbook.start({
     "link": null,
     "text": null
   },
-  "download": null,
+  "download": ["stats-econometrics-r.pdf"],
   "search": {
     "engine": "fuse",
     "options": null

@@ -1,5 +1,7 @@
 bookdown::gitbook:
   css: css/style.css
+  includes:
+    after_body: html/solutions.html
   highlight: tango
   split_by: section
   number_sections: true
@@ -35,3 +37,12 @@ bookdown::gitbook:
       whatsapp: no
       all: no
     info: false
+
+bookdown::pdf_book:
+  latex_engine: xelatex
+  toc_depth: 2
+  number_sections: true
+  keep_tex: false
+  pandoc_args: ["--lua-filter=latex/callouts.lua"]
+  includes:
+    in_header: latex/preamble.tex

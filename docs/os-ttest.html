@@ -335,8 +335,8 @@ t_{calc} = \frac{9.225 - 11}{1.749/\sqrt{8}}
 \]</span></p>
 <p>The critical values are <span class="math inline">\(t_{0.05,\,7} = 1.895\)</span> and <span class="math inline">\(t_{0.005,\,7} = 3.499\)</span>.</p>
 <ul>
-<li>At <span class="math inline">\(\alpha = 0.10\)</span>: <span class="math inline">\(2.87 &gt; 1.895\)</span> → <strong>reject</strong> <span class="math inline">\(H_0\)</span>.</li>
-<li>At <span class="math inline">\(\alpha = 0.01\)</span>: <span class="math inline">\(2.87 &lt; 3.499\)</span> → <strong>fail to reject</strong> <span class="math inline">\(H_0\)</span>.</li>
+<li>At <span class="math inline">\(\alpha = 0.10\)</span>: <span class="math inline">\(2.87 &gt; 1.895\)</span> <span class="math inline">\(\Rightarrow\)</span> <strong>reject</strong> <span class="math inline">\(H_0\)</span>.</li>
+<li>At <span class="math inline">\(\alpha = 0.01\)</span>: <span class="math inline">\(2.87 &lt; 3.499\)</span> <span class="math inline">\(\Rightarrow\)</span> <strong>fail to reject</strong> <span class="math inline">\(H_0\)</span>.</li>
 </ul>
 <p><strong>In R.</strong> Both the pieces and the packaged version:</p>
 <div class="sourceCode" id="cb68"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb68-1"><a href="os-ttest.html#cb68-1" tabindex="-1"></a>t_calc <span class="ot">&lt;-</span> (<span class="fu">mean</span>(hours) <span class="sc">-</span> <span class="dv">11</span>) <span class="sc">/</span> (<span class="fu">sd</span>(hours) <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="fu">length</span>(hours)))</span>
@@ -367,6 +367,22 @@ is far more informative than reporting a bare “significant / not significant.�
 </div>
 </div>
 </div>
+<script>
+// Solutions are written as plain fenced divs in the source, so the PDF edition
+// can typeset them as boxes. On the web they should stay hidden until asked
+// for, so wrap each one in a <details> here.
+document.addEventListener("DOMContentLoaded", function () {
+  document.querySelectorAll("div.solution").forEach(function (div) {
+    var d = document.createElement("details");
+    d.className = "solution";
+    var s = document.createElement("summary");
+    s.textContent = "Show the solution";
+    d.appendChild(s);
+    while (div.firstChild) d.appendChild(div.firstChild);
+    div.parentNode.replaceChild(d, div);
+  });
+});
+</script>
             </section>
 
           </div>
@@ -415,7 +431,7 @@ gitbook.start({
     "link": null,
     "text": null
   },
-  "download": null,
+  "download": ["stats-econometrics-r.pdf"],
   "search": {
     "engine": "fuse",
     "options": null

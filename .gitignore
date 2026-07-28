@@ -25,3 +25,10 @@ private/
 # OS noise
 .DS_Store
 Thumbs.db
+
+# LaTeX build noise
+*.log
+*.aux
+*.toc
+*.out
+*.tex

@@ -605,8 +605,8 @@ $$
 
 The critical values are $t_{0.05,\,7} = 1.895$ and $t_{0.005,\,7} = 3.499$.
 
-- At $\alpha = 0.10$: $2.87 > 1.895$ → **reject** $H_0$.
-- At $\alpha = 0.01$: $2.87 < 3.499$ → **fail to reject** $H_0$.
+- At $\alpha = 0.10$: $2.87 > 1.895$ $\Rightarrow$ **reject** $H_0$.
+- At $\alpha = 0.01$: $2.87 < 3.499$ $\Rightarrow$ **fail to reject** $H_0$.
 
 **In R.** Both the pieces and the packaged version:
 
@@ -739,9 +739,7 @@ per 12-ounce bottle of a caffeinated soft drink is 37.7 mg. A random sample of
 36 bottles has a mean of 35.28 mg. The population standard deviation is 10.8 mg.
 At $\alpha = 0.01$, can you reject the organisation's claim?
 
-<details class="solution">
-<summary>Show the solution</summary>
-
+::: {.solution}
 $H_0: \mu = 37.7$ against $H_A: \mu \neq 37.7$. Two-tailed at $\alpha = 0.01$,
 so the critical value is $Z_{0.005} = 2.58$.
 
@@ -757,17 +755,14 @@ z.test(caffeine, mu = 37.7, sigma.x = 10.8, conf.level = 0.99)
 $|-1.34| < 2.58$ and the $p$-value of 0.179 is far above 0.01, so we **fail to
 reject**. If the true mean really were 37.7 mg, a sample mean this far away
 would turn up about 18% of the time — thoroughly unremarkable.
-
-</details>
+:::
 
 **11.2** Historical data show household water use is normally distributed with
 mean 360 gallons and standard deviation 40 gallons per day. A sample of 200
 households averages 374 gallons. Are these data consistent with the historical
 distribution at the 5% level? What is the $p$-value?
 
-<details class="solution">
-<summary>Show the solution</summary>
-
+::: {.solution}
 $$
 Z_{calc} = \frac{374 - 360}{40/\sqrt{200}} = \frac{14}{2.828} = 4.95
 $$
@@ -780,8 +775,7 @@ z.test(water, mu = 360, sigma.x = 40, conf.level = 0.95)
 $4.95 \gg 1.96$, and the $p$-value is about
 `r signif(2 * pnorm(-4.95), 2)` — under one in a million. **Reject $H_0$.**
 Water use has moved away from the historical mean.
-
-</details>
+:::
 
 **11.3** A study claims the average monthly salary of full professors in India
 is ₹87,800. Students at one university sample ten salaries (in thousands):
@@ -792,9 +786,7 @@ cat("91.0, 79.8, 102.0, 93.5, 82.0, 88.6, 90.0, 98.6, 101.0, 84.0")
 
 They believe their professors earn *more*. Test at the 10% and 5% levels.
 
-<details class="solution">
-<summary>Show the solution</summary>
-
+::: {.solution}
 The word "more" makes this **right-tailed**:
 $H_0: \mu \leq 87.8$ against $H_A: \mu > 87.8$. Since $\sigma$ is unknown and
 $n = 10$, use a $t$-test with $df = 9$.
@@ -812,16 +804,13 @@ $t_{0.05,\,9} = `r round(qt(0.95, 9), 3)`$.
 
 The statistic falls short of both. **Fail to reject** at either level — there is
 not enough evidence that these professors are paid above the national figure.
-
-</details>
+:::
 
 **11.4** A Department of Transportation claims mean wait time is *at most* 6
 minutes. A sample of 34 locations has mean 10.3 minutes, standard deviation 8.0.
 Test at 5% and 1%.
 
-<details class="solution">
-<summary>Show the solution</summary>
-
+::: {.solution}
 "At most" makes this right-tailed: $H_0: \mu \leq 6$ against $H_A: \mu > 6$,
 $t$-test with $df = 33$.
 
@@ -833,8 +822,7 @@ t.test(waits, mu = 6, alternative = "greater")
 $t_{calc} = 3.14$, well beyond $t_{0.05,\,33} = `r round(qt(0.95, 33), 3)`$ and
 $t_{0.01,\,33} = `r round(qt(0.99, 33), 3)`$. **Reject at both levels** — wait
 times are longer than claimed.
-
-</details>
+:::
 
 **11.5** `marriage-ages.csv` records the ages of both partners in ten couples.
 Is there evidence that one partner tends to be older? Test at the 5% level.
@@ -842,9 +830,7 @@ Is there evidence that one partner tends to be older? Test at the 5% level.
 *Hint: the two columns are not independent samples — they are ten couples. What
 is the one number per couple that captures the question?*
 
-<details class="solution">
-<summary>Show the solution</summary>
-
+::: {.solution}
 The two columns are **paired**: each row is one couple. Treating them as two
 independent samples throws away that pairing and inflates the standard error.
 The right move is to reduce each couple to a single number — the age gap — and
@@ -887,16 +873,13 @@ p_paired   <- t.test(couples$partner1, couples$partner2, paired = TRUE)$p.value
 The same ten couples, a $p$-value of `r round(p_unpaired, 3)` instead of
 `r round(p_paired, 3)`, and the opposite conclusion. **Pairing is not a
 detail.**
-
-</details>
+:::
 
 **11.6** *(No computation.)* A classmate reports "$p = 0.03$, so there is a 3%
 chance the null hypothesis is true." Explain what is wrong, and state what
 $p = 0.03$ does mean.
 
-<details class="solution">
-<summary>Show the solution</summary>
-
+::: {.solution}
 The $p$-value is computed **assuming the null is true**. It cannot then also be
 the probability that the null is true — that would be circular. Formally, your
 classmate has swapped $P(\text{data} \mid H_0)$ for $P(H_0 \mid \text{data})$,
@@ -906,8 +889,7 @@ The correct reading: *if* $H_0$ were true, samples at least as extreme as this
 one would arise 3% of the time. Since that is unusual, we treat it as evidence
 against $H_0$ — but the statement is about how surprising the data are, not
 about how probable the hypothesis is.
-
-</details>
+:::
 
 ## Question bank {#os-question-bank}
 

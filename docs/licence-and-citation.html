@@ -235,11 +235,9 @@ and the code under the <a href="https://opensource.org/licenses/MIT">MIT licence
 <p>You may copy it, print it, translate it, remix it, teach from it, and build on
 it — for any purpose, including commercially. The only condition is that you
 credit the source.</p>
-<p>If you spot an error, there is a <strong>pencil icon at the top of every page</strong>. It
-opens that chapter’s source on GitHub, where you can fix the mistake and send
-it back without installing anything. Corrections from students are genuinely
-welcome; several of the sharper points in this book exist because someone
-asked why.</p>
+<p>If you spot an error, there is a <strong>pencil icon at the top of every page</strong>. It opens that chapter’s source on GitHub, where you can fix the mistake and send it back without installing anything.</p>
+<p>Corrections from students are genuinely welcome; several of the sharper points
+in this book exist because someone asked why.</p>
 <p>To cite:</p>
 <blockquote>
 <p>Kulkarni, K. (2026). <em>Statistics and Econometrics with R.</em>
@@ -250,6 +248,22 @@ Licensed under CC BY 4.0.</p>
 
 </div>
 <!-- </div> -->
+<script>
+// Solutions are written as plain fenced divs in the source, so the PDF edition
+// can typeset them as boxes. On the web they should stay hidden until asked
+// for, so wrap each one in a <details> here.
+document.addEventListener("DOMContentLoaded", function () {
+  document.querySelectorAll("div.solution").forEach(function (div) {
+    var d = document.createElement("details");
+    d.className = "solution";
+    var s = document.createElement("summary");
+    s.textContent = "Show the solution";
+    d.appendChild(s);
+    while (div.firstChild) d.appendChild(div.firstChild);
+    div.parentNode.replaceChild(d, div);
+  });
+});
+</script>
             </section>
 
           </div>
@@ -298,7 +312,7 @@ gitbook.start({
     "link": null,
     "text": null
   },
-  "download": null,
+  "download": ["stats-econometrics-r.pdf"],
   "search": {
     "engine": "fuse",
     "options": null

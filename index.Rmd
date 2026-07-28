@@ -49,22 +49,18 @@ were wrong, the number would be wrong, and I would notice.
 **Read it in order, at least the first time.** Chapters build on each other;
 Part II assumes Part I.
 
-**Type the code out yourself.** Copy-paste teaches you very little. Every code
-block has a copy button in the top-right corner, but resist it on the first
-pass. Change a number and see what breaks — that is where the learning is.
+**Type the code out yourself.** Copy-paste teaches you very little. Change a
+number and see what breaks — that is where the learning is.
 
-**Do the exercises before opening the solutions.** Solutions are hidden behind a
-click, like this:
+**Do the exercises before reading the solutions.** They are worth nothing
+unless you have already tried.
 
-<details class="solution">
-<summary>Show the solution</summary>
-
-Try it first. Genuinely. The click will still be here in ten minutes.
-
-</details>
-
-**Use the search box.** The magnifying glass at the top-left searches the whole
-book. If you have forgotten what a $p$-value is, that is faster than scrolling.
+```{r how-to-web, echo = FALSE, results = "asis"}
+if (knitr::is_html_output()) cat(
+"**Use the search box.** The magnifying glass at the top-left searches the",
+"whole book. If you have forgotten what a $p$-value is, that is faster than",
+"scrolling.\n")
+```
 
 ## What you need {-}
 
@@ -129,11 +125,18 @@ You may copy it, print it, translate it, remix it, teach from it, and build on
 it — for any purpose, including commercially. The only condition is that you
 credit the source.
 
-If you spot an error, there is a **pencil icon at the top of every page**. It
-opens that chapter's source on GitHub, where you can fix the mistake and send
-it back without installing anything. Corrections from students are genuinely
-welcome; several of the sharper points in this book exist because someone
-asked why.
+```{r fix-errors, echo = FALSE, results = "asis"}
+if (knitr::is_html_output()) cat(
+"If you spot an error, there is a **pencil icon at the top of every page**.",
+"It opens that chapter's source on GitHub, where you can fix the mistake and",
+"send it back without installing anything.\n")
+if (!knitr::is_html_output()) cat(
+"If you spot an error, the source of every chapter is on GitHub and",
+"corrections are welcome as pull requests.\n")
+```
+
+Corrections from students are genuinely welcome; several of the sharper points
+in this book exist because someone asked why.
 
 To cite:
 

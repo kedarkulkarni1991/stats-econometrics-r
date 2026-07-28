@@ -239,11 +239,8 @@ has no answers.</p>
 per 12-ounce bottle of a caffeinated soft drink is 37.7 mg. A random sample of
 36 bottles has a mean of 35.28 mg. The population standard deviation is 10.8 mg.
 At <span class="math inline">\(\alpha = 0.01\)</span>, can you reject the organisation’s claim?</p>
-<details class="solution">
-<summary>
-Show the solution
-</summary>
-<p><span class="math inline">\(H_0: \mu = 37.7\)</span> against <span class="math inline">\(H_A: \mu \neq 37.7\)</span>. Two-tailed at <span class="math inline">\(\alpha = 0.01\)</span>,
+<div class="solution">
+<p><span id="unlabeled-div-1" class="solution"><em>Solution</em>. </span><span class="math inline">\(H_0: \mu = 37.7\)</span> against <span class="math inline">\(H_A: \mu \neq 37.7\)</span>. Two-tailed at <span class="math inline">\(\alpha = 0.01\)</span>,
 so the critical value is <span class="math inline">\(Z_{0.005} = 2.58\)</span>.</p>
 <p><span class="math display">\[
 Z_{calc} = \frac{35.28 - 37.7}{10.8/\sqrt{36}} = \frac{-2.42}{1.8} = -1.34
@@ -264,16 +261,13 @@ Z_{calc} = \frac{35.28 - 37.7}{10.8/\sqrt{36}} = \frac{-2.42}{1.8} = -1.34
 <p><span class="math inline">\(|-1.34| &lt; 2.58\)</span> and the <span class="math inline">\(p\)</span>-value of 0.179 is far above 0.01, so we <strong>fail to
 reject</strong>. If the true mean really were 37.7 mg, a sample mean this far away
 would turn up about 18% of the time — thoroughly unremarkable.</p>
-</details>
+</div>
 <p><strong>11.2</strong> Historical data show household water use is normally distributed with
 mean 360 gallons and standard deviation 40 gallons per day. A sample of 200
 households averages 374 gallons. Are these data consistent with the historical
 distribution at the 5% level? What is the <span class="math inline">\(p\)</span>-value?</p>
-<details class="solution">
-<summary>
-Show the solution
-</summary>
-<p><span class="math display">\[
+<div class="solution">
+<p><span id="unlabeled-div-2" class="solution"><em>Solution</em>. </span><span class="math display">\[
 Z_{calc} = \frac{374 - 360}{40/\sqrt{200}} = \frac{14}{2.828} = 4.95
 \]</span></p>
 <div class="sourceCode" id="cb80"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb80-1"><a href="os-exercises.html#cb80-1" tabindex="-1"></a>water <span class="ot">&lt;-</span> <span class="fu">make_sample</span>(<span class="at">n =</span> <span class="dv">200</span>, <span class="at">mean =</span> <span class="dv">374</span>, <span class="at">sd =</span> <span class="dv">40</span>)</span>
@@ -292,16 +286,13 @@ Z_{calc} = \frac{374 - 360}{40/\sqrt{200}} = \frac{14}{2.828} = 4.95
 <p><span class="math inline">\(4.95 \gg 1.96\)</span>, and the <span class="math inline">\(p\)</span>-value is about
 0 — under one in a million. <strong>Reject <span class="math inline">\(H_0\)</span>.</strong>
 Water use has moved away from the historical mean.</p>
-</details>
+</div>
 <p><strong>11.3</strong> A study claims the average monthly salary of full professors in India
 is ₹87,800. Students at one university sample ten salaries (in thousands):</p>
 <pre><code>91.0, 79.8, 102.0, 93.5, 82.0, 88.6, 90.0, 98.6, 101.0, 84.0</code></pre>
 <p>They believe their professors earn <em>more</em>. Test at the 10% and 5% levels.</p>
-<details class="solution">
-<summary>
-Show the solution
-</summary>
-<p>The word “more” makes this <strong>right-tailed</strong>:
+<div class="solution">
+<p><span id="unlabeled-div-3" class="solution"><em>Solution</em>. </span>The word “more” makes this <strong>right-tailed</strong>:
 <span class="math inline">\(H_0: \mu \leq 87.8\)</span> against <span class="math inline">\(H_A: \mu &gt; 87.8\)</span>. Since <span class="math inline">\(\sigma\)</span> is unknown and
 <span class="math inline">\(n = 10\)</span>, use a <span class="math inline">\(t\)</span>-test with <span class="math inline">\(df = 9\)</span>.</p>
 <div class="sourceCode" id="cb83"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb83-1"><a href="os-exercises.html#cb83-1" tabindex="-1"></a>salary <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">91.0</span>, <span class="fl">79.8</span>, <span class="fl">102.0</span>, <span class="fl">93.5</span>, <span class="fl">82.0</span>, <span class="fl">88.6</span>, <span class="fl">90.0</span>, <span class="fl">98.6</span>, <span class="fl">101.0</span>, <span class="fl">84.0</span>)</span>
@@ -326,15 +317,12 @@ against critical values <span class="math inline">\(t_{0.10,\,9} = 1.383\)</span
 <span class="math inline">\(t_{0.05,\,9} = 1.833\)</span>.</p>
 <p>The statistic falls short of both. <strong>Fail to reject</strong> at either level — there is
 not enough evidence that these professors are paid above the national figure.</p>
-</details>
+</div>
 <p><strong>11.4</strong> A Department of Transportation claims mean wait time is <em>at most</em> 6
 minutes. A sample of 34 locations has mean 10.3 minutes, standard deviation 8.0.
 Test at 5% and 1%.</p>
-<details class="solution">
-<summary>
-Show the solution
-</summary>
-<p>“At most” makes this right-tailed: <span class="math inline">\(H_0: \mu \leq 6\)</span> against <span class="math inline">\(H_A: \mu &gt; 6\)</span>,
+<div class="solution">
+<p><span id="unlabeled-div-4" class="solution"><em>Solution</em>. </span>“At most” makes this right-tailed: <span class="math inline">\(H_0: \mu \leq 6\)</span> against <span class="math inline">\(H_A: \mu &gt; 6\)</span>,
 <span class="math inline">\(t\)</span>-test with <span class="math inline">\(df = 33\)</span>.</p>
 <div class="sourceCode" id="cb87"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb87-1"><a href="os-exercises.html#cb87-1" tabindex="-1"></a>waits <span class="ot">&lt;-</span> <span class="fu">make_sample</span>(<span class="at">n =</span> <span class="dv">34</span>, <span class="at">mean =</span> <span class="fl">10.3</span>, <span class="at">sd =</span> <span class="fl">8.0</span>)</span>
 <span id="cb87-2"><a href="os-exercises.html#cb87-2" tabindex="-1"></a><span class="fu">t.test</span>(waits, <span class="at">mu =</span> <span class="dv">6</span>, <span class="at">alternative =</span> <span class="st">&quot;greater&quot;</span>)</span></code></pre></div>
@@ -352,16 +340,13 @@ Show the solution
 <p><span class="math inline">\(t_{calc} = 3.14\)</span>, well beyond <span class="math inline">\(t_{0.05,\,33} = 1.692\)</span> and
 <span class="math inline">\(t_{0.01,\,33} = 2.445\)</span>. <strong>Reject at both levels</strong> — wait
 times are longer than claimed.</p>
-</details>
+</div>
 <p><strong>11.5</strong> <code>marriage-ages.csv</code> records the ages of both partners in ten couples.
 Is there evidence that one partner tends to be older? Test at the 5% level.</p>
 <p><em>Hint: the two columns are not independent samples — they are ten couples. What
 is the one number per couple that captures the question?</em></p>
-<details class="solution">
-<summary>
-Show the solution
-</summary>
-<p>The two columns are <strong>paired</strong>: each row is one couple. Treating them as two
+<div class="solution">
+<p><span id="unlabeled-div-5" class="solution"><em>Solution</em>. </span>The two columns are <strong>paired</strong>: each row is one couple. Treating them as two
 independent samples throws away that pairing and inflates the standard error.
 The right move is to reduce each couple to a single number — the age gap — and
 run a <strong>one-sample</strong> test on it against zero.</p>
@@ -407,15 +392,12 @@ by hand. Compare what happens if you forget:</p>
 <p>The same ten couples, a <span class="math inline">\(p\)</span>-value of 0.607 instead of
 0.015, and the opposite conclusion. <strong>Pairing is not a
 detail.</strong></p>
-</details>
+</div>
 <p><strong>11.6</strong> <em>(No computation.)</em> A classmate reports “<span class="math inline">\(p = 0.03\)</span>, so there is a 3%
 chance the null hypothesis is true.” Explain what is wrong, and state what
 <span class="math inline">\(p = 0.03\)</span> does mean.</p>
-<details class="solution">
-<summary>
-Show the solution
-</summary>
-<p>The <span class="math inline">\(p\)</span>-value is computed <strong>assuming the null is true</strong>. It cannot then also be
+<div class="solution">
+<p><span id="unlabeled-div-6" class="solution"><em>Solution</em>. </span>The <span class="math inline">\(p\)</span>-value is computed <strong>assuming the null is true</strong>. It cannot then also be
 the probability that the null is true — that would be circular. Formally, your
 classmate has swapped <span class="math inline">\(P(\text{data} \mid H_0)\)</span> for <span class="math inline">\(P(H_0 \mid \text{data})\)</span>,
 which are different quantities entirely.</p>
@@ -423,8 +405,24 @@ which are different quantities entirely.</p>
 one would arise 3% of the time. Since that is unusual, we treat it as evidence
 against <span class="math inline">\(H_0\)</span> — but the statement is about how surprising the data are, not
 about how probable the hypothesis is.</p>
-</details>
 </div>
+</div>
+<script>
+// Solutions are written as plain fenced divs in the source, so the PDF edition
+// can typeset them as boxes. On the web they should stay hidden until asked
+// for, so wrap each one in a <details> here.
+document.addEventListener("DOMContentLoaded", function () {
+  document.querySelectorAll("div.solution").forEach(function (div) {
+    var d = document.createElement("details");
+    d.className = "solution";
+    var s = document.createElement("summary");
+    s.textContent = "Show the solution";
+    d.appendChild(s);
+    while (div.firstChild) d.appendChild(div.firstChild);
+    div.parentNode.replaceChild(d, div);
+  });
+});
+</script>
             </section>
 
           </div>
@@ -473,7 +471,7 @@ gitbook.start({
     "link": null,
     "text": null
   },
-  "download": null,
+  "download": ["stats-econometrics-r.pdf"],
   "search": {
     "engine": "fuse",
     "options": null
