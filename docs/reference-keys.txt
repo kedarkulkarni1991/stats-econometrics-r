@@ -3,11 +3,11 @@ fig:u1-earnings-hist
 fig:u1-density
 fig:u1-three-plot
 fig:u1-many-plot
-fig:u1-sampdist-plot
-fig:u1-nsizes-plot
-fig:d2i-lln-plot
+fig:u1-lln-plot
 fig:d2i-clt-plot
 fig:d2i-dice-plot
+fig:u1-sampdist-plot
+fig:u1-nsizes-plot
 fig:u1-skew-plot
 fig:os-sim-plot
 tab:os-claim-table
@@ -22,10 +22,10 @@ u1-randomness
 u1-describing
 u1-not-enough
 u1-frequentist
-u1-random-variables
-u1-sampling-distribution
 u1-lln
 u1-clt
+u1-random-variables
+u1-sampling-distribution
 u1-average
 u1-what-goes-wrong
 u1-summary

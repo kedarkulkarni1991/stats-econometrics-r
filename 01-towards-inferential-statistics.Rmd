@@ -465,6 +465,286 @@ consequences of two fundamental results in probability theory: the Law of Large
 Numbers and the Central Limit Theorem. Together, these results explain why a
 single sample can provide reliable information about an entire population.
 
+## Why do larger samples give more reliable answers? {#u1-lln}
+
+::: {.question}
+What determines how tightly the sample means cluster?
+:::
+
+Figure \@ref(fig:u1-many-plot) answered one important question. Repeating the
+survey many times does not produce wildly different estimates of the population
+mean. Instead, the sample means cluster around a common value.
+
+A natural question follows. What determines how tightly they cluster?
+
+One possibility is the size of the survey itself. Intuition suggests that a
+survey of twenty workers should produce less reliable estimates than a survey
+of two thousand workers. But how much difference does sample size really make?
+
+To find out, let us repeat the experiment from the previous section several
+times. Instead of fixing the sample size at 2,000 workers, we consider surveys
+of different sizes. For each sample size we draw one thousand independent
+samples and compute the average annual earnings.
+
+```{r u1-lln-sizes}
+set.seed(3)
+
+earn  <- workers$annual_earnings
+sizes <- c(20, 100, 500, 2000)
+
+by_size <- do.call(rbind, lapply(sizes, function(n) {
+  data.frame(n = factor(paste("n =", n), levels = paste("n =", sizes)),
+             m = replicate(4000, mean(sample(earn, n, replace = TRUE))))
+}))
+```
+
+```{r u1-lln-plot, echo = FALSE, fig.height = 5.6, fig.cap = "Sampling distributions of the sample mean for different sample sizes."}
+ggplot(by_size, aes(m / 1000)) +
+  geom_histogram(aes(y = after_stat(density)), binwidth = 1.2,
+                 fill = book_palette$fill, colour = "white", linewidth = 0.08) +
+  geom_vline(xintercept = mean(earn) / 1000, colour = book_palette$reject,
+             linewidth = 0.7) +
+  facet_wrap(~ n, ncol = 1, scales = "free_y") +
+  coord_cartesian(xlim = c(15, 105)) +
+  labs(x = "Sample mean (₹ thousand)", y = NULL) +
+  theme_book() +
+  theme(axis.text.y = element_blank())
+```
+
+The pattern is unmistakable.
+
+When the sample contains only a small number of workers, the sample means are
+widely dispersed. Some surveys produce averages well above the population mean,
+while others fall well below it. The estimates vary substantially from one
+survey to the next.
+
+As the sample size increases, the sampling distribution becomes progressively
+narrower. The sample means remain centred at the population mean, but they
+fluctuate much less. Large departures from the population mean become
+increasingly uncommon, while estimates close to the population mean become
+increasingly likely.
+
+```{r u1-lln-spread}
+round(tapply(by_size$m, by_size$n, sd))
+```
+
+This behaviour reflects a simple idea. Every sample contains chance variation.
+Some samples happen to include more high-income workers than average, while
+others include more low-income workers. In a small sample these random
+differences have a noticeable effect on the average. As the sample grows,
+unusually high and unusually low observations increasingly offset one another,
+and the sample mean settles closer to the population mean.
+
+The behaviour we have just observed is not merely an empirical regularity. It
+is one of the most fundamental results in probability theory and forms the
+foundation of statistical inference. It is known as the **Law of Large
+Numbers**.
+
+In informal terms, the Law of Large Numbers states that as the sample size
+increases, the sample mean gets closer and closer to the population mean. Large
+samples do not eliminate randomness, but they reduce its influence. Although no
+single survey is guaranteed to produce the correct answer, larger surveys are
+increasingly likely to do so.
+
+The Law of Large Numbers explains why surveys, opinion polls, clinical trials
+and economic censuses can provide reliable information about populations
+without observing every individual. The key is not that they observe everyone,
+but that they observe enough.
+
+Yet Figure \@ref(fig:u1-lln-plot) reveals another feature that the Law of
+Large Numbers does not explain. As the sample size increases, the sampling
+distributions not only become narrower — they also become increasingly
+bell-shaped. This is surprising because the underlying distribution of earnings
+is strongly skewed.
+
+Why should averages of skewed data look approximately normal?
+
+The answer is provided by an even more remarkable result: the **Central Limit
+Theorem**.
+
+## The Central Limit Theorem {#u1-clt}
+
+::: {.question}
+Why do the sample means look bell-shaped?
+:::
+
+The Law of Large Numbers tells us *where* the sample mean ends up. It says
+nothing about the **shape** of its distribution along the way — and without a
+shape we cannot compute the probability of anything.
+
+That is what the Central Limit Theorem supplies, and it supplies far more than
+seems reasonable.
+
+::: {.keyidea}
+**Central Limit Theorem.** For a sufficiently large sample, the sampling
+distribution of the mean is approximately normal — *whatever the shape of the
+population it was drawn from*.
+
+The result is stated precisely, in notation, once we have the vocabulary for
+it later in this unit. Its content is already visible in
+Figure \@ref(fig:u1-lln-plot): a strongly skewed population, yet sample means
+that grow steadily more symmetric.
+:::
+
+Read that again, because the strength of the claim is easy to miss. The
+population may be a coin flip taking only the values 0 and 1. It may be a count
+with a long right tail. It may be Indian earnings, where a
+small minority hold most of the total. **It does not matter.** Average
+enough draws and the distribution of that average is bell-shaped.
+
+### Watching it happen {-}
+
+Four populations, chosen to look as unlike a normal distribution as possible.
+For each we take samples of size 1, then 5, then 30, and plot the distribution
+of the sample mean.
+
+```{r d2i-clt-sim}
+set.seed(3)
+
+draw_mean <- function(parent, n) {
+  switch(parent,
+    "Bernoulli"  = mean(rbinom(n, 1, 0.3)),
+    "Poisson"    = mean(rpois(n, 2)),
+    "Uniform"    = mean(runif(n)),
+    "Earnings"   = mean(sample(earn, n, replace = TRUE)))
+}
+
+parents <- c("Bernoulli", "Poisson", "Uniform", "Earnings")
+sizes   <- c(1, 5, 30)
+
+clt <- do.call(rbind, lapply(parents, function(p)
+  do.call(rbind, lapply(sizes, function(n)
+    data.frame(parent = p,
+               n      = factor(paste("n =", n), levels = paste("n =", sizes)),
+               m      = replicate(4000, draw_mean(p, n)))))))
+
+# Standardise within each panel, so all twelve are on one scale and the
+# comparison is purely about shape.
+clt$z <- ave(clt$m, clt$parent, clt$n,
+             FUN = function(x) (x - mean(x)) / sd(x))
+
+head(clt, 3)
+```
+
+```{r d2i-clt-plot, echo = FALSE, fig.height = 6, fig.cap = "Sampling distributions of the mean from four very different populations, standardised, against the standard normal curve in orange. At $n = 1$ you are looking at each population itself. By $n = 30$ all four track the curve — though look closely at the last row."}
+clt$parent <- factor(clt$parent, levels = parents)
+
+ggplot(clt, aes(z)) +
+  geom_histogram(aes(y = after_stat(density)), bins = 45,
+                 fill = book_palette$fill, colour = "white", linewidth = 0.08) +
+  stat_function(fun = dnorm, colour = book_palette$reject, linewidth = 0.6) +
+  facet_grid(parent ~ n) +
+  coord_cartesian(xlim = c(-3.2, 3.2), ylim = c(0, 0.52)) +
+  labs(x = "standardised sample mean", y = NULL) +
+  theme_book(base_size = 10) +
+  theme(axis.text.y = element_blank(),
+        strip.text.y = element_text(angle = 0, hjust = 0))
+```
+
+Read the grid left to right. The first column is each population itself — a
+two-spike coin, a discrete count, a flat rectangle, a badly lopsided earnings
+distribution. Not one of them is normal. By the third column all four are
+tracking the orange curve.
+
+Notice how differently they get there. The uniform population is nearly normal
+by $n = 5$. The Bernoulli is still visibly stepped at $n = 30$, because a mean
+of thirty zeros and ones can only take thirty-one distinct values. And the ASI
+row — real Indian data — is still leaning right at $n = 30$. Convergence is
+guaranteed; its speed is not.
+
+### Why it works {-}
+
+The intuition is easier than the proof, and it is worth having.
+
+::: {.intuition}
+Roll one die: every face is equally likely. Now roll two and add them.
+
+```{r d2i-dice-sum}
+sums <- outer(1:6, 1:6, "+")
+table(sums)
+```
+
+Seven can be made six ways — $1+6$, $2+5$, $3+4$, $4+3$, $5+2$, $6+1$. Two can
+be made exactly one way. The middle values have more routes to them than the
+extremes do, so they turn up more often.
+
+That is the whole idea. To get an extreme *average*, every draw has to be
+extreme in the same direction, and that is rare. To get a middling average,
+the draws only have to offset one another, and there are enormously many ways
+for that to happen. Adding more draws multiplies the number of routes to the
+middle far faster than the routes to the edges — and the shape that results is
+the bell.
+:::
+
+```{r d2i-dice-plot, echo = FALSE, fig.height = 3.2, fig.cap = "The sum of two dice. Combinations pile up in the middle, and the flat distribution of a single die has already started to become a mound."}
+ds <- as.data.frame(table(sums)); names(ds) <- c("sum", "ways")
+ds$sum <- as.numeric(as.character(ds$sum))
+
+ggplot(ds, aes(sum, ways)) +
+  geom_col(fill = book_palette$fill, width = 0.75) +
+  geom_text(aes(label = ways), vjust = -0.5, size = 3.1,
+            colour = book_palette$ink) +
+  scale_x_continuous(breaks = 2:12) +
+  labs(x = "sum of two dice", y = "number of ways") +
+  theme_book() +
+  theme(axis.text.y = element_blank())
+```
+
+### How large is "large enough"? {-}
+
+Textbooks often give $n \geq 30$. It is a serviceable rule and it is not a law.
+
+How quickly the CLT takes hold depends on how skewed the population is. A
+symmetric population needs very few observations; a badly lopsided one needs
+many more.
+
+```{r d2i-clt-howbig}
+set.seed(9)
+
+# A crude measure of how far a distribution is from symmetric
+skewness <- function(x) mean((x - mean(x))^3) / sd(x)^3
+
+sapply(c(5, 30, 100, 500), function(n)
+  round(skewness(replicate(2000, mean(sample(earn, n, replace = TRUE)))), 2))
+```
+
+```{r u1-clt-popskew, echo = FALSE}
+pop_skew <- round(mean((earn - mean(earn))^3) / sd(earn)^3, 1)
+```
+
+The earnings population has a skewness of about `r pop_skew`. At $n = 5$ the
+sampling distribution is still visibly lopsided. By $n = 100$ it is close to
+symmetric.
+
+::: {.watchout}
+Do not treat $n = 30$ as a guarantee. It is a rule of thumb calibrated on
+mildly non-normal populations.
+
+Economic data is frequently *not* mildly non-normal. Incomes, firm sizes, land
+holdings and city populations all have long right tails, and for these the
+approximation can still be poor at $n = 30$. When your variable is heavily
+skewed, either use a larger sample or check the sampling distribution by
+simulation, exactly as we have just done.
+:::
+
+### Why this is the foundation {-}
+
+::: {.keyidea}
+The Central Limit Theorem is what makes inference practical. Taken with the Law
+of Large Numbers it tells us three things about the sampling distribution of
+the mean, for a sample of reasonable size and *without requiring us to know the
+shape of the population*: where it is centred, how wide it is, and what shape
+it has.
+
+Knowing the centre, the spread and the shape of a distribution is knowing the
+distribution. That is enough to attach a probability to any statement about the
+sample mean, which is precisely what confidence intervals and hypothesis tests
+do.
+
+The next section supplies the notation needed to state all three exactly.
+:::
+
+
 ## A language for randomness {#u1-random-variables}
 
 ::: {.question}
@@ -693,331 +973,6 @@ already have.
 This is why surveys of two thousand people are common and surveys of two lakh
 are not: the second costs a hundred times as much for about seven times the
 precision.
-:::
-
-
-## The Law of Large Numbers {#u1-lln}
-
-::: {.question}
-What happens as the sample gets larger?
-:::
-
-We have now seen twice, in simulation, that sample means cluster around the
-population mean and tighten as the sample grows. The **Law of Large Numbers**
-is the theorem that says this must happen.
-
-::: {.keyidea}
-**Law of Large Numbers.** Let $X_1, X_2, \ldots, X_n$ be independent draws from
-a distribution with mean $\mu$. As $n$ grows, the probability that the sample
-mean $\bar{X}_n$ lies close to $\mu$ approaches 1.
-
-Informally: take a big enough sample and your average will be near the truth.
-:::
-
-### Watching it happen {-}
-
-The cleanest way to see it is to compute a **running mean** — the average after
-one observation, after two, after three, and so on — and watch where it goes.
-
-```{r d2i-lln-run}
-set.seed(20)
-
-rolls_seq <- sample(1:6, size = 5000, replace = TRUE)
-running   <- cumsum(rolls_seq) / seq_along(rolls_seq)
-
-running[c(1, 5, 10, 100, 1000, 5000)]
-```
-
-The first few averages are all over the place. By a thousand rolls the running
-mean has settled close to 3.5, and it stays there.
-
-```{r d2i-lln-plot, echo = FALSE, fig.height = 3.6, fig.cap = "The running average of a fair die, over 5,000 rolls. Early on it swings wildly; it then converges on the expected value of 3.5 and stops moving."}
-ggplot(data.frame(n = seq_along(running), m = running), aes(n, m)) +
-  geom_hline(yintercept = 3.5, colour = book_palette$reject,
-             linetype = "dashed", linewidth = 0.7) +
-  geom_line(colour = book_palette$accent, linewidth = 0.5) +
-  annotate("text", x = 4200, y = 3.5, label = "E[X] = 3.5", vjust = -0.7,
-           colour = book_palette$reject, size = 3.6) +
-  scale_x_log10(labels = scales::comma) +
-  labs(x = "number of rolls (log scale)", y = "running average") +
-  theme_book()
-```
-
-The same thing happens with the earnings data. Draw surveys of growing size and
-watch how far the sample mean sits from the truth:
-
-```{r u1-lln-earnings}
-set.seed(20)
-
-earn <- workers$annual_earnings
-
-lln_earn <- t(sapply(c(10, 50, 100, 500, 2000, 10000), function(n) {
-  errs <- replicate(400, abs(mean(sample(earn, n, replace = TRUE)) - mean(earn)))
-  c(n = n, avg_error = mean(errs))
-}))
-
-round(lln_earn)
-```
-
-The average distance between a sample mean and the truth falls steadily towards
-zero. Nothing about earnings being heavily skewed prevents it — it only means
-a larger sample is needed to get equally close.
-
-### Why it works {-}
-
-Two results do all the work, and both follow from the definition of the sample
-mean.
-
-::: {.theory}
-**The sample mean is centred on the population mean.**
-
-$$
-\begin{aligned}
-E(\bar{X}) &= E\!\left(\frac{X_1 + X_2 + \cdots + X_n}{n}\right) \\[4pt]
-&= \frac{1}{n}\Big(E(X_1) + E(X_2) + \cdots + E(X_n)\Big) \\[4pt]
-&= \frac{1}{n}\underbrace{(\mu + \mu + \cdots + \mu)}_{n \text{ times}} \\[4pt]
-&= \frac{n\mu}{n} \;=\; \mu
-\end{aligned}
-$$
-
-Every draw comes from the same distribution, so each has expectation $\mu$.
-Averaging $n$ of them leaves $\mu$ untouched. This is what **unbiasedness**
-means: the estimator is not systematically too high or too low.
-:::
-
-::: {.theory}
-**Its spread falls as the sample grows.**
-
-$$
-\begin{aligned}
-\mathrm{Var}(\bar{X}) &= \mathrm{Var}\!\left(\frac{1}{n}(X_1 + \cdots + X_n)\right) \\[4pt]
-&= \frac{1}{n^2}\,\mathrm{Var}(X_1 + \cdots + X_n) \\[4pt]
-&= \frac{1}{n^2}\underbrace{(\sigma^2 + \sigma^2 + \cdots + \sigma^2)}_{n \text{ times}} \\[4pt]
-&= \frac{n\sigma^2}{n^2} \;=\; \frac{\sigma^2}{n}
-\end{aligned}
-$$
-
-The step from the first line to the second uses $\mathrm{Var}(aX) = a^2\mathrm{Var}(X)$.
-The step to the third uses **independence**: the variance of a sum equals the
-sum of the variances only when the draws do not influence one another. This is
-the single place where the independence assumption earns its keep.
-:::
-
-Put the two together. The sample mean sits on top of $\mu$, and the width of
-its distribution is $\sigma/\sqrt{n}$, which shrinks to nothing as $n$ grows.
-A distribution centred on the right answer with vanishing spread must
-eventually be concentrated at the right answer. That is the Law of Large
-Numbers.
-
-### What it does not say {-}
-
-::: {.watchout}
-The LLN is the most frequently misapplied result in statistics, usually in the
-following form: *"the coin has come up heads six times in a row, so tails is
-due."*
-
-It is not. The coin has no memory, and the LLN promises nothing of the kind.
-What converges is the **proportion**, and it converges by being progressively
-diluted, not by being corrected.
-
-```{r d2i-gamblers}
-set.seed(5)
-flips <- rbinom(20000, 1, 0.5)
-
-check <- t(sapply(c(10, 100, 1000, 20000), function(n) {
-  h <- sum(flips[1:n])
-  c(tosses = n, heads = h,
-    excess_heads = h - n / 2,        # absolute gap from half
-    proportion   = h / n)            # the thing that converges
-}))
-round(check, 3)
-```
-
-The proportion marches towards 0.5. The **absolute** surplus of heads does not
-shrink — it typically grows. Nothing pushes the count back; the early
-imbalance simply becomes a smaller and smaller share of the total.
-:::
-
-## The Central Limit Theorem {#u1-clt}
-
-::: {.question}
-Why do the sample means look bell-shaped?
-:::
-
-The Law of Large Numbers tells us *where* the sample mean ends up. It says
-nothing about the **shape** of its distribution along the way — and without a
-shape we cannot compute the probability of anything.
-
-That is what the Central Limit Theorem supplies, and it supplies far more than
-seems reasonable.
-
-::: {.keyidea}
-**Central Limit Theorem.** For a sufficiently large sample, the sampling
-distribution of the mean is approximately normal — *whatever the shape of the
-population it was drawn from*.
-
-Standardised,
-
-$$Z = \frac{\bar{X} - \mu}{\sigma / \sqrt{n}} \;\longrightarrow\; N(0, 1)$$
-:::
-
-Read that again, because the strength of the claim is easy to miss. The
-population may be a coin flip taking only the values 0 and 1. It may be a count
-with a long right tail. It may be Indian earnings, where a
-small minority hold most of the total. **It does not matter.** Average
-enough draws and the distribution of that average is bell-shaped.
-
-### Watching it happen {-}
-
-Four populations, chosen to look as unlike a normal distribution as possible.
-For each we take samples of size 1, then 5, then 30, and plot the distribution
-of the sample mean.
-
-```{r d2i-clt-sim}
-set.seed(3)
-
-draw_mean <- function(parent, n) {
-  switch(parent,
-    "Bernoulli"  = mean(rbinom(n, 1, 0.3)),
-    "Poisson"    = mean(rpois(n, 2)),
-    "Uniform"    = mean(runif(n)),
-    "Earnings"   = mean(sample(earn, n, replace = TRUE)))
-}
-
-parents <- c("Bernoulli", "Poisson", "Uniform", "Earnings")
-sizes   <- c(1, 5, 30)
-
-clt <- do.call(rbind, lapply(parents, function(p)
-  do.call(rbind, lapply(sizes, function(n)
-    data.frame(parent = p,
-               n      = factor(paste("n =", n), levels = paste("n =", sizes)),
-               m      = replicate(4000, draw_mean(p, n)))))))
-
-# Standardise within each panel, so all twelve are on one scale and the
-# comparison is purely about shape.
-clt$z <- ave(clt$m, clt$parent, clt$n,
-             FUN = function(x) (x - mean(x)) / sd(x))
-
-head(clt, 3)
-```
-
-```{r d2i-clt-plot, echo = FALSE, fig.height = 6, fig.cap = "Sampling distributions of the mean from four very different populations, standardised, against the standard normal curve in orange. At $n = 1$ you are looking at each population itself. By $n = 30$ all four track the curve — though look closely at the last row."}
-clt$parent <- factor(clt$parent, levels = parents)
-
-ggplot(clt, aes(z)) +
-  geom_histogram(aes(y = after_stat(density)), bins = 45,
-                 fill = book_palette$fill, colour = "white", linewidth = 0.08) +
-  stat_function(fun = dnorm, colour = book_palette$reject, linewidth = 0.6) +
-  facet_grid(parent ~ n) +
-  coord_cartesian(xlim = c(-3.2, 3.2), ylim = c(0, 0.52)) +
-  labs(x = "standardised sample mean", y = NULL) +
-  theme_book(base_size = 10) +
-  theme(axis.text.y = element_blank(),
-        strip.text.y = element_text(angle = 0, hjust = 0))
-```
-
-Read the grid left to right. The first column is each population itself — a
-two-spike coin, a discrete count, a flat rectangle, a badly lopsided earnings
-distribution. Not one of them is normal. By the third column all four are
-tracking the orange curve.
-
-Notice how differently they get there. The uniform population is nearly normal
-by $n = 5$. The Bernoulli is still visibly stepped at $n = 30$, because a mean
-of thirty zeros and ones can only take thirty-one distinct values. And the ASI
-row — real Indian data — is still leaning right at $n = 30$. Convergence is
-guaranteed; its speed is not.
-
-### Why it works {-}
-
-The intuition is easier than the proof, and it is worth having.
-
-::: {.intuition}
-Roll one die: every face is equally likely. Now roll two and add them.
-
-```{r d2i-dice-sum}
-sums <- outer(1:6, 1:6, "+")
-table(sums)
-```
-
-Seven can be made six ways — $1+6$, $2+5$, $3+4$, $4+3$, $5+2$, $6+1$. Two can
-be made exactly one way. The middle values have more routes to them than the
-extremes do, so they turn up more often.
-
-That is the whole idea. To get an extreme *average*, every draw has to be
-extreme in the same direction, and that is rare. To get a middling average,
-the draws only have to offset one another, and there are enormously many ways
-for that to happen. Adding more draws multiplies the number of routes to the
-middle far faster than the routes to the edges — and the shape that results is
-the bell.
-:::
-
-```{r d2i-dice-plot, echo = FALSE, fig.height = 3.2, fig.cap = "The sum of two dice. Combinations pile up in the middle, and the flat distribution of a single die has already started to become a mound."}
-ds <- as.data.frame(table(sums)); names(ds) <- c("sum", "ways")
-ds$sum <- as.numeric(as.character(ds$sum))
-
-ggplot(ds, aes(sum, ways)) +
-  geom_col(fill = book_palette$fill, width = 0.75) +
-  geom_text(aes(label = ways), vjust = -0.5, size = 3.1,
-            colour = book_palette$ink) +
-  scale_x_continuous(breaks = 2:12) +
-  labs(x = "sum of two dice", y = "number of ways") +
-  theme_book() +
-  theme(axis.text.y = element_blank())
-```
-
-### How large is "large enough"? {-}
-
-Textbooks often give $n \geq 30$. It is a serviceable rule and it is not a law.
-
-How quickly the CLT takes hold depends on how skewed the population is. A
-symmetric population needs very few observations; a badly lopsided one needs
-many more.
-
-```{r d2i-clt-howbig}
-set.seed(9)
-
-# A crude measure of how far a distribution is from symmetric
-skewness <- function(x) mean((x - mean(x))^3) / sd(x)^3
-
-sapply(c(5, 30, 100, 500), function(n)
-  round(skewness(replicate(2000, mean(sample(earn, n, replace = TRUE)))), 2))
-```
-
-```{r u1-clt-popskew, echo = FALSE}
-pop_skew <- round(mean((earn - mean(earn))^3) / sd(earn)^3, 1)
-```
-
-The earnings population has a skewness of about `r pop_skew`. At $n = 5$ the
-sampling distribution is still visibly lopsided. By $n = 100$ it is close to
-symmetric.
-
-::: {.watchout}
-Do not treat $n = 30$ as a guarantee. It is a rule of thumb calibrated on
-mildly non-normal populations.
-
-Economic data is frequently *not* mildly non-normal. Incomes, firm sizes, land
-holdings and city populations all have long right tails, and for these the
-approximation can still be poor at $n = 30$. When your variable is heavily
-skewed, either use a larger sample or check the sampling distribution by
-simulation, exactly as we have just done.
-:::
-
-### Why this is the foundation {-}
-
-::: {.keyidea}
-The Central Limit Theorem is what makes inference practical. Because of it we
-can say, for a sample of reasonable size and *without knowing the shape of the
-population*:
-
-- the sample mean is centred on $\mu$ — from the LLN
-- its spread is $\sigma/\sqrt{n}$ — the standard error
-- its shape is approximately normal — from the CLT
-
-Knowing the centre, the spread and the shape of a distribution is knowing the
-distribution. That is enough to attach a probability to any statement about
-$\bar{X}$, which is exactly what confidence intervals and hypothesis tests do.
-
-Everything in the rest of this book rests on these three lines.
 :::
 
 
