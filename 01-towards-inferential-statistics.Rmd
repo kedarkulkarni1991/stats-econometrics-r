@@ -1,41 +1,72 @@
-# From Description to Inference {#description-to-inference}
+# Towards Inferential Statistics {#towards-inference}
 
 ```{r setup-01, include = FALSE}
 source("_common.R")
 library(ggplot2)
 ```
 
-What do a gambler betting on dice, a doctor reading a patient's blood pressure,
-and a pollster forecasting an election have in common?
+Everything you have done with data so far has been **descriptive**. You take a
+set of numbers and summarise it: where the values sit, how far they spread, how
+often each one turns up. Those summaries tell you what the data look like, and
+they stop there. They make no claim about anything you did not measure.
 
-All three are asking the same question: **what are the possible outcomes, and
-how likely is each one?** The gambler wants to know how often a seven comes up.
-The doctor wants to know whether this reading is unusual for a man of this age.
-The pollster wants to know how far a survey of two thousand voters can be
-trusted about ninety crore of them.
+Two kinds of summary do most of the work. Measures of **central tendency** —
+the mean, the median, the mode — say where the data are concentrated. The mean
+matters most of the three, because it balances every observation against the
+others and gives a natural point of reference. Measures of **dispersion** — the
+variance and the standard deviation — say how far individual observations sit
+from that reference. The mean tells you what is typical; the variance tells you
+how much any single observation is likely to depart from it. In the language of
+distributions, these are the first and second moments.
 
-None of them can observe everything they care about. Each has a fragment, and
-each must say something about the whole. That is the problem this book exists to
-solve, and this unit is about why it is hard.
+Numbers on their own hide things, so we also look. A histogram shows how often
+each range of values occurs, and makes symmetry, skewness and outliers visible
+at a glance. A bar chart does the same job for a variable that takes only a few
+distinct values. For a continuous variable, a smooth density curve captures the
+overall shape and makes two datasets easy to compare.
 
-## What we can already do {#d2i-descriptive}
+All of this is essential, and it is always the first thing to do with a new
+dataset. It is how you notice trends, catch errors, and get a feel for what you
+are holding. But notice what it cannot do. **Every descriptive statement is a
+statement about the data in front of you** — and the data in front of you is
+almost never the thing you actually care about.
 
-Start with what is already familiar.
+You have a survey of two thousand households and you want to say something
+about the country. You have factory records for one year and you want to say
+something about Indian industry. You have a class of thirty-three students and
+you want to say something about young Indians. In each case the numbers you can
+compute describe your sample, while the question you want answered is about a
+population you did not observe.
 
-Given a set of numbers, we know how to summarise them. We can ask where they
-are **centred** — the mean, the median, the mode. We can ask how **spread out**
-they are — the variance, the standard deviation, the range. In the language of
-distributions, the first describes the **first moment** and the second the
-**second moment**: where the mass sits, and how far it is scattered.
+That gap is the problem, and it comes with a specific difficulty. Draw a
+different sample from the same population and you will get different numbers —
+a different mean, a different standard deviation. Every statistic you compute
+is part fact about the population and part accident of who happened to end up
+in your sample. Looking at one sample on its own, you have no way of telling
+how much of your answer is which.
 
-We also know how to *look* at data rather than only compute from it. A
-histogram shows the frequency of numerical values and reveals symmetry,
-skewness and outliers at a glance. A bar chart does the same for a discrete
-variable. For a continuous variable, a smooth density curve captures the
-overall shape.
+**Inferential statistics** is the set of tools for making that leap and being
+honest about it. It works by asking a question that sounds strange the first
+time you hear it: not "what does my sample say?" but "if I drew samples like
+this over and over, how much would the answer move around?" Once you can answer
+that, you can say how far to trust the one sample you actually have.
 
-Here is all of that on Indian data. The Annual Survey of Industries records
-value added by registered factories in each state:
+This unit builds that idea from the ground up. We begin with what a
+distribution is, and why it needs randomness to exist at all. We then meet the
+**sampling distribution** — the pattern formed not by raw observations but by a
+statistic computed from repeated samples — which is the pivot the whole subject
+turns on. The two units that follow take up the theorems that make it work: the
+**Law of Large Numbers**, which says the sample mean settles onto the
+population mean as samples grow, and the **Central Limit Theorem**, which says
+the shape of a sampling distribution is close to normal no matter what the
+population looks like.
+
+## Descriptive statistics, briefly {#d2i-descriptive}
+
+Before leaving description behind, it is worth seeing the tools on real data.
+
+The Annual Survey of Industries records value added by registered factories
+in each Indian state:
 
 ```{r d2i-desc}
 asi <- read.csv("data/asi-state-gva.csv")
@@ -53,17 +84,6 @@ c(states = nrow(asi_2010),
 Nothing here is mysterious. We have taken `r nrow(subset(read.csv("data/asi-state-gva.csv"), yr == 2010 & !is.na(gva)))`
 numbers and replaced them with four. That is **descriptive statistics**: the
 art of summarising the data you have so that a human can hold it in mind.
-
-::: {.keyidea}
-Descriptive statistics is genuinely useful and genuinely limited.
-
-Useful, because it is always the first thing you should do with data. Trends,
-outliers, data-entry errors and interesting patterns all show up here, and no
-amount of later sophistication rescues an analysis that skipped this step.
-
-Limited, because **every statement it makes is about the data in front of
-you** — and that is almost never what you actually want to know.
-:::
 
 ## Where description runs out {#d2i-two-questions}
 
@@ -620,11 +640,8 @@ We have watched sample means centre on the population mean and tighten as
 samples grow. We have not yet *proved* either claim, and we have said nothing
 about the **shape** of a sampling distribution.
 
-Those are the next steps. The distributions unit supplies the vocabulary —
-binomial, Poisson, normal, discrete against continuous — for describing
-populations in the first place. Then the **Law of Large Numbers** proves the
-convergence we just watched happen, and the **Central Limit Theorem** delivers
-the genuinely surprising result: the shape of a sampling distribution is
-approximately normal *whatever the population looks like*. Not the deck of
-cards, not the ASI, not anything. That is what turns "we are probably close"
-into a number.
+Those are the next three units. First the distributions themselves — binomial,
+Poisson, normal, discrete against continuous — which describe a population
+completely and yet, on their own, still tell you nothing about how a *sample*
+from it will behave. Seeing exactly where they stop short is what makes the two
+theorems feel necessary rather than arbitrary.

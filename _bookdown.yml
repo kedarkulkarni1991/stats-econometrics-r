@@ -9,7 +9,7 @@ new_session: false
 # machinery that rests on them.
 rmd_files:
   - "index.Rmd"
-  - "01-description-to-inference.Rmd"
+  - "01-towards-inferential-statistics.Rmd"
   - "06-hypothesis-testing-one-sample.Rmd"
 
 language:
