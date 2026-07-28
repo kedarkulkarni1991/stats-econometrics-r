@@ -246,84 +246,96 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <div class="question">
 <p>Once variation exists, how do we describe it?</p>
 </div>
-<p>A die has six outcomes and you can list them. Real data does not work like
-that.</p>
-<p>Here are the annual earnings of twenty thousand Indian workers.</p>
+<p>Variation is what makes statistics necessary. The next question is equally
+natural: how do we describe it?</p>
+<p>A die has only six possible outcomes, so its behaviour is easy to summarise.
+Real datasets are rather different. Consider the annual earnings of twenty
+thousand Indian workers.</p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="u1-describing.html#cb10-1" tabindex="-1"></a>workers <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/wages-india-synthetic.csv&quot;</span>)</span>
 <span id="cb10-2"><a href="u1-describing.html#cb10-2" tabindex="-1"></a></span>
 <span id="cb10-3"><a href="u1-describing.html#cb10-3" tabindex="-1"></a><span class="fu">nrow</span>(workers)</span></code></pre></div>
 <pre><code>#&gt; [1] 20000</code></pre>
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="u1-describing.html#cb12-1" tabindex="-1"></a><span class="fu">head</span>(workers<span class="sc">$</span>annual_earnings)</span></code></pre></div>
 <pre><code>#&gt; [1]  17773  60847 115739  34834  30784   2068</code></pre>
-<p>Twenty thousand numbers, no two households alike. Reading them one at a time
-would take a day and teach you nothing. We need to compress.</p>
-<div class="watchout">
-<p>A word about this data. The Indian Human Development Survey records exactly
-these variables for real households, and it is the natural source for a book
-like this one. It cannot be redistributed, so the file used here is a
-<strong>simulation calibrated to IHDS-II</strong> — the return to a year of education, the
-gender gap, the urban premium and the shape of the earnings distribution all
-match the real survey to within a rounding error.</p>
-<p>Everything you learn from it transfers. But it is simulated, and you should
-never be left guessing about that. See <code>data/README.md</code>.</p>
-</div>
-<p>The first thing to do with any dataset is look at it.</p>
+<p>This dataset is simulated, but it closely resembles the earnings distribution
+observed in large household surveys such as the India Human Development Survey
+(IHDS). Throughout this book, we will use it to illustrate statistical ideas
+and methods.</p>
+<p>Twenty thousand numbers are too many for anyone to understand by inspection. We
+need ways of reducing the data without losing its essential features. The first
+step is simply to look at it.</p>
 <div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="u1-describing.html#cb14-1" tabindex="-1"></a><span class="fu">ggplot</span>(workers, <span class="fu">aes</span>(annual_earnings <span class="sc">/</span> <span class="dv">1000</span>)) <span class="sc">+</span></span>
 <span id="cb14-2"><a href="u1-describing.html#cb14-2" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">bins =</span> <span class="dv">60</span>, <span class="at">fill =</span> book_palette<span class="sc">$</span>fill, <span class="at">colour =</span> <span class="st">&quot;white&quot;</span>,</span>
 <span id="cb14-3"><a href="u1-describing.html#cb14-3" tabindex="-1"></a>                 <span class="at">linewidth =</span> <span class="fl">0.15</span>) <span class="sc">+</span></span>
 <span id="cb14-4"><a href="u1-describing.html#cb14-4" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span>comma) <span class="sc">+</span></span>
-<span id="cb14-5"><a href="u1-describing.html#cb14-5" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;annual earnings (₹ thousand)&quot;</span>, <span class="at">y =</span> <span class="st">&quot;number of workers&quot;</span>) <span class="sc">+</span></span>
-<span id="cb14-6"><a href="u1-describing.html#cb14-6" tabindex="-1"></a>  <span class="fu">theme_book</span>()</span></code></pre></div>
+<span id="cb14-5"><a href="u1-describing.html#cb14-5" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Annual earnings (₹ thousand)&quot;</span>,</span>
+<span id="cb14-6"><a href="u1-describing.html#cb14-6" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">&quot;Number of workers&quot;</span>) <span class="sc">+</span></span>
+<span id="cb14-7"><a href="u1-describing.html#cb14-7" tabindex="-1"></a>  <span class="fu">theme_book</span>()</span></code></pre></div>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:u1-earnings-hist"></span>
-<img src="stats-econometrics-r_files/figure-html/u1-earnings-hist-1.png" alt="Annual earnings of 20,000 Indian workers. Most people are bunched at the left; a thin tail runs a long way right." width="90%" />
+<img src="stats-econometrics-r_files/figure-html/u1-earnings-hist-1.png" alt="Annual earnings of 20,000 Indian workers." width="90%" />
 <p class="caption">
-Figure 1.2: Annual earnings of 20,000 Indian workers. Most people are bunched at the left; a thin tail runs a long way right.
+Figure 1.2: Annual earnings of 20,000 Indian workers.
 </p>
 </div>
-<p>The shape tells you a great deal at a glance. Earnings are not spread evenly.
-Most workers are packed into the left, and a small number stretch far to the
-right. The distribution is <strong>skewed</strong>.</p>
-<p>Now the summaries. Where is the centre?</p>
+<p>The histogram immediately reveals two important features. Most workers earn
+relatively modest incomes, while a much smaller number earn substantially more.
+The distribution is therefore concentrated on the left with a long tail
+extending to the right — a pattern known as <strong>right skewness</strong>.</p>
+<p>One picture already tells us a great deal, but we can describe the same
+distribution more precisely using a few numerical summaries.</p>
 <div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="u1-describing.html#cb15-1" tabindex="-1"></a><span class="fu">c</span>(<span class="at">mean   =</span> <span class="fu">mean</span>(workers<span class="sc">$</span>annual_earnings),</span>
 <span id="cb15-2"><a href="u1-describing.html#cb15-2" tabindex="-1"></a>  <span class="at">median =</span> <span class="fu">median</span>(workers<span class="sc">$</span>annual_earnings))</span></code></pre></div>
 <pre><code>#&gt;   mean median 
 #&gt;  54181  24220</code></pre>
-<p>Two answers, and they disagree — the mean is more than twice the median. The
-<strong>mean</strong> balances every observation against the others, so a handful of very
-high earners pull it upward. The <strong>median</strong> simply splits the group in half,
-and does not care how far the top of the distribution extends.</p>
-<p>How spread out are they?</p>
+<p>The mean annual earnings are more than twice the median. This difference
+reflects the long right tail visible in the histogram. A relatively small
+number of high earners pull the mean upwards, whereas the median simply divides
+the distribution into two equal halves and is much less affected by extreme
+values.</p>
+<p>Variation also concerns how widely observations are dispersed.</p>
 <div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="u1-describing.html#cb17-1" tabindex="-1"></a><span class="fu">c</span>(<span class="at">sd  =</span> <span class="fu">sd</span>(workers<span class="sc">$</span>annual_earnings),</span>
 <span id="cb17-2"><a href="u1-describing.html#cb17-2" tabindex="-1"></a>  <span class="at">iqr =</span> <span class="fu">IQR</span>(workers<span class="sc">$</span>annual_earnings))</span></code></pre></div>
 <pre><code>#&gt;     sd    iqr 
 #&gt; 100141  46756</code></pre>
-<p>The <strong>standard deviation</strong> measures the typical distance of an observation from
-the mean. The <strong>interquartile range</strong> gives the width of the middle half. Both
-say the same thing here: the spread is enormous relative to the centre.</p>
-<p>And a smooth version of the shape, which makes comparison across groups easy:</p>
+<p>The <strong>standard deviation</strong> measures the typical distance of observations from
+the mean, while the <strong>interquartile range</strong> measures the spread of the middle
+fifty per cent of the distribution. Together they indicate that earnings vary
+considerably across workers.</p>
+<p>Sometimes we are interested not only in the overall distribution but also in
+how it differs across groups. A density curve provides a smooth representation
+of the same data and makes such comparisons easier.</p>
 <div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="u1-describing.html#cb19-1" tabindex="-1"></a><span class="fu">ggplot</span>(workers, <span class="fu">aes</span>(annual_earnings <span class="sc">/</span> <span class="dv">1000</span>, <span class="at">colour =</span> residence)) <span class="sc">+</span></span>
 <span id="cb19-2"><a href="u1-describing.html#cb19-2" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="at">linewidth =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
 <span id="cb19-3"><a href="u1-describing.html#cb19-3" tabindex="-1"></a>  <span class="fu">scale_colour_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="at">Rural =</span> book_palette<span class="sc">$</span>ink,</span>
-<span id="cb19-4"><a href="u1-describing.html#cb19-4" tabindex="-1"></a>                                 <span class="at">Urban =</span> book_palette<span class="sc">$</span>accent), <span class="at">name =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
-<span id="cb19-5"><a href="u1-describing.html#cb19-5" tabindex="-1"></a>  <span class="fu">coord_cartesian</span>(<span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">400</span>)) <span class="sc">+</span></span>
-<span id="cb19-6"><a href="u1-describing.html#cb19-6" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;annual earnings (₹ thousand)&quot;</span>, <span class="at">y =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
-<span id="cb19-7"><a href="u1-describing.html#cb19-7" tabindex="-1"></a>  <span class="fu">theme_book</span>() <span class="sc">+</span></span>
-<span id="cb19-8"><a href="u1-describing.html#cb19-8" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.y =</span> <span class="fu">element_blank</span>(), <span class="at">legend.position =</span> <span class="st">&quot;top&quot;</span>)</span></code></pre></div>
+<span id="cb19-4"><a href="u1-describing.html#cb19-4" tabindex="-1"></a>                                 <span class="at">Urban =</span> book_palette<span class="sc">$</span>accent),</span>
+<span id="cb19-5"><a href="u1-describing.html#cb19-5" tabindex="-1"></a>                      <span class="at">name =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
+<span id="cb19-6"><a href="u1-describing.html#cb19-6" tabindex="-1"></a>  <span class="fu">coord_cartesian</span>(<span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">400</span>)) <span class="sc">+</span></span>
+<span id="cb19-7"><a href="u1-describing.html#cb19-7" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Annual earnings (₹ thousand)&quot;</span>, <span class="at">y =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
+<span id="cb19-8"><a href="u1-describing.html#cb19-8" tabindex="-1"></a>  <span class="fu">theme_book</span>() <span class="sc">+</span></span>
+<span id="cb19-9"><a href="u1-describing.html#cb19-9" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.y =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb19-10"><a href="u1-describing.html#cb19-10" tabindex="-1"></a>        <span class="at">legend.position =</span> <span class="st">&quot;top&quot;</span>)</span></code></pre></div>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:u1-density"></span>
-<img src="stats-econometrics-r_files/figure-html/u1-density-1.png" alt="The same data as a density curve, split by where people live. The urban distribution sits to the right of the rural one throughout." width="90%" />
+<img src="stats-econometrics-r_files/figure-html/u1-density-1.png" alt="Density curves for rural and urban workers." width="90%" />
 <p class="caption">
-Figure 1.3: The same data as a density curve, split by where people live. The urban distribution sits to the right of the rural one throughout.
+Figure 1.3: Density curves for rural and urban workers.
 </p>
 </div>
-<p>Look at what has happened. Twenty thousand numbers have become a picture and
-four figures: a centre, a spread, a shape, and a comparison between two groups.
-Nothing has been invented and nothing has been assumed. We have simply replaced
-tens of thousands of observations with a handful of carefully chosen summaries.</p>
-<p>This is <strong>descriptive statistics</strong>: the business of summarising the data in
-front of you so that a human mind can hold it.</p>
-<p>It is genuinely useful and it is always the first thing to do. Trends,
-outliers, data-entry errors and interesting patterns all surface here, and no
-amount of later sophistication rescues an analysis that skipped this step.</p>
+<p>The entire urban distribution lies to the right of the rural distribution,
+indicating that urban workers generally earn more than rural workers. The
+density curve makes this comparison immediately visible without requiring us to
+examine thousands of individual observations.</p>
+<p>By this point, twenty thousand observations have been reduced to a handful of
+informative summaries: a picture of the distribution, measures of its centre
+and spread, and a comparison across groups. This is the purpose of
+<strong>descriptive statistics</strong>. Rather than examining every observation
+individually, we summarise the data in ways that preserve its most important
+features.</p>
+<p>Descriptive statistics is always the starting point of a statistical analysis.
+Before asking whether a result is statistically significant or whether it can
+be generalised beyond the data at hand, we must first understand what the
+observed data look like. Only then can we ask the central question of this
+unit: if we had collected a different sample, would these summaries have been
+different?</p>
 </div>
 <script>
 // Solutions are written as plain fenced divs in the source, so the PDF edition

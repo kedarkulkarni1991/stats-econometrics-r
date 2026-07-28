@@ -156,103 +156,112 @@ process that could have produced many others**.
 Once variation exists, how do we describe it?
 :::
 
-A die has six outcomes and you can list them. Real data does not work like
-that.
+Variation is what makes statistics necessary. The next question is equally
+natural: how do we describe it?
 
-Here are the annual earnings of twenty thousand Indian workers.
+A die has only six possible outcomes, so its behaviour is easy to summarise.
+Real datasets are rather different. Consider the annual earnings of twenty
+thousand Indian workers.
 
 ```{r u1-earnings}
 workers <- read.csv("data/wages-india-synthetic.csv")
 
 nrow(workers)
+
 head(workers$annual_earnings)
 ```
 
-Twenty thousand numbers, no two households alike. Reading them one at a time
-would take a day and teach you nothing. We need to compress.
+This dataset is simulated, but it closely resembles the earnings distribution
+observed in large household surveys such as the India Human Development Survey
+(IHDS). Throughout this book, we will use it to illustrate statistical ideas
+and methods.
 
-::: {.watchout}
-A word about this data. The Indian Human Development Survey records exactly
-these variables for real households, and it is the natural source for a book
-like this one. It cannot be redistributed, so the file used here is a
-**simulation calibrated to IHDS-II** — the return to a year of education, the
-gender gap, the urban premium and the shape of the earnings distribution all
-match the real survey to within a rounding error.
+Twenty thousand numbers are too many for anyone to understand by inspection. We
+need ways of reducing the data without losing its essential features. The first
+step is simply to look at it.
 
-Everything you learn from it transfers. But it is simulated, and you should
-never be left guessing about that. See `data/README.md`.
-:::
-
-The first thing to do with any dataset is look at it.
-
-```{r u1-earnings-hist, fig.height = 3.6, fig.cap = "Annual earnings of 20,000 Indian workers. Most people are bunched at the left; a thin tail runs a long way right."}
+```{r u1-earnings-hist, fig.height = 3.6, fig.cap = "Annual earnings of 20,000 Indian workers."}
 ggplot(workers, aes(annual_earnings / 1000)) +
   geom_histogram(bins = 60, fill = book_palette$fill, colour = "white",
                  linewidth = 0.15) +
   scale_x_continuous(labels = scales::comma) +
-  labs(x = "annual earnings (₹ thousand)", y = "number of workers") +
+  labs(x = "Annual earnings (₹ thousand)",
+       y = "Number of workers") +
   theme_book()
 ```
 
-The shape tells you a great deal at a glance. Earnings are not spread evenly.
-Most workers are packed into the left, and a small number stretch far to the
-right. The distribution is **skewed**.
+The histogram immediately reveals two important features. Most workers earn
+relatively modest incomes, while a much smaller number earn substantially more.
+The distribution is therefore concentrated on the left with a long tail
+extending to the right — a pattern known as **right skewness**.
 
-Now the summaries. Where is the centre?
+One picture already tells us a great deal, but we can describe the same
+distribution more precisely using a few numerical summaries.
 
 ```{r u1-centre}
 c(mean   = mean(workers$annual_earnings),
   median = median(workers$annual_earnings))
 ```
 
-Two answers, and they disagree — the mean is more than twice the median. The
-**mean** balances every observation against the others, so a handful of very
-high earners pull it upward. The **median** simply splits the group in half,
-and does not care how far the top of the distribution extends.
+The mean annual earnings are more than twice the median. This difference
+reflects the long right tail visible in the histogram. A relatively small
+number of high earners pull the mean upwards, whereas the median simply divides
+the distribution into two equal halves and is much less affected by extreme
+values.
 
-How spread out are they?
+Variation also concerns how widely observations are dispersed.
 
 ```{r u1-spread}
 c(sd  = sd(workers$annual_earnings),
   iqr = IQR(workers$annual_earnings))
 ```
 
-The **standard deviation** measures the typical distance of an observation from
-the mean. The **interquartile range** gives the width of the middle half. Both
-say the same thing here: the spread is enormous relative to the centre.
+The **standard deviation** measures the typical distance of observations from
+the mean, while the **interquartile range** measures the spread of the middle
+fifty per cent of the distribution. Together they indicate that earnings vary
+considerably across workers.
 
-And a smooth version of the shape, which makes comparison across groups easy:
+Sometimes we are interested not only in the overall distribution but also in
+how it differs across groups. A density curve provides a smooth representation
+of the same data and makes such comparisons easier.
 
-```{r u1-density, fig.height = 3.4, fig.cap = "The same data as a density curve, split by where people live. The urban distribution sits to the right of the rural one throughout."}
+```{r u1-density, fig.height = 3.4, fig.cap = "Density curves for rural and urban workers."}
 ggplot(workers, aes(annual_earnings / 1000, colour = residence)) +
   geom_density(linewidth = 0.8) +
   scale_colour_manual(values = c(Rural = book_palette$ink,
-                                 Urban = book_palette$accent), name = NULL) +
+                                 Urban = book_palette$accent),
+                      name = NULL) +
   coord_cartesian(xlim = c(0, 400)) +
-  labs(x = "annual earnings (₹ thousand)", y = NULL) +
+  labs(x = "Annual earnings (₹ thousand)", y = NULL) +
   theme_book() +
-  theme(axis.text.y = element_blank(), legend.position = "top")
+  theme(axis.text.y = element_blank(),
+        legend.position = "top")
 ```
 
-Look at what has happened. Twenty thousand numbers have become a picture and
-four figures: a centre, a spread, a shape, and a comparison between two groups.
-Nothing has been invented and nothing has been assumed. We have simply replaced
-tens of thousands of observations with a handful of carefully chosen summaries.
+The entire urban distribution lies to the right of the rural distribution,
+indicating that urban workers generally earn more than rural workers. The
+density curve makes this comparison immediately visible without requiring us to
+examine thousands of individual observations.
 
-This is **descriptive statistics**: the business of summarising the data in
-front of you so that a human mind can hold it.
+By this point, twenty thousand observations have been reduced to a handful of
+informative summaries: a picture of the distribution, measures of its centre
+and spread, and a comparison across groups. This is the purpose of
+**descriptive statistics**. Rather than examining every observation
+individually, we summarise the data in ways that preserve its most important
+features.
 
-It is genuinely useful and it is always the first thing to do. Trends,
-outliers, data-entry errors and interesting patterns all surface here, and no
-amount of later sophistication rescues an analysis that skipped this step.
+Descriptive statistics is always the starting point of a statistical analysis.
+Before asking whether a result is statistically significant or whether it can
+be generalised beyond the data at hand, we must first understand what the
+observed data look like. Only then can we ask the central question of this
+unit: if we had collected a different sample, would these summaries have been
+different?
 
 ## Why description isn't enough {#u1-not-enough}
 
 ::: {.question}
 Why isn't description enough?
 :::
-
-Here is the question that changes everything.
 
 Those twenty thousand workers were not chosen by anyone in particular. A survey
 team went out, followed a sampling design, and ended up with these people
