@@ -428,7 +428,7 @@ Several features stand out immediately.
 
 First, the sample means are not all identical. Even though every sample was
 drawn from the same population using the same procedure, each survey produced a
-slightly different estimate of average earnings.
+slightly different average.
 
 Second, the variation is not arbitrary. Most of the sample means cluster within
 a relatively narrow range, while only a few lie far from the centre. Extreme
@@ -468,18 +468,19 @@ single sample can provide reliable information about an entire population.
 ## Why do larger samples give more reliable answers? {#u1-lln}
 
 ::: {.question}
-What determines how tightly the sample means cluster?
+What determines how much they vary?
 :::
 
 Figure \@ref(fig:u1-many-plot) answered one important question. Repeating the
-survey many times does not produce wildly different estimates of the population
-mean. Instead, the sample means cluster around a common value.
+survey many times does not produce wildly different
+sample means. Instead, the sample means cluster around the population mean.
 
-A natural question follows. What determines how tightly they cluster?
+A natural question follows. What determines how much they vary?
 
 One possibility is the size of the survey itself. Intuition suggests that a
-survey of twenty workers should produce less reliable estimates than a survey
-of two thousand workers. But how much difference does sample size really make?
+survey of twenty workers should produce averages that vary much more from one
+survey to the next than a survey of two thousand workers. But how much
+difference does sample size really make?
 
 To find out, let us repeat the experiment from the previous section several
 times. Instead of fixing the sample size at 2,000 workers, we consider surveys
@@ -515,13 +516,13 @@ The pattern is unmistakable.
 
 When the sample contains only a small number of workers, the sample means are
 widely dispersed. Some surveys produce averages well above the population mean,
-while others fall well below it. The estimates vary substantially from one
+while others fall well below it. The averages vary substantially from one
 survey to the next.
 
 As the sample size increases, the sampling distribution becomes progressively
 narrower. The sample means remain centred at the population mean, but they
 fluctuate much less. Large departures from the population mean become
-increasingly uncommon, while estimates close to the population mean become
+increasingly uncommon, while averages close to the population mean become
 increasingly likely.
 
 ```{r u1-lln-spread}

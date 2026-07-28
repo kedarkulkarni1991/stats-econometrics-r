@@ -237,15 +237,16 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <div id="u1-lln" class="section level2 hasAnchor" number="1.5">
 <h2><span class="header-section-number">1.5</span> Why do larger samples give more reliable answers?<a href="u1-lln.html#u1-lln" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <div class="question">
-<p>What determines how tightly the sample means cluster?</p>
+<p>What determines how much they vary?</p>
 </div>
 <p>Figure <a href="u1-frequentist.html#fig:u1-many-plot">1.5</a> answered one important question. Repeating the
-survey many times does not produce wildly different estimates of the population
-mean. Instead, the sample means cluster around a common value.</p>
-<p>A natural question follows. What determines how tightly they cluster?</p>
+survey many times does not produce wildly different
+sample means. Instead, the sample means cluster around the population mean.</p>
+<p>A natural question follows. What determines how much they vary?</p>
 <p>One possibility is the size of the survey itself. Intuition suggests that a
-survey of twenty workers should produce less reliable estimates than a survey
-of two thousand workers. But how much difference does sample size really make?</p>
+survey of twenty workers should produce averages that vary much more from one
+survey to the next than a survey of two thousand workers. But how much
+difference does sample size really make?</p>
 <p>To find out, let us repeat the experiment from the previous section several
 times. Instead of fixing the sample size at 2,000 workers, we consider surveys
 of different sizes. For each sample size we draw one thousand independent
@@ -268,12 +269,12 @@ Figure 1.6: Sampling distributions of the sample mean for different sample sizes
 <p>The pattern is unmistakable.</p>
 <p>When the sample contains only a small number of workers, the sample means are
 widely dispersed. Some surveys produce averages well above the population mean,
-while others fall well below it. The estimates vary substantially from one
+while others fall well below it. The averages vary substantially from one
 survey to the next.</p>
 <p>As the sample size increases, the sampling distribution becomes progressively
 narrower. The sample means remain centred at the population mean, but they
 fluctuate much less. Large departures from the population mean become
-increasingly uncommon, while estimates close to the population mean become
+increasingly uncommon, while averages close to the population mean become
 increasingly likely.</p>
 <div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="u1-lln.html#cb29-1" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">tapply</span>(by_size<span class="sc">$</span>m, by_size<span class="sc">$</span>n, sd))</span></code></pre></div>
 <pre><code>#&gt;   n = 20  n = 100  n = 500 n = 2000 
