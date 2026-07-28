@@ -10,7 +10,8 @@ bookdown::gitbook:
       before: |
         <li class="toc-logo"><a href="./"><strong>Statistics &amp; Econometrics with R</strong></a></li>
       after: |
-        <li class="toc-after">Kedar Kulkarni · Azim Premji University</li>
+        <li class="toc-after">Kedar Kulkarni · Azim Premji University<br>
+        <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a></li>
     toolbar:
       position: fixed
     search:

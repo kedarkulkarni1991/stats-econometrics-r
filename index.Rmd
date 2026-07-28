@@ -111,3 +111,33 @@ months from now.
 If a result cannot be reproduced by running a script from top to bottom, it is
 not yet a result. It is a rumour.
 :::
+
+One dataset deserves a word. The class survey was collected from students in
+this course, and originally carried their names. Those were replaced with
+anonymous ids before this book was ever published — which is itself the first
+lesson of working with data about people. You will meet the same idea again
+when we discuss what a sample is, and what you owe the people in it.
+
+## Licence and citation {-}
+
+This book is free, in both senses. The text, figures, exercises and datasets
+are released under
+[Creative Commons Attribution 4.0](https://creativecommons.org/licenses/by/4.0/),
+and the code under the [MIT licence](https://opensource.org/licenses/MIT).
+
+You may copy it, print it, translate it, remix it, teach from it, and build on
+it — for any purpose, including commercially. The only condition is that you
+credit the source.
+
+If you spot an error, there is a **pencil icon at the top of every page**. It
+opens that chapter's source on GitHub, where you can fix the mistake and send
+it back without installing anything. Corrections from students are genuinely
+welcome; several of the sharper points in this book exist because someone
+asked why.
+
+To cite:
+
+> Kulkarni, K. (2026). *Statistics and Econometrics with R.*
+> Azim Premji University.
+> <https://kedarkulkarni1991.github.io/stats-econometrics-r/>
+> Licensed under CC BY 4.0.

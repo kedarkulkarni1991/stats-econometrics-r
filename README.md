@@ -58,7 +58,23 @@ build if an identifying column ever reappears — run it before you publish.
 
 ## Licence
 
-Suggested: [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/)
-for the text, MIT for the code. Add a `LICENSE` file to make it official —
-without one, others have no legal right to reuse the material even though they
-can read it.
+**Text, figures, exercises and datasets:**
+[CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) — see [LICENSE](LICENSE).
+You may share and adapt this material for any purpose, including commercially,
+provided you give appropriate credit.
+
+**Code:** [MIT](LICENSE-CODE).
+
+CC BY is the licence the open educational resources community recommends, and
+what OpenStax and most institutional OER programmes use. The deliberate choice
+here is *not* adding a NonCommercial clause: "commercial" is far broader than
+it sounds and would block a fee-charging university from putting these
+chapters in a course pack, a translator from selling a printed edition at
+cost, and anyone who is unsure from using it at all. Requiring attribution and
+otherwise getting out of the way spreads teaching material further.
+
+### How to cite
+
+> Kulkarni, K. (2026). *Statistics and Econometrics with R.* Azim Premji
+> University. https://kedarkulkarni1991.github.io/stats-econometrics-r/
+> Licensed under CC BY 4.0.
