@@ -366,9 +366,11 @@ really were exactly 165, your particular 36 students would almost never average
 exactly 165. Some samples come out high, some low. <strong>A gap between the sample
 and the claim is guaranteed to exist even when the claim is perfectly true.</strong></p>
 </div>
-<p>Let us actually watch that happen. Suppose we <em>know</em> the truth: the population
-mean is exactly 165 cm, with a standard deviation of 8 cm. Now let us draw a
-sample of 36 students, ten separate times, and look at the sample means.</p>
+<p>Let us actually watch that happen.</p>
+<p>We obviously do not know whether the administration is correct. But imagine,
+just for a moment, that they are. If the true average really were 165 cm, with
+a standard deviation of 8 cm, what kinds of sample means would we expect to
+see? Draw a sample of 36 students, ten separate times, and look.</p>
 <div class="sourceCode" id="cb110"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb110-1"><a href="os-problem.html#cb110-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
 <span id="cb110-2"><a href="os-problem.html#cb110-2" tabindex="-1"></a></span>
 <span id="cb110-3"><a href="os-problem.html#cb110-3" tabindex="-1"></a>ten_samples <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">10</span>, <span class="fu">mean</span>(<span class="fu">rnorm</span>(<span class="at">n =</span> <span class="dv">36</span>, <span class="at">mean =</span> <span class="dv">165</span>, <span class="at">sd =</span> <span class="dv">8</span>)))</span>
@@ -383,8 +385,9 @@ real question is:</p>
 students come out as far from 165 as ours did?</strong></p>
 <p>If the answer is “quite often” — then our sample is unremarkable, and we have no
 grounds to call anyone a liar.</p>
-<p>If the answer is “almost never” — then either something very unusual happened to
-us, or the claim is false. We go with the second explanation.</p>
+<p>If the answer is “almost never” — then either something very unusual happened
+to us, or the administration’s claim is not correct. In statistics we usually
+regard the second explanation as the more convincing one.</p>
 </div>
 <p>We can answer that question by brute force before we do any algebra at all.
 Let’s draw not ten samples but fifty thousand, still assuming the claim is true,
@@ -398,14 +401,21 @@ and count how many stray at least 3 cm away from 165 (as ours did).</p>
 <span id="cb112-7"><a href="os-problem.html#cb112-7" tabindex="-1"></a></span>
 <span id="cb112-8"><a href="os-problem.html#cb112-8" tabindex="-1"></a><span class="fu">mean</span>(<span class="fu">abs</span>(many_means <span class="sc">-</span> <span class="dv">165</span>) <span class="sc">&gt;=</span> observed_gap)</span></code></pre></div>
 <pre><code>#&gt; [1] 0.02424</code></pre>
-<p>About 2.5% of the time. So if the administration is telling the truth, a sample
-like ours turns up roughly once in forty tries. That is rare enough to be
-suspicious — and by the end of this chapter you will be able to get that same
-number exactly, in one line, with no simulation at all.</p>
+<p>About 2.4% of the
+time. So if the administration is telling the truth, a sample like ours turns
+up roughly once in forty tries.</p>
+<p>We have now answered the question using simulation alone, and without naming a
+single technical term. If the claim were true, a sample mean at least 3 cm away
+from 165 would appear about once in forty surveys.</p>
+<p>That makes our sample unusual. But how unusual is unusual <em>enough</em>? Once in
+forty is rare; would once in ten have been rare enough? Once in a hundred? The
+rest of this chapter builds a systematic way of answering exactly that — and by
+the end of it you will be able to obtain the number above exactly, in one line,
+with no simulation at all.</p>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:os-sim-plot"></span>
-<img src="stats-econometrics-r_files/figure-html/os-sim-plot-1.png" alt="50,000 sample means drawn from a population that truly averages 165 cm. Our observed sample mean of 168 sits far out in the tail." width="90%"  />
+<img src="stats-econometrics-r_files/figure-html/os-sim-plot-1.png" alt="Fifty thousand sample means, each from 36 students, drawn from a population whose true mean is 165 cm (dashed line). The solid line marks our observed sample mean of 168 cm. Only about 2.4% of the simulated samples fall at least this far from the claimed value in either direction, which is what makes our sample surprising if the claim is true." width="90%"  />
 <p class="caption">
-Figure 4.1: 50,000 sample means drawn from a population that truly averages 165 cm. Our observed sample mean of 168 sits far out in the tail.
+Figure 4.1: Fifty thousand sample means, each from 36 students, drawn from a population whose true mean is 165 cm (dashed line). The solid line marks our observed sample mean of 168 cm. Only about 2.4% of the simulated samples fall at least this far from the claimed value in either direction, which is what makes our sample surprising if the claim is true.
 </p>
 </div>
 </div>
