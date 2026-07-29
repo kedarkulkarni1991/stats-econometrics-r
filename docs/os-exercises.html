@@ -175,7 +175,7 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="u1-clt.html"><a href="u1-clt.html#a-simulation"><i class="fa fa-check"></i>A simulation</a></li>
 <li class="chapter" data-level="" data-path="u1-clt.html"><a href="u1-clt.html#an-intuition"><i class="fa fa-check"></i>An intuition</a></li>
 <li class="chapter" data-level="" data-path="u1-clt.html"><a href="u1-clt.html#how-large-is-large-enough"><i class="fa fa-check"></i>How large is “large enough”?</a></li>
-<li class="chapter" data-level="" data-path="u1-clt.html"><a href="u1-clt.html#why-inference-is-possible"><i class="fa fa-check"></i>Why inference is possible</a></li>
+<li class="chapter" data-level="" data-path="u1-clt.html"><a href="u1-clt.html#why-this-matters"><i class="fa fa-check"></i>Why this matters</a></li>
 </ul></li>
 <li class="chapter" data-level="1.7" data-path="u1-random-variables.html"><a href="u1-random-variables.html"><i class="fa fa-check"></i><b>1.7</b> A language for randomness</a>
 <ul>
@@ -267,8 +267,8 @@ so the critical value is <span class="math inline">\(Z_{0.005} = 2.58\)</span>.<
 <p><span class="math display">\[
 Z_{calc} = \frac{35.28 - 37.7}{10.8/\sqrt{36}} = \frac{-2.42}{1.8} = -1.34
 \]</span></p>
-<div class="sourceCode" id="cb103"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb103-1"><a href="os-exercises.html#cb103-1" tabindex="-1"></a>caffeine <span class="ot">&lt;-</span> <span class="fu">make_sample</span>(<span class="at">n =</span> <span class="dv">36</span>, <span class="at">mean =</span> <span class="fl">35.28</span>, <span class="at">sd =</span> <span class="fl">10.8</span>)</span>
-<span id="cb103-2"><a href="os-exercises.html#cb103-2" tabindex="-1"></a><span class="fu">z.test</span>(caffeine, <span class="at">mu =</span> <span class="fl">37.7</span>, <span class="at">sigma.x =</span> <span class="fl">10.8</span>, <span class="at">conf.level =</span> <span class="fl">0.99</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb102"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb102-1"><a href="os-exercises.html#cb102-1" tabindex="-1"></a>caffeine <span class="ot">&lt;-</span> <span class="fu">make_sample</span>(<span class="at">n =</span> <span class="dv">36</span>, <span class="at">mean =</span> <span class="fl">35.28</span>, <span class="at">sd =</span> <span class="fl">10.8</span>)</span>
+<span id="cb102-2"><a href="os-exercises.html#cb102-2" tabindex="-1"></a><span class="fu">z.test</span>(caffeine, <span class="at">mu =</span> <span class="fl">37.7</span>, <span class="at">sigma.x =</span> <span class="fl">10.8</span>, <span class="at">conf.level =</span> <span class="fl">0.99</span>)</span></code></pre></div>
 <pre><code>#&gt; 
 #&gt;  One-sample z-Test
 #&gt; 
@@ -292,8 +292,8 @@ distribution at the 5% level? What is the <span class="math inline">\(p\)</span>
 <p><span class="math display">\[
 Z_{calc} = \frac{374 - 360}{40/\sqrt{200}} = \frac{14}{2.828} = 4.95
 \]</span></p>
-<div class="sourceCode" id="cb105"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb105-1"><a href="os-exercises.html#cb105-1" tabindex="-1"></a>water <span class="ot">&lt;-</span> <span class="fu">make_sample</span>(<span class="at">n =</span> <span class="dv">200</span>, <span class="at">mean =</span> <span class="dv">374</span>, <span class="at">sd =</span> <span class="dv">40</span>)</span>
-<span id="cb105-2"><a href="os-exercises.html#cb105-2" tabindex="-1"></a><span class="fu">z.test</span>(water, <span class="at">mu =</span> <span class="dv">360</span>, <span class="at">sigma.x =</span> <span class="dv">40</span>, <span class="at">conf.level =</span> <span class="fl">0.95</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb104"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb104-1"><a href="os-exercises.html#cb104-1" tabindex="-1"></a>water <span class="ot">&lt;-</span> <span class="fu">make_sample</span>(<span class="at">n =</span> <span class="dv">200</span>, <span class="at">mean =</span> <span class="dv">374</span>, <span class="at">sd =</span> <span class="dv">40</span>)</span>
+<span id="cb104-2"><a href="os-exercises.html#cb104-2" tabindex="-1"></a><span class="fu">z.test</span>(water, <span class="at">mu =</span> <span class="dv">360</span>, <span class="at">sigma.x =</span> <span class="dv">40</span>, <span class="at">conf.level =</span> <span class="fl">0.95</span>)</span></code></pre></div>
 <pre><code>#&gt; 
 #&gt;  One-sample z-Test
 #&gt; 
@@ -317,12 +317,12 @@ is ₹87,800. Students at one university sample ten salaries (in thousands):</p>
 <p>The word “more” makes this <strong>right-tailed</strong>:
 <span class="math inline">\(H_0: \mu \leq 87.8\)</span> against <span class="math inline">\(H_A: \mu &gt; 87.8\)</span>. Since <span class="math inline">\(\sigma\)</span> is unknown and
 <span class="math inline">\(n = 10\)</span>, use a <span class="math inline">\(t\)</span>-test with <span class="math inline">\(df = 9\)</span>.</p>
-<div class="sourceCode" id="cb108"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb108-1"><a href="os-exercises.html#cb108-1" tabindex="-1"></a>salary <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">91.0</span>, <span class="fl">79.8</span>, <span class="fl">102.0</span>, <span class="fl">93.5</span>, <span class="fl">82.0</span>, <span class="fl">88.6</span>, <span class="fl">90.0</span>, <span class="fl">98.6</span>, <span class="fl">101.0</span>, <span class="fl">84.0</span>)</span>
-<span id="cb108-2"><a href="os-exercises.html#cb108-2" tabindex="-1"></a></span>
-<span id="cb108-3"><a href="os-exercises.html#cb108-3" tabindex="-1"></a><span class="fu">c</span>(<span class="at">mean =</span> <span class="fu">mean</span>(salary), <span class="at">sd =</span> <span class="fu">sd</span>(salary))</span></code></pre></div>
+<div class="sourceCode" id="cb107"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb107-1"><a href="os-exercises.html#cb107-1" tabindex="-1"></a>salary <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">91.0</span>, <span class="fl">79.8</span>, <span class="fl">102.0</span>, <span class="fl">93.5</span>, <span class="fl">82.0</span>, <span class="fl">88.6</span>, <span class="fl">90.0</span>, <span class="fl">98.6</span>, <span class="fl">101.0</span>, <span class="fl">84.0</span>)</span>
+<span id="cb107-2"><a href="os-exercises.html#cb107-2" tabindex="-1"></a></span>
+<span id="cb107-3"><a href="os-exercises.html#cb107-3" tabindex="-1"></a><span class="fu">c</span>(<span class="at">mean =</span> <span class="fu">mean</span>(salary), <span class="at">sd =</span> <span class="fu">sd</span>(salary))</span></code></pre></div>
 <pre><code>#&gt;   mean     sd 
 #&gt; 91.050  7.797</code></pre>
-<div class="sourceCode" id="cb110"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb110-1"><a href="os-exercises.html#cb110-1" tabindex="-1"></a><span class="fu">t.test</span>(salary, <span class="at">mu =</span> <span class="fl">87.8</span>, <span class="at">alternative =</span> <span class="st">&quot;greater&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb109"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb109-1"><a href="os-exercises.html#cb109-1" tabindex="-1"></a><span class="fu">t.test</span>(salary, <span class="at">mu =</span> <span class="fl">87.8</span>, <span class="at">alternative =</span> <span class="st">&quot;greater&quot;</span>)</span></code></pre></div>
 <pre><code>#&gt; 
 #&gt;  One Sample t-test
 #&gt; 
@@ -346,8 +346,8 @@ Test at 5% and 1%.</p>
 <div class="answer">
 <p>“At most” makes this right-tailed: <span class="math inline">\(H_0: \mu \leq 6\)</span> against <span class="math inline">\(H_A: \mu &gt; 6\)</span>,
 <span class="math inline">\(t\)</span>-test with <span class="math inline">\(df = 33\)</span>.</p>
-<div class="sourceCode" id="cb112"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb112-1"><a href="os-exercises.html#cb112-1" tabindex="-1"></a>waits <span class="ot">&lt;-</span> <span class="fu">make_sample</span>(<span class="at">n =</span> <span class="dv">34</span>, <span class="at">mean =</span> <span class="fl">10.3</span>, <span class="at">sd =</span> <span class="fl">8.0</span>)</span>
-<span id="cb112-2"><a href="os-exercises.html#cb112-2" tabindex="-1"></a><span class="fu">t.test</span>(waits, <span class="at">mu =</span> <span class="dv">6</span>, <span class="at">alternative =</span> <span class="st">&quot;greater&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb111"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb111-1"><a href="os-exercises.html#cb111-1" tabindex="-1"></a>waits <span class="ot">&lt;-</span> <span class="fu">make_sample</span>(<span class="at">n =</span> <span class="dv">34</span>, <span class="at">mean =</span> <span class="fl">10.3</span>, <span class="at">sd =</span> <span class="fl">8.0</span>)</span>
+<span id="cb111-2"><a href="os-exercises.html#cb111-2" tabindex="-1"></a><span class="fu">t.test</span>(waits, <span class="at">mu =</span> <span class="dv">6</span>, <span class="at">alternative =</span> <span class="st">&quot;greater&quot;</span>)</span></code></pre></div>
 <pre><code>#&gt; 
 #&gt;  One Sample t-test
 #&gt; 
@@ -372,15 +372,15 @@ is the one number per couple that captures the question?</em></p>
 independent samples throws away that pairing and inflates the standard error.
 The right move is to reduce each couple to a single number — the age gap — and
 run a <strong>one-sample</strong> test on it against zero.</p>
-<div class="sourceCode" id="cb114"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb114-1"><a href="os-exercises.html#cb114-1" tabindex="-1"></a>couples <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/marriage-ages.csv&quot;</span>)</span>
-<span id="cb114-2"><a href="os-exercises.html#cb114-2" tabindex="-1"></a></span>
-<span id="cb114-3"><a href="os-exercises.html#cb114-3" tabindex="-1"></a>gap <span class="ot">&lt;-</span> couples<span class="sc">$</span>partner1 <span class="sc">-</span> couples<span class="sc">$</span>partner2</span>
-<span id="cb114-4"><a href="os-exercises.html#cb114-4" tabindex="-1"></a>gap</span></code></pre></div>
+<div class="sourceCode" id="cb113"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb113-1"><a href="os-exercises.html#cb113-1" tabindex="-1"></a>couples <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/marriage-ages.csv&quot;</span>)</span>
+<span id="cb113-2"><a href="os-exercises.html#cb113-2" tabindex="-1"></a></span>
+<span id="cb113-3"><a href="os-exercises.html#cb113-3" tabindex="-1"></a>gap <span class="ot">&lt;-</span> couples<span class="sc">$</span>partner1 <span class="sc">-</span> couples<span class="sc">$</span>partner2</span>
+<span id="cb113-4"><a href="os-exercises.html#cb113-4" tabindex="-1"></a>gap</span></code></pre></div>
 <pre><code>#&gt;  [1] 1 5 4 1 1 4 0 8 1 0</code></pre>
-<div class="sourceCode" id="cb116"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb116-1"><a href="os-exercises.html#cb116-1" tabindex="-1"></a><span class="fu">c</span>(<span class="at">mean =</span> <span class="fu">mean</span>(gap), <span class="at">sd =</span> <span class="fu">sd</span>(gap), <span class="at">n =</span> <span class="fu">length</span>(gap))</span></code></pre></div>
+<div class="sourceCode" id="cb115"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb115-1"><a href="os-exercises.html#cb115-1" tabindex="-1"></a><span class="fu">c</span>(<span class="at">mean =</span> <span class="fu">mean</span>(gap), <span class="at">sd =</span> <span class="fu">sd</span>(gap), <span class="at">n =</span> <span class="fu">length</span>(gap))</span></code></pre></div>
 <pre><code>#&gt;   mean     sd      n 
 #&gt;  2.500  2.635 10.000</code></pre>
-<div class="sourceCode" id="cb118"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb118-1"><a href="os-exercises.html#cb118-1" tabindex="-1"></a><span class="fu">t.test</span>(gap, <span class="at">mu =</span> <span class="dv">0</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb117"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb117-1"><a href="os-exercises.html#cb117-1" tabindex="-1"></a><span class="fu">t.test</span>(gap, <span class="at">mu =</span> <span class="dv">0</span>)</span></code></pre></div>
 <pre><code>#&gt; 
 #&gt;  One Sample t-test
 #&gt; 
@@ -395,7 +395,7 @@ run a <strong>one-sample</strong> test on it against zero.</p>
 <p>The mean gap is 2.5 years, <span class="math inline">\(t = 3.0\)</span> on 9 degrees of freedom, <span class="math inline">\(p = 0.015\)</span>.
 Since <span class="math inline">\(0.015 &lt; 0.05\)</span>, we <strong>reject</strong> <span class="math inline">\(H_0\)</span>: partner 1 is reliably older.</p>
 <p>R will do the pairing for you if you ask:</p>
-<div class="sourceCode" id="cb120"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb120-1"><a href="os-exercises.html#cb120-1" tabindex="-1"></a><span class="fu">t.test</span>(couples<span class="sc">$</span>partner1, couples<span class="sc">$</span>partner2, <span class="at">paired =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb119"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb119-1"><a href="os-exercises.html#cb119-1" tabindex="-1"></a><span class="fu">t.test</span>(couples<span class="sc">$</span>partner1, couples<span class="sc">$</span>partner2, <span class="at">paired =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 <pre><code>#&gt; 
 #&gt;  Paired t-test
 #&gt; 
@@ -409,7 +409,7 @@ Since <span class="math inline">\(0.015 &lt; 0.05\)</span>, we <strong>reject</s
 #&gt;             2.5</code></pre>
 <p>Identical output — <code>paired = TRUE</code> computes exactly the differences we formed
 by hand. Compare what happens if you forget:</p>
-<div class="sourceCode" id="cb122"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb122-1"><a href="os-exercises.html#cb122-1" tabindex="-1"></a><span class="fu">t.test</span>(couples<span class="sc">$</span>partner1, couples<span class="sc">$</span>partner2, <span class="at">paired =</span> <span class="cn">FALSE</span>)<span class="sc">$</span>p.value</span></code></pre></div>
+<div class="sourceCode" id="cb121"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb121-1"><a href="os-exercises.html#cb121-1" tabindex="-1"></a><span class="fu">t.test</span>(couples<span class="sc">$</span>partner1, couples<span class="sc">$</span>partner2, <span class="at">paired =</span> <span class="cn">FALSE</span>)<span class="sc">$</span>p.value</span></code></pre></div>
 <pre><code>#&gt; [1] 0.607</code></pre>
 <p>The same ten couples, a <span class="math inline">\(p\)</span>-value of 0.607 instead of
 0.015, and the opposite conclusion. <strong>Pairing is not a

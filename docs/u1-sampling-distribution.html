@@ -175,7 +175,7 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="u1-clt.html"><a href="u1-clt.html#a-simulation"><i class="fa fa-check"></i>A simulation</a></li>
 <li class="chapter" data-level="" data-path="u1-clt.html"><a href="u1-clt.html#an-intuition"><i class="fa fa-check"></i>An intuition</a></li>
 <li class="chapter" data-level="" data-path="u1-clt.html"><a href="u1-clt.html#how-large-is-large-enough"><i class="fa fa-check"></i>How large is “large enough”?</a></li>
-<li class="chapter" data-level="" data-path="u1-clt.html"><a href="u1-clt.html#why-inference-is-possible"><i class="fa fa-check"></i>Why inference is possible</a></li>
+<li class="chapter" data-level="" data-path="u1-clt.html"><a href="u1-clt.html#why-this-matters"><i class="fa fa-check"></i>Why this matters</a></li>
 </ul></li>
 <li class="chapter" data-level="1.7" data-path="u1-random-variables.html"><a href="u1-random-variables.html"><i class="fa fa-check"></i><b>1.7</b> A language for randomness</a>
 <ul>
@@ -260,14 +260,14 @@ never confirm that a sampling distribution behaves as claimed.</p>
 written down exactly, and then see whether the machinery recovers it.</p>
 <p>Take a deck of cards, scored A = 1, J = 11, Q = 12, K = 13, and 2 through 10 at
 face value.</p>
-<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="u1-sampling-distribution.html#cb45-1" tabindex="-1"></a>deck <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">13</span>, <span class="at">times =</span> <span class="dv">4</span>)</span>
-<span id="cb45-2"><a href="u1-sampling-distribution.html#cb45-2" tabindex="-1"></a></span>
-<span id="cb45-3"><a href="u1-sampling-distribution.html#cb45-3" tabindex="-1"></a><span class="fu">c</span>(<span class="at">N =</span> <span class="fu">length</span>(deck), <span class="at">mu =</span> <span class="fu">mean</span>(deck), <span class="at">sigma =</span> <span class="fu">sd</span>(deck))</span></code></pre></div>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="u1-sampling-distribution.html#cb44-1" tabindex="-1"></a>deck <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">13</span>, <span class="at">times =</span> <span class="dv">4</span>)</span>
+<span id="cb44-2"><a href="u1-sampling-distribution.html#cb44-2" tabindex="-1"></a></span>
+<span id="cb44-3"><a href="u1-sampling-distribution.html#cb44-3" tabindex="-1"></a><span class="fu">c</span>(<span class="at">N =</span> <span class="fu">length</span>(deck), <span class="at">mu =</span> <span class="fu">mean</span>(deck), <span class="at">sigma =</span> <span class="fu">sd</span>(deck))</span></code></pre></div>
 <pre><code>#&gt;      N     mu  sigma 
 #&gt; 52.000  7.000  3.778</code></pre>
 <p>The population mean is exactly <span class="math inline">\(\mu = 7\)</span>. Now draw ten cards and average them:</p>
-<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="u1-sampling-distribution.html#cb47-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">7</span>)</span>
-<span id="cb47-2"><a href="u1-sampling-distribution.html#cb47-2" tabindex="-1"></a><span class="fu">mean</span>(<span class="fu">sample</span>(deck, <span class="at">size =</span> <span class="dv">10</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="u1-sampling-distribution.html#cb46-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">7</span>)</span>
+<span id="cb46-2"><a href="u1-sampling-distribution.html#cb46-2" tabindex="-1"></a><span class="fu">mean</span>(<span class="fu">sample</span>(deck, <span class="at">size =</span> <span class="dv">10</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>))</span></code></pre></div>
 <pre><code>#&gt; [1] 5.7</code></pre>
 <div class="watchout">
 <p>Note <code>replace = TRUE</code>: each card goes back before the next draw.</p>
@@ -281,11 +281,11 @@ does not meaningfully deplete a population of a billion.</p>
 <p>The result is not 7, and a second draw would give something else again. This is
 sampling variation, exactly as observed with the earnings surveys. Repeating
 the draw a thousand times gives the whole sampling distribution:</p>
-<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="u1-sampling-distribution.html#cb49-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">7</span>)</span>
-<span id="cb49-2"><a href="u1-sampling-distribution.html#cb49-2" tabindex="-1"></a>deck_means <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">1000</span>, <span class="fu">mean</span>(<span class="fu">sample</span>(deck, <span class="at">size =</span> <span class="dv">10</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>)))</span>
-<span id="cb49-3"><a href="u1-sampling-distribution.html#cb49-3" tabindex="-1"></a></span>
-<span id="cb49-4"><a href="u1-sampling-distribution.html#cb49-4" tabindex="-1"></a><span class="fu">c</span>(<span class="at">mean_of_deck_means =</span> <span class="fu">mean</span>(deck_means),</span>
-<span id="cb49-5"><a href="u1-sampling-distribution.html#cb49-5" tabindex="-1"></a>  <span class="at">sd_of_deck_means   =</span> <span class="fu">sd</span>(deck_means))</span></code></pre></div>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="u1-sampling-distribution.html#cb48-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">7</span>)</span>
+<span id="cb48-2"><a href="u1-sampling-distribution.html#cb48-2" tabindex="-1"></a>deck_means <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">1000</span>, <span class="fu">mean</span>(<span class="fu">sample</span>(deck, <span class="at">size =</span> <span class="dv">10</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>)))</span>
+<span id="cb48-3"><a href="u1-sampling-distribution.html#cb48-3" tabindex="-1"></a></span>
+<span id="cb48-4"><a href="u1-sampling-distribution.html#cb48-4" tabindex="-1"></a><span class="fu">c</span>(<span class="at">mean_of_deck_means =</span> <span class="fu">mean</span>(deck_means),</span>
+<span id="cb48-5"><a href="u1-sampling-distribution.html#cb48-5" tabindex="-1"></a>  <span class="at">sd_of_deck_means   =</span> <span class="fu">sd</span>(deck_means))</span></code></pre></div>
 <pre><code>#&gt; mean_of_deck_means   sd_of_deck_means 
 #&gt;              6.932              1.201</code></pre>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:u1-sampdist-plot"></span>
@@ -305,15 +305,15 @@ standard deviation of about 1.2. Averaging has
 cancelled out much of the noise.</p>
 <div id="what-happens-as-the-sample-grows" class="section level3 unnumbered hasAnchor">
 <h3>What happens as the sample grows<a href="u1-sampling-distribution.html#what-happens-as-the-sample-grows" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="u1-sampling-distribution.html#cb51-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">7</span>)</span>
-<span id="cb51-2"><a href="u1-sampling-distribution.html#cb51-2" tabindex="-1"></a></span>
-<span id="cb51-3"><a href="u1-sampling-distribution.html#cb51-3" tabindex="-1"></a>sizes <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">10</span>, <span class="dv">20</span>, <span class="dv">40</span>, <span class="dv">80</span>)</span>
-<span id="cb51-4"><a href="u1-sampling-distribution.html#cb51-4" tabindex="-1"></a>results <span class="ot">&lt;-</span> <span class="fu">t</span>(<span class="fu">sapply</span>(sizes, <span class="cf">function</span>(n) {</span>
-<span id="cb51-5"><a href="u1-sampling-distribution.html#cb51-5" tabindex="-1"></a>  m <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">2000</span>, <span class="fu">mean</span>(<span class="fu">sample</span>(deck, <span class="at">size =</span> n, <span class="at">replace =</span> <span class="cn">TRUE</span>)))</span>
-<span id="cb51-6"><a href="u1-sampling-distribution.html#cb51-6" tabindex="-1"></a>  <span class="fu">c</span>(<span class="at">n =</span> n, <span class="at">mean =</span> <span class="fu">mean</span>(m), <span class="at">sd =</span> <span class="fu">sd</span>(m), <span class="at">theoretical_sd =</span> <span class="fu">sd</span>(deck) <span class="sc">/</span> <span class="fu">sqrt</span>(n))</span>
-<span id="cb51-7"><a href="u1-sampling-distribution.html#cb51-7" tabindex="-1"></a>}))</span>
-<span id="cb51-8"><a href="u1-sampling-distribution.html#cb51-8" tabindex="-1"></a></span>
-<span id="cb51-9"><a href="u1-sampling-distribution.html#cb51-9" tabindex="-1"></a><span class="fu">round</span>(results, <span class="dv">3</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="u1-sampling-distribution.html#cb50-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">7</span>)</span>
+<span id="cb50-2"><a href="u1-sampling-distribution.html#cb50-2" tabindex="-1"></a></span>
+<span id="cb50-3"><a href="u1-sampling-distribution.html#cb50-3" tabindex="-1"></a>sizes <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">10</span>, <span class="dv">20</span>, <span class="dv">40</span>, <span class="dv">80</span>)</span>
+<span id="cb50-4"><a href="u1-sampling-distribution.html#cb50-4" tabindex="-1"></a>results <span class="ot">&lt;-</span> <span class="fu">t</span>(<span class="fu">sapply</span>(sizes, <span class="cf">function</span>(n) {</span>
+<span id="cb50-5"><a href="u1-sampling-distribution.html#cb50-5" tabindex="-1"></a>  m <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">2000</span>, <span class="fu">mean</span>(<span class="fu">sample</span>(deck, <span class="at">size =</span> n, <span class="at">replace =</span> <span class="cn">TRUE</span>)))</span>
+<span id="cb50-6"><a href="u1-sampling-distribution.html#cb50-6" tabindex="-1"></a>  <span class="fu">c</span>(<span class="at">n =</span> n, <span class="at">mean =</span> <span class="fu">mean</span>(m), <span class="at">sd =</span> <span class="fu">sd</span>(m), <span class="at">theoretical_sd =</span> <span class="fu">sd</span>(deck) <span class="sc">/</span> <span class="fu">sqrt</span>(n))</span>
+<span id="cb50-7"><a href="u1-sampling-distribution.html#cb50-7" tabindex="-1"></a>}))</span>
+<span id="cb50-8"><a href="u1-sampling-distribution.html#cb50-8" tabindex="-1"></a></span>
+<span id="cb50-9"><a href="u1-sampling-distribution.html#cb50-9" tabindex="-1"></a><span class="fu">round</span>(results, <span class="dv">3</span>)</span></code></pre></div>
 <pre><code>#&gt;       n  mean    sd theoretical_sd
 #&gt; [1,]  5 6.932 1.688          1.690
 #&gt; [2,] 10 7.022 1.165          1.195

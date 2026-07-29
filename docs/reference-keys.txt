@@ -4,8 +4,8 @@ fig:u1-density
 fig:u1-three-plot
 fig:u1-many-plot
 fig:u1-lln-plot
-fig:d2i-clt-plot
-fig:d2i-dice-plot
+fig:u1-clt-plot
+fig:u1-dice-plot
 fig:u1-sampdist-plot
 fig:u1-nsizes-plot
 fig:u1-skew-plot

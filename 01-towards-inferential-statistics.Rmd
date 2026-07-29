@@ -614,49 +614,51 @@ Theorem**.
 ## The Central Limit Theorem {#u1-clt}
 
 ::: {.question}
-Why do the sample means look bell-shaped?
+Why do sample means look bell-shaped?
 :::
 
-The Law of Large Numbers explains why the sample mean approaches the population
-mean as the sample size increases. It does not, however, tell us how the sample
-means are distributed for any given sample size. Without that distribution we
-cannot quantify the uncertainty associated with a single survey.
+The Law of Large Numbers explains why the sample mean moves closer to the
+population mean as the sample size increases. It tells us where the sample mean
+is centred, but not how it is distributed for any given sample size. Without
+knowing that distribution, we cannot quantify the uncertainty associated with a
+single survey.
 
-The Central Limit Theorem answers precisely this question. The result is
-surprisingly general.
+The Central Limit Theorem answers precisely this question. Its remarkable
+feature is its generality.
 
 ::: {.keyidea}
 **Central Limit Theorem.** For sufficiently large samples, the sampling
 distribution of the sample mean is approximately normal, regardless of the
 shape of the population from which the sample is drawn.
-
-The result is stated precisely, in notation, once we have the vocabulary for
-it later in this unit. Its content is already visible in
-Figure \@ref(fig:u1-lln-plot): a strongly skewed population, yet sample means
-that grow steadily more symmetric.
 :::
 
-The strength of this statement is easy to overlook. The underlying population
-may be binary, highly skewed or heavily concentrated in one part of its range.
-Yet the distribution of the sample mean becomes increasingly close to a normal
-distribution as the sample size grows.
+The theorem will be stated more precisely once we have developed the necessary
+notation. For now, its essential idea is already visible in Figure
+\@ref(fig:u1-lln-plot). Even when the population itself is far from
+bell-shaped, the distribution of the sample mean becomes increasingly
+bell-shaped as the sample size grows.
+
+The strength of this result is easy to underestimate. The population may be
+binary, highly skewed, or concentrated in only one part of its range. It makes
+remarkably little difference. Average enough observations together, and the
+distribution of those averages approaches the familiar bell-shaped curve.
 
 ### A simulation {-}
 
-The theorem is easiest to appreciate by simulation. Figure
-\@ref(fig:d2i-clt-plot) compares the sampling distributions of the sample mean
-for four populations with very different shapes, at sample sizes of one, five
-and thirty.
+The easiest way to appreciate the theorem is to watch it happen. Figure
+\@ref(fig:u1-clt-plot) compares the sampling distributions of the sample mean
+for four populations with very different shapes, using sample sizes of one,
+five and thirty.
 
-```{r d2i-clt-sim}
+```{r u1-clt-sim}
 set.seed(3)
 
 draw_mean <- function(parent, n) {
   switch(parent,
-    "Bernoulli"  = mean(rbinom(n, 1, 0.3)),
-    "Poisson"    = mean(rpois(n, 2)),
-    "Uniform"    = mean(runif(n)),
-    "Earnings"   = mean(sample(earn, n, replace = TRUE)))
+    "Bernoulli" = mean(rbinom(n, 1, 0.3)),
+    "Poisson"   = mean(rpois(n, 2)),
+    "Uniform"   = mean(runif(n)),
+    "Earnings"  = mean(sample(earn, n, replace = TRUE)))
 }
 
 parents <- c("Bernoulli", "Poisson", "Uniform", "Earnings")
@@ -672,11 +674,9 @@ clt <- do.call(rbind, lapply(parents, function(p)
 # comparison is purely about shape.
 clt$z <- ave(clt$m, clt$parent, clt$n,
              FUN = function(x) (x - mean(x)) / sd(x))
-
-head(clt, 3)
 ```
 
-```{r d2i-clt-plot, echo = FALSE, fig.height = 6, fig.cap = "Sampling distributions of the mean from four very different populations, standardised, against the standard normal curve in orange. At $n = 1$ you are looking at each population itself. By $n = 30$ all four track the curve — though look closely at the last row."}
+```{r u1-clt-plot, echo = FALSE, fig.height = 6, fig.cap = "Standardised sampling distributions of the sample mean for four populations, against the standard normal curve."}
 clt$parent <- factor(clt$parent, levels = parents)
 
 ggplot(clt, aes(z)) +
@@ -685,46 +685,38 @@ ggplot(clt, aes(z)) +
   stat_function(fun = dnorm, colour = book_palette$reject, linewidth = 0.6) +
   facet_grid(parent ~ n) +
   coord_cartesian(xlim = c(-3.2, 3.2), ylim = c(0, 0.52)) +
-  labs(x = "standardised sample mean", y = NULL) +
+  labs(x = "Standardised sample mean", y = NULL) +
   theme_book(base_size = 10) +
   theme(axis.text.y = element_blank(),
         strip.text.y = element_text(angle = 0, hjust = 0))
 ```
 
 The first column shows the four underlying populations. None resembles a normal
-distribution. By the third column, however, the sampling distributions of the
-sample means all closely resemble the familiar bell-shaped curve.
+distribution. By the third column, however, the distributions of the sample
+means are all much closer to the familiar bell-shaped curve.
 
-The theorem guarantees eventual convergence to normality, but it says nothing
-about the rate at which convergence occurs. Populations that are already fairly
+The theorem guarantees that this convergence eventually occurs, but it says
+nothing about how quickly it happens. Populations that are already fairly
 symmetric require only modest sample sizes, whereas heavily skewed populations
 may require substantially larger samples before the normal approximation
-becomes accurate. In the figure, the uniform population is close to normal by
-$n = 5$; the earnings distribution is still visibly asymmetric at $n = 30$.
+becomes accurate. In Figure \@ref(fig:u1-clt-plot), the uniform population is
+already close to normal when $n = 5$, while the earnings distribution remains
+visibly asymmetric even when $n = 30$.
 
 ### An intuition {-}
 
-::: {.intuition}
-Roll one die: every face is equally likely. Now roll two and add them.
+Why should averaging observations produce a bell-shaped distribution?
 
-```{r d2i-dice-sum}
+A simple example provides the intuition. Roll a fair die once and every outcome
+from one to six is equally likely. Now roll two dice and add the results.
+
+```{r u1-dice-sum}
 sums <- outer(1:6, 1:6, "+")
+
 table(sums)
 ```
 
-Seven can be made six ways — $1+6$, $2+5$, $3+4$, $4+3$, $5+2$, $6+1$. Two can
-be made exactly one way. The middle values have more routes to them than the
-extremes do, so they turn up more often.
-
-The intuition extends far beyond dice. To obtain an extreme average, every
-observation must be extreme in the same direction, which is rare. To obtain a
-middling average, the observations need only offset one another, and there are
-a great many ways for that to happen. Adding observations multiplies the routes
-to the middle far faster than the routes to the extremes, and the resulting
-shape is the familiar bell.
-:::
-
-```{r d2i-dice-plot, echo = FALSE, fig.height = 3.2, fig.cap = "The sum of two dice. Combinations pile up in the middle, and the flat distribution of a single die has already started to become a mound."}
+```{r u1-dice-plot, echo = FALSE, fig.height = 3, fig.cap = "The number of ways each total can be obtained when two dice are rolled."}
 ds <- as.data.frame(table(sums)); names(ds) <- c("sum", "ways")
 ds$sum <- as.numeric(as.character(ds$sum))
 
@@ -733,68 +725,92 @@ ggplot(ds, aes(sum, ways)) +
   geom_text(aes(label = ways), vjust = -0.5, size = 3.1,
             colour = book_palette$ink) +
   scale_x_continuous(breaks = 2:12) +
-  labs(x = "sum of two dice", y = "number of ways") +
+  labs(x = "Total of two dice", y = "Number of ways") +
   theme_book() +
   theme(axis.text.y = element_blank())
 ```
 
+Seven can be obtained in six different ways:
+$1+6,\; 2+5,\; 3+4,\; 4+3,\; 5+2,\; 6+1$. By contrast, a total of two can
+be obtained in only one way. The middle values have many more possible
+combinations than the extremes, so they occur more frequently.
+
+The same intuition extends far beyond dice. To obtain an unusually large
+average, most observations must themselves be unusually large. Likewise, an
+unusually small average requires most observations to be unusually small. Both
+situations are relatively rare. A value close to the middle, however, can arise
+from countless combinations of larger and smaller observations offsetting one
+another.
+
+As more observations are averaged together, the number of ways to obtain values
+near the centre grows much faster than the number of ways to obtain values at
+the extremes. The result is the familiar bell-shaped distribution.
+
 ### How large is "large enough"? {-}
 
-Textbooks often give $n \geq 30$. It is a useful rule of thumb, not a
-mathematical guarantee.
+Many textbooks suggest that a sample size of at least thirty is sufficient for
+the Central Limit Theorem to provide a good approximation. This is a useful
+rule of thumb, but it is not a mathematical guarantee.
 
-How quickly the approximation takes hold depends on how skewed the population
-is. A symmetric population requires very few observations; a heavily skewed one
-requires many more.
+How quickly the approximation becomes accurate depends largely on the shape of
+the population. Populations that are approximately symmetric require relatively
+few observations, whereas heavily skewed populations often require much larger
+samples.
 
-```{r d2i-clt-howbig}
+```{r u1-clt-howbig}
 set.seed(9)
 
-# A crude measure of how far a distribution is from symmetric
 skewness <- function(x) mean((x - mean(x))^3) / sd(x)^3
 
-sapply(c(5, 30, 100, 500), function(n)
-  round(skewness(replicate(2000, mean(sample(earn, n, replace = TRUE)))), 2))
+sizes <- c(5, 30, 100, 500)
+
+sk <- c(population = skewness(earn),
+        sapply(sizes, function(n)
+          skewness(replicate(2000, mean(sample(earn, n, replace = TRUE))))))
+names(sk)[-1] <- paste0("n=", sizes)
+
+round(sk, 2)
 ```
 
-```{r u1-clt-popskew, echo = FALSE}
-pop_skew <- round(mean((earn - mean(earn))^3) / sd(earn)^3, 1)
+```{r u1-clt-skewvals, echo = FALSE}
+sk_pop <- round(mean((earn - mean(earn))^3) / sd(earn)^3, 1)
 ```
 
-The earnings population has a skewness of about `r pop_skew`. At $n = 5$ the
-sampling distribution is still visibly lopsided. By $n = 100$ it is close to
-symmetric.
+The earnings distribution used throughout this chapter has a skewness of
+approximately `r sk_pop`. When the sample size is five, the sampling
+distribution remains strongly right-skewed. Even at thirty observations, some
+asymmetry is still visible. By one hundred observations, however, the
+distribution is much closer to symmetric.
 
-::: {.watchout}
-Many economic variables — including incomes, firm sizes, land holdings and city
-populations — are strongly right-skewed. For such variables, the normal
-approximation may still be poor when the sample size is thirty. In these
-settings, larger samples or simulation-based checks of the sampling
-distribution are often preferable.
-:::
+This matters because many economic variables — including incomes, firm sizes,
+land holdings and city populations — are themselves highly skewed. For such
+variables, the normal approximation may still be poor when the sample size is
+only thirty. In these situations, larger samples or simulation-based checks are
+often preferable to relying mechanically on a rule of thumb.
 
-### Why inference is possible {-}
+### Why this matters {-}
 
-Together, the Law of Large Numbers and the Central Limit Theorem explain why
-statistical inference is possible. The Law of Large Numbers tells us that the
-sample mean is centred on the population mean as the sample size grows. The
-Central Limit Theorem tells us that the sampling distribution of the sample
-mean is approximately normal. Together, these results tell us where the
-sampling distribution is centred, how it behaves, and how uncertainty can be
-quantified.
+The Central Limit Theorem, together with the Law of Large Numbers, explains why
+statistical inference is possible.
+
+The Law of Large Numbers tells us that repeated samples become increasingly
+centred on the population mean as the sample size grows. The Central Limit
+Theorem tells us that the distribution of those sample means approaches a
+normal distribution. Together, these results reveal that although different
+samples produce different answers, those answers are not arbitrary. They vary
+in systematic and predictable ways.
 
 ::: {.keyidea}
-The central idea of inferential statistics is that although different samples
-produce different answers, those differences are not arbitrary. They follow
-systematic patterns that can be described mathematically. By understanding how
-statistics behave across repeated samples, we can quantify the uncertainty
-associated with the single sample we actually observe.
+This insight lies at the heart of inferential statistics. We observe only one
+sample, but by understanding how the same statistic would behave across many
+hypothetical samples, we can quantify the uncertainty associated with the
+sample we actually observe.
 :::
 
-The ideas developed so far are largely intuitive. To understand them more
-deeply — and to express them precisely — we now introduce the notation and
-concepts that statisticians use to describe random phenomena.
-
+So far we have developed these ideas largely through intuition, simulation and
+visualisation. The next section introduces the notation and concepts needed to
+express them more precisely and to build the methods of statistical inference
+developed in the remainder of this book.
 
 ## A language for randomness {#u1-random-variables}
 

@@ -175,7 +175,7 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="u1-clt.html"><a href="u1-clt.html#a-simulation"><i class="fa fa-check"></i>A simulation</a></li>
 <li class="chapter" data-level="" data-path="u1-clt.html"><a href="u1-clt.html#an-intuition"><i class="fa fa-check"></i>An intuition</a></li>
 <li class="chapter" data-level="" data-path="u1-clt.html"><a href="u1-clt.html#how-large-is-large-enough"><i class="fa fa-check"></i>How large is “large enough”?</a></li>
-<li class="chapter" data-level="" data-path="u1-clt.html"><a href="u1-clt.html#why-inference-is-possible"><i class="fa fa-check"></i>Why inference is possible</a></li>
+<li class="chapter" data-level="" data-path="u1-clt.html"><a href="u1-clt.html#why-this-matters"><i class="fa fa-check"></i>Why this matters</a></li>
 </ul></li>
 <li class="chapter" data-level="1.7" data-path="u1-random-variables.html"><a href="u1-random-variables.html"><i class="fa fa-check"></i><b>1.7</b> A language for randomness</a>
 <ul>
@@ -255,15 +255,15 @@ gets nicotine content <em>below</em> 1.5 mg; we only care if the true mean is lo
 <p><span class="math display">\[H_0 : \mu \geq 1.5 \qquad H_A : \mu &lt; 1.5\]</span></p>
 <p>All the probability we are willing to risk now goes into a single tail, so the
 critical value moves <em>inward</em>: <span class="math inline">\(-Z_{0.05} = -1.645\)</span> rather than <span class="math inline">\(\pm 1.96\)</span>.</p>
-<div class="sourceCode" id="cb97"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb97-1"><a href="os-onetailed.html#cb97-1" tabindex="-1"></a><span class="fu">qnorm</span>(<span class="fl">0.05</span>)             <span class="co"># left-tailed critical value at 5%</span></span></code></pre></div>
+<div class="sourceCode" id="cb96"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb96-1"><a href="os-onetailed.html#cb96-1" tabindex="-1"></a><span class="fu">qnorm</span>(<span class="fl">0.05</span>)             <span class="co"># left-tailed critical value at 5%</span></span></code></pre></div>
 <pre><code>#&gt; [1] -1.645</code></pre>
-<div class="sourceCode" id="cb99"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb99-1"><a href="os-onetailed.html#cb99-1" tabindex="-1"></a><span class="fu">qnorm</span>(<span class="fl">0.95</span>)             <span class="co"># right-tailed critical value at 5%</span></span></code></pre></div>
+<div class="sourceCode" id="cb98"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb98-1"><a href="os-onetailed.html#cb98-1" tabindex="-1"></a><span class="fu">qnorm</span>(<span class="fl">0.95</span>)             <span class="co"># right-tailed critical value at 5%</span></span></code></pre></div>
 <pre><code>#&gt; [1] 1.645</code></pre>
 <p>In R, add the <code>alternative</code> argument:</p>
-<div class="sourceCode" id="cb101"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb101-1"><a href="os-onetailed.html#cb101-1" tabindex="-1"></a>nicotine <span class="ot">&lt;-</span> <span class="fu">make_sample</span>(<span class="at">n =</span> <span class="dv">20</span>, <span class="at">mean =</span> <span class="fl">1.42</span>, <span class="at">sd =</span> <span class="fl">0.7</span>)</span>
-<span id="cb101-2"><a href="os-onetailed.html#cb101-2" tabindex="-1"></a></span>
-<span id="cb101-3"><a href="os-onetailed.html#cb101-3" tabindex="-1"></a><span class="fu">z.test</span>(nicotine, <span class="at">mu =</span> <span class="fl">1.5</span>, <span class="at">sigma.x =</span> <span class="fl">0.7</span>, <span class="at">alternative =</span> <span class="st">&quot;less&quot;</span>,</span>
-<span id="cb101-4"><a href="os-onetailed.html#cb101-4" tabindex="-1"></a>       <span class="at">conf.level =</span> <span class="fl">0.95</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb100"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb100-1"><a href="os-onetailed.html#cb100-1" tabindex="-1"></a>nicotine <span class="ot">&lt;-</span> <span class="fu">make_sample</span>(<span class="at">n =</span> <span class="dv">20</span>, <span class="at">mean =</span> <span class="fl">1.42</span>, <span class="at">sd =</span> <span class="fl">0.7</span>)</span>
+<span id="cb100-2"><a href="os-onetailed.html#cb100-2" tabindex="-1"></a></span>
+<span id="cb100-3"><a href="os-onetailed.html#cb100-3" tabindex="-1"></a><span class="fu">z.test</span>(nicotine, <span class="at">mu =</span> <span class="fl">1.5</span>, <span class="at">sigma.x =</span> <span class="fl">0.7</span>, <span class="at">alternative =</span> <span class="st">&quot;less&quot;</span>,</span>
+<span id="cb100-4"><a href="os-onetailed.html#cb100-4" tabindex="-1"></a>       <span class="at">conf.level =</span> <span class="fl">0.95</span>)</span></code></pre></div>
 <pre><code>#&gt; 
 #&gt;  One-sample z-Test
 #&gt; 
