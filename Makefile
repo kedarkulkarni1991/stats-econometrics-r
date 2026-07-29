@@ -36,3 +36,7 @@ check:
 
 clean:
 	rm -rf docs _bookdown_files *_files *.knit.md *.utf8.md
+
+## Render the PDF edition into docs/
+pdf:
+	Rscript -e 'bookdown::render_book("index.Rmd", "bookdown::pdf_book")'

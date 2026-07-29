@@ -745,9 +745,11 @@ iii. A colleague proposes to improve an $n = 400$ survey by adding 100
 ::: {.answer}
 **(i)** $\mathrm{se} = \sigma/\sqrt{n}$:
 
-$$n = 100:\; \frac{100{,}141}{10} = ₹10{,}014 \qquad
-  n = 400:\; \frac{100{,}141}{20} = ₹5{,}007 \qquad
-  n = 2{,}500:\; \frac{100{,}141}{50} = ₹2{,}003$$
+$$\begin{aligned}
+n = 100:&\quad \frac{100{,}141}{10} = ₹10{,}014 \\[4pt]
+n = 400:&\quad \frac{100{,}141}{20} = ₹5{,}007 \\[4pt]
+n = 2{,}500:&\quad \frac{100{,}141}{50} = ₹2{,}003
+\end{aligned}$$
 
 **(ii)** Require $100{,}141/\sqrt{n} < 5{,}000$, so
 $\sqrt{n} > 20.03$ and $n > 401.1$. A sample of **402** suffices.

@@ -138,23 +138,12 @@ value of $\mu$, and only $H_0$ supplies one.
 Given that, where the claim goes depends on what the question asks you to do
 with it:
 
-```{r os-claim-table, echo = FALSE}
-knitr::kable(
-  data.frame(
-    `The question asks` = c(
-      "\"Can you **reject** the claim?\"",
-      "\"Is there evidence to **support** the claim?\""
-    ),
-    `Put the claim in` = c("$H_0$", "$H_A$"),
-    `Because` = c(
-      "You are testing whether the data can knock the claim down.",
-      "The claim is what you need evidence *for*, and evidence accumulates against $H_0$."
-    ),
-    check.names = FALSE
-  ),
-  caption = "Where the claim goes."
-)
-```
+Table: (\#tab:os-claim-table) Where the claim goes.
+
+| The question asks | Put the claim in | Because |
+|:--|:--|:--|
+| "Can you **reject** the claim?" | $H_0$ | You are testing whether the data can knock the claim down. |
+| "Is there evidence to **support** the claim?" | $H_A$ | The claim is what you need evidence *for*, and evidence accumulates against $H_0$. |
 
 ::: {.watchout}
 A claim phrased with a **strict** inequality — "the mean is *more than* 499" —
@@ -383,22 +372,14 @@ Small $p$-value means the data would be surprising if the null held, which is
 evidence against the null. Large $p$-value means the data are unremarkable
 under the null, so we have no case.
 
-```{r os-pval-table, echo = FALSE}
-knitr::kable(
-  data.frame(
-    `p-value` = c("0.60", "0.18", "0.049", "0.0001"),
-    `Read it as` = c(
-      "Completely ordinary under the null.",
-      "A bit high, but this happens roughly 1 time in 6.",
-      "Would happen about 1 time in 20. Reject at 5%.",
-      "Would happen 1 time in 10,000. Strong evidence."
-    ),
-    `At alpha = 0.05` = c("Fail to reject", "Fail to reject", "Reject", "Reject"),
-    check.names = FALSE
-  ),
-  caption = "Reading a p-value."
-)
-```
+Table: (\#tab:os-pval-table) Reading a $p$-value.
+
+| $p$-value | Read it as | At $\alpha = 0.05$ |
+|:--|:--|:--|
+| 0.60 | Completely ordinary under the null. | Fail to reject |
+| 0.18 | A bit high, but this happens roughly 1 time in 6. | Fail to reject |
+| 0.049 | Would happen about 1 time in 20. | Reject |
+| 0.0001 | Would happen 1 time in 10,000. Strong evidence. | Reject |
 
 ## The same test, viewed as an interval {#os-ci}
 
@@ -529,7 +510,7 @@ procedure and not this interval, and an interval that excludes a claimed value
 has not proved the claim false — it has reported that the data are unlikely
 under it.
 
-## When $\sigma$ is unknown: the $t$-test {#os-ttest}
+## When σ is unknown: the t-test {#os-ttest}
 
 Everything so far assumed we knew the population standard deviation $\sigma$.
 We almost never do. Replacing it with the sample standard deviation $s$ adds a
@@ -753,33 +734,21 @@ relative to what we saw. That leaves an upper bound.
 
 ## Reference tables {#os-reference}
 
-```{r os-ref-z, echo = FALSE}
-knitr::kable(
-  data.frame(
-    Test = c("Two-tailed", "Left-tailed", "Right-tailed"),
-    `Hypotheses` = c("$H_0: \\mu = \\mu_0$ vs $H_A: \\mu \\neq \\mu_0$",
-                     "$H_0: \\mu \\geq \\mu_0$ vs $H_A: \\mu < \\mu_0$",
-                     "$H_0: \\mu \\leq \\mu_0$ vs $H_A: \\mu > \\mu_0$"),
-    `Reject when` = c("$|Z_{calc}| > Z_{\\alpha/2}$",
-                      "$Z_{calc} < -Z_{\\alpha}$",
-                      "$Z_{calc} > Z_{\\alpha}$"),
-    `R argument` = c("(default)", "`alternative = \"less\"`",
-                     "`alternative = \"greater\"`"),
-    check.names = FALSE
-  ),
-  caption = "One-sample tests at a glance. Use $Z$ and `z.test()` when $\\sigma$ is known; use $t$ with $df = n-1$ and `t.test()` when it is not."
-)
-```
+Table: (\#tab:os-ref-z) One-sample tests at a glance. Use $Z$ and `z.test()` when $\sigma$ is known; use $t$ with $df = n-1$ and `t.test()` when it is not.
 
-```{r os-ref-crit, echo = FALSE}
-crit <- data.frame(
-  alpha = c("10%", "5%", "1%"),
-  two   = round(qnorm(1 - c(0.10, 0.05, 0.01) / 2), 3),
-  one   = round(qnorm(1 - c(0.10, 0.05, 0.01)), 3)
-)
-names(crit) <- c("$\\alpha$", "Two-tailed ($Z_{\\alpha/2}$)", "One-tailed ($Z_\\alpha$)")
-knitr::kable(crit, caption = "Standard normal critical values, computed by `qnorm()` rather than copied from a table.")
-```
+| Test | Hypotheses | Reject when | R argument |
+|:--|:--|:--|:--|
+| Two-tailed | $H_0: \mu = \mu_0$ vs $H_A: \mu \neq \mu_0$ | $\lvert Z_{calc} \rvert > Z_{\alpha/2}$ | (default) |
+| Left-tailed | $H_0: \mu \geq \mu_0$ vs $H_A: \mu < \mu_0$ | $Z_{calc} < -Z_{\alpha}$ | `alternative = "less"` |
+| Right-tailed | $H_0: \mu \leq \mu_0$ vs $H_A: \mu > \mu_0$ | $Z_{calc} > Z_{\alpha}$ | `alternative = "greater"` |
+
+Table: (\#tab:os-ref-crit) Standard normal critical values. Every figure below is `qnorm()` evaluated inline, not copied from a printed table.
+
+| $\alpha$ | Two-tailed, $Z_{\alpha/2}$ | One-tailed, $Z_{\alpha}$ |
+|:--|:--|:--|
+| 10% | `r round(qnorm(0.95), 3)` | `r round(qnorm(0.90), 3)` |
+| 5%  | `r round(qnorm(0.975), 3)` | `r round(qnorm(0.95), 3)` |
+| 1%  | `r round(qnorm(0.995), 3)` | `r round(qnorm(0.99), 3)` |
 
 ## Summary {#os-summary}
 

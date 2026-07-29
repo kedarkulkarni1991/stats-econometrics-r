@@ -310,7 +310,7 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="os-ci.html"><a href="os-ci.html#testing-every-possible-claim-at-once"><i class="fa fa-check"></i>Testing every possible claim at once</a></li>
 <li class="chapter" data-level="" data-path="os-ci.html"><a href="os-ci.html#so-why-keep-both"><i class="fa fa-check"></i>So why keep both?</a></li>
 </ul></li>
-<li class="chapter" data-level="4.7" data-path="os-ttest.html"><a href="os-ttest.html"><i class="fa fa-check"></i><b>4.7</b> When <span class="math inline">\(\sigma\)</span> is unknown: the <span class="math inline">\(t\)</span>-test</a>
+<li class="chapter" data-level="4.7" data-path="os-ttest.html"><a href="os-ttest.html"><i class="fa fa-check"></i><b>4.7</b> When σ is unknown: the t-test</a>
 <ul>
 <li class="chapter" data-level="" data-path="os-ttest.html"><a href="os-ttest.html#settling-the-question-with-the-actual-class"><i class="fa fa-check"></i>Settling the question with the actual class</a></li>
 <li class="chapter" data-level="" data-path="os-ttest.html"><a href="os-ttest.html#worked-example"><i class="fa fa-check"></i>Worked example</a></li>
@@ -354,12 +354,12 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <div id="os-reference" class="section level2 hasAnchor" number="4.9">
 <h2><span class="header-section-number">4.9</span> Reference tables<a href="os-reference.html#os-reference" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <table>
-<caption><span id="tab:os-ref-z">Table 4.3: </span>One-sample tests at a glance. Use <span class="math inline">\(Z\)</span> and <code>z.test()</code> when <span class="math inline">\(\sigma\)</span> is known; use <span class="math inline">\(t\)</span> with <span class="math inline">\(df = n-1\)</span> and <code>t.test()</code> when it is not.</caption>
+<caption><span id="tab:os-ref-z">Table 4.3: </span> One-sample tests at a glance. Use <span class="math inline">\(Z\)</span> and <code>z.test()</code> when <span class="math inline">\(\sigma\)</span> is known; use <span class="math inline">\(t\)</span> with <span class="math inline">\(df = n-1\)</span> and <code>t.test()</code> when it is not.</caption>
 <colgroup>
-<col width="10%" />
-<col width="36%" />
-<col width="31%" />
-<col width="21%" />
+<col width="25%" />
+<col width="25%" />
+<col width="25%" />
+<col width="25%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -373,7 +373,7 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <tr class="odd">
 <td align="left">Two-tailed</td>
 <td align="left"><span class="math inline">\(H_0: \mu = \mu_0\)</span> vs <span class="math inline">\(H_A: \mu \neq \mu_0\)</span></td>
-<td align="left"><span class="math inline">\(&amp;#124;Z_{calc}&amp;#124; &gt; Z_{\alpha/2}\)</span></td>
+<td align="left"><span class="math inline">\(\lvert Z_{calc} \rvert &gt; Z_{\alpha/2}\)</span></td>
 <td align="left">(default)</td>
 </tr>
 <tr class="even">
@@ -391,29 +391,29 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 </tbody>
 </table>
 <table>
-<caption><span id="tab:os-ref-crit">Table 4.4: </span>Standard normal critical values, computed by <code>qnorm()</code> rather than copied from a table.</caption>
+<caption><span id="tab:os-ref-crit">Table 4.4: </span> Standard normal critical values. Every figure below is <code>qnorm()</code> evaluated inline, not copied from a printed table.</caption>
 <thead>
 <tr class="header">
 <th align="left"><span class="math inline">\(\alpha\)</span></th>
-<th align="right">Two-tailed (<span class="math inline">\(Z_{\alpha/2}\)</span>)</th>
-<th align="right">One-tailed (<span class="math inline">\(Z_\alpha\)</span>)</th>
+<th align="left">Two-tailed, <span class="math inline">\(Z_{\alpha/2}\)</span></th>
+<th align="left">One-tailed, <span class="math inline">\(Z_{\alpha}\)</span></th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
 <td align="left">10%</td>
-<td align="right">1.645</td>
-<td align="right">1.282</td>
+<td align="left">1.645</td>
+<td align="left">1.282</td>
 </tr>
 <tr class="even">
 <td align="left">5%</td>
-<td align="right">1.960</td>
-<td align="right">1.645</td>
+<td align="left">1.96</td>
+<td align="left">1.645</td>
 </tr>
 <tr class="odd">
 <td align="left">1%</td>
-<td align="right">2.576</td>
-<td align="right">2.326</td>
+<td align="left">2.576</td>
+<td align="left">2.326</td>
 </tr>
 </tbody>
 </table>
@@ -482,7 +482,7 @@ gitbook.start({
     "link": null,
     "text": null
   },
-  "download": null,
+  "download": ["stats-econometrics-r.pdf"],
   "search": {
     "engine": "fuse",
     "options": null

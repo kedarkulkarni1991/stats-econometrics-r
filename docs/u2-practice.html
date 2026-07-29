@@ -310,7 +310,7 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="os-ci.html"><a href="os-ci.html#testing-every-possible-claim-at-once"><i class="fa fa-check"></i>Testing every possible claim at once</a></li>
 <li class="chapter" data-level="" data-path="os-ci.html"><a href="os-ci.html#so-why-keep-both"><i class="fa fa-check"></i>So why keep both?</a></li>
 </ul></li>
-<li class="chapter" data-level="4.7" data-path="os-ttest.html"><a href="os-ttest.html"><i class="fa fa-check"></i><b>4.7</b> When <span class="math inline">\(\sigma\)</span> is unknown: the <span class="math inline">\(t\)</span>-test</a>
+<li class="chapter" data-level="4.7" data-path="os-ttest.html"><a href="os-ttest.html"><i class="fa fa-check"></i><b>4.7</b> When σ is unknown: the t-test</a>
 <ul>
 <li class="chapter" data-level="" data-path="os-ttest.html"><a href="os-ttest.html#settling-the-question-with-the-actual-class"><i class="fa fa-check"></i>Settling the question with the actual class</a></li>
 <li class="chapter" data-level="" data-path="os-ttest.html"><a href="os-ttest.html#worked-example"><i class="fa fa-check"></i>Worked example</a></li>
@@ -484,9 +484,11 @@ households. By how much does the standard error fall?</li>
 </ol>
 <div class="answer">
 <p><strong>(i)</strong> <span class="math inline">\(\mathrm{se} = \sigma/\sqrt{n}\)</span>:</p>
-<p><span class="math display">\[n = 100:\; \frac{100{,}141}{10} = ₹10{,}014 \qquad
-  n = 400:\; \frac{100{,}141}{20} = ₹5{,}007 \qquad
-  n = 2{,}500:\; \frac{100{,}141}{50} = ₹2{,}003\]</span></p>
+<p><span class="math display">\[\begin{aligned}
+n = 100:&amp;\quad \frac{100{,}141}{10} = ₹10{,}014 \\[4pt]
+n = 400:&amp;\quad \frac{100{,}141}{20} = ₹5{,}007 \\[4pt]
+n = 2{,}500:&amp;\quad \frac{100{,}141}{50} = ₹2{,}003
+\end{aligned}\]</span></p>
 <p><strong>(ii)</strong> Require <span class="math inline">\(100{,}141/\sqrt{n} &lt; 5{,}000\)</span>, so
 <span class="math inline">\(\sqrt{n} &gt; 20.03\)</span> and <span class="math inline">\(n &gt; 401.1\)</span>. A sample of <strong>402</strong> suffices.</p>
 <p><strong>(iii)</strong> At <span class="math inline">\(n = 500\)</span> the standard error is <span class="math inline">\(100{,}141/\sqrt{500} = ₹4{,}479\)</span>,
@@ -619,7 +621,7 @@ same population, and plot the observed standard error against the theoretical
 <span id="cb72-5"><a href="u2-practice.html#cb72-5" tabindex="-1"></a>       <span class="at">subtitle =</span> <span class="st">&quot;Line: theoretical. Points: simulated.&quot;</span>) <span class="sc">+</span></span>
 <span id="cb72-6"><a href="u2-practice.html#cb72-6" tabindex="-1"></a>  <span class="fu">theme_book</span>()</span></code></pre></div>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:u2-ex-se"></span>
-<img src="stats-econometrics-r_files/figure-html/u2-ex-se-1.png" alt="Observed and theoretical standard errors for growing sample sizes." width="90%" />
+<img src="stats-econometrics-r_files/figure-html/u2-ex-se-1.png" alt="Observed and theoretical standard errors for growing sample sizes." width="90%"  />
 <p class="caption">
 Figure 2.5: Observed and theoretical standard errors for growing sample sizes.
 </p>
@@ -656,7 +658,7 @@ does not.</p>
 <span id="cb73-14"><a href="u2-practice.html#cb73-14" tabindex="-1"></a>  <span class="fu">theme_book</span>() <span class="sc">+</span></span>
 <span id="cb73-15"><a href="u2-practice.html#cb73-15" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.y =</span> <span class="fu">element_blank</span>())</span></code></pre></div>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:u2-ex-skew"></span>
-<img src="stats-econometrics-r_files/figure-html/u2-ex-skew-1.png" alt="Sampling distribution of mean earnings at two sample sizes. The red line is the population mean." width="90%" />
+<img src="stats-econometrics-r_files/figure-html/u2-ex-skew-1.png" alt="Sampling distribution of mean earnings at two sample sizes. The red line is the population mean." width="90%"  />
 <p class="caption">
 Figure 2.6: Sampling distribution of mean earnings at two sample sizes. The red line is the population mean.
 </p>
@@ -766,7 +768,7 @@ gitbook.start({
     "link": null,
     "text": null
   },
-  "download": null,
+  "download": ["stats-econometrics-r.pdf"],
   "search": {
     "engine": "fuse",
     "options": null

@@ -1,6 +1,10 @@
 ## Shared setup sourced by every chapter -------------------------------------
 
 knitr::opts_chunk$set(
+  # Figures inside callout boxes cannot float -- LaTeX raises "Not in outer par
+  # mode" -- so every figure is pinned where it is written.
+  fig.pos   = "H",
+  out.extra = "",
   comment   = "#>",
   collapse  = FALSE,
   echo      = TRUE,

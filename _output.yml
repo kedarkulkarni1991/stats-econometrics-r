@@ -37,3 +37,13 @@ bookdown::gitbook:
       whatsapp: no
       all: no
     info: false
+    download: ["pdf"]
+
+bookdown::pdf_book:
+  latex_engine: xelatex
+  includes:
+    in_header: latex/preamble.tex
+  pandoc_args: ["--lua-filter=latex/callouts.lua"]
+  toc_depth: 2
+  number_sections: true
+  keep_tex: false

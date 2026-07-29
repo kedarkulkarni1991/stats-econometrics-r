@@ -310,7 +310,7 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="os-ci.html"><a href="os-ci.html#testing-every-possible-claim-at-once"><i class="fa fa-check"></i>Testing every possible claim at once</a></li>
 <li class="chapter" data-level="" data-path="os-ci.html"><a href="os-ci.html#so-why-keep-both"><i class="fa fa-check"></i>So why keep both?</a></li>
 </ul></li>
-<li class="chapter" data-level="4.7" data-path="os-ttest.html"><a href="os-ttest.html"><i class="fa fa-check"></i><b>4.7</b> When <span class="math inline">\(\sigma\)</span> is unknown: the <span class="math inline">\(t\)</span>-test</a>
+<li class="chapter" data-level="4.7" data-path="os-ttest.html"><a href="os-ttest.html"><i class="fa fa-check"></i><b>4.7</b> When σ is unknown: the t-test</a>
 <ul>
 <li class="chapter" data-level="" data-path="os-ttest.html"><a href="os-ttest.html#settling-the-question-with-the-actual-class"><i class="fa fa-check"></i>Settling the question with the actual class</a></li>
 <li class="chapter" data-level="" data-path="os-ttest.html"><a href="os-ttest.html#worked-example"><i class="fa fa-check"></i>Worked example</a></li>
@@ -451,7 +451,7 @@ values lie within one standard deviation, about 95% within 1.96, and about
 99.7% within three.</p>
 <p>The middle one is what we need.</p>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:u3-normal95"></span>
-<img src="stats-econometrics-r_files/figure-html/u3-normal95-1.png" alt="The sampling distribution of the sample mean. The shaded region holds 95% of all sample means that could be drawn." width="90%" />
+<img src="stats-econometrics-r_files/figure-html/u3-normal95-1.png" alt="The sampling distribution of the sample mean. The shaded region holds 95% of all sample means that could be drawn." width="90%"  />
 <p class="caption">
 Figure 3.1: The sampling distribution of the sample mean. The shaded region holds 95% of all sample means that could be drawn.
 </p>
@@ -461,8 +461,7 @@ Figure 3.1: The sampling distribution of the sample mean. The shaded region hold
 40 students, roughly 95 out of every 100 sample means would fall inside this
 region and about 5 would fall outside.</p>
 <p>The relationship between distance and probability is worth exploring rather
-than memorising. Drag the slider to see how much of the distribution lies
-within any given number of standard errors of the centre.</p>
+than memorising.</p>
 <div class="zexplore">
 <svg id="zx-svg" viewBox="0 0 600 250" role="img" aria-label="Normal curve with an adjustable shaded central region">
 <path id="zx-shade" fill="#bfe0f5"></path>
@@ -543,8 +542,8 @@ within any given number of standard errors of the centre.</p>
   draw();
 })();
 </script>
-<p>Notice what the slider shows. Widening the region always captures more of the
-distribution, but never all of it, and the gain slows sharply. Moving from 1.96
+<p>Notice what happens as the distance grows. Widening the region always captures
+more of the distribution, but never all of it, and the gain slows sharply. Moving from 1.96
 to 2.58 standard errors buys the last four percentage points, and no finite
 distance reaches 100%.</p>
 <p>Returning to our survey: with a standard error of 0.86, the distance
@@ -592,13 +591,13 @@ operation applied to all three parts of the inequality:</p>
 \begin{aligned}
 P\big(|Z| \le 1.96\big) &amp;= 0.95 \\[6pt]
 P\left(-1.96 \;\le\; \frac{\bar{X} - \mu}{\sigma/\sqrt{n}} \;\le\; 1.96\right) &amp;= 0.95
-   &amp;&amp; \text{definition of } Z \\[6pt]
+   &amp;&amp; \text{def. of } Z \\[6pt]
 P\left(-1.96\frac{\sigma}{\sqrt{n}} \;\le\; \bar{X} - \mu \;\le\; 1.96\frac{\sigma}{\sqrt{n}}\right) &amp;= 0.95
-   &amp;&amp; \times \; \sigma/\sqrt{n} \\[6pt]
+   &amp;&amp; {\times}\,\sigma/\sqrt{n} \\[6pt]
 P\left(-\bar{X} - 1.96\frac{\sigma}{\sqrt{n}} \;\le\; -\mu \;\le\; -\bar{X} + 1.96\frac{\sigma}{\sqrt{n}}\right) &amp;= 0.95
-   &amp;&amp; - \; \bar{X} \\[6pt]
+   &amp;&amp; {-}\,\bar{X} \\[6pt]
 P\left(\bar{X} - 1.96\frac{\sigma}{\sqrt{n}} \;\le\; \mu \;\le\; \bar{X} + 1.96\frac{\sigma}{\sqrt{n}}\right) &amp;= 0.95
-   &amp;&amp; \times \; (-1)
+   &amp;&amp; {\times}\,(-1)
 \end{aligned}
 \]</span></p>
 <p>The last step multiplies through by <span class="math inline">\(-1\)</span>, which reverses both inequality signs
@@ -711,7 +710,7 @@ known, and construct 100 intervals from 100 samples.</p>
 <span id="cb90-24"><a href="u3-ci.html#cb90-24" tabindex="-1"></a>  <span class="fu">theme_book</span>() <span class="sc">+</span></span>
 <span id="cb90-25"><a href="u3-ci.html#cb90-25" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.y =</span> <span class="fu">element_blank</span>(), <span class="at">legend.position =</span> <span class="st">&quot;top&quot;</span>)</span></code></pre></div>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:u3-coverage"></span>
-<img src="stats-econometrics-r_files/figure-html/u3-coverage-1.png" alt="One hundred 95% confidence intervals, each from a fresh sample of 40 students. The vertical line is the true population mean." width="90%" />
+<img src="stats-econometrics-r_files/figure-html/u3-coverage-1.png" alt="One hundred 95% confidence intervals, each from a fresh sample of 40 students. The vertical line is the true population mean." width="90%"  />
 <p class="caption">
 Figure 3.2: One hundred 95% confidence intervals, each from a fresh sample of 40 students. The vertical line is the true population mean.
 </p>
@@ -790,7 +789,7 @@ gitbook.start({
     "link": null,
     "text": null
   },
-  "download": null,
+  "download": ["stats-econometrics-r.pdf"],
   "search": {
     "engine": "fuse",
     "options": null

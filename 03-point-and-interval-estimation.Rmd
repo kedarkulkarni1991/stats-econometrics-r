@@ -595,8 +595,7 @@ The shaded region represents the 95% of all possible sample means lying within
 region and about 5 would fall outside.
 
 The relationship between distance and probability is worth exploring rather
-than memorising. Drag the slider to see how much of the distribution lies
-within any given number of standard errors of the centre.
+than memorising.
 
 ```{r u3-z-explorer, echo = FALSE, results = "asis"}
 if (knitr::is_html_output()) cat('
@@ -680,10 +679,21 @@ aria-label="Normal curve with an adjustable shaded central region">
 })();
 </script>
 ')
+
+if (!knitr::is_html_output()) {
+  z <- c(0.5, 1, 1.5, 1.96, 2, 2.5, 2.576, 3, 3.5)
+  knitr::kable(
+    data.frame(`from centre` = z,
+               `inside`      = sprintf("%.2f%%", 100 * (2 * pnorm(z) - 1)),
+               `outside`     = sprintf("%.2f%%", 100 * 2 * pnorm(-z)),
+               check.names = FALSE),
+    caption = "How much of the distribution lies within a given number of standard errors of the centre. The web edition of this book presents the same relationship as a slider.",
+    booktabs = TRUE)
+}
 ```
 
-Notice what the slider shows. Widening the region always captures more of the
-distribution, but never all of it, and the gain slows sharply. Moving from 1.96
+Notice what happens as the distance grows. Widening the region always captures
+more of the distribution, but never all of it, and the gain slows sharply. Moving from 1.96
 to 2.58 standard errors buys the last four percentage points, and no finite
 distance reaches 100%.
 
@@ -745,13 +755,13 @@ $$
 \begin{aligned}
 P\big(|Z| \le 1.96\big) &= 0.95 \\[6pt]
 P\left(-1.96 \;\le\; \frac{\bar{X} - \mu}{\sigma/\sqrt{n}} \;\le\; 1.96\right) &= 0.95
-   && \text{definition of } Z \\[6pt]
+   && \text{def. of } Z \\[6pt]
 P\left(-1.96\frac{\sigma}{\sqrt{n}} \;\le\; \bar{X} - \mu \;\le\; 1.96\frac{\sigma}{\sqrt{n}}\right) &= 0.95
-   && \times \; \sigma/\sqrt{n} \\[6pt]
+   && {\times}\,\sigma/\sqrt{n} \\[6pt]
 P\left(-\bar{X} - 1.96\frac{\sigma}{\sqrt{n}} \;\le\; -\mu \;\le\; -\bar{X} + 1.96\frac{\sigma}{\sqrt{n}}\right) &= 0.95
-   && - \; \bar{X} \\[6pt]
+   && {-}\,\bar{X} \\[6pt]
 P\left(\bar{X} - 1.96\frac{\sigma}{\sqrt{n}} \;\le\; \mu \;\le\; \bar{X} + 1.96\frac{\sigma}{\sqrt{n}}\right) &= 0.95
-   && \times \; (-1)
+   && {\times}\,(-1)
 \end{aligned}
 $$
 
