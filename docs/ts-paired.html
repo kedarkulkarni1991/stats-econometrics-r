@@ -4,13 +4,13 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Licence and citation | Statistics and Econometrics with R</title>
+  <title>5.5 When two samples are not two samples | Statistics and Econometrics with R</title>
   <meta name="description" content="<p>A first course in statistics and econometrics for Indian students, built on
 the progression from question to intuition to rigour to computation to
 interpretation.</p>" />
   <meta name="generator" content="bookdown 0.47 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Licence and citation | Statistics and Econometrics with R" />
+  <meta property="og:title" content="5.5 When two samples are not two samples | Statistics and Econometrics with R" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="<p>A first course in statistics and econometrics for Indian students, built on
@@ -19,7 +19,7 @@ interpretation.</p>" />
   <meta name="github-repo" content="kedarkulkarni1991/stats-econometrics-r" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Licence and citation | Statistics and Econometrics with R" />
+  <meta name="twitter:title" content="5.5 When two samples are not two samples | Statistics and Econometrics with R" />
   
   <meta name="twitter:description" content="<p>A first course in statistics and econometrics for Indian students, built on
 the progression from question to intuition to rigour to computation to
@@ -35,8 +35,8 @@ interpretation.</p>" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="mathematical-background.html"/>
-<link rel="next" href="towards-inference.html"/>
+<link rel="prev" href="ts-unknown.html"/>
+<link rel="next" href="ts-causal.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -399,28 +399,92 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="licence-and-citation" class="section level2 unnumbered hasAnchor">
-<h2>Licence and citation<a href="licence-and-citation.html#licence-and-citation" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>This book is free, in both senses. The text, figures, exercises and datasets
-are released under
-<a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0</a>,
-and the code under the <a href="https://opensource.org/licenses/MIT">MIT licence</a>.</p>
-<p>You may copy it, print it, translate it, remix it, teach from it, and build on
-it — for any purpose, including commercially. The only condition is that you
-credit the source.</p>
-<p>If you spot an error, there is a <strong>pencil icon at the top of every page</strong>. It opens that chapter’s source on GitHub, where you can fix the mistake and send it back without installing anything.</p>
-<p>Corrections from students are genuinely welcome; several of the sharper points
-in this book exist because someone asked why.</p>
-<p>To cite:</p>
-<blockquote>
-<p>Kulkarni, K. (2026). <em>Statistics and Econometrics with R.</em>
-Azim Premji University.
-<a href="https://kedarkulkarni1991.github.io/stats-econometrics-r/" class="uri">https://kedarkulkarni1991.github.io/stats-econometrics-r/</a>
-Licensed under CC BY 4.0.</p>
-</blockquote>
-
+<div id="ts-paired" class="section level2 hasAnchor" number="5.5">
+<h2><span class="header-section-number">5.5</span> When two samples are not two samples<a href="ts-paired.html#ts-paired" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="question">
+<p>Ten couples. Two columns of ages. Is that two samples?</p>
 </div>
-<!-- </div> -->
+<p><code>marriage-ages.csv</code> holds the ages of both partners in ten married couples.</p>
+<div class="sourceCode" id="cb186"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb186-1"><a href="ts-paired.html#cb186-1" tabindex="-1"></a>couples <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/marriage-ages.csv&quot;</span>)</span>
+<span id="cb186-2"><a href="ts-paired.html#cb186-2" tabindex="-1"></a>couples</span></code></pre></div>
+<pre><code>#&gt;    partner1 partner2
+#&gt; 1        36       35
+#&gt; 2        72       67
+#&gt; 3        37       33
+#&gt; 4        36       35
+#&gt; 5        51       50
+#&gt; 6        50       46
+#&gt; 7        47       47
+#&gt; 8        50       42
+#&gt; 9        37       36
+#&gt; 10       41       41</code></pre>
+<p>The question is whether partner 1 is on average older than partner 2. There are
+two columns of ten numbers, so it is tempting to run the test we have just
+learned.</p>
+<div class="sourceCode" id="cb188"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb188-1"><a href="ts-paired.html#cb188-1" tabindex="-1"></a><span class="fu">t.test</span>(couples<span class="sc">$</span>partner1, couples<span class="sc">$</span>partner2)</span></code></pre></div>
+<pre><code>#&gt; 
+#&gt;  Welch Two Sample t-test
+#&gt; 
+#&gt; data:  couples$partner1 and couples$partner2
+#&gt; t = 0.52, df = 18, p-value = 0.6
+#&gt; alternative hypothesis: true difference in means is not equal to 0
+#&gt; 95 percent confidence interval:
+#&gt;  -7.537 12.537
+#&gt; sample estimates:
+#&gt; mean of x mean of y 
+#&gt;      45.7      43.2</code></pre>
+<p>Nothing at all: <span class="math inline">\(t = 0.52\)</span>, <span class="math inline">\(p = 0.61\)</span>. On this evidence the two are the same
+age on average.</p>
+<p>Now look at the data again. In nine of the ten couples partner 1 is the older
+one, and in the tenth they are the same age. Not once is partner 2 older. A
+procedure that looks at that and reports <span class="math inline">\(p = 0.61\)</span> has thrown something away.</p>
+<p>What it threw away is the pairing. The two-sample test treats the twenty numbers
+as two unrelated heaps, and asks whether one heap averages higher than the
+other. But the ages within a couple are strongly related — couples marry at
+similar ages to each other, and the couples differ hugely among themselves,
+from the mid-thirties to the seventies. That between-couple variation is
+enormous, it is identical in both columns, and it swamps the small, consistent
+within-couple gap.</p>
+<p>The fix is to compare each partner with <em>their own</em> partner, by working with the
+differences.</p>
+<div class="sourceCode" id="cb190"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb190-1"><a href="ts-paired.html#cb190-1" tabindex="-1"></a>d <span class="ot">&lt;-</span> couples<span class="sc">$</span>partner1 <span class="sc">-</span> couples<span class="sc">$</span>partner2</span>
+<span id="cb190-2"><a href="ts-paired.html#cb190-2" tabindex="-1"></a>d</span></code></pre></div>
+<pre><code>#&gt;  [1] 1 5 4 1 1 4 0 8 1 0</code></pre>
+<div class="sourceCode" id="cb192"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb192-1"><a href="ts-paired.html#cb192-1" tabindex="-1"></a><span class="fu">c</span>(<span class="at">mean_difference =</span> <span class="fu">mean</span>(d), <span class="at">sd =</span> <span class="fu">sd</span>(d), <span class="at">n =</span> <span class="fu">length</span>(d))</span></code></pre></div>
+<pre><code>#&gt; mean_difference              sd               n 
+#&gt;           2.500           2.635          10.000</code></pre>
+<p>Every difference is zero or positive. Now the between-couple variation has
+cancelled out entirely — it was common to both columns, so subtracting removes
+it — and what remains is the quantity of interest.</p>
+<div class="keyidea">
+<p>A <strong>paired</strong> design produces one number per unit, not two samples. Take the
+differences and run a <em>one-sample</em> test on them, against <span class="math inline">\(H_0: \mu_d = 0\)</span>.</p>
+<p>In R, <code>paired = TRUE</code>.</p>
+</div>
+<div class="sourceCode" id="cb194"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb194-1"><a href="ts-paired.html#cb194-1" tabindex="-1"></a><span class="fu">t.test</span>(couples<span class="sc">$</span>partner1, couples<span class="sc">$</span>partner2, <span class="at">paired =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<pre><code>#&gt; 
+#&gt;  Paired t-test
+#&gt; 
+#&gt; data:  couples$partner1 and couples$partner2
+#&gt; t = 3, df = 9, p-value = 0.01
+#&gt; alternative hypothesis: true mean difference is not equal to 0
+#&gt; 95 percent confidence interval:
+#&gt;  0.6149 4.3851
+#&gt; sample estimates:
+#&gt; mean difference 
+#&gt;             2.5</code></pre>
+<p><span class="math inline">\(t = 3.0\)</span> on 9 degrees of freedom, <span class="math inline">\(p = 0.015\)</span>. Partner 1 is older by between
+0.6 and 4.4 years, with 95% confidence.</p>
+<div class="watchout">
+<p>The same ten couples gave <span class="math inline">\(p = 0.61\)</span> and <span class="math inline">\(p = 0.015\)</span>. The data did not change.
+Only whether the analysis respected the design.</p>
+<p>Pairing arises whenever the two measurements belong to the same unit: before and
+after a training programme on the same workers, the same plots under two
+treatments in successive seasons, the same households surveyed in two rounds. In
+every such case, treating the columns as independent samples discards the
+comparison the design was built to make.</p>
+</div>
+</div>
 <script>
 // Solutions are written as plain fenced divs in the source, so the PDF edition
 // can typeset them as boxes. On the web they should stay hidden until asked
@@ -442,8 +506,8 @@ document.addEventListener("DOMContentLoaded", function () {
           </div>
         </div>
       </div>
-<a href="mathematical-background.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="towards-inference.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="ts-unknown.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="ts-causal.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -474,7 +538,7 @@ gitbook.start({
     "size": 2
   },
   "edit": {
-    "link": "https://github.com/kedarkulkarni1991/stats-econometrics-r/edit/main/index.Rmd",
+    "link": "https://github.com/kedarkulkarni1991/stats-econometrics-r/edit/main/05-two-sample.Rmd",
     "text": "Edit"
   },
   "history": {

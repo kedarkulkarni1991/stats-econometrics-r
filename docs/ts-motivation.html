@@ -4,13 +4,13 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Licence and citation | Statistics and Econometrics with R</title>
+  <title>5.1 Comparing two groups | Statistics and Econometrics with R</title>
   <meta name="description" content="<p>A first course in statistics and econometrics for Indian students, built on
 the progression from question to intuition to rigour to computation to
 interpretation.</p>" />
   <meta name="generator" content="bookdown 0.47 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Licence and citation | Statistics and Econometrics with R" />
+  <meta property="og:title" content="5.1 Comparing two groups | Statistics and Econometrics with R" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="<p>A first course in statistics and econometrics for Indian students, built on
@@ -19,7 +19,7 @@ interpretation.</p>" />
   <meta name="github-repo" content="kedarkulkarni1991/stats-econometrics-r" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Licence and citation | Statistics and Econometrics with R" />
+  <meta name="twitter:title" content="5.1 Comparing two groups | Statistics and Econometrics with R" />
   
   <meta name="twitter:description" content="<p>A first course in statistics and econometrics for Indian students, built on
 the progression from question to intuition to rigour to computation to
@@ -35,8 +35,8 @@ interpretation.</p>" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="mathematical-background.html"/>
-<link rel="next" href="towards-inference.html"/>
+<link rel="prev" href="two-sample.html"/>
+<link rel="next" href="ts-sampling.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -399,28 +399,40 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="licence-and-citation" class="section level2 unnumbered hasAnchor">
-<h2>Licence and citation<a href="licence-and-citation.html#licence-and-citation" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>This book is free, in both senses. The text, figures, exercises and datasets
-are released under
-<a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0</a>,
-and the code under the <a href="https://opensource.org/licenses/MIT">MIT licence</a>.</p>
-<p>You may copy it, print it, translate it, remix it, teach from it, and build on
-it — for any purpose, including commercially. The only condition is that you
-credit the source.</p>
-<p>If you spot an error, there is a <strong>pencil icon at the top of every page</strong>. It opens that chapter’s source on GitHub, where you can fix the mistake and send it back without installing anything.</p>
-<p>Corrections from students are genuinely welcome; several of the sharper points
-in this book exist because someone asked why.</p>
-<p>To cite:</p>
-<blockquote>
-<p>Kulkarni, K. (2026). <em>Statistics and Econometrics with R.</em>
-Azim Premji University.
-<a href="https://kedarkulkarni1991.github.io/stats-econometrics-r/" class="uri">https://kedarkulkarni1991.github.io/stats-econometrics-r/</a>
-Licensed under CC BY 4.0.</p>
-</blockquote>
-
+<div id="ts-motivation" class="section level2 hasAnchor" number="5.1">
+<h2><span class="header-section-number">5.1</span> Comparing two groups<a href="ts-motivation.html#ts-motivation" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="question">
+<p>Two groups, two sample means, and they are not equal. What have we learned?</p>
 </div>
-<!-- </div> -->
+<p>Suppose a claim is made that two populations have the same mean. Male and
+female students at a university consume the same number of cigarettes on
+average; conventional and high-yielding wheat produce the same yield per
+hectare; two districts have the same average household income.</p>
+<p>We could settle it by measuring everyone in both populations. That is expensive
+in exactly the way Unit <a href="estimation.html#estimation">2</a> described, and nobody does it.</p>
+<p>So we draw a sample from each group and compute both sample means. Unlike the
+one-sample case, we now have <em>two</em> numbers, each carrying its own sampling
+variation.</p>
+<p>Suppose they differ. Have we shown the populations differ?</p>
+<div class="watchout">
+<p>No — and for the same reason as in Unit <a href="one-sample.html#one-sample">4</a>, only more so.</p>
+<p>Each sample mean would miss its population mean even if we had measured
+perfectly. Now there are two of them, each free to land high or low. A
+difference between two sample means is <em>guaranteed</em> to appear even when the two
+populations are identical.</p>
+</div>
+<p>So the question is the one we have asked all along, adapted:</p>
+<blockquote>
+<p>If the two populations really had the same mean, how often would two samples
+come out as far apart as ours did?</p>
+</blockquote>
+<p>If that would happen often, we have learned nothing about the populations. If it
+would almost never happen, then either something unusual happened to us or the
+two populations are not the same.</p>
+<p>Everything that follows is machinery for answering that question. And as
+before, the machinery needs a sampling distribution — this time of a
+<em>difference</em>.</p>
+</div>
 <script>
 // Solutions are written as plain fenced divs in the source, so the PDF edition
 // can typeset them as boxes. On the web they should stay hidden until asked
@@ -442,8 +454,8 @@ document.addEventListener("DOMContentLoaded", function () {
           </div>
         </div>
       </div>
-<a href="mathematical-background.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="towards-inference.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="two-sample.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="ts-sampling.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -474,7 +486,7 @@ gitbook.start({
     "size": 2
   },
   "edit": {
-    "link": "https://github.com/kedarkulkarni1991/stats-econometrics-r/edit/main/index.Rmd",
+    "link": "https://github.com/kedarkulkarni1991/stats-econometrics-r/edit/main/05-two-sample.Rmd",
     "text": "Edit"
   },
   "history": {

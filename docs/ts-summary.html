@@ -4,13 +4,13 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Licence and citation | Statistics and Econometrics with R</title>
+  <title>5.7 Summary | Statistics and Econometrics with R</title>
   <meta name="description" content="<p>A first course in statistics and econometrics for Indian students, built on
 the progression from question to intuition to rigour to computation to
 interpretation.</p>" />
   <meta name="generator" content="bookdown 0.47 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Licence and citation | Statistics and Econometrics with R" />
+  <meta property="og:title" content="5.7 Summary | Statistics and Econometrics with R" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="<p>A first course in statistics and econometrics for Indian students, built on
@@ -19,7 +19,7 @@ interpretation.</p>" />
   <meta name="github-repo" content="kedarkulkarni1991/stats-econometrics-r" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Licence and citation | Statistics and Econometrics with R" />
+  <meta name="twitter:title" content="5.7 Summary | Statistics and Econometrics with R" />
   
   <meta name="twitter:description" content="<p>A first course in statistics and econometrics for Indian students, built on
 the progression from question to intuition to rigour to computation to
@@ -35,8 +35,8 @@ interpretation.</p>" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="mathematical-background.html"/>
-<link rel="next" href="towards-inference.html"/>
+<link rel="prev" href="ts-causal.html"/>
+<link rel="next" href="ts-practice.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -399,28 +399,37 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="licence-and-citation" class="section level2 unnumbered hasAnchor">
-<h2>Licence and citation<a href="licence-and-citation.html#licence-and-citation" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>This book is free, in both senses. The text, figures, exercises and datasets
-are released under
-<a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0</a>,
-and the code under the <a href="https://opensource.org/licenses/MIT">MIT licence</a>.</p>
-<p>You may copy it, print it, translate it, remix it, teach from it, and build on
-it — for any purpose, including commercially. The only condition is that you
-credit the source.</p>
-<p>If you spot an error, there is a <strong>pencil icon at the top of every page</strong>. It opens that chapter’s source on GitHub, where you can fix the mistake and send it back without installing anything.</p>
-<p>Corrections from students are genuinely welcome; several of the sharper points
-in this book exist because someone asked why.</p>
-<p>To cite:</p>
-<blockquote>
-<p>Kulkarni, K. (2026). <em>Statistics and Econometrics with R.</em>
-Azim Premji University.
-<a href="https://kedarkulkarni1991.github.io/stats-econometrics-r/" class="uri">https://kedarkulkarni1991.github.io/stats-econometrics-r/</a>
-Licensed under CC BY 4.0.</p>
-</blockquote>
-
+<div id="ts-summary" class="section level2 hasAnchor" number="5.7">
+<h2><span class="header-section-number">5.7</span> Summary<a href="ts-summary.html#ts-summary" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="keyidea">
+<ul>
+<li>Two groups produce two sample means, and a difference between them is
+guaranteed to appear even when the populations are identical. The question is
+whether it is larger than sampling variation would produce.</li>
+<li><span class="math inline">\(E[\bar{X} - \bar{Y}] = \mu_x - \mu_y\)</span>: the difference of sample means is
+unbiased for the difference of population means.</li>
+<li><strong>The variances add even though the means subtract</strong>, so
+<span class="math inline">\(\mathrm{se}(\bar{X} - \bar{Y}) = \sqrt{\sigma_x^2/n + \sigma_y^2/m}\)</span>.
+Comparing two groups is noisier than measuring one, and needs more data.</li>
+<li>With <span class="math inline">\(\sigma\)</span> known the test is a <span class="math inline">\(Z\)</span>-test on the difference; the interval is
+<span class="math inline">\((\bar{x} - \bar{y}) \pm Z_{\alpha/2}\,\mathrm{se}\)</span>, and it excludes zero
+exactly when the test rejects.</li>
+<li>With <span class="math inline">\(\sigma\)</span> unknown, three cases differ only under the square root: large
+samples use <span class="math inline">\(s_x\)</span> and <span class="math inline">\(s_y\)</span> with the normal; <strong>pooling</strong> assumes equal
+variances and buys <span class="math inline">\(n + m - 2\)</span> degrees of freedom; <strong>Welch</strong> assumes nothing
+and adjusts the degrees of freedom down. R’s <code>t.test()</code> uses Welch unless you
+pass <code>var.equal = TRUE</code>, and Welch is the safer default.</li>
+<li>A <strong>paired</strong> design gives one number per unit. Take differences and run a
+one-sample test. Treating paired data as two independent samples discards the
+comparison the design was built to make — in the marriage data it turned
+<span class="math inline">\(p = 0.015\)</span> into <span class="math inline">\(p = 0.61\)</span>.</li>
+<li>A significant difference need not be an important one. Read the interval in
+the units of the problem.</li>
+<li>A difference between two groups that formed themselves is not an effect. The
+test compares the groups as they arrive and is silent about why they differ.</li>
+</ul>
 </div>
-<!-- </div> -->
+</div>
 <script>
 // Solutions are written as plain fenced divs in the source, so the PDF edition
 // can typeset them as boxes. On the web they should stay hidden until asked
@@ -442,8 +451,8 @@ document.addEventListener("DOMContentLoaded", function () {
           </div>
         </div>
       </div>
-<a href="mathematical-background.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="towards-inference.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="ts-causal.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="ts-practice.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -474,7 +483,7 @@ gitbook.start({
     "size": 2
   },
   "edit": {
-    "link": "https://github.com/kedarkulkarni1991/stats-econometrics-r/edit/main/index.Rmd",
+    "link": "https://github.com/kedarkulkarni1991/stats-econometrics-r/edit/main/05-two-sample.Rmd",
     "text": "Edit"
   },
   "history": {

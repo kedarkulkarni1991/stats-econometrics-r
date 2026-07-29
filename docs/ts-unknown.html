@@ -4,13 +4,13 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Licence and citation | Statistics and Econometrics with R</title>
+  <title>5.4 When σ is unknown | Statistics and Econometrics with R</title>
   <meta name="description" content="<p>A first course in statistics and econometrics for Indian students, built on
 the progression from question to intuition to rigour to computation to
 interpretation.</p>" />
   <meta name="generator" content="bookdown 0.47 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Licence and citation | Statistics and Econometrics with R" />
+  <meta property="og:title" content="5.4 When σ is unknown | Statistics and Econometrics with R" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="<p>A first course in statistics and econometrics for Indian students, built on
@@ -19,7 +19,7 @@ interpretation.</p>" />
   <meta name="github-repo" content="kedarkulkarni1991/stats-econometrics-r" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Licence and citation | Statistics and Econometrics with R" />
+  <meta name="twitter:title" content="5.4 When σ is unknown | Statistics and Econometrics with R" />
   
   <meta name="twitter:description" content="<p>A first course in statistics and econometrics for Indian students, built on
 the progression from question to intuition to rigour to computation to
@@ -35,8 +35,8 @@ interpretation.</p>" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="mathematical-background.html"/>
-<link rel="next" href="towards-inference.html"/>
+<link rel="prev" href="ts-known.html"/>
+<link rel="next" href="ts-paired.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -399,28 +399,106 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="licence-and-citation" class="section level2 unnumbered hasAnchor">
-<h2>Licence and citation<a href="licence-and-citation.html#licence-and-citation" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>This book is free, in both senses. The text, figures, exercises and datasets
-are released under
-<a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0</a>,
-and the code under the <a href="https://opensource.org/licenses/MIT">MIT licence</a>.</p>
-<p>You may copy it, print it, translate it, remix it, teach from it, and build on
-it — for any purpose, including commercially. The only condition is that you
-credit the source.</p>
-<p>If you spot an error, there is a <strong>pencil icon at the top of every page</strong>. It opens that chapter’s source on GitHub, where you can fix the mistake and send it back without installing anything.</p>
-<p>Corrections from students are genuinely welcome; several of the sharper points
-in this book exist because someone asked why.</p>
-<p>To cite:</p>
-<blockquote>
-<p>Kulkarni, K. (2026). <em>Statistics and Econometrics with R.</em>
-Azim Premji University.
-<a href="https://kedarkulkarni1991.github.io/stats-econometrics-r/" class="uri">https://kedarkulkarni1991.github.io/stats-econometrics-r/</a>
-Licensed under CC BY 4.0.</p>
-</blockquote>
-
+<div id="ts-unknown" class="section level2 hasAnchor" number="5.4">
+<h2><span class="header-section-number">5.4</span> When σ is unknown<a href="ts-unknown.html#ts-unknown" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="question">
+<p>As always, we do not know <span class="math inline">\(\sigma_x\)</span> or <span class="math inline">\(\sigma_y\)</span>. Now there are two of them.</p>
 </div>
-<!-- </div> -->
+<p>In practice both population standard deviations must be estimated from the
+samples, using <span class="math inline">\(s_x\)</span> and <span class="math inline">\(s_y\)</span>. As in Section <a href="os-ttest.html#os-ttest">4.7</a>, that costs
+something, and what it costs depends on the situation. Three cases arise, and
+they differ only in what goes underneath the square root.</p>
+<div id="large-samples" class="section level3 unnumbered hasAnchor">
+<h3>Large samples<a href="ts-unknown.html#large-samples" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>If both samples are reasonably large — a common rule of thumb is at least 20
+each — then <span class="math inline">\(s_x\)</span> and <span class="math inline">\(s_y\)</span> are reliable enough that substituting them changes
+little, and the normal distribution remains a good approximation:</p>
+<p><span class="math display">\[Z_{calc} = \frac{\bar{x} - \bar{y}}{\sqrt{\dfrac{s_x^2}{n} + \dfrac{s_y^2}{m}}}\]</span></p>
+<p>This is the same statistic with hats on the standard deviations.</p>
+</div>
+<div id="equal-variances-the-pooled-estimator" class="section level3 unnumbered hasAnchor">
+<h3>Equal variances: the pooled estimator<a href="ts-unknown.html#equal-variances-the-pooled-estimator" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>If we are willing to assume the two populations share a common standard
+deviation, <span class="math inline">\(\sigma_x = \sigma_y = \sigma\)</span>, then both samples are estimating the
+<em>same</em> quantity and it is wasteful to estimate it twice. We combine them.</p>
+<div class="keyidea">
+<p>The <strong>pooled variance estimator</strong> is a weighted average of the two sample
+variances, each weighted by its degrees of freedom:</p>
+<p><span class="math display">\[s_p^2 = \frac{(n-1)s_x^2 + (m-1)s_y^2}{n + m - 2}\]</span></p>
+<p>and the test statistic becomes</p>
+<p><span class="math display">\[t_{calc} = \frac{\bar{x} - \bar{y}}{\sqrt{s_p^2\left(\dfrac{1}{n} + \dfrac{1}{m}\right)}}\]</span></p>
+<p>compared against <span class="math inline">\(t\)</span> with <span class="math inline">\(n + m - 2\)</span> degrees of freedom.</p>
+</div>
+<p>The degrees of freedom are worth pausing on. We began with <span class="math inline">\(n + m\)</span>
+observations, and spent one estimating each of the two sample means, leaving
+<span class="math inline">\(n + m - 2\)</span>. The same accounting as Section <a href="u3-variance.html#u3-variance">3.2</a>, applied twice.</p>
+<p>Pooling buys precision — <span class="math inline">\(n + m - 2\)</span> degrees of freedom rather than something
+closer to the smaller sample’s — but only if the assumption holds. If one group
+really is more variable than the other, the pooled estimate is a weighted
+average of two different things, and the test is wrong in a way the output will
+not reveal.</p>
+</div>
+<div id="unequal-variances-welchs-test" class="section level3 unnumbered hasAnchor">
+<h3>Unequal variances: Welch’s test<a href="ts-unknown.html#unequal-variances-welchs-test" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>The safer option makes no assumption about the variances. It uses the separate
+estimates,</p>
+<p><span class="math display">\[t_{calc} = \frac{\bar{x} - \bar{y}}{\sqrt{\dfrac{s_x^2}{n} + \dfrac{s_y^2}{m}}}\]</span></p>
+<p>and adjusts the degrees of freedom downwards to compensate for the extra
+uncertainty. The adjustment is not a whole number and is not worth memorising;
+R computes it.</p>
+<div class="watchout">
+<p><strong>R’s <code>t.test()</code> uses Welch by default.</strong> If you have derived a pooled
+statistic by hand and R disagrees with you, this is usually why.</p>
+<p>To pool, pass <code>var.equal = TRUE</code> explicitly.</p>
+<p>Modern practice is to prefer Welch. It costs very little when the variances
+really are equal, and it protects you when they are not — and you can never
+verify equal variances, only fail to reject the claim that they are equal.</p>
+</div>
+</div>
+<div id="do-north-and-south-indian-students-differ-in-height" class="section level3 unnumbered hasAnchor">
+<h3>Do North and South Indian students differ in height?<a href="ts-unknown.html#do-north-and-south-indian-students-differ-in-height" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p><code>student-survey-height.csv</code> records 100 students, each classified by region.</p>
+<div class="sourceCode" id="cb180"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb180-1"><a href="ts-unknown.html#cb180-1" tabindex="-1"></a>heights <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/student-survey-height.csv&quot;</span>)</span>
+<span id="cb180-2"><a href="ts-unknown.html#cb180-2" tabindex="-1"></a></span>
+<span id="cb180-3"><a href="ts-unknown.html#cb180-3" tabindex="-1"></a><span class="fu">aggregate</span>(height <span class="sc">~</span> region, <span class="at">data =</span> heights,</span>
+<span id="cb180-4"><a href="ts-unknown.html#cb180-4" tabindex="-1"></a>          <span class="cf">function</span>(x) <span class="fu">round</span>(<span class="fu">c</span>(<span class="at">n =</span> <span class="fu">length</span>(x), <span class="at">mean =</span> <span class="fu">mean</span>(x), <span class="at">sd =</span> <span class="fu">sd</span>(x)), <span class="dv">2</span>))</span></code></pre></div>
+<pre><code>#&gt;         region height.n height.mean height.sd
+#&gt; 1 North Indian    57.00      165.16      7.29
+#&gt; 2 South Indian    43.00      163.67      9.85</code></pre>
+<p>The two sample means differ by about 1.5 cm, and the two sample standard
+deviations are not equal — 7.3 against 9.9. That is a case for Welch.</p>
+<div class="sourceCode" id="cb182"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb182-1"><a href="ts-unknown.html#cb182-1" tabindex="-1"></a><span class="fu">t.test</span>(height <span class="sc">~</span> region, <span class="at">data =</span> heights)</span></code></pre></div>
+<pre><code>#&gt; 
+#&gt;  Welch Two Sample t-test
+#&gt; 
+#&gt; data:  height by region
+#&gt; t = 0.83, df = 74, p-value = 0.4
+#&gt; alternative hypothesis: true difference in means between group North Indian and group South Indian is not equal to 0
+#&gt; 95 percent confidence interval:
+#&gt;  -2.074  5.043
+#&gt; sample estimates:
+#&gt; mean in group North Indian mean in group South Indian 
+#&gt;                      165.2                      163.7</code></pre>
+<p><span class="math inline">\(t = 0.83\)</span> on 74.4 degrees of freedom, with <span class="math inline">\(p = 0.41\)</span>. We fail to reject. The
+95% interval for the difference runs from <span class="math inline">\(-2.07\)</span> to <span class="math inline">\(5.04\)</span> cm, and it
+<strong>contains zero</strong> — the two statements agree, as they must.</p>
+<p>So a 1.5 cm gap in the samples is entirely unremarkable. With these sample
+sizes and this much variation within each group, differences of that size turn
+up constantly when the populations are identical.</p>
+<div class="deeper">
+<p>Compare the degrees of freedom the two approaches give here.</p>
+<div class="sourceCode" id="cb184"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb184-1"><a href="ts-unknown.html#cb184-1" tabindex="-1"></a><span class="fu">c</span>(<span class="at">welch  =</span> <span class="fu">t.test</span>(height <span class="sc">~</span> region, <span class="at">data =</span> heights)<span class="sc">$</span>parameter,</span>
+<span id="cb184-2"><a href="ts-unknown.html#cb184-2" tabindex="-1"></a>  <span class="at">pooled =</span> <span class="fu">t.test</span>(height <span class="sc">~</span> region, <span class="at">data =</span> heights, <span class="at">var.equal =</span> <span class="cn">TRUE</span>)<span class="sc">$</span>parameter)</span></code></pre></div>
+<pre><code>#&gt;  welch.df pooled.df 
+#&gt;     74.36     98.00</code></pre>
+<p>Pooling claims 98 degrees of freedom; Welch allows only 74.4. The difference is
+the price of not assuming the two groups are equally variable — and here, where
+one sample’s standard deviation is a third larger than the other’s, it is a
+price worth paying.</p>
+<p>Both give the same verdict in this case. They do not always.</p>
+</div>
+</div>
+</div>
 <script>
 // Solutions are written as plain fenced divs in the source, so the PDF edition
 // can typeset them as boxes. On the web they should stay hidden until asked
@@ -442,8 +520,8 @@ document.addEventListener("DOMContentLoaded", function () {
           </div>
         </div>
       </div>
-<a href="mathematical-background.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="towards-inference.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="ts-known.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="ts-paired.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -474,7 +552,7 @@ gitbook.start({
     "size": 2
   },
   "edit": {
-    "link": "https://github.com/kedarkulkarni1991/stats-econometrics-r/edit/main/index.Rmd",
+    "link": "https://github.com/kedarkulkarni1991/stats-econometrics-r/edit/main/05-two-sample.Rmd",
     "text": "Edit"
   },
   "history": {

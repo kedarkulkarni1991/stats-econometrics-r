@@ -36,7 +36,7 @@ interpretation.</p>" />
   
   
 <link rel="prev" href="os-question-bank.html"/>
-
+<link rel="next" href="two-sample.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -341,6 +341,43 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="4.13" data-path="os-looking-ahead.html"><a href="os-looking-ahead.html"><i class="fa fa-check"></i><b>4.13</b> Looking ahead</a></li>
 </ul></li>
+<li class="chapter" data-level="5" data-path="two-sample.html"><a href="two-sample.html"><i class="fa fa-check"></i><b>5</b> Hypothesis Testing: Two Samples</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="ts-motivation.html"><a href="ts-motivation.html"><i class="fa fa-check"></i><b>5.1</b> Comparing two groups</a></li>
+<li class="chapter" data-level="5.2" data-path="ts-sampling.html"><a href="ts-sampling.html"><i class="fa fa-check"></i><b>5.2</b> What does a difference of means do across samples?</a></li>
+<li class="chapter" data-level="5.3" data-path="ts-known.html"><a href="ts-known.html"><i class="fa fa-check"></i><b>5.3</b> Testing the difference when σ is known</a>
+<ul>
+<li class="chapter" data-level="" data-path="ts-known.html"><a href="ts-known.html#conventional-against-high-yielding-wheat"><i class="fa fa-check"></i>Conventional against high-yielding wheat</a></li>
+</ul></li>
+<li class="chapter" data-level="5.4" data-path="ts-unknown.html"><a href="ts-unknown.html"><i class="fa fa-check"></i><b>5.4</b> When σ is unknown</a>
+<ul>
+<li class="chapter" data-level="" data-path="ts-unknown.html"><a href="ts-unknown.html#large-samples"><i class="fa fa-check"></i>Large samples</a></li>
+<li class="chapter" data-level="" data-path="ts-unknown.html"><a href="ts-unknown.html#equal-variances-the-pooled-estimator"><i class="fa fa-check"></i>Equal variances: the pooled estimator</a></li>
+<li class="chapter" data-level="" data-path="ts-unknown.html"><a href="ts-unknown.html#unequal-variances-welchs-test"><i class="fa fa-check"></i>Unequal variances: Welch’s test</a></li>
+<li class="chapter" data-level="" data-path="ts-unknown.html"><a href="ts-unknown.html#do-north-and-south-indian-students-differ-in-height"><i class="fa fa-check"></i>Do North and South Indian students differ in height?</a></li>
+</ul></li>
+<li class="chapter" data-level="5.5" data-path="ts-paired.html"><a href="ts-paired.html"><i class="fa fa-check"></i><b>5.5</b> When two samples are not two samples</a></li>
+<li class="chapter" data-level="5.6" data-path="ts-causal.html"><a href="ts-causal.html"><i class="fa fa-check"></i><b>5.6</b> A difference is not an effect</a>
+<ul>
+<li class="chapter" data-level="" data-path="ts-causal.html"><a href="ts-causal.html#the-difference-is-significant-and-trivial"><i class="fa fa-check"></i>The difference is significant and trivial</a></li>
+<li class="chapter" data-level="" data-path="ts-causal.html"><a href="ts-causal.html#the-groups-were-not-assigned"><i class="fa fa-check"></i>The groups were not assigned</a></li>
+</ul></li>
+<li class="chapter" data-level="5.7" data-path="ts-summary.html"><a href="ts-summary.html"><i class="fa fa-check"></i><b>5.7</b> Summary</a></li>
+<li class="chapter" data-level="5.8" data-path="ts-practice.html"><a href="ts-practice.html"><i class="fa fa-check"></i><b>5.8</b> Practice problems</a>
+<ul>
+<li class="chapter" data-level="" data-path="ts-practice.html"><a href="ts-practice.html#concept-checks-3"><i class="fa fa-check"></i>Concept checks</a></li>
+<li class="chapter" data-level="" data-path="ts-practice.html"><a href="ts-practice.html#explain-3"><i class="fa fa-check"></i>Explain</a></li>
+<li class="chapter" data-level="" data-path="ts-practice.html"><a href="ts-practice.html#numerical-problems-3"><i class="fa fa-check"></i>Numerical problems</a></li>
+<li class="chapter" data-level="" data-path="ts-practice.html"><a href="ts-practice.html#r-exercises-3"><i class="fa fa-check"></i>R exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="5.9" data-path="ts-question-bank.html"><a href="ts-question-bank.html"><i class="fa fa-check"></i><b>5.9</b> Question bank</a>
+<ul>
+<li class="chapter" data-level="" data-path="ts-question-bank.html"><a href="ts-question-bank.html#multiple-choice-4"><i class="fa fa-check"></i>Multiple choice</a></li>
+<li class="chapter" data-level="" data-path="ts-question-bank.html"><a href="ts-question-bank.html#short-reasoning-4"><i class="fa fa-check"></i>Short reasoning</a></li>
+<li class="chapter" data-level="" data-path="ts-question-bank.html"><a href="ts-question-bank.html#numerical-4"><i class="fa fa-check"></i>Numerical</a></li>
+</ul></li>
+<li class="chapter" data-level="5.10" data-path="ts-looking-ahead.html"><a href="ts-looking-ahead.html"><i class="fa fa-check"></i><b>5.10</b> Looking ahead</a></li>
+</ul></li>
 <li class="divider"></li>
 <li class="toc-after">Kedar Kulkarni · Azim Premji University<br>
 <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a></li>
@@ -412,8 +449,8 @@ document.addEventListener("DOMContentLoaded", function () {
           </div>
         </div>
       </div>
-<a href="os-question-bank.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-
+<a href="os-question-bank.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="two-sample.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

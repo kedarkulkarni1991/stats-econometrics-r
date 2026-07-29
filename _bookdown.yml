@@ -13,6 +13,7 @@ rmd_files:
   - "02-estimation.Rmd"
   - "03-point-and-interval-estimation.Rmd"
   - "04-hypothesis-testing-one-sample.Rmd"
+  - "05-two-sample.Rmd"
 
 language:
   ui:

@@ -4,13 +4,13 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Licence and citation | Statistics and Econometrics with R</title>
+  <title>5.9 Question bank | Statistics and Econometrics with R</title>
   <meta name="description" content="<p>A first course in statistics and econometrics for Indian students, built on
 the progression from question to intuition to rigour to computation to
 interpretation.</p>" />
   <meta name="generator" content="bookdown 0.47 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Licence and citation | Statistics and Econometrics with R" />
+  <meta property="og:title" content="5.9 Question bank | Statistics and Econometrics with R" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="<p>A first course in statistics and econometrics for Indian students, built on
@@ -19,7 +19,7 @@ interpretation.</p>" />
   <meta name="github-repo" content="kedarkulkarni1991/stats-econometrics-r" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Licence and citation | Statistics and Econometrics with R" />
+  <meta name="twitter:title" content="5.9 Question bank | Statistics and Econometrics with R" />
   
   <meta name="twitter:description" content="<p>A first course in statistics and econometrics for Indian students, built on
 the progression from question to intuition to rigour to computation to
@@ -35,8 +35,8 @@ interpretation.</p>" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="mathematical-background.html"/>
-<link rel="next" href="towards-inference.html"/>
+<link rel="prev" href="ts-practice.html"/>
+<link rel="next" href="ts-looking-ahead.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -399,28 +399,122 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="licence-and-citation" class="section level2 unnumbered hasAnchor">
-<h2>Licence and citation<a href="licence-and-citation.html#licence-and-citation" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>This book is free, in both senses. The text, figures, exercises and datasets
-are released under
-<a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0</a>,
-and the code under the <a href="https://opensource.org/licenses/MIT">MIT licence</a>.</p>
-<p>You may copy it, print it, translate it, remix it, teach from it, and build on
-it — for any purpose, including commercially. The only condition is that you
-credit the source.</p>
-<p>If you spot an error, there is a <strong>pencil icon at the top of every page</strong>. It opens that chapter’s source on GitHub, where you can fix the mistake and send it back without installing anything.</p>
-<p>Corrections from students are genuinely welcome; several of the sharper points
-in this book exist because someone asked why.</p>
-<p>To cite:</p>
-<blockquote>
-<p>Kulkarni, K. (2026). <em>Statistics and Econometrics with R.</em>
-Azim Premji University.
-<a href="https://kedarkulkarni1991.github.io/stats-econometrics-r/" class="uri">https://kedarkulkarni1991.github.io/stats-econometrics-r/</a>
-Licensed under CC BY 4.0.</p>
-</blockquote>
-
+<div id="ts-question-bank" class="section level2 hasAnchor" number="5.9">
+<h2><span class="header-section-number">5.9</span> Question bank<a href="ts-question-bank.html#ts-question-bank" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="watchout">
+<p><strong>No answers are given for this section, by design.</strong></p>
 </div>
-<!-- </div> -->
+<div id="multiple-choice-4" class="section level3 unnumbered hasAnchor">
+<h3>Multiple choice<a href="ts-question-bank.html#multiple-choice-4" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p><strong>QB 5.1</strong> The standard error of <span class="math inline">\(\bar{X} - \bar{Y}\)</span> for independent samples is</p>
+<ol style="list-style-type: lower-alpha">
+<li><span class="math inline">\(\dfrac{\sigma_x}{\sqrt{n}} - \dfrac{\sigma_y}{\sqrt{m}}\)</span></li>
+<li><span class="math inline">\(\sqrt{\dfrac{\sigma_x^2}{n} + \dfrac{\sigma_y^2}{m}}\)</span></li>
+<li><span class="math inline">\(\sqrt{\dfrac{\sigma_x^2}{n} - \dfrac{\sigma_y^2}{m}}\)</span></li>
+<li><span class="math inline">\(\dfrac{\sigma_x + \sigma_y}{\sqrt{n + m}}\)</span></li>
+</ol>
+<p><strong>QB 5.2</strong> The pooled two-sample <span class="math inline">\(t\)</span>-test uses how many degrees of freedom?</p>
+<ol style="list-style-type: lower-alpha">
+<li><span class="math inline">\(n + m\)</span></li>
+<li><span class="math inline">\(n + m - 1\)</span></li>
+<li><span class="math inline">\(n + m - 2\)</span></li>
+<li><span class="math inline">\(\min(n, m) - 1\)</span></li>
+</ol>
+<p><strong>QB 5.3</strong> A 95% confidence interval for <span class="math inline">\(\mu_x - \mu_y\)</span> is <span class="math inline">\([-1.2,\ 4.8]\)</span>. At
+the 5% level we</p>
+<ol style="list-style-type: lower-alpha">
+<li>reject <span class="math inline">\(H_0: \mu_x = \mu_y\)</span></li>
+<li>fail to reject <span class="math inline">\(H_0: \mu_x = \mu_y\)</span></li>
+<li>cannot tell without the <span class="math inline">\(p\)</span>-value</li>
+<li>conclude the two means are equal</li>
+</ol>
+<p><strong>QB 5.4</strong> <code>t.test(x, y)</code> in R by default</p>
+<ol style="list-style-type: lower-alpha">
+<li>assumes equal variances</li>
+<li>performs Welch’s test</li>
+<li>performs a paired test</li>
+<li>performs a one-tailed test</li>
+</ol>
+<p><strong>QB 5.5</strong> Which of the following are paired designs? <em>(select all that apply)</em></p>
+<ol style="list-style-type: lower-alpha">
+<li>Blood pressure of 40 patients before and after a drug</li>
+<li>Test scores of 40 boys and 45 girls</li>
+<li>Yields on 20 plots under one seed and 20 different plots under another</li>
+<li>Household expenditure in the same 200 households in 2019 and 2023</li>
+</ol>
+<p><strong>QB 5.6</strong> Ignoring pairing in a genuinely paired design usually</p>
+<ol style="list-style-type: lower-alpha">
+<li>makes it easier to reject the null</li>
+<li>makes it harder to reject the null</li>
+<li>has no effect on the <span class="math inline">\(p\)</span>-value</li>
+<li>reverses the sign of the difference</li>
+</ol>
+<p><strong>QB 5.7</strong> Two groups differ with <span class="math inline">\(p &lt; 0.001\)</span> in a sample of 50,000. This
+implies</p>
+<ol style="list-style-type: lower-alpha">
+<li>the difference is large</li>
+<li>the difference is important</li>
+<li>the difference is unlikely to be sampling variation alone</li>
+<li>one group caused the other’s outcome</li>
+</ol>
+</div>
+<div id="short-reasoning-4" class="section level3 unnumbered hasAnchor">
+<h3>Short reasoning<a href="ts-question-bank.html#short-reasoning-4" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p><strong>QB 5.8</strong> Explain why subtracting one sample mean from another increases
+variability rather than reducing it, and give the algebraic reason.</p>
+<p><strong>QB 5.9</strong> A researcher has two samples with <span class="math inline">\(s_x = 2\)</span> and <span class="math inline">\(s_y = 9\)</span>, and uses
+the pooled test. State the assumption being made, why it is doubtful here, and
+what the consequence is.</p>
+<p><strong>QB 5.10</strong> A newspaper reports that graduates of a coaching institute score 40
+marks higher on average than non-attendees, with a very small <span class="math inline">\(p\)</span>-value.
+Explain what the comparison can and cannot support.</p>
+<p><strong>QB 5.11</strong> In a paired design, the two columns are strongly positively
+correlated. Explain, without algebra, why this makes the paired test more
+powerful than the unpaired one.</p>
+<p><strong>QB 5.12</strong> A trial assigns a new fertiliser to plots by lottery. Explain why
+the difference in mean yields can be read as an effect here, when the same
+comparison in Section <a href="ts-causal.html#ts-causal">5.6</a> could not.</p>
+<p><strong>QB 5.13</strong> Two studies estimate the same difference. One reports
+<span class="math inline">\([0.1,\ 9.9]\)</span> and the other <span class="math inline">\([4.8,\ 5.2]\)</span>. Both exclude zero. Explain what
+distinguishes them and which is more useful.</p>
+</div>
+<div id="numerical-4" class="section level3 unnumbered hasAnchor">
+<h3>Numerical<a href="ts-question-bank.html#numerical-4" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p><strong>QB 5.14</strong> Government school students score a mean of 62.4 with <span class="math inline">\(s = 11.2\)</span> in a
+sample of 45. Private school students score 66.1 with <span class="math inline">\(s = 9.8\)</span> in a sample of
+52.</p>
+<ol style="list-style-type: lower-roman">
+<li>Compute the standard error of the difference.</li>
+<li>Compute the test statistic.</li>
+<li>Test at the 5% level whether the means differ.</li>
+<li>Construct a 95% confidence interval, and state whether it agrees with (iii).</li>
+</ol>
+<p><strong>QB 5.15</strong> A sample of 8 plots under a new seed yields a mean of 41.2 quintals
+with <span class="math inline">\(s = 3.1\)</span>. A sample of 10 plots under the old seed yields 37.8 with
+<span class="math inline">\(s = 2.9\)</span>.</p>
+<ol style="list-style-type: lower-roman">
+<li>Compute the pooled variance estimate and <span class="math inline">\(s_p\)</span>.</li>
+<li>Compute the pooled test statistic and its degrees of freedom.</li>
+<li>Test at the 5% level whether the new seed yields more, stating your
+hypotheses carefully.</li>
+<li>Would Welch’s test use more or fewer degrees of freedom here, and why?</li>
+</ol>
+<p><strong>QB 5.16</strong> Twelve workers are timed on a task before and after training. The
+mean reduction is 4.2 minutes with a standard deviation of differences of 5.1
+minutes.</p>
+<ol style="list-style-type: lower-roman">
+<li>State the hypotheses for a test that training reduced completion time.</li>
+<li>Compute the test statistic and its degrees of freedom.</li>
+<li>Test at the 5% level.</li>
+<li>Explain why the standard deviation of the <em>differences</em> is the right
+quantity here rather than the standard deviations of the two rounds.</li>
+</ol>
+<p><strong>QB 5.17</strong> Using <code>data/attendance-grades.csv</code>, write R code to compare
+cumulative GPA between students above and below the median attendance. Report
+the interval, then write a short paragraph stating precisely what your result
+establishes and what it does not.</p>
+</div>
+</div>
 <script>
 // Solutions are written as plain fenced divs in the source, so the PDF edition
 // can typeset them as boxes. On the web they should stay hidden until asked
@@ -442,8 +536,8 @@ document.addEventListener("DOMContentLoaded", function () {
           </div>
         </div>
       </div>
-<a href="mathematical-background.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="towards-inference.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="ts-practice.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="ts-looking-ahead.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -474,7 +568,7 @@ gitbook.start({
     "size": 2
   },
   "edit": {
-    "link": "https://github.com/kedarkulkarni1991/stats-econometrics-r/edit/main/index.Rmd",
+    "link": "https://github.com/kedarkulkarni1991/stats-econometrics-r/edit/main/05-two-sample.Rmd",
     "text": "Edit"
   },
   "history": {

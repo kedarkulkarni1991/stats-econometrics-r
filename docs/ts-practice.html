@@ -4,13 +4,13 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Licence and citation | Statistics and Econometrics with R</title>
+  <title>5.8 Practice problems | Statistics and Econometrics with R</title>
   <meta name="description" content="<p>A first course in statistics and econometrics for Indian students, built on
 the progression from question to intuition to rigour to computation to
 interpretation.</p>" />
   <meta name="generator" content="bookdown 0.47 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Licence and citation | Statistics and Econometrics with R" />
+  <meta property="og:title" content="5.8 Practice problems | Statistics and Econometrics with R" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="<p>A first course in statistics and econometrics for Indian students, built on
@@ -19,7 +19,7 @@ interpretation.</p>" />
   <meta name="github-repo" content="kedarkulkarni1991/stats-econometrics-r" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Licence and citation | Statistics and Econometrics with R" />
+  <meta name="twitter:title" content="5.8 Practice problems | Statistics and Econometrics with R" />
   
   <meta name="twitter:description" content="<p>A first course in statistics and econometrics for Indian students, built on
 the progression from question to intuition to rigour to computation to
@@ -35,8 +35,8 @@ interpretation.</p>" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="mathematical-background.html"/>
-<link rel="next" href="towards-inference.html"/>
+<link rel="prev" href="ts-summary.html"/>
+<link rel="next" href="ts-question-bank.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -399,28 +399,292 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="licence-and-citation" class="section level2 unnumbered hasAnchor">
-<h2>Licence and citation<a href="licence-and-citation.html#licence-and-citation" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>This book is free, in both senses. The text, figures, exercises and datasets
-are released under
-<a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0</a>,
-and the code under the <a href="https://opensource.org/licenses/MIT">MIT licence</a>.</p>
-<p>You may copy it, print it, translate it, remix it, teach from it, and build on
-it — for any purpose, including commercially. The only condition is that you
-credit the source.</p>
-<p>If you spot an error, there is a <strong>pencil icon at the top of every page</strong>. It opens that chapter’s source on GitHub, where you can fix the mistake and send it back without installing anything.</p>
-<p>Corrections from students are genuinely welcome; several of the sharper points
-in this book exist because someone asked why.</p>
-<p>To cite:</p>
-<blockquote>
-<p>Kulkarni, K. (2026). <em>Statistics and Econometrics with R.</em>
-Azim Premji University.
-<a href="https://kedarkulkarni1991.github.io/stats-econometrics-r/" class="uri">https://kedarkulkarni1991.github.io/stats-econometrics-r/</a>
-Licensed under CC BY 4.0.</p>
-</blockquote>
-
+<div id="ts-practice" class="section level2 hasAnchor" number="5.8">
+<h2><span class="header-section-number">5.8</span> Practice problems<a href="ts-practice.html#ts-practice" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="yourturn">
+<p>Work each one before opening the solution. The
+<a href="ts-question-bank.html#ts-question-bank">question bank</a> that follows has no answers.</p>
 </div>
-<!-- </div> -->
+<div id="concept-checks-3" class="section level3 unnumbered hasAnchor">
+<h3>Concept checks<a href="ts-practice.html#concept-checks-3" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p><strong>5.1</strong> Why is the standard error of a difference of means larger than the
+standard error of either mean on its own?</p>
+<div class="answer">
+<p>Because the two sample means each carry sampling variation, and both end up in
+the difference. Formally, <span class="math inline">\(\mathrm{Var}(aX) = a^2\mathrm{Var}(X)\)</span> with <span class="math inline">\(a = -1\)</span>
+gives <span class="math inline">\((-1)^2 = +1\)</span>, so the variances add:</p>
+<p><span class="math display">\[\mathrm{Var}[\bar{X} - \bar{Y}] = \frac{\sigma_x^2}{n} + \frac{\sigma_y^2}{m}\]</span></p>
+<p>Subtracting a noisy quantity does not cancel noise; it adds more. This is why
+detecting a difference between two groups takes more data than estimating one
+group’s mean to the same precision.</p>
+</div>
+<p><strong>5.2</strong> A study reports that two groups differ with <span class="math inline">\(p = 0.003\)</span>. A colleague
+concludes the difference is large. What is wrong?</p>
+<div class="answer">
+<p>The <span class="math inline">\(p\)</span>-value measures how incompatible the data are with the claim of no
+difference. It says nothing about the size of the difference.</p>
+<p>A very small <span class="math inline">\(p\)</span>-value can come from a tiny difference measured in a large
+sample. The size of the difference is reported by the confidence interval, in
+the units of the problem, and that is what has to be inspected before calling a
+result large or important.</p>
+</div>
+<p><strong>5.3</strong> Why does R’s <code>t.test()</code> report fractional degrees of freedom?</p>
+<div class="answer">
+<p>Because it performs Welch’s test by default, which does not assume the two
+populations have equal variances. The correction for that extra uncertainty
+adjusts the degrees of freedom downwards, and the adjustment is generally not a
+whole number.</p>
+<p>The pooled test, obtained with <code>var.equal = TRUE</code>, uses <span class="math inline">\(n + m - 2\)</span> degrees of
+freedom, which always is.</p>
+</div>
+<p><strong>5.4</strong> The same twenty households are surveyed before and after a cash
+transfer. Why is a two-sample test the wrong tool?</p>
+<div class="answer">
+<p>Because the two columns are not independent samples — each household appears in
+both. The design produces one number per household, the change.</p>
+<p>Households differ enormously among themselves, and that variation is present
+identically in both columns. A two-sample test treats it as noise, and it
+swamps the change we are trying to detect. Taking differences within households
+removes it, leaving only the quantity of interest.</p>
+</div>
+<p><strong>5.5</strong> Villages that received a road show higher incomes than villages that
+did not. State two distinct reasons this need not mean the road raised incomes.</p>
+<div class="answer">
+<p>First, the villages may have differed beforehand. Roads are not built at random
+— they tend to reach places that are more accessible, more populous, more
+politically connected or already better off. Those same features raise incomes
+on their own.</p>
+<p>Second, the two groups may differ in things that changed alongside the road:
+electrification, a market, a school. The road is correlated with a bundle of
+improvements, and a comparison of means attributes the whole bundle to it.</p>
+<p>In both cases the arithmetic is correct and the causal reading is not.</p>
+</div>
+</div>
+<div id="explain-3" class="section level3 unnumbered hasAnchor">
+<h3>Explain<a href="ts-practice.html#explain-3" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p><strong>5.6</strong> Explain the trade-off between the pooled and Welch tests, and why
+modern practice prefers Welch.</p>
+<div class="answer">
+<p>Pooling assumes the two populations share a standard deviation. If true, both
+samples estimate the same quantity, they can be combined, and the resulting
+test has <span class="math inline">\(n + m - 2\)</span> degrees of freedom — more than Welch allows, so more
+power.</p>
+<p>If false, the pooled estimate averages two different quantities and the test is
+wrong in a way nothing in the output reveals. Welch avoids the assumption
+entirely, at the cost of fewer degrees of freedom.</p>
+<p>The reason to prefer Welch is asymmetric risk. When the variances really are
+equal, Welch loses very little. When they are not, pooling misleads. And the
+assumption cannot be verified — a test of equal variances can only fail to
+reject, which is not the same as establishing it.</p>
+</div>
+<p><strong>5.7</strong> A researcher tests whether men and women in a firm are paid differently,
+finds <span class="math inline">\(p = 0.02\)</span>, and concludes the firm discriminates. Evaluate.</p>
+<div class="answer">
+<p>The test establishes that average pay differs by more than sampling variation
+would explain. That is not the same as discrimination.</p>
+<p>Men and women in the firm may differ in role, seniority, years of experience,
+hours, or field of training, and any of those could account for a pay gap
+without anyone being treated differently for the same work. The comparison of
+raw means attributes the whole difference to sex because sex is the only
+variable in the analysis.</p>
+<p>Establishing discrimination requires comparing like with like — people doing
+the same work with the same experience — which is a question of design and, in
+later units, of holding other variables constant. The two-sample test is not
+capable of it.</p>
+</div>
+</div>
+<div id="numerical-problems-3" class="section level3 unnumbered hasAnchor">
+<h3>Numerical problems<a href="ts-practice.html#numerical-problems-3" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p><strong>5.8</strong> Two irrigation methods are trialled. Drip irrigation on 15 plots yields
+a mean of 38.4 quintals per hectare; flood irrigation on 18 plots yields 35.9.
+Population standard deviations are known to be 3.2 and 4.1 respectively.</p>
+<ol style="list-style-type: lower-roman">
+<li>Test at the 5% level whether the mean yields differ.</li>
+<li>Construct a 95% confidence interval for the difference.</li>
+<li>Does the interval agree with the test?</li>
+</ol>
+<div class="answer">
+<p><strong>(i)</strong> The standard error of the difference is</p>
+<p><span class="math display">\[\sqrt{\frac{3.2^2}{15} + \frac{4.1^2}{18}} = \sqrt{0.6827 + 0.9339}
+= \sqrt{1.6166} = 1.271\]</span></p>
+<p><span class="math display">\[Z_{calc} = \frac{38.4 - 35.9}{1.271} = \frac{2.5}{1.271} = 1.967\]</span></p>
+<p>Since <span class="math inline">\(1.967 &gt; 1.96\)</span>, we reject <span class="math inline">\(H_0\)</span> at the 5% level — but only just.</p>
+<p><strong>(ii)</strong> <span class="math inline">\(2.5 \pm 1.96(1.271) = 2.5 \pm 2.491 = [0.009,\ 4.991]\)</span>.</p>
+<p><strong>(iii)</strong> Yes. The interval excludes zero, and the test rejects. Both do so by
+the narrowest possible margin, which is the same fact stated twice: the interval
+endpoint sits at 0.009 because <span class="math inline">\(Z_{calc}\)</span> sits at 1.967.</p>
+<p>A result this marginal should be reported as marginal. Nothing about it
+justifies confidence that drip irrigation is better.</p>
+</div>
+<p><strong>5.9</strong> Two samples give <span class="math inline">\(n = 10\)</span>, <span class="math inline">\(s_x = 4\)</span> and <span class="math inline">\(m = 14\)</span>, <span class="math inline">\(s_y = 6\)</span>.</p>
+<ol style="list-style-type: lower-roman">
+<li>Compute the pooled variance estimate.</li>
+<li>How many degrees of freedom does the pooled test use?</li>
+<li>Why is it not <span class="math inline">\(n + m\)</span>?</li>
+</ol>
+<div class="answer">
+<p><strong>(i)</strong></p>
+<p><span class="math display">\[s_p^2 = \frac{(10-1)16 + (14-1)36}{10 + 14 - 2}
+= \frac{144 + 468}{22} = \frac{612}{22} = 27.82\]</span></p>
+<p>so <span class="math inline">\(s_p = 5.27\)</span>, lying between 4 and 6 and closer to 6 because the larger
+sample carries more weight.</p>
+<p><strong>(ii)</strong> <span class="math inline">\(n + m - 2 = 22\)</span>.</p>
+<p><strong>(iii)</strong> Because two quantities were estimated from the data before the spread
+could be measured — one sample mean in each group. Each costs a degree of
+freedom, exactly as in Section <a href="u3-variance.html#u3-variance">3.2</a>, where estimating a single
+mean cost one.</p>
+</div>
+<p><strong>5.10</strong> A programme is evaluated by comparing 200 participants with 200
+non-participants. Participants’ mean income is ₹4,200 higher, with a standard
+error of ₹1,400 for the difference.</p>
+<ol style="list-style-type: lower-roman">
+<li>Test whether the difference is zero at the 5% level.</li>
+<li>Construct a 95% interval.</li>
+<li>The programme was open to anyone who applied. What can be concluded about
+its effect?</li>
+</ol>
+<div class="answer">
+<p><strong>(i)</strong> <span class="math inline">\(Z_{calc} = 4200/1400 = 3.0\)</span>, which exceeds 1.96. We reject the claim
+that the two groups have the same mean income.</p>
+<p><strong>(ii)</strong> <span class="math inline">\(4200 \pm 1.96(1400) = [₹1{,}456,\ ₹6{,}944]\)</span>.</p>
+<p><strong>(iii)</strong> Nothing about its effect. Because the programme was open to
+applicants, participants selected themselves. People who apply to income
+programmes may be more motivated, better informed, or better connected — or,
+equally plausibly, more desperate and worse off to begin with. The direction of
+the bias is not even clear.</p>
+<p>The interval is a correct statement about the difference between two groups of
+people. It is not an estimate of what the programme did to anybody.</p>
+</div>
+</div>
+<div id="r-exercises-3" class="section level3 unnumbered hasAnchor">
+<h3>R exercises<a href="ts-practice.html#r-exercises-3" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p><strong>5.11</strong> Using <code>data/student-survey-sleep.csv</code>, test whether urban and rural
+students report different average hours of sleep. Report the interval and say
+what you conclude.</p>
+<div class="answer">
+<div class="sourceCode" id="cb200"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb200-1"><a href="ts-practice.html#cb200-1" tabindex="-1"></a>sleep <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/student-survey-sleep.csv&quot;</span>)</span>
+<span id="cb200-2"><a href="ts-practice.html#cb200-2" tabindex="-1"></a></span>
+<span id="cb200-3"><a href="ts-practice.html#cb200-3" tabindex="-1"></a><span class="fu">aggregate</span>(sleep <span class="sc">~</span> residence, <span class="at">data =</span> sleep,</span>
+<span id="cb200-4"><a href="ts-practice.html#cb200-4" tabindex="-1"></a>          <span class="cf">function</span>(x) <span class="fu">round</span>(<span class="fu">c</span>(<span class="at">n =</span> <span class="fu">length</span>(x), <span class="at">mean =</span> <span class="fu">mean</span>(x), <span class="at">sd =</span> <span class="fu">sd</span>(x)), <span class="dv">2</span>))</span></code></pre></div>
+<pre><code>#&gt;   residence sleep.n sleep.mean sleep.sd
+#&gt; 1     Rural   21.00       6.52     1.53
+#&gt; 2     Urban   85.00       6.60     1.12</code></pre>
+<div class="sourceCode" id="cb202"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb202-1"><a href="ts-practice.html#cb202-1" tabindex="-1"></a><span class="fu">t.test</span>(sleep <span class="sc">~</span> residence, <span class="at">data =</span> sleep)</span></code></pre></div>
+<pre><code>#&gt; 
+#&gt;  Welch Two Sample t-test
+#&gt; 
+#&gt; data:  sleep by residence
+#&gt; t = -0.21, df = 26, p-value = 0.8
+#&gt; alternative hypothesis: true difference in means between group Rural and group Urban is not equal to 0
+#&gt; 95 percent confidence interval:
+#&gt;  -0.8064  0.6540
+#&gt; sample estimates:
+#&gt; mean in group Rural mean in group Urban 
+#&gt;               6.524               6.600</code></pre>
+<p>The two group means are close and the interval for the difference contains
+zero, so we fail to reject. There is no evidence here that urban and rural
+students sleep different amounts on average.</p>
+<p>Note what “no evidence of a difference” is not: evidence of no difference. With
+these sample sizes, a real difference of well under an hour would be difficult
+to detect at all, and the interval says as much by being wide.</p>
+</div>
+<p><strong>5.12</strong> Test whether social media use differs between North and South Indian
+students in the same dataset, using both Welch and the pooled test. Do they
+agree, and which would you report?</p>
+<div class="answer">
+<div class="sourceCode" id="cb204"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb204-1"><a href="ts-practice.html#cb204-1" tabindex="-1"></a><span class="fu">rbind</span>(</span>
+<span id="cb204-2"><a href="ts-practice.html#cb204-2" tabindex="-1"></a>  <span class="at">welch  =</span> <span class="fu">unlist</span>(<span class="fu">t.test</span>(socialmediahours <span class="sc">~</span> region, <span class="at">data =</span> sleep)[<span class="fu">c</span>(<span class="st">&quot;statistic&quot;</span>, <span class="st">&quot;parameter&quot;</span>, <span class="st">&quot;p.value&quot;</span>)]),</span>
+<span id="cb204-3"><a href="ts-practice.html#cb204-3" tabindex="-1"></a>  <span class="at">pooled =</span> <span class="fu">unlist</span>(<span class="fu">t.test</span>(socialmediahours <span class="sc">~</span> region, <span class="at">data =</span> sleep, <span class="at">var.equal =</span> <span class="cn">TRUE</span>)[<span class="fu">c</span>(<span class="st">&quot;statistic&quot;</span>, <span class="st">&quot;parameter&quot;</span>, <span class="st">&quot;p.value&quot;</span>)])</span>
+<span id="cb204-4"><a href="ts-practice.html#cb204-4" tabindex="-1"></a>)</span></code></pre></div>
+<pre><code>#&gt;        statistic.t parameter.df p.value
+#&gt; welch       0.9172        50.63  0.3634
+#&gt; pooled      0.9845       104.00  0.3271</code></pre>
+<p>The two agree closely here, which is what happens when the sample standard
+deviations are similar — the pooled and separate estimates of the variance are
+then nearly the same number.</p>
+<p>Report Welch. It gives the same answer when the assumption holds and a correct
+one when it does not, so there is no situation in which pooling is the safer
+choice.</p>
+</div>
+<p><strong>5.13</strong> Take the wage data as a population and draw independent samples of 200
+urban and 200 rural workers. Test whether mean annual earnings differ, and
+report the interval. Then say what the interval does and does not establish.</p>
+<div class="answer">
+<div class="sourceCode" id="cb206"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb206-1"><a href="ts-practice.html#cb206-1" tabindex="-1"></a>wages <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/wages-india-synthetic.csv&quot;</span>)</span>
+<span id="cb206-2"><a href="ts-practice.html#cb206-2" tabindex="-1"></a></span>
+<span id="cb206-3"><a href="ts-practice.html#cb206-3" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">9</span>)</span>
+<span id="cb206-4"><a href="ts-practice.html#cb206-4" tabindex="-1"></a>urban <span class="ot">&lt;-</span> <span class="fu">sample</span>(wages<span class="sc">$</span>annual_earnings[wages<span class="sc">$</span>residence <span class="sc">==</span> <span class="st">&quot;Urban&quot;</span>], <span class="dv">200</span>)</span>
+<span id="cb206-5"><a href="ts-practice.html#cb206-5" tabindex="-1"></a>rural <span class="ot">&lt;-</span> <span class="fu">sample</span>(wages<span class="sc">$</span>annual_earnings[wages<span class="sc">$</span>residence <span class="sc">==</span> <span class="st">&quot;Rural&quot;</span>], <span class="dv">200</span>)</span>
+<span id="cb206-6"><a href="ts-practice.html#cb206-6" tabindex="-1"></a></span>
+<span id="cb206-7"><a href="ts-practice.html#cb206-7" tabindex="-1"></a><span class="fu">t.test</span>(urban, rural)</span></code></pre></div>
+<pre><code>#&gt; 
+#&gt;  Welch Two Sample t-test
+#&gt; 
+#&gt; data:  urban and rural
+#&gt; t = 6.5, df = 223, p-value = 0.0000000005
+#&gt; alternative hypothesis: true difference in means is not equal to 0
+#&gt; 95 percent confidence interval:
+#&gt;  47095 88103
+#&gt; sample estimates:
+#&gt; mean of x mean of y 
+#&gt;    100811     33212</code></pre>
+<p>The difference is large and the interval is nowhere near zero, so urban workers
+in this population earn substantially more than rural workers.</p>
+<p>What the interval establishes is the size of that gap. What it does not
+establish is that moving a worker from a village to a city would raise their
+earnings by that amount. Urban and rural workers differ in education,
+occupation and industry, and the sample says nothing about which part of the gap
+belongs to the place and which to the people.</p>
+</div>
+<p><strong>5.14</strong> Simulate the point that variances add. Draw two independent samples of
+100 from a population with <span class="math inline">\(\sigma = 10\)</span>, and compare the observed standard
+deviation of <span class="math inline">\(\bar{x}\)</span> with that of <span class="math inline">\(\bar{x} - \bar{y}\)</span> across 5,000
+repetitions. Check both against theory.</p>
+<div class="answer">
+<div class="sourceCode" id="cb208"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb208-1"><a href="ts-practice.html#cb208-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">4</span>)</span>
+<span id="cb208-2"><a href="ts-practice.html#cb208-2" tabindex="-1"></a>sims <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">5000</span>, {</span>
+<span id="cb208-3"><a href="ts-practice.html#cb208-3" tabindex="-1"></a>  x <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">100</span>, <span class="at">mean =</span> <span class="dv">50</span>, <span class="at">sd =</span> <span class="dv">10</span>)</span>
+<span id="cb208-4"><a href="ts-practice.html#cb208-4" tabindex="-1"></a>  y <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">100</span>, <span class="at">mean =</span> <span class="dv">50</span>, <span class="at">sd =</span> <span class="dv">10</span>)</span>
+<span id="cb208-5"><a href="ts-practice.html#cb208-5" tabindex="-1"></a>  <span class="fu">c</span>(<span class="at">one_mean =</span> <span class="fu">mean</span>(x), <span class="at">difference =</span> <span class="fu">mean</span>(x) <span class="sc">-</span> <span class="fu">mean</span>(y))</span>
+<span id="cb208-6"><a href="ts-practice.html#cb208-6" tabindex="-1"></a>})</span>
+<span id="cb208-7"><a href="ts-practice.html#cb208-7" tabindex="-1"></a></span>
+<span id="cb208-8"><a href="ts-practice.html#cb208-8" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">sd_of_one_mean       =</span> <span class="fu">sd</span>(sims[<span class="st">&quot;one_mean&quot;</span>, ]),</span>
+<span id="cb208-9"><a href="ts-practice.html#cb208-9" tabindex="-1"></a>        <span class="at">theory_one_mean      =</span> <span class="dv">10</span> <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="dv">100</span>),</span>
+<span id="cb208-10"><a href="ts-practice.html#cb208-10" tabindex="-1"></a>        <span class="at">sd_of_difference     =</span> <span class="fu">sd</span>(sims[<span class="st">&quot;difference&quot;</span>, ]),</span>
+<span id="cb208-11"><a href="ts-practice.html#cb208-11" tabindex="-1"></a>        <span class="at">theory_difference    =</span> <span class="fu">sqrt</span>(<span class="dv">10</span><span class="sc">^</span><span class="dv">2</span><span class="sc">/</span><span class="dv">100</span> <span class="sc">+</span> <span class="dv">10</span><span class="sc">^</span><span class="dv">2</span><span class="sc">/</span><span class="dv">100</span>)), <span class="dv">4</span>)</span></code></pre></div>
+<pre><code>#&gt;    sd_of_one_mean   theory_one_mean  sd_of_difference theory_difference 
+#&gt;            0.9989            1.0000            1.4260            1.4142</code></pre>
+<p>The difference is about <span class="math inline">\(\sqrt{2}\)</span> times as variable as a single mean, exactly
+as <span class="math inline">\(\sqrt{\sigma^2/n + \sigma^2/m}\)</span> predicts. Note also that the difference is
+centred on zero: both populations have mean 50, and the estimator is unbiased
+for a difference of zero.</p>
+</div>
+<p><strong>5.15</strong> Demonstrate the cost of ignoring pairing. Using <code>marriage-ages.csv</code>,
+report the paired and unpaired <span class="math inline">\(p\)</span>-values, and explain the gap by comparing the
+standard deviation of the differences with the standard deviations of the two
+columns.</p>
+<div class="answer">
+<div class="sourceCode" id="cb210"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb210-1"><a href="ts-practice.html#cb210-1" tabindex="-1"></a>couples <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/marriage-ages.csv&quot;</span>)</span>
+<span id="cb210-2"><a href="ts-practice.html#cb210-2" tabindex="-1"></a></span>
+<span id="cb210-3"><a href="ts-practice.html#cb210-3" tabindex="-1"></a><span class="fu">c</span>(<span class="at">paired   =</span> <span class="fu">t.test</span>(couples<span class="sc">$</span>partner1, couples<span class="sc">$</span>partner2, <span class="at">paired =</span> <span class="cn">TRUE</span>)<span class="sc">$</span>p.value,</span>
+<span id="cb210-4"><a href="ts-practice.html#cb210-4" tabindex="-1"></a>  <span class="at">unpaired =</span> <span class="fu">t.test</span>(couples<span class="sc">$</span>partner1, couples<span class="sc">$</span>partner2)<span class="sc">$</span>p.value)</span></code></pre></div>
+<pre><code>#&gt;   paired unpaired 
+#&gt;  0.01496  0.60699</code></pre>
+<div class="sourceCode" id="cb212"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb212-1"><a href="ts-practice.html#cb212-1" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">sd_partner1  =</span> <span class="fu">sd</span>(couples<span class="sc">$</span>partner1),</span>
+<span id="cb212-2"><a href="ts-practice.html#cb212-2" tabindex="-1"></a>        <span class="at">sd_partner2  =</span> <span class="fu">sd</span>(couples<span class="sc">$</span>partner2),</span>
+<span id="cb212-3"><a href="ts-practice.html#cb212-3" tabindex="-1"></a>        <span class="at">sd_of_diffs  =</span> <span class="fu">sd</span>(couples<span class="sc">$</span>partner1 <span class="sc">-</span> couples<span class="sc">$</span>partner2)), <span class="dv">3</span>)</span></code></pre></div>
+<pre><code>#&gt; sd_partner1 sd_partner2 sd_of_diffs 
+#&gt;      11.156      10.174       2.635</code></pre>
+<p>The two columns each have a standard deviation of about 11 years, because the
+couples range from their mid-thirties to their seventies. The differences have a
+standard deviation of about 2.6 years.</p>
+<p>That is the whole explanation. The unpaired test measures the small gap against
+the huge between-couple variation and sees nothing. The paired test removes that
+variation — it is common to both columns and cancels on subtraction — and
+measures the gap against what is left.</p>
+</div>
+</div>
+</div>
 <script>
 // Solutions are written as plain fenced divs in the source, so the PDF edition
 // can typeset them as boxes. On the web they should stay hidden until asked
@@ -442,8 +706,8 @@ document.addEventListener("DOMContentLoaded", function () {
           </div>
         </div>
       </div>
-<a href="mathematical-background.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="towards-inference.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="ts-summary.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="ts-question-bank.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -474,7 +738,7 @@ gitbook.start({
     "size": 2
   },
   "edit": {
-    "link": "https://github.com/kedarkulkarni1991/stats-econometrics-r/edit/main/index.Rmd",
+    "link": "https://github.com/kedarkulkarni1991/stats-econometrics-r/edit/main/05-two-sample.Rmd",
     "text": "Edit"
   },
   "history": {

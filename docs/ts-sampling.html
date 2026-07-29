@@ -4,13 +4,13 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Licence and citation | Statistics and Econometrics with R</title>
+  <title>5.2 What does a difference of means do across samples? | Statistics and Econometrics with R</title>
   <meta name="description" content="<p>A first course in statistics and econometrics for Indian students, built on
 the progression from question to intuition to rigour to computation to
 interpretation.</p>" />
   <meta name="generator" content="bookdown 0.47 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Licence and citation | Statistics and Econometrics with R" />
+  <meta property="og:title" content="5.2 What does a difference of means do across samples? | Statistics and Econometrics with R" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="<p>A first course in statistics and econometrics for Indian students, built on
@@ -19,7 +19,7 @@ interpretation.</p>" />
   <meta name="github-repo" content="kedarkulkarni1991/stats-econometrics-r" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Licence and citation | Statistics and Econometrics with R" />
+  <meta name="twitter:title" content="5.2 What does a difference of means do across samples? | Statistics and Econometrics with R" />
   
   <meta name="twitter:description" content="<p>A first course in statistics and econometrics for Indian students, built on
 the progression from question to intuition to rigour to computation to
@@ -35,8 +35,8 @@ interpretation.</p>" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="mathematical-background.html"/>
-<link rel="next" href="towards-inference.html"/>
+<link rel="prev" href="ts-motivation.html"/>
+<link rel="next" href="ts-known.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -399,28 +399,59 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="licence-and-citation" class="section level2 unnumbered hasAnchor">
-<h2>Licence and citation<a href="licence-and-citation.html#licence-and-citation" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>This book is free, in both senses. The text, figures, exercises and datasets
-are released under
-<a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0</a>,
-and the code under the <a href="https://opensource.org/licenses/MIT">MIT licence</a>.</p>
-<p>You may copy it, print it, translate it, remix it, teach from it, and build on
-it — for any purpose, including commercially. The only condition is that you
-credit the source.</p>
-<p>If you spot an error, there is a <strong>pencil icon at the top of every page</strong>. It opens that chapter’s source on GitHub, where you can fix the mistake and send it back without installing anything.</p>
-<p>Corrections from students are genuinely welcome; several of the sharper points
-in this book exist because someone asked why.</p>
-<p>To cite:</p>
-<blockquote>
-<p>Kulkarni, K. (2026). <em>Statistics and Econometrics with R.</em>
-Azim Premji University.
-<a href="https://kedarkulkarni1991.github.io/stats-econometrics-r/" class="uri">https://kedarkulkarni1991.github.io/stats-econometrics-r/</a>
-Licensed under CC BY 4.0.</p>
-</blockquote>
-
+<div id="ts-sampling" class="section level2 hasAnchor" number="5.2">
+<h2><span class="header-section-number">5.2</span> What does a difference of means do across samples?<a href="ts-sampling.html#ts-sampling" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="question">
+<p>We know how <span class="math inline">\(\bar{X}\)</span> behaves. How does <span class="math inline">\(\bar{X} - \bar{Y}\)</span> behave?</p>
 </div>
-<!-- </div> -->
+<p>Take a sample <span class="math inline">\(x_1, \ldots, x_n\)</span> from a population with mean <span class="math inline">\(\mu_x\)</span> and
+standard deviation <span class="math inline">\(\sigma_x\)</span>, and an independent sample <span class="math inline">\(y_1, \ldots, y_m\)</span>
+from a population with mean <span class="math inline">\(\mu_y\)</span> and standard deviation <span class="math inline">\(\sigma_y\)</span>. The
+sample sizes need not be equal.</p>
+<p>The null hypothesis is that the two populations have the same mean:</p>
+<p><span class="math display">\[H_0 : \mu_x = \mu_y \qquad H_A : \mu_x \neq \mu_y\]</span></p>
+<p>It is more useful to write the same thing as a statement about the difference:</p>
+<p><span class="math display">\[H_0 : \mu_x - \mu_y = 0\]</span></p>
+<p>because that turns a comparison of two quantities into a claim about one, and
+we already know how to test a claim about one quantity.</p>
+<p>The quantity we will study is therefore <span class="math inline">\(\bar{X} - \bar{Y}\)</span>. Two things need
+establishing: where its distribution sits, and how wide it is.</p>
+<div class="theory">
+<p><strong>Where it sits.</strong> Expectation passes through a difference:</p>
+<p><span class="math display">\[E[\bar{X} - \bar{Y}] = E[\bar{X}] - E[\bar{Y}] = \mu_x - \mu_y\]</span></p>
+<p>So the difference of sample means is an unbiased estimator of the difference of
+population means. Under <span class="math inline">\(H_0\)</span> it is centred on zero.</p>
+<p><strong>How wide it is.</strong> Variance does <em>not</em> pass through a difference in the same
+way. For independent quantities,</p>
+<p><span class="math display">\[
+\begin{aligned}
+\mathrm{Var}[\bar{X} - \bar{Y}] &amp;= \mathrm{Var}[\bar{X}] + \mathrm{Var}[-\bar{Y}] \\[4pt]
+&amp;= \mathrm{Var}[\bar{X}] + (-1)^2\mathrm{Var}[\bar{Y}] \\[4pt]
+&amp;= \frac{\sigma_x^2}{n} + \frac{\sigma_y^2}{m}
+\end{aligned}
+\]</span></p>
+<p>using <span class="math inline">\(\mathrm{Var}(aX) = a^2\mathrm{Var}(X)\)</span> from Unit <a href="estimation.html#estimation">2</a>, with
+<span class="math inline">\(a = -1\)</span>. Taking the square root gives the standard error of the difference:</p>
+<p><span class="math display">\[\mathrm{se}(\bar{X} - \bar{Y}) = \sqrt{\frac{\sigma_x^2}{n} + \frac{\sigma_y^2}{m}}\]</span></p>
+<p>Independence is needed for the first line, exactly as it was in Unit
+<a href="estimation.html#estimation">2</a>. It is what allows the variance of a sum to be the sum of the
+variances.</p>
+</div>
+<div class="keyidea">
+<p><strong>The variances add, even though the means subtract.</strong></p>
+<p>This is the single most important line in the unit. Squaring <span class="math inline">\(-1\)</span> gives <span class="math inline">\(+1\)</span>, so
+subtracting a second noisy quantity makes the result <em>more</em> variable, not less.</p>
+<p>Comparing two groups is therefore harder than measuring one. Both estimates
+wobble, and both wobbles end up in the answer.</p>
+</div>
+<p>That has a practical consequence worth seeing now rather than later. Suppose two
+groups each have <span class="math inline">\(\sigma = 10\)</span> and each is sampled <span class="math inline">\(n = 100\)</span> times. The standard
+error of either mean alone is <span class="math inline">\(10/\sqrt{100} = 1\)</span>. The standard error of their
+difference is</p>
+<p><span class="math display">\[\sqrt{\frac{100}{100} + \frac{100}{100}} = \sqrt{2} \approx 1.41\]</span></p>
+<p>about 40% larger. Detecting a difference between two groups needs more data
+than estimating either group’s mean to the same precision.</p>
+</div>
 <script>
 // Solutions are written as plain fenced divs in the source, so the PDF edition
 // can typeset them as boxes. On the web they should stay hidden until asked
@@ -442,8 +473,8 @@ document.addEventListener("DOMContentLoaded", function () {
           </div>
         </div>
       </div>
-<a href="mathematical-background.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="towards-inference.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="ts-motivation.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="ts-known.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -474,7 +505,7 @@ gitbook.start({
     "size": 2
   },
   "edit": {
-    "link": "https://github.com/kedarkulkarni1991/stats-econometrics-r/edit/main/index.Rmd",
+    "link": "https://github.com/kedarkulkarni1991/stats-econometrics-r/edit/main/05-two-sample.Rmd",
     "text": "Edit"
   },
   "history": {

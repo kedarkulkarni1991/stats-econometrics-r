@@ -4,13 +4,13 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Licence and citation | Statistics and Econometrics with R</title>
+  <title>5.6 A difference is not an effect | Statistics and Econometrics with R</title>
   <meta name="description" content="<p>A first course in statistics and econometrics for Indian students, built on
 the progression from question to intuition to rigour to computation to
 interpretation.</p>" />
   <meta name="generator" content="bookdown 0.47 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Licence and citation | Statistics and Econometrics with R" />
+  <meta property="og:title" content="5.6 A difference is not an effect | Statistics and Econometrics with R" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="<p>A first course in statistics and econometrics for Indian students, built on
@@ -19,7 +19,7 @@ interpretation.</p>" />
   <meta name="github-repo" content="kedarkulkarni1991/stats-econometrics-r" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Licence and citation | Statistics and Econometrics with R" />
+  <meta name="twitter:title" content="5.6 A difference is not an effect | Statistics and Econometrics with R" />
   
   <meta name="twitter:description" content="<p>A first course in statistics and econometrics for Indian students, built on
 the progression from question to intuition to rigour to computation to
@@ -35,8 +35,8 @@ interpretation.</p>" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="mathematical-background.html"/>
-<link rel="next" href="towards-inference.html"/>
+<link rel="prev" href="ts-paired.html"/>
+<link rel="next" href="ts-summary.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -399,28 +399,90 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="licence-and-citation" class="section level2 unnumbered hasAnchor">
-<h2>Licence and citation<a href="licence-and-citation.html#licence-and-citation" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>This book is free, in both senses. The text, figures, exercises and datasets
-are released under
-<a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0</a>,
-and the code under the <a href="https://opensource.org/licenses/MIT">MIT licence</a>.</p>
-<p>You may copy it, print it, translate it, remix it, teach from it, and build on
-it — for any purpose, including commercially. The only condition is that you
-credit the source.</p>
-<p>If you spot an error, there is a <strong>pencil icon at the top of every page</strong>. It opens that chapter’s source on GitHub, where you can fix the mistake and send it back without installing anything.</p>
-<p>Corrections from students are genuinely welcome; several of the sharper points
-in this book exist because someone asked why.</p>
-<p>To cite:</p>
-<blockquote>
-<p>Kulkarni, K. (2026). <em>Statistics and Econometrics with R.</em>
-Azim Premji University.
-<a href="https://kedarkulkarni1991.github.io/stats-econometrics-r/" class="uri">https://kedarkulkarni1991.github.io/stats-econometrics-r/</a>
-Licensed under CC BY 4.0.</p>
-</blockquote>
-
+<div id="ts-causal" class="section level2 hasAnchor" number="5.6">
+<h2><span class="header-section-number">5.6</span> A difference is not an effect<a href="ts-causal.html#ts-causal" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="question">
+<p>The test says two groups differ. Does it say why?</p>
 </div>
-<!-- </div> -->
+<p>We can now establish that two groups differ by more than sampling variation.
+That is a genuine achievement, and it is not what most interesting questions
+actually ask.</p>
+<p>Consider the attendance data from this course. Split the 680 students at the
+median attendance and compare their final examination scores.</p>
+<div class="sourceCode" id="cb196"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb196-1"><a href="ts-causal.html#cb196-1" tabindex="-1"></a>students <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/attendance-grades.csv&quot;</span>)</span>
+<span id="cb196-2"><a href="ts-causal.html#cb196-2" tabindex="-1"></a>students<span class="sc">$</span>group <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(students<span class="sc">$</span>attendance <span class="sc">&gt;=</span> <span class="fu">median</span>(students<span class="sc">$</span>attendance),</span>
+<span id="cb196-3"><a href="ts-causal.html#cb196-3" tabindex="-1"></a>                         <span class="st">&quot;High attendance&quot;</span>, <span class="st">&quot;Low attendance&quot;</span>)</span>
+<span id="cb196-4"><a href="ts-causal.html#cb196-4" tabindex="-1"></a></span>
+<span id="cb196-5"><a href="ts-causal.html#cb196-5" tabindex="-1"></a><span class="fu">aggregate</span>(final_score <span class="sc">~</span> group, <span class="at">data =</span> students,</span>
+<span id="cb196-6"><a href="ts-causal.html#cb196-6" tabindex="-1"></a>          <span class="cf">function</span>(x) <span class="fu">round</span>(<span class="fu">c</span>(<span class="at">n =</span> <span class="fu">length</span>(x), <span class="at">mean =</span> <span class="fu">mean</span>(x)), <span class="dv">2</span>))</span></code></pre></div>
+<pre><code>#&gt;             group final_score.n final_score.mean
+#&gt; 1 High attendance         346.0             91.3
+#&gt; 2  Low attendance         334.0             90.4</code></pre>
+<div class="sourceCode" id="cb198"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb198-1"><a href="ts-causal.html#cb198-1" tabindex="-1"></a><span class="fu">t.test</span>(final_score <span class="sc">~</span> group, <span class="at">data =</span> students)</span></code></pre></div>
+<pre><code>#&gt; 
+#&gt;  Welch Two Sample t-test
+#&gt; 
+#&gt; data:  final_score by group
+#&gt; t = 2.5, df = 671, p-value = 0.01
+#&gt; alternative hypothesis: true difference in means between group High attendance and group Low attendance is not equal to 0
+#&gt; 95 percent confidence interval:
+#&gt;  0.2063 1.5927
+#&gt; sample estimates:
+#&gt; mean in group High attendance  mean in group Low attendance 
+#&gt;                          91.3                          90.4</code></pre>
+<p>Students who attended more scored higher, and <span class="math inline">\(p = 0.011\)</span> rejects the claim
+that the two groups have the same mean.</p>
+<p>It is tempting to conclude that attending class raises examination scores by
+about a point. Two separate problems stand in the way.</p>
+<div id="the-difference-is-significant-and-trivial" class="section level3 unnumbered hasAnchor">
+<h3>The difference is significant and trivial<a href="ts-causal.html#the-difference-is-significant-and-trivial" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>The interval for the difference runs from about 0.21 to 1.59 marks out of 100.</p>
+<p>A gap that small would not change anyone’s grade, and would not justify any
+policy. Yet it is “statistically significant”, because 680 students is a large
+enough sample to detect very small differences reliably.</p>
+<div class="keyidea">
+<p>Statistical significance answers “is this difference bigger than noise?”</p>
+<p>It does not answer “is this difference big enough to matter?” That is a question
+about the subject, not about the statistics, and no <span class="math inline">\(p\)</span>-value speaks to it.</p>
+<p>Always read the interval, in the units of the problem, before deciding whether
+a result is important.</p>
+</div>
+</div>
+<div id="the-groups-were-not-assigned" class="section level3 unnumbered hasAnchor">
+<h3>The groups were not assigned<a href="ts-causal.html#the-groups-were-not-assigned" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>The deeper problem is that nobody allocated students to high and low
+attendance. They chose, and the reasons they chose are not in the dataset.</p>
+<p>A student who attends regularly may be more motivated, better prepared, less
+burdened by paid work or family obligations, or living closer to campus. Any of
+those could raise examination scores on its own. The two groups differ in
+attendance <em>and</em> in everything that attendance is correlated with, and the test
+cannot separate them.</p>
+<div class="watchout">
+<p>The two-sample test compares two groups as they arrive. It has nothing to say
+about <em>why</em> they came to be different.</p>
+<p>If the groups formed themselves, a difference in outcomes may reflect the
+treatment, or the reasons for selection, or both — and the arithmetic is
+identical either way. This is the problem of <strong>selection</strong>, and it is the
+central obstacle in all of empirical economics.</p>
+</div>
+<p>It is worth being precise about what has and has not been shown here.</p>
+<p>We have shown that students who attended more scored slightly higher. That is a
+fact about the world and the test establishes it properly. We have not shown
+that attending more <em>causes</em> higher scores, and no amount of additional care
+with the <span class="math inline">\(t\)</span> statistic would help.</p>
+<p>What would help is a different design. If attendance had been assigned by
+something unrelated to the students themselves — a lottery, a timetable clash,
+a bus route — then the groups would be comparable in expectation and the
+difference could be read as an effect. Creating such comparisons, or finding
+them in the world, is the subject of the second part of this book.</p>
+<div class="intuition">
+<p>The question “do these groups differ?” is a statistical one, and this unit
+answers it.</p>
+<p>The question “does this treatment work?” is a question about how the groups were
+formed. It is answered by the design of the study, not by the choice of test.</p>
+</div>
+</div>
+</div>
 <script>
 // Solutions are written as plain fenced divs in the source, so the PDF edition
 // can typeset them as boxes. On the web they should stay hidden until asked
@@ -442,8 +504,8 @@ document.addEventListener("DOMContentLoaded", function () {
           </div>
         </div>
       </div>
-<a href="mathematical-background.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="towards-inference.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="ts-paired.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="ts-summary.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -474,7 +536,7 @@ gitbook.start({
     "size": 2
   },
   "edit": {
-    "link": "https://github.com/kedarkulkarni1991/stats-econometrics-r/edit/main/index.Rmd",
+    "link": "https://github.com/kedarkulkarni1991/stats-econometrics-r/edit/main/05-two-sample.Rmd",
     "text": "Edit"
   },
   "history": {
