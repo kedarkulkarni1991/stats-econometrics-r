@@ -266,7 +266,13 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="u3-samplesize.html"><a href="u3-samplesize.html#intervals-for-a-proportion"><i class="fa fa-check"></i>Intervals for a proportion</a></li>
 </ul></li>
 <li class="chapter" data-level="3.7" data-path="u3-onesided.html"><a href="u3-onesided.html"><i class="fa fa-check"></i><b>3.7</b> When only one direction matters</a></li>
-<li class="chapter" data-level="3.8" data-path="u3-misreadings.html"><a href="u3-misreadings.html"><i class="fa fa-check"></i><b>3.8</b> What a confidence interval does not mean</a></li>
+<li class="chapter" data-level="3.8" data-path="u3-misreadings.html"><a href="u3-misreadings.html"><i class="fa fa-check"></i><b>3.8</b> What a confidence interval does not mean</a>
+<ul>
+<li class="chapter" data-level="" data-path="u3-misreadings.html"><a href="u3-misreadings.html#statement-1-the-probability-the-mean-is-inside"><i class="fa fa-check"></i>Statement 1: the probability the mean is inside</a></li>
+<li class="chapter" data-level="" data-path="u3-misreadings.html"><a href="u3-misreadings.html#statement-2-the-spread-of-the-population"><i class="fa fa-check"></i>Statement 2: the spread of the population</a></li>
+<li class="chapter" data-level="" data-path="u3-misreadings.html"><a href="u3-misreadings.html#statement-3-two-intervals-that-overlap"><i class="fa fa-check"></i>Statement 3: two intervals that overlap</a></li>
+<li class="chapter" data-level="" data-path="u3-misreadings.html"><a href="u3-misreadings.html#statement-4-a-wider-interval"><i class="fa fa-check"></i>Statement 4: a wider interval</a></li>
+</ul></li>
 <li class="chapter" data-level="3.9" data-path="u3-summary.html"><a href="u3-summary.html"><i class="fa fa-check"></i><b>3.9</b> Summary</a></li>
 <li class="chapter" data-level="3.10" data-path="u3-practice.html"><a href="u3-practice.html"><i class="fa fa-check"></i><b>3.10</b> Practice problems</a>
 <ul>
@@ -343,41 +349,91 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <div id="u3-misreadings" class="section level2 hasAnchor" number="3.8">
 <h2><span class="header-section-number">3.8</span> What a confidence interval does not mean<a href="u3-misreadings.html#u3-misreadings" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <div class="question">
-<p>Four sentences that sound right. Which are, and why not?</p>
+<p>Four statements about the interval we just built. Which of them are correct?</p>
 </div>
-<p>Confidence intervals are misread more often than any other object in
-introductory statistics, and the misreadings are systematic enough to be worth
-naming.</p>
-<p><strong>“There is a 95% probability that <span class="math inline">\(\mu\)</span> lies in <span class="math inline">\([24.4,\ 27.8]\)</span>.”</strong></p>
-<p>This is the most common, and the most understandable. But <span class="math inline">\(\mu\)</span> is a fixed
-number and the interval is a fixed pair of numbers; either the one is inside
-the other or it is not. There is nothing left to assign a probability to. The
-randomness lived in the sampling, and it was spent when the sample was drawn.
-What is 95% is the <em>procedure’s</em> long-run success rate.</p>
-<p><strong>“95% of the population lies within the interval.”</strong></p>
-<p>The interval describes the plausible location of a population <em>mean</em>, not the
-spread of individuals. In the attendance data the 95% interval is under two
-classes wide, while individual students range across the whole register. An
-interval for <span class="math inline">\(\mu\)</span> narrows towards a point as <span class="math inline">\(n\)</span> grows; the spread of the
-population does not budge.</p>
-<p><strong>“The two intervals overlap, so the groups are not different.”</strong></p>
-<p>Tempting, and wrong often enough to matter. Two intervals can overlap while the
-difference between the groups is nevertheless larger than sampling variation
-would explain. Comparing groups requires an interval for the <em>difference</em>,
-which is the subject of a later unit — not an eyeball comparison of two
-separate intervals.</p>
-<p><strong>“A wider interval means the estimate is worse.”</strong></p>
-<p>It means the estimate is less precise, which is not the same thing. A wide
-interval from a well-designed survey is an honest report of genuine
-uncertainty. A narrow interval from a badly designed one, as Survey B in
-Section <a href="u2-iid.html#u2-iid">2.2</a> demonstrated, is a confident statement about the wrong
-population. Width measures precision; nothing in the arithmetic measures
-whether the sample was any good.</p>
+<p>By now you know how to construct a confidence interval and how to interpret it
+through repeated sampling. Yet confidence intervals are among the most
+misunderstood ideas in statistics, and experienced researchers interpret them
+incorrectly often enough that the errors have names.</p>
+<p>Consider the following four statements. Decide what you think of each before
+reading on.</p>
+<div id="statement-1-the-probability-the-mean-is-inside" class="section level3 unnumbered hasAnchor">
+<h3>Statement 1: the probability the mean is inside<a href="u3-misreadings.html#statement-1-the-probability-the-mean-is-inside" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<blockquote>
+<p>There is a 95% probability that the population mean lies between 24.4 and
+27.8.</p>
+</blockquote>
+<p><strong>Incorrect.</strong> This is the most common misconception.</p>
+<p>Once the sample has been collected, the confidence interval is fixed. The
+population mean is also fixed. Either the interval contains it or it does not —
+there is no longer any randomness to attach a probability to.</p>
+<p>The 95% refers to the <em>method</em>, not to this particular interval. If we
+repeatedly collected samples and constructed intervals in exactly the same way,
+about 95% of them would contain the true population mean.</p>
+<p>The uncertainty lies in the sampling process, not in the value of the
+population mean.</p>
+</div>
+<div id="statement-2-the-spread-of-the-population" class="section level3 unnumbered hasAnchor">
+<h3>Statement 2: the spread of the population<a href="u3-misreadings.html#statement-2-the-spread-of-the-population" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<blockquote>
+<p>Ninety-five percent of the population lies within this confidence interval.</p>
+</blockquote>
+<p><strong>Incorrect.</strong></p>
+<p>A confidence interval is about the location of the population <strong>mean</strong>, not
+about the spread of individual observations.</p>
+<p>Our interval for average attendance runs from 24.4 to 27.8 classes — a few
+classes wide. Individual students in the same data attended anywhere from
+almost none of their classes to nearly all of them.</p>
+<p>The clearest way to see that these are different quantities is to watch them
+respond to sample size. As <span class="math inline">\(n\)</span> increases the interval narrows, because the mean
+is estimated more precisely. The variability among individual students does not
+change at all.</p>
+</div>
+<div id="statement-3-two-intervals-that-overlap" class="section level3 unnumbered hasAnchor">
+<h3>Statement 3: two intervals that overlap<a href="u3-misreadings.html#statement-3-two-intervals-that-overlap" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<blockquote>
+<p>The confidence intervals for two groups overlap, so the groups are not
+significantly different.</p>
+</blockquote>
+<p><strong>Not necessarily.</strong></p>
+<p>Two confidence intervals can overlap even when the difference between the two
+population means is statistically significant.</p>
+<p>The reason is straightforward. Each interval describes uncertainty about a
+single mean. Whether two groups differ depends on the uncertainty surrounding
+<strong>their difference</strong>, which is a different quantity with a different standard
+error.</p>
+<p>Later in the book we construct confidence intervals for differences between
+means. Those intervals, and not visual overlap, are the correct basis for
+comparison.</p>
+</div>
+<div id="statement-4-a-wider-interval" class="section level3 unnumbered hasAnchor">
+<h3>Statement 4: a wider interval<a href="u3-misreadings.html#statement-4-a-wider-interval" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<blockquote>
+<p>A wider confidence interval means the estimate is worse.</p>
+</blockquote>
+<p><strong>Not necessarily.</strong></p>
+<p>A wider interval means the estimate is <em>less precise</em>, and precision is not the
+same thing as quality.</p>
+<p>A carefully designed survey with a small sample may produce a wide interval
+simply because the available information is limited. That interval is an honest
+report of genuine uncertainty.</p>
+<p>A poorly designed survey may produce a very narrow interval by repeatedly
+sampling the wrong population. Section <a href="u2-iid.html#u2-iid">2.2</a> showed exactly this:
+Survey B, which interviewed only urban households, produced estimates with a
+<em>smaller</em> spread than the correct design while centring on a figure ₹6,800 too
+high. The interval was precise, and precisely wrong.</p>
+<p>Confidence intervals measure uncertainty due to <strong>sampling variation</strong>. They do
+not detect bias arising from poor sampling, non-response, or measurement error.</p>
 <div class="keyidea">
-<p>A confidence interval reports what the data can support, and no more. It cannot
-detect a badly drawn sample, it says nothing about individuals, and its
-confidence level is a property of the method rather than of the particular
-numbers in front of you.</p>
+<p>A confidence interval tells us what the data can reasonably support about an
+unknown population parameter.</p>
+<p>It does <strong>not</strong> give the probability that a particular interval contains the
+truth, it does <strong>not</strong> describe the spread of individual observations, it does
+<strong>not</strong> settle whether two groups differ by whether they overlap, and it does
+<strong>not</strong> guarantee that the data were collected well.</p>
+<p>Understanding these limitations is as much a part of using the interval as
+knowing how to calculate it.</p>
+</div>
 </div>
 </div>
 <script>

@@ -1198,51 +1198,105 @@ level no longer describes what was done.
 ## What a confidence interval does not mean {#u3-misreadings}
 
 ::: {.question}
-Four sentences that sound right. Which are, and why not?
+Four statements about the interval we just built. Which of them are correct?
 :::
 
-Confidence intervals are misread more often than any other object in
-introductory statistics, and the misreadings are systematic enough to be worth
-naming.
+By now you know how to construct a confidence interval and how to interpret it
+through repeated sampling. Yet confidence intervals are among the most
+misunderstood ideas in statistics, and experienced researchers interpret them
+incorrectly often enough that the errors have names.
 
-**"There is a 95% probability that $\mu$ lies in $[24.4,\ 27.8]$."**
+Consider the following four statements. Decide what you think of each before
+reading on.
 
-This is the most common, and the most understandable. But $\mu$ is a fixed
-number and the interval is a fixed pair of numbers; either the one is inside
-the other or it is not. There is nothing left to assign a probability to. The
-randomness lived in the sampling, and it was spent when the sample was drawn.
-What is 95% is the *procedure's* long-run success rate.
+### Statement 1: the probability the mean is inside {-}
 
-**"95% of the population lies within the interval."**
+> There is a 95% probability that the population mean lies between 24.4 and
+> 27.8.
 
-The interval describes the plausible location of a population *mean*, not the
-spread of individuals. In the attendance data the 95% interval is under two
-classes wide, while individual students range across the whole register. An
-interval for $\mu$ narrows towards a point as $n$ grows; the spread of the
-population does not budge.
+**Incorrect.** This is the most common misconception.
 
-**"The two intervals overlap, so the groups are not different."**
+Once the sample has been collected, the confidence interval is fixed. The
+population mean is also fixed. Either the interval contains it or it does not —
+there is no longer any randomness to attach a probability to.
 
-Tempting, and wrong often enough to matter. Two intervals can overlap while the
-difference between the groups is nevertheless larger than sampling variation
-would explain. Comparing groups requires an interval for the *difference*,
-which is the subject of a later unit — not an eyeball comparison of two
-separate intervals.
+The 95% refers to the *method*, not to this particular interval. If we
+repeatedly collected samples and constructed intervals in exactly the same way,
+about 95% of them would contain the true population mean.
 
-**"A wider interval means the estimate is worse."**
+The uncertainty lies in the sampling process, not in the value of the
+population mean.
 
-It means the estimate is less precise, which is not the same thing. A wide
-interval from a well-designed survey is an honest report of genuine
-uncertainty. A narrow interval from a badly designed one, as Survey B in
-Section \@ref(u2-iid) demonstrated, is a confident statement about the wrong
-population. Width measures precision; nothing in the arithmetic measures
-whether the sample was any good.
+### Statement 2: the spread of the population {-}
+
+> Ninety-five percent of the population lies within this confidence interval.
+
+**Incorrect.**
+
+A confidence interval is about the location of the population **mean**, not
+about the spread of individual observations.
+
+Our interval for average attendance runs from 24.4 to 27.8 classes — a few
+classes wide. Individual students in the same data attended anywhere from
+almost none of their classes to nearly all of them.
+
+The clearest way to see that these are different quantities is to watch them
+respond to sample size. As $n$ increases the interval narrows, because the mean
+is estimated more precisely. The variability among individual students does not
+change at all.
+
+### Statement 3: two intervals that overlap {-}
+
+> The confidence intervals for two groups overlap, so the groups are not
+> significantly different.
+
+**Not necessarily.**
+
+Two confidence intervals can overlap even when the difference between the two
+population means is statistically significant.
+
+The reason is straightforward. Each interval describes uncertainty about a
+single mean. Whether two groups differ depends on the uncertainty surrounding
+**their difference**, which is a different quantity with a different standard
+error.
+
+Later in the book we construct confidence intervals for differences between
+means. Those intervals, and not visual overlap, are the correct basis for
+comparison.
+
+### Statement 4: a wider interval {-}
+
+> A wider confidence interval means the estimate is worse.
+
+**Not necessarily.**
+
+A wider interval means the estimate is *less precise*, and precision is not the
+same thing as quality.
+
+A carefully designed survey with a small sample may produce a wide interval
+simply because the available information is limited. That interval is an honest
+report of genuine uncertainty.
+
+A poorly designed survey may produce a very narrow interval by repeatedly
+sampling the wrong population. Section \@ref(u2-iid) showed exactly this:
+Survey B, which interviewed only urban households, produced estimates with a
+*smaller* spread than the correct design while centring on a figure ₹6,800 too
+high. The interval was precise, and precisely wrong.
+
+Confidence intervals measure uncertainty due to **sampling variation**. They do
+not detect bias arising from poor sampling, non-response, or measurement error.
 
 ::: {.keyidea}
-A confidence interval reports what the data can support, and no more. It cannot
-detect a badly drawn sample, it says nothing about individuals, and its
-confidence level is a property of the method rather than of the particular
-numbers in front of you.
+A confidence interval tells us what the data can reasonably support about an
+unknown population parameter.
+
+It does **not** give the probability that a particular interval contains the
+truth, it does **not** describe the spread of individual observations, it does
+**not** settle whether two groups differ by whether they overlap, and it does
+**not** guarantee that the data were collected well.
+
+Understanding these limitations is as much a part of using the interval as
+knowing how to calculate it.
 :::
 
 
