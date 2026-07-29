@@ -22,7 +22,7 @@ fig:os-sim-plot
 tab:os-claim-table
 fig:os-reject-plot
 tab:os-pval-table
-fig:os-ci-plot
+fig:os-ci-pvalue-plot
 fig:os-t-vs-z
 tab:os-ref-z
 tab:os-ref-crit

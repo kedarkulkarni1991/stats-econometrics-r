@@ -4,13 +4,13 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>4.6 Confidence intervals are the same test in disguise | Statistics and Econometrics with R</title>
+  <title>4.6 The same test, viewed as an interval | Statistics and Econometrics with R</title>
   <meta name="description" content="<p>A first course in statistics and econometrics for Indian students, built on
 the progression from question to intuition to rigour to computation to
 interpretation.</p>" />
   <meta name="generator" content="bookdown 0.47 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="4.6 Confidence intervals are the same test in disguise | Statistics and Econometrics with R" />
+  <meta property="og:title" content="4.6 The same test, viewed as an interval | Statistics and Econometrics with R" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="<p>A first course in statistics and econometrics for Indian students, built on
@@ -19,7 +19,7 @@ interpretation.</p>" />
   <meta name="github-repo" content="kedarkulkarni1991/stats-econometrics-r" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="4.6 Confidence intervals are the same test in disguise | Statistics and Econometrics with R" />
+  <meta name="twitter:title" content="4.6 The same test, viewed as an interval | Statistics and Econometrics with R" />
   
   <meta name="twitter:description" content="<p>A first course in statistics and econometrics for Indian students, built on
 the progression from question to intuition to rigour to computation to
@@ -305,7 +305,11 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="os-worked.html"><a href="os-worked.html#letting-a-package-do-it"><i class="fa fa-check"></i>Letting a package do it</a></li>
 </ul></li>
 <li class="chapter" data-level="4.5" data-path="os-pvalue.html"><a href="os-pvalue.html"><i class="fa fa-check"></i><b>4.5</b> What a <span class="math inline">\(p\)</span>-value actually says</a></li>
-<li class="chapter" data-level="4.6" data-path="os-ci.html"><a href="os-ci.html"><i class="fa fa-check"></i><b>4.6</b> Confidence intervals are the same test in disguise</a></li>
+<li class="chapter" data-level="4.6" data-path="os-ci.html"><a href="os-ci.html"><i class="fa fa-check"></i><b>4.6</b> The same test, viewed as an interval</a>
+<ul>
+<li class="chapter" data-level="" data-path="os-ci.html"><a href="os-ci.html#testing-every-possible-claim-at-once"><i class="fa fa-check"></i>Testing every possible claim at once</a></li>
+<li class="chapter" data-level="" data-path="os-ci.html"><a href="os-ci.html#so-why-keep-both"><i class="fa fa-check"></i>So why keep both?</a></li>
+</ul></li>
 <li class="chapter" data-level="4.7" data-path="os-ttest.html"><a href="os-ttest.html"><i class="fa fa-check"></i><b>4.7</b> When <span class="math inline">\(\sigma\)</span> is unknown: the <span class="math inline">\(t\)</span>-test</a>
 <ul>
 <li class="chapter" data-level="" data-path="os-ttest.html"><a href="os-ttest.html#settling-the-question-with-the-actual-class"><i class="fa fa-check"></i>Settling the question with the actual class</a></li>
@@ -348,54 +352,96 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 
             <section class="normal" id="section-">
 <div id="os-ci" class="section level2 hasAnchor" number="4.6">
-<h2><span class="header-section-number">4.6</span> Confidence intervals are the same test in disguise<a href="os-ci.html#os-ci" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>Rearranging the “do not reject” condition <span class="math inline">\(|\bar{x} - \mu| \le
-Z_{\alpha/2}\,\sigma/\sqrt{n}\)</span> for <span class="math inline">\(\mu\)</span> gives</p>
-<p><span class="math display">\[
-\bar{x} - Z_{\alpha/2}\frac{\sigma}{\sqrt{n}}
-\ \leq\ \mu\ \leq\
-\bar{x} + Z_{\alpha/2}\frac{\sigma}{\sqrt{n}}
-\]</span></p>
-<p>For our students:</p>
+<h2><span class="header-section-number">4.6</span> The same test, viewed as an interval<a href="os-ci.html#os-ci" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="question">
+<p>Unit <a href="interval-estimation.html#interval-estimation">3</a> built confidence intervals; this unit builds
+tests. Are they two methods, or one?</p>
+</div>
+<p>We now have two procedures that use the same sample, the same standard error
+and the same critical value. It would be strange if they were unrelated, and
+they are not.</p>
+<p>Start by computing the interval for our students, exactly as in the previous
+unit.</p>
 <div class="sourceCode" id="cb123"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb123-1"><a href="os-ci.html#cb123-1" tabindex="-1"></a>xbar <span class="sc">+</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>) <span class="sc">*</span> <span class="fu">qnorm</span>(<span class="fl">0.975</span>) <span class="sc">*</span> (<span class="dv">8</span> <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="dv">36</span>))</span></code></pre></div>
 <pre><code>#&gt; [1] 165.4 170.6</code></pre>
-<p>The 95% interval is roughly <span class="math inline">\([165.4,\ 170.6]\)</span>. The claimed value of 165 lies
-<strong>outside</strong> it — which is the same verdict we reached with the test statistic,
-and it is no coincidence.</p>
+<p>The 95% interval is <span class="math inline">\([165.39,\ 170.61]\)</span>. The claimed value of 165 lies
+<strong>outside</strong> it — the same verdict the test reached, and not a coincidence.</p>
+<p>The reason is visible in the algebra. We fail to reject <span class="math inline">\(H_0\)</span> when the test
+statistic is small enough, that is when</p>
+<p><span class="math display">\[\left|\frac{\bar{x} - \mu_0}{\sigma/\sqrt{n}}\right| \le z_{\alpha/2}\]</span></p>
+<p>Multiplying through by <span class="math inline">\(\sigma/\sqrt{n}\)</span> and rearranging for <span class="math inline">\(\mu_0\)</span> gives</p>
+<p><span class="math display">\[\bar{x} - z_{\alpha/2}\frac{\sigma}{\sqrt{n}}
+\;\le\; \mu_0 \;\leq\;
+\bar{x} + z_{\alpha/2}\frac{\sigma}{\sqrt{n}}\]</span></p>
+<p>which is the confidence interval. The condition for <em>not rejecting a claim</em> and
+the formula for the <em>interval</em> are the same inequality, solved for different
+things.</p>
+<div id="testing-every-possible-claim-at-once" class="section level3 unnumbered hasAnchor">
+<h3>Testing every possible claim at once<a href="os-ci.html#testing-every-possible-claim-at-once" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>That equivalence can be checked rather than taken on trust. Rather than testing
+the single claim <span class="math inline">\(\mu_0 = 165\)</span>, test every value on a fine grid and collect the
+ones that survive.</p>
+<div class="sourceCode" id="cb125"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb125-1"><a href="os-ci.html#cb125-1" tabindex="-1"></a>se  <span class="ot">&lt;-</span> <span class="dv">8</span> <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="dv">36</span>)</span>
+<span id="cb125-2"><a href="os-ci.html#cb125-2" tabindex="-1"></a>grid <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">160</span>, <span class="dv">176</span>, <span class="at">by =</span> <span class="fl">0.001</span>)</span>
+<span id="cb125-3"><a href="os-ci.html#cb125-3" tabindex="-1"></a></span>
+<span id="cb125-4"><a href="os-ci.html#cb125-4" tabindex="-1"></a>not_rejected <span class="ot">&lt;-</span> grid[<span class="fu">abs</span>(xbar <span class="sc">-</span> grid) <span class="sc">/</span> se <span class="sc">&lt;=</span> <span class="fu">qnorm</span>(<span class="fl">0.975</span>)]</span>
+<span id="cb125-5"><a href="os-ci.html#cb125-5" tabindex="-1"></a></span>
+<span id="cb125-6"><a href="os-ci.html#cb125-6" tabindex="-1"></a>surviving <span class="ot">&lt;-</span> <span class="fu">range</span>(not_rejected)</span>
+<span id="cb125-7"><a href="os-ci.html#cb125-7" tabindex="-1"></a>interval  <span class="ot">&lt;-</span> xbar <span class="sc">+</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>) <span class="sc">*</span> <span class="fu">qnorm</span>(<span class="fl">0.975</span>) <span class="sc">*</span> se</span>
+<span id="cb125-8"><a href="os-ci.html#cb125-8" tabindex="-1"></a></span>
+<span id="cb125-9"><a href="os-ci.html#cb125-9" tabindex="-1"></a><span class="fu">rbind</span>(<span class="at">claims_that_survive_the_test =</span> surviving,</span>
+<span id="cb125-10"><a href="os-ci.html#cb125-10" tabindex="-1"></a>      <span class="at">confidence_interval          =</span> interval,</span>
+<span id="cb125-11"><a href="os-ci.html#cb125-11" tabindex="-1"></a>      <span class="at">difference                   =</span> surviving <span class="sc">-</span> interval)</span></code></pre></div>
+<pre><code>#&gt;                                     [,1]        [,2]
+#&gt; claims_that_survive_the_test 165.3870000 170.6130000
+#&gt; confidence_interval          165.3867147 170.6132853
+#&gt; difference                     0.0002853  -0.0002853</code></pre>
+<p>The two agree to within a thousandth of a centimetre, which is the spacing of
+the grid — test a finer grid and the discrepancy shrinks with it. The set of
+claims a test would not reject <em>is</em> the confidence interval. Nothing was
+assumed to make this happen; it follows from the two being one inequality
+solved for different unknowns.</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:os-ci-pvalue-plot"></span>
+<img src="stats-econometrics-r_files/figure-html/os-ci-pvalue-plot-1.png" alt="The p-value for every possible claimed value of mu. Claims above the 0.05 line survive the test, and the range of surviving claims is exactly the 95% confidence interval." width="90%" />
+<p class="caption">
+Figure 4.3: The p-value for every possible claimed value of mu. Claims above the 0.05 line survive the test, and the range of surviving claims is exactly the 95% confidence interval.
+</p>
+</div>
+<p>The curve peaks at <span class="math inline">\(\mu_0 = \bar{x} = 168\)</span>, where the claim matches the data
+exactly and the <span class="math inline">\(p\)</span>-value is 1. It falls away in both directions, crossing 0.05
+precisely at the two endpoints of the interval.</p>
 <div class="keyidea">
-<p>A <span class="math inline">\((1-\alpha)\)</span> confidence interval is exactly the set of values of <span class="math inline">\(\mu_0\)</span> that
-a two-tailed test at level <span class="math inline">\(\alpha\)</span> would <strong>fail</strong> to reject.</p>
+<p>A <span class="math inline">\((1-\alpha)\)</span> confidence interval is exactly the set of values <span class="math inline">\(\mu_0\)</span> that a
+two-tailed test at level <span class="math inline">\(\alpha\)</span> would <strong>fail</strong> to reject.</p>
 <p>Test and interval are one object viewed from two sides. If the interval misses
 the claimed value, the test rejects it. Always.</p>
 </div>
-<div class="watchout">
-<p>“95% confident” does <strong>not</strong> mean there is a 95% probability that <span class="math inline">\(\mu\)</span> lies in
-this particular interval. <span class="math inline">\(\mu\)</span> is a fixed number; it is either in there or it
-is not.</p>
-<p>It means: <em>the procedure</em> that generated this interval captures the true <span class="math inline">\(\mu\)</span>
-in 95% of repeated samples. The randomness lives in the interval, not in <span class="math inline">\(\mu\)</span>.</p>
 </div>
-<p>We can see that directly. Build 100 intervals from 100 samples of a population
-we know averages 165, and count the misses:</p>
-<div class="sourceCode" id="cb125"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb125-1"><a href="os-ci.html#cb125-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
-<span id="cb125-2"><a href="os-ci.html#cb125-2" tabindex="-1"></a></span>
-<span id="cb125-3"><a href="os-ci.html#cb125-3" tabindex="-1"></a>sims <span class="ot">&lt;-</span> <span class="fu">t</span>(<span class="fu">replicate</span>(<span class="dv">100</span>, {</span>
-<span id="cb125-4"><a href="os-ci.html#cb125-4" tabindex="-1"></a>  s <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">36</span>, <span class="at">mean =</span> <span class="dv">165</span>, <span class="at">sd =</span> <span class="dv">8</span>)</span>
-<span id="cb125-5"><a href="os-ci.html#cb125-5" tabindex="-1"></a>  <span class="fu">mean</span>(s) <span class="sc">+</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>) <span class="sc">*</span> <span class="fu">qnorm</span>(<span class="fl">0.975</span>) <span class="sc">*</span> <span class="dv">8</span> <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="dv">36</span>)</span>
-<span id="cb125-6"><a href="os-ci.html#cb125-6" tabindex="-1"></a>}))</span>
-<span id="cb125-7"><a href="os-ci.html#cb125-7" tabindex="-1"></a></span>
-<span id="cb125-8"><a href="os-ci.html#cb125-8" tabindex="-1"></a>ci <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">id =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">100</span>, <span class="at">lo =</span> sims[, <span class="dv">1</span>], <span class="at">hi =</span> sims[, <span class="dv">2</span>])</span>
-<span id="cb125-9"><a href="os-ci.html#cb125-9" tabindex="-1"></a>ci<span class="sc">$</span>misses <span class="ot">&lt;-</span> ci<span class="sc">$</span>lo <span class="sc">&gt;</span> <span class="dv">165</span> <span class="sc">|</span> ci<span class="sc">$</span>hi <span class="sc">&lt;</span> <span class="dv">165</span></span>
-<span id="cb125-10"><a href="os-ci.html#cb125-10" tabindex="-1"></a></span>
-<span id="cb125-11"><a href="os-ci.html#cb125-11" tabindex="-1"></a><span class="fu">sum</span>(ci<span class="sc">$</span>misses)   <span class="co"># how many of the 100 failed to capture the truth?</span></span></code></pre></div>
-<pre><code>#&gt; [1] 5</code></pre>
-<p>Five of the hundred missed. Run it again with a different seed and you will get
-four, or seven, or three — but over the long run, 5%.</p>
-<div class="figure" style="text-align: center"><span style="display:block;" id="fig:os-ci-plot"></span>
-<img src="stats-econometrics-r_files/figure-html/os-ci-plot-1.png" alt="One hundred 95% confidence intervals from a population whose true mean is 165 (the vertical line). The intervals shown in orange are the ones that missed." width="90%" />
-<p class="caption">
-Figure 4.3: One hundred 95% confidence intervals from a population whose true mean is 165 (the vertical line). The intervals shown in orange are the ones that missed.
-</p>
+<div id="so-why-keep-both" class="section level3 unnumbered hasAnchor">
+<h3>So why keep both?<a href="os-ci.html#so-why-keep-both" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Because they carry different information, and the figure above shows what each
+one throws away.</p>
+<p>A confidence interval answers infinitely many tests at once, and reports the
+answer in the units of the problem. Handed <span class="math inline">\([165.39,\ 170.61]\)</span>, a reader can
+evaluate any claim about average height — 165, 166, 172 — without recomputing
+anything. A test answers one question, chosen in advance.</p>
+<p>A test, however, reports <em>how far</em> rather than merely <em>in or out</em>. Both 165 and
+160 fall outside our interval, and the interval says the same thing about both:
+rejected. The <span class="math inline">\(p\)</span>-values do not agree — 0.024 for 165, and effectively zero for
+160. One claim is marginally implausible and the other is not remotely
+survivable, and the interval alone does not distinguish them.</p>
+<div class="intuition">
+<p>Report the interval. It contains the test, states its answer in the units the
+reader cares about, and does not tempt anyone into treating a single threshold
+as a verdict.</p>
+<p>Report the <span class="math inline">\(p\)</span>-value alongside it when one specific claim is genuinely at
+issue, since that is where the interval is silent about degree.</p>
+</div>
+<p>Everything Section <a href="u3-misreadings.html#u3-misreadings">3.8</a> said about reading a confidence
+interval applies unchanged here. In particular, the 95% still describes the
+procedure and not this interval, and an interval that excludes a claimed value
+has not proved the claim false — it has reported that the data are unlikely
+under it.</p>
 </div>
 </div>
 <script>

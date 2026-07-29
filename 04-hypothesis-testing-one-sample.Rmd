@@ -400,76 +400,134 @@ knitr::kable(
 )
 ```
 
-## Confidence intervals are the same test in disguise {#os-ci}
+## The same test, viewed as an interval {#os-ci}
 
-Rearranging the "do not reject" condition $|\bar{x} - \mu| \le
-Z_{\alpha/2}\,\sigma/\sqrt{n}$ for $\mu$ gives
+::: {.question}
+Unit \@ref(interval-estimation) built confidence intervals; this unit builds
+tests. Are they two methods, or one?
+:::
 
-$$
-\bar{x} - Z_{\alpha/2}\frac{\sigma}{\sqrt{n}}
-\ \leq\ \mu\ \leq\
-\bar{x} + Z_{\alpha/2}\frac{\sigma}{\sqrt{n}}
-$$
+We now have two procedures that use the same sample, the same standard error
+and the same critical value. It would be strange if they were unrelated, and
+they are not.
 
-For our students:
+Start by computing the interval for our students, exactly as in the previous
+unit.
 
 ```{r os-ci-calc}
 xbar + c(-1, 1) * qnorm(0.975) * (8 / sqrt(36))
 ```
 
-The 95% interval is roughly $[165.4,\ 170.6]$. The claimed value of 165 lies
-**outside** it — which is the same verdict we reached with the test statistic,
-and it is no coincidence.
+The 95% interval is $[165.39,\ 170.61]$. The claimed value of 165 lies
+**outside** it — the same verdict the test reached, and not a coincidence.
+
+The reason is visible in the algebra. We fail to reject $H_0$ when the test
+statistic is small enough, that is when
+
+$$\left|\frac{\bar{x} - \mu_0}{\sigma/\sqrt{n}}\right| \le z_{\alpha/2}$$
+
+Multiplying through by $\sigma/\sqrt{n}$ and rearranging for $\mu_0$ gives
+
+$$\bar{x} - z_{\alpha/2}\frac{\sigma}{\sqrt{n}}
+\;\le\; \mu_0 \;\leq\;
+\bar{x} + z_{\alpha/2}\frac{\sigma}{\sqrt{n}}$$
+
+which is the confidence interval. The condition for *not rejecting a claim* and
+the formula for the *interval* are the same inequality, solved for different
+things.
+
+### Testing every possible claim at once {-}
+
+That equivalence can be checked rather than taken on trust. Rather than testing
+the single claim $\mu_0 = 165$, test every value on a fine grid and collect the
+ones that survive.
+
+```{r os-ci-equiv}
+se  <- 8 / sqrt(36)
+grid <- seq(160, 176, by = 0.001)
+
+not_rejected <- grid[abs(xbar - grid) / se <= qnorm(0.975)]
+
+surviving <- range(not_rejected)
+interval  <- xbar + c(-1, 1) * qnorm(0.975) * se
+
+rbind(claims_that_survive_the_test = surviving,
+      confidence_interval          = interval,
+      difference                   = surviving - interval)
+```
+
+The two agree to within a thousandth of a centimetre, which is the spacing of
+the grid — test a finer grid and the discrepancy shrinks with it. The set of
+claims a test would not reject *is* the confidence interval. Nothing was
+assumed to make this happen; it follows from the two being one inequality
+solved for different unknowns.
+
+```{r os-ci-pvalue-plot, echo = FALSE, fig.height = 3.4, fig.cap = "The p-value for every possible claimed value of mu. Claims above the 0.05 line survive the test, and the range of surviving claims is exactly the 95% confidence interval."}
+pv <- data.frame(mu0 = seq(162, 174, length.out = 800))
+pv$p <- 2 * (1 - pnorm(abs(xbar - pv$mu0) / se))
+lo <- xbar - qnorm(0.975) * se
+hi <- xbar + qnorm(0.975) * se
+
+ggplot(pv, aes(mu0, p)) +
+  geom_ribbon(data = subset(pv, mu0 >= lo & mu0 <= hi),
+              aes(ymin = 0.05, ymax = p), fill = book_palette$fill,
+              alpha = 0.85) +
+  geom_line(linewidth = 0.8, colour = book_palette$ink) +
+  geom_hline(yintercept = 0.05, linetype = "dashed",
+             colour = book_palette$reject) +
+  annotate("segment", x = c(lo, hi), xend = c(lo, hi), y = 0, yend = 0.05,
+           colour = book_palette$reject, linewidth = 0.5) +
+  annotate("text", x = 165, y = 0.44, label = "claims that survive",
+           size = 3.5, colour = "grey25") +
+  annotate("text", x = 172.6, y = 0.075, label = "α = 0.05",
+           size = 3.3, colour = book_palette$reject) +
+  scale_x_continuous(breaks = c(164, round(lo, 1), 168, round(hi, 1), 174)) +
+  labs(x = expression(paste("claimed value  ", mu[0])), y = "p-value") +
+  theme_book()
+```
+
+The curve peaks at $\mu_0 = \bar{x} = 168$, where the claim matches the data
+exactly and the $p$-value is 1. It falls away in both directions, crossing 0.05
+precisely at the two endpoints of the interval.
 
 ::: {.keyidea}
-A $(1-\alpha)$ confidence interval is exactly the set of values of $\mu_0$ that
-a two-tailed test at level $\alpha$ would **fail** to reject.
+A $(1-\alpha)$ confidence interval is exactly the set of values $\mu_0$ that a
+two-tailed test at level $\alpha$ would **fail** to reject.
 
 Test and interval are one object viewed from two sides. If the interval misses
 the claimed value, the test rejects it. Always.
 :::
 
-::: {.watchout}
-"95% confident" does **not** mean there is a 95% probability that $\mu$ lies in
-this particular interval. $\mu$ is a fixed number; it is either in there or it
-is not.
+### So why keep both? {-}
 
-It means: *the procedure* that generated this interval captures the true $\mu$
-in 95% of repeated samples. The randomness lives in the interval, not in $\mu$.
+Because they carry different information, and the figure above shows what each
+one throws away.
+
+A confidence interval answers infinitely many tests at once, and reports the
+answer in the units of the problem. Handed $[165.39,\ 170.61]$, a reader can
+evaluate any claim about average height — 165, 166, 172 — without recomputing
+anything. A test answers one question, chosen in advance.
+
+A test, however, reports *how far* rather than merely *in or out*. Both 165 and
+160 fall outside our interval, and the interval says the same thing about both:
+rejected. The $p$-values do not agree — 0.024 for 165, and effectively zero for
+160. One claim is marginally implausible and the other is not remotely
+survivable, and the interval alone does not distinguish them.
+
+::: {.intuition}
+Report the interval. It contains the test, states its answer in the units the
+reader cares about, and does not tempt anyone into treating a single threshold
+as a verdict.
+
+Report the $p$-value alongside it when one specific claim is genuinely at
+issue, since that is where the interval is silent about degree.
 :::
 
-We can see that directly. Build 100 intervals from 100 samples of a population
-we know averages 165, and count the misses:
-
-```{r os-ci-coverage, fig.height = 4.6}
-set.seed(1)
-
-sims <- t(replicate(100, {
-  s <- rnorm(36, mean = 165, sd = 8)
-  mean(s) + c(-1, 1) * qnorm(0.975) * 8 / sqrt(36)
-}))
-
-ci <- data.frame(id = 1:100, lo = sims[, 1], hi = sims[, 2])
-ci$misses <- ci$lo > 165 | ci$hi < 165
-
-sum(ci$misses)   # how many of the 100 failed to capture the truth?
-```
-
-Five of the hundred missed. Run it again with a different seed and you will get
-four, or seven, or three — but over the long run, 5%.
-
-```{r os-ci-plot, echo = FALSE, fig.height = 4.6, fig.cap = "One hundred 95% confidence intervals from a population whose true mean is 165 (the vertical line). The intervals shown in orange are the ones that missed."}
-ggplot(ci, aes(y = id)) +
-  geom_segment(aes(x = lo, xend = hi, yend = id, colour = misses),
-               linewidth = 0.45) +
-  geom_vline(xintercept = 165, linewidth = 0.7, colour = book_palette$ink) +
-  scale_colour_manual(values = c("FALSE" = book_palette$soft,
-                                 "TRUE"  = book_palette$reject),
-                      guide = "none") +
-  labs(x = "height (cm)", y = "sample number") +
-  theme_book() +
-  theme(axis.text.y = element_blank())
-```
+Everything Section \@ref(u3-misreadings) said about reading a confidence
+interval applies unchanged here. In particular, the 95% still describes the
+procedure and not this interval, and an interval that excludes a claimed value
+has not proved the claim false — it has reported that the data are unlikely
+under it.
 
 ## When $\sigma$ is unknown: the $t$-test {#os-ttest}
 
