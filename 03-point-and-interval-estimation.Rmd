@@ -721,25 +721,62 @@ values for the unknown population mean.
 
 ::: {.theory}
 The reversal above was stated in words. Here it is as algebra, which is where
-the $\pm$ formula comes from.
+both the $\pm$ formula and the number 1.96 come from.
 
-The Central Limit Theorem says that before the sample is drawn,
+For large enough samples the sample mean is approximately normal with mean
+$\mu$ and standard deviation $\sigma/\sqrt{n}$. Standardising it — subtracting
+its mean and dividing by its standard deviation — gives a quantity with a
+distribution containing no unknowns at all:
 
-$$P\left(\mu - 1.96\frac{\sigma}{\sqrt{n}}
-\;\le\; \bar{X} \;\le\;
-\mu + 1.96\frac{\sigma}{\sqrt{n}}\right) \approx 0.95$$
+$$Z = \frac{\bar{X} - \mu}{\sigma/\sqrt{n}} \;\sim\; N(0, 1)$$
 
-Subtracting $\mu$ throughout and then $\bar{X}$, and multiplying by $-1$ (which
-reverses the inequalities), gives
+This is the step that makes everything else possible. Whatever the population,
+whatever its units, whatever $n$, the standardised sample mean has the *same*
+distribution — so a single number read off that distribution serves every
+problem of this kind.
 
-$$P\left(\bar{X} - 1.96\frac{\sigma}{\sqrt{n}}
-\;\le\; \mu \;\le\;
-\bar{X} + 1.96\frac{\sigma}{\sqrt{n}}\right) \approx 0.95$$
+That number is the solution to $P(|Z| \le c) = 0.95$, which is $c = 1.96$. In R
+it is `qnorm(0.975)`, the value with 2.5% of the distribution above it.
 
-Nothing has been added. The same statement now has $\mu$ in the middle instead
-of $\bar{X}$, which is what turns a fact about how sample means scatter into an
-interval around the one we observed.
+Now unwind the standardisation. Each line is the previous one with the same
+operation applied to all three parts of the inequality:
+
+$$
+\begin{aligned}
+P\big(|Z| \le 1.96\big) &= 0.95 \\[6pt]
+P\left(-1.96 \;\le\; \frac{\bar{X} - \mu}{\sigma/\sqrt{n}} \;\le\; 1.96\right) &= 0.95
+   && \text{definition of } Z \\[6pt]
+P\left(-1.96\frac{\sigma}{\sqrt{n}} \;\le\; \bar{X} - \mu \;\le\; 1.96\frac{\sigma}{\sqrt{n}}\right) &= 0.95
+   && \times \; \sigma/\sqrt{n} \\[6pt]
+P\left(-\bar{X} - 1.96\frac{\sigma}{\sqrt{n}} \;\le\; -\mu \;\le\; -\bar{X} + 1.96\frac{\sigma}{\sqrt{n}}\right) &= 0.95
+   && - \; \bar{X} \\[6pt]
+P\left(\bar{X} - 1.96\frac{\sigma}{\sqrt{n}} \;\le\; \mu \;\le\; \bar{X} + 1.96\frac{\sigma}{\sqrt{n}}\right) &= 0.95
+   && \times \; (-1)
+\end{aligned}
+$$
+
+The last step multiplies through by $-1$, which reverses both inequality signs
+and therefore swaps the two endpoints.
+
+Nothing has been added and nothing has been assumed beyond the Central Limit
+Theorem. The same statement now has $\mu$ in the middle instead of $\bar{X}$,
+which is what turns a fact about how sample means scatter into an interval
+around the one we happened to observe.
 :::
+
+::: {.watchout}
+The second line above must be read as a **single event** — $Z$ lying between two
+bounds — and not as two separate probabilities added together.
+
+It is tempting to split $P(|Z| \le 1.96)$ into
+$P(Z \le 1.96) + P(-Z \le 1.96)$. Those two probabilities are each 0.975, and
+they sum to 1.95, which is not a probability at all. The two events overlap
+almost entirely, and adding them counts the overlap twice.
+:::
+
+Only the constant changes for other confidence levels. Replacing 1.96 by
+$z_{\alpha/2}$, the value with $\alpha/2$ of the distribution above it, gives
+the general result at once — 1.645 for 90%, 2.576 for 99%.
 
 This interval is called a **95% confidence interval**, and the remaining
 question is what that phrase actually means — a question the next section

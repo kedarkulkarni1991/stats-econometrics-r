@@ -556,20 +556,51 @@ classes in each direction:</p>
 values for the unknown population mean.</p>
 <div class="theory">
 <p>The reversal above was stated in words. Here it is as algebra, which is where
-the <span class="math inline">\(\pm\)</span> formula comes from.</p>
-<p>The Central Limit Theorem says that before the sample is drawn,</p>
-<p><span class="math display">\[P\left(\mu - 1.96\frac{\sigma}{\sqrt{n}}
-\;\le\; \bar{X} \;\le\;
-\mu + 1.96\frac{\sigma}{\sqrt{n}}\right) \approx 0.95\]</span></p>
-<p>Subtracting <span class="math inline">\(\mu\)</span> throughout and then <span class="math inline">\(\bar{X}\)</span>, and multiplying by <span class="math inline">\(-1\)</span> (which
-reverses the inequalities), gives</p>
-<p><span class="math display">\[P\left(\bar{X} - 1.96\frac{\sigma}{\sqrt{n}}
-\;\le\; \mu \;\le\;
-\bar{X} + 1.96\frac{\sigma}{\sqrt{n}}\right) \approx 0.95\]</span></p>
-<p>Nothing has been added. The same statement now has <span class="math inline">\(\mu\)</span> in the middle instead
-of <span class="math inline">\(\bar{X}\)</span>, which is what turns a fact about how sample means scatter into an
-interval around the one we observed.</p>
+both the <span class="math inline">\(\pm\)</span> formula and the number 1.96 come from.</p>
+<p>For large enough samples the sample mean is approximately normal with mean
+<span class="math inline">\(\mu\)</span> and standard deviation <span class="math inline">\(\sigma/\sqrt{n}\)</span>. Standardising it — subtracting
+its mean and dividing by its standard deviation — gives a quantity with a
+distribution containing no unknowns at all:</p>
+<p><span class="math display">\[Z = \frac{\bar{X} - \mu}{\sigma/\sqrt{n}} \;\sim\; N(0, 1)\]</span></p>
+<p>This is the step that makes everything else possible. Whatever the population,
+whatever its units, whatever <span class="math inline">\(n\)</span>, the standardised sample mean has the <em>same</em>
+distribution — so a single number read off that distribution serves every
+problem of this kind.</p>
+<p>That number is the solution to <span class="math inline">\(P(|Z| \le c) = 0.95\)</span>, which is <span class="math inline">\(c = 1.96\)</span>. In R
+it is <code>qnorm(0.975)</code>, the value with 2.5% of the distribution above it.</p>
+<p>Now unwind the standardisation. Each line is the previous one with the same
+operation applied to all three parts of the inequality:</p>
+<p><span class="math display">\[
+\begin{aligned}
+P\big(|Z| \le 1.96\big) &amp;= 0.95 \\[6pt]
+P\left(-1.96 \;\le\; \frac{\bar{X} - \mu}{\sigma/\sqrt{n}} \;\le\; 1.96\right) &amp;= 0.95
+   &amp;&amp; \text{definition of } Z \\[6pt]
+P\left(-1.96\frac{\sigma}{\sqrt{n}} \;\le\; \bar{X} - \mu \;\le\; 1.96\frac{\sigma}{\sqrt{n}}\right) &amp;= 0.95
+   &amp;&amp; \times \; \sigma/\sqrt{n} \\[6pt]
+P\left(-\bar{X} - 1.96\frac{\sigma}{\sqrt{n}} \;\le\; -\mu \;\le\; -\bar{X} + 1.96\frac{\sigma}{\sqrt{n}}\right) &amp;= 0.95
+   &amp;&amp; - \; \bar{X} \\[6pt]
+P\left(\bar{X} - 1.96\frac{\sigma}{\sqrt{n}} \;\le\; \mu \;\le\; \bar{X} + 1.96\frac{\sigma}{\sqrt{n}}\right) &amp;= 0.95
+   &amp;&amp; \times \; (-1)
+\end{aligned}
+\]</span></p>
+<p>The last step multiplies through by <span class="math inline">\(-1\)</span>, which reverses both inequality signs
+and therefore swaps the two endpoints.</p>
+<p>Nothing has been added and nothing has been assumed beyond the Central Limit
+Theorem. The same statement now has <span class="math inline">\(\mu\)</span> in the middle instead of <span class="math inline">\(\bar{X}\)</span>,
+which is what turns a fact about how sample means scatter into an interval
+around the one we happened to observe.</p>
 </div>
+<div class="watchout">
+<p>The second line above must be read as a <strong>single event</strong> — <span class="math inline">\(Z\)</span> lying between two
+bounds — and not as two separate probabilities added together.</p>
+<p>It is tempting to split <span class="math inline">\(P(|Z| \le 1.96)\)</span> into
+<span class="math inline">\(P(Z \le 1.96) + P(-Z \le 1.96)\)</span>. Those two probabilities are each 0.975, and
+they sum to 1.95, which is not a probability at all. The two events overlap
+almost entirely, and adding them counts the overlap twice.</p>
+</div>
+<p>Only the constant changes for other confidence levels. Replacing 1.96 by
+<span class="math inline">\(z_{\alpha/2}\)</span>, the value with <span class="math inline">\(\alpha/2\)</span> of the distribution above it, gives
+the general result at once — 1.645 for 90%, 2.576 for 99%.</p>
 <p>This interval is called a <strong>95% confidence interval</strong>, and the remaining
 question is what that phrase actually means — a question the next section
 answers.</p>
