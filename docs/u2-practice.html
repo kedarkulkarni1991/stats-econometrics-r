@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>2.9 Practice problems | Statistics and Econometrics with R</title>
+  <meta name="description" content="<p>A first course in statistics and econometrics for Indian students, built on
+the progression from question to intuition to rigour to computation to
+interpretation.</p>" />
+  <meta name="generator" content="bookdown 0.47 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="2.9 Practice problems | Statistics and Econometrics with R" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="<p>A first course in statistics and econometrics for Indian students, built on
+the progression from question to intuition to rigour to computation to
+interpretation.</p>" />
+  <meta name="github-repo" content="kedarkulkarni1991/stats-econometrics-r" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="2.9 Practice problems | Statistics and Econometrics with R" />
+  
+  <meta name="twitter:description" content="<p>A first course in statistics and econometrics for Indian students, built on
+the progression from question to intuition to rigour to computation to
+interpretation.</p>" />
+  
+
+<meta name="author" content="Kedar Kulkarni" />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="u2-summary.html"/>
+<link rel="next" href="u2-question-bank.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  background-color: #f8f8f8; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } /* Alert */
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #204a87; } /* Attribute */
+code span.bn { color: #0000cf; } /* BaseN */
+code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4e9a06; } /* Char */
+code span.cn { color: #8f5902; } /* Constant */
+code span.co { color: #8f5902; font-style: italic; } /* Comment */
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code span.dt { color: #204a87; } /* DataType */
+code span.dv { color: #0000cf; } /* DecVal */
+code span.er { color: #a40000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #0000cf; } /* Float */
+code span.fu { color: #204a87; font-weight: bold; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code span.ot { color: #8f5902; } /* Other */
+code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code span.sc { color: #ce5c00; font-weight: bold; } /* SpecialChar */
+code span.ss { color: #4e9a06; } /* SpecialString */
+code span.st { color: #4e9a06; } /* String */
+code span.va { color: #000000; } /* Variable */
+code span.vs { color: #4e9a06; } /* VerbatimString */
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="css/style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="toc-logo"><a href="./"><strong>Statistics &amp; Econometrics with R</strong></a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Welcome</a>
+<ul>
+<li class="chapter" data-level="" data-path="how-to-use-this-book.html"><a href="how-to-use-this-book.html"><i class="fa fa-check"></i>How to use this book</a>
+<ul>
+<li class="chapter" data-level="" data-path="how-to-use-this-book.html"><a href="how-to-use-this-book.html#read-the-book-in-order"><i class="fa fa-check"></i>Read the book in order</a></li>
+<li class="chapter" data-level="" data-path="how-to-use-this-book.html"><a href="how-to-use-this-book.html#work-through-the-mathematics"><i class="fa fa-check"></i>Work through the mathematics</a></li>
+<li class="chapter" data-level="" data-path="how-to-use-this-book.html"><a href="how-to-use-this-book.html#think-in-words-before-thinking-in-mathematics"><i class="fa fa-check"></i>Think in words before thinking in mathematics</a></li>
+<li class="chapter" data-level="" data-path="how-to-use-this-book.html"><a href="how-to-use-this-book.html#write-the-code-yourself"><i class="fa fa-check"></i>Write the code yourself</a></li>
+<li class="chapter" data-level="" data-path="how-to-use-this-book.html"><a href="how-to-use-this-book.html#think-before-calculating"><i class="fa fa-check"></i>Think before calculating</a></li>
+<li class="chapter" data-level="" data-path="how-to-use-this-book.html"><a href="how-to-use-this-book.html#attempt-the-exercises-first"><i class="fa fa-check"></i>Attempt the exercises first</a></li>
+<li class="chapter" data-level="" data-path="how-to-use-this-book.html"><a href="how-to-use-this-book.html#use-the-book-as-a-reference"><i class="fa fa-check"></i>Use the book as a reference</a></li>
+<li class="chapter" data-level="" data-path="how-to-use-this-book.html"><a href="how-to-use-this-book.html#learn-by-connecting-ideas"><i class="fa fa-check"></i>Learn by connecting ideas</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="what-you-need.html"><a href="what-you-need.html"><i class="fa fa-check"></i>What you need</a></li>
+<li class="chapter" data-level="" data-path="a-note-on-the-data.html"><a href="a-note-on-the-data.html"><i class="fa fa-check"></i>A note on the data</a></li>
+<li class="chapter" data-level="" data-path="licence-and-citation.html"><a href="licence-and-citation.html"><i class="fa fa-check"></i>Licence and citation</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="towards-inference.html"><a href="towards-inference.html"><i class="fa fa-check"></i><b>1</b> Towards Inferential Statistics</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="u1-randomness.html"><a href="u1-randomness.html"><i class="fa fa-check"></i><b>1.1</b> Randomness and variation</a></li>
+<li class="chapter" data-level="1.2" data-path="u1-describing.html"><a href="u1-describing.html"><i class="fa fa-check"></i><b>1.2</b> Describing variation</a></li>
+<li class="chapter" data-level="1.3" data-path="u1-not-enough.html"><a href="u1-not-enough.html"><i class="fa fa-check"></i><b>1.3</b> The limits of descriptive statistics</a></li>
+<li class="chapter" data-level="1.4" data-path="u1-frequentist.html"><a href="u1-frequentist.html"><i class="fa fa-check"></i><b>1.4</b> What if we repeated the survey?</a></li>
+<li class="chapter" data-level="1.5" data-path="u1-lln.html"><a href="u1-lln.html"><i class="fa fa-check"></i><b>1.5</b> Why do larger samples give more reliable answers?</a></li>
+<li class="chapter" data-level="1.6" data-path="u1-clt.html"><a href="u1-clt.html"><i class="fa fa-check"></i><b>1.6</b> The Central Limit Theorem</a>
+<ul>
+<li class="chapter" data-level="" data-path="u1-clt.html"><a href="u1-clt.html#a-simulation"><i class="fa fa-check"></i>A simulation</a></li>
+<li class="chapter" data-level="" data-path="u1-clt.html"><a href="u1-clt.html#an-intuition"><i class="fa fa-check"></i>An intuition</a></li>
+<li class="chapter" data-level="" data-path="u1-clt.html"><a href="u1-clt.html#how-large-is-large-enough"><i class="fa fa-check"></i>How large is “large enough”?</a></li>
+<li class="chapter" data-level="" data-path="u1-clt.html"><a href="u1-clt.html#why-this-matters"><i class="fa fa-check"></i>Why this matters</a></li>
+</ul></li>
+<li class="chapter" data-level="1.7" data-path="u1-random-variables.html"><a href="u1-random-variables.html"><i class="fa fa-check"></i><b>1.7</b> A language for randomness</a>
+<ul>
+<li class="chapter" data-level="" data-path="u1-random-variables.html"><a href="u1-random-variables.html#random-variables"><i class="fa fa-check"></i>Random variables</a></li>
+<li class="chapter" data-level="" data-path="u1-random-variables.html"><a href="u1-random-variables.html#realisations"><i class="fa fa-check"></i>Realisations</a></li>
+<li class="chapter" data-level="" data-path="u1-random-variables.html"><a href="u1-random-variables.html#the-long-run-average"><i class="fa fa-check"></i>The long-run average</a></li>
+<li class="chapter" data-level="" data-path="u1-random-variables.html"><a href="u1-random-variables.html#measuring-variation"><i class="fa fa-check"></i>Measuring variation</a></li>
+<li class="chapter" data-level="" data-path="u1-random-variables.html"><a href="u1-random-variables.html#parameters-and-statistics"><i class="fa fa-check"></i>Parameters and statistics</a></li>
+<li class="chapter" data-level="" data-path="u1-random-variables.html"><a href="u1-random-variables.html#a-summary-of-notation"><i class="fa fa-check"></i>A summary of notation</a></li>
+</ul></li>
+<li class="chapter" data-level="1.8" data-path="u1-what-goes-wrong.html"><a href="u1-what-goes-wrong.html"><i class="fa fa-check"></i><b>1.8</b> Before any mathematics can help</a></li>
+<li class="chapter" data-level="1.9" data-path="u1-summary.html"><a href="u1-summary.html"><i class="fa fa-check"></i><b>1.9</b> Summary</a></li>
+<li class="chapter" data-level="1.10" data-path="u1-practice.html"><a href="u1-practice.html"><i class="fa fa-check"></i><b>1.10</b> Practice problems</a>
+<ul>
+<li class="chapter" data-level="" data-path="u1-practice.html"><a href="u1-practice.html#concept-checks"><i class="fa fa-check"></i>Concept checks</a></li>
+<li class="chapter" data-level="" data-path="u1-practice.html"><a href="u1-practice.html#explain"><i class="fa fa-check"></i>Explain</a></li>
+<li class="chapter" data-level="" data-path="u1-practice.html"><a href="u1-practice.html#numerical-problems"><i class="fa fa-check"></i>Numerical problems</a></li>
+<li class="chapter" data-level="" data-path="u1-practice.html"><a href="u1-practice.html#r-exercises"><i class="fa fa-check"></i>R exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="1.11" data-path="u1-question-bank.html"><a href="u1-question-bank.html"><i class="fa fa-check"></i><b>1.11</b> Question bank</a>
+<ul>
+<li class="chapter" data-level="" data-path="u1-question-bank.html"><a href="u1-question-bank.html#multiple-choice"><i class="fa fa-check"></i>Multiple choice</a></li>
+<li class="chapter" data-level="" data-path="u1-question-bank.html"><a href="u1-question-bank.html#short-reasoning"><i class="fa fa-check"></i>Short reasoning</a></li>
+<li class="chapter" data-level="" data-path="u1-question-bank.html"><a href="u1-question-bank.html#numerical"><i class="fa fa-check"></i>Numerical</a></li>
+</ul></li>
+<li class="chapter" data-level="1.12" data-path="u1-looking-ahead.html"><a href="u1-looking-ahead.html"><i class="fa fa-check"></i><b>1.12</b> Looking ahead</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="estimation.html"><a href="estimation.html"><i class="fa fa-check"></i><b>2</b> Estimation: Why the Sample Mean?</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="u2-problem.html"><a href="u2-problem.html"><i class="fa fa-check"></i><b>2.1</b> The problem of estimation</a></li>
+<li class="chapter" data-level="2.2" data-path="u2-iid.html"><a href="u2-iid.html"><i class="fa fa-check"></i><b>2.2</b> When can a sample represent a population?</a></li>
+<li class="chapter" data-level="2.3" data-path="u2-known-truth.html"><a href="u2-known-truth.html"><i class="fa fa-check"></i><b>2.3</b> How can we judge an estimator?</a>
+<ul>
+<li class="chapter" data-level="" data-path="u2-known-truth.html"><a href="u2-known-truth.html#u2-lab-pop"><i class="fa fa-check"></i>The population</a></li>
+<li class="chapter" data-level="" data-path="u2-known-truth.html"><a href="u2-known-truth.html#u2-lab-one"><i class="fa fa-check"></i>One sample from it</a></li>
+<li class="chapter" data-level="" data-path="u2-known-truth.html"><a href="u2-known-truth.html#u2-lab-many"><i class="fa fa-check"></i>A thousand samples</a></li>
+</ul></li>
+<li class="chapter" data-level="2.4" data-path="u2-centred.html"><a href="u2-centred.html"><i class="fa fa-check"></i><b>2.4</b> Is the sample mean centred on the truth?</a></li>
+<li class="chapter" data-level="2.5" data-path="u2-precision.html"><a href="u2-precision.html"><i class="fa fa-check"></i><b>2.5</b> Why do larger samples fluctuate less?</a></li>
+<li class="chapter" data-level="2.6" data-path="u2-lln-explained.html"><a href="u2-lln-explained.html"><i class="fa fa-check"></i><b>2.6</b> Why does the sample mean become more reliable?</a></li>
+<li class="chapter" data-level="2.7" data-path="u2-cost.html"><a href="u2-cost.html"><i class="fa fa-check"></i><b>2.7</b> Why is precision expensive?</a></li>
+<li class="chapter" data-level="2.8" data-path="u2-summary.html"><a href="u2-summary.html"><i class="fa fa-check"></i><b>2.8</b> Summary</a></li>
+<li class="chapter" data-level="2.9" data-path="u2-practice.html"><a href="u2-practice.html"><i class="fa fa-check"></i><b>2.9</b> Practice problems</a>
+<ul>
+<li class="chapter" data-level="" data-path="u2-practice.html"><a href="u2-practice.html#concept-checks-1"><i class="fa fa-check"></i>Concept checks</a></li>
+<li class="chapter" data-level="" data-path="u2-practice.html"><a href="u2-practice.html#explain-1"><i class="fa fa-check"></i>Explain</a></li>
+<li class="chapter" data-level="" data-path="u2-practice.html"><a href="u2-practice.html#numerical-problems-1"><i class="fa fa-check"></i>Numerical problems</a></li>
+<li class="chapter" data-level="" data-path="u2-practice.html"><a href="u2-practice.html#r-exercises-1"><i class="fa fa-check"></i>R exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="2.10" data-path="u2-question-bank.html"><a href="u2-question-bank.html"><i class="fa fa-check"></i><b>2.10</b> Question bank</a>
+<ul>
+<li class="chapter" data-level="" data-path="u2-question-bank.html"><a href="u2-question-bank.html#multiple-choice-1"><i class="fa fa-check"></i>Multiple choice</a></li>
+<li class="chapter" data-level="" data-path="u2-question-bank.html"><a href="u2-question-bank.html#short-reasoning-1"><i class="fa fa-check"></i>Short reasoning</a></li>
+<li class="chapter" data-level="" data-path="u2-question-bank.html"><a href="u2-question-bank.html#numerical-1"><i class="fa fa-check"></i>Numerical</a></li>
+</ul></li>
+<li class="chapter" data-level="2.11" data-path="u2-looking-ahead.html"><a href="u2-looking-ahead.html"><i class="fa fa-check"></i><b>2.11</b> Looking ahead</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="one-sample.html"><a href="one-sample.html"><i class="fa fa-check"></i><b>3</b> Hypothesis Testing: One Sample</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="os-problem.html"><a href="os-problem.html"><i class="fa fa-check"></i><b>3.1</b> The problem, before any formulas</a></li>
+<li class="chapter" data-level="3.2" data-path="os-hypotheses.html"><a href="os-hypotheses.html"><i class="fa fa-check"></i><b>3.2</b> Naming the two hypotheses</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="os-hypotheses.html"><a href="os-hypotheses.html#os-which-hypothesis"><i class="fa fa-check"></i><b>3.2.1</b> Which hypothesis does the claim go in?</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="os-critical.html"><a href="os-critical.html"><i class="fa fa-check"></i><b>3.3</b> How far is too far?</a></li>
+<li class="chapter" data-level="3.4" data-path="os-worked.html"><a href="os-worked.html"><i class="fa fa-check"></i><b>3.4</b> The worked example, both ways</a>
+<ul>
+<li class="chapter" data-level="" data-path="os-worked.html"><a href="os-worked.html#on-paper"><i class="fa fa-check"></i>On paper</a></li>
+<li class="chapter" data-level="" data-path="os-worked.html"><a href="os-worked.html#the-same-thing-in-r"><i class="fa fa-check"></i>The same thing in R</a></li>
+<li class="chapter" data-level="" data-path="os-worked.html"><a href="os-worked.html#letting-a-package-do-it"><i class="fa fa-check"></i>Letting a package do it</a></li>
+</ul></li>
+<li class="chapter" data-level="3.5" data-path="os-pvalue.html"><a href="os-pvalue.html"><i class="fa fa-check"></i><b>3.5</b> What a <span class="math inline">\(p\)</span>-value actually says</a></li>
+<li class="chapter" data-level="3.6" data-path="os-ci.html"><a href="os-ci.html"><i class="fa fa-check"></i><b>3.6</b> Confidence intervals are the same test in disguise</a></li>
+<li class="chapter" data-level="3.7" data-path="os-ttest.html"><a href="os-ttest.html"><i class="fa fa-check"></i><b>3.7</b> When <span class="math inline">\(\sigma\)</span> is unknown: the <span class="math inline">\(t\)</span>-test</a>
+<ul>
+<li class="chapter" data-level="" data-path="os-ttest.html"><a href="os-ttest.html#settling-the-question-with-the-actual-class"><i class="fa fa-check"></i>Settling the question with the actual class</a></li>
+<li class="chapter" data-level="" data-path="os-ttest.html"><a href="os-ttest.html#worked-example"><i class="fa fa-check"></i>Worked example</a></li>
+</ul></li>
+<li class="chapter" data-level="3.8" data-path="os-onetailed.html"><a href="os-onetailed.html"><i class="fa fa-check"></i><b>3.8</b> One-tailed tests</a>
+<ul>
+<li class="chapter" data-level="" data-path="os-onetailed.html"><a href="os-onetailed.html#the-one-sided-interval-looks-backwards"><i class="fa fa-check"></i>The one-sided interval looks backwards</a></li>
+</ul></li>
+<li class="chapter" data-level="3.9" data-path="os-reference.html"><a href="os-reference.html"><i class="fa fa-check"></i><b>3.9</b> Reference tables</a></li>
+<li class="chapter" data-level="3.10" data-path="os-summary.html"><a href="os-summary.html"><i class="fa fa-check"></i><b>3.10</b> Summary</a></li>
+<li class="chapter" data-level="3.11" data-path="os-exercises.html"><a href="os-exercises.html"><i class="fa fa-check"></i><b>3.11</b> Practice problems</a></li>
+<li class="chapter" data-level="3.12" data-path="os-question-bank.html"><a href="os-question-bank.html"><i class="fa fa-check"></i><b>3.12</b> Question bank</a>
+<ul>
+<li class="chapter" data-level="" data-path="os-question-bank.html"><a href="os-question-bank.html#multiple-choice-2"><i class="fa fa-check"></i>Multiple choice</a></li>
+<li class="chapter" data-level="" data-path="os-question-bank.html"><a href="os-question-bank.html#short-reasoning-2"><i class="fa fa-check"></i>Short reasoning</a></li>
+<li class="chapter" data-level="" data-path="os-question-bank.html"><a href="os-question-bank.html#numerical-2"><i class="fa fa-check"></i>Numerical</a></li>
+</ul></li>
+<li class="chapter" data-level="3.13" data-path="os-looking-ahead.html"><a href="os-looking-ahead.html"><i class="fa fa-check"></i><b>3.13</b> Looking ahead</a></li>
+</ul></li>
+<li class="divider"></li>
+<li class="toc-after">Kedar Kulkarni · Azim Premji University<br>
+<a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Statistics and Econometrics with R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="u2-practice" class="section level2 hasAnchor" number="2.9">
+<h2><span class="header-section-number">2.9</span> Practice problems<a href="u2-practice.html#u2-practice" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="yourturn">
+<p>These are for learning. Work each one before opening the solution; the answer
+is worth very little if you have not first tried to produce it yourself.</p>
+<p>The <a href="u2-question-bank.html#u2-question-bank">question bank</a> that follows is for testing yourself and
+has no answers at all.</p>
+<p>Several problems treat <code>data/wages-india-synthetic.csv</code> as a <em>population</em> of
+20,000 wage earners. This is artificial, and deliberately so — it is the same
+device as the deck of cards, at realistic Indian magnitudes. The dataset is
+simulated but calibrated to IHDS-II estimates, so the returns to schooling and
+the urban premium in it are close to the real ones.</p>
+</div>
+<div id="concept-checks-1" class="section level3 unnumbered hasAnchor">
+<h3>Concept checks<a href="u2-practice.html#concept-checks-1" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Short questions. A sentence or two is enough.</p>
+<p><strong>2.1</strong> A survey of 800 households reports mean monthly income of ₹18,400.
+Which part of that sentence is the estimator, and which is the estimate?</p>
+<div class="answer">
+<p>The estimator is the sample mean — the rule “add the 800 incomes and divide by
+800.” The estimate is ₹18,400, the number that rule returned from this
+particular sample.</p>
+<p>The estimator exists before any data are collected. The estimate exists only
+afterwards.</p>
+</div>
+<p><strong>2.2</strong> Why can a statistician never check whether a particular estimate is
+close to the truth?</p>
+<div class="answer">
+<p>Because checking would require knowing the population mean, and if the
+population mean were known there would have been no reason to conduct the
+survey. The truth is precisely what the estimate is trying to discover.</p>
+<p>This is why the subject evaluates procedures rather than results.</p>
+</div>
+<p><strong>2.3</strong> Consider the estimator “ignore the data entirely and always report
+₹50,000.” Is it unbiased? What is its standard error?</p>
+<div class="answer">
+<p>Its standard error is zero — it returns the same number from every possible
+sample, so it does not vary at all.</p>
+<p>It is unbiased if and only if the population mean happens to be exactly
+₹50,000, which we have no way of knowing. In general it is biased by whatever
+amount <span class="math inline">\(\mu\)</span> differs from ₹50,000.</p>
+<p>The problem is worth doing because it separates the two properties completely.
+Perfect precision is compatible with being arbitrarily wrong, and a small
+standard error is therefore no evidence that an estimate is any good.</p>
+</div>
+<p><strong>2.4</strong> In Section <a href="u2-iid.html#u2-iid">2.2</a>, Survey B produced estimates with a <em>smaller</em>
+spread than Survey A. Why is that alarming rather than reassuring?</p>
+<div class="answer">
+<p>Because the small spread came from surveying households that resemble one
+another, not from surveying more of India. The estimates agreed closely with
+each other while agreeing on a number ₹6,800 above the truth.</p>
+<p>A researcher who saw only their own survey would observe a tight, well-behaved
+sample and conclude that the estimate was reliable. Spread measures agreement
+among samples drawn the same way; it says nothing about whether that way was
+the right one.</p>
+</div>
+<p><strong>2.5</strong> A report states: “mean earnings were ₹54,000 with a standard error of
+₹10,000, so the true figure is within ₹10,000 of our estimate.” What is wrong
+with the second half of that sentence?</p>
+<div class="answer">
+<p>The standard error is not the distance between the estimate and the truth. That
+distance is unknowable, since the truth is unobserved.</p>
+<p>The standard error describes the <em>procedure</em>: it says that repeating this
+survey would produce sample means with a standard deviation of about ₹10,000.
+Any particular estimate may lie much closer to <span class="math inline">\(\mu\)</span> than that, or much further
+from it.</p>
+</div>
+</div>
+<div id="explain-1" class="section level3 unnumbered hasAnchor">
+<h3>Explain<a href="u2-practice.html#explain-1" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>A paragraph each.</p>
+<p><strong>2.6</strong> Explain why unbiasedness alone is not a good enough reason to use an
+estimator. Give an example of an unbiased estimator nobody would use.</p>
+<div class="answer">
+<p>Unbiasedness says the estimator is right <em>on average across repeated samples</em>.
+It says nothing about how far any single sample strays, and a rule can be
+centred correctly while being wildly variable.</p>
+<p>The clearest example is “use the first observation and ignore the rest.” Since
+<span class="math inline">\(E(X_1) = \mu\)</span>, it is exactly unbiased. It is also useless, because its
+standard error is <span class="math inline">\(\sigma\)</span> regardless of sample size. Collecting a million
+households does not improve it by any amount at all.</p>
+<p>Usefulness requires a second property: the spread must fall as the sample
+grows. Unbiasedness places the distribution correctly; the variance is what
+makes the placement worth anything.</p>
+</div>
+<p><strong>2.7</strong> An interviewer travels to six villages and surveys thirty households in
+each. Which i.i.d. assumption is threatened, which of the two derivations in
+this unit stops working, and what happens to the results?</p>
+<div class="answer">
+<p>Independence is threatened. Households in a village share a labour market, a
+cropping pattern, and often an occupation, so once the first few are surveyed
+the rest carry much less new information.</p>
+<p>The derivation that fails is the variance one. Its third line replaces
+<span class="math inline">\(\mathrm{Var}(X_1 + \cdots + X_n)\)</span> with <span class="math inline">\(\sigma^2 + \cdots + \sigma^2\)</span>, and
+that step requires independence. Nothing goes wrong with <span class="math inline">\(E(\bar{X}) = \mu\)</span>,
+whose third line uses only identical distribution.</p>
+<p>So the estimates remain centred on the population mean — the design is not
+biased — but they vary far more from survey to survey than <span class="math inline">\(\sigma/\sqrt{n}\)</span>
+predicts. A researcher who applied that formula would report a precision the
+data does not contain. In Survey C the true spread was more than three times
+the formula’s claim.</p>
+</div>
+<p><strong>2.8</strong> Explain why the Law of Large Numbers needs <em>both</em> properties of the
+sample mean. Describe what would go wrong if each were missing in turn.</p>
+<div class="answer">
+<p>The Law of Large Numbers says large samples are increasingly likely to produce
+averages close to <span class="math inline">\(\mu\)</span>. That requires the sampling distribution both to sit in
+the right place and to narrow.</p>
+<p>Without shrinking variance, the estimator stays centred but never improves.
+“Use the first observation” is centred on <span class="math inline">\(\mu\)</span> forever and never gets closer
+to it, so no sample size makes it likely to land near the truth.</p>
+<p>Without correct centring, shrinking variance actively makes matters worse. The
+estimator becomes <em>reliably wrong</em> — it converges with increasing confidence on
+the incorrect value, and every extra observation hardens the error rather than
+exposing it. The urban-only survey is exactly this case: ten thousand urban
+households would have produced a tighter cluster around a number still ₹6,800
+too high.</p>
+</div>
+</div>
+<div id="numerical-problems-1" class="section level3 unnumbered hasAnchor">
+<h3>Numerical problems<a href="u2-practice.html#numerical-problems-1" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Pen and paper. Calculators are fine; R is not needed until the next section.</p>
+<p><strong>2.9</strong> In the population of wage earners used below, annual earnings have
+standard deviation <span class="math inline">\(\sigma = ₹100{,}141\)</span>.</p>
+<ol style="list-style-type: lower-roman">
+<li>Find the standard error of the sample mean for <span class="math inline">\(n = 100\)</span>, <span class="math inline">\(n = 400\)</span> and
+<span class="math inline">\(n = 2{,}500\)</span>.</li>
+<li>How large a sample is needed for the standard error to fall below ₹5,000?</li>
+<li>A colleague proposes to improve an <span class="math inline">\(n = 400\)</span> survey by adding 100
+households. By how much does the standard error fall?</li>
+</ol>
+<div class="answer">
+<p><strong>(i)</strong> <span class="math inline">\(\mathrm{se} = \sigma/\sqrt{n}\)</span>:</p>
+<p><span class="math display">\[n = 100:\; \frac{100{,}141}{10} = ₹10{,}014 \qquad
+  n = 400:\; \frac{100{,}141}{20} = ₹5{,}007 \qquad
+  n = 2{,}500:\; \frac{100{,}141}{50} = ₹2{,}003\]</span></p>
+<p><strong>(ii)</strong> Require <span class="math inline">\(100{,}141/\sqrt{n} &lt; 5{,}000\)</span>, so
+<span class="math inline">\(\sqrt{n} &gt; 20.03\)</span> and <span class="math inline">\(n &gt; 401.1\)</span>. A sample of <strong>402</strong> suffices.</p>
+<p><strong>(iii)</strong> At <span class="math inline">\(n = 500\)</span> the standard error is <span class="math inline">\(100{,}141/\sqrt{500} = ₹4{,}479\)</span>,
+down from ₹5,007 — a fall of about ₹528, or roughly 11%, for 25% more
+fieldwork. The returns are already thin at this sample size.</p>
+</div>
+<p><strong>2.10</strong> A researcher with <span class="math inline">\(n\)</span> observations proposes the estimator
+<span class="math inline">\(T = \tfrac{1}{2}(X_1 + X_n)\)</span>: average the first and last household only.</p>
+<ol style="list-style-type: lower-roman">
+<li>Show that <span class="math inline">\(T\)</span> is unbiased.</li>
+<li>Find <span class="math inline">\(\mathrm{Var}(T)\)</span>.</li>
+<li>Using <span class="math inline">\(\sigma = ₹100{,}141\)</span>, compare the standard error of <span class="math inline">\(T\)</span> with that of
+the sample mean of all 100 observations.</li>
+<li>What does this show about unbiasedness?</li>
+</ol>
+<div class="answer">
+<p><strong>(i)</strong> <span class="math inline">\(E(T) = \tfrac{1}{2}\big(E(X_1) + E(X_n)\big) = \tfrac{1}{2}(\mu + \mu)
+= \mu\)</span>. Both observations are drawn from the same population, so each has
+expectation <span class="math inline">\(\mu\)</span>.</p>
+<p><strong>(ii)</strong> Using <span class="math inline">\(\mathrm{Var}(aX) = a^2\mathrm{Var}(X)\)</span> and independence,</p>
+<p><span class="math display">\[\mathrm{Var}(T) = \tfrac{1}{4}\big(\sigma^2 + \sigma^2\big)
+= \frac{\sigma^2}{2}\]</span></p>
+<p>which is <span class="math inline">\(\sigma^2/n\)</span> with <span class="math inline">\(n = 2\)</span> — unsurprising, since <span class="math inline">\(T\)</span> <em>is</em> the sample
+mean of two observations.</p>
+<p><strong>(iii)</strong> <span class="math inline">\(\mathrm{se}(T) = 100{,}141/\sqrt{2} = ₹70{,}810\)</span>, against
+<span class="math inline">\(100{,}141/10 = ₹10{,}014\)</span> for the full sample mean. <span class="math inline">\(T\)</span> is about seven times
+more variable.</p>
+<p><strong>(iv)</strong> That unbiasedness is a low bar. <span class="math inline">\(T\)</span> is exactly as unbiased as
+<span class="math inline">\(\bar{X}\)</span> and vastly worse, because it discards 98 of the 100 observations
+collected. Choosing between unbiased estimators is decided on variance.</p>
+</div>
+<p><strong>2.11</strong> A survey costs ₹900 per household in fieldwork. The current design
+surveys 400 households.</p>
+<ol style="list-style-type: lower-roman">
+<li>What does the current survey cost?</li>
+<li>What would it cost to halve the standard error?</li>
+<li>The funder instead offers to double the budget. By what factor does the
+standard error fall?</li>
+</ol>
+<div class="answer">
+<p><strong>(i)</strong> <span class="math inline">\(400 \times ₹900 = ₹360{,}000\)</span>.</p>
+<p><strong>(ii)</strong> Halving the standard error requires four times the sample, so 1,600
+households at a cost of ₹1,440,000 — an extra ₹1,080,000 to buy one factor of
+two.</p>
+<p><strong>(iii)</strong> Doubling the budget buys 800 households. The standard error falls by
+a factor of <span class="math inline">\(\sqrt{2} \approx 1.41\)</span>, a reduction of about 29%.</p>
+<p>Twice the money does not buy twice the precision, and this gets worse the
+larger the survey already is. It is often a better use of the second ₹360,000
+to improve coverage of hard-to-reach households than to double the sample —
+because the errors that arise from missing those households are not reduced by
+sample size at all.</p>
+</div>
+</div>
+<div id="r-exercises-1" class="section level3 unnumbered hasAnchor">
+<h3>R exercises<a href="u2-practice.html#r-exercises-1" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p><strong>2.12</strong> Treat <code>data/wages-india-synthetic.csv</code> as a population of 20,000 wage
+earners. Compute its true mean and standard deviation. Then draw 2,000 samples
+of 100 workers each, and check both properties of the sample mean against
+theory.</p>
+<div class="answer">
+<div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb66-1"><a href="u2-practice.html#cb66-1" tabindex="-1"></a>wages <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/wages-india-synthetic.csv&quot;</span>)</span>
+<span id="cb66-2"><a href="u2-practice.html#cb66-2" tabindex="-1"></a>earn  <span class="ot">&lt;-</span> wages<span class="sc">$</span>annual_earnings</span>
+<span id="cb66-3"><a href="u2-practice.html#cb66-3" tabindex="-1"></a></span>
+<span id="cb66-4"><a href="u2-practice.html#cb66-4" tabindex="-1"></a>mu_pop    <span class="ot">&lt;-</span> <span class="fu">mean</span>(earn)</span>
+<span id="cb66-5"><a href="u2-practice.html#cb66-5" tabindex="-1"></a>sigma_pop <span class="ot">&lt;-</span> <span class="fu">sd</span>(earn)</span>
+<span id="cb66-6"><a href="u2-practice.html#cb66-6" tabindex="-1"></a></span>
+<span id="cb66-7"><a href="u2-practice.html#cb66-7" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">3</span>)</span>
+<span id="cb66-8"><a href="u2-practice.html#cb66-8" tabindex="-1"></a>sim <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">2000</span>, <span class="fu">mean</span>(<span class="fu">sample</span>(earn, <span class="dv">100</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>)))</span>
+<span id="cb66-9"><a href="u2-practice.html#cb66-9" tabindex="-1"></a></span>
+<span id="cb66-10"><a href="u2-practice.html#cb66-10" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">population_mean =</span> mu_pop,</span>
+<span id="cb66-11"><a href="u2-practice.html#cb66-11" tabindex="-1"></a>        <span class="at">centre_of_estimates =</span> <span class="fu">mean</span>(sim),</span>
+<span id="cb66-12"><a href="u2-practice.html#cb66-12" tabindex="-1"></a>        <span class="at">theoretical_se =</span> sigma_pop <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="dv">100</span>),</span>
+<span id="cb66-13"><a href="u2-practice.html#cb66-13" tabindex="-1"></a>        <span class="at">observed_se =</span> <span class="fu">sd</span>(sim)))</span></code></pre></div>
+<pre><code>#&gt;     population_mean centre_of_estimates      theoretical_se         observed_se 
+#&gt;               54181               54072               10014                9939</code></pre>
+<p>The estimates are centred on the population mean, and their spread is close to
+<span class="math inline">\(\sigma/\sqrt{n}\)</span>. Both properties hold.</p>
+<p>This population is severely right-skewed — its mean is
+54,181 against a median of
+24,220 — yet neither property needed
+the population to be well behaved. Unbiasedness followed from each observation
+having expectation <span class="math inline">\(\mu\)</span>, and the variance result from independence. Shape
+never entered either derivation.</p>
+</div>
+<p><strong>2.13</strong> Repeat the previous exercise sampling only from urban workers, as an
+interviewer working exclusively in cities would. Report the centre and spread,
+and say which assumption has been broken.</p>
+<div class="answer">
+<div class="sourceCode" id="cb68"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb68-1"><a href="u2-practice.html#cb68-1" tabindex="-1"></a>urban_earn <span class="ot">&lt;-</span> earn[wages<span class="sc">$</span>residence <span class="sc">==</span> <span class="st">&quot;Urban&quot;</span>]</span>
+<span id="cb68-2"><a href="u2-practice.html#cb68-2" tabindex="-1"></a></span>
+<span id="cb68-3"><a href="u2-practice.html#cb68-3" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">3</span>)</span>
+<span id="cb68-4"><a href="u2-practice.html#cb68-4" tabindex="-1"></a>sim_urban <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">2000</span>, <span class="fu">mean</span>(<span class="fu">sample</span>(urban_earn, <span class="dv">100</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>)))</span>
+<span id="cb68-5"><a href="u2-practice.html#cb68-5" tabindex="-1"></a></span>
+<span id="cb68-6"><a href="u2-practice.html#cb68-6" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">population_mean =</span> mu_pop,</span>
+<span id="cb68-7"><a href="u2-practice.html#cb68-7" tabindex="-1"></a>        <span class="at">centre_of_estimates =</span> <span class="fu">mean</span>(sim_urban),</span>
+<span id="cb68-8"><a href="u2-practice.html#cb68-8" tabindex="-1"></a>        <span class="at">observed_se =</span> <span class="fu">sd</span>(sim_urban)))</span></code></pre></div>
+<pre><code>#&gt;     population_mean centre_of_estimates         observed_se 
+#&gt;               54181              101270               15099</code></pre>
+<p>The estimates are centred near ₹102,000 against a true population mean of about
+₹54,000 — almost double. The assumption broken is <em>identically distributed</em>:
+urban workers are drawn from a different distribution than Indian wage earners
+as a whole, so the <span class="math inline">\(\mu\)</span> appearing in the third line of the <span class="math inline">\(E(\bar{X})\)</span>
+derivation is the urban mean, not the national one.</p>
+<p>Note also that no amount of extra data would help. The estimator is converging
+efficiently on the wrong number.</p>
+</div>
+<p><strong>2.14</strong> Draw 2,000 sample means for <span class="math inline">\(n = 25, 100, 400\)</span> and <span class="math inline">\(1{,}600\)</span> from the
+same population, and plot the observed standard error against the theoretical
+<span class="math inline">\(\sigma/\sqrt{n}\)</span>. Does the <span class="math inline">\(1/\sqrt{n}\)</span> rule hold?</p>
+<div class="answer">
+<div class="sourceCode" id="cb70"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb70-1"><a href="u2-practice.html#cb70-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">3</span>)</span>
+<span id="cb70-2"><a href="u2-practice.html#cb70-2" tabindex="-1"></a>ns <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">25</span>, <span class="dv">100</span>, <span class="dv">400</span>, <span class="dv">1600</span>)</span>
+<span id="cb70-3"><a href="u2-practice.html#cb70-3" tabindex="-1"></a></span>
+<span id="cb70-4"><a href="u2-practice.html#cb70-4" tabindex="-1"></a>se_tab <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb70-5"><a href="u2-practice.html#cb70-5" tabindex="-1"></a>  <span class="at">n =</span> ns,</span>
+<span id="cb70-6"><a href="u2-practice.html#cb70-6" tabindex="-1"></a>  <span class="at">observed =</span> <span class="fu">sapply</span>(ns, <span class="cf">function</span>(n) <span class="fu">sd</span>(<span class="fu">replicate</span>(<span class="dv">4000</span>, <span class="fu">mean</span>(<span class="fu">sample</span>(earn, n, <span class="at">replace =</span> <span class="cn">TRUE</span>))))),</span>
+<span id="cb70-7"><a href="u2-practice.html#cb70-7" tabindex="-1"></a>  <span class="at">theory   =</span> sigma_pop <span class="sc">/</span> <span class="fu">sqrt</span>(ns)</span>
+<span id="cb70-8"><a href="u2-practice.html#cb70-8" tabindex="-1"></a>)</span>
+<span id="cb70-9"><a href="u2-practice.html#cb70-9" tabindex="-1"></a></span>
+<span id="cb70-10"><a href="u2-practice.html#cb70-10" tabindex="-1"></a><span class="fu">round</span>(se_tab)</span></code></pre></div>
+<pre><code>#&gt;      n observed theory
+#&gt; 1   25    20143  20028
+#&gt; 2  100    10024  10014
+#&gt; 3  400     4961   5007
+#&gt; 4 1600     2510   2504</code></pre>
+<div class="sourceCode" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb72-1"><a href="u2-practice.html#cb72-1" tabindex="-1"></a><span class="fu">ggplot</span>(se_tab, <span class="fu">aes</span>(n)) <span class="sc">+</span></span>
+<span id="cb72-2"><a href="u2-practice.html#cb72-2" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> theory), <span class="at">colour =</span> book_palette<span class="sc">$</span>reject, <span class="at">linewidth =</span> <span class="fl">0.9</span>) <span class="sc">+</span></span>
+<span id="cb72-3"><a href="u2-practice.html#cb72-3" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">y =</span> observed), <span class="at">size =</span> <span class="fl">2.6</span>, <span class="at">colour =</span> book_palette<span class="sc">$</span>fill) <span class="sc">+</span></span>
+<span id="cb72-4"><a href="u2-practice.html#cb72-4" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Sample size&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Standard error (₹)&quot;</span>,</span>
+<span id="cb72-5"><a href="u2-practice.html#cb72-5" tabindex="-1"></a>       <span class="at">subtitle =</span> <span class="st">&quot;Line: theoretical. Points: simulated.&quot;</span>) <span class="sc">+</span></span>
+<span id="cb72-6"><a href="u2-practice.html#cb72-6" tabindex="-1"></a>  <span class="fu">theme_book</span>()</span></code></pre></div>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:u2-ex-se"></span>
+<img src="stats-econometrics-r_files/figure-html/u2-ex-se-1.png" alt="Observed and theoretical standard errors for growing sample sizes." width="90%" />
+<p class="caption">
+Figure 2.5: Observed and theoretical standard errors for growing sample sizes.
+</p>
+</div>
+<p>The points sit on the curve at every sample size, agreeing with theory to
+within about one per cent. Quadrupling <span class="math inline">\(n\)</span> halves the standard error each time,
+exactly as <span class="math inline">\(1/\sqrt{n}\)</span> requires.</p>
+<p>Note the <code>replace = TRUE</code>, which matters more here than it did with the deck.
+Drop it and the observed spread at <span class="math inline">\(n = 1{,}600\)</span> comes out roughly five per
+cent <em>below</em> theory, because 1,600 is eight per cent of this population of
+20,000 — sample a substantial fraction of a finite population without
+replacement and the draws are no longer independent, so <span class="math inline">\(\sigma/\sqrt{n}\)</span>
+stops being right. Real surveys of India are nowhere near this fraction, which
+is why the assumption is harmless in practice and not in a simulation.</p>
+</div>
+<p><strong>2.15</strong> Do the two properties depend on the population being well behaved?
+Compare the sampling distribution of the mean at <span class="math inline">\(n = 10\)</span> and <span class="math inline">\(n = 400\)</span> for
+this heavily skewed earnings population, and comment on what changes and what
+does not.</p>
+<div class="answer">
+<div class="sourceCode" id="cb73"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb73-1"><a href="u2-practice.html#cb73-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">3</span>)</span>
+<span id="cb73-2"><a href="u2-practice.html#cb73-2" tabindex="-1"></a>sk <span class="ot">&lt;-</span> <span class="fu">do.call</span>(rbind, <span class="fu">lapply</span>(<span class="fu">c</span>(<span class="dv">10</span>, <span class="dv">400</span>), <span class="cf">function</span>(n)</span>
+<span id="cb73-3"><a href="u2-practice.html#cb73-3" tabindex="-1"></a>  <span class="fu">data.frame</span>(<span class="at">n =</span> <span class="fu">factor</span>(<span class="fu">paste</span>(<span class="st">&quot;n =&quot;</span>, n), <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">&quot;n = 10&quot;</span>, <span class="st">&quot;n = 400&quot;</span>)),</span>
+<span id="cb73-4"><a href="u2-practice.html#cb73-4" tabindex="-1"></a>             <span class="at">m =</span> <span class="fu">replicate</span>(<span class="dv">4000</span>, <span class="fu">mean</span>(<span class="fu">sample</span>(earn, n, <span class="at">replace =</span> <span class="cn">TRUE</span>))))))</span>
+<span id="cb73-5"><a href="u2-practice.html#cb73-5" tabindex="-1"></a></span>
+<span id="cb73-6"><a href="u2-practice.html#cb73-6" tabindex="-1"></a><span class="fu">ggplot</span>(sk, <span class="fu">aes</span>(m)) <span class="sc">+</span></span>
+<span id="cb73-7"><a href="u2-practice.html#cb73-7" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">bins =</span> <span class="dv">60</span>, <span class="at">fill =</span> book_palette<span class="sc">$</span>fill, <span class="at">colour =</span> <span class="st">&quot;white&quot;</span>,</span>
+<span id="cb73-8"><a href="u2-practice.html#cb73-8" tabindex="-1"></a>                 <span class="at">linewidth =</span> <span class="fl">0.1</span>) <span class="sc">+</span></span>
+<span id="cb73-9"><a href="u2-practice.html#cb73-9" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> mu_pop, <span class="at">colour =</span> book_palette<span class="sc">$</span>reject,</span>
+<span id="cb73-10"><a href="u2-practice.html#cb73-10" tabindex="-1"></a>             <span class="at">linewidth =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
+<span id="cb73-11"><a href="u2-practice.html#cb73-11" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> n, <span class="at">scales =</span> <span class="st">&quot;free&quot;</span>) <span class="sc">+</span></span>
+<span id="cb73-12"><a href="u2-practice.html#cb73-12" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">labels =</span> <span class="cf">function</span>(x) <span class="fu">format</span>(x, <span class="at">big.mark =</span> <span class="st">&quot;,&quot;</span>)) <span class="sc">+</span></span>
+<span id="cb73-13"><a href="u2-practice.html#cb73-13" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Sample mean of annual earnings (₹)&quot;</span>, <span class="at">y =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
+<span id="cb73-14"><a href="u2-practice.html#cb73-14" tabindex="-1"></a>  <span class="fu">theme_book</span>() <span class="sc">+</span></span>
+<span id="cb73-15"><a href="u2-practice.html#cb73-15" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.y =</span> <span class="fu">element_blank</span>())</span></code></pre></div>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:u2-ex-skew"></span>
+<img src="stats-econometrics-r_files/figure-html/u2-ex-skew-1.png" alt="Sampling distribution of mean earnings at two sample sizes. The red line is the population mean." width="90%" />
+<p class="caption">
+Figure 2.6: Sampling distribution of mean earnings at two sample sizes. The red line is the population mean.
+</p>
+</div>
+<p>Both panels are centred on the population mean. Unbiasedness holds at <span class="math inline">\(n = 10\)</span>
+just as at <span class="math inline">\(n = 400\)</span>, and it required nothing of the population’s shape — the
+derivation used only that each observation has expectation <span class="math inline">\(\mu\)</span>.</p>
+<p>What changes is the <em>shape</em>. At <span class="math inline">\(n = 10\)</span> the sampling distribution inherits the
+population’s long right tail and is clearly skewed. At <span class="math inline">\(n = 400\)</span> it is close to
+symmetric. That is the Central Limit Theorem from Section <a href="u1-clt.html#u1-clt">1.6</a> at
+work, and it is a reminder that “large enough” depends on the population: for
+earnings data, <span class="math inline">\(n = 30\)</span> would not have been remotely sufficient.</p>
+</div>
+<p><strong>2.16</strong> Using the same population, compare three estimators of <span class="math inline">\(\mu\)</span> across
+2,000 samples of 50: the sample mean, the sample median, and the midpoint of
+the smallest and largest observations. Which would you use, and why?</p>
+<div class="answer">
+<div class="sourceCode" id="cb74"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb74-1"><a href="u2-practice.html#cb74-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">3</span>)</span>
+<span id="cb74-2"><a href="u2-practice.html#cb74-2" tabindex="-1"></a>midrange <span class="ot">&lt;-</span> <span class="cf">function</span>(x) (<span class="fu">min</span>(x) <span class="sc">+</span> <span class="fu">max</span>(x)) <span class="sc">/</span> <span class="dv">2</span></span>
+<span id="cb74-3"><a href="u2-practice.html#cb74-3" tabindex="-1"></a></span>
+<span id="cb74-4"><a href="u2-practice.html#cb74-4" tabindex="-1"></a>comp <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">2000</span>, {</span>
+<span id="cb74-5"><a href="u2-practice.html#cb74-5" tabindex="-1"></a>  s <span class="ot">&lt;-</span> <span class="fu">sample</span>(earn, <span class="dv">50</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb74-6"><a href="u2-practice.html#cb74-6" tabindex="-1"></a>  <span class="fu">c</span>(<span class="at">mean =</span> <span class="fu">mean</span>(s), <span class="at">median =</span> <span class="fu">median</span>(s), <span class="at">midrange =</span> <span class="fu">midrange</span>(s))</span>
+<span id="cb74-7"><a href="u2-practice.html#cb74-7" tabindex="-1"></a>})</span>
+<span id="cb74-8"><a href="u2-practice.html#cb74-8" tabindex="-1"></a></span>
+<span id="cb74-9"><a href="u2-practice.html#cb74-9" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">cbind</span>(<span class="at">centre =</span> <span class="fu">rowMeans</span>(comp),</span>
+<span id="cb74-10"><a href="u2-practice.html#cb74-10" tabindex="-1"></a>            <span class="at">bias   =</span> <span class="fu">rowMeans</span>(comp) <span class="sc">-</span> mu_pop,</span>
+<span id="cb74-11"><a href="u2-practice.html#cb74-11" tabindex="-1"></a>            <span class="at">spread =</span> <span class="fu">apply</span>(comp, <span class="dv">1</span>, sd)))</span></code></pre></div>
+<pre><code>#&gt;          centre   bias spread
+#&gt; mean      53896   -285  14550
+#&gt; median    24653 -29528   5399
+#&gt; midrange 250648 196467 172624</code></pre>
+<p>Only the sample mean is centred on <span class="math inline">\(\mu\)</span>. The median sits far below it, because
+this population is strongly right-skewed and the median estimates the
+population <em>median</em>, not the mean — it is an excellent estimator of a different
+parameter. The midrange is wildly variable, since it depends entirely on the
+two most extreme observations drawn and discards the other 48.</p>
+<p>The sample mean is the only one of the three that is unbiased for <span class="math inline">\(\mu\)</span> and
+tightens dependably as the sample grows.</p>
+<p>Worth noting, though: if the question of interest were “what does a typical
+wage earner make?”, the median would be the better summary. Choosing an
+estimator requires first being clear about which parameter you actually want.</p>
+</div>
+</div>
+</div>
+<script>
+// Solutions are written as plain fenced divs in the source, so the PDF edition
+// can typeset them as boxes. On the web they should stay hidden until asked
+// for, so wrap each one in a <details> here.
+document.addEventListener("DOMContentLoaded", function () {
+  document.querySelectorAll("div.answer").forEach(function (div) {
+    var d = document.createElement("details");
+    d.className = "answer";
+    var s = document.createElement("summary");
+    s.textContent = "Show the solution";
+    d.appendChild(s);
+    while (div.firstChild) d.appendChild(div.firstChild);
+    div.parentNode.replaceChild(d, div);
+  });
+});
+</script>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="u2-summary.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="u2-question-bank.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+  "sharing": {
+    "github": true,
+    "facebook": false,
+    "twitter": false,
+    "linkedin": false,
+    "weibo": false,
+    "instapaper": false,
+    "vk": false,
+    "whatsapp": false,
+    "all": false
+  },
+  "fontsettings": {
+    "theme": "white",
+    "family": "sans",
+    "size": 2
+  },
+  "edit": {
+    "link": "https://github.com/kedarkulkarni1991/stats-econometrics-r/edit/main/02-estimation.Rmd",
+    "text": "Edit"
+  },
+  "history": {
+    "link": null,
+    "text": null
+  },
+  "view": {
+    "link": null,
+    "text": null
+  },
+  "download": null,
+  "search": {
+    "engine": "fuse",
+    "options": null
+  },
+  "toc": {
+    "collapse": "subsection",
+    "scroll_highlight": true
+  },
+  "toolbar": {
+    "position": "fixed"
+  },
+  "info": false
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

@@ -12,6 +12,8 @@ fig:u2-four-plot
 fig:u2-sampdist-plot
 fig:u2-nsizes-plot
 fig:u2-cost
+fig:u2-ex-se
+fig:u2-ex-skew
 fig:os-sim-plot
 tab:os-claim-table
 fig:os-reject-plot
@@ -42,6 +44,8 @@ u2-precision
 u2-lln-explained
 u2-cost
 u2-summary
+u2-practice
+u2-question-bank
 u2-looking-ahead
 one-sample
 os-problem

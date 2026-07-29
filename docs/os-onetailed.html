@@ -217,7 +217,20 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="2.6" data-path="u2-lln-explained.html"><a href="u2-lln-explained.html"><i class="fa fa-check"></i><b>2.6</b> Why does the sample mean become more reliable?</a></li>
 <li class="chapter" data-level="2.7" data-path="u2-cost.html"><a href="u2-cost.html"><i class="fa fa-check"></i><b>2.7</b> Why is precision expensive?</a></li>
 <li class="chapter" data-level="2.8" data-path="u2-summary.html"><a href="u2-summary.html"><i class="fa fa-check"></i><b>2.8</b> Summary</a></li>
-<li class="chapter" data-level="2.9" data-path="u2-looking-ahead.html"><a href="u2-looking-ahead.html"><i class="fa fa-check"></i><b>2.9</b> Looking ahead</a></li>
+<li class="chapter" data-level="2.9" data-path="u2-practice.html"><a href="u2-practice.html"><i class="fa fa-check"></i><b>2.9</b> Practice problems</a>
+<ul>
+<li class="chapter" data-level="" data-path="u2-practice.html"><a href="u2-practice.html#concept-checks-1"><i class="fa fa-check"></i>Concept checks</a></li>
+<li class="chapter" data-level="" data-path="u2-practice.html"><a href="u2-practice.html#explain-1"><i class="fa fa-check"></i>Explain</a></li>
+<li class="chapter" data-level="" data-path="u2-practice.html"><a href="u2-practice.html#numerical-problems-1"><i class="fa fa-check"></i>Numerical problems</a></li>
+<li class="chapter" data-level="" data-path="u2-practice.html"><a href="u2-practice.html#r-exercises-1"><i class="fa fa-check"></i>R exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="2.10" data-path="u2-question-bank.html"><a href="u2-question-bank.html"><i class="fa fa-check"></i><b>2.10</b> Question bank</a>
+<ul>
+<li class="chapter" data-level="" data-path="u2-question-bank.html"><a href="u2-question-bank.html#multiple-choice-1"><i class="fa fa-check"></i>Multiple choice</a></li>
+<li class="chapter" data-level="" data-path="u2-question-bank.html"><a href="u2-question-bank.html#short-reasoning-1"><i class="fa fa-check"></i>Short reasoning</a></li>
+<li class="chapter" data-level="" data-path="u2-question-bank.html"><a href="u2-question-bank.html#numerical-1"><i class="fa fa-check"></i>Numerical</a></li>
+</ul></li>
+<li class="chapter" data-level="2.11" data-path="u2-looking-ahead.html"><a href="u2-looking-ahead.html"><i class="fa fa-check"></i><b>2.11</b> Looking ahead</a></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="one-sample.html"><a href="one-sample.html"><i class="fa fa-check"></i><b>3</b> Hypothesis Testing: One Sample</a>
 <ul>
@@ -249,9 +262,9 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="3.11" data-path="os-exercises.html"><a href="os-exercises.html"><i class="fa fa-check"></i><b>3.11</b> Practice problems</a></li>
 <li class="chapter" data-level="3.12" data-path="os-question-bank.html"><a href="os-question-bank.html"><i class="fa fa-check"></i><b>3.12</b> Question bank</a>
 <ul>
-<li class="chapter" data-level="" data-path="os-question-bank.html"><a href="os-question-bank.html#multiple-choice-1"><i class="fa fa-check"></i>Multiple choice</a></li>
-<li class="chapter" data-level="" data-path="os-question-bank.html"><a href="os-question-bank.html#short-reasoning-1"><i class="fa fa-check"></i>Short reasoning</a></li>
-<li class="chapter" data-level="" data-path="os-question-bank.html"><a href="os-question-bank.html#numerical-1"><i class="fa fa-check"></i>Numerical</a></li>
+<li class="chapter" data-level="" data-path="os-question-bank.html"><a href="os-question-bank.html#multiple-choice-2"><i class="fa fa-check"></i>Multiple choice</a></li>
+<li class="chapter" data-level="" data-path="os-question-bank.html"><a href="os-question-bank.html#short-reasoning-2"><i class="fa fa-check"></i>Short reasoning</a></li>
+<li class="chapter" data-level="" data-path="os-question-bank.html"><a href="os-question-bank.html#numerical-2"><i class="fa fa-check"></i>Numerical</a></li>
 </ul></li>
 <li class="chapter" data-level="3.13" data-path="os-looking-ahead.html"><a href="os-looking-ahead.html"><i class="fa fa-check"></i><b>3.13</b> Looking ahead</a></li>
 </ul></li>
@@ -283,15 +296,15 @@ gets nicotine content <em>below</em> 1.5 mg; we only care if the true mean is lo
 <p><span class="math display">\[H_0 : \mu \geq 1.5 \qquad H_A : \mu &lt; 1.5\]</span></p>
 <p>All the probability we are willing to risk now goes into a single tail, so the
 critical value moves <em>inward</em>: <span class="math inline">\(-Z_{0.05} = -1.645\)</span> rather than <span class="math inline">\(\pm 1.96\)</span>.</p>
-<div class="sourceCode" id="cb102"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb102-1"><a href="os-onetailed.html#cb102-1" tabindex="-1"></a><span class="fu">qnorm</span>(<span class="fl">0.05</span>)             <span class="co"># left-tailed critical value at 5%</span></span></code></pre></div>
+<div class="sourceCode" id="cb112"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb112-1"><a href="os-onetailed.html#cb112-1" tabindex="-1"></a><span class="fu">qnorm</span>(<span class="fl">0.05</span>)             <span class="co"># left-tailed critical value at 5%</span></span></code></pre></div>
 <pre><code>#&gt; [1] -1.645</code></pre>
-<div class="sourceCode" id="cb104"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb104-1"><a href="os-onetailed.html#cb104-1" tabindex="-1"></a><span class="fu">qnorm</span>(<span class="fl">0.95</span>)             <span class="co"># right-tailed critical value at 5%</span></span></code></pre></div>
+<div class="sourceCode" id="cb114"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb114-1"><a href="os-onetailed.html#cb114-1" tabindex="-1"></a><span class="fu">qnorm</span>(<span class="fl">0.95</span>)             <span class="co"># right-tailed critical value at 5%</span></span></code></pre></div>
 <pre><code>#&gt; [1] 1.645</code></pre>
 <p>In R, add the <code>alternative</code> argument:</p>
-<div class="sourceCode" id="cb106"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb106-1"><a href="os-onetailed.html#cb106-1" tabindex="-1"></a>nicotine <span class="ot">&lt;-</span> <span class="fu">make_sample</span>(<span class="at">n =</span> <span class="dv">20</span>, <span class="at">mean =</span> <span class="fl">1.42</span>, <span class="at">sd =</span> <span class="fl">0.7</span>)</span>
-<span id="cb106-2"><a href="os-onetailed.html#cb106-2" tabindex="-1"></a></span>
-<span id="cb106-3"><a href="os-onetailed.html#cb106-3" tabindex="-1"></a><span class="fu">z.test</span>(nicotine, <span class="at">mu =</span> <span class="fl">1.5</span>, <span class="at">sigma.x =</span> <span class="fl">0.7</span>, <span class="at">alternative =</span> <span class="st">&quot;less&quot;</span>,</span>
-<span id="cb106-4"><a href="os-onetailed.html#cb106-4" tabindex="-1"></a>       <span class="at">conf.level =</span> <span class="fl">0.95</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb116"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb116-1"><a href="os-onetailed.html#cb116-1" tabindex="-1"></a>nicotine <span class="ot">&lt;-</span> <span class="fu">make_sample</span>(<span class="at">n =</span> <span class="dv">20</span>, <span class="at">mean =</span> <span class="fl">1.42</span>, <span class="at">sd =</span> <span class="fl">0.7</span>)</span>
+<span id="cb116-2"><a href="os-onetailed.html#cb116-2" tabindex="-1"></a></span>
+<span id="cb116-3"><a href="os-onetailed.html#cb116-3" tabindex="-1"></a><span class="fu">z.test</span>(nicotine, <span class="at">mu =</span> <span class="fl">1.5</span>, <span class="at">sigma.x =</span> <span class="fl">0.7</span>, <span class="at">alternative =</span> <span class="st">&quot;less&quot;</span>,</span>
+<span id="cb116-4"><a href="os-onetailed.html#cb116-4" tabindex="-1"></a>       <span class="at">conf.level =</span> <span class="fl">0.95</span>)</span></code></pre></div>
 <pre><code>#&gt; 
 #&gt;  One-sample z-Test
 #&gt; 

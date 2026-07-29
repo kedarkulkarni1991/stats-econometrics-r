@@ -217,7 +217,20 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="2.6" data-path="u2-lln-explained.html"><a href="u2-lln-explained.html"><i class="fa fa-check"></i><b>2.6</b> Why does the sample mean become more reliable?</a></li>
 <li class="chapter" data-level="2.7" data-path="u2-cost.html"><a href="u2-cost.html"><i class="fa fa-check"></i><b>2.7</b> Why is precision expensive?</a></li>
 <li class="chapter" data-level="2.8" data-path="u2-summary.html"><a href="u2-summary.html"><i class="fa fa-check"></i><b>2.8</b> Summary</a></li>
-<li class="chapter" data-level="2.9" data-path="u2-looking-ahead.html"><a href="u2-looking-ahead.html"><i class="fa fa-check"></i><b>2.9</b> Looking ahead</a></li>
+<li class="chapter" data-level="2.9" data-path="u2-practice.html"><a href="u2-practice.html"><i class="fa fa-check"></i><b>2.9</b> Practice problems</a>
+<ul>
+<li class="chapter" data-level="" data-path="u2-practice.html"><a href="u2-practice.html#concept-checks-1"><i class="fa fa-check"></i>Concept checks</a></li>
+<li class="chapter" data-level="" data-path="u2-practice.html"><a href="u2-practice.html#explain-1"><i class="fa fa-check"></i>Explain</a></li>
+<li class="chapter" data-level="" data-path="u2-practice.html"><a href="u2-practice.html#numerical-problems-1"><i class="fa fa-check"></i>Numerical problems</a></li>
+<li class="chapter" data-level="" data-path="u2-practice.html"><a href="u2-practice.html#r-exercises-1"><i class="fa fa-check"></i>R exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="2.10" data-path="u2-question-bank.html"><a href="u2-question-bank.html"><i class="fa fa-check"></i><b>2.10</b> Question bank</a>
+<ul>
+<li class="chapter" data-level="" data-path="u2-question-bank.html"><a href="u2-question-bank.html#multiple-choice-1"><i class="fa fa-check"></i>Multiple choice</a></li>
+<li class="chapter" data-level="" data-path="u2-question-bank.html"><a href="u2-question-bank.html#short-reasoning-1"><i class="fa fa-check"></i>Short reasoning</a></li>
+<li class="chapter" data-level="" data-path="u2-question-bank.html"><a href="u2-question-bank.html#numerical-1"><i class="fa fa-check"></i>Numerical</a></li>
+</ul></li>
+<li class="chapter" data-level="2.11" data-path="u2-looking-ahead.html"><a href="u2-looking-ahead.html"><i class="fa fa-check"></i><b>2.11</b> Looking ahead</a></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="one-sample.html"><a href="one-sample.html"><i class="fa fa-check"></i><b>3</b> Hypothesis Testing: One Sample</a>
 <ul>
@@ -249,9 +262,9 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="3.11" data-path="os-exercises.html"><a href="os-exercises.html"><i class="fa fa-check"></i><b>3.11</b> Practice problems</a></li>
 <li class="chapter" data-level="3.12" data-path="os-question-bank.html"><a href="os-question-bank.html"><i class="fa fa-check"></i><b>3.12</b> Question bank</a>
 <ul>
-<li class="chapter" data-level="" data-path="os-question-bank.html"><a href="os-question-bank.html#multiple-choice-1"><i class="fa fa-check"></i>Multiple choice</a></li>
-<li class="chapter" data-level="" data-path="os-question-bank.html"><a href="os-question-bank.html#short-reasoning-1"><i class="fa fa-check"></i>Short reasoning</a></li>
-<li class="chapter" data-level="" data-path="os-question-bank.html"><a href="os-question-bank.html#numerical-1"><i class="fa fa-check"></i>Numerical</a></li>
+<li class="chapter" data-level="" data-path="os-question-bank.html"><a href="os-question-bank.html#multiple-choice-2"><i class="fa fa-check"></i>Multiple choice</a></li>
+<li class="chapter" data-level="" data-path="os-question-bank.html"><a href="os-question-bank.html#short-reasoning-2"><i class="fa fa-check"></i>Short reasoning</a></li>
+<li class="chapter" data-level="" data-path="os-question-bank.html"><a href="os-question-bank.html#numerical-2"><i class="fa fa-check"></i>Numerical</a></li>
 </ul></li>
 <li class="chapter" data-level="3.13" data-path="os-looking-ahead.html"><a href="os-looking-ahead.html"><i class="fa fa-check"></i><b>3.13</b> Looking ahead</a></li>
 </ul></li>
@@ -305,17 +318,17 @@ from 165 as ours. That is unlikely enough to reject the claim.</p>
 <div id="the-same-thing-in-r" class="section level3 unnumbered hasAnchor">
 <h3>The same thing in R<a href="os-worked.html#the-same-thing-in-r" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Now watch every one of those numbers reappear.</p>
-<div class="sourceCode" id="cb74"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb74-1"><a href="os-worked.html#cb74-1" tabindex="-1"></a>xbar  <span class="ot">&lt;-</span> <span class="dv">168</span></span>
-<span id="cb74-2"><a href="os-worked.html#cb74-2" tabindex="-1"></a>mu0   <span class="ot">&lt;-</span> <span class="dv">165</span></span>
-<span id="cb74-3"><a href="os-worked.html#cb74-3" tabindex="-1"></a>sigma <span class="ot">&lt;-</span> <span class="dv">8</span></span>
-<span id="cb74-4"><a href="os-worked.html#cb74-4" tabindex="-1"></a>n     <span class="ot">&lt;-</span> <span class="dv">36</span></span>
-<span id="cb74-5"><a href="os-worked.html#cb74-5" tabindex="-1"></a></span>
-<span id="cb74-6"><a href="os-worked.html#cb74-6" tabindex="-1"></a>se     <span class="ot">&lt;-</span> sigma <span class="sc">/</span> <span class="fu">sqrt</span>(n)          <span class="co"># standard error</span></span>
-<span id="cb74-7"><a href="os-worked.html#cb74-7" tabindex="-1"></a>z_calc <span class="ot">&lt;-</span> (xbar <span class="sc">-</span> mu0) <span class="sc">/</span> se        <span class="co"># the test statistic</span></span>
-<span id="cb74-8"><a href="os-worked.html#cb74-8" tabindex="-1"></a>z_crit <span class="ot">&lt;-</span> <span class="fu">qnorm</span>(<span class="dv">1</span> <span class="sc">-</span> <span class="fl">0.05</span> <span class="sc">/</span> <span class="dv">2</span>)      <span class="co"># the critical value</span></span>
-<span id="cb74-9"><a href="os-worked.html#cb74-9" tabindex="-1"></a>p_val  <span class="ot">&lt;-</span> <span class="dv">2</span> <span class="sc">*</span> <span class="fu">pnorm</span>(<span class="sc">-</span><span class="fu">abs</span>(z_calc))  <span class="co"># the p-value</span></span>
-<span id="cb74-10"><a href="os-worked.html#cb74-10" tabindex="-1"></a></span>
-<span id="cb74-11"><a href="os-worked.html#cb74-11" tabindex="-1"></a><span class="fu">c</span>(<span class="at">se =</span> se, <span class="at">z_calc =</span> z_calc, <span class="at">z_crit =</span> z_crit, <span class="at">p_value =</span> p_val)</span></code></pre></div>
+<div class="sourceCode" id="cb84"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb84-1"><a href="os-worked.html#cb84-1" tabindex="-1"></a>xbar  <span class="ot">&lt;-</span> <span class="dv">168</span></span>
+<span id="cb84-2"><a href="os-worked.html#cb84-2" tabindex="-1"></a>mu0   <span class="ot">&lt;-</span> <span class="dv">165</span></span>
+<span id="cb84-3"><a href="os-worked.html#cb84-3" tabindex="-1"></a>sigma <span class="ot">&lt;-</span> <span class="dv">8</span></span>
+<span id="cb84-4"><a href="os-worked.html#cb84-4" tabindex="-1"></a>n     <span class="ot">&lt;-</span> <span class="dv">36</span></span>
+<span id="cb84-5"><a href="os-worked.html#cb84-5" tabindex="-1"></a></span>
+<span id="cb84-6"><a href="os-worked.html#cb84-6" tabindex="-1"></a>se     <span class="ot">&lt;-</span> sigma <span class="sc">/</span> <span class="fu">sqrt</span>(n)          <span class="co"># standard error</span></span>
+<span id="cb84-7"><a href="os-worked.html#cb84-7" tabindex="-1"></a>z_calc <span class="ot">&lt;-</span> (xbar <span class="sc">-</span> mu0) <span class="sc">/</span> se        <span class="co"># the test statistic</span></span>
+<span id="cb84-8"><a href="os-worked.html#cb84-8" tabindex="-1"></a>z_crit <span class="ot">&lt;-</span> <span class="fu">qnorm</span>(<span class="dv">1</span> <span class="sc">-</span> <span class="fl">0.05</span> <span class="sc">/</span> <span class="dv">2</span>)      <span class="co"># the critical value</span></span>
+<span id="cb84-9"><a href="os-worked.html#cb84-9" tabindex="-1"></a>p_val  <span class="ot">&lt;-</span> <span class="dv">2</span> <span class="sc">*</span> <span class="fu">pnorm</span>(<span class="sc">-</span><span class="fu">abs</span>(z_calc))  <span class="co"># the p-value</span></span>
+<span id="cb84-10"><a href="os-worked.html#cb84-10" tabindex="-1"></a></span>
+<span id="cb84-11"><a href="os-worked.html#cb84-11" tabindex="-1"></a><span class="fu">c</span>(<span class="at">se =</span> se, <span class="at">z_calc =</span> z_calc, <span class="at">z_crit =</span> z_crit, <span class="at">p_value =</span> p_val)</span></code></pre></div>
 <pre><code>#&gt;      se  z_calc  z_crit p_value 
 #&gt; 1.33333 2.25000 1.95996 0.02445</code></pre>
 <p>The standard error is 1.3333, the test statistic is
@@ -330,8 +343,8 @@ is a shortcut for the counting exercise we did by hand in Section
 <a href="os-problem.html#os-problem">3.1</a>.</p>
 </div>
 <p>And here is the picture the numbers are describing:</p>
-<div class="sourceCode" id="cb76"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb76-1"><a href="os-worked.html#cb76-1" tabindex="-1"></a><span class="fu">plot_rejection</span>(<span class="at">stat =</span> <span class="fl">2.25</span>, <span class="at">crit =</span> <span class="fl">1.96</span>, <span class="at">tails =</span> <span class="st">&quot;two&quot;</span>,</span>
-<span id="cb76-2"><a href="os-worked.html#cb76-2" tabindex="-1"></a>               <span class="at">stat_label =</span> <span class="st">&quot;Z = 2.25&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb86"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb86-1"><a href="os-worked.html#cb86-1" tabindex="-1"></a><span class="fu">plot_rejection</span>(<span class="at">stat =</span> <span class="fl">2.25</span>, <span class="at">crit =</span> <span class="fl">1.96</span>, <span class="at">tails =</span> <span class="st">&quot;two&quot;</span>,</span>
+<span id="cb86-2"><a href="os-worked.html#cb86-2" tabindex="-1"></a>               <span class="at">stat_label =</span> <span class="st">&quot;Z = 2.25&quot;</span>)</span></code></pre></div>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:os-reject-plot"></span>
 <img src="stats-econometrics-r_files/figure-html/os-reject-plot-1.png" alt="The rejection region at $\alpha = 0.05$ (shaded), with our test statistic of 2.25 falling inside it." width="90%" />
 <p class="caption">
@@ -344,11 +357,11 @@ Figure 3.2: The rejection region at <span class="math inline">\(\alpha = 0.05\)<
 <p>For a real dataset rather than summary statistics, <code>z.test()</code> from the <strong>BSDA</strong>
 package does the whole thing at once. Since our problem quoted only summary
 statistics, we first build a sample consistent with them:</p>
-<div class="sourceCode" id="cb77"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb77-1"><a href="os-worked.html#cb77-1" tabindex="-1"></a><span class="fu">library</span>(BSDA)</span>
-<span id="cb77-2"><a href="os-worked.html#cb77-2" tabindex="-1"></a></span>
-<span id="cb77-3"><a href="os-worked.html#cb77-3" tabindex="-1"></a>heights <span class="ot">&lt;-</span> <span class="fu">make_sample</span>(<span class="at">n =</span> <span class="dv">36</span>, <span class="at">mean =</span> <span class="dv">168</span>, <span class="at">sd =</span> <span class="dv">8</span>)</span>
-<span id="cb77-4"><a href="os-worked.html#cb77-4" tabindex="-1"></a></span>
-<span id="cb77-5"><a href="os-worked.html#cb77-5" tabindex="-1"></a><span class="fu">z.test</span>(heights, <span class="at">mu =</span> <span class="dv">165</span>, <span class="at">sigma.x =</span> <span class="dv">8</span>, <span class="at">conf.level =</span> <span class="fl">0.95</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb87"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb87-1"><a href="os-worked.html#cb87-1" tabindex="-1"></a><span class="fu">library</span>(BSDA)</span>
+<span id="cb87-2"><a href="os-worked.html#cb87-2" tabindex="-1"></a></span>
+<span id="cb87-3"><a href="os-worked.html#cb87-3" tabindex="-1"></a>heights <span class="ot">&lt;-</span> <span class="fu">make_sample</span>(<span class="at">n =</span> <span class="dv">36</span>, <span class="at">mean =</span> <span class="dv">168</span>, <span class="at">sd =</span> <span class="dv">8</span>)</span>
+<span id="cb87-4"><a href="os-worked.html#cb87-4" tabindex="-1"></a></span>
+<span id="cb87-5"><a href="os-worked.html#cb87-5" tabindex="-1"></a><span class="fu">z.test</span>(heights, <span class="at">mu =</span> <span class="dv">165</span>, <span class="at">sigma.x =</span> <span class="dv">8</span>, <span class="at">conf.level =</span> <span class="fl">0.95</span>)</span></code></pre></div>
 <pre><code>#&gt; 
 #&gt;  One-sample z-Test
 #&gt; 
