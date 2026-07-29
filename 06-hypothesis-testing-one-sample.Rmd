@@ -723,6 +723,27 @@ names(crit) <- c("$\\alpha$", "Two-tailed ($Z_{\\alpha/2}$)", "One-tailed ($Z_\\
 knitr::kable(crit, caption = "Standard normal critical values, computed by `qnorm()` rather than copied from a table.")
 ```
 
+## Summary {#os-summary}
+
+::: {.keyidea}
+1. A gap between a sample and a claim proves nothing on its own — sampling
+   noise guarantees some gap. The test asks whether the gap is *bigger than
+   noise*.
+2. $\displaystyle Z_{calc} = \frac{\bar{x}-\mu_0}{\sigma/\sqrt{n}}$ when
+   $\sigma$ is known; $\displaystyle t_{calc} = \frac{\bar{x}-\mu_0}{s/\sqrt{n}}$
+   with $df = n-1$ when it is not.
+3. Reject when the statistic beats the critical value, or equivalently when the
+   $p$-value falls below $\alpha$. The two rules never disagree.
+4. A confidence interval is the set of null values a test would *not* reject.
+   Interval and test are the same statement.
+5. A $p$-value is $P(\text{data} \mid H_0)$, never $P(H_0 \mid \text{data})$.
+6. The equals sign always lives in $H_0$. "Can you reject the claim?" puts the
+   claim in $H_0$; "is there evidence supporting the claim?" puts it in $H_A$.
+7. `qnorm()` and `qt()` replace every printed table you own.
+:::
+
+
+
 ## Practice problems {#os-exercises}
 
 ::: {.yourturn}
@@ -1000,24 +1021,24 @@ c. Would your conclusion change at the 95% level? Explain *why* before you
 
 *Part (c) is the one that separates understanding from arithmetic.*
 
-## Summary {#os-summary}
 
-::: {.keyidea}
-1. A gap between a sample and a claim proves nothing on its own — sampling
-   noise guarantees some gap. The test asks whether the gap is *bigger than
-   noise*.
-2. $\displaystyle Z_{calc} = \frac{\bar{x}-\mu_0}{\sigma/\sqrt{n}}$ when
-   $\sigma$ is known; $\displaystyle t_{calc} = \frac{\bar{x}-\mu_0}{s/\sqrt{n}}$
-   with $df = n-1$ when it is not.
-3. Reject when the statistic beats the critical value, or equivalently when the
-   $p$-value falls below $\alpha$. The two rules never disagree.
-4. A confidence interval is the set of null values a test would *not* reject.
-   Interval and test are the same statement.
-5. A $p$-value is $P(\text{data} \mid H_0)$, never $P(H_0 \mid \text{data})$.
-6. The equals sign always lives in $H_0$. "Can you reject the claim?" puts the
-   claim in $H_0$; "is there evidence supporting the claim?" puts it in $H_A$.
-7. `qnorm()` and `qt()` replace every printed table you own.
-:::
+## Looking ahead {#os-looking-ahead}
 
-Next we extend all of this from one sample to two, and ask whether *two groups*
-differ — the question behind almost every policy evaluation you will ever read.
+Every test in this unit compared a sample against a *claimed* number — a
+figure from a government report, a manufacturer's specification, a previous
+year's estimate. That number had to come from somewhere outside the data.
+
+Most questions worth asking do not arrive in that form.
+
+Did the households that received the transfer end up better off than those
+that did not? Do girls in the scheme attend school more than girls outside it?
+Did the districts that got the road see wages rise more than the districts
+that did not? In each case there is no external claim to test against. There
+are two groups, each with its own sample mean, and the question is whether the
+difference between them is larger than sampling variation alone would produce.
+
+That is the subject of the next unit. It is also where the difficulty changes
+character. Deciding whether two groups differ is a statistical problem, and we
+will solve it. Deciding whether one group differs *because* of the treatment is
+a question about how the groups came to be formed — and no test statistic can
+answer it.

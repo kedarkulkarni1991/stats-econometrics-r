@@ -4,13 +4,13 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>3.7 When \(\sigma\) is unknown: the \(t\)-test | Statistics and Econometrics with R</title>
+  <title>3.13 Looking ahead | Statistics and Econometrics with R</title>
   <meta name="description" content="<p>A first course in statistics and econometrics for Indian students, built on
 the progression from question to intuition to rigour to computation to
 interpretation.</p>" />
   <meta name="generator" content="bookdown 0.47 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="3.7 When \(\sigma\) is unknown: the \(t\)-test | Statistics and Econometrics with R" />
+  <meta property="og:title" content="3.13 Looking ahead | Statistics and Econometrics with R" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="<p>A first course in statistics and econometrics for Indian students, built on
@@ -19,7 +19,7 @@ interpretation.</p>" />
   <meta name="github-repo" content="kedarkulkarni1991/stats-econometrics-r" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="3.7 When \(\sigma\) is unknown: the \(t\)-test | Statistics and Econometrics with R" />
+  <meta name="twitter:title" content="3.13 Looking ahead | Statistics and Econometrics with R" />
   
   <meta name="twitter:description" content="<p>A first course in statistics and econometrics for Indian students, built on
 the progression from question to intuition to rigour to computation to
@@ -35,8 +35,8 @@ interpretation.</p>" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="os-ci.html"/>
-<link rel="next" href="os-onetailed.html"/>
+<link rel="prev" href="os-question-bank.html"/>
+
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -277,147 +277,26 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="os-ttest" class="section level2 hasAnchor" number="3.7">
-<h2><span class="header-section-number">3.7</span> When <span class="math inline">\(\sigma\)</span> is unknown: the <span class="math inline">\(t\)</span>-test<a href="os-ttest.html#os-ttest" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>Everything so far assumed we knew the population standard deviation <span class="math inline">\(\sigma\)</span>.
-We almost never do. Replacing it with the sample standard deviation <span class="math inline">\(s\)</span> adds a
-second source of uncertainty, and the statistic</p>
-<p><span class="math display">\[t_{calc} = \frac{\bar{x} - \mu_0}{s/\sqrt{n}}\]</span></p>
-<p>no longer follows a normal distribution. It follows Student’s <span class="math inline">\(t\)</span> with
-<span class="math inline">\(n - 1\)</span> <strong>degrees of freedom</strong> — a distribution with fatter tails, which demands
-more evidence before it will let you reject.</p>
-<div class="figure" style="text-align: center"><span style="display:block;" id="fig:os-t-vs-z"></span>
-<img src="stats-econometrics-r_files/figure-html/os-t-vs-z-1.png" alt="Student's $t$ against the standard normal. With few degrees of freedom the tails are noticeably heavier, so critical values sit further out." width="90%" />
-<p class="caption">
-Figure 3.4: Student’s <span class="math inline">\(t\)</span> against the standard normal. With few degrees of freedom the tails are noticeably heavier, so critical values sit further out.
-</p>
+<div id="os-looking-ahead" class="section level2 hasAnchor" number="3.13">
+<h2><span class="header-section-number">3.13</span> Looking ahead<a href="os-looking-ahead.html#os-looking-ahead" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Every test in this unit compared a sample against a <em>claimed</em> number — a
+figure from a government report, a manufacturer’s specification, a previous
+year’s estimate. That number had to come from somewhere outside the data.</p>
+<p>Most questions worth asking do not arrive in that form.</p>
+<p>Did the households that received the transfer end up better off than those
+that did not? Do girls in the scheme attend school more than girls outside it?
+Did the districts that got the road see wages rise more than the districts
+that did not? In each case there is no external claim to test against. There
+are two groups, each with its own sample mean, and the question is whether the
+difference between them is larger than sampling variation alone would produce.</p>
+<p>That is the subject of the next unit. It is also where the difficulty changes
+character. Deciding whether two groups differ is a statistical problem, and we
+will solve it. Deciding whether one group differs <em>because</em> of the treatment is
+a question about how the groups came to be formed — and no test statistic can
+answer it.</p>
+
 </div>
-<div id="settling-the-question-with-the-actual-class" class="section level3 unnumbered hasAnchor">
-<h3>Settling the question with the actual class<a href="os-ttest.html#settling-the-question-with-the-actual-class" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>We opened this chapter with a made-up sample of 36 students. We can now do the
-real thing. <code>stats-class.csv</code> holds the survey this class filled in — names,
-ages, heights, gender:</p>
-<div class="sourceCode" id="cb79"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb79-1"><a href="os-ttest.html#cb79-1" tabindex="-1"></a>students <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/stats-class.csv&quot;</span>)</span>
-<span id="cb79-2"><a href="os-ttest.html#cb79-2" tabindex="-1"></a></span>
-<span id="cb79-3"><a href="os-ttest.html#cb79-3" tabindex="-1"></a><span class="fu">str</span>(students)</span></code></pre></div>
-<pre><code>#&gt; &#39;data.frame&#39;:    33 obs. of  4 variables:
-#&gt;  $ student_id: chr  &quot;S01&quot; &quot;S02&quot; &quot;S03&quot; &quot;S04&quot; ...
-#&gt;  $ age       : int  31 19 18 18 19 18 18 21 18 19 ...
-#&gt;  $ height    : int  178 161 181 164 170 175 176 186 161 170 ...
-#&gt;  $ gender    : chr  &quot;M&quot; &quot;F&quot; &quot;M&quot; &quot;F&quot; ...</code></pre>
-<p>Thirty-three rows, but look at the last one. One student left age and height
-blank, and another did not give a gender:</p>
-<div class="sourceCode" id="cb81"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb81-1"><a href="os-ttest.html#cb81-1" tabindex="-1"></a>students[<span class="sc">!</span><span class="fu">complete.cases</span>(students), ]</span></code></pre></div>
-<pre><code>#&gt;    student_id age height gender
-#&gt; 8         S08  21    186   &lt;NA&gt;
-#&gt; 33        S33  NA     NA      F</code></pre>
-<div class="watchout">
-<p><strong>A blank is not always an <code>NA</code>.</strong> In a numeric column an empty field is read
-as <code>NA</code>, but in a text column it is read as the empty string <code>""</code> — and <code>""</code>
-is a perfectly ordinary value as far as <code>is.na()</code>, <code>complete.cases()</code> and
-<code>na.rm</code> are concerned. A gap in a text column can therefore hide in plain
-sight.</p>
-<p>If a dataset you did not prepare yourself has blanks, say so explicitly when
-you read it:</p>
-<div class="sourceCode" id="cb83"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb83-1"><a href="os-ttest.html#cb83-1" tabindex="-1"></a><span class="fu">read.csv</span>(<span class="st">&quot;somefile.csv&quot;</span>, <span class="at">na.strings =</span> <span class="fu">c</span>(<span class="st">&quot;&quot;</span>, <span class="st">&quot;NA&quot;</span>))</span></code></pre></div>
-<p>The files in this book are already written so that plain <code>read.csv()</code> does the
-right thing.</p>
-</div>
-<div class="watchout">
-<p><code>mean()</code> returns <code>NA</code> if even one value is missing — it refuses to guess what
-you meant. Pass <code>na.rm = TRUE</code> to drop the gaps, and always know how many you
-dropped.</p>
-<div class="sourceCode" id="cb84"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb84-1"><a href="os-ttest.html#cb84-1" tabindex="-1"></a><span class="fu">mean</span>(students<span class="sc">$</span>height)                  <span class="co"># NA — one height is missing</span></span></code></pre></div>
-<pre><code>#&gt; [1] NA</code></pre>
-<div class="sourceCode" id="cb86"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb86-1"><a href="os-ttest.html#cb86-1" tabindex="-1"></a><span class="fu">mean</span>(students<span class="sc">$</span>height, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)    <span class="co"># 32 students</span></span></code></pre></div>
-<pre><code>#&gt; [1] 169.5</code></pre>
-</div>
-<p>Now the test. We do <strong>not</strong> know the population standard deviation of student
-heights, so this is a <span class="math inline">\(t\)</span>-test, not a <span class="math inline">\(Z\)</span>-test:</p>
-<div class="sourceCode" id="cb88"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb88-1"><a href="os-ttest.html#cb88-1" tabindex="-1"></a>heights_real <span class="ot">&lt;-</span> students<span class="sc">$</span>height[<span class="sc">!</span><span class="fu">is.na</span>(students<span class="sc">$</span>height)]</span>
-<span id="cb88-2"><a href="os-ttest.html#cb88-2" tabindex="-1"></a></span>
-<span id="cb88-3"><a href="os-ttest.html#cb88-3" tabindex="-1"></a><span class="fu">c</span>(<span class="at">n =</span> <span class="fu">length</span>(heights_real),</span>
-<span id="cb88-4"><a href="os-ttest.html#cb88-4" tabindex="-1"></a>  <span class="at">mean =</span> <span class="fu">mean</span>(heights_real),</span>
-<span id="cb88-5"><a href="os-ttest.html#cb88-5" tabindex="-1"></a>  <span class="at">sd =</span> <span class="fu">sd</span>(heights_real))</span></code></pre></div>
-<pre><code>#&gt;      n   mean     sd 
-#&gt;  32.00 169.50   8.71</code></pre>
-<div class="sourceCode" id="cb90"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb90-1"><a href="os-ttest.html#cb90-1" tabindex="-1"></a><span class="fu">t.test</span>(heights_real, <span class="at">mu =</span> <span class="dv">165</span>)</span></code></pre></div>
-<pre><code>#&gt; 
-#&gt;  One Sample t-test
-#&gt; 
-#&gt; data:  heights_real
-#&gt; t = 2.9, df = 31, p-value = 0.006
-#&gt; alternative hypothesis: true mean is not equal to 165
-#&gt; 95 percent confidence interval:
-#&gt;  166.4 172.6
-#&gt; sample estimates:
-#&gt; mean of x 
-#&gt;     169.5</code></pre>
-<p><span class="math inline">\(t = 2.92\)</span> on 31 degrees of freedom, with a
-<span class="math inline">\(p\)</span>-value of 0.0064. We <strong>reject</strong> the claim that the average
-is 165 cm. The 95% interval,
-<span class="math inline">\([166.4,\ 172.6]\)</span>, excludes 165 —
-the same verdict, as always.</p>
-<div class="intuition">
-<p>Notice how much narrower this is than the textbook version of the problem. The
-opening example assumed we somehow knew <span class="math inline">\(\sigma = 8\)</span>. Here we had to estimate
-it from 32 people, and the <span class="math inline">\(t\)</span> distribution charges us for that uncertainty
-with a wider interval and a higher bar to clear.</p>
-<p>Also notice what the data is not: 32 students in one classroom are not a random
-sample of all APU students. The arithmetic is correct; whether it answers the
-question about <em>the university</em> is a separate matter, and a harder one.</p>
-</div>
-</div>
-<div id="worked-example" class="section level3 unnumbered hasAnchor">
-<h3>Worked example<a href="os-ttest.html#worked-example" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>The dean estimates that full-time faculty teach 11.0 classroom hours per week.
-You sample eight faculty members. Can you reject the dean’s claim at
-<span class="math inline">\(\alpha = 0.10\)</span>? At <span class="math inline">\(\alpha = 0.01\)</span>?</p>
-<div class="sourceCode" id="cb92"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb92-1"><a href="os-ttest.html#cb92-1" tabindex="-1"></a>hours <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">11.8</span>, <span class="fl">8.6</span>, <span class="fl">10.5</span>, <span class="fl">7.9</span>, <span class="fl">6.4</span>, <span class="fl">10.4</span>, <span class="fl">10.0</span>, <span class="fl">8.2</span>)</span>
-<span id="cb92-2"><a href="os-ttest.html#cb92-2" tabindex="-1"></a></span>
-<span id="cb92-3"><a href="os-ttest.html#cb92-3" tabindex="-1"></a><span class="fu">c</span>(<span class="at">n =</span> <span class="fu">length</span>(hours), <span class="at">mean =</span> <span class="fu">mean</span>(hours), <span class="at">sd =</span> <span class="fu">sd</span>(hours))</span></code></pre></div>
-<pre><code>#&gt;     n  mean    sd 
-#&gt; 8.000 9.225 1.749</code></pre>
-<p><strong>On paper.</strong> With <span class="math inline">\(\bar{x} = 9.225\)</span>, <span class="math inline">\(s = 1.749\)</span>, <span class="math inline">\(n = 8\)</span> and <span class="math inline">\(df = 7\)</span>:</p>
-<p><span class="math display">\[
-t_{calc} = \frac{9.225 - 11}{1.749/\sqrt{8}}
-= \frac{-1.775}{0.618}
-= -2.87
-\]</span></p>
-<p>The critical values are <span class="math inline">\(t_{0.05,\,7} = 1.895\)</span> and <span class="math inline">\(t_{0.005,\,7} = 3.499\)</span>.</p>
-<ul>
-<li>At <span class="math inline">\(\alpha = 0.10\)</span>: <span class="math inline">\(2.87 &gt; 1.895\)</span> <span class="math inline">\(\Rightarrow\)</span> <strong>reject</strong> <span class="math inline">\(H_0\)</span>.</li>
-<li>At <span class="math inline">\(\alpha = 0.01\)</span>: <span class="math inline">\(2.87 &lt; 3.499\)</span> <span class="math inline">\(\Rightarrow\)</span> <strong>fail to reject</strong> <span class="math inline">\(H_0\)</span>.</li>
-</ul>
-<p><strong>In R.</strong> Both the pieces and the packaged version:</p>
-<div class="sourceCode" id="cb94"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb94-1"><a href="os-ttest.html#cb94-1" tabindex="-1"></a>t_calc <span class="ot">&lt;-</span> (<span class="fu">mean</span>(hours) <span class="sc">-</span> <span class="dv">11</span>) <span class="sc">/</span> (<span class="fu">sd</span>(hours) <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="fu">length</span>(hours)))</span>
-<span id="cb94-2"><a href="os-ttest.html#cb94-2" tabindex="-1"></a>t_crit <span class="ot">&lt;-</span> <span class="fu">qt</span>(<span class="fu">c</span>(<span class="fl">0.95</span>, <span class="fl">0.995</span>), <span class="at">df =</span> <span class="dv">7</span>)     <span class="co"># 10% and 1%, two-tailed</span></span>
-<span id="cb94-3"><a href="os-ttest.html#cb94-3" tabindex="-1"></a></span>
-<span id="cb94-4"><a href="os-ttest.html#cb94-4" tabindex="-1"></a><span class="fu">c</span>(<span class="at">t_calc =</span> t_calc, <span class="at">crit_10pct =</span> t_crit[<span class="dv">1</span>], <span class="at">crit_1pct =</span> t_crit[<span class="dv">2</span>])</span></code></pre></div>
-<pre><code>#&gt;     t_calc crit_10pct  crit_1pct 
-#&gt;     -2.870      1.895      3.499</code></pre>
-<div class="sourceCode" id="cb96"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb96-1"><a href="os-ttest.html#cb96-1" tabindex="-1"></a><span class="fu">t.test</span>(hours, <span class="at">mu =</span> <span class="dv">11</span>, <span class="at">conf.level =</span> <span class="fl">0.90</span>)</span></code></pre></div>
-<pre><code>#&gt; 
-#&gt;  One Sample t-test
-#&gt; 
-#&gt; data:  hours
-#&gt; t = -2.9, df = 7, p-value = 0.02
-#&gt; alternative hypothesis: true mean is not equal to 11
-#&gt; 90 percent confidence interval:
-#&gt;   8.053 10.397
-#&gt; sample estimates:
-#&gt; mean of x 
-#&gt;     9.225</code></pre>
-<p>The <span class="math inline">\(p\)</span>-value is 0.024 — below 0.10 but
-above 0.01, exactly matching the two different verdicts we reached by hand.</p>
-<div class="intuition">
-<p>The same data can be “significant” at one level and not at another. Nothing has
-changed about the world between those two lines — only how much risk of a false
-alarm we were willing to tolerate. This is why reporting the <span class="math inline">\(p\)</span>-value itself
-is far more informative than reporting a bare “significant / not significant.”</p>
-</div>
-</div>
-</div>
+<!-- </div> -->
 <script>
 // Solutions are written as plain fenced divs in the source, so the PDF edition
 // can typeset them as boxes. On the web they should stay hidden until asked
@@ -439,8 +318,8 @@ document.addEventListener("DOMContentLoaded", function () {
           </div>
         </div>
       </div>
-<a href="os-ci.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="os-onetailed.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="os-question-bank.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

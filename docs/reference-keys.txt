@@ -35,6 +35,8 @@ estimation
 u2-problem
 u2-iid
 u2-known-truth
+u2-summary
+u2-looking-ahead
 one-sample
 os-problem
 os-hypotheses
@@ -46,6 +48,7 @@ os-ci
 os-ttest
 os-onetailed
 os-reference
+os-summary
 os-exercises
 os-question-bank
-os-summary
+os-looking-ahead

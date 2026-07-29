@@ -355,3 +355,52 @@ This is why surveys of a few thousand households are common while surveys of
 hundreds of thousands are rare: past a certain point the additional precision
 is not worth the additional cost. It is also why the honest answer to "can we
 just collect more data?" is usually "how much more, and who is paying?"
+
+
+## Summary {#u2-summary}
+
+::: {.keyidea}
+1. A **parameter** is a fixed, unknown feature of the population. An
+   **estimator** is a rule for guessing it from a sample, and is a random
+   variable. An **estimate** is the number that rule returns from the sample
+   actually drawn.
+2. We can never judge an estimate, because we never learn the truth it was
+   guessing at. We judge the estimator instead — how it behaves across the
+   samples that might have been drawn.
+3. Inference assumes observations are **independent and identically
+   distributed**. Neither assumption is decorative: identical distribution is
+   what makes $E(\bar{X}) = \mu$ work, independence is what makes
+   $\mathrm{Var}(\bar{X}) = \sigma^2/n$ work.
+4. The sample mean is **unbiased**: $E(\bar{X}) = \mu$. The rule is not
+   systematically too high or too low. This says nothing about whether your
+   particular $\bar{x}$ is close to $\mu$.
+5. $\mathrm{Var}(\bar{X}) = \sigma^2/n$, so the **standard error** is
+   $\mathrm{se}(\bar{X}) = \sigma/\sqrt{n}$. It measures how much the sample
+   mean moves from sample to sample — not how far your estimate is from the
+   truth, which is unknowable.
+6. Unbiasedness and a shrinking standard error together explain the **Law of
+   Large Numbers**. A distribution centred on the right value and becoming
+   ever narrower must concentrate on that value. Either property alone would
+   be worthless.
+7. Precision costs. The standard error falls with $\sqrt{n}$, not $n$, so
+   halving it requires four times the data.
+:::
+
+
+## Looking ahead {#u2-looking-ahead}
+
+We now have a rule, and two reasons to trust it. The sample mean is centred on
+the population mean, and its standard error tells us how far it typically
+strays.
+
+But a standard error is not yet an answer.
+
+Suppose a survey of fifty households returns an average monthly income of
+₹24,000, with a standard error of ₹1,500. What should be reported? Reporting
+₹24,000 alone is misleading, since we know it is almost certainly not the
+population value. Reporting the standard error alongside it is honest but hard
+to act on — it is a technical quantity, not a claim about the world.
+
+What we want is a statement of the form: the population mean is somewhere in
+*this* range, and here is how confident we are of that. Turning a standard
+error into such a statement is the subject of the next unit.
