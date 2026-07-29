@@ -4,13 +4,13 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>1.9 What you should remember | Statistics and Econometrics with R</title>
+  <title>1.9 Summary | Statistics and Econometrics with R</title>
   <meta name="description" content="<p>A first course in statistics and econometrics for Indian students, built on
 the progression from question to intuition to rigour to computation to
 interpretation.</p>" />
   <meta name="generator" content="bookdown 0.47 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="1.9 What you should remember | Statistics and Econometrics with R" />
+  <meta property="og:title" content="1.9 Summary | Statistics and Econometrics with R" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="<p>A first course in statistics and econometrics for Indian students, built on
@@ -19,7 +19,7 @@ interpretation.</p>" />
   <meta name="github-repo" content="kedarkulkarni1991/stats-econometrics-r" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="1.9 What you should remember | Statistics and Econometrics with R" />
+  <meta name="twitter:title" content="1.9 Summary | Statistics and Econometrics with R" />
   
   <meta name="twitter:description" content="<p>A first course in statistics and econometrics for Indian students, built on
 the progression from question to intuition to rigour to computation to
@@ -186,7 +186,7 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="u1-random-variables.html"><a href="u1-random-variables.html#a-summary-of-notation"><i class="fa fa-check"></i>A summary of notation</a></li>
 </ul></li>
 <li class="chapter" data-level="1.8" data-path="u1-what-goes-wrong.html"><a href="u1-what-goes-wrong.html"><i class="fa fa-check"></i><b>1.8</b> Before any mathematics can help</a></li>
-<li class="chapter" data-level="1.9" data-path="u1-summary.html"><a href="u1-summary.html"><i class="fa fa-check"></i><b>1.9</b> What you should remember</a></li>
+<li class="chapter" data-level="1.9" data-path="u1-summary.html"><a href="u1-summary.html"><i class="fa fa-check"></i><b>1.9</b> Summary</a></li>
 <li class="chapter" data-level="1.10" data-path="u1-practice.html"><a href="u1-practice.html"><i class="fa fa-check"></i><b>1.10</b> Practice problems</a>
 <ul>
 <li class="chapter" data-level="" data-path="u1-practice.html"><a href="u1-practice.html#concept-checks"><i class="fa fa-check"></i>Concept checks</a></li>
@@ -274,28 +274,49 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 
             <section class="normal" id="section-">
 <div id="u1-summary" class="section level2 hasAnchor" number="1.9">
-<h2><span class="header-section-number">1.9</span> What you should remember<a href="u1-summary.html#u1-summary" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<h2><span class="header-section-number">1.9</span> Summary<a href="u1-summary.html#u1-summary" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="keyidea">
 <ol style="list-style-type: decimal">
-<li>Randomness creates variation. Where nothing varies, there is nothing for
-statistics to describe.</li>
-<li>Because samples differ, different samples give different answers. This is
-sampling variation, and it is unavoidable rather than a defect.</li>
-<li>The sample mean is itself a random variable, and therefore has a
-distribution of its own — its <strong>sampling distribution</strong>.</li>
-<li>The <strong>Law of Large Numbers</strong> explains why averages settle down as samples
-grow.</li>
-<li>The <strong>Central Limit Theorem</strong> explains why those averages become
-approximately normal, whatever the population looks like — though how large
-a sample this requires depends on how skewed the population is.</li>
-<li>Random variables have <strong>expectations</strong> and <strong>variances</strong>; capital letters
-denote them before observation, lower-case letters after.</li>
-<li>Good inference begins with good sampling, not with clever mathematics.</li>
+<li><strong>Randomness creates variation, and variation is the raw material of
+statistics.</strong> Where nothing varies there is no distribution, no uncertainty,
+and nothing to infer.</li>
+<li><strong>Descriptive statistics</strong> summarises the data in hand. <strong>Inferential
+statistics</strong> uses that data to make claims about a population it did not
+observe, and reports how uncertain those claims are.</li>
+<li>Different samples give different answers. That is <strong>sampling variation</strong> —
+unavoidable, and not a defect in the data.</li>
+<li>A quantity whose value changes from one repetition to the next is a <strong>random
+variable</strong>, written <span class="math inline">\(X\)</span>. Its observed value is a <strong>realisation</strong>, written
+<span class="math inline">\(x\)</span>. The sample mean is <span class="math inline">\(\bar{X}\)</span> before the sample is drawn and <span class="math inline">\(\bar{x}\)</span>
+after.</li>
+<li><span class="math inline">\(E(X) = \sum_i x_i P(X = x_i)\)</span> is the <strong>expected value</strong> — a long-run
+average, not a value you expect to see. For a population draw,
+<span class="math inline">\(E(X) = \mu\)</span>.</li>
+<li><span class="math inline">\(\operatorname{Var}(X) = E[(X - \mu)^2]\)</span> measures spread, and
+<span class="math inline">\(\sigma = \sqrt{\operatorname{Var}(X)}\)</span> is the standard deviation.</li>
+<li><strong>Parameters</strong> (<span class="math inline">\(\mu\)</span>, <span class="math inline">\(\sigma^2\)</span>, <span class="math inline">\(\sigma\)</span>) describe the population and
+are fixed but unknown. <strong>Statistics</strong> (<span class="math inline">\(\bar{x}\)</span>, <span class="math inline">\(s^2\)</span>, <span class="math inline">\(s\)</span>) are computed
+from a sample and change with every sample. Inference uses the second to
+learn about the first.</li>
+<li>The distribution of a statistic across repeated samples is its <strong>sampling
+distribution</strong>. Every statistic has one, not only the mean.</li>
+<li><strong>Law of Large Numbers:</strong> as <span class="math inline">\(n\)</span> grows, the sample mean becomes increasingly
+likely to lie close to <span class="math inline">\(\mu\)</span>. It does not say any particular large sample is
+correct, and it offers no comfort to a gambler.</li>
+<li><strong>Central Limit Theorem:</strong> for sufficiently large <span class="math inline">\(n\)</span>, the sampling
+distribution of <span class="math inline">\(\bar{X}\)</span> is approximately normal whatever the shape of the
+population. The rule <span class="math inline">\(n \geq 30\)</span> is a rule of thumb, not a guarantee — a
+heavily skewed population needs far more.</li>
+<li>No formula warns you when the sample is drawn from the wrong population,
+drawn non-randomly, measured badly, or asked a causal question it cannot
+answer.</li>
 </ol>
-<p>Taken together, these ideas amount to a single change of perspective. We
-stopped asking what a particular sample says, and began asking how a statistic
-behaves across the many samples that might have been drawn. Everything that
-follows in this book — estimation, confidence intervals, hypothesis testing,
-regression — rests on that shift.</p>
+</div>
+<p>Taken together, these amount to a single change of perspective. We stopped
+asking what a particular sample says, and began asking how a statistic behaves
+across the many samples that might have been drawn. Everything that follows —
+estimation, confidence intervals, hypothesis testing, regression — rests on
+that shift.</p>
 </div>
 <script>
 // Solutions are written as plain fenced divs in the source, so the PDF edition

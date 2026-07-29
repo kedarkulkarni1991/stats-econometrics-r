@@ -1030,28 +1030,49 @@ Good inference begins with good data and thoughtful study design, not with
 clever mathematics.
 :::
 
-## What you should remember {#u1-summary}
+## Summary {#u1-summary}
 
-1. Randomness creates variation. Where nothing varies, there is nothing for
-   statistics to describe.
-2. Because samples differ, different samples give different answers. This is
-   sampling variation, and it is unavoidable rather than a defect.
-3. The sample mean is itself a random variable, and therefore has a
-   distribution of its own — its **sampling distribution**.
-4. The **Law of Large Numbers** explains why averages settle down as samples
-   grow.
-5. The **Central Limit Theorem** explains why those averages become
-   approximately normal, whatever the population looks like — though how large
-   a sample this requires depends on how skewed the population is.
-6. Random variables have **expectations** and **variances**; capital letters
-   denote them before observation, lower-case letters after.
-7. Good inference begins with good sampling, not with clever mathematics.
+::: {.keyidea}
+1. **Randomness creates variation, and variation is the raw material of
+   statistics.** Where nothing varies there is no distribution, no uncertainty,
+   and nothing to infer.
+2. **Descriptive statistics** summarises the data in hand. **Inferential
+   statistics** uses that data to make claims about a population it did not
+   observe, and reports how uncertain those claims are.
+3. Different samples give different answers. That is **sampling variation** —
+   unavoidable, and not a defect in the data.
+4. A quantity whose value changes from one repetition to the next is a **random
+   variable**, written $X$. Its observed value is a **realisation**, written
+   $x$. The sample mean is $\bar{X}$ before the sample is drawn and $\bar{x}$
+   after.
+5. $E(X) = \sum_i x_i P(X = x_i)$ is the **expected value** — a long-run
+   average, not a value you expect to see. For a population draw,
+   $E(X) = \mu$.
+6. $\operatorname{Var}(X) = E[(X - \mu)^2]$ measures spread, and
+   $\sigma = \sqrt{\operatorname{Var}(X)}$ is the standard deviation.
+7. **Parameters** ($\mu$, $\sigma^2$, $\sigma$) describe the population and
+   are fixed but unknown. **Statistics** ($\bar{x}$, $s^2$, $s$) are computed
+   from a sample and change with every sample. Inference uses the second to
+   learn about the first.
+8. The distribution of a statistic across repeated samples is its **sampling
+   distribution**. Every statistic has one, not only the mean.
+9. **Law of Large Numbers:** as $n$ grows, the sample mean becomes increasingly
+   likely to lie close to $\mu$. It does not say any particular large sample is
+   correct, and it offers no comfort to a gambler.
+10. **Central Limit Theorem:** for sufficiently large $n$, the sampling
+    distribution of $\bar{X}$ is approximately normal whatever the shape of the
+    population. The rule $n \geq 30$ is a rule of thumb, not a guarantee — a
+    heavily skewed population needs far more.
+11. No formula warns you when the sample is drawn from the wrong population,
+    drawn non-randomly, measured badly, or asked a causal question it cannot
+    answer.
+:::
 
-Taken together, these ideas amount to a single change of perspective. We
-stopped asking what a particular sample says, and began asking how a statistic
-behaves across the many samples that might have been drawn. Everything that
-follows in this book — estimation, confidence intervals, hypothesis testing,
-regression — rests on that shift.
+Taken together, these amount to a single change of perspective. We stopped
+asking what a particular sample says, and began asking how a statistic behaves
+across the many samples that might have been drawn. Everything that follows —
+estimation, confidence intervals, hypothesis testing, regression — rests on
+that shift.
 
 ## Practice problems {#u1-practice}
 
