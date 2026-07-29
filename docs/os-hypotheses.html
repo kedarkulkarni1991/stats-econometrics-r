@@ -295,7 +295,10 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="4.1" data-path="os-problem.html"><a href="os-problem.html"><i class="fa fa-check"></i><b>4.1</b> The problem, before any formulas</a></li>
 <li class="chapter" data-level="4.2" data-path="os-hypotheses.html"><a href="os-hypotheses.html"><i class="fa fa-check"></i><b>4.2</b> Naming the two hypotheses</a>
 <ul>
+<li class="chapter" data-level="" data-path="os-hypotheses.html"><a href="os-hypotheses.html#why-begin-by-assuming-the-claim-is-true"><i class="fa fa-check"></i>Why begin by assuming the claim is true?</a></li>
 <li class="chapter" data-level="4.2.1" data-path="os-hypotheses.html"><a href="os-hypotheses.html#os-which-hypothesis"><i class="fa fa-check"></i><b>4.2.1</b> Which hypothesis does the claim go in?</a></li>
+<li class="chapter" data-level="" data-path="os-hypotheses.html"><a href="os-hypotheses.html#where-the-equality-goes"><i class="fa fa-check"></i>Where the equality goes</a></li>
+<li class="chapter" data-level="" data-path="os-hypotheses.html"><a href="os-hypotheses.html#the-cat-report-worked-through"><i class="fa fa-check"></i>The CAT report, worked through</a></li>
 </ul></li>
 <li class="chapter" data-level="4.3" data-path="os-critical.html"><a href="os-critical.html"><i class="fa fa-check"></i><b>4.3</b> How far is too far?</a></li>
 <li class="chapter" data-level="4.4" data-path="os-worked.html"><a href="os-worked.html"><i class="fa fa-check"></i><b>4.4</b> The worked example, both ways</a>
@@ -353,6 +356,13 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="os-hypotheses" class="section level2 hasAnchor" number="4.2">
 <h2><span class="header-section-number">4.2</span> Naming the two hypotheses<a href="os-hypotheses.html#os-hypotheses" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="question">
+<p>We have the reasoning. What are the two positions we are reasoning between?</p>
+</div>
+<p>The previous section did the whole of a hypothesis test without naming
+anything. We assumed the administration’s claim, asked how often a sample would
+stray as far from it as ours did, and found the answer was about once in forty.</p>
+<p>Let us give the two positions in that argument their names.</p>
 <p>We start from a sample <span class="math inline">\(x_1, x_2, \ldots, x_n\)</span> drawn from a population with
 unknown mean <span class="math inline">\(\mu\)</span> and standard deviation <span class="math inline">\(\sigma\)</span>. The claim under scrutiny is
 the <strong>null hypothesis</strong>:</p>
@@ -360,6 +370,20 @@ the <strong>null hypothesis</strong>:</p>
 <p>The position we would move to if the claim collapses is the <strong>alternative
 hypothesis</strong>:</p>
 <p><span class="math display">\[H_A : \mu \neq 165\]</span></p>
+<div id="why-begin-by-assuming-the-claim-is-true" class="section level3 unnumbered hasAnchor">
+<h3>Why begin by assuming the claim is true?<a href="os-hypotheses.html#why-begin-by-assuming-the-claim-is-true" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>At first this looks backwards. If we suspect the claim is wrong, why start by
+supposing it is right?</p>
+<p>Because the assumption is what gives us something to measure against. Notice
+what we actually did in the previous section: we could only simulate those
+fifty thousand samples <em>because</em> we had a specific value of <span class="math inline">\(\mu\)</span> to simulate
+from. Had we begun with “the mean is not 165,” there would have been nothing to
+draw samples from — not 165 covers 164, and 170, and 3,000, and each would give
+a different answer.</p>
+<p>So we grant the claim, temporarily, and see where it leads. If our sample would
+be quite ordinary under it, we have no reason to doubt it. If our sample would
+be extraordinarily unlikely under it, then the claim itself becomes hard to
+believe.</p>
 <div class="keyidea">
 <p>The null hypothesis is always the <em>boring</em> option — nothing is going on, the
 claim stands, the difference is zero. We never <em>prove</em> it. We only ever fail to
@@ -367,20 +391,42 @@ knock it down.</p>
 <p>This is why we say “<strong>fail to reject</strong> <span class="math inline">\(H_0\)</span>” and never “accept <span class="math inline">\(H_0\)</span>.” A court
 that acquits has not proven innocence; it has failed to prove guilt.</p>
 </div>
+</div>
 <div id="os-which-hypothesis" class="section level3 hasAnchor" number="4.2.1">
 <h3><span class="header-section-number">4.2.1</span> Which hypothesis does the claim go in?<a href="os-hypotheses.html#os-which-hypothesis" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>This is where most marks are lost, so it is worth getting exactly right.</p>
-<p>There is one structural rule, and it is not negotiable:</p>
-<div class="keyidea">
-<p><strong>The equals sign always lives in <span class="math inline">\(H_0\)</span>.</strong></p>
-<p><span class="math inline">\(H_0\)</span> gets <span class="math inline">\(=\)</span>, <span class="math inline">\(\leq\)</span>, or <span class="math inline">\(\geq\)</span>. <span class="math inline">\(H_A\)</span> gets <span class="math inline">\(\neq\)</span>, <span class="math inline">\(&lt;\)</span>, or <span class="math inline">\(&gt;\)</span> — never
-equality. This is not a convention; the test is <em>computed</em> assuming a specific
-value of <span class="math inline">\(\mu\)</span>, and only <span class="math inline">\(H_0\)</span> supplies one.</p>
+<div class="question">
+<p>A claim arrives. Does it become <span class="math inline">\(H_0\)</span> or <span class="math inline">\(H_A\)</span>?</p>
 </div>
-<p>Given that, where the claim goes depends on what the question asks you to do
-with it:</p>
+<p>This is one of the most common places for a beginner to go wrong, and the way
+out is not to memorise a rule but to ask a question first.</p>
+<p>Before writing anything down, ask yourself:</p>
+<blockquote>
+<p>What result would convince me?</p>
+</blockquote>
+<p>Suppose a report claims that the mean CAT score of applicants is <em>more than</em>
+499. What would persuade you? Almost everyone answers the same way: a sample
+mean comfortably <strong>above</strong> 499. A sample averaging 470 would not support the
+report, and neither would one averaging exactly 499.</p>
+<p>That answer has already determined the test. The thing you would find
+convincing — a mean above 499 — is the thing you are gathering evidence <em>for</em>,
+and a test only ever produces evidence <em>against</em> <span class="math inline">\(H_0\)</span>. So the claim has to sit
+in the alternative:</p>
+<p><span class="math display">\[H_0 : \mu \leq 499 \qquad H_A : \mu &gt; 499\]</span></p>
+<p>The direction follows too. You would be convinced by large values, so it is
+large values that must count against the null, and the test looks in the upper
+tail.</p>
+<div class="keyidea">
+<p>Two questions settle every case.</p>
+<p><strong>What am I trying to gather evidence for?</strong> That goes in <span class="math inline">\(H_A\)</span>. A test can
+only accumulate evidence against the null, so whatever you hope to establish
+must be what survives when the null falls.</p>
+<p><strong>Which direction would count as evidence?</strong> That fixes the inequality in
+<span class="math inline">\(H_A\)</span>, and with it the tail the test looks in.</p>
+</div>
+<p>Examination questions usually signal this in their phrasing, and the signal is
+worth recognising.</p>
 <table>
-<caption><span id="tab:os-claim-table">Table 4.1: </span> Where the claim goes.</caption>
+<caption><span id="tab:os-claim-table">Table 4.1: </span> How the usual phrasings map onto the two questions above.</caption>
 <colgroup>
 <col width="33%" />
 <col width="33%" />
@@ -389,39 +435,62 @@ with it:</p>
 <thead>
 <tr class="header">
 <th align="left">The question asks</th>
-<th align="left">Put the claim in</th>
+<th align="left">The claim becomes</th>
 <th align="left">Because</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td align="left">“Can you <strong>reject</strong> the claim?”</td>
-<td align="left"><span class="math inline">\(H_0\)</span></td>
-<td align="left">You are testing whether the data can knock the claim down.</td>
-</tr>
-<tr class="even">
 <td align="left">“Is there evidence to <strong>support</strong> the claim?”</td>
 <td align="left"><span class="math inline">\(H_A\)</span></td>
-<td align="left">The claim is what you need evidence <em>for</em>, and evidence accumulates against <span class="math inline">\(H_0\)</span>.</td>
+<td align="left">The claim is what you are gathering evidence for.</td>
+</tr>
+<tr class="even">
+<td align="left">“Can you <strong>reject</strong> the claim?”</td>
+<td align="left"><span class="math inline">\(H_0\)</span></td>
+<td align="left">The claim is what you are challenging, and you are asking whether the data can knock it down.</td>
 </tr>
 </tbody>
 </table>
-<div class="watchout">
-<p>A claim phrased with a <strong>strict</strong> inequality — “the mean is <em>more than</em> 499” —
-cannot go into <span class="math inline">\(H_0\)</span> as stated, because <span class="math inline">\(H_0\)</span> must contain the equality. If you
-are asked for evidence supporting that claim, it becomes</p>
-<p><span class="math display">\[H_0 : \mu \leq 499 \qquad H_A : \mu &gt; 499\]</span></p>
-<p>Writing <span class="math inline">\(H_0: \mu \geq 499\)</span> here is the common error. It puts the claim in the
-null <em>and</em> points the test in the wrong direction, so a sample mean <strong>above</strong>
-499 — evidence <em>for</em> the claim — ends up producing a <span class="math inline">\(p\)</span>-value near 1 and a
-“fail to reject.” The arithmetic is fine; the conclusion is backwards.</p>
 </div>
-<p>Work it through. A report claims the mean CAT score of applicants is <em>more
-than</em> 499. A sample of 100 has mean 502, with <span class="math inline">\(\sigma = 10.6\)</span>. Is there enough
-evidence at <span class="math inline">\(\alpha = 0.01\)</span> to support the report?</p>
-<p>The question says <strong>support</strong>, so the claim is the alternative:</p>
+<div id="where-the-equality-goes" class="section level3 unnumbered hasAnchor">
+<h3>Where the equality goes<a href="os-hypotheses.html#where-the-equality-goes" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>One structural rule holds in every case, and it will save you from a good deal
+of trouble:</p>
+<div class="keyidea">
+<p><strong>The equality always belongs in the null hypothesis.</strong></p>
+<p><span class="math inline">\(H_0\)</span> takes <span class="math inline">\(=\)</span>, <span class="math inline">\(\leq\)</span> or <span class="math inline">\(\geq\)</span>. <span class="math inline">\(H_A\)</span> takes <span class="math inline">\(\neq\)</span>, <span class="math inline">\(&lt;\)</span> or <span class="math inline">\(&gt;\)</span>, and never
+equality.</p>
+</div>
+<p>The reason is the one from earlier in this section. Every test begins by
+assuming one specific value of <span class="math inline">\(\mu\)</span> and computing how likely our sample would
+be under it. Only a hypothesis containing an equality supplies such a value —
+<span class="math inline">\(\mu \leq 499\)</span> can be tested at its boundary, 499, whereas <span class="math inline">\(\mu &gt; 499\)</span> names no
+particular number to compute with.</p>
+<div class="watchout">
+<p>A claim phrased with a <em>strict</em> inequality — “the mean is more than 499” —
+therefore cannot go into <span class="math inline">\(H_0\)</span> as stated. If you are asked for evidence
+supporting it, the pair is</p>
 <p><span class="math display">\[H_0 : \mu \leq 499 \qquad H_A : \mu &gt; 499\]</span></p>
-<p>This is right-tailed. The critical value is <span class="math inline">\(Z_{0.01} = 2.33\)</span>, not <span class="math inline">\(-2.33\)</span>.</p>
+<p>Writing <span class="math inline">\(H_0: \mu \geq 499\)</span> is the common error. It puts the claim in the null
+<em>and</em> points the test in the wrong direction, so a sample mean <strong>above</strong> 499 —
+evidence <em>for</em> the claim — ends up producing a <span class="math inline">\(p\)</span>-value near 1 and a “fail to
+reject.” The arithmetic is fine; the conclusion is backwards.</p>
+</div>
+</div>
+<div id="the-cat-report-worked-through" class="section level3 unnumbered hasAnchor">
+<h3>The CAT report, worked through<a href="os-hypotheses.html#the-cat-report-worked-through" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>A report claims the mean CAT score of applicants is more than 499. A sample of
+100 applicants has mean 502, with <span class="math inline">\(\sigma = 10.6\)</span>. Is there enough evidence at
+<span class="math inline">\(\alpha = 0.01\)</span> to support the report?</p>
+<p>We settled the hypotheses above by asking what would convince us:</p>
+<p><span class="math display">\[H_0 : \mu \leq 499 \qquad H_A : \mu &gt; 499\]</span></p>
+<p>Right-tailed, so the critical value is <span class="math inline">\(Z_{0.01} = 2.33\)</span> — positive, not
+negative.</p>
+<p>Before computing anything, check the direction. The sample mean is 502 and the
+claim is “more than 499.” The sample points the <em>same way</em> as the claim, so
+whatever the arithmetic returns, it must come out favourable to the report. If
+it does not, the tail has been pointed the wrong way.</p>
 <div class="sourceCode" id="cb114"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb114-1"><a href="os-hypotheses.html#cb114-1" tabindex="-1"></a>xbar_c <span class="ot">&lt;-</span> <span class="dv">502</span>; mu_c <span class="ot">&lt;-</span> <span class="dv">499</span>; sigma_c <span class="ot">&lt;-</span> <span class="fl">10.6</span>; n_c <span class="ot">&lt;-</span> <span class="dv">100</span></span>
 <span id="cb114-2"><a href="os-hypotheses.html#cb114-2" tabindex="-1"></a></span>
 <span id="cb114-3"><a href="os-hypotheses.html#cb114-3" tabindex="-1"></a>z_c <span class="ot">&lt;-</span> (xbar_c <span class="sc">-</span> mu_c) <span class="sc">/</span> (sigma_c <span class="sc">/</span> <span class="fu">sqrt</span>(n_c))</span>
@@ -431,13 +500,15 @@ evidence at <span class="math inline">\(\alpha = 0.01\)</span> to support the re
 <pre><code>#&gt;   z_calc   z_crit  p_value 
 #&gt; 2.830189 2.326348 0.002326</code></pre>
 <p><span class="math inline">\(Z_{calc} = 2.83 &gt; 2.33\)</span>, and <span class="math inline">\(p = 0.0023 &lt; 0.01\)</span>. We <strong>reject <span class="math inline">\(H_0\)</span></strong>, which
-means the data <strong>support</strong> the report’s claim.</p>
+means the data <strong>support</strong> the report’s claim — and the answer points the way
+the sanity check said it would.</p>
 <div class="intuition">
-<p>Sanity-check the direction before you trust any <span class="math inline">\(p\)</span>-value. The sample mean is
-502 and the claim is “more than 499.” The sample is <em>pointing the same way as
-the claim</em>, so the evidence must be favourable. If your arithmetic hands back
-<span class="math inline">\(p = 0.998\)</span> and “no support,” you have pointed the tail the wrong way — go back
-to <span class="math inline">\(H_A\)</span>.</p>
+<p>Make that check a habit, and make it before you trust any <span class="math inline">\(p\)</span>-value rather than
+after.</p>
+<p>Ask which way the sample points relative to the claim, and decide what answer
+you should therefore expect. If the arithmetic hands back something else — a
+<span class="math inline">\(p\)</span>-value of 0.998 and “no support” when the sample sits above the claimed
+value — the mistake is almost always in <span class="math inline">\(H_A\)</span>, not in the calculation.</p>
 </div>
 </div>
 </div>

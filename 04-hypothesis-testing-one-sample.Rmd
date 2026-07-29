@@ -130,6 +130,16 @@ ggplot(df, aes(m)) +
 
 ## Naming the two hypotheses {#os-hypotheses}
 
+::: {.question}
+We have the reasoning. What are the two positions we are reasoning between?
+:::
+
+The previous section did the whole of a hypothesis test without naming
+anything. We assumed the administration's claim, asked how often a sample would
+stray as far from it as ours did, and found the answer was about once in forty.
+
+Let us give the two positions in that argument their names.
+
 We start from a sample $x_1, x_2, \ldots, x_n$ drawn from a population with
 unknown mean $\mu$ and standard deviation $\sigma$. The claim under scrutiny is
 the **null hypothesis**:
@@ -140,6 +150,23 @@ The position we would move to if the claim collapses is the **alternative
 hypothesis**:
 
 $$H_A : \mu \neq 165$$
+
+### Why begin by assuming the claim is true? {-}
+
+At first this looks backwards. If we suspect the claim is wrong, why start by
+supposing it is right?
+
+Because the assumption is what gives us something to measure against. Notice
+what we actually did in the previous section: we could only simulate those
+fifty thousand samples *because* we had a specific value of $\mu$ to simulate
+from. Had we begun with "the mean is not 165," there would have been nothing to
+draw samples from — not 165 covers 164, and 170, and 3,000, and each would give
+a different answer.
+
+So we grant the claim, temporarily, and see where it leads. If our sample would
+be quite ordinary under it, we have no reason to doubt it. If our sample would
+be extraordinarily unlikely under it, then the claim itself becomes hard to
+believe.
 
 ::: {.keyidea}
 The null hypothesis is always the *boring* option — nothing is going on, the
@@ -152,50 +179,102 @@ that acquits has not proven innocence; it has failed to prove guilt.
 
 ### Which hypothesis does the claim go in? {#os-which-hypothesis}
 
-This is where most marks are lost, so it is worth getting exactly right.
+::: {.question}
+A claim arrives. Does it become $H_0$ or $H_A$?
+:::
 
-There is one structural rule, and it is not negotiable:
+This is one of the most common places for a beginner to go wrong, and the way
+out is not to memorise a rule but to ask a question first.
+
+Before writing anything down, ask yourself:
+
+> What result would convince me?
+
+Suppose a report claims that the mean CAT score of applicants is *more than*
+499. What would persuade you? Almost everyone answers the same way: a sample
+mean comfortably **above** 499. A sample averaging 470 would not support the
+report, and neither would one averaging exactly 499.
+
+That answer has already determined the test. The thing you would find
+convincing — a mean above 499 — is the thing you are gathering evidence *for*,
+and a test only ever produces evidence *against* $H_0$. So the claim has to sit
+in the alternative:
+
+$$H_0 : \mu \leq 499 \qquad H_A : \mu > 499$$
+
+The direction follows too. You would be convinced by large values, so it is
+large values that must count against the null, and the test looks in the upper
+tail.
 
 ::: {.keyidea}
-**The equals sign always lives in $H_0$.**
+Two questions settle every case.
 
-$H_0$ gets $=$, $\leq$, or $\geq$. $H_A$ gets $\neq$, $<$, or $>$ — never
-equality. This is not a convention; the test is *computed* assuming a specific
-value of $\mu$, and only $H_0$ supplies one.
+**What am I trying to gather evidence for?** That goes in $H_A$. A test can
+only accumulate evidence against the null, so whatever you hope to establish
+must be what survives when the null falls.
+
+**Which direction would count as evidence?** That fixes the inequality in
+$H_A$, and with it the tail the test looks in.
 :::
 
-Given that, where the claim goes depends on what the question asks you to do
-with it:
+Examination questions usually signal this in their phrasing, and the signal is
+worth recognising.
 
-Table: (\#tab:os-claim-table) Where the claim goes.
+Table: (\#tab:os-claim-table) How the usual phrasings map onto the two questions above.
 
-| The question asks | Put the claim in | Because |
+| The question asks | The claim becomes | Because |
 |:--|:--|:--|
-| "Can you **reject** the claim?" | $H_0$ | You are testing whether the data can knock the claim down. |
-| "Is there evidence to **support** the claim?" | $H_A$ | The claim is what you need evidence *for*, and evidence accumulates against $H_0$. |
+| "Is there evidence to **support** the claim?" | $H_A$ | The claim is what you are gathering evidence for. |
+| "Can you **reject** the claim?" | $H_0$ | The claim is what you are challenging, and you are asking whether the data can knock it down. |
+
+### Where the equality goes {-}
+
+One structural rule holds in every case, and it will save you from a good deal
+of trouble:
+
+::: {.keyidea}
+**The equality always belongs in the null hypothesis.**
+
+$H_0$ takes $=$, $\leq$ or $\geq$. $H_A$ takes $\neq$, $<$ or $>$, and never
+equality.
+:::
+
+The reason is the one from earlier in this section. Every test begins by
+assuming one specific value of $\mu$ and computing how likely our sample would
+be under it. Only a hypothesis containing an equality supplies such a value —
+$\mu \leq 499$ can be tested at its boundary, 499, whereas $\mu > 499$ names no
+particular number to compute with.
 
 ::: {.watchout}
-A claim phrased with a **strict** inequality — "the mean is *more than* 499" —
-cannot go into $H_0$ as stated, because $H_0$ must contain the equality. If you
-are asked for evidence supporting that claim, it becomes
+A claim phrased with a *strict* inequality — "the mean is more than 499" —
+therefore cannot go into $H_0$ as stated. If you are asked for evidence
+supporting it, the pair is
 
 $$H_0 : \mu \leq 499 \qquad H_A : \mu > 499$$
 
-Writing $H_0: \mu \geq 499$ here is the common error. It puts the claim in the
-null *and* points the test in the wrong direction, so a sample mean **above**
-499 — evidence *for* the claim — ends up producing a $p$-value near 1 and a
-"fail to reject." The arithmetic is fine; the conclusion is backwards.
+Writing $H_0: \mu \geq 499$ is the common error. It puts the claim in the null
+*and* points the test in the wrong direction, so a sample mean **above** 499 —
+evidence *for* the claim — ends up producing a $p$-value near 1 and a "fail to
+reject." The arithmetic is fine; the conclusion is backwards.
 :::
 
-Work it through. A report claims the mean CAT score of applicants is *more
-than* 499. A sample of 100 has mean 502, with $\sigma = 10.6$. Is there enough
-evidence at $\alpha = 0.01$ to support the report?
+### The CAT report, worked through {-}
 
-The question says **support**, so the claim is the alternative:
+A report claims the mean CAT score of applicants is more than 499. A sample of
+100 applicants has mean 502, with $\sigma = 10.6$. Is there enough evidence at
+$\alpha = 0.01$ to support the report?
+
+We settled the hypotheses above by asking what would convince us:
 
 $$H_0 : \mu \leq 499 \qquad H_A : \mu > 499$$
 
-This is right-tailed. The critical value is $Z_{0.01} = 2.33$, not $-2.33$.
+Right-tailed, so the critical value is $Z_{0.01} = 2.33$ — positive, not
+negative.
+
+Before computing anything, check the direction. The sample mean is 502 and the
+claim is "more than 499." The sample points the *same way* as the claim, so
+whatever the arithmetic returns, it must come out favourable to the report. If
+it does not, the tail has been pointed the wrong way.
 
 ```{r os-claim-worked}
 xbar_c <- 502; mu_c <- 499; sigma_c <- 10.6; n_c <- 100
@@ -207,15 +286,19 @@ c(z_calc = z_c,
 ```
 
 $Z_{calc} = 2.83 > 2.33$, and $p = 0.0023 < 0.01$. We **reject $H_0$**, which
-means the data **support** the report's claim.
+means the data **support** the report's claim — and the answer points the way
+the sanity check said it would.
 
 ::: {.intuition}
-Sanity-check the direction before you trust any $p$-value. The sample mean is
-502 and the claim is "more than 499." The sample is *pointing the same way as
-the claim*, so the evidence must be favourable. If your arithmetic hands back
-$p = 0.998$ and "no support," you have pointed the tail the wrong way — go back
-to $H_A$.
+Make that check a habit, and make it before you trust any $p$-value rather than
+after.
+
+Ask which way the sample points relative to the claim, and decide what answer
+you should therefore expect. If the arithmetic hands back something else — a
+$p$-value of 0.998 and "no support" when the sample sits above the claimed
+value — the mistake is almost always in $H_A$, not in the calculation.
 :::
+
 
 ## How far is too far? {#os-critical}
 
