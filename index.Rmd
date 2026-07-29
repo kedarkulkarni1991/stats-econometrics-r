@@ -92,33 +92,117 @@ knowing how to perform statistical analyses in R, but also understanding the
 logic of frequentist inference and developing the habits of mind needed to
 think critically about empirical evidence.
 
+I owe a considerable debt to my colleagues in economics at Azim Premji
+University. Good pedagogy is treated here as a serious professional
+undertaking rather than an afterthought, and the care that colleagues take —
+day after day, and largely unremarked — to become better teachers and better
+practitioners has been invaluable. That environment has done a great deal to
+bring this project to light.
+
 Finally, this book would never have been written without my students. Every
 question asked after class, every thoughtful challenge to an explanation, every
 mistake that forced me to rethink the way I taught, and every conversation
 about data and economics has left its mark on these pages. I owe a sincere debt
-of gratitude to all the students who took my courses in introductory statistics
-and econometrics over the years. Your curiosity, patience and enthusiasm
-continually reminded me that good teaching begins with good questions. This
-book is, in many ways, a product of those conversations, and I hope it serves
-future students as well as you have served as my teachers.
+of gratitude to all the students who have taken my courses in introductory
+statistics and econometrics over the years. Your curiosity, patience and
+willingness to ask difficult questions have continually pushed me to become a
+better teacher. This book is the result of that shared journey, and I hope it
+helps future students discover the same excitement for statistics that you
+brought into my classroom.
 
 ## How to use this book {-}
 
-**Read it in order, at least the first time.** Each unit builds on the one
-before it, and later units assume the ideas developed earlier.
+Statistics is not a subject that rewards passive reading. Understanding comes
+from asking questions, working through examples, making mistakes and revisiting
+ideas. This book is written with that philosophy in mind, and you will get the
+most out of it if you engage with it actively.
 
-**Type the code out yourself.** Copy-paste teaches you very little. Change a
-number and see what breaks — that is where the learning is.
+### Read the book in order {-}
 
-**Do the exercises before reading the solutions.** They are worth nothing
-unless you have already tried.
+The first few units are designed as a sequence rather than a collection of
+independent topics. Ideas introduced early — such as variation, repeated
+sampling and statistical inference — form the foundation for everything that
+follows. While later chapters can be used as references, I strongly recommend
+reading the book from beginning to end the first time.
 
-```{r how-to-web, echo = FALSE, results = "asis"}
-if (knitr::is_html_output()) cat(
-"**Use the search box.** The magnifying glass at the top-left searches the",
-"whole book. If you have forgotten what a $p$-value is, that is faster than",
-"scrolling.\n")
-```
+### Work through the mathematics {-}
+
+Do not skip the derivations because they look unfamiliar. Every mathematical
+result is developed gradually, with intermediate steps shown. Try to work
+through each derivation yourself before reading ahead. The objective is not to
+memorise proofs, but to understand where formulas come from and why they work.
+
+### Think in words before thinking in mathematics {-}
+
+One piece of advice has stayed with me throughout my academic career. During my
+PhD, my advisor once told me:
+
+> If you can explain the problem clearly in simple English, you have already
+> solved half of it. The mathematics is just a matter of practice.
+
+Over the years I have found this to be remarkably true, and nowhere more so
+than in statistics and econometrics.
+
+Students often assume that success in these subjects depends primarily on being
+good at mathematics. Mathematical reasoning is undoubtedly important, but most
+difficulties arise much earlier than the algebra. They arise because we lose
+sight of the question we are trying to answer. Before writing down a formula,
+ask yourself: what am I trying to learn? What information do I have? Why should
+this method work at all? If you can answer those questions clearly in words,
+the mathematics usually becomes far easier to follow.
+
+Throughout this book I encourage you to explain ideas to yourself in plain
+English before expressing them in symbols. Statistical notation is a powerful
+language, but it is still a language. Its purpose is to communicate ideas
+precisely, not to replace logical reasoning.
+
+Whenever you find yourself stuck in a derivation or confused by a formula,
+pause and return to the underlying question. More often than not, the
+mathematics becomes much less intimidating once the logic is clear.
+
+### Write the code yourself {-}
+
+Every analysis in this book is accompanied by R code. Resist the temptation to
+copy and paste it. Typing the code yourself forces you to pay attention to
+every line and every argument. Once the code works, experiment with it. Change
+a parameter, modify the data, or deliberately introduce an error. Some of the
+most valuable lessons come from understanding why something fails rather than
+why it succeeds.
+
+### Think before calculating {-}
+
+Whenever a new method is introduced, pause before looking at the computation.
+Ask yourself what you expect the answer to be, and why. Developing statistical
+intuition is just as important as obtaining the correct numerical result.
+
+### Attempt the exercises first {-}
+
+The exercises are an essential part of the book, not an optional supplement.
+Attempt every question before consulting the solutions, even if you are unsure
+how to proceed. Struggling with a problem is often where the deepest learning
+takes place. The solutions are intended to explain your reasoning, not replace
+it.
+
+### Use the book as a reference {-}
+
+Once you have worked through the material, the book can also serve as a
+reference. Use the search function at the top of the page to revisit concepts,
+definitions, examples or R commands. You are not expected to remember every
+formula or every line of code. What matters is understanding the underlying
+ideas and knowing where to find them when needed.
+
+### Learn by connecting ideas {-}
+
+Throughout the book, try to ask not only how a method works, but why it was
+introduced in the first place. Every chapter begins with a question and
+develops the statistical tools needed to answer it. If you understand the
+question, the mathematics that follows will feel much more natural.
+
+Above all, remember that statistics is a way of thinking rather than a
+collection of techniques. The goal of this book is not simply to help you
+perform statistical analyses in R, but to help you reason carefully about
+evidence, uncertainty and data. If you finish the book asking better questions
+than when you began, then it will have achieved its purpose.
 
 ## What you need {-}
 

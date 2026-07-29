@@ -147,7 +147,17 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <li class="divider"></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Welcome</a>
 <ul>
-<li class="chapter" data-level="" data-path="how-to-use-this-book.html"><a href="how-to-use-this-book.html"><i class="fa fa-check"></i>How to use this book</a></li>
+<li class="chapter" data-level="" data-path="how-to-use-this-book.html"><a href="how-to-use-this-book.html"><i class="fa fa-check"></i>How to use this book</a>
+<ul>
+<li class="chapter" data-level="" data-path="how-to-use-this-book.html"><a href="how-to-use-this-book.html#read-the-book-in-order"><i class="fa fa-check"></i>Read the book in order</a></li>
+<li class="chapter" data-level="" data-path="how-to-use-this-book.html"><a href="how-to-use-this-book.html#work-through-the-mathematics"><i class="fa fa-check"></i>Work through the mathematics</a></li>
+<li class="chapter" data-level="" data-path="how-to-use-this-book.html"><a href="how-to-use-this-book.html#think-in-words-before-thinking-in-mathematics"><i class="fa fa-check"></i>Think in words before thinking in mathematics</a></li>
+<li class="chapter" data-level="" data-path="how-to-use-this-book.html"><a href="how-to-use-this-book.html#write-the-code-yourself"><i class="fa fa-check"></i>Write the code yourself</a></li>
+<li class="chapter" data-level="" data-path="how-to-use-this-book.html"><a href="how-to-use-this-book.html#think-before-calculating"><i class="fa fa-check"></i>Think before calculating</a></li>
+<li class="chapter" data-level="" data-path="how-to-use-this-book.html"><a href="how-to-use-this-book.html#attempt-the-exercises-first"><i class="fa fa-check"></i>Attempt the exercises first</a></li>
+<li class="chapter" data-level="" data-path="how-to-use-this-book.html"><a href="how-to-use-this-book.html#use-the-book-as-a-reference"><i class="fa fa-check"></i>Use the book as a reference</a></li>
+<li class="chapter" data-level="" data-path="how-to-use-this-book.html"><a href="how-to-use-this-book.html#learn-by-connecting-ideas"><i class="fa fa-check"></i>Learn by connecting ideas</a></li>
+</ul></li>
 <li class="chapter" data-level="" data-path="what-you-need.html"><a href="what-you-need.html"><i class="fa fa-check"></i>What you need</a></li>
 <li class="chapter" data-level="" data-path="notation-used-throughout.html"><a href="notation-used-throughout.html"><i class="fa fa-check"></i>Notation used throughout</a></li>
 <li class="chapter" data-level="" data-path="a-note-on-the-data.html"><a href="a-note-on-the-data.html"><i class="fa fa-check"></i>A note on the data</a></li>
@@ -240,13 +250,93 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="how-to-use-this-book" class="section level2 unnumbered hasAnchor">
 <h2>How to use this book<a href="how-to-use-this-book.html#how-to-use-this-book" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p><strong>Read it in order, at least the first time.</strong> Each unit builds on the one
-before it, and later units assume the ideas developed earlier.</p>
-<p><strong>Type the code out yourself.</strong> Copy-paste teaches you very little. Change a
-number and see what breaks — that is where the learning is.</p>
-<p><strong>Do the exercises before reading the solutions.</strong> They are worth nothing
-unless you have already tried.</p>
-<p><strong>Use the search box.</strong> The magnifying glass at the top-left searches the whole book. If you have forgotten what a <span class="math inline">\(p\)</span>-value is, that is faster than scrolling.</p>
+<p>Statistics is not a subject that rewards passive reading. Understanding comes
+from asking questions, working through examples, making mistakes and revisiting
+ideas. This book is written with that philosophy in mind, and you will get the
+most out of it if you engage with it actively.</p>
+<div id="read-the-book-in-order" class="section level3 unnumbered hasAnchor">
+<h3>Read the book in order<a href="how-to-use-this-book.html#read-the-book-in-order" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>The first few units are designed as a sequence rather than a collection of
+independent topics. Ideas introduced early — such as variation, repeated
+sampling and statistical inference — form the foundation for everything that
+follows. While later chapters can be used as references, I strongly recommend
+reading the book from beginning to end the first time.</p>
+</div>
+<div id="work-through-the-mathematics" class="section level3 unnumbered hasAnchor">
+<h3>Work through the mathematics<a href="how-to-use-this-book.html#work-through-the-mathematics" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Do not skip the derivations because they look unfamiliar. Every mathematical
+result is developed gradually, with intermediate steps shown. Try to work
+through each derivation yourself before reading ahead. The objective is not to
+memorise proofs, but to understand where formulas come from and why they work.</p>
+</div>
+<div id="think-in-words-before-thinking-in-mathematics" class="section level3 unnumbered hasAnchor">
+<h3>Think in words before thinking in mathematics<a href="how-to-use-this-book.html#think-in-words-before-thinking-in-mathematics" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>One piece of advice has stayed with me throughout my academic career. During my
+PhD, my advisor once told me:</p>
+<blockquote>
+<p>If you can explain the problem clearly in simple English, you have already
+solved half of it. The mathematics is just a matter of practice.</p>
+</blockquote>
+<p>Over the years I have found this to be remarkably true, and nowhere more so
+than in statistics and econometrics.</p>
+<p>Students often assume that success in these subjects depends primarily on being
+good at mathematics. Mathematical reasoning is undoubtedly important, but most
+difficulties arise much earlier than the algebra. They arise because we lose
+sight of the question we are trying to answer. Before writing down a formula,
+ask yourself: what am I trying to learn? What information do I have? Why should
+this method work at all? If you can answer those questions clearly in words,
+the mathematics usually becomes far easier to follow.</p>
+<p>Throughout this book I encourage you to explain ideas to yourself in plain
+English before expressing them in symbols. Statistical notation is a powerful
+language, but it is still a language. Its purpose is to communicate ideas
+precisely, not to replace logical reasoning.</p>
+<p>Whenever you find yourself stuck in a derivation or confused by a formula,
+pause and return to the underlying question. More often than not, the
+mathematics becomes much less intimidating once the logic is clear.</p>
+</div>
+<div id="write-the-code-yourself" class="section level3 unnumbered hasAnchor">
+<h3>Write the code yourself<a href="how-to-use-this-book.html#write-the-code-yourself" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Every analysis in this book is accompanied by R code. Resist the temptation to
+copy and paste it. Typing the code yourself forces you to pay attention to
+every line and every argument. Once the code works, experiment with it. Change
+a parameter, modify the data, or deliberately introduce an error. Some of the
+most valuable lessons come from understanding why something fails rather than
+why it succeeds.</p>
+</div>
+<div id="think-before-calculating" class="section level3 unnumbered hasAnchor">
+<h3>Think before calculating<a href="how-to-use-this-book.html#think-before-calculating" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Whenever a new method is introduced, pause before looking at the computation.
+Ask yourself what you expect the answer to be, and why. Developing statistical
+intuition is just as important as obtaining the correct numerical result.</p>
+</div>
+<div id="attempt-the-exercises-first" class="section level3 unnumbered hasAnchor">
+<h3>Attempt the exercises first<a href="how-to-use-this-book.html#attempt-the-exercises-first" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>The exercises are an essential part of the book, not an optional supplement.
+Attempt every question before consulting the solutions, even if you are unsure
+how to proceed. Struggling with a problem is often where the deepest learning
+takes place. The solutions are intended to explain your reasoning, not replace
+it.</p>
+</div>
+<div id="use-the-book-as-a-reference" class="section level3 unnumbered hasAnchor">
+<h3>Use the book as a reference<a href="how-to-use-this-book.html#use-the-book-as-a-reference" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Once you have worked through the material, the book can also serve as a
+reference. Use the search function at the top of the page to revisit concepts,
+definitions, examples or R commands. You are not expected to remember every
+formula or every line of code. What matters is understanding the underlying
+ideas and knowing where to find them when needed.</p>
+</div>
+<div id="learn-by-connecting-ideas" class="section level3 unnumbered hasAnchor">
+<h3>Learn by connecting ideas<a href="how-to-use-this-book.html#learn-by-connecting-ideas" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Throughout the book, try to ask not only how a method works, but why it was
+introduced in the first place. Every chapter begins with a question and
+develops the statistical tools needed to answer it. If you understand the
+question, the mathematics that follows will feel much more natural.</p>
+<p>Above all, remember that statistics is a way of thinking rather than a
+collection of techniques. The goal of this book is not simply to help you
+perform statistical analyses in R, but to help you reason carefully about
+evidence, uncertainty and data. If you finish the book asking better questions
+than when you began, then it will have achieved its purpose.</p>
+</div>
 </div>
 <script>
 // Solutions are written as plain fenced divs in the source, so the PDF edition
