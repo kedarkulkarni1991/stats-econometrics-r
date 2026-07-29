@@ -872,24 +872,61 @@ those five would see a perfectly ordinary set of forty students.
 
 
 
-## What if the population standard deviation is unknown? {#u3-t}
+## What changes when σ is unknown? {#u3-t}
 
 ::: {.question}
-Every interval so far used $\sigma$. We never know it. What breaks?
+Every interval so far used $\sigma$. We never know it. Can we just use $s$
+instead?
 :::
 
-Section \@ref(u3-variance) suggested substituting $s$ for $\sigma$, which looks
-like a small matter. It is not, and the reason is worth taking seriously.
+In the previous section we constructed confidence intervals assuming that the
+population standard deviation $\sigma$ was known. This allowed us to calculate
+the standard error exactly,
 
-When we use $\sigma$, the only random quantity in the interval is $\bar{x}$.
-When we use $s$, *both* the centre and the width are estimated from the same
-sample. An unlucky sample can be unrepresentative in its spread as well as its
-centre — and a sample that happens to have a small $s$ produces an interval
-that is both narrow and badly placed. Those two errors compound rather than
-cancel.
+$$\mathrm{se}(\bar{X}) = \frac{\sigma}{\sqrt{n}}$$
 
-The effect is easy to measure. Take a normal population, draw samples of ten,
-and build intervals using $s$ but the normal critical value 1.96.
+and to use the normal distribution to determine how far the interval should
+extend on either side of the sample mean.
+
+In practice the population standard deviation is almost never known. This is
+not a new problem — Section \@ref(u3-variance) showed how to estimate it with
+the sample standard deviation $s$. So a natural question arises.
+
+Can we simply replace $\sigma$ with $s$ and continue as before?
+
+At first sight the answer appears to be yes. We replace $\sigma/\sqrt{n}$ with
+$s/\sqrt{n}$ and construct the interval exactly as before.
+
+Unfortunately, that interval is no longer a 95% confidence interval.
+
+### Why does the interval change? {-}
+
+The interval developed in the previous section relied on one important fact:
+the only random quantity in it was the sample mean. The width was fixed,
+because $\sigma$ was assumed known.
+
+Once $\sigma$ is replaced by $s$, the sample determines both the centre of the
+interval **and** its width.
+
+Most samples produce reasonable estimates of the population standard deviation,
+but some do not. Occasionally a sample happens to contain observations that are
+unusually similar, giving a value of $s$ that is too small, and the resulting
+interval is then narrower than it should be. At the same time, the sample mean
+may lie further from the population mean than usual.
+
+These two errors can occur together, and when they do the interval is both
+badly placed and too narrow to reach the truth. The result is that the interval
+misses more often than we intended.
+
+### How serious is the problem? {-}
+
+The easiest way to find out is by simulation.
+
+Suppose the population is normal with mean 26 and standard deviation 5.45. We
+repeatedly draw samples of size $n = 10$, estimate the standard deviation with
+$s$, and construct intervals in two ways: the first using the familiar normal
+critical value of 1.96, the second using the appropriate critical value from
+the $t$ distribution.
 
 ```{r u3-t-coverage}
 set.seed(6)
@@ -898,59 +935,119 @@ n <- 10
 cover <- replicate(50000, {
   x  <- rnorm(n, mean = 26, sd = 5.45)
   se <- sd(x) / sqrt(n)
-  c(using_1.96      = abs(mean(x) - 26) < 1.96 * se,
+  c(using_1.96       = abs(mean(x) - 26) < 1.96 * se,
     using_t_critical = abs(mean(x) - 26) < qt(0.975, df = n - 1) * se)
 })
 
 round(rowMeans(cover), 4)
 ```
 
-The interval advertised as 95% delivers about
-`r round(100 * rowMeans(cover)[1], 1)`%. One statement in twenty was supposed to
-be wrong; nearly one in twelve is. Using the $t$ critical value instead restores
-it to `r round(100 * rowMeans(cover)[2], 1)`%.
+The results are striking. Using the normal critical value, the interval
+captures the population mean only about
+`r round(100 * rowMeans(cover)[1], 1)`% of the time rather than the advertised
+95%. One statement in twenty was supposed to be wrong; nearly one in twelve is.
 
-The fix is to widen the interval by exactly enough to compensate, using a
-distribution with heavier tails than the normal.
+Simply replacing $\sigma$ by $s$ has made the interval too optimistic.
+
+### The $t$ distribution {-}
+
+To restore the intended coverage we must make the interval slightly wider. This
+is achieved by replacing the normal critical value with one from **Student's
+$t$ distribution**, which has heavier tails than the normal.
 
 ::: {.keyidea}
 When $\sigma$ is unknown, the confidence interval for $\mu$ is
 
 $$\bar{x} \;\pm\; t_{n-1,\,\alpha/2}\,\frac{s}{\sqrt{n}}$$
 
-where $t_{n-1,\,\alpha/2}$ comes from the **$t$ distribution** with $n-1$
-degrees of freedom — the same $n-1$ that appeared in $s^2$, and for the same
-reason.
+where $t_{n-1,\,\alpha/2}$ is the critical value from the $t$ distribution with
+$n - 1$ degrees of freedom.
 
 In R: `qt(1 - alpha/2, df = n - 1)`.
 :::
 
-The $t$ distribution is symmetric and bell-shaped like the normal, but with
-more probability in the tails, which is what makes the interval wider. How much
-wider depends on the degrees of freedom.
+Notice that the same quantity $n - 1$ appears here as in the definition of the
+sample variance. Both arise for the same reason: the sample standard deviation
+is itself estimated from the data, and estimating the centre used up one
+observation's worth of information.
+
+```{r u3-t-density, echo = FALSE, fig.height = 3.4, fig.cap = "The t distribution against the normal. Lower degrees of freedom put more probability in the tails, which is what widens the interval."}
+xs <- seq(-4.5, 4.5, length.out = 500)
+
+dens <- rbind(
+  data.frame(x = xs, y = dnorm(xs),        lab = "Normal"),
+  data.frame(x = xs, y = dt(xs, df = 2),   lab = "t, df = 2"),
+  data.frame(x = xs, y = dt(xs, df = 5),   lab = "t, df = 5"),
+  data.frame(x = xs, y = dt(xs, df = 30),  lab = "t, df = 30")
+)
+dens$lab <- factor(dens$lab,
+                   levels = c("Normal", "t, df = 2", "t, df = 5", "t, df = 30"))
+
+ggplot(dens, aes(x, y, colour = lab, linewidth = lab)) +
+  geom_line() +
+  scale_colour_manual(values = c("grey55", book_palette$reject,
+                                 book_palette$accent, "#2f855a"), name = NULL) +
+  scale_linewidth_manual(values = c(1.5, 0.75, 0.75, 0.75), guide = "none") +
+  labs(x = NULL, y = NULL) +
+  theme_book() +
+  theme(axis.text.y = element_blank(), legend.position = "top")
+```
+
+The heavier tails are the whole mechanism. Because more of the $t$
+distribution's probability sits far from the centre, reaching 95% of it
+requires travelling further — and travelling further is exactly what widens the
+interval.
+
+### How much difference does it make? {-}
+
+The $t$ distribution depends on the sample size. Small samples carry greater
+uncertainty about the population standard deviation and therefore need wider
+intervals. As the sample grows, $s$ becomes a more reliable estimate of
+$\sigma$, the $t$ distribution approaches the normal, and the difference
+between the two intervals gradually disappears.
 
 ```{r u3-t-table}
 ns <- c(5, 10, 20, 30, 60, 120)
 round(data.frame(n = ns, df = ns - 1,
                  t_critical = qt(0.975, ns - 1),
-                 z_critical = 1.96), 3)
+                 z_critical = 1.96,
+                 pct_wider  = 100 * (qt(0.975, ns - 1) / 1.96 - 1)), 2)
 ```
 
-The correction is substantial in small samples and negligible in large ones. By
-$n = 120$ the two differ in the second decimal place, which is why the
-distinction stops mattering once samples run to a few hundred — and why it
-matters a great deal when a study has thirty observations.
+For a sample of five the correction is substantial — the interval is over 40%
+wider than the normal one. By the time the sample reaches around a hundred
+observations the two critical values are almost identical, which is why the
+distinction is rarely important in large samples and matters a great deal in a
+study with thirty.
+
+### One final point {-}
+
+The $t$ distribution corrects only for the fact that the population standard
+deviation is unknown.
+
+It does not correct for departures from normality.
+
+If the underlying population is strongly non-normal and the sample is very
+small, even the $t$ interval may fall short of its advertised coverage. Repeat
+the coverage experiment above on the real attendance data rather than a normal
+population, and at $n = 10$ the $t$ interval achieves about 90% rather than
+95%. That remaining shortfall has nothing to do with estimating $\sigma$. It is
+the sampling distribution of the sample mean not yet being well approximated by
+a normal distribution.
 
 ::: {.watchout}
-The $t$ distribution corrects for *estimating* $\sigma$. It does not correct
-for a non-normal population.
+Two separate issues are in play, and only one of them has been fixed here.
 
-Repeat the coverage experiment on the real attendance data rather than a normal
-population, and at $n = 10$ the $t$ interval achieves about 90% rather than
-95%. The remaining shortfall is the Central Limit Theorem not having done its
-work yet at that sample size.
+- **Estimating an unknown standard deviation** — addressed by the $t$
+  distribution.
+- **Approximating the sampling distribution by a normal** — addressed by the
+  Central Limit Theorem, and only when $n$ is large enough for the population
+  in question.
 
-Two separate assumptions are in play, and $t$ addresses only one of them.
+Keeping these distinct is essential for knowing when a confidence interval can
+be trusted. A $t$ interval computed from twelve observations of a heavily
+skewed variable is not made trustworthy by the $t$ correction; the correction
+was never aimed at that problem.
 :::
 
 

@@ -4,13 +4,13 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>3.5 What if the population standard deviation is unknown? | Statistics and Econometrics with R</title>
+  <title>3.5 What changes when σ is unknown? | Statistics and Econometrics with R</title>
   <meta name="description" content="<p>A first course in statistics and econometrics for Indian students, built on
 the progression from question to intuition to rigour to computation to
 interpretation.</p>" />
   <meta name="generator" content="bookdown 0.47 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="3.5 What if the population standard deviation is unknown? | Statistics and Econometrics with R" />
+  <meta property="og:title" content="3.5 What changes when σ is unknown? | Statistics and Econometrics with R" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="<p>A first course in statistics and econometrics for Indian students, built on
@@ -19,7 +19,7 @@ interpretation.</p>" />
   <meta name="github-repo" content="kedarkulkarni1991/stats-econometrics-r" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="3.5 What if the population standard deviation is unknown? | Statistics and Econometrics with R" />
+  <meta name="twitter:title" content="3.5 What changes when σ is unknown? | Statistics and Econometrics with R" />
   
   <meta name="twitter:description" content="<p>A first course in statistics and econometrics for Indian students, built on
 the progression from question to intuition to rigour to computation to
@@ -253,7 +253,14 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="u3-ci.html"><a href="u3-ci.html#reversing-the-question"><i class="fa fa-check"></i>Reversing the question</a></li>
 <li class="chapter" data-level="" data-path="u3-ci.html"><a href="u3-ci.html#what-does-95-actually-refer-to"><i class="fa fa-check"></i>What does 95% actually refer to?</a></li>
 </ul></li>
-<li class="chapter" data-level="3.5" data-path="u3-t.html"><a href="u3-t.html"><i class="fa fa-check"></i><b>3.5</b> What if the population standard deviation is unknown?</a></li>
+<li class="chapter" data-level="3.5" data-path="u3-t.html"><a href="u3-t.html"><i class="fa fa-check"></i><b>3.5</b> What changes when σ is unknown?</a>
+<ul>
+<li class="chapter" data-level="" data-path="u3-t.html"><a href="u3-t.html#why-does-the-interval-change"><i class="fa fa-check"></i>Why does the interval change?</a></li>
+<li class="chapter" data-level="" data-path="u3-t.html"><a href="u3-t.html#how-serious-is-the-problem"><i class="fa fa-check"></i>How serious is the problem?</a></li>
+<li class="chapter" data-level="" data-path="u3-t.html"><a href="u3-t.html#the-t-distribution"><i class="fa fa-check"></i>The <span class="math inline">\(t\)</span> distribution</a></li>
+<li class="chapter" data-level="" data-path="u3-t.html"><a href="u3-t.html#how-much-difference-does-it-make"><i class="fa fa-check"></i>How much difference does it make?</a></li>
+<li class="chapter" data-level="" data-path="u3-t.html"><a href="u3-t.html#one-final-point"><i class="fa fa-check"></i>One final point</a></li>
+</ul></li>
 <li class="chapter" data-level="3.6" data-path="u3-samplesize.html"><a href="u3-samplesize.html"><i class="fa fa-check"></i><b>3.6</b> How large a sample do we need?</a>
 <ul>
 <li class="chapter" data-level="" data-path="u3-samplesize.html"><a href="u3-samplesize.html#intervals-for-a-proportion"><i class="fa fa-check"></i>Intervals for a proportion</a></li>
@@ -334,73 +341,145 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 
             <section class="normal" id="section-">
 <div id="u3-t" class="section level2 hasAnchor" number="3.5">
-<h2><span class="header-section-number">3.5</span> What if the population standard deviation is unknown?<a href="u3-t.html#u3-t" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<h2><span class="header-section-number">3.5</span> What changes when σ is unknown?<a href="u3-t.html#u3-t" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <div class="question">
-<p>Every interval so far used <span class="math inline">\(\sigma\)</span>. We never know it. What breaks?</p>
+<p>Every interval so far used <span class="math inline">\(\sigma\)</span>. We never know it. Can we just use <span class="math inline">\(s\)</span>
+instead?</p>
 </div>
-<p>Section <a href="u3-variance.html#u3-variance">3.2</a> suggested substituting <span class="math inline">\(s\)</span> for <span class="math inline">\(\sigma\)</span>, which looks
-like a small matter. It is not, and the reason is worth taking seriously.</p>
-<p>When we use <span class="math inline">\(\sigma\)</span>, the only random quantity in the interval is <span class="math inline">\(\bar{x}\)</span>.
-When we use <span class="math inline">\(s\)</span>, <em>both</em> the centre and the width are estimated from the same
-sample. An unlucky sample can be unrepresentative in its spread as well as its
-centre — and a sample that happens to have a small <span class="math inline">\(s\)</span> produces an interval
-that is both narrow and badly placed. Those two errors compound rather than
-cancel.</p>
-<p>The effect is easy to measure. Take a normal population, draw samples of ten,
-and build intervals using <span class="math inline">\(s\)</span> but the normal critical value 1.96.</p>
+<p>In the previous section we constructed confidence intervals assuming that the
+population standard deviation <span class="math inline">\(\sigma\)</span> was known. This allowed us to calculate
+the standard error exactly,</p>
+<p><span class="math display">\[\mathrm{se}(\bar{X}) = \frac{\sigma}{\sqrt{n}}\]</span></p>
+<p>and to use the normal distribution to determine how far the interval should
+extend on either side of the sample mean.</p>
+<p>In practice the population standard deviation is almost never known. This is
+not a new problem — Section <a href="u3-variance.html#u3-variance">3.2</a> showed how to estimate it with
+the sample standard deviation <span class="math inline">\(s\)</span>. So a natural question arises.</p>
+<p>Can we simply replace <span class="math inline">\(\sigma\)</span> with <span class="math inline">\(s\)</span> and continue as before?</p>
+<p>At first sight the answer appears to be yes. We replace <span class="math inline">\(\sigma/\sqrt{n}\)</span> with
+<span class="math inline">\(s/\sqrt{n}\)</span> and construct the interval exactly as before.</p>
+<p>Unfortunately, that interval is no longer a 95% confidence interval.</p>
+<div id="why-does-the-interval-change" class="section level3 unnumbered hasAnchor">
+<h3>Why does the interval change?<a href="u3-t.html#why-does-the-interval-change" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>The interval developed in the previous section relied on one important fact:
+the only random quantity in it was the sample mean. The width was fixed,
+because <span class="math inline">\(\sigma\)</span> was assumed known.</p>
+<p>Once <span class="math inline">\(\sigma\)</span> is replaced by <span class="math inline">\(s\)</span>, the sample determines both the centre of the
+interval <strong>and</strong> its width.</p>
+<p>Most samples produce reasonable estimates of the population standard deviation,
+but some do not. Occasionally a sample happens to contain observations that are
+unusually similar, giving a value of <span class="math inline">\(s\)</span> that is too small, and the resulting
+interval is then narrower than it should be. At the same time, the sample mean
+may lie further from the population mean than usual.</p>
+<p>These two errors can occur together, and when they do the interval is both
+badly placed and too narrow to reach the truth. The result is that the interval
+misses more often than we intended.</p>
+</div>
+<div id="how-serious-is-the-problem" class="section level3 unnumbered hasAnchor">
+<h3>How serious is the problem?<a href="u3-t.html#how-serious-is-the-problem" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>The easiest way to find out is by simulation.</p>
+<p>Suppose the population is normal with mean 26 and standard deviation 5.45. We
+repeatedly draw samples of size <span class="math inline">\(n = 10\)</span>, estimate the standard deviation with
+<span class="math inline">\(s\)</span>, and construct intervals in two ways: the first using the familiar normal
+critical value of 1.96, the second using the appropriate critical value from
+the <span class="math inline">\(t\)</span> distribution.</p>
 <div class="sourceCode" id="cb91"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb91-1"><a href="u3-t.html#cb91-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">6</span>)</span>
 <span id="cb91-2"><a href="u3-t.html#cb91-2" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">10</span></span>
 <span id="cb91-3"><a href="u3-t.html#cb91-3" tabindex="-1"></a></span>
 <span id="cb91-4"><a href="u3-t.html#cb91-4" tabindex="-1"></a>cover <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">50000</span>, {</span>
 <span id="cb91-5"><a href="u3-t.html#cb91-5" tabindex="-1"></a>  x  <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n, <span class="at">mean =</span> <span class="dv">26</span>, <span class="at">sd =</span> <span class="fl">5.45</span>)</span>
 <span id="cb91-6"><a href="u3-t.html#cb91-6" tabindex="-1"></a>  se <span class="ot">&lt;-</span> <span class="fu">sd</span>(x) <span class="sc">/</span> <span class="fu">sqrt</span>(n)</span>
-<span id="cb91-7"><a href="u3-t.html#cb91-7" tabindex="-1"></a>  <span class="fu">c</span>(<span class="at">using_1.96      =</span> <span class="fu">abs</span>(<span class="fu">mean</span>(x) <span class="sc">-</span> <span class="dv">26</span>) <span class="sc">&lt;</span> <span class="fl">1.96</span> <span class="sc">*</span> se,</span>
+<span id="cb91-7"><a href="u3-t.html#cb91-7" tabindex="-1"></a>  <span class="fu">c</span>(<span class="at">using_1.96       =</span> <span class="fu">abs</span>(<span class="fu">mean</span>(x) <span class="sc">-</span> <span class="dv">26</span>) <span class="sc">&lt;</span> <span class="fl">1.96</span> <span class="sc">*</span> se,</span>
 <span id="cb91-8"><a href="u3-t.html#cb91-8" tabindex="-1"></a>    <span class="at">using_t_critical =</span> <span class="fu">abs</span>(<span class="fu">mean</span>(x) <span class="sc">-</span> <span class="dv">26</span>) <span class="sc">&lt;</span> <span class="fu">qt</span>(<span class="fl">0.975</span>, <span class="at">df =</span> n <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">*</span> se)</span>
 <span id="cb91-9"><a href="u3-t.html#cb91-9" tabindex="-1"></a>})</span>
 <span id="cb91-10"><a href="u3-t.html#cb91-10" tabindex="-1"></a></span>
 <span id="cb91-11"><a href="u3-t.html#cb91-11" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">rowMeans</span>(cover), <span class="dv">4</span>)</span></code></pre></div>
 <pre><code>#&gt;       using_1.96 using_t_critical 
 #&gt;           0.9181           0.9495</code></pre>
-<p>The interval advertised as 95% delivers about
-91.8%. One statement in twenty was supposed to
-be wrong; nearly one in twelve is. Using the <span class="math inline">\(t\)</span> critical value instead restores
-it to 95%.</p>
-<p>The fix is to widen the interval by exactly enough to compensate, using a
-distribution with heavier tails than the normal.</p>
+<p>The results are striking. Using the normal critical value, the interval
+captures the population mean only about
+91.8% of the time rather than the advertised
+95%. One statement in twenty was supposed to be wrong; nearly one in twelve is.</p>
+<p>Simply replacing <span class="math inline">\(\sigma\)</span> by <span class="math inline">\(s\)</span> has made the interval too optimistic.</p>
+</div>
+<div id="the-t-distribution" class="section level3 unnumbered hasAnchor">
+<h3>The <span class="math inline">\(t\)</span> distribution<a href="u3-t.html#the-t-distribution" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>To restore the intended coverage we must make the interval slightly wider. This
+is achieved by replacing the normal critical value with one from <strong>Student’s
+<span class="math inline">\(t\)</span> distribution</strong>, which has heavier tails than the normal.</p>
 <div class="keyidea">
 <p>When <span class="math inline">\(\sigma\)</span> is unknown, the confidence interval for <span class="math inline">\(\mu\)</span> is</p>
 <p><span class="math display">\[\bar{x} \;\pm\; t_{n-1,\,\alpha/2}\,\frac{s}{\sqrt{n}}\]</span></p>
-<p>where <span class="math inline">\(t_{n-1,\,\alpha/2}\)</span> comes from the <strong><span class="math inline">\(t\)</span> distribution</strong> with <span class="math inline">\(n-1\)</span>
-degrees of freedom — the same <span class="math inline">\(n-1\)</span> that appeared in <span class="math inline">\(s^2\)</span>, and for the same
-reason.</p>
+<p>where <span class="math inline">\(t_{n-1,\,\alpha/2}\)</span> is the critical value from the <span class="math inline">\(t\)</span> distribution with
+<span class="math inline">\(n - 1\)</span> degrees of freedom.</p>
 <p>In R: <code>qt(1 - alpha/2, df = n - 1)</code>.</p>
 </div>
-<p>The <span class="math inline">\(t\)</span> distribution is symmetric and bell-shaped like the normal, but with
-more probability in the tails, which is what makes the interval wider. How much
-wider depends on the degrees of freedom.</p>
+<p>Notice that the same quantity <span class="math inline">\(n - 1\)</span> appears here as in the definition of the
+sample variance. Both arise for the same reason: the sample standard deviation
+is itself estimated from the data, and estimating the centre used up one
+observation’s worth of information.</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:u3-t-density"></span>
+<img src="stats-econometrics-r_files/figure-html/u3-t-density-1.png" alt="The t distribution against the normal. Lower degrees of freedom put more probability in the tails, which is what widens the interval." width="90%" />
+<p class="caption">
+Figure 3.3: The t distribution against the normal. Lower degrees of freedom put more probability in the tails, which is what widens the interval.
+</p>
+</div>
+<p>The heavier tails are the whole mechanism. Because more of the <span class="math inline">\(t\)</span>
+distribution’s probability sits far from the centre, reaching 95% of it
+requires travelling further — and travelling further is exactly what widens the
+interval.</p>
+</div>
+<div id="how-much-difference-does-it-make" class="section level3 unnumbered hasAnchor">
+<h3>How much difference does it make?<a href="u3-t.html#how-much-difference-does-it-make" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>The <span class="math inline">\(t\)</span> distribution depends on the sample size. Small samples carry greater
+uncertainty about the population standard deviation and therefore need wider
+intervals. As the sample grows, <span class="math inline">\(s\)</span> becomes a more reliable estimate of
+<span class="math inline">\(\sigma\)</span>, the <span class="math inline">\(t\)</span> distribution approaches the normal, and the difference
+between the two intervals gradually disappears.</p>
 <div class="sourceCode" id="cb93"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb93-1"><a href="u3-t.html#cb93-1" tabindex="-1"></a>ns <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">10</span>, <span class="dv">20</span>, <span class="dv">30</span>, <span class="dv">60</span>, <span class="dv">120</span>)</span>
 <span id="cb93-2"><a href="u3-t.html#cb93-2" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">data.frame</span>(<span class="at">n =</span> ns, <span class="at">df =</span> ns <span class="sc">-</span> <span class="dv">1</span>,</span>
 <span id="cb93-3"><a href="u3-t.html#cb93-3" tabindex="-1"></a>                 <span class="at">t_critical =</span> <span class="fu">qt</span>(<span class="fl">0.975</span>, ns <span class="sc">-</span> <span class="dv">1</span>),</span>
-<span id="cb93-4"><a href="u3-t.html#cb93-4" tabindex="-1"></a>                 <span class="at">z_critical =</span> <span class="fl">1.96</span>), <span class="dv">3</span>)</span></code></pre></div>
-<pre><code>#&gt;     n  df t_critical z_critical
-#&gt; 1   5   4      2.776       1.96
-#&gt; 2  10   9      2.262       1.96
-#&gt; 3  20  19      2.093       1.96
-#&gt; 4  30  29      2.045       1.96
-#&gt; 5  60  59      2.001       1.96
-#&gt; 6 120 119      1.980       1.96</code></pre>
-<p>The correction is substantial in small samples and negligible in large ones. By
-<span class="math inline">\(n = 120\)</span> the two differ in the second decimal place, which is why the
-distinction stops mattering once samples run to a few hundred — and why it
-matters a great deal when a study has thirty observations.</p>
-<div class="watchout">
-<p>The <span class="math inline">\(t\)</span> distribution corrects for <em>estimating</em> <span class="math inline">\(\sigma\)</span>. It does not correct
-for a non-normal population.</p>
-<p>Repeat the coverage experiment on the real attendance data rather than a normal
+<span id="cb93-4"><a href="u3-t.html#cb93-4" tabindex="-1"></a>                 <span class="at">z_critical =</span> <span class="fl">1.96</span>,</span>
+<span id="cb93-5"><a href="u3-t.html#cb93-5" tabindex="-1"></a>                 <span class="at">pct_wider  =</span> <span class="dv">100</span> <span class="sc">*</span> (<span class="fu">qt</span>(<span class="fl">0.975</span>, ns <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">/</span> <span class="fl">1.96</span> <span class="sc">-</span> <span class="dv">1</span>)), <span class="dv">2</span>)</span></code></pre></div>
+<pre><code>#&gt;     n  df t_critical z_critical pct_wider
+#&gt; 1   5   4       2.78       1.96     41.66
+#&gt; 2  10   9       2.26       1.96     15.42
+#&gt; 3  20  19       2.09       1.96      6.79
+#&gt; 4  30  29       2.05       1.96      4.35
+#&gt; 5  60  59       2.00       1.96      2.09
+#&gt; 6 120 119       1.98       1.96      1.03</code></pre>
+<p>For a sample of five the correction is substantial — the interval is over 40%
+wider than the normal one. By the time the sample reaches around a hundred
+observations the two critical values are almost identical, which is why the
+distinction is rarely important in large samples and matters a great deal in a
+study with thirty.</p>
+</div>
+<div id="one-final-point" class="section level3 unnumbered hasAnchor">
+<h3>One final point<a href="u3-t.html#one-final-point" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>The <span class="math inline">\(t\)</span> distribution corrects only for the fact that the population standard
+deviation is unknown.</p>
+<p>It does not correct for departures from normality.</p>
+<p>If the underlying population is strongly non-normal and the sample is very
+small, even the <span class="math inline">\(t\)</span> interval may fall short of its advertised coverage. Repeat
+the coverage experiment above on the real attendance data rather than a normal
 population, and at <span class="math inline">\(n = 10\)</span> the <span class="math inline">\(t\)</span> interval achieves about 90% rather than
-95%. The remaining shortfall is the Central Limit Theorem not having done its
-work yet at that sample size.</p>
-<p>Two separate assumptions are in play, and <span class="math inline">\(t\)</span> addresses only one of them.</p>
+95%. That remaining shortfall has nothing to do with estimating <span class="math inline">\(\sigma\)</span>. It is
+the sampling distribution of the sample mean not yet being well approximated by
+a normal distribution.</p>
+<div class="watchout">
+<p>Two separate issues are in play, and only one of them has been fixed here.</p>
+<ul>
+<li><strong>Estimating an unknown standard deviation</strong> — addressed by the <span class="math inline">\(t\)</span>
+distribution.</li>
+<li><strong>Approximating the sampling distribution by a normal</strong> — addressed by the
+Central Limit Theorem, and only when <span class="math inline">\(n\)</span> is large enough for the population
+in question.</li>
+</ul>
+<p>Keeping these distinct is essential for knowing when a confidence interval can
+be trusted. A <span class="math inline">\(t\)</span> interval computed from twelve observations of a heavily
+skewed variable is not made trustworthy by the <span class="math inline">\(t\)</span> correction; the correction
+was never aimed at that problem.</p>
+</div>
 </div>
 </div>
 <script>

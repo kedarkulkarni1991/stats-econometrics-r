@@ -16,6 +16,7 @@ fig:u2-ex-se
 fig:u2-ex-skew
 fig:u3-normal95
 fig:u3-coverage
+fig:u3-t-density
 fig:u3-ex-width
 fig:os-sim-plot
 tab:os-claim-table
