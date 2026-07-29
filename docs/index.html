@@ -5,22 +5,25 @@
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Statistics and Econometrics with R</title>
-  <meta name="description" content="<p>A first course in statistics and econometrics, where every idea is developed
-on paper and then immediately carried out in R.</p>" />
+  <meta name="description" content="<p>A first course in statistics and econometrics for Indian students, built on
+the progression from question to intuition to rigour to computation to
+interpretation.</p>" />
   <meta name="generator" content="bookdown 0.47 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Statistics and Econometrics with R" />
   <meta property="og:type" content="book" />
   
-  <meta property="og:description" content="<p>A first course in statistics and econometrics, where every idea is developed
-on paper and then immediately carried out in R.</p>" />
+  <meta property="og:description" content="<p>A first course in statistics and econometrics for Indian students, built on
+the progression from question to intuition to rigour to computation to
+interpretation.</p>" />
   <meta name="github-repo" content="kedarkulkarni1991/stats-econometrics-r" />
 
   <meta name="twitter:card" content="summary" />
   <meta name="twitter:title" content="Statistics and Econometrics with R" />
   
-  <meta name="twitter:description" content="<p>A first course in statistics and econometrics, where every idea is developed
-on paper and then immediately carried out in R.</p>" />
+  <meta name="twitter:description" content="<p>A first course in statistics and econometrics for Indian students, built on
+the progression from question to intuition to rigour to computation to
+interpretation.</p>" />
   
 
 <meta name="author" content="Kedar Kulkarni" />
@@ -242,27 +245,79 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="welcome" class="section level1 unnumbered hasAnchor">
 <h1>Welcome<a href="index.html#welcome" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<p>This book grew out of two courses I teach at Azim Premji University —
-<em>Introduction to Statistics and Programming</em> and <em>Econometric Methods</em>.</p>
-<p>In both courses I noticed the same thing. Students would learn a formula in one
-session and learn the R command for it in another, and the two never quite met.
-They could compute a <span class="math inline">\(t\)</span>-statistic by hand and they could type <code>t.test()</code>, but
-the connection between the two stayed fuzzy.</p>
-<p>This book is my attempt to fix that. <strong>There is no separate “R chapter.”</strong> Every
-idea appears three times, in the same breath:</p>
-<div class="intuition">
-<p>First, in plain words — what are we actually trying to find out, and why would
-anyone care?</p>
-</div>
-<div class="theory">
-<p>Then, on paper — the algebra, worked slowly, with every step shown. You should
-be able to reproduce it in an exam with nothing but a pen.</p>
-</div>
-<div class="inr">
-<p>Then, in R — the same example, the same numbers, run as real code. Every result
-you see printed in this book was computed when the page was built. If the code
-were wrong, the number would be wrong, and I would notice.</p>
-</div>
+<p>This book is the result of several years of teaching introductory statistics
+and econometrics at Azim Premji University. It was shaped not only by lectures
+and classroom discussions, but also by countless questions from students who
+wanted to understand <em>why</em> statistical methods work, rather than simply <em>how</em>
+to apply them.</p>
+<p>Those questions made me rethink the way statistics is usually introduced.</p>
+<p>Many introductory courses place considerable emphasis on mathematical
+derivations, definitions and problem-solving techniques. These are important,
+and this book does not seek to diminish their value. Yet, in my experience,
+many students complete such courses having learned the mechanics of statistical
+procedures without fully appreciating the logic that makes them work. They know
+the steps involved in carrying out a hypothesis test or estimating a regression
+model, but the underlying ideas — the beauty of reasoning from a sample to an
+entire population — often remain hidden beneath the mathematics.</p>
+<p>This book begins from a different premise. Before introducing notation,
+formulas or proofs, it asks a simple question: <strong>what problem are we trying to
+solve?</strong> Once that question is clear, intuition follows naturally. The
+mathematics is then introduced not as something to be memorised, but as a
+precise language for expressing ideas that the reader has already encountered
+through examples, simulation and reasoning.</p>
+<p>The philosophy of the book can be summarised in five words:</p>
+<blockquote>
+<p><strong>Question → Intuition → Rigour → Computation → Interpretation</strong></p>
+</blockquote>
+<p>Every chapter follows this progression. We begin with a real question, usually
+drawn from economics or public policy. We build intuition through examples and
+simulation. We then develop the mathematical foundations carefully and without
+unnecessary shortcuts. Finally, every idea is implemented in R using real data
+so that the transition from theory to empirical analysis becomes seamless.</p>
+<p>This integration of intuition, mathematical reasoning and programming reflects
+the way statistics is practised today. There is no separate chapter devoted to
+software. Programming is not an optional add-on; it is part of the process of
+learning statistical thinking. Every table, figure and numerical result in this
+book is generated directly from R, allowing readers to reproduce every analysis
+for themselves.</p>
+<p>The examples throughout the book are grounded, wherever possible, in the Indian
+economy. Rather than relying on unfamiliar datasets and examples, we study
+questions involving wages, education, poverty, agriculture, inflation,
+employment, health and public policy. My hope is that students will not only
+learn statistical methods but also develop a deeper understanding of the
+economic and social issues that shape contemporary India.</p>
+<p>This emphasis is particularly important because empirical economics has changed
+dramatically over the past two decades. Modern applied research increasingly
+seeks to answer causal questions rather than merely document statistical
+relationships. Although this book develops the foundations of frequentist
+statistics, estimation and regression analysis, it does so with this broader
+objective in mind. The methods introduced here are intended not simply as
+computational tools, but as the foundations upon which modern empirical
+economics is built.</p>
+<p>This book also draws extensively on the outstanding textbooks that have shaped
+the teaching of statistics and econometrics over many decades. I have learned
+enormously from those works, and this book should be viewed as a companion to
+that tradition rather than a replacement for it. Its contribution lies not in
+presenting new statistical methods, but in presenting familiar ideas through a
+pedagogical approach that places intuition, conceptual understanding and
+empirical application at its centre.</p>
+<p>The book is intended primarily for undergraduate and postgraduate students of
+economics, but it will also be useful to students of public policy, sociology,
+political science, development studies and related disciplines. It assumes only
+a modest mathematical background and is written so that motivated readers can
+work through it independently. My hope is that readers finish the book not only
+knowing how to perform statistical analyses in R, but also understanding the
+logic of frequentist inference and developing the habits of mind needed to
+think critically about empirical evidence.</p>
+<p>Finally, this book would never have been written without my students. Every
+question asked after class, every thoughtful challenge to an explanation, every
+mistake that forced me to rethink the way I taught, and every conversation
+about data and economics has left its mark on these pages. I owe a sincere debt
+of gratitude to all the students who took my courses in introductory statistics
+and econometrics over the years. Your curiosity, patience and enthusiasm
+continually reminded me that good teaching begins with good questions. This
+book is, in many ways, a product of those conversations, and I hope it serves
+future students as well as you have served as my teachers.</p>
 </div>
 <script>
 // Solutions are written as plain fenced divs in the source, so the PDF edition
