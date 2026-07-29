@@ -42,28 +42,40 @@ drawn: $\bar{x} = 54{,}300$.
 :::
 
 The distinction between the last two is worth pausing on, because the words are
-used loosely in ordinary speech. The estimator is the *procedure* — take the
-observations, add them up, divide by $n$. The estimate is the *result*. The
-procedure can be judged before any data are collected; the result cannot be
-judged at all, because we never learn whether it was right.
+often used interchangeably in ordinary speech. An estimator is the rule: take
+the observations, add them together and divide by $n$. An estimate is the
+number produced after the rule has been applied to a particular sample.
 
-That last point is the awkward one. If we cannot tell whether a particular
-estimate is close to the truth, then the only thing we can sensibly ask about
-is the procedure that produced it.
+The difference matters. An estimate can never be judged directly, because we
+almost never know the true population mean. If a survey estimates average
+monthly income to be ₹50,000, we do not know whether the truth is ₹49,800,
+₹50,100 or ₹55,000. The truth is precisely what we are trying to discover.
+
+The estimator, however, can be judged. Although we never learn whether one
+particular estimate is close to the truth, we can ask how the estimator behaves
+across many hypothetical samples. Does it systematically overestimate the
+population mean? Does it systematically underestimate it? Does it produce very
+different answers from one sample to the next? These are questions about the
+procedure, not about any single outcome.
+
+This shifts our attention from estimates to estimators.
 
 ::: {.question}
-So: why the sample mean?
+So why do statisticians almost always estimate the population mean using the
+sample mean?
 :::
 
-It is not the only available rule. We could use the median. We could use the
-midpoint of the largest and smallest values. We could ignore the data entirely
-and always answer ₹50,000, which costs nothing and is occasionally correct.
-Each of these is an estimator of $\mu$ in the sense defined above.
+It is certainly not the only possible rule. We could use the sample median. We
+could take the midpoint of the largest and smallest observations. We could even
+ignore the data entirely and always report ₹50,000. Each of these is an
+estimator of $\mu$, because each provides a rule for producing an estimate from
+a sample.
 
-The sample mean is used almost universally, and the reason is not that it is
-obvious. It is that its behaviour across repeated samples has two specific
-properties that the alternatives lack. The rest of this section establishes
-what they are.
+The sample mean is preferred not because it is obvious, but because it behaves
+exceptionally well under repeated sampling. In particular, it possesses two
+properties that make it an excellent estimator of the population mean.
+Establishing those two properties is the objective of the rest of this unit.
+
 
 
 
