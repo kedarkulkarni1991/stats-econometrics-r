@@ -217,41 +217,85 @@ perform statistical analyses in R, but to help you reason carefully about
 evidence, uncertainty and data. If you finish the book asking better questions
 than when you began, then it will have achieved its purpose.
 
+## A note on the data {-}
+
+Every dataset used in this book is either built into R, supplied with the book,
+or generated directly by code that you can read and run yourself. This means
+that every table, figure and numerical result can be reproduced by running the
+accompanying script from beginning to end.
+
+Reproducibility is a fundamental principle of statistical work. If an analysis
+cannot be recreated from the original data and the accompanying code, its
+results cannot be independently verified. Good statistical practice therefore
+means leaving behind a complete record of every step that produced the final
+result.
+
+::: {.keyidea}
+A result that cannot be reproduced by running a script from top to bottom is
+not yet a result.
+:::
+
+One dataset deserves a special mention. The class survey used throughout the
+book was collected from students enrolled in this course. Before it was
+included here, all identifying information was removed and each student was
+assigned an anonymous identification number. Protecting the privacy of
+participants is one of the first responsibilities of anyone working with data
+about people.
+
+Later in the book we return to questions of sampling, data collection and
+research ethics. For now it is enough to remember that every dataset represents
+real individuals, and good statistical practice begins with treating their
+information responsibly.
+
 ## What you need {-}
 
-You need two free programs, installed in this order:
+This book requires two free programs, which should be installed in the
+following order.
 
-1. **R** — the language itself, from [cran.r-project.org](https://cran.r-project.org)
-2. **RStudio Desktop** — a much friendlier window onto R, from
-   [posit.co/download/rstudio-desktop](https://posit.co/download/rstudio-desktop)
+1. **R** — the statistical programming language, available from
+   [cran.r-project.org](https://cran.r-project.org).
+2. **RStudio Desktop** — an integrated development environment that provides a
+   more convenient interface for working with R, available from
+   [posit.co/download/rstudio-desktop](https://posit.co/download/rstudio-desktop).
 
-A handful of chapters use extra packages. Install them once, by running this in
-the RStudio console:
+Several chapters use additional R packages. These need to be installed only
+once, by running the following command in the RStudio console:
 
 ```{r install-pkgs, eval = FALSE}
 install.packages(c("tidyverse", "BSDA", "wooldridge", "AER", "stargazer"))
 ```
 
-You will not need anything else, and you will not need to pay for anything.
+No other software is required, and everything used in this book is freely
+available.
 
-## A note on the data {-}
+## Mathematical background {-}
 
-Every dataset used in this book is either built into R, shipped alongside the
-book, or generated in front of you by code you can read. You will never see
-`read.csv(file.choose())` in these pages — that command needs a human to point
-at a file, which means nobody can reproduce your result, including you, six
-months from now.
+This book assumes a basic acquaintance with introductory probability and
+descriptive statistics. Specifically, it will help to have met:
 
-::: {.keyidea}
-If a result cannot be reproduced by running a script from top to bottom, it is
-not yet a result. It is a rumour.
-:::
+- basic probability rules and notation;
+- random variables and their probability distributions;
+- probability mass functions, probability density functions and cumulative
+  distribution functions.
 
-One dataset deserves a word. The class survey was collected from students in
-this course, and originally carried their names. Those were replaced with
-anonymous ids before this book was ever published — which is itself the first
-lesson of working with data about people. You will meet the same idea again
-when we discuss what a sample is, and what you owe the people in it.
+Everything else the book relies on is built up within it. Measures of central
+tendency and dispersion are reviewed in Unit \@ref(towards-inference) before they are
+used, and random variables, expected values and variances are developed there
+from first principles rather than assumed. If those terms are unfamiliar, that
+is where they are introduced.
+
+The focus throughout is statistical inference and data analysis rather than
+probability theory itself. Where an idea from probability is needed, it is
+recalled briefly at the point of use.
+
+A word to readers who are uncertain whether they have enough mathematics for
+this. Almost everything in the list above is notation and vocabulary rather
+than technique, and the difficulty of statistics lies elsewhere — in
+understanding what a question is asking and what the data can answer. If you
+can follow an argument carefully and are willing to work through the
+derivations rather than skip them, you have what this book requires. Begin at
+Unit \@ref(towards-inference) and consult a probability text only if something there
+genuinely does not yield.
 
 ## Licence and citation {-}
 
