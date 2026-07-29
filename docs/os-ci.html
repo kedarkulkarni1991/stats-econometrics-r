@@ -202,23 +202,22 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="1.12" data-path="u1-looking-ahead.html"><a href="u1-looking-ahead.html"><i class="fa fa-check"></i><b>1.12</b> Looking ahead</a></li>
 </ul></li>
-<li class="chapter" data-level="2" data-path="estimation.html"><a href="estimation.html"><i class="fa fa-check"></i><b>2</b> Estimation</a>
+<li class="chapter" data-level="2" data-path="estimation.html"><a href="estimation.html"><i class="fa fa-check"></i><b>2</b> Estimation: Why the Sample Mean?</a>
 <ul>
 <li class="chapter" data-level="2.1" data-path="u2-problem.html"><a href="u2-problem.html"><i class="fa fa-check"></i><b>2.1</b> The problem of estimation</a></li>
-<li class="chapter" data-level="2.2" data-path="u2-iid.html"><a href="u2-iid.html"><i class="fa fa-check"></i><b>2.2</b> What we assume about the sample</a></li>
-<li class="chapter" data-level="2.3" data-path="u2-known-truth.html"><a href="u2-known-truth.html"><i class="fa fa-check"></i><b>2.3</b> One population where we know the truth</a>
+<li class="chapter" data-level="2.2" data-path="u2-iid.html"><a href="u2-iid.html"><i class="fa fa-check"></i><b>2.2</b> When can a sample represent a population?</a></li>
+<li class="chapter" data-level="2.3" data-path="u2-known-truth.html"><a href="u2-known-truth.html"><i class="fa fa-check"></i><b>2.3</b> How can we judge an estimator?</a>
 <ul>
-<li class="chapter" data-level="" data-path="u2-known-truth.html"><a href="u2-known-truth.html#constructing-the-population"><i class="fa fa-check"></i>Constructing the population</a></li>
-<li class="chapter" data-level="" data-path="u2-known-truth.html"><a href="u2-known-truth.html#drawing-one-sample"><i class="fa fa-check"></i>Drawing one sample</a></li>
-<li class="chapter" data-level="" data-path="u2-known-truth.html"><a href="u2-known-truth.html#drawing-a-thousand-samples"><i class="fa fa-check"></i>Drawing a thousand samples</a></li>
-<li class="chapter" data-level="" data-path="u2-known-truth.html"><a href="u2-known-truth.html#three-questions"><i class="fa fa-check"></i>Three questions</a></li>
-<li class="chapter" data-level="" data-path="u2-known-truth.html"><a href="u2-known-truth.html#question-1-is-the-sample-mean-centred-on-the-truth"><i class="fa fa-check"></i>Question 1: is the sample mean centred on the truth?</a></li>
-<li class="chapter" data-level="" data-path="u2-known-truth.html"><a href="u2-known-truth.html#question-2-why-do-larger-samples-fluctuate-less"><i class="fa fa-check"></i>Question 2: why do larger samples fluctuate less?</a></li>
-<li class="chapter" data-level="" data-path="u2-known-truth.html"><a href="u2-known-truth.html#question-3-why-does-the-sample-mean-become-more-reliable"><i class="fa fa-check"></i>Question 3: why does the sample mean become more reliable?</a></li>
-<li class="chapter" data-level="" data-path="u2-known-truth.html"><a href="u2-known-truth.html#the-price-of-precision"><i class="fa fa-check"></i>The price of precision</a></li>
+<li class="chapter" data-level="" data-path="u2-known-truth.html"><a href="u2-known-truth.html#u2-lab-pop"><i class="fa fa-check"></i>The population</a></li>
+<li class="chapter" data-level="" data-path="u2-known-truth.html"><a href="u2-known-truth.html#u2-lab-one"><i class="fa fa-check"></i>One sample from it</a></li>
+<li class="chapter" data-level="" data-path="u2-known-truth.html"><a href="u2-known-truth.html#u2-lab-many"><i class="fa fa-check"></i>A thousand samples</a></li>
 </ul></li>
-<li class="chapter" data-level="2.4" data-path="u2-summary.html"><a href="u2-summary.html"><i class="fa fa-check"></i><b>2.4</b> Summary</a></li>
-<li class="chapter" data-level="2.5" data-path="u2-looking-ahead.html"><a href="u2-looking-ahead.html"><i class="fa fa-check"></i><b>2.5</b> Looking ahead</a></li>
+<li class="chapter" data-level="2.4" data-path="u2-centred.html"><a href="u2-centred.html"><i class="fa fa-check"></i><b>2.4</b> Is the sample mean centred on the truth?</a></li>
+<li class="chapter" data-level="2.5" data-path="u2-precision.html"><a href="u2-precision.html"><i class="fa fa-check"></i><b>2.5</b> Why do larger samples fluctuate less?</a></li>
+<li class="chapter" data-level="2.6" data-path="u2-lln-explained.html"><a href="u2-lln-explained.html"><i class="fa fa-check"></i><b>2.6</b> Why does the sample mean become more reliable?</a></li>
+<li class="chapter" data-level="2.7" data-path="u2-cost.html"><a href="u2-cost.html"><i class="fa fa-check"></i><b>2.7</b> Why is precision expensive?</a></li>
+<li class="chapter" data-level="2.8" data-path="u2-summary.html"><a href="u2-summary.html"><i class="fa fa-check"></i><b>2.8</b> Summary</a></li>
+<li class="chapter" data-level="2.9" data-path="u2-looking-ahead.html"><a href="u2-looking-ahead.html"><i class="fa fa-check"></i><b>2.9</b> Looking ahead</a></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="one-sample.html"><a href="one-sample.html"><i class="fa fa-check"></i><b>3</b> Hypothesis Testing: One Sample</a>
 <ul>
@@ -287,7 +286,7 @@ Z_{\alpha/2}\,\sigma/\sqrt{n}\)</span> for <span class="math inline">\(\mu\)</sp
 \bar{x} + Z_{\alpha/2}\frac{\sigma}{\sqrt{n}}
 \]</span></p>
 <p>For our students:</p>
-<div class="sourceCode" id="cb75"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb75-1"><a href="os-ci.html#cb75-1" tabindex="-1"></a>xbar <span class="sc">+</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>) <span class="sc">*</span> <span class="fu">qnorm</span>(<span class="fl">0.975</span>) <span class="sc">*</span> (<span class="dv">8</span> <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="dv">36</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb79"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb79-1"><a href="os-ci.html#cb79-1" tabindex="-1"></a>xbar <span class="sc">+</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>) <span class="sc">*</span> <span class="fu">qnorm</span>(<span class="fl">0.975</span>) <span class="sc">*</span> (<span class="dv">8</span> <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="dv">36</span>))</span></code></pre></div>
 <pre><code>#&gt; [1] 165.4 170.6</code></pre>
 <p>The 95% interval is roughly <span class="math inline">\([165.4,\ 170.6]\)</span>. The claimed value of 165 lies
 <strong>outside</strong> it — which is the same verdict we reached with the test statistic,
@@ -307,17 +306,17 @@ in 95% of repeated samples. The randomness lives in the interval, not in <span c
 </div>
 <p>We can see that directly. Build 100 intervals from 100 samples of a population
 we know averages 165, and count the misses:</p>
-<div class="sourceCode" id="cb77"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb77-1"><a href="os-ci.html#cb77-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
-<span id="cb77-2"><a href="os-ci.html#cb77-2" tabindex="-1"></a></span>
-<span id="cb77-3"><a href="os-ci.html#cb77-3" tabindex="-1"></a>sims <span class="ot">&lt;-</span> <span class="fu">t</span>(<span class="fu">replicate</span>(<span class="dv">100</span>, {</span>
-<span id="cb77-4"><a href="os-ci.html#cb77-4" tabindex="-1"></a>  s <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">36</span>, <span class="at">mean =</span> <span class="dv">165</span>, <span class="at">sd =</span> <span class="dv">8</span>)</span>
-<span id="cb77-5"><a href="os-ci.html#cb77-5" tabindex="-1"></a>  <span class="fu">mean</span>(s) <span class="sc">+</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>) <span class="sc">*</span> <span class="fu">qnorm</span>(<span class="fl">0.975</span>) <span class="sc">*</span> <span class="dv">8</span> <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="dv">36</span>)</span>
-<span id="cb77-6"><a href="os-ci.html#cb77-6" tabindex="-1"></a>}))</span>
-<span id="cb77-7"><a href="os-ci.html#cb77-7" tabindex="-1"></a></span>
-<span id="cb77-8"><a href="os-ci.html#cb77-8" tabindex="-1"></a>ci <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">id =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">100</span>, <span class="at">lo =</span> sims[, <span class="dv">1</span>], <span class="at">hi =</span> sims[, <span class="dv">2</span>])</span>
-<span id="cb77-9"><a href="os-ci.html#cb77-9" tabindex="-1"></a>ci<span class="sc">$</span>misses <span class="ot">&lt;-</span> ci<span class="sc">$</span>lo <span class="sc">&gt;</span> <span class="dv">165</span> <span class="sc">|</span> ci<span class="sc">$</span>hi <span class="sc">&lt;</span> <span class="dv">165</span></span>
-<span id="cb77-10"><a href="os-ci.html#cb77-10" tabindex="-1"></a></span>
-<span id="cb77-11"><a href="os-ci.html#cb77-11" tabindex="-1"></a><span class="fu">sum</span>(ci<span class="sc">$</span>misses)   <span class="co"># how many of the 100 failed to capture the truth?</span></span></code></pre></div>
+<div class="sourceCode" id="cb81"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb81-1"><a href="os-ci.html#cb81-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb81-2"><a href="os-ci.html#cb81-2" tabindex="-1"></a></span>
+<span id="cb81-3"><a href="os-ci.html#cb81-3" tabindex="-1"></a>sims <span class="ot">&lt;-</span> <span class="fu">t</span>(<span class="fu">replicate</span>(<span class="dv">100</span>, {</span>
+<span id="cb81-4"><a href="os-ci.html#cb81-4" tabindex="-1"></a>  s <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">36</span>, <span class="at">mean =</span> <span class="dv">165</span>, <span class="at">sd =</span> <span class="dv">8</span>)</span>
+<span id="cb81-5"><a href="os-ci.html#cb81-5" tabindex="-1"></a>  <span class="fu">mean</span>(s) <span class="sc">+</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>) <span class="sc">*</span> <span class="fu">qnorm</span>(<span class="fl">0.975</span>) <span class="sc">*</span> <span class="dv">8</span> <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="dv">36</span>)</span>
+<span id="cb81-6"><a href="os-ci.html#cb81-6" tabindex="-1"></a>}))</span>
+<span id="cb81-7"><a href="os-ci.html#cb81-7" tabindex="-1"></a></span>
+<span id="cb81-8"><a href="os-ci.html#cb81-8" tabindex="-1"></a>ci <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">id =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">100</span>, <span class="at">lo =</span> sims[, <span class="dv">1</span>], <span class="at">hi =</span> sims[, <span class="dv">2</span>])</span>
+<span id="cb81-9"><a href="os-ci.html#cb81-9" tabindex="-1"></a>ci<span class="sc">$</span>misses <span class="ot">&lt;-</span> ci<span class="sc">$</span>lo <span class="sc">&gt;</span> <span class="dv">165</span> <span class="sc">|</span> ci<span class="sc">$</span>hi <span class="sc">&lt;</span> <span class="dv">165</span></span>
+<span id="cb81-10"><a href="os-ci.html#cb81-10" tabindex="-1"></a></span>
+<span id="cb81-11"><a href="os-ci.html#cb81-11" tabindex="-1"></a><span class="fu">sum</span>(ci<span class="sc">$</span>misses)   <span class="co"># how many of the 100 failed to capture the truth?</span></span></code></pre></div>
 <pre><code>#&gt; [1] 5</code></pre>
 <p>Five of the hundred missed. Run it again with a different seed and you will get
 four, or seven, or three — but over the long run, 5%.</p>

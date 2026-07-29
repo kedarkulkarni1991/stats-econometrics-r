@@ -4,13 +4,13 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>3.5 What a \(p\)-value actually says | Statistics and Econometrics with R</title>
+  <title>2.7 Why is precision expensive? | Statistics and Econometrics with R</title>
   <meta name="description" content="<p>A first course in statistics and econometrics for Indian students, built on
 the progression from question to intuition to rigour to computation to
 interpretation.</p>" />
   <meta name="generator" content="bookdown 0.47 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="3.5 What a \(p\)-value actually says | Statistics and Econometrics with R" />
+  <meta property="og:title" content="2.7 Why is precision expensive? | Statistics and Econometrics with R" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="<p>A first course in statistics and econometrics for Indian students, built on
@@ -19,7 +19,7 @@ interpretation.</p>" />
   <meta name="github-repo" content="kedarkulkarni1991/stats-econometrics-r" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="3.5 What a \(p\)-value actually says | Statistics and Econometrics with R" />
+  <meta name="twitter:title" content="2.7 Why is precision expensive? | Statistics and Econometrics with R" />
   
   <meta name="twitter:description" content="<p>A first course in statistics and econometrics for Indian students, built on
 the progression from question to intuition to rigour to computation to
@@ -35,8 +35,8 @@ interpretation.</p>" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="os-worked.html"/>
-<link rel="next" href="os-ci.html"/>
+<link rel="prev" href="u2-lln-explained.html"/>
+<link rel="next" href="u2-summary.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -276,57 +276,37 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="os-pvalue" class="section level2 hasAnchor" number="3.5">
-<h2><span class="header-section-number">3.5</span> What a <span class="math inline">\(p\)</span>-value actually says<a href="os-pvalue.html#os-pvalue" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>The <span class="math inline">\(p\)</span>-value is the single most misquoted number in empirical work, so let us
-be exact.</p>
-<div class="keyidea">
-<p>The <span class="math inline">\(p\)</span>-value is the probability of seeing a sample <strong>at least as extreme as
-ours</strong>, <em>given that the null hypothesis is true</em>.</p>
-<p>It is <strong>not</strong> the probability that the null is true. It is <strong>not</strong> the
-probability that we made a mistake. It is a statement about the data, computed
-under an assumption about the world — not a statement about the world.</p>
+<div id="u2-cost" class="section level2 hasAnchor" number="2.7">
+<h2><span class="header-section-number">2.7</span> Why is precision expensive?<a href="u2-cost.html#u2-cost" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="question">
+<p>If larger samples are better, why does anyone stop collecting data?</p>
 </div>
-<p>Small <span class="math inline">\(p\)</span>-value means the data would be surprising if the null held, which is
-evidence against the null. Large <span class="math inline">\(p\)</span>-value means the data are unremarkable
-under the null, so we have no case.</p>
-<table>
-<caption><span id="tab:os-pval-table">Table 3.2: </span>Reading a p-value.</caption>
-<colgroup>
-<col width="10%" />
-<col width="67%" />
-<col width="21%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th align="left">p-value</th>
-<th align="left">Read it as</th>
-<th align="left">At alpha = 0.05</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="left">0.60</td>
-<td align="left">Completely ordinary under the null.</td>
-<td align="left">Fail to reject</td>
-</tr>
-<tr class="even">
-<td align="left">0.18</td>
-<td align="left">A bit high, but this happens roughly 1 time in 6.</td>
-<td align="left">Fail to reject</td>
-</tr>
-<tr class="odd">
-<td align="left">0.049</td>
-<td align="left">Would happen about 1 time in 20. Reject at 5%.</td>
-<td align="left">Reject</td>
-</tr>
-<tr class="even">
-<td align="left">0.0001</td>
-<td align="left">Would happen 1 time in 10,000. Strong evidence.</td>
-<td align="left">Reject</td>
-</tr>
-</tbody>
-</table>
+<p>One practical consequence deserves its own section, because it shapes how
+survey work is actually done.</p>
+<p>Return to the square root. Doubling the sample size does not halve the standard
+error; it divides it by <span class="math inline">\(\sqrt{2} \approx 1.41\)</span>. To halve the standard error,
+the sample must grow <em>fourfold</em>.</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:u2-cost"></span>
+<img src="stats-econometrics-r_files/figure-html/u2-cost-1.png" alt="The standard error of the sample mean against sample size. Almost all of the available precision is bought in the first few hundred observations." width="90%" />
+<p class="caption">
+Figure 2.4: The standard error of the sample mean against sample size. Almost all of the available precision is bought in the first few hundred observations.
+</p>
+</div>
+<p>Precision is therefore expensive, and grows more expensive the more of it you
+buy. Each additional household costs the same to interview as the last, but
+contributes less than the last. Going from 100 households to 400 halves the
+standard error; going from 400 to 1,600 halves it again, at four times the
+cost.</p>
+<p>This is why national surveys run to a few thousand households rather than a few
+hundred thousand. Past a certain point the additional precision is not worth
+the additional money, and the money is better spent on the things no sample
+size can fix — better questions, better interviewers, better coverage of the
+households that are hardest to reach.</p>
+<p>That last point is worth holding onto. The failures in Section
+<a href="u2-iid.html#u2-iid">2.2</a> were all failures of design, and none of them would have been
+helped by a larger sample. Survey B with ten thousand urban households is still
+wrong. When a result is disappointing, the instinct is to ask for more data;
+often the honest answer is that more of the same data will not help.</p>
 </div>
 <script>
 // Solutions are written as plain fenced divs in the source, so the PDF edition
@@ -349,8 +329,8 @@ document.addEventListener("DOMContentLoaded", function () {
           </div>
         </div>
       </div>
-<a href="os-worked.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="os-ci.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="u2-lln-explained.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="u2-summary.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -381,7 +361,7 @@ gitbook.start({
     "size": 2
   },
   "edit": {
-    "link": "https://github.com/kedarkulkarni1991/stats-econometrics-r/edit/main/06-hypothesis-testing-one-sample.Rmd",
+    "link": "https://github.com/kedarkulkarni1991/stats-econometrics-r/edit/main/02-estimation.Rmd",
     "text": "Edit"
   },
   "history": {

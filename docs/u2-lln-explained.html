@@ -4,13 +4,13 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>3.5 What a \(p\)-value actually says | Statistics and Econometrics with R</title>
+  <title>2.6 Why does the sample mean become more reliable? | Statistics and Econometrics with R</title>
   <meta name="description" content="<p>A first course in statistics and econometrics for Indian students, built on
 the progression from question to intuition to rigour to computation to
 interpretation.</p>" />
   <meta name="generator" content="bookdown 0.47 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="3.5 What a \(p\)-value actually says | Statistics and Econometrics with R" />
+  <meta property="og:title" content="2.6 Why does the sample mean become more reliable? | Statistics and Econometrics with R" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="<p>A first course in statistics and econometrics for Indian students, built on
@@ -19,7 +19,7 @@ interpretation.</p>" />
   <meta name="github-repo" content="kedarkulkarni1991/stats-econometrics-r" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="3.5 What a \(p\)-value actually says | Statistics and Econometrics with R" />
+  <meta name="twitter:title" content="2.6 Why does the sample mean become more reliable? | Statistics and Econometrics with R" />
   
   <meta name="twitter:description" content="<p>A first course in statistics and econometrics for Indian students, built on
 the progression from question to intuition to rigour to computation to
@@ -35,8 +35,8 @@ interpretation.</p>" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="os-worked.html"/>
-<link rel="next" href="os-ci.html"/>
+<link rel="prev" href="u2-precision.html"/>
+<link rel="next" href="u2-cost.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -276,57 +276,41 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="os-pvalue" class="section level2 hasAnchor" number="3.5">
-<h2><span class="header-section-number">3.5</span> What a <span class="math inline">\(p\)</span>-value actually says<a href="os-pvalue.html#os-pvalue" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>The <span class="math inline">\(p\)</span>-value is the single most misquoted number in empirical work, so let us
-be exact.</p>
-<div class="keyidea">
-<p>The <span class="math inline">\(p\)</span>-value is the probability of seeing a sample <strong>at least as extreme as
-ours</strong>, <em>given that the null hypothesis is true</em>.</p>
-<p>It is <strong>not</strong> the probability that the null is true. It is <strong>not</strong> the
-probability that we made a mistake. It is a statement about the data, computed
-under an assumption about the world — not a statement about the world.</p>
+<div id="u2-lln-explained" class="section level2 hasAnchor" number="2.6">
+<h2><span class="header-section-number">2.6</span> Why does the sample mean become more reliable?<a href="u2-lln-explained.html#u2-lln-explained" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="question">
+<p>Two properties, established separately. What do they amount to together?</p>
 </div>
-<p>Small <span class="math inline">\(p\)</span>-value means the data would be surprising if the null held, which is
-evidence against the null. Large <span class="math inline">\(p\)</span>-value means the data are unremarkable
-under the null, so we have no case.</p>
-<table>
-<caption><span id="tab:os-pval-table">Table 3.2: </span>Reading a p-value.</caption>
-<colgroup>
-<col width="10%" />
-<col width="67%" />
-<col width="21%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th align="left">p-value</th>
-<th align="left">Read it as</th>
-<th align="left">At alpha = 0.05</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="left">0.60</td>
-<td align="left">Completely ordinary under the null.</td>
-<td align="left">Fail to reject</td>
-</tr>
-<tr class="even">
-<td align="left">0.18</td>
-<td align="left">A bit high, but this happens roughly 1 time in 6.</td>
-<td align="left">Fail to reject</td>
-</tr>
-<tr class="odd">
-<td align="left">0.049</td>
-<td align="left">Would happen about 1 time in 20. Reject at 5%.</td>
-<td align="left">Reject</td>
-</tr>
-<tr class="even">
-<td align="left">0.0001</td>
-<td align="left">Would happen 1 time in 10,000. Strong evidence.</td>
-<td align="left">Reject</td>
-</tr>
-</tbody>
-</table>
+<p>We can now answer the question this unit opened with.</p>
+<p>The sample mean is used almost universally because its sampling distribution
+sits in the right place and tightens as the sample grows. It is centred on
+<span class="math inline">\(\mu\)</span> at every sample size, and the width of that distribution,
+<span class="math inline">\(\sigma/\sqrt{n}\)</span>, falls towards zero as <span class="math inline">\(n\)</span> increases. A distribution centred
+on the correct value and becoming ever narrower must concentrate on that value.
+Large samples are therefore increasingly likely to produce averages close to
+<span class="math inline">\(\mu\)</span>.</p>
+<p>That last sentence is the Law of Large Numbers, which Section <a href="u1-lln.html#u1-lln">1.5</a>
+introduced as a description of observed behaviour. It is no longer a
+description. Averages settle down because the procedure that produces them is
+unbiased and increasingly precise, and there is nothing else to the result.</p>
+<p>Both halves are load-bearing, and it is worth seeing why neither would do
+alone.</p>
+<p>An estimator that was centred but whose spread never shrank would remain
+permanently unreliable — the “use the first observation” rule from the previous
+section, which stays honest and stays useless however much data you give it.</p>
+<p>An estimator whose spread shrank around a value that was not <span class="math inline">\(\mu\)</span> would be
+worse still. It would become <em>reliably wrong</em>, converging with increasing
+confidence on the incorrect answer, and every additional observation would
+harden the mistake rather than expose it. Survey B is exactly this: had the
+urban-only surveyor collected ten thousand households instead of a hundred,
+their estimates would have clustered even more tightly around a number that was
+still ₹6,800 too high.</p>
+<div class="keyidea">
+<p>The sample mean earns its place through two properties together:</p>
+<p><span class="math display">\[E(\bar{X}) = \mu \qquad\qquad \mathrm{Var}(\bar{X}) = \frac{\sigma^2}{n}\]</span></p>
+<p>Centred on the truth, and increasingly precise. Neither is sufficient on its
+own, and both depend on assumptions about how the sample was collected.</p>
+</div>
 </div>
 <script>
 // Solutions are written as plain fenced divs in the source, so the PDF edition
@@ -349,8 +333,8 @@ document.addEventListener("DOMContentLoaded", function () {
           </div>
         </div>
       </div>
-<a href="os-worked.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="os-ci.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="u2-precision.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="u2-cost.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -381,7 +365,7 @@ gitbook.start({
     "size": 2
   },
   "edit": {
-    "link": "https://github.com/kedarkulkarni1991/stats-econometrics-r/edit/main/06-hypothesis-testing-one-sample.Rmd",
+    "link": "https://github.com/kedarkulkarni1991/stats-econometrics-r/edit/main/02-estimation.Rmd",
     "text": "Edit"
   },
   "history": {

@@ -8,8 +8,10 @@ fig:u1-clt-plot
 fig:u1-dice-plot
 fig:u1-ex-clt
 fig:u1-ex-cricket
+fig:u2-four-plot
 fig:u2-sampdist-plot
 fig:u2-nsizes-plot
+fig:u2-cost
 fig:os-sim-plot
 tab:os-claim-table
 fig:os-reject-plot
@@ -35,6 +37,10 @@ estimation
 u2-problem
 u2-iid
 u2-known-truth
+u2-centred
+u2-precision
+u2-lln-explained
+u2-cost
 u2-summary
 u2-looking-ahead
 one-sample

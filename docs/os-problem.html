@@ -202,23 +202,22 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="1.12" data-path="u1-looking-ahead.html"><a href="u1-looking-ahead.html"><i class="fa fa-check"></i><b>1.12</b> Looking ahead</a></li>
 </ul></li>
-<li class="chapter" data-level="2" data-path="estimation.html"><a href="estimation.html"><i class="fa fa-check"></i><b>2</b> Estimation</a>
+<li class="chapter" data-level="2" data-path="estimation.html"><a href="estimation.html"><i class="fa fa-check"></i><b>2</b> Estimation: Why the Sample Mean?</a>
 <ul>
 <li class="chapter" data-level="2.1" data-path="u2-problem.html"><a href="u2-problem.html"><i class="fa fa-check"></i><b>2.1</b> The problem of estimation</a></li>
-<li class="chapter" data-level="2.2" data-path="u2-iid.html"><a href="u2-iid.html"><i class="fa fa-check"></i><b>2.2</b> What we assume about the sample</a></li>
-<li class="chapter" data-level="2.3" data-path="u2-known-truth.html"><a href="u2-known-truth.html"><i class="fa fa-check"></i><b>2.3</b> One population where we know the truth</a>
+<li class="chapter" data-level="2.2" data-path="u2-iid.html"><a href="u2-iid.html"><i class="fa fa-check"></i><b>2.2</b> When can a sample represent a population?</a></li>
+<li class="chapter" data-level="2.3" data-path="u2-known-truth.html"><a href="u2-known-truth.html"><i class="fa fa-check"></i><b>2.3</b> How can we judge an estimator?</a>
 <ul>
-<li class="chapter" data-level="" data-path="u2-known-truth.html"><a href="u2-known-truth.html#constructing-the-population"><i class="fa fa-check"></i>Constructing the population</a></li>
-<li class="chapter" data-level="" data-path="u2-known-truth.html"><a href="u2-known-truth.html#drawing-one-sample"><i class="fa fa-check"></i>Drawing one sample</a></li>
-<li class="chapter" data-level="" data-path="u2-known-truth.html"><a href="u2-known-truth.html#drawing-a-thousand-samples"><i class="fa fa-check"></i>Drawing a thousand samples</a></li>
-<li class="chapter" data-level="" data-path="u2-known-truth.html"><a href="u2-known-truth.html#three-questions"><i class="fa fa-check"></i>Three questions</a></li>
-<li class="chapter" data-level="" data-path="u2-known-truth.html"><a href="u2-known-truth.html#question-1-is-the-sample-mean-centred-on-the-truth"><i class="fa fa-check"></i>Question 1: is the sample mean centred on the truth?</a></li>
-<li class="chapter" data-level="" data-path="u2-known-truth.html"><a href="u2-known-truth.html#question-2-why-do-larger-samples-fluctuate-less"><i class="fa fa-check"></i>Question 2: why do larger samples fluctuate less?</a></li>
-<li class="chapter" data-level="" data-path="u2-known-truth.html"><a href="u2-known-truth.html#question-3-why-does-the-sample-mean-become-more-reliable"><i class="fa fa-check"></i>Question 3: why does the sample mean become more reliable?</a></li>
-<li class="chapter" data-level="" data-path="u2-known-truth.html"><a href="u2-known-truth.html#the-price-of-precision"><i class="fa fa-check"></i>The price of precision</a></li>
+<li class="chapter" data-level="" data-path="u2-known-truth.html"><a href="u2-known-truth.html#u2-lab-pop"><i class="fa fa-check"></i>The population</a></li>
+<li class="chapter" data-level="" data-path="u2-known-truth.html"><a href="u2-known-truth.html#u2-lab-one"><i class="fa fa-check"></i>One sample from it</a></li>
+<li class="chapter" data-level="" data-path="u2-known-truth.html"><a href="u2-known-truth.html#u2-lab-many"><i class="fa fa-check"></i>A thousand samples</a></li>
 </ul></li>
-<li class="chapter" data-level="2.4" data-path="u2-summary.html"><a href="u2-summary.html"><i class="fa fa-check"></i><b>2.4</b> Summary</a></li>
-<li class="chapter" data-level="2.5" data-path="u2-looking-ahead.html"><a href="u2-looking-ahead.html"><i class="fa fa-check"></i><b>2.5</b> Looking ahead</a></li>
+<li class="chapter" data-level="2.4" data-path="u2-centred.html"><a href="u2-centred.html"><i class="fa fa-check"></i><b>2.4</b> Is the sample mean centred on the truth?</a></li>
+<li class="chapter" data-level="2.5" data-path="u2-precision.html"><a href="u2-precision.html"><i class="fa fa-check"></i><b>2.5</b> Why do larger samples fluctuate less?</a></li>
+<li class="chapter" data-level="2.6" data-path="u2-lln-explained.html"><a href="u2-lln-explained.html"><i class="fa fa-check"></i><b>2.6</b> Why does the sample mean become more reliable?</a></li>
+<li class="chapter" data-level="2.7" data-path="u2-cost.html"><a href="u2-cost.html"><i class="fa fa-check"></i><b>2.7</b> Why is precision expensive?</a></li>
+<li class="chapter" data-level="2.8" data-path="u2-summary.html"><a href="u2-summary.html"><i class="fa fa-check"></i><b>2.8</b> Summary</a></li>
+<li class="chapter" data-level="2.9" data-path="u2-looking-ahead.html"><a href="u2-looking-ahead.html"><i class="fa fa-check"></i><b>2.9</b> Looking ahead</a></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="one-sample.html"><a href="one-sample.html"><i class="fa fa-check"></i><b>3</b> Hypothesis Testing: One Sample</a>
 <ul>
@@ -295,10 +294,10 @@ and the claim is guaranteed to exist even when the claim is perfectly true.</str
 <p>Let us actually watch that happen. Suppose we <em>know</em> the truth: the population
 mean is exactly 165 cm, with a standard deviation of 8 cm. Now let us draw a
 sample of 36 students, ten separate times, and look at the sample means.</p>
-<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb62-1"><a href="os-problem.html#cb62-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
-<span id="cb62-2"><a href="os-problem.html#cb62-2" tabindex="-1"></a></span>
-<span id="cb62-3"><a href="os-problem.html#cb62-3" tabindex="-1"></a>ten_samples <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">10</span>, <span class="fu">mean</span>(<span class="fu">rnorm</span>(<span class="at">n =</span> <span class="dv">36</span>, <span class="at">mean =</span> <span class="dv">165</span>, <span class="at">sd =</span> <span class="dv">8</span>)))</span>
-<span id="cb62-4"><a href="os-problem.html#cb62-4" tabindex="-1"></a><span class="fu">round</span>(ten_samples, <span class="dv">2</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb66-1"><a href="os-problem.html#cb66-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
+<span id="cb66-2"><a href="os-problem.html#cb66-2" tabindex="-1"></a></span>
+<span id="cb66-3"><a href="os-problem.html#cb66-3" tabindex="-1"></a>ten_samples <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">10</span>, <span class="fu">mean</span>(<span class="fu">rnorm</span>(<span class="at">n =</span> <span class="dv">36</span>, <span class="at">mean =</span> <span class="dv">165</span>, <span class="at">sd =</span> <span class="dv">8</span>)))</span>
+<span id="cb66-4"><a href="os-problem.html#cb66-4" tabindex="-1"></a><span class="fu">round</span>(ten_samples, <span class="dv">2</span>)</span></code></pre></div>
 <pre><code>#&gt;  [1] 165.5 165.1 165.6 163.0 164.8 164.4 165.3 165.4 164.1 164.5</code></pre>
 <p>Every one of those numbers came from a population whose mean is <em>exactly</em> 165.
 Not one of them is 165. Several are further from 165 than a full centimetre.</p>
@@ -315,14 +314,14 @@ us, or the claim is false. We go with the second explanation.</p>
 <p>We can answer that question by brute force before we do any algebra at all.
 Let’s draw not ten samples but fifty thousand, still assuming the claim is true,
 and count how many stray at least 3 cm away from 165 (as ours did).</p>
-<div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb64-1"><a href="os-problem.html#cb64-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
-<span id="cb64-2"><a href="os-problem.html#cb64-2" tabindex="-1"></a></span>
-<span id="cb64-3"><a href="os-problem.html#cb64-3" tabindex="-1"></a>many_means <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">50000</span>, <span class="fu">mean</span>(<span class="fu">rnorm</span>(<span class="at">n =</span> <span class="dv">36</span>, <span class="at">mean =</span> <span class="dv">165</span>, <span class="at">sd =</span> <span class="dv">8</span>)))</span>
-<span id="cb64-4"><a href="os-problem.html#cb64-4" tabindex="-1"></a></span>
-<span id="cb64-5"><a href="os-problem.html#cb64-5" tabindex="-1"></a><span class="co"># How far did our real sample fall from the claim?</span></span>
-<span id="cb64-6"><a href="os-problem.html#cb64-6" tabindex="-1"></a>observed_gap <span class="ot">&lt;-</span> <span class="fu">abs</span>(<span class="dv">168</span> <span class="sc">-</span> <span class="dv">165</span>)</span>
-<span id="cb64-7"><a href="os-problem.html#cb64-7" tabindex="-1"></a></span>
-<span id="cb64-8"><a href="os-problem.html#cb64-8" tabindex="-1"></a><span class="fu">mean</span>(<span class="fu">abs</span>(many_means <span class="sc">-</span> <span class="dv">165</span>) <span class="sc">&gt;=</span> observed_gap)</span></code></pre></div>
+<div class="sourceCode" id="cb68"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb68-1"><a href="os-problem.html#cb68-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
+<span id="cb68-2"><a href="os-problem.html#cb68-2" tabindex="-1"></a></span>
+<span id="cb68-3"><a href="os-problem.html#cb68-3" tabindex="-1"></a>many_means <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">50000</span>, <span class="fu">mean</span>(<span class="fu">rnorm</span>(<span class="at">n =</span> <span class="dv">36</span>, <span class="at">mean =</span> <span class="dv">165</span>, <span class="at">sd =</span> <span class="dv">8</span>)))</span>
+<span id="cb68-4"><a href="os-problem.html#cb68-4" tabindex="-1"></a></span>
+<span id="cb68-5"><a href="os-problem.html#cb68-5" tabindex="-1"></a><span class="co"># How far did our real sample fall from the claim?</span></span>
+<span id="cb68-6"><a href="os-problem.html#cb68-6" tabindex="-1"></a>observed_gap <span class="ot">&lt;-</span> <span class="fu">abs</span>(<span class="dv">168</span> <span class="sc">-</span> <span class="dv">165</span>)</span>
+<span id="cb68-7"><a href="os-problem.html#cb68-7" tabindex="-1"></a></span>
+<span id="cb68-8"><a href="os-problem.html#cb68-8" tabindex="-1"></a><span class="fu">mean</span>(<span class="fu">abs</span>(many_means <span class="sc">-</span> <span class="dv">165</span>) <span class="sc">&gt;=</span> observed_gap)</span></code></pre></div>
 <pre><code>#&gt; [1] 0.02424</code></pre>
 <p>About 2.5% of the time. So if the administration is telling the truth, a sample
 like ours turns up roughly once in forty tries. That is rare enough to be

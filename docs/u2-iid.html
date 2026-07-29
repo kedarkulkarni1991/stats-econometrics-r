@@ -4,13 +4,13 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>2.2 What we assume about the sample | Statistics and Econometrics with R</title>
+  <title>2.2 When can a sample represent a population? | Statistics and Econometrics with R</title>
   <meta name="description" content="<p>A first course in statistics and econometrics for Indian students, built on
 the progression from question to intuition to rigour to computation to
 interpretation.</p>" />
   <meta name="generator" content="bookdown 0.47 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="2.2 What we assume about the sample | Statistics and Econometrics with R" />
+  <meta property="og:title" content="2.2 When can a sample represent a population? | Statistics and Econometrics with R" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="<p>A first course in statistics and econometrics for Indian students, built on
@@ -19,7 +19,7 @@ interpretation.</p>" />
   <meta name="github-repo" content="kedarkulkarni1991/stats-econometrics-r" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="2.2 What we assume about the sample | Statistics and Econometrics with R" />
+  <meta name="twitter:title" content="2.2 When can a sample represent a population? | Statistics and Econometrics with R" />
   
   <meta name="twitter:description" content="<p>A first course in statistics and econometrics for Indian students, built on
 the progression from question to intuition to rigour to computation to
@@ -202,23 +202,22 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="1.12" data-path="u1-looking-ahead.html"><a href="u1-looking-ahead.html"><i class="fa fa-check"></i><b>1.12</b> Looking ahead</a></li>
 </ul></li>
-<li class="chapter" data-level="2" data-path="estimation.html"><a href="estimation.html"><i class="fa fa-check"></i><b>2</b> Estimation</a>
+<li class="chapter" data-level="2" data-path="estimation.html"><a href="estimation.html"><i class="fa fa-check"></i><b>2</b> Estimation: Why the Sample Mean?</a>
 <ul>
 <li class="chapter" data-level="2.1" data-path="u2-problem.html"><a href="u2-problem.html"><i class="fa fa-check"></i><b>2.1</b> The problem of estimation</a></li>
-<li class="chapter" data-level="2.2" data-path="u2-iid.html"><a href="u2-iid.html"><i class="fa fa-check"></i><b>2.2</b> What we assume about the sample</a></li>
-<li class="chapter" data-level="2.3" data-path="u2-known-truth.html"><a href="u2-known-truth.html"><i class="fa fa-check"></i><b>2.3</b> One population where we know the truth</a>
+<li class="chapter" data-level="2.2" data-path="u2-iid.html"><a href="u2-iid.html"><i class="fa fa-check"></i><b>2.2</b> When can a sample represent a population?</a></li>
+<li class="chapter" data-level="2.3" data-path="u2-known-truth.html"><a href="u2-known-truth.html"><i class="fa fa-check"></i><b>2.3</b> How can we judge an estimator?</a>
 <ul>
-<li class="chapter" data-level="" data-path="u2-known-truth.html"><a href="u2-known-truth.html#constructing-the-population"><i class="fa fa-check"></i>Constructing the population</a></li>
-<li class="chapter" data-level="" data-path="u2-known-truth.html"><a href="u2-known-truth.html#drawing-one-sample"><i class="fa fa-check"></i>Drawing one sample</a></li>
-<li class="chapter" data-level="" data-path="u2-known-truth.html"><a href="u2-known-truth.html#drawing-a-thousand-samples"><i class="fa fa-check"></i>Drawing a thousand samples</a></li>
-<li class="chapter" data-level="" data-path="u2-known-truth.html"><a href="u2-known-truth.html#three-questions"><i class="fa fa-check"></i>Three questions</a></li>
-<li class="chapter" data-level="" data-path="u2-known-truth.html"><a href="u2-known-truth.html#question-1-is-the-sample-mean-centred-on-the-truth"><i class="fa fa-check"></i>Question 1: is the sample mean centred on the truth?</a></li>
-<li class="chapter" data-level="" data-path="u2-known-truth.html"><a href="u2-known-truth.html#question-2-why-do-larger-samples-fluctuate-less"><i class="fa fa-check"></i>Question 2: why do larger samples fluctuate less?</a></li>
-<li class="chapter" data-level="" data-path="u2-known-truth.html"><a href="u2-known-truth.html#question-3-why-does-the-sample-mean-become-more-reliable"><i class="fa fa-check"></i>Question 3: why does the sample mean become more reliable?</a></li>
-<li class="chapter" data-level="" data-path="u2-known-truth.html"><a href="u2-known-truth.html#the-price-of-precision"><i class="fa fa-check"></i>The price of precision</a></li>
+<li class="chapter" data-level="" data-path="u2-known-truth.html"><a href="u2-known-truth.html#u2-lab-pop"><i class="fa fa-check"></i>The population</a></li>
+<li class="chapter" data-level="" data-path="u2-known-truth.html"><a href="u2-known-truth.html#u2-lab-one"><i class="fa fa-check"></i>One sample from it</a></li>
+<li class="chapter" data-level="" data-path="u2-known-truth.html"><a href="u2-known-truth.html#u2-lab-many"><i class="fa fa-check"></i>A thousand samples</a></li>
 </ul></li>
-<li class="chapter" data-level="2.4" data-path="u2-summary.html"><a href="u2-summary.html"><i class="fa fa-check"></i><b>2.4</b> Summary</a></li>
-<li class="chapter" data-level="2.5" data-path="u2-looking-ahead.html"><a href="u2-looking-ahead.html"><i class="fa fa-check"></i><b>2.5</b> Looking ahead</a></li>
+<li class="chapter" data-level="2.4" data-path="u2-centred.html"><a href="u2-centred.html"><i class="fa fa-check"></i><b>2.4</b> Is the sample mean centred on the truth?</a></li>
+<li class="chapter" data-level="2.5" data-path="u2-precision.html"><a href="u2-precision.html"><i class="fa fa-check"></i><b>2.5</b> Why do larger samples fluctuate less?</a></li>
+<li class="chapter" data-level="2.6" data-path="u2-lln-explained.html"><a href="u2-lln-explained.html"><i class="fa fa-check"></i><b>2.6</b> Why does the sample mean become more reliable?</a></li>
+<li class="chapter" data-level="2.7" data-path="u2-cost.html"><a href="u2-cost.html"><i class="fa fa-check"></i><b>2.7</b> Why is precision expensive?</a></li>
+<li class="chapter" data-level="2.8" data-path="u2-summary.html"><a href="u2-summary.html"><i class="fa fa-check"></i><b>2.8</b> Summary</a></li>
+<li class="chapter" data-level="2.9" data-path="u2-looking-ahead.html"><a href="u2-looking-ahead.html"><i class="fa fa-check"></i><b>2.9</b> Looking ahead</a></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="one-sample.html"><a href="one-sample.html"><i class="fa fa-check"></i><b>3</b> Hypothesis Testing: One Sample</a>
 <ul>
@@ -278,34 +277,119 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 
             <section class="normal" id="section-">
 <div id="u2-iid" class="section level2 hasAnchor" number="2.2">
-<h2><span class="header-section-number">2.2</span> What we assume about the sample<a href="u2-iid.html#u2-iid" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<h2><span class="header-section-number">2.2</span> When can a sample represent a population?<a href="u2-iid.html#u2-iid" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <div class="question">
-<p>What has to be true of a sample before it can tell us anything at all?</p>
+<p>Before comparing estimators — can a sample tell us anything about a population
+at all?</p>
 </div>
-<p>Before studying how the sample mean behaves, we have to be explicit about
-something the previous unit assumed silently: that the observations were drawn
-from the population of interest, and drawn in a particular way.</p>
-<p>The standard assumption is that observations are <strong>independent and identically
-distributed</strong>, usually abbreviated to i.i.d.</p>
-<p><strong>Identically distributed</strong> means every observation is drawn from the same
-probability distribution. The process generating the data does not change from
-one observation to the next. If the first half of a survey is conducted in
-cities and the second half in villages, this fails.</p>
-<p><strong>Independent</strong> means that knowing the value of one observation tells us
-nothing about the value of another. If an interviewer surveys one household and
-then its next-door neighbour, this fails: neighbours share a locality, a labour
-market and often a caste.</p>
-<p>Together they ensure that every observation carries comparable information
-about the same population. We will see shortly exactly where each is needed —
-they are not decorative, and each does a specific job in a specific line of a
-specific proof.</p>
+<p>There is an objection to deal with first. Everything above assumed that a
+sample carries information about the population it came from. That is not
+automatic. It depends on how the sample was collected, and it can fail badly.</p>
+<p>Rather than assert this, we can watch it happen. Below is a population of
+20,000 households, spread across 200 localities. Sixty of those localities are
+urban, and incomes there are higher. Because we build the population
+ourselves, we know its mean exactly.</p>
+<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="u2-iid.html#cb54-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2</span>)</span>
+<span id="cb54-2"><a href="u2-iid.html#cb54-2" tabindex="-1"></a></span>
+<span id="cb54-3"><a href="u2-iid.html#cb54-3" tabindex="-1"></a>n_loc <span class="ot">&lt;-</span> <span class="dv">200</span>                 <span class="co"># localities</span></span>
+<span id="cb54-4"><a href="u2-iid.html#cb54-4" tabindex="-1"></a>per   <span class="ot">&lt;-</span> <span class="dv">100</span>                 <span class="co"># households in each</span></span>
+<span id="cb54-5"><a href="u2-iid.html#cb54-5" tabindex="-1"></a></span>
+<span id="cb54-6"><a href="u2-iid.html#cb54-6" tabindex="-1"></a>urban    <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="cn">TRUE</span>, <span class="cn">FALSE</span>), <span class="at">times =</span> <span class="fu">c</span>(<span class="dv">60</span>, <span class="dv">140</span>))</span>
+<span id="cb54-7"><a href="u2-iid.html#cb54-7" tabindex="-1"></a>loc_mean <span class="ot">&lt;-</span> <span class="dv">18000</span> <span class="sc">+</span> <span class="dv">9000</span> <span class="sc">*</span> urban <span class="sc">+</span> <span class="fu">rnorm</span>(n_loc, <span class="at">sd =</span> <span class="dv">4000</span>)</span>
+<span id="cb54-8"><a href="u2-iid.html#cb54-8" tabindex="-1"></a></span>
+<span id="cb54-9"><a href="u2-iid.html#cb54-9" tabindex="-1"></a>pop <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb54-10"><a href="u2-iid.html#cb54-10" tabindex="-1"></a>  <span class="at">locality =</span> <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span>n_loc, <span class="at">each =</span> per),</span>
+<span id="cb54-11"><a href="u2-iid.html#cb54-11" tabindex="-1"></a>  <span class="at">urban    =</span> <span class="fu">rep</span>(urban,   <span class="at">each =</span> per),</span>
+<span id="cb54-12"><a href="u2-iid.html#cb54-12" tabindex="-1"></a>  <span class="at">income   =</span> <span class="fu">round</span>(<span class="fu">rnorm</span>(n_loc <span class="sc">*</span> per, <span class="fu">rep</span>(loc_mean, <span class="at">each =</span> per), <span class="at">sd =</span> <span class="dv">5000</span>))</span>
+<span id="cb54-13"><a href="u2-iid.html#cb54-13" tabindex="-1"></a>)</span>
+<span id="cb54-14"><a href="u2-iid.html#cb54-14" tabindex="-1"></a></span>
+<span id="cb54-15"><a href="u2-iid.html#cb54-15" tabindex="-1"></a>mu    <span class="ot">&lt;-</span> <span class="fu">mean</span>(pop<span class="sc">$</span>income)</span>
+<span id="cb54-16"><a href="u2-iid.html#cb54-16" tabindex="-1"></a>sigma <span class="ot">&lt;-</span> <span class="fu">sd</span>(pop<span class="sc">$</span>income)</span>
+<span id="cb54-17"><a href="u2-iid.html#cb54-17" tabindex="-1"></a></span>
+<span id="cb54-18"><a href="u2-iid.html#cb54-18" tabindex="-1"></a><span class="fu">c</span>(<span class="at">mu =</span> mu, <span class="at">sigma =</span> sigma, <span class="at">se_if_random =</span> sigma <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="dv">100</span>))</span></code></pre></div>
+<pre><code>#&gt;           mu        sigma se_if_random 
+#&gt;      20724.8       7974.4        797.4</code></pre>
+<p>The population mean is 20,725.
+Each survey below collects 100 households, and is repeated a thousand times.
+Only the <em>method of collection</em> differs.</p>
+<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb56-1"><a href="u2-iid.html#cb56-1" tabindex="-1"></a><span class="co"># Survey A: 100 households drawn at random from the whole population</span></span>
+<span id="cb56-2"><a href="u2-iid.html#cb56-2" tabindex="-1"></a><span class="co"># Survey B: 100 households drawn at random, but only from urban localities</span></span>
+<span id="cb56-3"><a href="u2-iid.html#cb56-3" tabindex="-1"></a><span class="co"># Survey C: five localities chosen at random, 20 households in each</span></span>
+<span id="cb56-4"><a href="u2-iid.html#cb56-4" tabindex="-1"></a><span class="co"># Survey D: five *urban* localities chosen at random, 20 households in each</span></span>
+<span id="cb56-5"><a href="u2-iid.html#cb56-5" tabindex="-1"></a></span>
+<span id="cb56-6"><a href="u2-iid.html#cb56-6" tabindex="-1"></a>cluster_sample <span class="ot">&lt;-</span> <span class="cf">function</span>(pool) {</span>
+<span id="cb56-7"><a href="u2-iid.html#cb56-7" tabindex="-1"></a>  chosen <span class="ot">&lt;-</span> <span class="fu">sample</span>(pool, <span class="dv">5</span>)</span>
+<span id="cb56-8"><a href="u2-iid.html#cb56-8" tabindex="-1"></a>  <span class="fu">unlist</span>(<span class="fu">lapply</span>(chosen, <span class="cf">function</span>(l) <span class="fu">sample</span>(pop<span class="sc">$</span>income[pop<span class="sc">$</span>locality <span class="sc">==</span> l], <span class="dv">20</span>)))</span>
+<span id="cb56-9"><a href="u2-iid.html#cb56-9" tabindex="-1"></a>}</span>
+<span id="cb56-10"><a href="u2-iid.html#cb56-10" tabindex="-1"></a></span>
+<span id="cb56-11"><a href="u2-iid.html#cb56-11" tabindex="-1"></a>urban_pop <span class="ot">&lt;-</span> pop<span class="sc">$</span>income[pop<span class="sc">$</span>urban]</span>
+<span id="cb56-12"><a href="u2-iid.html#cb56-12" tabindex="-1"></a>urb_loc   <span class="ot">&lt;-</span> <span class="fu">which</span>(urban)</span>
+<span id="cb56-13"><a href="u2-iid.html#cb56-13" tabindex="-1"></a></span>
+<span id="cb56-14"><a href="u2-iid.html#cb56-14" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">11</span>)</span>
+<span id="cb56-15"><a href="u2-iid.html#cb56-15" tabindex="-1"></a>designs <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb56-16"><a href="u2-iid.html#cb56-16" tabindex="-1"></a>  <span class="at">A =</span> <span class="fu">replicate</span>(<span class="dv">1000</span>, <span class="fu">mean</span>(<span class="fu">sample</span>(pop<span class="sc">$</span>income, <span class="dv">100</span>))),</span>
+<span id="cb56-17"><a href="u2-iid.html#cb56-17" tabindex="-1"></a>  <span class="at">B =</span> <span class="fu">replicate</span>(<span class="dv">1000</span>, <span class="fu">mean</span>(<span class="fu">sample</span>(urban_pop,  <span class="dv">100</span>))),</span>
+<span id="cb56-18"><a href="u2-iid.html#cb56-18" tabindex="-1"></a>  <span class="at">C =</span> <span class="fu">replicate</span>(<span class="dv">1000</span>, <span class="fu">mean</span>(<span class="fu">cluster_sample</span>(<span class="dv">1</span><span class="sc">:</span>n_loc))),</span>
+<span id="cb56-19"><a href="u2-iid.html#cb56-19" tabindex="-1"></a>  <span class="at">D =</span> <span class="fu">replicate</span>(<span class="dv">1000</span>, <span class="fu">mean</span>(<span class="fu">cluster_sample</span>(urb_loc)))</span>
+<span id="cb56-20"><a href="u2-iid.html#cb56-20" tabindex="-1"></a>)</span>
+<span id="cb56-21"><a href="u2-iid.html#cb56-21" tabindex="-1"></a></span>
+<span id="cb56-22"><a href="u2-iid.html#cb56-22" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">t</span>(<span class="fu">sapply</span>(designs, <span class="cf">function</span>(x) <span class="fu">c</span>(<span class="at">centre =</span> <span class="fu">mean</span>(x), <span class="at">spread =</span> <span class="fu">sd</span>(x)))))</span></code></pre></div>
+<pre><code>#&gt;   centre spread
+#&gt; A  20702    788
+#&gt; B  27503    667
+#&gt; C  20774   2843
+#&gt; D  27538   2140</code></pre>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:u2-four-plot"></span>
+<img src="stats-econometrics-r_files/figure-html/u2-four-plot-1.png" alt="One thousand surveys under each design. The vertical line is the true population mean. Only the first design is both centred on it and as precise as theory promises." width="90%" />
+<p class="caption">
+Figure 2.1: One thousand surveys under each design. The vertical line is the true population mean. Only the first design is both centred on it and as precise as theory promises.
+</p>
+</div>
+<p>Read the four rows carefully, because they fail in different ways.</p>
+<p><strong>Survey A works.</strong> The thousand estimates are centred on the population mean,
+and their spread is almost exactly the <span class="math inline">\(\sigma/\sqrt{n}\)</span> predicted in the
+previous unit.</p>
+<p><strong>Survey B is wrong, and looks excellent.</strong> Every estimate is far too high —
+the surveyor never visits a village, so village incomes cannot appear in the
+answer. Notice the second column: the spread is <em>smaller</em> than in Survey A.
+Urban households resemble one another, so the estimates agree closely with each
+other while agreeing on the wrong number. Consistency is not accuracy. This is
+the more dangerous failure, because a narrow spread is easily mistaken for a
+reliable result.</p>
+<p><strong>Survey C is centred correctly but far too variable.</strong> Choosing five
+localities and surveying twenty households in each is cheap and common — an
+interviewer travels to a place and works through it. But households in a
+locality resemble one another, so the second household adds much less new
+information than the first. The sample has 100 rows and nothing like 100
+households’ worth of information. The spread is over three times what
+<span class="math inline">\(\sigma/\sqrt{n}\)</span> predicts, so a researcher using that formula would report
+confidence they have not earned.</p>
+<p><strong>Survey D fails both ways at once</strong>, which is what most convenience samples
+do in practice.</p>
+<div class="question">
+<p>What did the first survey have that the others did not?</p>
+</div>
+<p>Two things, and each failure above corresponds to losing one of them.</p>
+<div class="keyidea">
+<p><strong>Identically distributed</strong> — every observation is drawn from the same
+distribution, and it is the distribution we want to learn about. Survey B
+violated this: urban households are drawn from a different distribution than
+the population of Indian households.</p>
+<p><strong>Independent</strong> — knowing the value of one observation tells us nothing about
+another. Survey C violated this: neighbours share a locality, a labour market
+and often an occupation.</p>
+<p>Together the two are abbreviated <strong>i.i.d.</strong></p>
+</div>
+<p>These assumptions are not mathematical decoration. Sections
+<a href="u2-centred.html#u2-centred">2.4</a> and <a href="u2-precision.html#u2-precision">2.5</a> derive the two properties that
+justify using the sample mean, and each derivation uses exactly one of them —
+in one identifiable line. Break the assumption and the property it supports
+disappears, which is precisely what the four surveys show.</p>
 <div class="watchout">
-<p>Their importance is hard to overstate. If a sample does not represent the
-population we wish to study, no amount of mathematical sophistication recovers
-the missing information. Statistical methods cannot repair a fundamentally
-flawed sample.</p>
-<p>Good inference begins not with mathematics, but with good data and thoughtful
-study design.</p>
+<p>No amount of mathematical sophistication repairs a badly collected sample. If
+the households you surveyed are not drawn from the population you are asking
+about, there is no formula that recovers the ones you missed.</p>
+<p>Good inference begins with study design, not with statistics.</p>
 </div>
 </div>
 <script>
