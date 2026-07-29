@@ -1,24 +1,20 @@
 name: Build book
 
-# OPTIONAL. The book is served from the committed docs/ folder, so GitHub Pages
-# works without this file. Enable it when you would rather edit a chapter,
-# push, and let GitHub do the rendering than run `make book` yourself.
+# MANUAL TRIGGER ONLY. Run it from the Actions tab when you have edited a
+# chapter on GitHub and want the site rebuilt without running `make book`
+# locally.
 #
-# On success it commits the freshly rendered docs/ back to the branch, which is
-# what Pages then serves.
+# It deliberately does NOT run on every push. Figures are rendered by ragg,
+# which produces different bytes on Linux than on macOS -- identical images,
+# different files. With this workflow firing automatically, every push
+# regenerated all nineteen figures and committed them, and the next local
+# build regenerated them right back. The result was a commit of pure churn
+# after every single change.
+#
+# Since docs/ is built and committed locally, this is only needed when editing
+# through the GitHub web interface.
 
 on:
-  push:
-    branches: [main]
-    paths:
-      - '**.Rmd'
-      - '_bookdown.yml'
-      - '_output.yml'
-      - '_common.R'
-      - 'css/**'
-      - 'data/**'
-      - 'R/**'
-      - '.github/workflows/build-book.yml'
   workflow_dispatch:
 
 permissions:
