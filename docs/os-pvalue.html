@@ -4,13 +4,13 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>4.5 What a \(p\)-value actually says | Statistics and Econometrics with R</title>
+  <title>4.3 What a p-value actually says | Statistics and Econometrics with R</title>
   <meta name="description" content="<p>A first course in statistics and econometrics for Indian students, built on
 the progression from question to intuition to rigour to computation to
 interpretation.</p>" />
   <meta name="generator" content="bookdown 0.47 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="4.5 What a \(p\)-value actually says | Statistics and Econometrics with R" />
+  <meta property="og:title" content="4.3 What a p-value actually says | Statistics and Econometrics with R" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="<p>A first course in statistics and econometrics for Indian students, built on
@@ -19,7 +19,7 @@ interpretation.</p>" />
   <meta name="github-repo" content="kedarkulkarni1991/stats-econometrics-r" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="4.5 What a \(p\)-value actually says | Statistics and Econometrics with R" />
+  <meta name="twitter:title" content="4.3 What a p-value actually says | Statistics and Econometrics with R" />
   
   <meta name="twitter:description" content="<p>A first course in statistics and econometrics for Indian students, built on
 the progression from question to intuition to rigour to computation to
@@ -35,8 +35,8 @@ interpretation.</p>" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="os-worked.html"/>
-<link rel="next" href="os-ci.html"/>
+<link rel="prev" href="os-hypotheses.html"/>
+<link rel="next" href="os-critical.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -300,18 +300,21 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="os-hypotheses.html"><a href="os-hypotheses.html#where-the-equality-goes"><i class="fa fa-check"></i>Where the equality goes</a></li>
 <li class="chapter" data-level="" data-path="os-hypotheses.html"><a href="os-hypotheses.html#the-cat-report-worked-through"><i class="fa fa-check"></i>The CAT report, worked through</a></li>
 </ul></li>
-<li class="chapter" data-level="4.3" data-path="os-critical.html"><a href="os-critical.html"><i class="fa fa-check"></i><b>4.3</b> How far is too far?</a>
+<li class="chapter" data-level="4.3" data-path="os-pvalue.html"><a href="os-pvalue.html"><i class="fa fa-check"></i><b>4.3</b> What a p-value actually says</a>
+<ul>
+<li class="chapter" data-level="" data-path="os-pvalue.html"><a href="os-pvalue.html#four-ways-to-read-it-backwards"><i class="fa fa-check"></i>Four ways to read it backwards</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="os-critical.html"><a href="os-critical.html"><i class="fa fa-check"></i><b>4.4</b> How far is too far?</a>
 <ul>
 <li class="chapter" data-level="" data-path="os-critical.html"><a href="os-critical.html#choosing-the-cutoff"><i class="fa fa-check"></i>Choosing the cutoff</a></li>
 <li class="chapter" data-level="" data-path="os-critical.html"><a href="os-critical.html#the-decision-rule"><i class="fa fa-check"></i>The decision rule</a></li>
 </ul></li>
-<li class="chapter" data-level="4.4" data-path="os-worked.html"><a href="os-worked.html"><i class="fa fa-check"></i><b>4.4</b> The worked example, both ways</a>
+<li class="chapter" data-level="4.5" data-path="os-worked.html"><a href="os-worked.html"><i class="fa fa-check"></i><b>4.5</b> The worked example, both ways</a>
 <ul>
 <li class="chapter" data-level="" data-path="os-worked.html"><a href="os-worked.html#on-paper"><i class="fa fa-check"></i>On paper</a></li>
 <li class="chapter" data-level="" data-path="os-worked.html"><a href="os-worked.html#the-same-thing-in-r"><i class="fa fa-check"></i>The same thing in R</a></li>
 <li class="chapter" data-level="" data-path="os-worked.html"><a href="os-worked.html#letting-a-package-do-it"><i class="fa fa-check"></i>Letting a package do it</a></li>
 </ul></li>
-<li class="chapter" data-level="4.5" data-path="os-pvalue.html"><a href="os-pvalue.html"><i class="fa fa-check"></i><b>4.5</b> What a <span class="math inline">\(p\)</span>-value actually says</a></li>
 <li class="chapter" data-level="4.6" data-path="os-ci.html"><a href="os-ci.html"><i class="fa fa-check"></i><b>4.6</b> The same test, viewed as an interval</a>
 <ul>
 <li class="chapter" data-level="" data-path="os-ci.html"><a href="os-ci.html#testing-every-possible-claim-at-once"><i class="fa fa-check"></i>Testing every possible claim at once</a></li>
@@ -358,20 +361,45 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="os-pvalue" class="section level2 hasAnchor" number="4.5">
-<h2><span class="header-section-number">4.5</span> What a <span class="math inline">\(p\)</span>-value actually says<a href="os-pvalue.html#os-pvalue" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>The <span class="math inline">\(p\)</span>-value is the single most misquoted number in empirical work, so let us
-be exact.</p>
-<div class="keyidea">
-<p>The <span class="math inline">\(p\)</span>-value is the probability of seeing a sample <strong>at least as extreme as
-ours</strong>, <em>given that the null hypothesis is true</em>.</p>
-<p>It is <strong>not</strong> the probability that the null is true. It is <strong>not</strong> the
-probability that we made a mistake. It is a statement about the data, computed
-under an assumption about the world — not a statement about the world.</p>
+<div id="os-pvalue" class="section level2 hasAnchor" number="4.3">
+<h2><span class="header-section-number">4.3</span> What a p-value actually says<a href="os-pvalue.html#os-pvalue" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="question">
+<p>We already computed a probability by simulation. What exactly was it?</p>
 </div>
-<p>Small <span class="math inline">\(p\)</span>-value means the data would be surprising if the null held, which is
-evidence against the null. Large <span class="math inline">\(p\)</span>-value means the data are unremarkable
-under the null, so we have no case.</p>
+<p>Back in Section <a href="os-problem.html#os-problem">4.1</a> we simulated fifty thousand samples from a
+population whose mean really was 165 cm. Only about
+2.4% of those
+samples produced a sample mean at least as far from 165 as the one we actually
+observed.</p>
+<p>Without realising it, we had already computed a <strong><span class="math inline">\(p\)</span>-value</strong>.</p>
+<div class="keyidea">
+<p>A <strong><span class="math inline">\(p\)</span>-value</strong> is the probability of obtaining a sample at least as extreme as
+the one we observed, <em>assuming the null hypothesis is true</em>.</p>
+</div>
+<p>Notice the order carefully.</p>
+<ol style="list-style-type: decimal">
+<li>We begin by assuming the null hypothesis is true.</li>
+<li>We ask what kinds of samples we would expect under that assumption.</li>
+<li>We compare our observed sample with those possibilities.</li>
+<li>The <span class="math inline">\(p\)</span>-value is the proportion of those hypothetical samples at least as
+extreme as ours.</li>
+</ol>
+<p>In the height example the <span class="math inline">\(p\)</span>-value was about
+0.024. If the true
+population mean really were 165 cm, a sample as unusual as ours would occur
+only about
+2.4% of the time.
+That makes the observed sample unusual under the null hypothesis, which is why
+we would reject it at the 5% significance level.</p>
+<p>The <span class="math inline">\(p\)</span>-value does <strong>not</strong> tell us whether the null hypothesis is true. It
+tells us how surprising our data would be <strong>if</strong> the null hypothesis were true.
+This distinction is one of the most important ideas in statistics.</p>
+<p>A small <span class="math inline">\(p\)</span>-value means the observed data would be difficult to explain if the
+null hypothesis were correct. That is evidence <em>against</em> the null.</p>
+<p>A large <span class="math inline">\(p\)</span>-value means the observed data are quite ordinary under the null
+hypothesis, so we have no convincing reason to reject it. Notice what that does
+<em>not</em> mean: it does not prove the null hypothesis true. It means only that our
+data are compatible with it.</p>
 <table>
 <caption><span id="tab:os-pval-table">Table 4.2: </span> Reading a <span class="math inline">\(p\)</span>-value.</caption>
 <colgroup>
@@ -389,26 +417,50 @@ under the null, so we have no case.</p>
 <tbody>
 <tr class="odd">
 <td align="left">0.60</td>
-<td align="left">Completely ordinary under the null.</td>
-<td align="left">Fail to reject</td>
+<td align="left">A result like this is very common if the null hypothesis is true.</td>
+<td align="left">Fail to reject <span class="math inline">\(H_0\)</span></td>
 </tr>
 <tr class="even">
 <td align="left">0.18</td>
-<td align="left">A bit high, but this happens roughly 1 time in 6.</td>
-<td align="left">Fail to reject</td>
+<td align="left">This would occur roughly once every six samples. Not unusual.</td>
+<td align="left">Fail to reject <span class="math inline">\(H_0\)</span></td>
 </tr>
 <tr class="odd">
 <td align="left">0.049</td>
-<td align="left">Would happen about 1 time in 20.</td>
-<td align="left">Reject</td>
+<td align="left">This would occur about once every twenty samples. Unusual enough to reject at the 5% level.</td>
+<td align="left">Reject <span class="math inline">\(H_0\)</span></td>
 </tr>
 <tr class="even">
 <td align="left">0.0001</td>
-<td align="left">Would happen 1 time in 10,000. Strong evidence.</td>
-<td align="left">Reject</td>
+<td align="left">This would occur about once every ten thousand samples. Extremely unusual under the null.</td>
+<td align="left">Reject <span class="math inline">\(H_0\)</span></td>
 </tr>
 </tbody>
 </table>
+<div id="four-ways-to-read-it-backwards" class="section level3 unnumbered hasAnchor">
+<h3>Four ways to read it backwards<a href="os-pvalue.html#four-ways-to-read-it-backwards" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p><span class="math inline">\(p\)</span>-values are misquoted more often than any other number in empirical work,
+and the errors are predictable enough to be worth naming.</p>
+<div class="watchout">
+<p><strong>“The <span class="math inline">\(p\)</span>-value is the probability that the null hypothesis is true.”</strong> False.
+The null hypothesis is <em>assumed</em> true in order to compute the <span class="math inline">\(p\)</span>-value at all.
+A quantity computed under an assumption cannot also be the probability that the
+assumption holds.</p>
+<p><strong>“The <span class="math inline">\(p\)</span>-value is the probability that we have made the wrong decision.”</strong>
+False. It measures how unusual the observed data are under the null, not the
+probability that our conclusion is incorrect.</p>
+<p><strong>“A large <span class="math inline">\(p\)</span>-value proves the null hypothesis.”</strong> False. It means the data do
+not provide strong evidence against it, which is a much weaker statement.</p>
+<p><strong>“A very small <span class="math inline">\(p\)</span>-value means the effect is important.”</strong> False. Statistical
+significance and practical importance are different ideas. A tiny effect
+produces a very small <span class="math inline">\(p\)</span>-value if the sample is large enough.</p>
+</div>
+<p>A useful way to hold the idea:</p>
+<blockquote>
+<p>A <span class="math inline">\(p\)</span>-value measures how surprising the data are, not how believable the null
+hypothesis is.</p>
+</blockquote>
+</div>
 </div>
 <script>
 // Solutions are written as plain fenced divs in the source, so the PDF edition
@@ -431,8 +483,8 @@ document.addEventListener("DOMContentLoaded", function () {
           </div>
         </div>
       </div>
-<a href="os-worked.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="os-ci.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="os-hypotheses.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="os-critical.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

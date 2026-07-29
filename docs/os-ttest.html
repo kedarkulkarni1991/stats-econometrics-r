@@ -300,18 +300,21 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="os-hypotheses.html"><a href="os-hypotheses.html#where-the-equality-goes"><i class="fa fa-check"></i>Where the equality goes</a></li>
 <li class="chapter" data-level="" data-path="os-hypotheses.html"><a href="os-hypotheses.html#the-cat-report-worked-through"><i class="fa fa-check"></i>The CAT report, worked through</a></li>
 </ul></li>
-<li class="chapter" data-level="4.3" data-path="os-critical.html"><a href="os-critical.html"><i class="fa fa-check"></i><b>4.3</b> How far is too far?</a>
+<li class="chapter" data-level="4.3" data-path="os-pvalue.html"><a href="os-pvalue.html"><i class="fa fa-check"></i><b>4.3</b> What a p-value actually says</a>
+<ul>
+<li class="chapter" data-level="" data-path="os-pvalue.html"><a href="os-pvalue.html#four-ways-to-read-it-backwards"><i class="fa fa-check"></i>Four ways to read it backwards</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="os-critical.html"><a href="os-critical.html"><i class="fa fa-check"></i><b>4.4</b> How far is too far?</a>
 <ul>
 <li class="chapter" data-level="" data-path="os-critical.html"><a href="os-critical.html#choosing-the-cutoff"><i class="fa fa-check"></i>Choosing the cutoff</a></li>
 <li class="chapter" data-level="" data-path="os-critical.html"><a href="os-critical.html#the-decision-rule"><i class="fa fa-check"></i>The decision rule</a></li>
 </ul></li>
-<li class="chapter" data-level="4.4" data-path="os-worked.html"><a href="os-worked.html"><i class="fa fa-check"></i><b>4.4</b> The worked example, both ways</a>
+<li class="chapter" data-level="4.5" data-path="os-worked.html"><a href="os-worked.html"><i class="fa fa-check"></i><b>4.5</b> The worked example, both ways</a>
 <ul>
 <li class="chapter" data-level="" data-path="os-worked.html"><a href="os-worked.html#on-paper"><i class="fa fa-check"></i>On paper</a></li>
 <li class="chapter" data-level="" data-path="os-worked.html"><a href="os-worked.html#the-same-thing-in-r"><i class="fa fa-check"></i>The same thing in R</a></li>
 <li class="chapter" data-level="" data-path="os-worked.html"><a href="os-worked.html#letting-a-package-do-it"><i class="fa fa-check"></i>Letting a package do it</a></li>
 </ul></li>
-<li class="chapter" data-level="4.5" data-path="os-pvalue.html"><a href="os-pvalue.html"><i class="fa fa-check"></i><b>4.5</b> What a <span class="math inline">\(p\)</span>-value actually says</a></li>
 <li class="chapter" data-level="4.6" data-path="os-ci.html"><a href="os-ci.html"><i class="fa fa-check"></i><b>4.6</b> The same test, viewed as an interval</a>
 <ul>
 <li class="chapter" data-level="" data-path="os-ci.html"><a href="os-ci.html#testing-every-possible-claim-at-once"><i class="fa fa-check"></i>Testing every possible claim at once</a></li>
@@ -361,16 +364,21 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <div id="os-ttest" class="section level2 hasAnchor" number="4.7">
 <h2><span class="header-section-number">4.7</span> When σ is unknown: the t-test<a href="os-ttest.html#os-ttest" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Everything so far assumed we knew the population standard deviation <span class="math inline">\(\sigma\)</span>.
-We almost never do. Replacing it with the sample standard deviation <span class="math inline">\(s\)</span> adds a
-second source of uncertainty, and the statistic</p>
+We almost never do.</p>
+<p>Everything else stays the same. We still compare the sample mean with the value
+the null hypothesis claims, and we still ask how surprising that gap would be if
+the claim were true. The only change is that we must first estimate <span class="math inline">\(\sigma\)</span>
+from the sample itself.</p>
+<p>That estimate is not free. Replacing <span class="math inline">\(\sigma\)</span> with the sample standard deviation
+<span class="math inline">\(s\)</span> adds a second source of uncertainty, and the statistic</p>
 <p><span class="math display">\[t_{calc} = \frac{\bar{x} - \mu_0}{s/\sqrt{n}}\]</span></p>
 <p>no longer follows a normal distribution. It follows Student’s <span class="math inline">\(t\)</span> with
 <span class="math inline">\(n - 1\)</span> <strong>degrees of freedom</strong> — a distribution with fatter tails, which demands
 more evidence before it will let you reject.</p>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:os-t-vs-z"></span>
-<img src="stats-econometrics-r_files/figure-html/os-t-vs-z-1.png" alt="Student's $t$ against the standard normal. With few degrees of freedom the tails are noticeably heavier, so critical values sit further out." width="90%"  />
+<img src="stats-econometrics-r_files/figure-html/os-t-vs-z-1.png" alt="Student's t against the standard normal. Fewer degrees of freedom put more probability in the tails, so critical values sit further out and more evidence is needed to reject. By 30 degrees of freedom the two are already hard to tell apart." width="90%"  />
 <p class="caption">
-Figure 4.4: Student’s <span class="math inline">\(t\)</span> against the standard normal. With few degrees of freedom the tails are noticeably heavier, so critical values sit further out.
+Figure 4.4: Student’s t against the standard normal. Fewer degrees of freedom put more probability in the tails, so critical values sit further out and more evidence is needed to reject. By 30 degrees of freedom the two are already hard to tell apart.
 </p>
 </div>
 <div id="settling-the-question-with-the-actual-class" class="section level3 unnumbered hasAnchor">
@@ -393,6 +401,9 @@ blank, and another did not give a gender:</p>
 #&gt; 8         S08  21    186   &lt;NA&gt;
 #&gt; 33        S33  NA     NA      F</code></pre>
 <div class="watchout">
+<p><strong>Working with real data.</strong> What follows is not part of hypothesis testing. It
+is the sort of thing that has to be dealt with the moment you leave textbook
+datasets behind, and this is the first point in the book where you have.</p>
 <p><strong>A blank is not always an <code>NA</code>.</strong> In a numeric column an empty field is read
 as <code>NA</code>, but in a text column it is read as the empty string <code>""</code> — and <code>""</code>
 is a perfectly ordinary value as far as <code>is.na()</code>, <code>complete.cases()</code> and
@@ -444,9 +455,14 @@ the same verdict, as always.</p>
 opening example assumed we somehow knew <span class="math inline">\(\sigma = 8\)</span>. Here we had to estimate
 it from 32 people, and the <span class="math inline">\(t\)</span> distribution charges us for that uncertainty
 with a wider interval and a higher bar to clear.</p>
-<p>Also notice what the data is not: 32 students in one classroom are not a random
-sample of all APU students. The arithmetic is correct; whether it answers the
-question about <em>the university</em> is a separate matter, and a harder one.</p>
+<p><strong>Statistical validity is not sampling validity.</strong> Notice what the data is not:
+32 students in one classroom are not a random sample of all APU students.</p>
+<p>Every number above is correctly computed. The <span class="math inline">\(t\)</span> statistic, the degrees of
+freedom, the <span class="math inline">\(p\)</span>-value and the interval are all exactly right <em>for this sample</em>.
+Whether they answer a question about <strong>the university</strong> is a separate matter,
+and a harder one — and no amount of care with the arithmetic addresses it. The
+formulas cannot tell you which population you were sampling from; only the
+design can.</p>
 </div>
 </div>
 <div id="worked-example" class="section level3 unnumbered hasAnchor">
@@ -459,6 +475,14 @@ You sample eight faculty members. Can you reject the dean’s claim at
 <span id="cb140-3"><a href="os-ttest.html#cb140-3" tabindex="-1"></a><span class="fu">c</span>(<span class="at">n =</span> <span class="fu">length</span>(hours), <span class="at">mean =</span> <span class="fu">mean</span>(hours), <span class="at">sd =</span> <span class="fu">sd</span>(hours))</span></code></pre></div>
 <pre><code>#&gt;     n  mean    sd 
 #&gt; 8.000 9.225 1.749</code></pre>
+<div class="yourturn">
+<p>Before calculating anything, form an expectation.</p>
+<p>The claim is 11.0 hours and the sample averages 9.2 — a gap of nearly two
+hours. But there are only eight faculty members, and their hours range from 6.4
+to 11.8, so the sample is both small and quite spread out.</p>
+<p>Do you expect to reject the claim at the 10% level? At the 1%? Commit to an
+answer before reading on, and then see whether the arithmetic agrees.</p>
+</div>
 <p><strong>On paper.</strong> With <span class="math inline">\(\bar{x} = 9.225\)</span>, <span class="math inline">\(s = 1.749\)</span>, <span class="math inline">\(n = 8\)</span> and <span class="math inline">\(df = 7\)</span>:</p>
 <p><span class="math display">\[
 t_{calc} = \frac{9.225 - 11}{1.749/\sqrt{8}}

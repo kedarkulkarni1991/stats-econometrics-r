@@ -35,7 +35,7 @@ interpretation.</p>" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="os-pvalue.html"/>
+<link rel="prev" href="os-worked.html"/>
 <link rel="next" href="os-ttest.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
@@ -300,18 +300,21 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="os-hypotheses.html"><a href="os-hypotheses.html#where-the-equality-goes"><i class="fa fa-check"></i>Where the equality goes</a></li>
 <li class="chapter" data-level="" data-path="os-hypotheses.html"><a href="os-hypotheses.html#the-cat-report-worked-through"><i class="fa fa-check"></i>The CAT report, worked through</a></li>
 </ul></li>
-<li class="chapter" data-level="4.3" data-path="os-critical.html"><a href="os-critical.html"><i class="fa fa-check"></i><b>4.3</b> How far is too far?</a>
+<li class="chapter" data-level="4.3" data-path="os-pvalue.html"><a href="os-pvalue.html"><i class="fa fa-check"></i><b>4.3</b> What a p-value actually says</a>
+<ul>
+<li class="chapter" data-level="" data-path="os-pvalue.html"><a href="os-pvalue.html#four-ways-to-read-it-backwards"><i class="fa fa-check"></i>Four ways to read it backwards</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="os-critical.html"><a href="os-critical.html"><i class="fa fa-check"></i><b>4.4</b> How far is too far?</a>
 <ul>
 <li class="chapter" data-level="" data-path="os-critical.html"><a href="os-critical.html#choosing-the-cutoff"><i class="fa fa-check"></i>Choosing the cutoff</a></li>
 <li class="chapter" data-level="" data-path="os-critical.html"><a href="os-critical.html#the-decision-rule"><i class="fa fa-check"></i>The decision rule</a></li>
 </ul></li>
-<li class="chapter" data-level="4.4" data-path="os-worked.html"><a href="os-worked.html"><i class="fa fa-check"></i><b>4.4</b> The worked example, both ways</a>
+<li class="chapter" data-level="4.5" data-path="os-worked.html"><a href="os-worked.html"><i class="fa fa-check"></i><b>4.5</b> The worked example, both ways</a>
 <ul>
 <li class="chapter" data-level="" data-path="os-worked.html"><a href="os-worked.html#on-paper"><i class="fa fa-check"></i>On paper</a></li>
 <li class="chapter" data-level="" data-path="os-worked.html"><a href="os-worked.html#the-same-thing-in-r"><i class="fa fa-check"></i>The same thing in R</a></li>
 <li class="chapter" data-level="" data-path="os-worked.html"><a href="os-worked.html#letting-a-package-do-it"><i class="fa fa-check"></i>Letting a package do it</a></li>
 </ul></li>
-<li class="chapter" data-level="4.5" data-path="os-pvalue.html"><a href="os-pvalue.html"><i class="fa fa-check"></i><b>4.5</b> What a <span class="math inline">\(p\)</span>-value actually says</a></li>
 <li class="chapter" data-level="4.6" data-path="os-ci.html"><a href="os-ci.html"><i class="fa fa-check"></i><b>4.6</b> The same test, viewed as an interval</a>
 <ul>
 <li class="chapter" data-level="" data-path="os-ci.html"><a href="os-ci.html#testing-every-possible-claim-at-once"><i class="fa fa-check"></i>Testing every possible claim at once</a></li>
@@ -380,9 +383,13 @@ statistic is small enough, that is when</p>
 <p><span class="math display">\[\bar{x} - z_{\alpha/2}\frac{\sigma}{\sqrt{n}}
 \;\le\; \mu_0 \;\leq\;
 \bar{x} + z_{\alpha/2}\frac{\sigma}{\sqrt{n}}\]</span></p>
-<p>which is the confidence interval. The condition for <em>not rejecting a claim</em> and
-the formula for the <em>interval</em> are the same inequality, solved for different
-things.</p>
+<p>which is the confidence interval.</p>
+<div class="keyidea">
+<p>A confidence interval and a hypothesis test are the same inequality, solved for
+different unknowns.</p>
+<p>The test fixes <span class="math inline">\(\mu_0\)</span> and asks which sample means are acceptable. The interval
+fixes <span class="math inline">\(\bar{x}\)</span> and asks which values of <span class="math inline">\(\mu_0\)</span> are acceptable.</p>
+</div>
 <div id="testing-every-possible-claim-at-once" class="section level3 unnumbered hasAnchor">
 <h3>Testing every possible claim at once<a href="os-ci.html#testing-every-possible-claim-at-once" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>That equivalence can be checked rather than taken on trust. Rather than testing
@@ -414,9 +421,17 @@ solved for different unknowns.</p>
 Figure 4.3: The p-value for every possible claimed value of mu. Claims above the 0.05 line survive the test, and the range of surviving claims is exactly the 95% confidence interval.
 </p>
 </div>
-<p>The curve peaks at <span class="math inline">\(\mu_0 = \bar{x} = 168\)</span>, where the claim matches the data
-exactly and the <span class="math inline">\(p\)</span>-value is 1. It falls away in both directions, crossing 0.05
-precisely at the two endpoints of the interval.</p>
+<p>The curve reaches its maximum at <span class="math inline">\(\mu_0 = \bar{x} = 168\)</span>, and it is worth being
+clear about why the <span class="math inline">\(p\)</span>-value is exactly 1 there.</p>
+<p>A <span class="math inline">\(p\)</span>-value asks how often a sample would fall at least as far from the claim as
+ours did. If the claim <em>is</em> our sample mean, then our sample sits at distance
+zero from it — and every conceivable sample is at least that far away. The
+proportion is therefore 1. A claim that matches the data exactly leaves nothing
+to explain.</p>
+<p>As the claimed mean moves away from the observed mean in either direction, the
+sample becomes increasingly surprising under that claim, and the <span class="math inline">\(p\)</span>-value
+falls steadily — crossing 0.05 precisely at the two endpoints of the
+interval.</p>
 <div class="keyidea">
 <p>A <span class="math inline">\((1-\alpha)\)</span> confidence interval is exactly the set of values <span class="math inline">\(\mu_0\)</span> that a
 two-tailed test at level <span class="math inline">\(\alpha\)</span> would <strong>fail</strong> to reject.</p>
@@ -432,11 +447,16 @@ one throws away.</p>
 answer in the units of the problem. Handed <span class="math inline">\([165.39,\ 170.61]\)</span>, a reader can
 evaluate any claim about average height — 165, 166, 172 — without recomputing
 anything. A test answers one question, chosen in advance.</p>
-<p>A test, however, reports <em>how far</em> rather than merely <em>in or out</em>. Both 165 and
-160 fall outside our interval, and the interval says the same thing about both:
-rejected. The <span class="math inline">\(p\)</span>-values do not agree — 0.024 for 165, and effectively zero for
-160. One claim is marginally implausible and the other is not remotely
-survivable, and the interval alone does not distinguish them.</p>
+<p>This is why confidence intervals are generally preferred in scientific papers.
+A single interval communicates the estimate, its uncertainty, and the outcome
+of every two-sided hypothesis test at that significance level, all at once.</p>
+<p>A test, however, reports <em>how strongly</em>. Both 165 and 160 fall outside our
+interval, and the interval says the same thing about each: not plausible. The
+<span class="math inline">\(p\)</span>-values do not agree — 0.024 for 165, and effectively zero for 160. One
+claim is marginally implausible; the other is not remotely survivable.</p>
+<p>Put precisely: the interval tells us <strong>which claims remain plausible</strong>, and the
+<span class="math inline">\(p\)</span>-value tells us <strong>how strongly the data disagree with one particular
+claim</strong>.</p>
 <div class="intuition">
 <p>Report the interval. It contains the test, states its answer in the units the
 reader cares about, and does not tempt anyone into treating a single threshold
@@ -472,7 +492,7 @@ document.addEventListener("DOMContentLoaded", function () {
           </div>
         </div>
       </div>
-<a href="os-pvalue.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="os-worked.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
 <a href="os-ttest.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>

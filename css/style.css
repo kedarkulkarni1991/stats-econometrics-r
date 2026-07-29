@@ -141,7 +141,7 @@
 .inr::before { content: "Doing it in R"; color: var(--rcode); }
 
 .watchout { border-color: var(--warn); background: var(--warn-bg); }
-.watchout::before { content: "Common mistake"; color: var(--warn); }
+.watchout::before { content: "Watch out"; color: var(--warn); }
 
 .yourturn { border-color: var(--task); background: var(--task-bg); }
 .yourturn::before { content: "Your turn"; color: var(--task); }

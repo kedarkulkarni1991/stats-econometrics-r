@@ -300,6 +300,91 @@ value — the mistake is almost always in $H_A$, not in the calculation.
 :::
 
 
+## What a p-value actually says {#os-pvalue}
+
+::: {.question}
+We already computed a probability by simulation. What exactly was it?
+:::
+
+Back in Section \@ref(os-problem) we simulated fifty thousand samples from a
+population whose mean really was 165 cm. Only about
+`r round(100 * mean(abs(many_means - 165) >= observed_gap), 1)`% of those
+samples produced a sample mean at least as far from 165 as the one we actually
+observed.
+
+Without realising it, we had already computed a **$p$-value**.
+
+::: {.keyidea}
+A **$p$-value** is the probability of obtaining a sample at least as extreme as
+the one we observed, *assuming the null hypothesis is true*.
+:::
+
+Notice the order carefully.
+
+1. We begin by assuming the null hypothesis is true.
+2. We ask what kinds of samples we would expect under that assumption.
+3. We compare our observed sample with those possibilities.
+4. The $p$-value is the proportion of those hypothetical samples at least as
+   extreme as ours.
+
+In the height example the $p$-value was about
+`r round(mean(abs(many_means - 165) >= observed_gap), 3)`. If the true
+population mean really were 165 cm, a sample as unusual as ours would occur
+only about
+`r round(100 * mean(abs(many_means - 165) >= observed_gap), 1)`% of the time.
+That makes the observed sample unusual under the null hypothesis, which is why
+we would reject it at the 5% significance level.
+
+The $p$-value does **not** tell us whether the null hypothesis is true. It
+tells us how surprising our data would be **if** the null hypothesis were true.
+This distinction is one of the most important ideas in statistics.
+
+A small $p$-value means the observed data would be difficult to explain if the
+null hypothesis were correct. That is evidence *against* the null.
+
+A large $p$-value means the observed data are quite ordinary under the null
+hypothesis, so we have no convincing reason to reject it. Notice what that does
+*not* mean: it does not prove the null hypothesis true. It means only that our
+data are compatible with it.
+
+Table: (\#tab:os-pval-table) Reading a $p$-value.
+
+| $p$-value | Read it as | At $\alpha = 0.05$ |
+|:--|:--|:--|
+| 0.60 | A result like this is very common if the null hypothesis is true. | Fail to reject $H_0$ |
+| 0.18 | This would occur roughly once every six samples. Not unusual. | Fail to reject $H_0$ |
+| 0.049 | This would occur about once every twenty samples. Unusual enough to reject at the 5% level. | Reject $H_0$ |
+| 0.0001 | This would occur about once every ten thousand samples. Extremely unusual under the null. | Reject $H_0$ |
+
+### Four ways to read it backwards {-}
+
+$p$-values are misquoted more often than any other number in empirical work,
+and the errors are predictable enough to be worth naming.
+
+::: {.watchout}
+**"The $p$-value is the probability that the null hypothesis is true."** False.
+The null hypothesis is *assumed* true in order to compute the $p$-value at all.
+A quantity computed under an assumption cannot also be the probability that the
+assumption holds.
+
+**"The $p$-value is the probability that we have made the wrong decision."**
+False. It measures how unusual the observed data are under the null, not the
+probability that our conclusion is incorrect.
+
+**"A large $p$-value proves the null hypothesis."** False. It means the data do
+not provide strong evidence against it, which is a much weaker statement.
+
+**"A very small $p$-value means the effect is important."** False. Statistical
+significance and practical importance are different ideas. A tiny effect
+produces a very small $p$-value if the sample is large enough.
+:::
+
+A useful way to hold the idea:
+
+> A $p$-value measures how surprising the data are, not how believable the null
+> hypothesis is.
+
+
 ## How far is too far? {#os-critical}
 
 ::: {.question}
@@ -524,33 +609,6 @@ not know it (and in real work you almost never do), you must not use a
 $Z$-test. Use `t.test()` instead; see Section \@ref(os-ttest).
 :::
 
-## What a $p$-value actually says {#os-pvalue}
-
-The $p$-value is the single most misquoted number in empirical work, so let us
-be exact.
-
-::: {.keyidea}
-The $p$-value is the probability of seeing a sample **at least as extreme as
-ours**, *given that the null hypothesis is true*.
-
-It is **not** the probability that the null is true. It is **not** the
-probability that we made a mistake. It is a statement about the data, computed
-under an assumption about the world — not a statement about the world.
-:::
-
-Small $p$-value means the data would be surprising if the null held, which is
-evidence against the null. Large $p$-value means the data are unremarkable
-under the null, so we have no case.
-
-Table: (\#tab:os-pval-table) Reading a $p$-value.
-
-| $p$-value | Read it as | At $\alpha = 0.05$ |
-|:--|:--|:--|
-| 0.60 | Completely ordinary under the null. | Fail to reject |
-| 0.18 | A bit high, but this happens roughly 1 time in 6. | Fail to reject |
-| 0.049 | Would happen about 1 time in 20. | Reject |
-| 0.0001 | Would happen 1 time in 10,000. Strong evidence. | Reject |
-
 ## The same test, viewed as an interval {#os-ci}
 
 ::: {.question}
@@ -583,9 +641,15 @@ $$\bar{x} - z_{\alpha/2}\frac{\sigma}{\sqrt{n}}
 \;\le\; \mu_0 \;\leq\;
 \bar{x} + z_{\alpha/2}\frac{\sigma}{\sqrt{n}}$$
 
-which is the confidence interval. The condition for *not rejecting a claim* and
-the formula for the *interval* are the same inequality, solved for different
-things.
+which is the confidence interval.
+
+::: {.keyidea}
+A confidence interval and a hypothesis test are the same inequality, solved for
+different unknowns.
+
+The test fixes $\mu_0$ and asks which sample means are acceptable. The interval
+fixes $\bar{x}$ and asks which values of $\mu_0$ are acceptable.
+:::
 
 ### Testing every possible claim at once {-}
 
@@ -637,9 +701,19 @@ ggplot(pv, aes(mu0, p)) +
   theme_book()
 ```
 
-The curve peaks at $\mu_0 = \bar{x} = 168$, where the claim matches the data
-exactly and the $p$-value is 1. It falls away in both directions, crossing 0.05
-precisely at the two endpoints of the interval.
+The curve reaches its maximum at $\mu_0 = \bar{x} = 168$, and it is worth being
+clear about why the $p$-value is exactly 1 there.
+
+A $p$-value asks how often a sample would fall at least as far from the claim as
+ours did. If the claim *is* our sample mean, then our sample sits at distance
+zero from it — and every conceivable sample is at least that far away. The
+proportion is therefore 1. A claim that matches the data exactly leaves nothing
+to explain.
+
+As the claimed mean moves away from the observed mean in either direction, the
+sample becomes increasingly surprising under that claim, and the $p$-value
+falls steadily — crossing 0.05 precisely at the two endpoints of the
+interval.
 
 ::: {.keyidea}
 A $(1-\alpha)$ confidence interval is exactly the set of values $\mu_0$ that a
@@ -659,11 +733,18 @@ answer in the units of the problem. Handed $[165.39,\ 170.61]$, a reader can
 evaluate any claim about average height — 165, 166, 172 — without recomputing
 anything. A test answers one question, chosen in advance.
 
-A test, however, reports *how far* rather than merely *in or out*. Both 165 and
-160 fall outside our interval, and the interval says the same thing about both:
-rejected. The $p$-values do not agree — 0.024 for 165, and effectively zero for
-160. One claim is marginally implausible and the other is not remotely
-survivable, and the interval alone does not distinguish them.
+This is why confidence intervals are generally preferred in scientific papers.
+A single interval communicates the estimate, its uncertainty, and the outcome
+of every two-sided hypothesis test at that significance level, all at once.
+
+A test, however, reports *how strongly*. Both 165 and 160 fall outside our
+interval, and the interval says the same thing about each: not plausible. The
+$p$-values do not agree — 0.024 for 165, and effectively zero for 160. One
+claim is marginally implausible; the other is not remotely survivable.
+
+Put precisely: the interval tells us **which claims remain plausible**, and the
+$p$-value tells us **how strongly the data disagree with one particular
+claim**.
 
 ::: {.intuition}
 Report the interval. It contains the test, states its answer in the units the
@@ -683,8 +764,15 @@ under it.
 ## When σ is unknown: the t-test {#os-ttest}
 
 Everything so far assumed we knew the population standard deviation $\sigma$.
-We almost never do. Replacing it with the sample standard deviation $s$ adds a
-second source of uncertainty, and the statistic
+We almost never do.
+
+Everything else stays the same. We still compare the sample mean with the value
+the null hypothesis claims, and we still ask how surprising that gap would be if
+the claim were true. The only change is that we must first estimate $\sigma$
+from the sample itself.
+
+That estimate is not free. Replacing $\sigma$ with the sample standard deviation
+$s$ adds a second source of uncertainty, and the statistic
 
 $$t_{calc} = \frac{\bar{x} - \mu_0}{s/\sqrt{n}}$$
 
@@ -692,19 +780,27 @@ no longer follows a normal distribution. It follows Student's $t$ with
 $n - 1$ **degrees of freedom** — a distribution with fatter tails, which demands
 more evidence before it will let you reject.
 
-```{r os-t-vs-z, echo = FALSE, fig.cap = "Student's $t$ against the standard normal. With few degrees of freedom the tails are noticeably heavier, so critical values sit further out."}
-grid <- expand.grid(x = seq(-4, 4, length.out = 400),
-                    dist = c("t, df = 5", "t, df = 30", "normal"))
-grid$y <- with(grid, ifelse(dist == "normal", dnorm(x),
-                     ifelse(dist == "t, df = 5", dt(x, 5), dt(x, 30))))
+```{r os-t-vs-z, echo = FALSE, fig.cap = "Student's t against the standard normal. Fewer degrees of freedom put more probability in the tails, so critical values sit further out and more evidence is needed to reject. By 30 degrees of freedom the two are already hard to tell apart."}
+xs <- seq(-4.2, 4.2, length.out = 500)
+lv <- c("Normal", "t, df = 30", "t, df = 10", "t, df = 5")
+
+grid <- rbind(
+  data.frame(x = xs, y = dnorm(xs),      dist = "Normal"),
+  data.frame(x = xs, y = dt(xs, df = 30), dist = "t, df = 30"),
+  data.frame(x = xs, y = dt(xs, df = 10), dist = "t, df = 10"),
+  data.frame(x = xs, y = dt(xs, df = 5),  dist = "t, df = 5")
+)
+grid$dist <- factor(grid$dist, levels = lv)
 
 ggplot(grid, aes(x, y, colour = dist, linewidth = dist)) +
   geom_line() +
-  scale_colour_manual(values = c("t, df = 5" = book_palette$reject,
-                                 "t, df = 30" = book_palette$accent,
-                                 "normal" = book_palette$ink), name = NULL) +
-  scale_linewidth_manual(values = c("t, df = 5" = 0.8, "t, df = 30" = 0.8,
-                                    "normal" = 1.1), guide = "none") +
+  scale_colour_manual(values = c("grey45", "#2f855a", book_palette$accent,
+                                 book_palette$reject), name = NULL) +
+  scale_linewidth_manual(values = c(1.4, 0.75, 0.75, 0.75), guide = "none") +
+  annotate("text", x = 2.9, y = 0.30, size = 3.3, colour = "grey30",
+           hjust = 0, lineheight = 0.95,
+           label = "As the sample grows,\nthe t distribution\napproaches the normal") +
+  coord_cartesian(xlim = c(-4.2, 5.6)) +
   labs(x = NULL, y = NULL) +
   theme_book() +
   theme(axis.text.y = element_blank(), legend.position = "top")
@@ -730,6 +826,10 @@ students[!complete.cases(students), ]
 ```
 
 ::: {.watchout}
+**Working with real data.** What follows is not part of hypothesis testing. It
+is the sort of thing that has to be dealt with the moment you leave textbook
+datasets behind, and this is the first point in the book where you have.
+
 **A blank is not always an `NA`.** In a numeric column an empty field is read
 as `NA`, but in a text column it is read as the empty string `""` — and `""`
 is a perfectly ordinary value as far as `is.na()`, `complete.cases()` and
@@ -787,9 +887,15 @@ opening example assumed we somehow knew $\sigma = 8$. Here we had to estimate
 it from 32 people, and the $t$ distribution charges us for that uncertainty
 with a wider interval and a higher bar to clear.
 
-Also notice what the data is not: 32 students in one classroom are not a random
-sample of all APU students. The arithmetic is correct; whether it answers the
-question about *the university* is a separate matter, and a harder one.
+**Statistical validity is not sampling validity.** Notice what the data is not:
+32 students in one classroom are not a random sample of all APU students.
+
+Every number above is correctly computed. The $t$ statistic, the degrees of
+freedom, the $p$-value and the interval are all exactly right *for this sample*.
+Whether they answer a question about **the university** is a separate matter,
+and a harder one — and no amount of care with the arithmetic addresses it. The
+formulas cannot tell you which population you were sampling from; only the
+design can.
 :::
 
 ### Worked example {-}
@@ -803,6 +909,17 @@ hours <- c(11.8, 8.6, 10.5, 7.9, 6.4, 10.4, 10.0, 8.2)
 
 c(n = length(hours), mean = mean(hours), sd = sd(hours))
 ```
+
+::: {.yourturn}
+Before calculating anything, form an expectation.
+
+The claim is 11.0 hours and the sample averages 9.2 — a gap of nearly two
+hours. But there are only eight faculty members, and their hours range from 6.4
+to 11.8, so the sample is both small and quite spread out.
+
+Do you expect to reject the claim at the 10% level? At the 1%? Commit to an
+answer before reading on, and then see whether the arithmetic agrees.
+:::
 
 **On paper.** With $\bar{x} = 9.225$, $s = 1.749$, $n = 8$ and $df = 7$:
 
@@ -1220,6 +1337,16 @@ c. Would your conclusion change at the 95% level? Explain *why* before you
 
 
 ## Looking ahead {#os-looking-ahead}
+
+We have now completed the basic toolkit of statistical inference for a single
+mean. Given one sample, we can
+
+- estimate an unknown population mean,
+- quantify the uncertainty around that estimate with a confidence interval, and
+- test a specific claim about the population with a hypothesis test.
+
+The last two, as Section \@ref(os-ci) showed, are the same object seen from two
+sides.
 
 Every test in this unit compared a sample against a *claimed* number — a
 figure from a government report, a manufacturer's specification, a previous
