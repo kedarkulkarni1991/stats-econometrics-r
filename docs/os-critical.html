@@ -300,7 +300,11 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="os-hypotheses.html"><a href="os-hypotheses.html#where-the-equality-goes"><i class="fa fa-check"></i>Where the equality goes</a></li>
 <li class="chapter" data-level="" data-path="os-hypotheses.html"><a href="os-hypotheses.html#the-cat-report-worked-through"><i class="fa fa-check"></i>The CAT report, worked through</a></li>
 </ul></li>
-<li class="chapter" data-level="4.3" data-path="os-critical.html"><a href="os-critical.html"><i class="fa fa-check"></i><b>4.3</b> How far is too far?</a></li>
+<li class="chapter" data-level="4.3" data-path="os-critical.html"><a href="os-critical.html"><i class="fa fa-check"></i><b>4.3</b> How far is too far?</a>
+<ul>
+<li class="chapter" data-level="" data-path="os-critical.html"><a href="os-critical.html#choosing-the-cutoff"><i class="fa fa-check"></i>Choosing the cutoff</a></li>
+<li class="chapter" data-level="" data-path="os-critical.html"><a href="os-critical.html#the-decision-rule"><i class="fa fa-check"></i>The decision rule</a></li>
+</ul></li>
 <li class="chapter" data-level="4.4" data-path="os-worked.html"><a href="os-worked.html"><i class="fa fa-check"></i><b>4.4</b> The worked example, both ways</a>
 <ul>
 <li class="chapter" data-level="" data-path="os-worked.html"><a href="os-worked.html#on-paper"><i class="fa fa-check"></i>On paper</a></li>
@@ -356,55 +360,101 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="os-critical" class="section level2 hasAnchor" number="4.3">
 <h2><span class="header-section-number">4.3</span> How far is too far?<a href="os-critical.html#os-critical" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>Write <span class="math inline">\(\mu_0\)</span> for the value the null claims (here, 165). We will reject <span class="math inline">\(H_0\)</span>
-when the sample mean lands too far from <span class="math inline">\(\mu_0\)</span> — that is, when</p>
-<p><span class="math display">\[|\bar{x} - \mu_0| \geq c\]</span></p>
-<p>for some cutoff <span class="math inline">\(c\)</span>. Everything now hinges on choosing <span class="math inline">\(c\)</span>.</p>
-<div class="theory">
-<p>We choose <span class="math inline">\(c\)</span> so that, <strong>if the null were true</strong>, a gap that large would occur
-with probability only <span class="math inline">\(\alpha\)</span> — a small risk we decide in advance, typically
-0.05:</p>
-<p><span class="math display">\[P\big[|\bar{x} - \mu_0| \geq c\big] = \alpha\]</span></p>
-<p>From the Central Limit Theorem (Chapter <a href="one-sample.html#one-sample">4</a>) we know <span class="math inline">\(\bar{x}\)</span> is
-normally distributed with mean <span class="math inline">\(\mu\)</span> and standard deviation <span class="math inline">\(\sigma/\sqrt{n}\)</span>.
-Dividing through by that standard error turns the left-hand side into a standard
-normal:</p>
-<p><span class="math display">\[
-\begin{aligned}
-P\left[\frac{|\bar{x} - \mu_0|}{\sigma/\sqrt{n}} \geq \frac{c}{\sigma/\sqrt{n}}\right] &amp;= \alpha \\[4pt]
-P\left[|Z| \geq \frac{c}{\sigma/\sqrt{n}}\right] &amp;= \alpha
-\end{aligned}
-\]</span></p>
-<p>The event <span class="math inline">\(|Z| \ge k\)</span> splits into two symmetric tails, each carrying half the
-probability:</p>
-<p><span class="math display">\[
-2 \cdot P\left[Z \geq \frac{c}{\sigma/\sqrt{n}}\right] = \alpha
-\qquad\Longrightarrow\qquad
-P\left[Z \geq \frac{c}{\sigma/\sqrt{n}}\right] = \frac{\alpha}{2}
-\]</span></p>
-<p>By definition <span class="math inline">\(P[Z \geq Z_{\alpha/2}] = \alpha/2\)</span>, so the bracketed quantity
-<em>is</em> <span class="math inline">\(Z_{\alpha/2}\)</span>, and therefore</p>
-<p><span class="math display">\[\boxed{\ c = Z_{\alpha/2}\,\frac{\sigma}{\sqrt{n}}\ }\]</span></p>
+<div class="question">
+<p>A gap between the sample and the claim is guaranteed. How large a gap is large
+enough to act on?</p>
 </div>
-<p>Substituting that <span class="math inline">\(c\)</span> back into the rejection rule and dividing both sides by
-the standard error gives the form you will actually use:</p>
-<p><span class="math display">\[
-\frac{|\bar{x} - \mu_0|}{\sigma/\sqrt{n}} \geq Z_{\alpha/2}
-\]</span></p>
-<p>The quantity on the left is the <strong>test statistic</strong>, written <span class="math inline">\(Z_{calc}\)</span>. The
-value on the right is the <strong>critical value</strong>. The rule is simply: <em>if the
-statistic exceeds the critical value, reject the null.</em></p>
+<p>By now we know the basic logic. We begin by assuming the null hypothesis is
+true and ask: if that assumption were correct, how unusual would our sample be?</p>
+<p>Section <a href="os-problem.html#os-problem">4.1</a> answered that by simulation. Sampling repeatedly from
+a population whose mean really was 165 cm, a sample mean at least 3 cm away
+turned up about
+2.4% of the time.</p>
+<p>That raises a natural question. <strong>How unusual is unusual enough?</strong></p>
+<p>We need a rule telling us when the difference between the sample and the null
+is large enough to reject the claim.</p>
+<p>Write <span class="math inline">\(\mu_0\)</span> for the value the null claims, so that <span class="math inline">\(H_0: \mu = \mu_0\)</span>. If the
+sample mean lies close to <span class="math inline">\(\mu_0\)</span>, we treat the difference as ordinary sampling
+variation and keep the null. If it lies far enough away, we reject. That is, we
+reject whenever</p>
+<p><span class="math display">\[|\bar{x} - \mu_0| \geq c\]</span></p>
+<p>for some cutoff <span class="math inline">\(c\)</span> we have yet to determine. The entire problem has reduced to
+a single question: <strong>how should we choose <span class="math inline">\(c\)</span>?</strong></p>
+<div id="choosing-the-cutoff" class="section level3 unnumbered hasAnchor">
+<h3>Choosing the cutoff<a href="os-critical.html#choosing-the-cutoff" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>We choose it <em>before</em> collecting any data, by deciding how much risk we are
+willing to run of rejecting a null hypothesis that is in fact true.</p>
+<div class="keyidea">
+<p>That risk is the <strong>significance level</strong>, written <span class="math inline">\(\alpha\)</span>. It is the
+probability of rejecting a true null hypothesis, and it is chosen in advance.
+Common choices are 0.05 and 0.01.</p>
+</div>
+<p>So <span class="math inline">\(c\)</span> is chosen so that, if the null really is true, only a proportion
+<span class="math inline">\(\alpha\)</span> of all possible samples would fall beyond it:</p>
+<p><span class="math display">\[P\big[\,|\bar{X} - \mu_0| \geq c\,\big] = \alpha\]</span></p>
+<p>Everything needed to solve that equation is already in hand from the previous
+units.</p>
+<div class="theory">
+<p>When the null is true, the Central Limit Theorem tells us the sampling
+distribution of the sample mean is approximately normal, centred on <span class="math inline">\(\mu_0\)</span>
+with standard deviation <span class="math inline">\(\sigma/\sqrt{n}\)</span>:</p>
+<p><span class="math display">\[\bar{X} \;\sim\; N\!\left(\mu_0,\; \frac{\sigma^2}{n}\right)\]</span></p>
+<p>Following the usual convention, the second argument is the <em>variance</em>, so the
+standard deviation is its square root, <span class="math inline">\(\sigma/\sqrt{n}\)</span> — the standard error.</p>
+<p>Standardising, as in Section <a href="u3-ci.html#u3-ci">3.4</a>, removes the units and the sample
+size together:</p>
+<p><span class="math display">\[Z = \frac{\bar{X} - \mu_0}{\sigma/\sqrt{n}} \;\sim\; N(0, 1)\]</span></p>
+<p>Dividing both sides of the probability statement by the standard error
+therefore gives</p>
+<p><span class="math display">\[P\left[\,|Z| \geq \frac{c}{\sigma/\sqrt{n}}\,\right] = \alpha\]</span></p>
+<p>The standard normal is symmetric, so that probability is split equally between
+the two tails:</p>
+<p><span class="math display">\[P\left[\,Z \geq \frac{c}{\sigma/\sqrt{n}}\,\right] = \frac{\alpha}{2}\]</span></p>
+<p>The point leaving an upper-tail probability of <span class="math inline">\(\alpha/2\)</span> is the <strong>critical
+value</strong>, written <span class="math inline">\(Z_{\alpha/2}\)</span>. Since <span class="math inline">\(P[Z \geq Z_{\alpha/2}] = \alpha/2\)</span> by
+definition, the bracketed quantity <em>is</em> <span class="math inline">\(Z_{\alpha/2}\)</span>:</p>
+<p><span class="math display">\[\frac{c}{\sigma/\sqrt{n}} = Z_{\alpha/2}
+\qquad\Longrightarrow\qquad
+c = Z_{\alpha/2}\,\frac{\sigma}{\sqrt{n}}\]</span></p>
+</div>
+<p>Substituting that cutoff back into the rejection rule, and dividing both sides
+by the standard error, produces the form used in practice:</p>
+<p><span class="math display">\[\boxed{\;\frac{|\bar{x} - \mu_0|}{\sigma/\sqrt{n}} \;\geq\; Z_{\alpha/2}\;}\]</span></p>
+<p>The quantity on the left is the <strong>test statistic</strong>, usually written
+<span class="math inline">\(Z_{calc}\)</span>. The quantity on the right is the critical value.</p>
+</div>
+<div id="the-decision-rule" class="section level3 unnumbered hasAnchor">
+<h3>The decision rule<a href="os-critical.html#the-decision-rule" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<ol style="list-style-type: decimal">
+<li>Compute the test statistic.</li>
+<li>Compare it with the critical value.</li>
+<li>If the statistic is larger, reject the null hypothesis.</li>
+</ol>
+<p>Notice what has happened. The complicated question</p>
+<blockquote>
+<p>Is my sample unusually far from the null hypothesis?</p>
+</blockquote>
+<p>has become the much simpler question</p>
+<blockquote>
+<p>Is my test statistic larger than the critical value?</p>
+</blockquote>
+<p>That substitution is the whole point of standardising. Every one-sample problem
+about means — whatever the units, whatever the sample size — now arrives at the
+same comparison against the same handful of numbers.</p>
 <div class="inr">
-<p>Those critical values are the ones you have been reading off a printed table.
-There is no need — <code>qnorm()</code> gives you any of them to as many decimals as you
-like.</p>
+<p>Those familiar numbers — 1.645, 1.96 and 2.576 — are simply critical values of
+the standard normal distribution. There is no need to consult a printed table;
+<code>qnorm()</code> returns them to as many decimals as you like.</p>
 <div class="sourceCode" id="cb116"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb116-1"><a href="os-critical.html#cb116-1" tabindex="-1"></a>alpha <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.10</span>, <span class="fl">0.05</span>, <span class="fl">0.01</span>)</span>
 <span id="cb116-2"><a href="os-critical.html#cb116-2" tabindex="-1"></a></span>
 <span id="cb116-3"><a href="os-critical.html#cb116-3" tabindex="-1"></a><span class="co"># Two-tailed: we want the value leaving alpha/2 in the upper tail</span></span>
 <span id="cb116-4"><a href="os-critical.html#cb116-4" tabindex="-1"></a><span class="fu">qnorm</span>(<span class="dv">1</span> <span class="sc">-</span> alpha <span class="sc">/</span> <span class="dv">2</span>)</span></code></pre></div>
 <pre><code>#&gt; [1] 1.645 1.960 2.576</code></pre>
-<p>Those three numbers are the 1.645, 1.96 and 2.58 you have memorised. Now you
-know where they come from, and you will never need the table again.</p>
+<p>These are exactly the values defining the rejection regions for the most
+commonly used significance levels. They are not arbitrary quantities to
+memorise. They are the points leaving 10%, 5% and 1% of the probability split
+equally between the two tails of the standard normal distribution.</p>
+</div>
 </div>
 </div>
 <script>
