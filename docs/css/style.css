@@ -281,3 +281,39 @@ details.answer > summary::-webkit-details-marker { display: none; }
     padding: 0.9em 1em;
   }
 }
+
+/* --- Interactive z explorer ---------------------------------------------
+   Used once, in the confidence-interval section. HTML output only; the book
+   ships no PDF, so there is no fallback to maintain.
+   -------------------------------------------------------------------------- */
+
+.zexplore {
+  margin: 1.8em 0;
+  padding: 1em 1.2em 0.8em;
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  background: #fcfcfd;
+}
+
+.zexplore svg { width: 100%; height: auto; display: block; }
+
+.zexplore-ctl {
+  display: flex;
+  align-items: center;
+  gap: 0.8em;
+  flex-wrap: wrap;
+  margin-top: 0.4em;
+  font-size: 0.86em;
+  color: var(--ink-soft);
+}
+
+.zexplore-ctl label { flex: 1 1 100%; }
+.zexplore-ctl input[type="range"] { flex: 1 1 260px; accent-color: var(--accent); }
+.zexplore-ctl output { font-variant-numeric: tabular-nums; font-weight: 600; color: var(--ink); }
+
+.zexplore-note {
+  margin: 0.7em 0 0;
+  font-size: 0.86em;
+  line-height: 1.5;
+  color: var(--ink-soft);
+}
