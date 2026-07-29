@@ -552,6 +552,54 @@ and economic censuses can provide reliable information about populations
 without observing every individual. The key is not that they observe everyone,
 but that they observe enough.
 
+::: {.example}
+Real demonstrations of the Law of Large Numbers are surprisingly hard to find.
+The law concerns what happens when the same random process is repeated a great
+many times, and few processes in economic life are repeated identically enough,
+often enough, for the convergence to be visible.
+
+The cricket toss is an exception. Before every international match a coin is
+tossed, and over nearly a century and a half some teams have accumulated
+thousands of these tosses while others have played only a handful.
+
+```{r u1-cricket}
+toss <- read.csv("data/cricket-toss.csv")
+keep <- c("team", "span", "matches", "pct_toss_won")
+
+# the most and least fortunate teams, and the most experienced
+rbind(head(toss[order(-toss$pct_toss_won), keep], 2),
+      head(toss[order( toss$pct_toss_won), keep], 2),
+      head(toss[keep], 3))
+```
+
+Greece has won 80% of its tosses and Africa XI barely one in six, while
+England, after 2,124 matches, sits at 49.2%. Nobody is luckier than anybody
+else. The teams with extreme records are simply the teams that have played few
+matches.
+
+That is the Law of Large Numbers, and the agreement with theory is close. If
+the toss is fair, a team with $n$ matches should have a toss-win percentage
+scattered around 50 with a standard deviation of $50/\sqrt{n}$ percentage
+points. Restricting attention to teams above a given number of matches:
+
+```{r u1-cricket-lln}
+lln_toss <- t(sapply(c(0, 50, 100, 200, 500), function(m) {
+  x <- toss[toss$matches >= m, ]
+  c(min_matches = m,
+    teams       = nrow(x),
+    observed_sd = sd(x$pct_toss_won),
+    predicted   = sqrt(mean((50 / sqrt(x$matches))^2)))
+}))
+
+round(lln_toss, 2)
+```
+
+The spread of toss-win percentages falls from 8.5 percentage points across all
+teams to 0.9 among the ten most experienced — and at every step it tracks the
+value the theory predicts. No survey was designed and no experiment was run.
+The convergence is simply there in the record of the game.
+:::
+
 Yet Figure \@ref(fig:u1-lln-plot) reveals another feature that the Law of
 Large Numbers does not explain. As the sample size increases, the sampling
 distributions not only become narrower — they also become increasingly

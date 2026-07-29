@@ -312,6 +312,57 @@ increasingly likely to do so.</p>
 and economic censuses can provide reliable information about populations
 without observing every individual. The key is not that they observe everyone,
 but that they observe enough.</p>
+<div class="example">
+<p><span id="exm:unlabeled-div-1" class="example"><strong>Example 1.1  </strong></span>Real demonstrations of the Law of Large Numbers are surprisingly hard to find.
+The law concerns what happens when the same random process is repeated a great
+many times, and few processes in economic life are repeated identically enough,
+often enough, for the convergence to be visible.</p>
+<p>The cricket toss is an exception. Before every international match a coin is
+tossed, and over nearly a century and a half some teams have accumulated
+thousands of these tosses while others have played only a handful.</p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="u1-lln.html#cb31-1" tabindex="-1"></a>toss <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/cricket-toss.csv&quot;</span>)</span>
+<span id="cb31-2"><a href="u1-lln.html#cb31-2" tabindex="-1"></a>keep <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;team&quot;</span>, <span class="st">&quot;span&quot;</span>, <span class="st">&quot;matches&quot;</span>, <span class="st">&quot;pct_toss_won&quot;</span>)</span>
+<span id="cb31-3"><a href="u1-lln.html#cb31-3" tabindex="-1"></a></span>
+<span id="cb31-4"><a href="u1-lln.html#cb31-4" tabindex="-1"></a><span class="co"># the most and least fortunate teams, and the most experienced</span></span>
+<span id="cb31-5"><a href="u1-lln.html#cb31-5" tabindex="-1"></a><span class="fu">rbind</span>(<span class="fu">head</span>(toss[<span class="fu">order</span>(<span class="sc">-</span>toss<span class="sc">$</span>pct_toss_won), keep], <span class="dv">2</span>),</span>
+<span id="cb31-6"><a href="u1-lln.html#cb31-6" tabindex="-1"></a>      <span class="fu">head</span>(toss[<span class="fu">order</span>( toss<span class="sc">$</span>pct_toss_won), keep], <span class="dv">2</span>),</span>
+<span id="cb31-7"><a href="u1-lln.html#cb31-7" tabindex="-1"></a>      <span class="fu">head</span>(toss[keep], <span class="dv">3</span>))</span></code></pre></div>
+<pre><code>#&gt;            team      span matches pct_toss_won
+#&gt; 90       Greece 2019-2024      15        80.00
+#&gt; 88 Cook Islands 2022-2025      17        70.59
+#&gt; 94    Africa XI 2005-2007       6        16.67
+#&gt; 91        China 2023-2024      11        27.27
+#&gt; 1       England 1877-2025    2124        49.25
+#&gt; 2     Australia 1879-2025    2116        51.23
+#&gt; 3         India 1932-2025    1926        49.58</code></pre>
+<p>Greece has won 80% of its tosses and Africa XI barely one in six, while
+England, after 2,124 matches, sits at 49.2%. Nobody is luckier than anybody
+else. The teams with extreme records are simply the teams that have played few
+matches.</p>
+<p>That is the Law of Large Numbers, and the agreement with theory is close. If
+the toss is fair, a team with <span class="math inline">\(n\)</span> matches should have a toss-win percentage
+scattered around 50 with a standard deviation of <span class="math inline">\(50/\sqrt{n}\)</span> percentage
+points. Restricting attention to teams above a given number of matches:</p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="u1-lln.html#cb33-1" tabindex="-1"></a>lln_toss <span class="ot">&lt;-</span> <span class="fu">t</span>(<span class="fu">sapply</span>(<span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">50</span>, <span class="dv">100</span>, <span class="dv">200</span>, <span class="dv">500</span>), <span class="cf">function</span>(m) {</span>
+<span id="cb33-2"><a href="u1-lln.html#cb33-2" tabindex="-1"></a>  x <span class="ot">&lt;-</span> toss[toss<span class="sc">$</span>matches <span class="sc">&gt;=</span> m, ]</span>
+<span id="cb33-3"><a href="u1-lln.html#cb33-3" tabindex="-1"></a>  <span class="fu">c</span>(<span class="at">min_matches =</span> m,</span>
+<span id="cb33-4"><a href="u1-lln.html#cb33-4" tabindex="-1"></a>    <span class="at">teams       =</span> <span class="fu">nrow</span>(x),</span>
+<span id="cb33-5"><a href="u1-lln.html#cb33-5" tabindex="-1"></a>    <span class="at">observed_sd =</span> <span class="fu">sd</span>(x<span class="sc">$</span>pct_toss_won),</span>
+<span id="cb33-6"><a href="u1-lln.html#cb33-6" tabindex="-1"></a>    <span class="at">predicted   =</span> <span class="fu">sqrt</span>(<span class="fu">mean</span>((<span class="dv">50</span> <span class="sc">/</span> <span class="fu">sqrt</span>(x<span class="sc">$</span>matches))<span class="sc">^</span><span class="dv">2</span>)))</span>
+<span id="cb33-7"><a href="u1-lln.html#cb33-7" tabindex="-1"></a>}))</span>
+<span id="cb33-8"><a href="u1-lln.html#cb33-8" tabindex="-1"></a></span>
+<span id="cb33-9"><a href="u1-lln.html#cb33-9" tabindex="-1"></a><span class="fu">round</span>(lln_toss, <span class="dv">2</span>)</span></code></pre></div>
+<pre><code>#&gt;      min_matches teams observed_sd predicted
+#&gt; [1,]           0    94        8.46      7.91
+#&gt; [2,]          50    49        4.92      4.77
+#&gt; [3,]         100    27        3.03      3.16
+#&gt; [4,]         200    16        2.10      2.05
+#&gt; [5,]         500    10        0.85      1.32</code></pre>
+<p>The spread of toss-win percentages falls from 8.5 percentage points across all
+teams to 0.9 among the ten most experienced — and at every step it tracks the
+value the theory predicts. No survey was designed and no experiment was run.
+The convergence is simply there in the record of the game.</p>
+</div>
 <p>Yet Figure <a href="u1-lln.html#fig:u1-lln-plot">1.6</a> reveals another feature that the Law of
 Large Numbers does not explain. As the sample size increases, the sampling
 distributions not only become narrower — they also become increasingly

@@ -261,11 +261,11 @@ distributions are tractable, and both of the results we have just studied are
 statements about them.</p>
 <p>The mean, however, is only one feature of a distribution, and frequently not
 the feature that a policy question concerns.</p>
-<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="u1-average.html#cb49-1" tabindex="-1"></a><span class="fu">c</span>(<span class="at">mean   =</span> <span class="fu">mean</span>(earn),</span>
-<span id="cb49-2"><a href="u1-average.html#cb49-2" tabindex="-1"></a>  <span class="at">median =</span> <span class="fu">median</span>(earn))</span></code></pre></div>
+<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb53-1"><a href="u1-average.html#cb53-1" tabindex="-1"></a><span class="fu">c</span>(<span class="at">mean   =</span> <span class="fu">mean</span>(earn),</span>
+<span id="cb53-2"><a href="u1-average.html#cb53-2" tabindex="-1"></a>  <span class="at">median =</span> <span class="fu">median</span>(earn))</span></code></pre></div>
 <pre><code>#&gt;   mean median 
 #&gt;  54181  24220</code></pre>
-<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="u1-average.html#cb51-1" tabindex="-1"></a><span class="fu">mean</span>(earn) <span class="sc">/</span> <span class="fu">median</span>(earn)</span></code></pre></div>
+<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb55-1"><a href="u1-average.html#cb55-1" tabindex="-1"></a><span class="fu">mean</span>(earn) <span class="sc">/</span> <span class="fu">median</span>(earn)</span></code></pre></div>
 <pre><code>#&gt; [1] 2.237</code></pre>
 <p>The mean is more than <strong>twice</strong> the median. When those two diverge that
 sharply, the average has stopped describing a typical worker.</p>
@@ -276,11 +276,11 @@ Figure 1.11: Annual earnings of 20,000 Indian workers. The mean sits far to the 
 </p>
 </div>
 <p>How concentrated is it?</p>
-<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb53-1"><a href="u1-average.html#cb53-1" tabindex="-1"></a>top10 <span class="ot">&lt;-</span> earn[earn <span class="sc">&gt;=</span> <span class="fu">quantile</span>(earn, <span class="fl">0.90</span>)]</span>
-<span id="cb53-2"><a href="u1-average.html#cb53-2" tabindex="-1"></a></span>
-<span id="cb53-3"><a href="u1-average.html#cb53-3" tabindex="-1"></a><span class="fu">round</span>(<span class="dv">100</span> <span class="sc">*</span> <span class="fu">sum</span>(top10) <span class="sc">/</span> <span class="fu">sum</span>(earn))              <span class="co"># % of all earnings, top tenth</span></span></code></pre></div>
+<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb57-1"><a href="u1-average.html#cb57-1" tabindex="-1"></a>top10 <span class="ot">&lt;-</span> earn[earn <span class="sc">&gt;=</span> <span class="fu">quantile</span>(earn, <span class="fl">0.90</span>)]</span>
+<span id="cb57-2"><a href="u1-average.html#cb57-2" tabindex="-1"></a></span>
+<span id="cb57-3"><a href="u1-average.html#cb57-3" tabindex="-1"></a><span class="fu">round</span>(<span class="dv">100</span> <span class="sc">*</span> <span class="fu">sum</span>(top10) <span class="sc">/</span> <span class="fu">sum</span>(earn))              <span class="co"># % of all earnings, top tenth</span></span></code></pre></div>
 <pre><code>#&gt; [1] 49</code></pre>
-<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb55-1"><a href="u1-average.html#cb55-1" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">quantile</span>(earn, <span class="fl">0.90</span>) <span class="sc">/</span> <span class="fu">median</span>(earn), <span class="dv">1</span>)    <span class="co"># top-decile threshold vs median</span></span></code></pre></div>
+<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb59-1"><a href="u1-average.html#cb59-1" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">quantile</span>(earn, <span class="fl">0.90</span>) <span class="sc">/</span> <span class="fu">median</span>(earn), <span class="dv">1</span>)    <span class="co"># top-decile threshold vs median</span></span></code></pre></div>
 <pre><code>#&gt; 90% 
 #&gt; 5.2</code></pre>
 <p>The best-paid tenth of workers take a large share of all earnings, and the

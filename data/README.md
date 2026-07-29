@@ -45,6 +45,7 @@ belong in the text.
 | `nba-salaries.csv` | 269 | salary, experience, points, position, draft, race, +14 more | Multiple regression, functional forms, quadratics (`expersq`) |
 | `india-production.csv` | 40 | 1981–2020: output, labour, capital (+ logs and ratios) | **Cobb–Douglas production function.** Log-log regression, returns to scale, F-tests of restrictions |
 | `mexico-gdp.csv` | 20 | 1955–1974: GDP, employment, fixed capital | Second Cobb–Douglas example; small-sample inference |
+| `cricket-toss.csv` | 94 | team, span, matches, tosses won, % won | **Law of Large Numbers, on real data.** The toss is a fair coin, so a team's win percentage should scatter around 50 with spread $50/\sqrt{n}$. Observed spread falls 8.5 → 0.9 percentage points as teams are restricted to more matches, tracking theory at every step |
 
 ## What I changed, and why
 

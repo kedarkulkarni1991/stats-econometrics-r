@@ -278,31 +278,31 @@ distribution as the sample size grows.</p>
 <a href="u1-clt.html#fig:d2i-clt-plot">1.7</a> compares the sampling distributions of the sample mean
 for four populations with very different shapes, at sample sizes of one, five
 and thirty.</p>
-<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="u1-clt.html#cb31-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">3</span>)</span>
-<span id="cb31-2"><a href="u1-clt.html#cb31-2" tabindex="-1"></a></span>
-<span id="cb31-3"><a href="u1-clt.html#cb31-3" tabindex="-1"></a>draw_mean <span class="ot">&lt;-</span> <span class="cf">function</span>(parent, n) {</span>
-<span id="cb31-4"><a href="u1-clt.html#cb31-4" tabindex="-1"></a>  <span class="cf">switch</span>(parent,</span>
-<span id="cb31-5"><a href="u1-clt.html#cb31-5" tabindex="-1"></a>    <span class="st">&quot;Bernoulli&quot;</span>  <span class="ot">=</span> <span class="fu">mean</span>(<span class="fu">rbinom</span>(n, <span class="dv">1</span>, <span class="fl">0.3</span>)),</span>
-<span id="cb31-6"><a href="u1-clt.html#cb31-6" tabindex="-1"></a>    <span class="st">&quot;Poisson&quot;</span>    <span class="ot">=</span> <span class="fu">mean</span>(<span class="fu">rpois</span>(n, <span class="dv">2</span>)),</span>
-<span id="cb31-7"><a href="u1-clt.html#cb31-7" tabindex="-1"></a>    <span class="st">&quot;Uniform&quot;</span>    <span class="ot">=</span> <span class="fu">mean</span>(<span class="fu">runif</span>(n)),</span>
-<span id="cb31-8"><a href="u1-clt.html#cb31-8" tabindex="-1"></a>    <span class="st">&quot;Earnings&quot;</span>   <span class="ot">=</span> <span class="fu">mean</span>(<span class="fu">sample</span>(earn, n, <span class="at">replace =</span> <span class="cn">TRUE</span>)))</span>
-<span id="cb31-9"><a href="u1-clt.html#cb31-9" tabindex="-1"></a>}</span>
-<span id="cb31-10"><a href="u1-clt.html#cb31-10" tabindex="-1"></a></span>
-<span id="cb31-11"><a href="u1-clt.html#cb31-11" tabindex="-1"></a>parents <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Bernoulli&quot;</span>, <span class="st">&quot;Poisson&quot;</span>, <span class="st">&quot;Uniform&quot;</span>, <span class="st">&quot;Earnings&quot;</span>)</span>
-<span id="cb31-12"><a href="u1-clt.html#cb31-12" tabindex="-1"></a>sizes   <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">5</span>, <span class="dv">30</span>)</span>
-<span id="cb31-13"><a href="u1-clt.html#cb31-13" tabindex="-1"></a></span>
-<span id="cb31-14"><a href="u1-clt.html#cb31-14" tabindex="-1"></a>clt <span class="ot">&lt;-</span> <span class="fu">do.call</span>(rbind, <span class="fu">lapply</span>(parents, <span class="cf">function</span>(p)</span>
-<span id="cb31-15"><a href="u1-clt.html#cb31-15" tabindex="-1"></a>  <span class="fu">do.call</span>(rbind, <span class="fu">lapply</span>(sizes, <span class="cf">function</span>(n)</span>
-<span id="cb31-16"><a href="u1-clt.html#cb31-16" tabindex="-1"></a>    <span class="fu">data.frame</span>(<span class="at">parent =</span> p,</span>
-<span id="cb31-17"><a href="u1-clt.html#cb31-17" tabindex="-1"></a>               <span class="at">n      =</span> <span class="fu">factor</span>(<span class="fu">paste</span>(<span class="st">&quot;n =&quot;</span>, n), <span class="at">levels =</span> <span class="fu">paste</span>(<span class="st">&quot;n =&quot;</span>, sizes)),</span>
-<span id="cb31-18"><a href="u1-clt.html#cb31-18" tabindex="-1"></a>               <span class="at">m      =</span> <span class="fu">replicate</span>(<span class="dv">4000</span>, <span class="fu">draw_mean</span>(p, n)))))))</span>
-<span id="cb31-19"><a href="u1-clt.html#cb31-19" tabindex="-1"></a></span>
-<span id="cb31-20"><a href="u1-clt.html#cb31-20" tabindex="-1"></a><span class="co"># Standardise within each panel, so all twelve are on one scale and the</span></span>
-<span id="cb31-21"><a href="u1-clt.html#cb31-21" tabindex="-1"></a><span class="co"># comparison is purely about shape.</span></span>
-<span id="cb31-22"><a href="u1-clt.html#cb31-22" tabindex="-1"></a>clt<span class="sc">$</span>z <span class="ot">&lt;-</span> <span class="fu">ave</span>(clt<span class="sc">$</span>m, clt<span class="sc">$</span>parent, clt<span class="sc">$</span>n,</span>
-<span id="cb31-23"><a href="u1-clt.html#cb31-23" tabindex="-1"></a>             <span class="at">FUN =</span> <span class="cf">function</span>(x) (x <span class="sc">-</span> <span class="fu">mean</span>(x)) <span class="sc">/</span> <span class="fu">sd</span>(x))</span>
-<span id="cb31-24"><a href="u1-clt.html#cb31-24" tabindex="-1"></a></span>
-<span id="cb31-25"><a href="u1-clt.html#cb31-25" tabindex="-1"></a><span class="fu">head</span>(clt, <span class="dv">3</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="u1-clt.html#cb35-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">3</span>)</span>
+<span id="cb35-2"><a href="u1-clt.html#cb35-2" tabindex="-1"></a></span>
+<span id="cb35-3"><a href="u1-clt.html#cb35-3" tabindex="-1"></a>draw_mean <span class="ot">&lt;-</span> <span class="cf">function</span>(parent, n) {</span>
+<span id="cb35-4"><a href="u1-clt.html#cb35-4" tabindex="-1"></a>  <span class="cf">switch</span>(parent,</span>
+<span id="cb35-5"><a href="u1-clt.html#cb35-5" tabindex="-1"></a>    <span class="st">&quot;Bernoulli&quot;</span>  <span class="ot">=</span> <span class="fu">mean</span>(<span class="fu">rbinom</span>(n, <span class="dv">1</span>, <span class="fl">0.3</span>)),</span>
+<span id="cb35-6"><a href="u1-clt.html#cb35-6" tabindex="-1"></a>    <span class="st">&quot;Poisson&quot;</span>    <span class="ot">=</span> <span class="fu">mean</span>(<span class="fu">rpois</span>(n, <span class="dv">2</span>)),</span>
+<span id="cb35-7"><a href="u1-clt.html#cb35-7" tabindex="-1"></a>    <span class="st">&quot;Uniform&quot;</span>    <span class="ot">=</span> <span class="fu">mean</span>(<span class="fu">runif</span>(n)),</span>
+<span id="cb35-8"><a href="u1-clt.html#cb35-8" tabindex="-1"></a>    <span class="st">&quot;Earnings&quot;</span>   <span class="ot">=</span> <span class="fu">mean</span>(<span class="fu">sample</span>(earn, n, <span class="at">replace =</span> <span class="cn">TRUE</span>)))</span>
+<span id="cb35-9"><a href="u1-clt.html#cb35-9" tabindex="-1"></a>}</span>
+<span id="cb35-10"><a href="u1-clt.html#cb35-10" tabindex="-1"></a></span>
+<span id="cb35-11"><a href="u1-clt.html#cb35-11" tabindex="-1"></a>parents <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Bernoulli&quot;</span>, <span class="st">&quot;Poisson&quot;</span>, <span class="st">&quot;Uniform&quot;</span>, <span class="st">&quot;Earnings&quot;</span>)</span>
+<span id="cb35-12"><a href="u1-clt.html#cb35-12" tabindex="-1"></a>sizes   <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">5</span>, <span class="dv">30</span>)</span>
+<span id="cb35-13"><a href="u1-clt.html#cb35-13" tabindex="-1"></a></span>
+<span id="cb35-14"><a href="u1-clt.html#cb35-14" tabindex="-1"></a>clt <span class="ot">&lt;-</span> <span class="fu">do.call</span>(rbind, <span class="fu">lapply</span>(parents, <span class="cf">function</span>(p)</span>
+<span id="cb35-15"><a href="u1-clt.html#cb35-15" tabindex="-1"></a>  <span class="fu">do.call</span>(rbind, <span class="fu">lapply</span>(sizes, <span class="cf">function</span>(n)</span>
+<span id="cb35-16"><a href="u1-clt.html#cb35-16" tabindex="-1"></a>    <span class="fu">data.frame</span>(<span class="at">parent =</span> p,</span>
+<span id="cb35-17"><a href="u1-clt.html#cb35-17" tabindex="-1"></a>               <span class="at">n      =</span> <span class="fu">factor</span>(<span class="fu">paste</span>(<span class="st">&quot;n =&quot;</span>, n), <span class="at">levels =</span> <span class="fu">paste</span>(<span class="st">&quot;n =&quot;</span>, sizes)),</span>
+<span id="cb35-18"><a href="u1-clt.html#cb35-18" tabindex="-1"></a>               <span class="at">m      =</span> <span class="fu">replicate</span>(<span class="dv">4000</span>, <span class="fu">draw_mean</span>(p, n)))))))</span>
+<span id="cb35-19"><a href="u1-clt.html#cb35-19" tabindex="-1"></a></span>
+<span id="cb35-20"><a href="u1-clt.html#cb35-20" tabindex="-1"></a><span class="co"># Standardise within each panel, so all twelve are on one scale and the</span></span>
+<span id="cb35-21"><a href="u1-clt.html#cb35-21" tabindex="-1"></a><span class="co"># comparison is purely about shape.</span></span>
+<span id="cb35-22"><a href="u1-clt.html#cb35-22" tabindex="-1"></a>clt<span class="sc">$</span>z <span class="ot">&lt;-</span> <span class="fu">ave</span>(clt<span class="sc">$</span>m, clt<span class="sc">$</span>parent, clt<span class="sc">$</span>n,</span>
+<span id="cb35-23"><a href="u1-clt.html#cb35-23" tabindex="-1"></a>             <span class="at">FUN =</span> <span class="cf">function</span>(x) (x <span class="sc">-</span> <span class="fu">mean</span>(x)) <span class="sc">/</span> <span class="fu">sd</span>(x))</span>
+<span id="cb35-24"><a href="u1-clt.html#cb35-24" tabindex="-1"></a></span>
+<span id="cb35-25"><a href="u1-clt.html#cb35-25" tabindex="-1"></a><span class="fu">head</span>(clt, <span class="dv">3</span>)</span></code></pre></div>
 <pre><code>#&gt;      parent     n m       z
 #&gt; 1 Bernoulli n = 1 0 -0.6569
 #&gt; 2 Bernoulli n = 1 1  1.5219
@@ -327,8 +327,8 @@ becomes accurate. In the figure, the uniform population is close to normal by
 <h3>An intuition<a href="u1-clt.html#an-intuition" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <div class="intuition">
 <p>Roll one die: every face is equally likely. Now roll two and add them.</p>
-<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="u1-clt.html#cb33-1" tabindex="-1"></a>sums <span class="ot">&lt;-</span> <span class="fu">outer</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>, <span class="st">&quot;+&quot;</span>)</span>
-<span id="cb33-2"><a href="u1-clt.html#cb33-2" tabindex="-1"></a><span class="fu">table</span>(sums)</span></code></pre></div>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="u1-clt.html#cb37-1" tabindex="-1"></a>sums <span class="ot">&lt;-</span> <span class="fu">outer</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>, <span class="st">&quot;+&quot;</span>)</span>
+<span id="cb37-2"><a href="u1-clt.html#cb37-2" tabindex="-1"></a><span class="fu">table</span>(sums)</span></code></pre></div>
 <pre><code>#&gt; sums
 #&gt;  2  3  4  5  6  7  8  9 10 11 12 
 #&gt;  1  2  3  4  5  6  5  4  3  2  1</code></pre>
@@ -356,13 +356,13 @@ mathematical guarantee.</p>
 <p>How quickly the approximation takes hold depends on how skewed the population
 is. A symmetric population requires very few observations; a heavily skewed one
 requires many more.</p>
-<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="u1-clt.html#cb35-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">9</span>)</span>
-<span id="cb35-2"><a href="u1-clt.html#cb35-2" tabindex="-1"></a></span>
-<span id="cb35-3"><a href="u1-clt.html#cb35-3" tabindex="-1"></a><span class="co"># A crude measure of how far a distribution is from symmetric</span></span>
-<span id="cb35-4"><a href="u1-clt.html#cb35-4" tabindex="-1"></a>skewness <span class="ot">&lt;-</span> <span class="cf">function</span>(x) <span class="fu">mean</span>((x <span class="sc">-</span> <span class="fu">mean</span>(x))<span class="sc">^</span><span class="dv">3</span>) <span class="sc">/</span> <span class="fu">sd</span>(x)<span class="sc">^</span><span class="dv">3</span></span>
-<span id="cb35-5"><a href="u1-clt.html#cb35-5" tabindex="-1"></a></span>
-<span id="cb35-6"><a href="u1-clt.html#cb35-6" tabindex="-1"></a><span class="fu">sapply</span>(<span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">30</span>, <span class="dv">100</span>, <span class="dv">500</span>), <span class="cf">function</span>(n)</span>
-<span id="cb35-7"><a href="u1-clt.html#cb35-7" tabindex="-1"></a>  <span class="fu">round</span>(<span class="fu">skewness</span>(<span class="fu">replicate</span>(<span class="dv">2000</span>, <span class="fu">mean</span>(<span class="fu">sample</span>(earn, n, <span class="at">replace =</span> <span class="cn">TRUE</span>)))), <span class="dv">2</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="u1-clt.html#cb39-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">9</span>)</span>
+<span id="cb39-2"><a href="u1-clt.html#cb39-2" tabindex="-1"></a></span>
+<span id="cb39-3"><a href="u1-clt.html#cb39-3" tabindex="-1"></a><span class="co"># A crude measure of how far a distribution is from symmetric</span></span>
+<span id="cb39-4"><a href="u1-clt.html#cb39-4" tabindex="-1"></a>skewness <span class="ot">&lt;-</span> <span class="cf">function</span>(x) <span class="fu">mean</span>((x <span class="sc">-</span> <span class="fu">mean</span>(x))<span class="sc">^</span><span class="dv">3</span>) <span class="sc">/</span> <span class="fu">sd</span>(x)<span class="sc">^</span><span class="dv">3</span></span>
+<span id="cb39-5"><a href="u1-clt.html#cb39-5" tabindex="-1"></a></span>
+<span id="cb39-6"><a href="u1-clt.html#cb39-6" tabindex="-1"></a><span class="fu">sapply</span>(<span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">30</span>, <span class="dv">100</span>, <span class="dv">500</span>), <span class="cf">function</span>(n)</span>
+<span id="cb39-7"><a href="u1-clt.html#cb39-7" tabindex="-1"></a>  <span class="fu">round</span>(<span class="fu">skewness</span>(<span class="fu">replicate</span>(<span class="dv">2000</span>, <span class="fu">mean</span>(<span class="fu">sample</span>(earn, n, <span class="at">replace =</span> <span class="cn">TRUE</span>)))), <span class="dv">2</span>))</span></code></pre></div>
 <pre><code>#&gt; [1] 2.99 1.20 0.76 0.27</code></pre>
 <p>The earnings population has a skewness of about 7.3. At <span class="math inline">\(n = 5\)</span> the
 sampling distribution is still visibly lopsided. By <span class="math inline">\(n = 100\)</span> it is close to

@@ -266,10 +266,10 @@ and the claim is guaranteed to exist even when the claim is perfectly true.</str
 <p>Let us actually watch that happen. Suppose we <em>know</em> the truth: the population
 mean is exactly 165 cm, with a standard deviation of 8 cm. Now let us draw a
 sample of 36 students, ten separate times, and look at the sample means.</p>
-<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb57-1"><a href="os-problem.html#cb57-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
-<span id="cb57-2"><a href="os-problem.html#cb57-2" tabindex="-1"></a></span>
-<span id="cb57-3"><a href="os-problem.html#cb57-3" tabindex="-1"></a>ten_samples <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">10</span>, <span class="fu">mean</span>(<span class="fu">rnorm</span>(<span class="at">n =</span> <span class="dv">36</span>, <span class="at">mean =</span> <span class="dv">165</span>, <span class="at">sd =</span> <span class="dv">8</span>)))</span>
-<span id="cb57-4"><a href="os-problem.html#cb57-4" tabindex="-1"></a><span class="fu">round</span>(ten_samples, <span class="dv">2</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb61-1"><a href="os-problem.html#cb61-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
+<span id="cb61-2"><a href="os-problem.html#cb61-2" tabindex="-1"></a></span>
+<span id="cb61-3"><a href="os-problem.html#cb61-3" tabindex="-1"></a>ten_samples <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">10</span>, <span class="fu">mean</span>(<span class="fu">rnorm</span>(<span class="at">n =</span> <span class="dv">36</span>, <span class="at">mean =</span> <span class="dv">165</span>, <span class="at">sd =</span> <span class="dv">8</span>)))</span>
+<span id="cb61-4"><a href="os-problem.html#cb61-4" tabindex="-1"></a><span class="fu">round</span>(ten_samples, <span class="dv">2</span>)</span></code></pre></div>
 <pre><code>#&gt;  [1] 165.5 165.1 165.6 163.0 164.8 164.4 165.3 165.4 164.1 164.5</code></pre>
 <p>Every one of those numbers came from a population whose mean is <em>exactly</em> 165.
 Not one of them is 165. Several are further from 165 than a full centimetre.</p>
@@ -286,14 +286,14 @@ us, or the claim is false. We go with the second explanation.</p>
 <p>We can answer that question by brute force before we do any algebra at all.
 Let’s draw not ten samples but fifty thousand, still assuming the claim is true,
 and count how many stray at least 3 cm away from 165 (as ours did).</p>
-<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb59-1"><a href="os-problem.html#cb59-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
-<span id="cb59-2"><a href="os-problem.html#cb59-2" tabindex="-1"></a></span>
-<span id="cb59-3"><a href="os-problem.html#cb59-3" tabindex="-1"></a>many_means <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">50000</span>, <span class="fu">mean</span>(<span class="fu">rnorm</span>(<span class="at">n =</span> <span class="dv">36</span>, <span class="at">mean =</span> <span class="dv">165</span>, <span class="at">sd =</span> <span class="dv">8</span>)))</span>
-<span id="cb59-4"><a href="os-problem.html#cb59-4" tabindex="-1"></a></span>
-<span id="cb59-5"><a href="os-problem.html#cb59-5" tabindex="-1"></a><span class="co"># How far did our real sample fall from the claim?</span></span>
-<span id="cb59-6"><a href="os-problem.html#cb59-6" tabindex="-1"></a>observed_gap <span class="ot">&lt;-</span> <span class="fu">abs</span>(<span class="dv">168</span> <span class="sc">-</span> <span class="dv">165</span>)</span>
-<span id="cb59-7"><a href="os-problem.html#cb59-7" tabindex="-1"></a></span>
-<span id="cb59-8"><a href="os-problem.html#cb59-8" tabindex="-1"></a><span class="fu">mean</span>(<span class="fu">abs</span>(many_means <span class="sc">-</span> <span class="dv">165</span>) <span class="sc">&gt;=</span> observed_gap)</span></code></pre></div>
+<div class="sourceCode" id="cb63"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb63-1"><a href="os-problem.html#cb63-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
+<span id="cb63-2"><a href="os-problem.html#cb63-2" tabindex="-1"></a></span>
+<span id="cb63-3"><a href="os-problem.html#cb63-3" tabindex="-1"></a>many_means <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">50000</span>, <span class="fu">mean</span>(<span class="fu">rnorm</span>(<span class="at">n =</span> <span class="dv">36</span>, <span class="at">mean =</span> <span class="dv">165</span>, <span class="at">sd =</span> <span class="dv">8</span>)))</span>
+<span id="cb63-4"><a href="os-problem.html#cb63-4" tabindex="-1"></a></span>
+<span id="cb63-5"><a href="os-problem.html#cb63-5" tabindex="-1"></a><span class="co"># How far did our real sample fall from the claim?</span></span>
+<span id="cb63-6"><a href="os-problem.html#cb63-6" tabindex="-1"></a>observed_gap <span class="ot">&lt;-</span> <span class="fu">abs</span>(<span class="dv">168</span> <span class="sc">-</span> <span class="dv">165</span>)</span>
+<span id="cb63-7"><a href="os-problem.html#cb63-7" tabindex="-1"></a></span>
+<span id="cb63-8"><a href="os-problem.html#cb63-8" tabindex="-1"></a><span class="fu">mean</span>(<span class="fu">abs</span>(many_means <span class="sc">-</span> <span class="dv">165</span>) <span class="sc">&gt;=</span> observed_gap)</span></code></pre></div>
 <pre><code>#&gt; [1] 0.02424</code></pre>
 <p>About 2.5% of the time. So if the administration is telling the truth, a sample
 like ours turns up roughly once in forty tries. That is rare enough to be

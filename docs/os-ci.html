@@ -258,7 +258,7 @@ Z_{\alpha/2}\,\sigma/\sqrt{n}\)</span> for <span class="math inline">\(\mu\)</sp
 \bar{x} + Z_{\alpha/2}\frac{\sigma}{\sqrt{n}}
 \]</span></p>
 <p>For our students:</p>
-<div class="sourceCode" id="cb70"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb70-1"><a href="os-ci.html#cb70-1" tabindex="-1"></a>xbar <span class="sc">+</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>) <span class="sc">*</span> <span class="fu">qnorm</span>(<span class="fl">0.975</span>) <span class="sc">*</span> (<span class="dv">8</span> <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="dv">36</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb74"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb74-1"><a href="os-ci.html#cb74-1" tabindex="-1"></a>xbar <span class="sc">+</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>) <span class="sc">*</span> <span class="fu">qnorm</span>(<span class="fl">0.975</span>) <span class="sc">*</span> (<span class="dv">8</span> <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="dv">36</span>))</span></code></pre></div>
 <pre><code>#&gt; [1] 165.4 170.6</code></pre>
 <p>The 95% interval is roughly <span class="math inline">\([165.4,\ 170.6]\)</span>. The claimed value of 165 lies
 <strong>outside</strong> it — which is the same verdict we reached with the test statistic,
@@ -278,17 +278,17 @@ in 95% of repeated samples. The randomness lives in the interval, not in <span c
 </div>
 <p>We can see that directly. Build 100 intervals from 100 samples of a population
 we know averages 165, and count the misses:</p>
-<div class="sourceCode" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb72-1"><a href="os-ci.html#cb72-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
-<span id="cb72-2"><a href="os-ci.html#cb72-2" tabindex="-1"></a></span>
-<span id="cb72-3"><a href="os-ci.html#cb72-3" tabindex="-1"></a>sims <span class="ot">&lt;-</span> <span class="fu">t</span>(<span class="fu">replicate</span>(<span class="dv">100</span>, {</span>
-<span id="cb72-4"><a href="os-ci.html#cb72-4" tabindex="-1"></a>  s <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">36</span>, <span class="at">mean =</span> <span class="dv">165</span>, <span class="at">sd =</span> <span class="dv">8</span>)</span>
-<span id="cb72-5"><a href="os-ci.html#cb72-5" tabindex="-1"></a>  <span class="fu">mean</span>(s) <span class="sc">+</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>) <span class="sc">*</span> <span class="fu">qnorm</span>(<span class="fl">0.975</span>) <span class="sc">*</span> <span class="dv">8</span> <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="dv">36</span>)</span>
-<span id="cb72-6"><a href="os-ci.html#cb72-6" tabindex="-1"></a>}))</span>
-<span id="cb72-7"><a href="os-ci.html#cb72-7" tabindex="-1"></a></span>
-<span id="cb72-8"><a href="os-ci.html#cb72-8" tabindex="-1"></a>ci <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">id =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">100</span>, <span class="at">lo =</span> sims[, <span class="dv">1</span>], <span class="at">hi =</span> sims[, <span class="dv">2</span>])</span>
-<span id="cb72-9"><a href="os-ci.html#cb72-9" tabindex="-1"></a>ci<span class="sc">$</span>misses <span class="ot">&lt;-</span> ci<span class="sc">$</span>lo <span class="sc">&gt;</span> <span class="dv">165</span> <span class="sc">|</span> ci<span class="sc">$</span>hi <span class="sc">&lt;</span> <span class="dv">165</span></span>
-<span id="cb72-10"><a href="os-ci.html#cb72-10" tabindex="-1"></a></span>
-<span id="cb72-11"><a href="os-ci.html#cb72-11" tabindex="-1"></a><span class="fu">sum</span>(ci<span class="sc">$</span>misses)   <span class="co"># how many of the 100 failed to capture the truth?</span></span></code></pre></div>
+<div class="sourceCode" id="cb76"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb76-1"><a href="os-ci.html#cb76-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb76-2"><a href="os-ci.html#cb76-2" tabindex="-1"></a></span>
+<span id="cb76-3"><a href="os-ci.html#cb76-3" tabindex="-1"></a>sims <span class="ot">&lt;-</span> <span class="fu">t</span>(<span class="fu">replicate</span>(<span class="dv">100</span>, {</span>
+<span id="cb76-4"><a href="os-ci.html#cb76-4" tabindex="-1"></a>  s <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">36</span>, <span class="at">mean =</span> <span class="dv">165</span>, <span class="at">sd =</span> <span class="dv">8</span>)</span>
+<span id="cb76-5"><a href="os-ci.html#cb76-5" tabindex="-1"></a>  <span class="fu">mean</span>(s) <span class="sc">+</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>) <span class="sc">*</span> <span class="fu">qnorm</span>(<span class="fl">0.975</span>) <span class="sc">*</span> <span class="dv">8</span> <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="dv">36</span>)</span>
+<span id="cb76-6"><a href="os-ci.html#cb76-6" tabindex="-1"></a>}))</span>
+<span id="cb76-7"><a href="os-ci.html#cb76-7" tabindex="-1"></a></span>
+<span id="cb76-8"><a href="os-ci.html#cb76-8" tabindex="-1"></a>ci <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">id =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">100</span>, <span class="at">lo =</span> sims[, <span class="dv">1</span>], <span class="at">hi =</span> sims[, <span class="dv">2</span>])</span>
+<span id="cb76-9"><a href="os-ci.html#cb76-9" tabindex="-1"></a>ci<span class="sc">$</span>misses <span class="ot">&lt;-</span> ci<span class="sc">$</span>lo <span class="sc">&gt;</span> <span class="dv">165</span> <span class="sc">|</span> ci<span class="sc">$</span>hi <span class="sc">&lt;</span> <span class="dv">165</span></span>
+<span id="cb76-10"><a href="os-ci.html#cb76-10" tabindex="-1"></a></span>
+<span id="cb76-11"><a href="os-ci.html#cb76-11" tabindex="-1"></a><span class="fu">sum</span>(ci<span class="sc">$</span>misses)   <span class="co"># how many of the 100 failed to capture the truth?</span></span></code></pre></div>
 <pre><code>#&gt; [1] 5</code></pre>
 <p>Five of the hundred missed. Run it again with a different seed and you will get
 four, or seven, or three — but over the long run, 5%.</p>

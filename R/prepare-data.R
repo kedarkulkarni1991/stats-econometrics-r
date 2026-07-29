@@ -215,4 +215,14 @@ clean(d, "cpi-agri-labour.csv")
 d <- trim_chars(read.csv(raw("icrisat-prices.csv")))
 clean(d, "icrisat-prices.csv")
 
+## 25. Cricket toss records ---------------------------------------------------
+## Team-by-team toss results across all international cricket, compiled by the
+## author from public match records. Used in Unit 1 as a real-world
+## demonstration of the Law of Large Numbers: the toss is a fair coin, so a
+## team's toss-win percentage should scatter around 50 with a spread of
+## 50/sqrt(n) percentage points.
+
+d <- trim_chars(read.csv(raw("cricket-toss.csv")))
+clean(d, "cricket-toss.csv")
+
 cat("Done.\n")

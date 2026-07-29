@@ -101,7 +101,7 @@
 
 /* --- Callout blocks ------------------------------------------------------ */
 
-.intuition, .theory, .inr, .watchout, .yourturn, .keyidea {
+.intuition, .theory, .inr, .watchout, .yourturn, .keyidea, .example {
   margin: 1.7em 0;
   padding: 1.05em 1.25em 1.05em 1.35em;
   border-left: 4px solid;
@@ -110,17 +110,19 @@
 }
 
 .intuition > :first-child, .theory > :first-child, .inr > :first-child,
-.watchout > :first-child, .yourturn > :first-child, .keyidea > :first-child {
+.watchout > :first-child, .yourturn > :first-child, .keyidea > :first-child,
+.example > :first-child {
   margin-top: 0;
 }
 .intuition > :last-child, .theory > :last-child, .inr > :last-child,
-.watchout > :last-child, .yourturn > :last-child, .keyidea > :last-child {
+.watchout > :last-child, .yourturn > :last-child, .keyidea > :last-child,
+.example > :last-child {
   margin-bottom: 0;
 }
 
 /* Each block announces itself, so a student never has to guess its role. */
 .intuition::before, .theory::before, .inr::before,
-.watchout::before, .yourturn::before, .keyidea::before {
+.watchout::before, .yourturn::before, .keyidea::before, .example::before {
   display: block;
   font-size: 0.72em;
   font-weight: 700;
@@ -146,6 +148,9 @@
 
 .keyidea { border-color: var(--ink); background: #f4f6f8; }
 .keyidea::before { content: "Remember this"; color: var(--ink); }
+
+.example { border-color: var(--rcode); background: var(--rcode-bg); }
+.example::before { content: "Evidence from the real world"; color: var(--rcode); }
 
 /* --- Code ---------------------------------------------------------------- */
 
@@ -218,7 +223,7 @@ details.solution > summary::-webkit-details-marker { display: none; }
   .book.font-size-3 .book-body .page-inner section.normal { font-size: 18px; }
   .book.font-size-4 .book-body .page-inner section.normal { font-size: 21px; }
 
-  .intuition, .theory, .inr, .watchout, .yourturn, .keyidea {
+  .intuition, .theory, .inr, .watchout, .yourturn, .keyidea, .example {
     padding: 0.9em 1em;
   }
 }
