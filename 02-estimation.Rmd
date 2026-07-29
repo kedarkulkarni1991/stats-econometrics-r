@@ -557,53 +557,43 @@ often the honest answer is that more of the same data will not help.
 ## Summary {#u2-summary}
 
 ::: {.keyidea}
-1. A **parameter** is a fixed, unknown feature of the population. An
-   **estimator** is a rule for guessing it from a sample, and is itself a
-   random variable. An **estimate** is the number that rule returns from the
-   sample actually drawn.
-2. Because the parameter is never known, no single estimate can be judged. We
-   judge the estimator, by how it behaves across the many samples that might
-   have been drawn. Evaluating procedures rather than outcomes is what makes
-   the whole subject possible.
-3. A sample speaks for a population only if the observations are **independent
-   and identically distributed**. Break identical distribution and the
-   estimates are centred on the wrong number; break independence and they vary
-   far more than any formula predicts.
-4. The sample mean is **unbiased**: $E(\bar{X}) = \mu$. The rule is not
-   systematically too high or too low. This says nothing about whether your
-   particular $\bar{x}$ is close to $\mu$.
-5. $\mathrm{Var}(\bar{X}) = \sigma^2/n$, so the **standard error** is
-   $\mathrm{se}(\bar{X}) = \sigma/\sqrt{n}$. It measures how much the sample
-   mean moves from sample to sample — not how far your estimate is from the
-   truth, which is unknowable.
-6. Each property rests on exactly one assumption, in exactly one line.
-   Unbiasedness needs *identically distributed*; the variance formula needs
-   *independence*. The assumptions are not decoration.
-7. The two properties together answer the unit's question and explain the
-   **Law of Large Numbers**. A distribution centred on the right value and
-   becoming ever narrower must concentrate on it. Centred but never
-   tightening is useless; tightening around the wrong value is worse, because
-   more data only hardens the mistake.
-8. Precision is bought at a diminishing rate. The standard error falls with
-   $\sqrt{n}$, not $n$, so halving it costs four times the data — and no
-   sample size repairs a badly designed survey.
+- A population has fixed but unknown **parameters**.
+- An **estimator** is a rule; an **estimate** is the result of applying it to
+  one sample.
+- Since the truth is never observed, estimators are judged by their behaviour
+  across repeated samples, not by any single estimate they produce.
+- A sample speaks for a population only if it is drawn **independently** and
+  from **the population of interest**. Neither assumption is decoration: break
+  the first and the spread is far wider than any formula predicts, break the
+  second and the estimates are centred on the wrong number while often looking
+  more precise than the honest ones.
+- Under random sampling the sample mean is **unbiased**: $E(\bar{X}) = \mu$.
+- Its **standard error**, $\sigma/\sqrt{n}$, falls as $1/\sqrt{n}$ — so larger
+  samples give more precise estimates, at a rising price per unit of precision.
+- Centred and increasingly precise together are what make the sample mean
+  trustworthy, and together they are the Law of Large Numbers.
 :::
+
+Everything in this unit has been about choosing a good estimator. The next unit
+asks how to use that estimator to make statements about an unknown population
+from a single observed sample.
 
 
 ## Looking ahead {#u2-looking-ahead}
 
-We now have a rule, and two reasons to trust it. The sample mean is centred on
-the population mean, and its standard error tells us how far it typically
-strays.
+We opened by asking why statistics has settled on the sample mean, and the
+answer is now in hand. It is centred on the truth, its variability falls as the
+sample grows, and larger samples therefore tend to produce estimates closer to
+the population mean.
 
-But a standard error is not yet an answer.
+But notice what every argument in this unit relied on. We drew a thousand
+samples and looked at how they scattered. We compared four survey designs by
+running each a thousand times. The sampling distribution has been visible on
+every page.
 
-Suppose a survey of fifty households returns an average monthly income of
-₹24,000, with a standard error of ₹1,500. What should be reported? Reporting
-₹24,000 alone is misleading, since we know it is almost certainly not the
-population value. Reporting the standard error alongside it is honest but hard
-to act on — it is a technical quantity, not a claim about the world.
+In practice it never is. Nobody draws a thousand samples. A survey is conducted
+once, at considerable expense, and yields exactly one sample mean.
 
-What we want is a statement of the form: the population mean is somewhere in
-*this* range, and here is how confident we are of that. Turning a standard
-error into such a statement is the subject of the next unit.
+The sample mean has earned our trust as an estimator. But we see only one of
+them. The next question is therefore unavoidable: what can a single sample tell
+us about an unknown population?

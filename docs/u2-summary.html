@@ -279,39 +279,27 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <div id="u2-summary" class="section level2 hasAnchor" number="2.8">
 <h2><span class="header-section-number">2.8</span> Summary<a href="u2-summary.html#u2-summary" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <div class="keyidea">
-<ol style="list-style-type: decimal">
-<li>A <strong>parameter</strong> is a fixed, unknown feature of the population. An
-<strong>estimator</strong> is a rule for guessing it from a sample, and is itself a
-random variable. An <strong>estimate</strong> is the number that rule returns from the
-sample actually drawn.</li>
-<li>Because the parameter is never known, no single estimate can be judged. We
-judge the estimator, by how it behaves across the many samples that might
-have been drawn. Evaluating procedures rather than outcomes is what makes
-the whole subject possible.</li>
-<li>A sample speaks for a population only if the observations are <strong>independent
-and identically distributed</strong>. Break identical distribution and the
-estimates are centred on the wrong number; break independence and they vary
-far more than any formula predicts.</li>
-<li>The sample mean is <strong>unbiased</strong>: <span class="math inline">\(E(\bar{X}) = \mu\)</span>. The rule is not
-systematically too high or too low. This says nothing about whether your
-particular <span class="math inline">\(\bar{x}\)</span> is close to <span class="math inline">\(\mu\)</span>.</li>
-<li><span class="math inline">\(\mathrm{Var}(\bar{X}) = \sigma^2/n\)</span>, so the <strong>standard error</strong> is
-<span class="math inline">\(\mathrm{se}(\bar{X}) = \sigma/\sqrt{n}\)</span>. It measures how much the sample
-mean moves from sample to sample — not how far your estimate is from the
-truth, which is unknowable.</li>
-<li>Each property rests on exactly one assumption, in exactly one line.
-Unbiasedness needs <em>identically distributed</em>; the variance formula needs
-<em>independence</em>. The assumptions are not decoration.</li>
-<li>The two properties together answer the unit’s question and explain the
-<strong>Law of Large Numbers</strong>. A distribution centred on the right value and
-becoming ever narrower must concentrate on it. Centred but never
-tightening is useless; tightening around the wrong value is worse, because
-more data only hardens the mistake.</li>
-<li>Precision is bought at a diminishing rate. The standard error falls with
-<span class="math inline">\(\sqrt{n}\)</span>, not <span class="math inline">\(n\)</span>, so halving it costs four times the data — and no
-sample size repairs a badly designed survey.</li>
-</ol>
+<ul>
+<li>A population has fixed but unknown <strong>parameters</strong>.</li>
+<li>An <strong>estimator</strong> is a rule; an <strong>estimate</strong> is the result of applying it to
+one sample.</li>
+<li>Since the truth is never observed, estimators are judged by their behaviour
+across repeated samples, not by any single estimate they produce.</li>
+<li>A sample speaks for a population only if it is drawn <strong>independently</strong> and
+from <strong>the population of interest</strong>. Neither assumption is decoration: break
+the first and the spread is far wider than any formula predicts, break the
+second and the estimates are centred on the wrong number while often looking
+more precise than the honest ones.</li>
+<li>Under random sampling the sample mean is <strong>unbiased</strong>: <span class="math inline">\(E(\bar{X}) = \mu\)</span>.</li>
+<li>Its <strong>standard error</strong>, <span class="math inline">\(\sigma/\sqrt{n}\)</span>, falls as <span class="math inline">\(1/\sqrt{n}\)</span> — so larger
+samples give more precise estimates, at a rising price per unit of precision.</li>
+<li>Centred and increasingly precise together are what make the sample mean
+trustworthy, and together they are the Law of Large Numbers.</li>
+</ul>
 </div>
+<p>Everything in this unit has been about choosing a good estimator. The next unit
+asks how to use that estimator to make statements about an unknown population
+from a single observed sample.</p>
 </div>
 <script>
 // Solutions are written as plain fenced divs in the source, so the PDF edition
