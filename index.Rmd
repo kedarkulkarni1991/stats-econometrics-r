@@ -83,14 +83,27 @@ presenting new statistical methods, but in presenting familiar ideas through a
 pedagogical approach that places intuition, conceptual understanding and
 empirical application at its centre.
 
-The book is intended primarily for undergraduate and postgraduate students of
-economics, but it will also be useful to students of public policy, sociology,
-political science, development studies and related disciplines. It assumes only
-a modest mathematical background and is written so that motivated readers can
-work through it independently. My hope is that readers finish the book not only
-knowing how to perform statistical analyses in R, but also understanding the
-logic of frequentist inference and developing the habits of mind needed to
-think critically about empirical evidence.
+The book is written primarily for undergraduate students in India who are
+studying quantitative social science — economics, but equally public policy,
+sociology, political science, development studies and related disciplines.
+
+I want to be explicit about one group of readers in particular. Many students
+arrive in these programmes without a mathematics training in school, and find
+statistics and econometrics genuinely difficult as a result. In my experience
+the difficulty is almost never a lack of ability. It is that most textbooks are
+written for readers who already have the background, and a student without it
+is left trying to learn the ideas and the notation simultaneously, from a book
+that explains only the second.
+
+This book assumes no such background. Every idea is introduced before the
+symbols for it, mathematical steps are shown rather than left to the reader, and
+nothing is described as obvious. Motivated readers should be able to work
+through it independently.
+
+My hope is that readers finish the book not only knowing how to perform
+statistical analyses in R, but also understanding the logic of frequentist
+inference and developing the habits of mind needed to think critically about
+empirical evidence.
 
 I owe a considerable debt to my colleagues in economics at Azim Premji
 University. Good pedagogy is treated here as a serious professional
