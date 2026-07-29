@@ -1880,19 +1880,46 @@ you about the difference between the two groups.
 
 ## Looking ahead {#u3-looking-ahead}
 
-We can now take one sample and produce a range of values consistent with it.
-That is a considerable advance on a single number, and for many purposes it is
-the whole answer — a survey estimate reported with its margin of error is doing
-exactly this.
+In this unit we learned how to use a sample to estimate an unknown population
+parameter. Rather than reporting a single number, we reported a **confidence
+interval** — a range of values consistent with the observed data.
 
-But notice the shape of what we have been asking. We began with the data and
-worked outwards to whatever range they would support.
+For many problems that is exactly what is needed. Opinion polls report margins
+of error, medical studies estimate treatment effects, and government surveys
+publish confidence intervals around unemployment rates, inflation and average
+income. In each case the question begins with the data:
 
-Many questions arrive the other way round. A government claims average
-attendance meets a target. A manufacturer claims a mean lifetime. A previous
-round of a survey reported a figure, and we want to know whether things have
-changed. In each case a specific value is proposed *before* the data are
-examined, and the question is whether the sample is consistent with it.
+> Given this sample, what values of the population parameter are plausible?
 
-That is a different question, and it needs its own machinery — though, as we
-will see, one built from precisely the same parts.
+Many real questions, however, begin somewhere else.
+
+A school claims that its students attend an average of at least 28 classes. A
+manufacturer advertises that its batteries last 500 hours. A government
+announces that unemployment has fallen below 5%.
+
+These claims are made *before* any data are collected.
+
+The task is no longer to estimate an unknown quantity. It is to decide whether
+a sample provides enough evidence to support — or to challenge — a specific
+claim that someone else has put forward.
+
+This requires turning the question around. Instead of asking
+
+> What values are consistent with the data?
+
+we ask
+
+> Are the data consistent with a particular value?
+
+At first sight these look like different problems. One starts with the data and
+searches for plausible parameter values; the other starts with a proposed value
+and asks whether the data agree with it.
+
+As the next unit shows, the two are closely connected. Hypothesis tests and
+confidence intervals are built from the same ingredients — the sampling
+distribution, the standard error, and the probability model laid on top of them
+— but they are pointed in opposite directions.
+
+Confidence intervals ask **what values are plausible**.
+
+Hypothesis tests ask **whether a particular claim is plausible**.
