@@ -302,17 +302,17 @@ from 165 as ours. That is unlikely enough to reject the claim.</p>
 <div id="the-same-thing-in-r" class="section level3 unnumbered hasAnchor">
 <h3>The same thing in R<a href="os-worked.html#the-same-thing-in-r" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Now watch every one of those numbers reappear.</p>
-<div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb66-1"><a href="os-worked.html#cb66-1" tabindex="-1"></a>xbar  <span class="ot">&lt;-</span> <span class="dv">168</span></span>
-<span id="cb66-2"><a href="os-worked.html#cb66-2" tabindex="-1"></a>mu0   <span class="ot">&lt;-</span> <span class="dv">165</span></span>
-<span id="cb66-3"><a href="os-worked.html#cb66-3" tabindex="-1"></a>sigma <span class="ot">&lt;-</span> <span class="dv">8</span></span>
-<span id="cb66-4"><a href="os-worked.html#cb66-4" tabindex="-1"></a>n     <span class="ot">&lt;-</span> <span class="dv">36</span></span>
-<span id="cb66-5"><a href="os-worked.html#cb66-5" tabindex="-1"></a></span>
-<span id="cb66-6"><a href="os-worked.html#cb66-6" tabindex="-1"></a>se     <span class="ot">&lt;-</span> sigma <span class="sc">/</span> <span class="fu">sqrt</span>(n)          <span class="co"># standard error</span></span>
-<span id="cb66-7"><a href="os-worked.html#cb66-7" tabindex="-1"></a>z_calc <span class="ot">&lt;-</span> (xbar <span class="sc">-</span> mu0) <span class="sc">/</span> se        <span class="co"># the test statistic</span></span>
-<span id="cb66-8"><a href="os-worked.html#cb66-8" tabindex="-1"></a>z_crit <span class="ot">&lt;-</span> <span class="fu">qnorm</span>(<span class="dv">1</span> <span class="sc">-</span> <span class="fl">0.05</span> <span class="sc">/</span> <span class="dv">2</span>)      <span class="co"># the critical value</span></span>
-<span id="cb66-9"><a href="os-worked.html#cb66-9" tabindex="-1"></a>p_val  <span class="ot">&lt;-</span> <span class="dv">2</span> <span class="sc">*</span> <span class="fu">pnorm</span>(<span class="sc">-</span><span class="fu">abs</span>(z_calc))  <span class="co"># the p-value</span></span>
-<span id="cb66-10"><a href="os-worked.html#cb66-10" tabindex="-1"></a></span>
-<span id="cb66-11"><a href="os-worked.html#cb66-11" tabindex="-1"></a><span class="fu">c</span>(<span class="at">se =</span> se, <span class="at">z_calc =</span> z_calc, <span class="at">z_crit =</span> z_crit, <span class="at">p_value =</span> p_val)</span></code></pre></div>
+<div class="sourceCode" id="cb70"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb70-1"><a href="os-worked.html#cb70-1" tabindex="-1"></a>xbar  <span class="ot">&lt;-</span> <span class="dv">168</span></span>
+<span id="cb70-2"><a href="os-worked.html#cb70-2" tabindex="-1"></a>mu0   <span class="ot">&lt;-</span> <span class="dv">165</span></span>
+<span id="cb70-3"><a href="os-worked.html#cb70-3" tabindex="-1"></a>sigma <span class="ot">&lt;-</span> <span class="dv">8</span></span>
+<span id="cb70-4"><a href="os-worked.html#cb70-4" tabindex="-1"></a>n     <span class="ot">&lt;-</span> <span class="dv">36</span></span>
+<span id="cb70-5"><a href="os-worked.html#cb70-5" tabindex="-1"></a></span>
+<span id="cb70-6"><a href="os-worked.html#cb70-6" tabindex="-1"></a>se     <span class="ot">&lt;-</span> sigma <span class="sc">/</span> <span class="fu">sqrt</span>(n)          <span class="co"># standard error</span></span>
+<span id="cb70-7"><a href="os-worked.html#cb70-7" tabindex="-1"></a>z_calc <span class="ot">&lt;-</span> (xbar <span class="sc">-</span> mu0) <span class="sc">/</span> se        <span class="co"># the test statistic</span></span>
+<span id="cb70-8"><a href="os-worked.html#cb70-8" tabindex="-1"></a>z_crit <span class="ot">&lt;-</span> <span class="fu">qnorm</span>(<span class="dv">1</span> <span class="sc">-</span> <span class="fl">0.05</span> <span class="sc">/</span> <span class="dv">2</span>)      <span class="co"># the critical value</span></span>
+<span id="cb70-9"><a href="os-worked.html#cb70-9" tabindex="-1"></a>p_val  <span class="ot">&lt;-</span> <span class="dv">2</span> <span class="sc">*</span> <span class="fu">pnorm</span>(<span class="sc">-</span><span class="fu">abs</span>(z_calc))  <span class="co"># the p-value</span></span>
+<span id="cb70-10"><a href="os-worked.html#cb70-10" tabindex="-1"></a></span>
+<span id="cb70-11"><a href="os-worked.html#cb70-11" tabindex="-1"></a><span class="fu">c</span>(<span class="at">se =</span> se, <span class="at">z_calc =</span> z_calc, <span class="at">z_crit =</span> z_crit, <span class="at">p_value =</span> p_val)</span></code></pre></div>
 <pre><code>#&gt;      se  z_calc  z_crit p_value 
 #&gt; 1.33333 2.25000 1.95996 0.02445</code></pre>
 <p>The standard error is 1.3333, the test statistic is
@@ -327,8 +327,8 @@ is a shortcut for the counting exercise we did by hand in Section
 <a href="os-problem.html#os-problem">3.1</a>.</p>
 </div>
 <p>And here is the picture the numbers are describing:</p>
-<div class="sourceCode" id="cb68"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb68-1"><a href="os-worked.html#cb68-1" tabindex="-1"></a><span class="fu">plot_rejection</span>(<span class="at">stat =</span> <span class="fl">2.25</span>, <span class="at">crit =</span> <span class="fl">1.96</span>, <span class="at">tails =</span> <span class="st">&quot;two&quot;</span>,</span>
-<span id="cb68-2"><a href="os-worked.html#cb68-2" tabindex="-1"></a>               <span class="at">stat_label =</span> <span class="st">&quot;Z = 2.25&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb72-1"><a href="os-worked.html#cb72-1" tabindex="-1"></a><span class="fu">plot_rejection</span>(<span class="at">stat =</span> <span class="fl">2.25</span>, <span class="at">crit =</span> <span class="fl">1.96</span>, <span class="at">tails =</span> <span class="st">&quot;two&quot;</span>,</span>
+<span id="cb72-2"><a href="os-worked.html#cb72-2" tabindex="-1"></a>               <span class="at">stat_label =</span> <span class="st">&quot;Z = 2.25&quot;</span>)</span></code></pre></div>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:os-reject-plot"></span>
 <img src="stats-econometrics-r_files/figure-html/os-reject-plot-1.png" alt="The rejection region at $\alpha = 0.05$ (shaded), with our test statistic of 2.25 falling inside it." width="90%" />
 <p class="caption">
@@ -341,11 +341,11 @@ Figure 3.2: The rejection region at <span class="math inline">\(\alpha = 0.05\)<
 <p>For a real dataset rather than summary statistics, <code>z.test()</code> from the <strong>BSDA</strong>
 package does the whole thing at once. Since our problem quoted only summary
 statistics, we first build a sample consistent with them:</p>
-<div class="sourceCode" id="cb69"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb69-1"><a href="os-worked.html#cb69-1" tabindex="-1"></a><span class="fu">library</span>(BSDA)</span>
-<span id="cb69-2"><a href="os-worked.html#cb69-2" tabindex="-1"></a></span>
-<span id="cb69-3"><a href="os-worked.html#cb69-3" tabindex="-1"></a>heights <span class="ot">&lt;-</span> <span class="fu">make_sample</span>(<span class="at">n =</span> <span class="dv">36</span>, <span class="at">mean =</span> <span class="dv">168</span>, <span class="at">sd =</span> <span class="dv">8</span>)</span>
-<span id="cb69-4"><a href="os-worked.html#cb69-4" tabindex="-1"></a></span>
-<span id="cb69-5"><a href="os-worked.html#cb69-5" tabindex="-1"></a><span class="fu">z.test</span>(heights, <span class="at">mu =</span> <span class="dv">165</span>, <span class="at">sigma.x =</span> <span class="dv">8</span>, <span class="at">conf.level =</span> <span class="fl">0.95</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb73"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb73-1"><a href="os-worked.html#cb73-1" tabindex="-1"></a><span class="fu">library</span>(BSDA)</span>
+<span id="cb73-2"><a href="os-worked.html#cb73-2" tabindex="-1"></a></span>
+<span id="cb73-3"><a href="os-worked.html#cb73-3" tabindex="-1"></a>heights <span class="ot">&lt;-</span> <span class="fu">make_sample</span>(<span class="at">n =</span> <span class="dv">36</span>, <span class="at">mean =</span> <span class="dv">168</span>, <span class="at">sd =</span> <span class="dv">8</span>)</span>
+<span id="cb73-4"><a href="os-worked.html#cb73-4" tabindex="-1"></a></span>
+<span id="cb73-5"><a href="os-worked.html#cb73-5" tabindex="-1"></a><span class="fu">z.test</span>(heights, <span class="at">mu =</span> <span class="dv">165</span>, <span class="at">sigma.x =</span> <span class="dv">8</span>, <span class="at">conf.level =</span> <span class="fl">0.95</span>)</span></code></pre></div>
 <pre><code>#&gt; 
 #&gt;  One-sample z-Test
 #&gt; 

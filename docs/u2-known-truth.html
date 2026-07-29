@@ -292,9 +292,9 @@ what repeated sampling actually produces.</p>
 <h3>Constructing the population<a href="u2-known-truth.html#constructing-the-population" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Take a deck of playing cards, scored A = 1, J = 11, Q = 12, K = 13, and 2
 through 10 at face value.</p>
-<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="u2-known-truth.html#cb50-1" tabindex="-1"></a>deck <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">13</span>, <span class="at">times =</span> <span class="dv">4</span>)</span>
-<span id="cb50-2"><a href="u2-known-truth.html#cb50-2" tabindex="-1"></a></span>
-<span id="cb50-3"><a href="u2-known-truth.html#cb50-3" tabindex="-1"></a><span class="fu">c</span>(<span class="at">N =</span> <span class="fu">length</span>(deck), <span class="at">mu =</span> <span class="fu">mean</span>(deck), <span class="at">sigma =</span> <span class="fu">sd</span>(deck))</span></code></pre></div>
+<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="u2-known-truth.html#cb54-1" tabindex="-1"></a>deck <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">13</span>, <span class="at">times =</span> <span class="dv">4</span>)</span>
+<span id="cb54-2"><a href="u2-known-truth.html#cb54-2" tabindex="-1"></a></span>
+<span id="cb54-3"><a href="u2-known-truth.html#cb54-3" tabindex="-1"></a><span class="fu">c</span>(<span class="at">N =</span> <span class="fu">length</span>(deck), <span class="at">mu =</span> <span class="fu">mean</span>(deck), <span class="at">sigma =</span> <span class="fu">sd</span>(deck))</span></code></pre></div>
 <pre><code>#&gt;      N     mu  sigma 
 #&gt; 52.000  7.000  3.778</code></pre>
 <p>This population contains 52 values. Its mean is exactly <span class="math inline">\(\mu = 7\)</span> and its
@@ -304,8 +304,8 @@ precisely what real data never offers.</p>
 <div id="drawing-one-sample" class="section level3 unnumbered hasAnchor">
 <h3>Drawing one sample<a href="u2-known-truth.html#drawing-one-sample" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Now draw ten cards and compute their average.</p>
-<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="u2-known-truth.html#cb52-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">7</span>)</span>
-<span id="cb52-2"><a href="u2-known-truth.html#cb52-2" tabindex="-1"></a><span class="fu">mean</span>(<span class="fu">sample</span>(deck, <span class="at">size =</span> <span class="dv">10</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb56-1"><a href="u2-known-truth.html#cb56-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">7</span>)</span>
+<span id="cb56-2"><a href="u2-known-truth.html#cb56-2" tabindex="-1"></a><span class="fu">mean</span>(<span class="fu">sample</span>(deck, <span class="at">size =</span> <span class="dv">10</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>))</span></code></pre></div>
 <pre><code>#&gt; [1] 5.7</code></pre>
 <p>The result is not 7. Draw again and it would differ again. This is sampling
 variation, exactly as we saw with the earnings surveys — but now we can see
@@ -324,11 +324,11 @@ does not meaningfully deplete a population of a billion.</p>
 <h3>Drawing a thousand samples<a href="u2-known-truth.html#drawing-a-thousand-samples" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>One sample tells us little. Repeating the exercise a thousand times gives the
 whole sampling distribution.</p>
-<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="u2-known-truth.html#cb54-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">7</span>)</span>
-<span id="cb54-2"><a href="u2-known-truth.html#cb54-2" tabindex="-1"></a>deck_means <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">1000</span>, <span class="fu">mean</span>(<span class="fu">sample</span>(deck, <span class="at">size =</span> <span class="dv">10</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>)))</span>
-<span id="cb54-3"><a href="u2-known-truth.html#cb54-3" tabindex="-1"></a></span>
-<span id="cb54-4"><a href="u2-known-truth.html#cb54-4" tabindex="-1"></a><span class="fu">c</span>(<span class="at">mean_of_sample_means =</span> <span class="fu">mean</span>(deck_means),</span>
-<span id="cb54-5"><a href="u2-known-truth.html#cb54-5" tabindex="-1"></a>  <span class="at">sd_of_sample_means   =</span> <span class="fu">sd</span>(deck_means))</span></code></pre></div>
+<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb58-1"><a href="u2-known-truth.html#cb58-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">7</span>)</span>
+<span id="cb58-2"><a href="u2-known-truth.html#cb58-2" tabindex="-1"></a>deck_means <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">1000</span>, <span class="fu">mean</span>(<span class="fu">sample</span>(deck, <span class="at">size =</span> <span class="dv">10</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>)))</span>
+<span id="cb58-3"><a href="u2-known-truth.html#cb58-3" tabindex="-1"></a></span>
+<span id="cb58-4"><a href="u2-known-truth.html#cb58-4" tabindex="-1"></a><span class="fu">c</span>(<span class="at">mean_of_sample_means =</span> <span class="fu">mean</span>(deck_means),</span>
+<span id="cb58-5"><a href="u2-known-truth.html#cb58-5" tabindex="-1"></a>  <span class="at">sd_of_sample_means   =</span> <span class="fu">sd</span>(deck_means))</span></code></pre></div>
 <pre><code>#&gt; mean_of_sample_means   sd_of_sample_means 
 #&gt;                6.932                1.201</code></pre>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:u2-sampdist-plot"></span>
@@ -354,15 +354,15 @@ large. Averaging has cancelled out much of the variation.</p>
 </div>
 <div id="what-happens-as-the-sample-grows" class="section level3 unnumbered hasAnchor">
 <h3>What happens as the sample grows<a href="u2-known-truth.html#what-happens-as-the-sample-grows" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb56-1"><a href="u2-known-truth.html#cb56-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">7</span>)</span>
-<span id="cb56-2"><a href="u2-known-truth.html#cb56-2" tabindex="-1"></a></span>
-<span id="cb56-3"><a href="u2-known-truth.html#cb56-3" tabindex="-1"></a>sizes <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">10</span>, <span class="dv">20</span>, <span class="dv">40</span>, <span class="dv">80</span>)</span>
-<span id="cb56-4"><a href="u2-known-truth.html#cb56-4" tabindex="-1"></a>results <span class="ot">&lt;-</span> <span class="fu">t</span>(<span class="fu">sapply</span>(sizes, <span class="cf">function</span>(n) {</span>
-<span id="cb56-5"><a href="u2-known-truth.html#cb56-5" tabindex="-1"></a>  m <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">2000</span>, <span class="fu">mean</span>(<span class="fu">sample</span>(deck, <span class="at">size =</span> n, <span class="at">replace =</span> <span class="cn">TRUE</span>)))</span>
-<span id="cb56-6"><a href="u2-known-truth.html#cb56-6" tabindex="-1"></a>  <span class="fu">c</span>(<span class="at">n =</span> n, <span class="at">mean =</span> <span class="fu">mean</span>(m), <span class="at">sd =</span> <span class="fu">sd</span>(m), <span class="at">theoretical_sd =</span> <span class="fu">sd</span>(deck) <span class="sc">/</span> <span class="fu">sqrt</span>(n))</span>
-<span id="cb56-7"><a href="u2-known-truth.html#cb56-7" tabindex="-1"></a>}))</span>
-<span id="cb56-8"><a href="u2-known-truth.html#cb56-8" tabindex="-1"></a></span>
-<span id="cb56-9"><a href="u2-known-truth.html#cb56-9" tabindex="-1"></a><span class="fu">round</span>(results, <span class="dv">3</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb60-1"><a href="u2-known-truth.html#cb60-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">7</span>)</span>
+<span id="cb60-2"><a href="u2-known-truth.html#cb60-2" tabindex="-1"></a></span>
+<span id="cb60-3"><a href="u2-known-truth.html#cb60-3" tabindex="-1"></a>sizes <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">10</span>, <span class="dv">20</span>, <span class="dv">40</span>, <span class="dv">80</span>)</span>
+<span id="cb60-4"><a href="u2-known-truth.html#cb60-4" tabindex="-1"></a>results <span class="ot">&lt;-</span> <span class="fu">t</span>(<span class="fu">sapply</span>(sizes, <span class="cf">function</span>(n) {</span>
+<span id="cb60-5"><a href="u2-known-truth.html#cb60-5" tabindex="-1"></a>  m <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">2000</span>, <span class="fu">mean</span>(<span class="fu">sample</span>(deck, <span class="at">size =</span> n, <span class="at">replace =</span> <span class="cn">TRUE</span>)))</span>
+<span id="cb60-6"><a href="u2-known-truth.html#cb60-6" tabindex="-1"></a>  <span class="fu">c</span>(<span class="at">n =</span> n, <span class="at">mean =</span> <span class="fu">mean</span>(m), <span class="at">sd =</span> <span class="fu">sd</span>(m), <span class="at">theoretical_sd =</span> <span class="fu">sd</span>(deck) <span class="sc">/</span> <span class="fu">sqrt</span>(n))</span>
+<span id="cb60-7"><a href="u2-known-truth.html#cb60-7" tabindex="-1"></a>}))</span>
+<span id="cb60-8"><a href="u2-known-truth.html#cb60-8" tabindex="-1"></a></span>
+<span id="cb60-9"><a href="u2-known-truth.html#cb60-9" tabindex="-1"></a><span class="fu">round</span>(results, <span class="dv">3</span>)</span></code></pre></div>
 <pre><code>#&gt;       n  mean    sd theoretical_sd
 #&gt; [1,]  5 6.932 1.688          1.690
 #&gt; [2,] 10 7.022 1.165          1.195

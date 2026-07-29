@@ -280,15 +280,15 @@ gets nicotine content <em>below</em> 1.5 mg; we only care if the true mean is lo
 <p><span class="math display">\[H_0 : \mu \geq 1.5 \qquad H_A : \mu &lt; 1.5\]</span></p>
 <p>All the probability we are willing to risk now goes into a single tail, so the
 critical value moves <em>inward</em>: <span class="math inline">\(-Z_{0.05} = -1.645\)</span> rather than <span class="math inline">\(\pm 1.96\)</span>.</p>
-<div class="sourceCode" id="cb94"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb94-1"><a href="os-onetailed.html#cb94-1" tabindex="-1"></a><span class="fu">qnorm</span>(<span class="fl">0.05</span>)             <span class="co"># left-tailed critical value at 5%</span></span></code></pre></div>
+<div class="sourceCode" id="cb98"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb98-1"><a href="os-onetailed.html#cb98-1" tabindex="-1"></a><span class="fu">qnorm</span>(<span class="fl">0.05</span>)             <span class="co"># left-tailed critical value at 5%</span></span></code></pre></div>
 <pre><code>#&gt; [1] -1.645</code></pre>
-<div class="sourceCode" id="cb96"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb96-1"><a href="os-onetailed.html#cb96-1" tabindex="-1"></a><span class="fu">qnorm</span>(<span class="fl">0.95</span>)             <span class="co"># right-tailed critical value at 5%</span></span></code></pre></div>
+<div class="sourceCode" id="cb100"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb100-1"><a href="os-onetailed.html#cb100-1" tabindex="-1"></a><span class="fu">qnorm</span>(<span class="fl">0.95</span>)             <span class="co"># right-tailed critical value at 5%</span></span></code></pre></div>
 <pre><code>#&gt; [1] 1.645</code></pre>
 <p>In R, add the <code>alternative</code> argument:</p>
-<div class="sourceCode" id="cb98"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb98-1"><a href="os-onetailed.html#cb98-1" tabindex="-1"></a>nicotine <span class="ot">&lt;-</span> <span class="fu">make_sample</span>(<span class="at">n =</span> <span class="dv">20</span>, <span class="at">mean =</span> <span class="fl">1.42</span>, <span class="at">sd =</span> <span class="fl">0.7</span>)</span>
-<span id="cb98-2"><a href="os-onetailed.html#cb98-2" tabindex="-1"></a></span>
-<span id="cb98-3"><a href="os-onetailed.html#cb98-3" tabindex="-1"></a><span class="fu">z.test</span>(nicotine, <span class="at">mu =</span> <span class="fl">1.5</span>, <span class="at">sigma.x =</span> <span class="fl">0.7</span>, <span class="at">alternative =</span> <span class="st">&quot;less&quot;</span>,</span>
-<span id="cb98-4"><a href="os-onetailed.html#cb98-4" tabindex="-1"></a>       <span class="at">conf.level =</span> <span class="fl">0.95</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb102"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb102-1"><a href="os-onetailed.html#cb102-1" tabindex="-1"></a>nicotine <span class="ot">&lt;-</span> <span class="fu">make_sample</span>(<span class="at">n =</span> <span class="dv">20</span>, <span class="at">mean =</span> <span class="fl">1.42</span>, <span class="at">sd =</span> <span class="fl">0.7</span>)</span>
+<span id="cb102-2"><a href="os-onetailed.html#cb102-2" tabindex="-1"></a></span>
+<span id="cb102-3"><a href="os-onetailed.html#cb102-3" tabindex="-1"></a><span class="fu">z.test</span>(nicotine, <span class="at">mu =</span> <span class="fl">1.5</span>, <span class="at">sigma.x =</span> <span class="fl">0.7</span>, <span class="at">alternative =</span> <span class="st">&quot;less&quot;</span>,</span>
+<span id="cb102-4"><a href="os-onetailed.html#cb102-4" tabindex="-1"></a>       <span class="at">conf.level =</span> <span class="fl">0.95</span>)</span></code></pre></div>
 <pre><code>#&gt; 
 #&gt;  One-sample z-Test
 #&gt; 

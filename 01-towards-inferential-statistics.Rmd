@@ -1151,67 +1151,117 @@ precision is about the right quantity at all.
 
 ### Numerical problems {-}
 
-Work these with a pen before turning to R.
+Work each of these with a pen first. Each ends by asking you to check your
+answer by simulation — the point being that theory and simulation should agree,
+and that when they do not, one of them is wrong.
 
-**1.8** A producer of cigarettes claims that the mean nicotine content of its
-cigarettes is 3.6 milligrams with a standard deviation of 0.4 milligrams.
-Assuming these figures are correct, find the expected value and the variance of
-the sample mean nicotine content for samples of (a) 50, (b) 100, (c) 200 and
-(d) 1000 randomly chosen cigarettes. What happens to the variance of the sample
-mean as the sample size increases, and why?
+**1.8** The earnings data used throughout this chapter has a population mean of
+about ₹54,200 and a population standard deviation of about ₹100,100.
+
+Suppose a survey team draws random samples of (a) 50, (b) 100, (c) 200 and
+(d) 1,000 workers.
+
+i. Find the expected value of the sample mean in each case.
+ii. Find the standard error of the sample mean in each case.
+iii. What happens to the standard error as the sample size increases, and why?
+iv. Verify your answers by simulation.
 
 ::: {.answer}
-The expected value of the sample mean equals the population mean regardless of
-sample size, so $E(\bar{X}) = 3.6$ mg in every case.
+The expected value of the sample mean equals the population mean whatever the
+sample size, so $E(\bar{X}) = ₹54{,}200$ in all four cases. Sample size affects
+precision, not location.
 
-The variance is $\operatorname{Var}(\bar{X}) = \sigma^2/n = 0.16/n$, and the
-standard error is $\sigma/\sqrt{n} = 0.4/\sqrt{n}$:
+The standard error is $\sigma/\sqrt{n} = 100{,}100/\sqrt{n}$:
 
-```{r u1-ex-nicotine}
-n  <- c(50, 100, 200, 1000)
-se <- 0.4 / sqrt(n)
+```{r u1-ex-se}
+sigma <- 100100
+n     <- c(50, 100, 200, 1000)
 
-round(data.frame(n, expected = 3.6, se, variance = se^2), 5)
+round(data.frame(n, expected = 54200, se = sigma / sqrt(n)))
 ```
 
-The variance falls in proportion to $1/n$. Each additional cigarette adds
-information, so the average over many of them is pulled more tightly around the
-population value. Note that going from 50 to 1000 cigarettes — twenty times the
-sample — reduces the standard error only by a factor of $\sqrt{20} \approx
-4.5$.
+The standard error falls in proportion to $1/\sqrt{n}$. Each additional worker
+contributes information, so the average over many of them is pulled more
+tightly around the population value. Note that raising the sample from 50 to
+1,000 — twenty times the data — reduces the standard error only by a factor of
+$\sqrt{20} \approx 4.5$.
+
+Because we hold the whole population, the answer can be checked directly:
+
+```{r u1-ex-se-sim}
+set.seed(4)
+earn <- read.csv("data/wages-india-synthetic.csv")$annual_earnings
+
+sim <- sapply(n, function(k)
+  sd(replicate(2000, mean(sample(earn, k, replace = TRUE)))))
+
+round(data.frame(n, theoretical = sd(earn) / sqrt(n), simulated = sim))
+```
+
+The two columns agree closely. The small discrepancies are themselves sampling
+variation: each simulated standard error is estimated from 2,000 samples rather
+than infinitely many.
 :::
 
-**1.9** The lifetime of a type of battery used in electric vehicles has mean
-225 minutes and standard deviation 24 minutes. A set of 10 batteries is used
-one after another. Approximate the probability that the set lasts
+**1.9** An auto-rickshaw driver's daily earnings vary from day to day, with a
+mean of ₹800 and a standard deviation of ₹200. In a particular month the driver
+works 30 days.
 
-(a) more than 2,200 minutes, (b) more than 2,350 minutes, (c) more than 2,500
-minutes, and (d) between 2,200 and 2,350 minutes.
+i. What are the mean and standard deviation of total earnings for the month?
+ii. Approximate the probability that the month's total exceeds ₹25,000.
+iii. Approximate the probability that it falls below ₹22,000.
+iv. Approximate the probability that it lies between ₹22,000 and ₹25,000.
+v. What assumption does this calculation require, and is it plausible here?
+vi. Check your answers by simulating 10,000 months.
 
 ::: {.answer}
-Ten batteries lasting more than 2,200 minutes in total is the same event as
-their *mean* lifetime exceeding 220 minutes. Working with the sample mean lets
-us use the Central Limit Theorem, since $\bar{X}$ is approximately normal with
-mean 225 and standard error $24/\sqrt{10} = 7.589$.
+The monthly total is a sum of 30 daily earnings. Its mean is
+$30 \times 800 = ₹24{,}000$, and because variances add for independent
+quantities, its standard deviation is $200\sqrt{30} = ₹1{,}095$.
 
-```{r u1-ex-battery}
-mu <- 225; sigma <- 24; n <- 10
-se <- sigma / sqrt(n)
+By the Central Limit Theorem the total is approximately normal, so:
 
-# convert each total into the equivalent statement about the mean
-c(a = pnorm(2200 / n, mu, se, lower.tail = FALSE),
-  b = pnorm(2350 / n, mu, se, lower.tail = FALSE),
-  c = pnorm(2500 / n, mu, se, lower.tail = FALSE),
-  d = pnorm(2350 / n, mu, se) - pnorm(2200 / n, mu, se))
+```{r u1-ex-auto}
+mu_day <- 800; sd_day <- 200; days <- 30
+
+mu_tot <- mu_day * days
+sd_tot <- sd_day * sqrt(days)
+
+c(mean = mu_tot, sd = sd_tot,
+  above_25000 = pnorm(25000, mu_tot, sd_tot, lower.tail = FALSE),
+  below_22000 = pnorm(22000, mu_tot, sd_tot),
+  between     = pnorm(25000, mu_tot, sd_tot) - pnorm(22000, mu_tot, sd_tot))
 ```
 
-By hand, for (a): $z = (220 - 225)/7.589 = -0.66$, so
-$P(Z > -0.66) = 0.745$. The others follow the same way.
+So roughly an 18% chance of clearing ₹25,000, a 3% chance of falling below
+₹22,000, and a 79% chance of landing between the two.
 
-Note the assumption being made. The Central Limit Theorem is being applied at
-$n = 10$, which is small. It is defensible here only because battery lifetimes
-are not badly skewed; for a heavily skewed variable, ten observations would not
-be enough.
+**The assumption is independence.** The calculation treats each day's earnings
+as unrelated to every other day's. That is questionable. A week of heavy
+monsoon suppresses earnings on consecutive days; a festival week raises them
+together. When days are positively correlated, the true standard deviation of
+the monthly total is *larger* than $200\sqrt{30}$, and the probability of an
+unusually bad month is correspondingly higher than this calculation suggests.
+
+This is worth dwelling on. The arithmetic is not wrong; the assumption is. No
+amount of care in the computation would reveal the problem.
+
+Simulating under the stated assumption:
+
+```{r u1-ex-auto-sim}
+set.seed(5)
+months <- replicate(10000, sum(rnorm(days, mu_day, sd_day)))
+
+c(mean = mean(months), sd = sd(months),
+  above_25000 = mean(months > 25000),
+  below_22000 = mean(months < 22000),
+  between     = mean(months >= 22000 & months <= 25000))
+```
+
+The simulated proportions match the normal approximation closely — as they
+must, since the simulation was itself built on the assumption of independent
+daily earnings. Simulation confirms the arithmetic; it cannot confirm the
+assumption.
 :::
 
 ### R exercises {-}

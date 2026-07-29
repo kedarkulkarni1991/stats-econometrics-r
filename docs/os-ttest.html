@@ -293,9 +293,9 @@ Figure 3.4: Student’s <span class="math inline">\(t\)</span> against the stand
 <p>We opened this chapter with a made-up sample of 36 students. We can now do the
 real thing. <code>stats-class.csv</code> holds the survey this class filled in — names,
 ages, heights, gender:</p>
-<div class="sourceCode" id="cb75"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb75-1"><a href="os-ttest.html#cb75-1" tabindex="-1"></a>students <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/stats-class.csv&quot;</span>)</span>
-<span id="cb75-2"><a href="os-ttest.html#cb75-2" tabindex="-1"></a></span>
-<span id="cb75-3"><a href="os-ttest.html#cb75-3" tabindex="-1"></a><span class="fu">str</span>(students)</span></code></pre></div>
+<div class="sourceCode" id="cb79"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb79-1"><a href="os-ttest.html#cb79-1" tabindex="-1"></a>students <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/stats-class.csv&quot;</span>)</span>
+<span id="cb79-2"><a href="os-ttest.html#cb79-2" tabindex="-1"></a></span>
+<span id="cb79-3"><a href="os-ttest.html#cb79-3" tabindex="-1"></a><span class="fu">str</span>(students)</span></code></pre></div>
 <pre><code>#&gt; &#39;data.frame&#39;:    33 obs. of  4 variables:
 #&gt;  $ student_id: chr  &quot;S01&quot; &quot;S02&quot; &quot;S03&quot; &quot;S04&quot; ...
 #&gt;  $ age       : int  31 19 18 18 19 18 18 21 18 19 ...
@@ -303,7 +303,7 @@ ages, heights, gender:</p>
 #&gt;  $ gender    : chr  &quot;M&quot; &quot;F&quot; &quot;M&quot; &quot;F&quot; ...</code></pre>
 <p>Thirty-three rows, but look at the last one. One student left age and height
 blank, and another did not give a gender:</p>
-<div class="sourceCode" id="cb77"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb77-1"><a href="os-ttest.html#cb77-1" tabindex="-1"></a>students[<span class="sc">!</span><span class="fu">complete.cases</span>(students), ]</span></code></pre></div>
+<div class="sourceCode" id="cb81"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb81-1"><a href="os-ttest.html#cb81-1" tabindex="-1"></a>students[<span class="sc">!</span><span class="fu">complete.cases</span>(students), ]</span></code></pre></div>
 <pre><code>#&gt;    student_id age height gender
 #&gt; 8         S08  21    186   &lt;NA&gt;
 #&gt; 33        S33  NA     NA      F</code></pre>
@@ -315,7 +315,7 @@ is a perfectly ordinary value as far as <code>is.na()</code>, <code>complete.cas
 sight.</p>
 <p>If a dataset you did not prepare yourself has blanks, say so explicitly when
 you read it:</p>
-<div class="sourceCode" id="cb79"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb79-1"><a href="os-ttest.html#cb79-1" tabindex="-1"></a><span class="fu">read.csv</span>(<span class="st">&quot;somefile.csv&quot;</span>, <span class="at">na.strings =</span> <span class="fu">c</span>(<span class="st">&quot;&quot;</span>, <span class="st">&quot;NA&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb83"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb83-1"><a href="os-ttest.html#cb83-1" tabindex="-1"></a><span class="fu">read.csv</span>(<span class="st">&quot;somefile.csv&quot;</span>, <span class="at">na.strings =</span> <span class="fu">c</span>(<span class="st">&quot;&quot;</span>, <span class="st">&quot;NA&quot;</span>))</span></code></pre></div>
 <p>The files in this book are already written so that plain <code>read.csv()</code> does the
 right thing.</p>
 </div>
@@ -323,21 +323,21 @@ right thing.</p>
 <p><code>mean()</code> returns <code>NA</code> if even one value is missing — it refuses to guess what
 you meant. Pass <code>na.rm = TRUE</code> to drop the gaps, and always know how many you
 dropped.</p>
-<div class="sourceCode" id="cb80"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb80-1"><a href="os-ttest.html#cb80-1" tabindex="-1"></a><span class="fu">mean</span>(students<span class="sc">$</span>height)                  <span class="co"># NA — one height is missing</span></span></code></pre></div>
+<div class="sourceCode" id="cb84"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb84-1"><a href="os-ttest.html#cb84-1" tabindex="-1"></a><span class="fu">mean</span>(students<span class="sc">$</span>height)                  <span class="co"># NA — one height is missing</span></span></code></pre></div>
 <pre><code>#&gt; [1] NA</code></pre>
-<div class="sourceCode" id="cb82"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb82-1"><a href="os-ttest.html#cb82-1" tabindex="-1"></a><span class="fu">mean</span>(students<span class="sc">$</span>height, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)    <span class="co"># 32 students</span></span></code></pre></div>
+<div class="sourceCode" id="cb86"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb86-1"><a href="os-ttest.html#cb86-1" tabindex="-1"></a><span class="fu">mean</span>(students<span class="sc">$</span>height, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)    <span class="co"># 32 students</span></span></code></pre></div>
 <pre><code>#&gt; [1] 169.5</code></pre>
 </div>
 <p>Now the test. We do <strong>not</strong> know the population standard deviation of student
 heights, so this is a <span class="math inline">\(t\)</span>-test, not a <span class="math inline">\(Z\)</span>-test:</p>
-<div class="sourceCode" id="cb84"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb84-1"><a href="os-ttest.html#cb84-1" tabindex="-1"></a>heights_real <span class="ot">&lt;-</span> students<span class="sc">$</span>height[<span class="sc">!</span><span class="fu">is.na</span>(students<span class="sc">$</span>height)]</span>
-<span id="cb84-2"><a href="os-ttest.html#cb84-2" tabindex="-1"></a></span>
-<span id="cb84-3"><a href="os-ttest.html#cb84-3" tabindex="-1"></a><span class="fu">c</span>(<span class="at">n =</span> <span class="fu">length</span>(heights_real),</span>
-<span id="cb84-4"><a href="os-ttest.html#cb84-4" tabindex="-1"></a>  <span class="at">mean =</span> <span class="fu">mean</span>(heights_real),</span>
-<span id="cb84-5"><a href="os-ttest.html#cb84-5" tabindex="-1"></a>  <span class="at">sd =</span> <span class="fu">sd</span>(heights_real))</span></code></pre></div>
+<div class="sourceCode" id="cb88"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb88-1"><a href="os-ttest.html#cb88-1" tabindex="-1"></a>heights_real <span class="ot">&lt;-</span> students<span class="sc">$</span>height[<span class="sc">!</span><span class="fu">is.na</span>(students<span class="sc">$</span>height)]</span>
+<span id="cb88-2"><a href="os-ttest.html#cb88-2" tabindex="-1"></a></span>
+<span id="cb88-3"><a href="os-ttest.html#cb88-3" tabindex="-1"></a><span class="fu">c</span>(<span class="at">n =</span> <span class="fu">length</span>(heights_real),</span>
+<span id="cb88-4"><a href="os-ttest.html#cb88-4" tabindex="-1"></a>  <span class="at">mean =</span> <span class="fu">mean</span>(heights_real),</span>
+<span id="cb88-5"><a href="os-ttest.html#cb88-5" tabindex="-1"></a>  <span class="at">sd =</span> <span class="fu">sd</span>(heights_real))</span></code></pre></div>
 <pre><code>#&gt;      n   mean     sd 
 #&gt;  32.00 169.50   8.71</code></pre>
-<div class="sourceCode" id="cb86"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb86-1"><a href="os-ttest.html#cb86-1" tabindex="-1"></a><span class="fu">t.test</span>(heights_real, <span class="at">mu =</span> <span class="dv">165</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb90"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb90-1"><a href="os-ttest.html#cb90-1" tabindex="-1"></a><span class="fu">t.test</span>(heights_real, <span class="at">mu =</span> <span class="dv">165</span>)</span></code></pre></div>
 <pre><code>#&gt; 
 #&gt;  One Sample t-test
 #&gt; 
@@ -369,9 +369,9 @@ question about <em>the university</em> is a separate matter, and a harder one.</
 <p>The dean estimates that full-time faculty teach 11.0 classroom hours per week.
 You sample eight faculty members. Can you reject the dean’s claim at
 <span class="math inline">\(\alpha = 0.10\)</span>? At <span class="math inline">\(\alpha = 0.01\)</span>?</p>
-<div class="sourceCode" id="cb88"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb88-1"><a href="os-ttest.html#cb88-1" tabindex="-1"></a>hours <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">11.8</span>, <span class="fl">8.6</span>, <span class="fl">10.5</span>, <span class="fl">7.9</span>, <span class="fl">6.4</span>, <span class="fl">10.4</span>, <span class="fl">10.0</span>, <span class="fl">8.2</span>)</span>
-<span id="cb88-2"><a href="os-ttest.html#cb88-2" tabindex="-1"></a></span>
-<span id="cb88-3"><a href="os-ttest.html#cb88-3" tabindex="-1"></a><span class="fu">c</span>(<span class="at">n =</span> <span class="fu">length</span>(hours), <span class="at">mean =</span> <span class="fu">mean</span>(hours), <span class="at">sd =</span> <span class="fu">sd</span>(hours))</span></code></pre></div>
+<div class="sourceCode" id="cb92"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb92-1"><a href="os-ttest.html#cb92-1" tabindex="-1"></a>hours <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">11.8</span>, <span class="fl">8.6</span>, <span class="fl">10.5</span>, <span class="fl">7.9</span>, <span class="fl">6.4</span>, <span class="fl">10.4</span>, <span class="fl">10.0</span>, <span class="fl">8.2</span>)</span>
+<span id="cb92-2"><a href="os-ttest.html#cb92-2" tabindex="-1"></a></span>
+<span id="cb92-3"><a href="os-ttest.html#cb92-3" tabindex="-1"></a><span class="fu">c</span>(<span class="at">n =</span> <span class="fu">length</span>(hours), <span class="at">mean =</span> <span class="fu">mean</span>(hours), <span class="at">sd =</span> <span class="fu">sd</span>(hours))</span></code></pre></div>
 <pre><code>#&gt;     n  mean    sd 
 #&gt; 8.000 9.225 1.749</code></pre>
 <p><strong>On paper.</strong> With <span class="math inline">\(\bar{x} = 9.225\)</span>, <span class="math inline">\(s = 1.749\)</span>, <span class="math inline">\(n = 8\)</span> and <span class="math inline">\(df = 7\)</span>:</p>
@@ -386,13 +386,13 @@ t_{calc} = \frac{9.225 - 11}{1.749/\sqrt{8}}
 <li>At <span class="math inline">\(\alpha = 0.01\)</span>: <span class="math inline">\(2.87 &lt; 3.499\)</span> <span class="math inline">\(\Rightarrow\)</span> <strong>fail to reject</strong> <span class="math inline">\(H_0\)</span>.</li>
 </ul>
 <p><strong>In R.</strong> Both the pieces and the packaged version:</p>
-<div class="sourceCode" id="cb90"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb90-1"><a href="os-ttest.html#cb90-1" tabindex="-1"></a>t_calc <span class="ot">&lt;-</span> (<span class="fu">mean</span>(hours) <span class="sc">-</span> <span class="dv">11</span>) <span class="sc">/</span> (<span class="fu">sd</span>(hours) <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="fu">length</span>(hours)))</span>
-<span id="cb90-2"><a href="os-ttest.html#cb90-2" tabindex="-1"></a>t_crit <span class="ot">&lt;-</span> <span class="fu">qt</span>(<span class="fu">c</span>(<span class="fl">0.95</span>, <span class="fl">0.995</span>), <span class="at">df =</span> <span class="dv">7</span>)     <span class="co"># 10% and 1%, two-tailed</span></span>
-<span id="cb90-3"><a href="os-ttest.html#cb90-3" tabindex="-1"></a></span>
-<span id="cb90-4"><a href="os-ttest.html#cb90-4" tabindex="-1"></a><span class="fu">c</span>(<span class="at">t_calc =</span> t_calc, <span class="at">crit_10pct =</span> t_crit[<span class="dv">1</span>], <span class="at">crit_1pct =</span> t_crit[<span class="dv">2</span>])</span></code></pre></div>
+<div class="sourceCode" id="cb94"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb94-1"><a href="os-ttest.html#cb94-1" tabindex="-1"></a>t_calc <span class="ot">&lt;-</span> (<span class="fu">mean</span>(hours) <span class="sc">-</span> <span class="dv">11</span>) <span class="sc">/</span> (<span class="fu">sd</span>(hours) <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="fu">length</span>(hours)))</span>
+<span id="cb94-2"><a href="os-ttest.html#cb94-2" tabindex="-1"></a>t_crit <span class="ot">&lt;-</span> <span class="fu">qt</span>(<span class="fu">c</span>(<span class="fl">0.95</span>, <span class="fl">0.995</span>), <span class="at">df =</span> <span class="dv">7</span>)     <span class="co"># 10% and 1%, two-tailed</span></span>
+<span id="cb94-3"><a href="os-ttest.html#cb94-3" tabindex="-1"></a></span>
+<span id="cb94-4"><a href="os-ttest.html#cb94-4" tabindex="-1"></a><span class="fu">c</span>(<span class="at">t_calc =</span> t_calc, <span class="at">crit_10pct =</span> t_crit[<span class="dv">1</span>], <span class="at">crit_1pct =</span> t_crit[<span class="dv">2</span>])</span></code></pre></div>
 <pre><code>#&gt;     t_calc crit_10pct  crit_1pct 
 #&gt;     -2.870      1.895      3.499</code></pre>
-<div class="sourceCode" id="cb92"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb92-1"><a href="os-ttest.html#cb92-1" tabindex="-1"></a><span class="fu">t.test</span>(hours, <span class="at">mu =</span> <span class="dv">11</span>, <span class="at">conf.level =</span> <span class="fl">0.90</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb96"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb96-1"><a href="os-ttest.html#cb96-1" tabindex="-1"></a><span class="fu">t.test</span>(hours, <span class="at">mu =</span> <span class="dv">11</span>, <span class="at">conf.level =</span> <span class="fl">0.90</span>)</span></code></pre></div>
 <pre><code>#&gt; 
 #&gt;  One Sample t-test
 #&gt; 
