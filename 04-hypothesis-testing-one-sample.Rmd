@@ -5,12 +5,28 @@ source("_common.R")
 library(ggplot2)
 ```
 
-Someone makes a claim about a population. You collect a sample. The sample
-disagrees with the claim — a little. Is that disagreement real, or is it just
-the luck of the draw?
+In the previous unit we learned that every estimate comes with uncertainty. A
+confidence interval tells us which population values are plausible given our
+sample.
 
-That single question is what this chapter is about, and it is the engine
-underneath almost everything in the rest of the book.
+But many real statistical questions begin with a specific claim. Has average
+monsoon rainfall changed? Is the unemployment rate below 5%? Does a new drug
+lower blood pressure?
+
+Rather than asking *which values are plausible*, these questions ask *is this
+particular claim consistent with the data?* Answering that is the purpose of
+hypothesis testing.
+
+Consider a claim made about a population. You collect a sample. Your estimate
+is not exactly what the claim predicted.
+
+Should you conclude that the claim is wrong?
+
+Or is this simply the kind of difference that appears because every random
+sample is slightly different?
+
+That question is the starting point for hypothesis testing, and it is the
+engine behind much of modern statistics.
 
 ## The problem, before any formulas {#os-problem}
 
