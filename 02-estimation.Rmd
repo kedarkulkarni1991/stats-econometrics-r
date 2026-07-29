@@ -1,0 +1,50 @@
+<!--
+  DRAFT — not yet listed in _bookdown.yml, so it is not built.
+
+  This file exists so the material below is not lost. The i.i.d. assumptions
+  were written for Unit 1 and moved here deliberately: they are a premise for
+  estimation, not a conclusion about uncertainty, and Unit 1 should end on the
+  question rather than on an assumption.
+
+  Unit 1 now closes with: "How can a single sample tell us something reliable
+  about an entire population?" This unit is intended to open by answering
+  "before we can, we need one crucial assumption".
+-->
+
+# Estimation {#estimation}
+
+```{r setup-02, include = FALSE}
+source("_common.R")
+library(ggplot2)
+```
+
+## The assumptions behind inference {#u2-iid}
+
+::: {.question}
+What has to be true before a sample can tell us anything?
+:::
+
+Throughout the previous unit we assumed, without saying so, that our
+observations were drawn from the population of interest. More precisely, we
+assume that the observations are **independent and identically distributed**,
+usually abbreviated to i.i.d.
+
+**Identically distributed** means that every observation is drawn from the same
+probability distribution. The process generating the data does not change from
+one observation to the next.
+
+**Independent** means that knowing the value of one observation provides no
+information about the value of another.
+
+Together, these assumptions ensure that every observation provides comparable
+information about the same population.
+
+::: {.watchout}
+Their importance cannot be overstated. If the sample does not represent the
+population we wish to study, no amount of mathematical sophistication can
+recover the missing information. Statistical methods cannot repair a
+fundamentally flawed sample.
+
+Good inference begins not with mathematics, but with good data and thoughtful
+study design.
+:::

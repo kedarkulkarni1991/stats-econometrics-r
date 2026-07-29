@@ -815,97 +815,174 @@ developed in the remainder of this book.
 ## A language for randomness {#u1-random-variables}
 
 ::: {.question}
-How do we talk about a quantity that changes every time we look?
+Why do we need a mathematical language?
 :::
 
-Return to the sentence from the first section: every roll of a die produces a
-different outcome, every survey contains different households, every poll
-interviews different voters.
+Throughout this chapter we have described repeated sampling almost entirely in
+plain English. We have spoken about rolling dice, drawing surveys, computing
+averages and repeating experiments thousands of times. That language has helped
+us build intuition, but it is no longer sufficient. To develop statistical
+inference, we need a concise and precise way of expressing these ideas.
 
-A quantity whose value changes from one repetition to the next is called a
-**random variable**. The die roll is one. A worker's earnings, drawn at random
-from the population, is another. So — and this is the step that matters — is
-the *mean* of a sample, because it too changes every time the sample changes.
+The first concept we need is that of a random variable.
+
+### Random variables {-}
+
+Some quantities are known before we observe them. If you measure your height
+today, it is a fixed number. It may be unknown to you, but it is not changing
+from one repetition to the next.
+
+Other quantities are different. Roll a die and you do not know what number will
+appear. Randomly select a worker from a population and you do not know that
+person's earnings. Draw a sample of one hundred households and you do not know
+what the sample mean will be until the sample has actually been collected.
+
+Statisticians describe such quantities as **stochastic**. A stochastic quantity
+is one whose value is determined by the outcome of a random process.
+
+The mathematical object used to describe a stochastic quantity is called a
+**random variable**. We usually denote random variables by capital letters such
+as $X$, $Y$ and $Z$. For example, $X$ may denote the earnings of a randomly
+selected worker, $Y$ the annual rainfall in a particular district, and $D$ the
+outcome of rolling a fair die.
+
+The sample mean deserves special attention. Every time we draw a different
+sample, we obtain a different average. The sample mean is therefore itself a
+random variable. Before observing the data, we denote it by $\bar{X}$.
 
 ::: {.keyidea}
-The sample mean is itself a random variable.
-
-This single realisation is what makes inference possible. If $\bar{X}$ is a
-random variable, then it has a distribution. If it has a distribution, that
-distribution has a centre and a spread. And if we can find them, we can say how
-wrong a typical sample mean is.
+This observation is fundamental to inferential statistics. Since $\bar{X}$ is
+a random variable, it has a probability distribution. That distribution tells
+us how the sample mean behaves across repeated samples. Once we understand its
+centre and spread, we can quantify the uncertainty associated with the single
+sample we actually observe.
 :::
+
+### Realisations {-}
+
+Eventually every random variable takes a particular observed value.
+
+Suppose $X$ represents the outcome of rolling a fair die. Before the die is
+rolled, $X$ could take any value from one to six. After the die lands showing
+four, we have observed one **realisation** of the random variable, written as
+$x = 4$.
+
+The same distinction applies to the sample mean. Before collecting a sample,
+the sample mean is the random variable $\bar{X}$. After collecting the data and
+computing the average, we observe one realisation of that random variable,
+written as $\bar{x}$.
+
+Throughout the remainder of this book, capital letters denote random variables,
+while lower-case letters denote their observed values.
 
 ### The long-run average {-}
 
-If a random variable takes value $x_i$ with probability $p(x_i)$, its
-**expected value** is
+Every random variable has a centre. The centre is called its **expected value**
+and is written as
 
-$$E[X] = \sum_i x_i \, p(x_i)$$
+$$E(X) = \sum_i x_i \, P(X = x_i).$$
 
-The name invites a misunderstanding. $E[X]$ is not the value you expect to see
-on any given try. For a fair die it is 3.5 — a number the die cannot produce.
-It is the **long-run average** over many repetitions.
+The term *expected value* can be misleading. It is not the value we expect to
+observe on any particular repetition. Rather, it is the average value the
+random variable would take over a very large number of repetitions.
+
+For a fair die,
+
+$$E(X) = \frac{1+2+3+4+5+6}{6} = 3.5.$$
+
+Of course, no single roll can ever produce 3.5. It is a theoretical average,
+not an individual outcome.
+
+This distinction becomes clearer when we compare theory with data.
 
 ```{r u1-expectation}
-mean(rolls)                # average of our 10,000 actual rolls
-sum(1:6 * rep(1/6, 6))     # E[X], computed on paper
+mean(rolls)                # average of 10,000 simulated rolls
+sum(1:6 * rep(1/6, 6))     # theoretical expected value
 ```
 
-::: {.intuition}
-That these agree is neither a coincidence nor a triviality. It is the first
-appearance of the Law of Large Numbers: run a random process enough times, and
-the average of what you observe closes in on the number you calculated in
-advance.
+The close agreement between these two numbers is exactly what the Law of Large
+Numbers predicts. The expected value is calculated from the probability model,
+while the sample average is calculated from observed data. As the number of
+observations grows, the latter approaches the former.
 
-Notice how unremarkable that felt. We are about to need it for something far
-less obvious.
-:::
+When the random variable represents a randomly selected member of a population,
+its expected value is simply the population mean. For this reason we denote
+both by the same symbol,
 
-When the random variable is a draw from a population, its expected value *is*
-the population mean, which is why both are written $\mu$. And the spread of a
-random variable around its expectation is its **variance**, written $\sigma^2$,
-with the standard deviation $\sigma$ its square root.
+$$E(X) = \mu.$$
 
-### Population and sample, in notation {-}
+### Measuring variation {-}
+
+Knowing the centre of a distribution is not enough. Two random variables can
+have the same expected value but very different amounts of variation.
+
+The spread of a random variable around its expected value is measured by its
+**variance**,
+
+$$\operatorname{Var}(X) = E\big[(X - \mu)^2\big],$$
+
+and the square root of the variance is the **standard deviation**,
+
+$$\sigma = \sqrt{\operatorname{Var}(X)}.$$
+
+The expected value tells us where a random variable is centred. The variance
+and standard deviation tell us how much it fluctuates around that centre.
+
+### Parameters and statistics {-}
+
+Statistics is concerned with learning about populations from samples. It is
+therefore essential to distinguish between quantities that describe a
+population and quantities computed from a sample.
+
+A **parameter** is a numerical quantity describing the population. The
+population mean is written $\mu$, the population variance $\sigma^2$, and the
+population standard deviation $\sigma$. These quantities are fixed — they do
+not change — but they are usually unknown, because we rarely observe the entire
+population.
+
+A **statistic**, by contrast, is computed from a sample. The sample mean,
+sample variance and sample standard deviation are all statistics. Unlike
+parameters, statistics change from one sample to the next, because they depend
+on which observations happen to be selected.
+
+The entire objective of inferential statistics can now be expressed in a single
+sentence:
 
 ::: {.keyidea}
-A **parameter** describes the population: the true mean $\mu$, the true
-standard deviation $\sigma$. You never observe these. They are written as Greek
-letters as a permanent reminder that they are out of reach.
-
-A **statistic** is computed from your sample: $\bar{x}$, $s$. You can always
-see these. They are your only evidence.
-
-The whole problem of inference, in one line:
-
-$$\underbrace{\bar{x}}_{\text{you have this}} \quad\longrightarrow\quad \underbrace{\mu}_{\text{you want this}}$$
-
-The arrow is not an equals sign.
+Use statistics computed from a sample to learn about unknown parameters
+describing the population.
 :::
 
-### The assumption that licenses everything {-}
+Everything that follows in this book — estimation, confidence intervals,
+hypothesis testing and regression analysis — is an extension of this single
+idea.
 
-One more thing must be said before the machinery works, and it is usually said
-too quickly.
+### A summary of notation {-}
 
-We assume the population has an underlying distribution, and that the members
-of our sample are **independent and identically distributed** draws from it.
+The notation introduced in this section will be used throughout the book.
 
-- **Identically distributed**: every observation comes from the same
-  distribution. No drift, no changing the rules partway through.
-- **Independent**: knowing one observation tells you nothing about another.
+| Symbol | Meaning |
+|:--|:--|
+| $X,\ Y,\ Z$ | random variables — quantities not yet observed |
+| $x,\ y,\ z$ | realisations — values actually observed |
+| $\bar{X}$ | the sample mean, before the sample is drawn |
+| $\bar{x}$ | the sample mean, once the sample is observed |
+| $n$ | the sample size |
+| $E(X)$ | expected value: the long-run average of $X$ |
+| $\operatorname{Var}(X)$ | variance: the spread of $X$ about its expected value |
 
-::: {.watchout}
-It is this assumption — that your sample is drawn from the same distribution as
-the population you care about — that licenses inference at all.
+And, separating what describes the population from what is computed from a
+sample:
 
-If the sample came from a *different* distribution, no amount of arithmetic
-could bridge them. This is why sampling design matters so much, and why a badly
-drawn sample cannot be repaired by clever statistics afterwards. The formulas
-will still run. They will simply be answering a question about a population you
-did not mean.
-:::
+| Quantity | Population (parameter) | Sample (statistic) |
+|:--|:--|:--|
+| Mean | $\mu$ | $\bar{x}$ |
+| Variance | $\sigma^2$ | $s^2$ |
+| Standard deviation | $\sigma$ | $s$ |
+
+The left-hand column is fixed and unknown. The right-hand column is observed
+and changes with every sample. Almost all of statistics is the effort to say
+something about the first using only the second.
 
 ## A population where we know the answer {#u1-sampling-distribution}
 
@@ -1259,23 +1336,22 @@ Points worth carrying forward:
 2. Greek letters ($\mu$, $\sigma$) denote population quantities, which are
    never observed. Roman letters ($\bar{x}$, $s$) denote quantities computed
    from a sample.
-3. Inference relies on the sample being drawn from the same distribution as the
-   population. A poorly drawn sample cannot be repaired by later analysis.
-4. $E(\bar{X}) = \mu$ and $\mathrm{Var}(\bar{X}) = \sigma^2/n$. The sample
+3. $E(\bar{X}) = \mu$ and $\mathrm{Var}(\bar{X}) = \sigma^2/n$. The sample
    mean is unbiased, and its standard error $\sigma/\sqrt{n}$ falls with the
    square root of the sample size — so halving it requires quadrupling the
    sample.
-5. The mean is one feature of a distribution, not a summary of it. Indian
+4. The mean is one feature of a distribution, not a summary of it. Indian
    earnings have a mean more than twice their median. Spread, and the position
    of those in the tails, are separate questions requiring separate tools.
 :::
 
 This unit opened by claiming that the average computed from a sample is almost
-certainly wrong. It is — and we can now say how wrong, and with what
-probability.
+certainly wrong. It is — and we now have both the reason and the language to
+say how wrong, and with what probability.
 
-The next unit puts that knowledge to use. Knowing that the sample mean is
-centred on $\mu$, has standard error $\sigma/\sqrt{n}$, and is approximately
-normally distributed, a single sample can be turned into a range of plausible
-values for the population mean, accompanied by a stated level of confidence.
-That is the subject of estimation.
+We began with plain English and end with a notation for describing uncertainty
+precisely. In the units that follow, that language is put to work on the
+question which has motivated this one from the beginning:
+
+> **How can a single sample tell us something reliable about an entire
+> population?**

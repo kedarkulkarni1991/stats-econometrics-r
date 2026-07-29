@@ -221,22 +221,6 @@ install.packages(c("tidyverse", "BSDA", "wooldridge", "AER", "stargazer"))
 
 You will not need anything else, and you will not need to pay for anything.
 
-## Notation used throughout {-}
-
-| Symbol | Means |
-|:--|:--|
-| $\mu,\ \sigma$ | population mean, population standard deviation |
-| $\bar{x},\ s$ | sample mean, sample standard deviation |
-| $n$ | sample size |
-| $E[X]$ | the long-run average of a random quantity |
-| $\alpha$ | significance level (the risk we accept of being wrong) |
-| $H_0,\ H_A$ | null hypothesis, alternative hypothesis |
-
-Greek letters are things about the **population** that we never observe. Roman
-letters with hats or bars are things we **compute from a sample** in the hope
-that they are close to the Greek ones. Almost all of statistics is the gap
-between those two columns.
-
 ## A note on the data {-}
 
 Every dataset used in this book is either built into R, shipped alongside the

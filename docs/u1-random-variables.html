@@ -159,7 +159,6 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="how-to-use-this-book.html"><a href="how-to-use-this-book.html#learn-by-connecting-ideas"><i class="fa fa-check"></i>Learn by connecting ideas</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="what-you-need.html"><a href="what-you-need.html"><i class="fa fa-check"></i>What you need</a></li>
-<li class="chapter" data-level="" data-path="notation-used-throughout.html"><a href="notation-used-throughout.html"><i class="fa fa-check"></i>Notation used throughout</a></li>
 <li class="chapter" data-level="" data-path="a-note-on-the-data.html"><a href="a-note-on-the-data.html"><i class="fa fa-check"></i>A note on the data</a></li>
 <li class="chapter" data-level="" data-path="licence-and-citation.html"><a href="licence-and-citation.html"><i class="fa fa-check"></i>Licence and citation</a></li>
 </ul></li>
@@ -179,9 +178,12 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="1.7" data-path="u1-random-variables.html"><a href="u1-random-variables.html"><i class="fa fa-check"></i><b>1.7</b> A language for randomness</a>
 <ul>
+<li class="chapter" data-level="" data-path="u1-random-variables.html"><a href="u1-random-variables.html#random-variables"><i class="fa fa-check"></i>Random variables</a></li>
+<li class="chapter" data-level="" data-path="u1-random-variables.html"><a href="u1-random-variables.html#realisations"><i class="fa fa-check"></i>Realisations</a></li>
 <li class="chapter" data-level="" data-path="u1-random-variables.html"><a href="u1-random-variables.html#the-long-run-average"><i class="fa fa-check"></i>The long-run average</a></li>
-<li class="chapter" data-level="" data-path="u1-random-variables.html"><a href="u1-random-variables.html#population-and-sample-in-notation"><i class="fa fa-check"></i>Population and sample, in notation</a></li>
-<li class="chapter" data-level="" data-path="u1-random-variables.html"><a href="u1-random-variables.html#the-assumption-that-licenses-everything"><i class="fa fa-check"></i>The assumption that licenses everything</a></li>
+<li class="chapter" data-level="" data-path="u1-random-variables.html"><a href="u1-random-variables.html#measuring-variation"><i class="fa fa-check"></i>Measuring variation</a></li>
+<li class="chapter" data-level="" data-path="u1-random-variables.html"><a href="u1-random-variables.html#parameters-and-statistics"><i class="fa fa-check"></i>Parameters and statistics</a></li>
+<li class="chapter" data-level="" data-path="u1-random-variables.html"><a href="u1-random-variables.html#a-summary-of-notation"><i class="fa fa-check"></i>A summary of notation</a></li>
 </ul></li>
 <li class="chapter" data-level="1.8" data-path="u1-sampling-distribution.html"><a href="u1-sampling-distribution.html"><i class="fa fa-check"></i><b>1.8</b> A population where we know the answer</a>
 <ul>
@@ -251,80 +253,193 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <div id="u1-random-variables" class="section level2 hasAnchor" number="1.7">
 <h2><span class="header-section-number">1.7</span> A language for randomness<a href="u1-random-variables.html#u1-random-variables" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <div class="question">
-<p>How do we talk about a quantity that changes every time we look?</p>
+<p>Why do we need a mathematical language?</p>
 </div>
-<p>Return to the sentence from the first section: every roll of a die produces a
-different outcome, every survey contains different households, every poll
-interviews different voters.</p>
-<p>A quantity whose value changes from one repetition to the next is called a
-<strong>random variable</strong>. The die roll is one. A worker’s earnings, drawn at random
-from the population, is another. So — and this is the step that matters — is
-the <em>mean</em> of a sample, because it too changes every time the sample changes.</p>
+<p>Throughout this chapter we have described repeated sampling almost entirely in
+plain English. We have spoken about rolling dice, drawing surveys, computing
+averages and repeating experiments thousands of times. That language has helped
+us build intuition, but it is no longer sufficient. To develop statistical
+inference, we need a concise and precise way of expressing these ideas.</p>
+<p>The first concept we need is that of a random variable.</p>
+<div id="random-variables" class="section level3 unnumbered hasAnchor">
+<h3>Random variables<a href="u1-random-variables.html#random-variables" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Some quantities are known before we observe them. If you measure your height
+today, it is a fixed number. It may be unknown to you, but it is not changing
+from one repetition to the next.</p>
+<p>Other quantities are different. Roll a die and you do not know what number will
+appear. Randomly select a worker from a population and you do not know that
+person’s earnings. Draw a sample of one hundred households and you do not know
+what the sample mean will be until the sample has actually been collected.</p>
+<p>Statisticians describe such quantities as <strong>stochastic</strong>. A stochastic quantity
+is one whose value is determined by the outcome of a random process.</p>
+<p>The mathematical object used to describe a stochastic quantity is called a
+<strong>random variable</strong>. We usually denote random variables by capital letters such
+as <span class="math inline">\(X\)</span>, <span class="math inline">\(Y\)</span> and <span class="math inline">\(Z\)</span>. For example, <span class="math inline">\(X\)</span> may denote the earnings of a randomly
+selected worker, <span class="math inline">\(Y\)</span> the annual rainfall in a particular district, and <span class="math inline">\(D\)</span> the
+outcome of rolling a fair die.</p>
+<p>The sample mean deserves special attention. Every time we draw a different
+sample, we obtain a different average. The sample mean is therefore itself a
+random variable. Before observing the data, we denote it by <span class="math inline">\(\bar{X}\)</span>.</p>
 <div class="keyidea">
-<p>The sample mean is itself a random variable.</p>
-<p>This single realisation is what makes inference possible. If <span class="math inline">\(\bar{X}\)</span> is a
-random variable, then it has a distribution. If it has a distribution, that
-distribution has a centre and a spread. And if we can find them, we can say how
-wrong a typical sample mean is.</p>
+<p>This observation is fundamental to inferential statistics. Since <span class="math inline">\(\bar{X}\)</span> is
+a random variable, it has a probability distribution. That distribution tells
+us how the sample mean behaves across repeated samples. Once we understand its
+centre and spread, we can quantify the uncertainty associated with the single
+sample we actually observe.</p>
+</div>
+</div>
+<div id="realisations" class="section level3 unnumbered hasAnchor">
+<h3>Realisations<a href="u1-random-variables.html#realisations" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Eventually every random variable takes a particular observed value.</p>
+<p>Suppose <span class="math inline">\(X\)</span> represents the outcome of rolling a fair die. Before the die is
+rolled, <span class="math inline">\(X\)</span> could take any value from one to six. After the die lands showing
+four, we have observed one <strong>realisation</strong> of the random variable, written as
+<span class="math inline">\(x = 4\)</span>.</p>
+<p>The same distinction applies to the sample mean. Before collecting a sample,
+the sample mean is the random variable <span class="math inline">\(\bar{X}\)</span>. After collecting the data and
+computing the average, we observe one realisation of that random variable,
+written as <span class="math inline">\(\bar{x}\)</span>.</p>
+<p>Throughout the remainder of this book, capital letters denote random variables,
+while lower-case letters denote their observed values.</p>
 </div>
 <div id="the-long-run-average" class="section level3 unnumbered hasAnchor">
 <h3>The long-run average<a href="u1-random-variables.html#the-long-run-average" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>If a random variable takes value <span class="math inline">\(x_i\)</span> with probability <span class="math inline">\(p(x_i)\)</span>, its
-<strong>expected value</strong> is</p>
-<p><span class="math display">\[E[X] = \sum_i x_i \, p(x_i)\]</span></p>
-<p>The name invites a misunderstanding. <span class="math inline">\(E[X]\)</span> is not the value you expect to see
-on any given try. For a fair die it is 3.5 — a number the die cannot produce.
-It is the <strong>long-run average</strong> over many repetitions.</p>
-<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="u1-random-variables.html#cb40-1" tabindex="-1"></a><span class="fu">mean</span>(rolls)                <span class="co"># average of our 10,000 actual rolls</span></span></code></pre></div>
+<p>Every random variable has a centre. The centre is called its <strong>expected value</strong>
+and is written as</p>
+<p><span class="math display">\[E(X) = \sum_i x_i \, P(X = x_i).\]</span></p>
+<p>The term <em>expected value</em> can be misleading. It is not the value we expect to
+observe on any particular repetition. Rather, it is the average value the
+random variable would take over a very large number of repetitions.</p>
+<p>For a fair die,</p>
+<p><span class="math display">\[E(X) = \frac{1+2+3+4+5+6}{6} = 3.5.\]</span></p>
+<p>Of course, no single roll can ever produce 3.5. It is a theoretical average,
+not an individual outcome.</p>
+<p>This distinction becomes clearer when we compare theory with data.</p>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="u1-random-variables.html#cb40-1" tabindex="-1"></a><span class="fu">mean</span>(rolls)                <span class="co"># average of 10,000 simulated rolls</span></span></code></pre></div>
 <pre><code>#&gt; [1] 3.514</code></pre>
-<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="u1-random-variables.html#cb42-1" tabindex="-1"></a><span class="fu">sum</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span> <span class="sc">*</span> <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">/</span><span class="dv">6</span>, <span class="dv">6</span>))     <span class="co"># E[X], computed on paper</span></span></code></pre></div>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="u1-random-variables.html#cb42-1" tabindex="-1"></a><span class="fu">sum</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span> <span class="sc">*</span> <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">/</span><span class="dv">6</span>, <span class="dv">6</span>))     <span class="co"># theoretical expected value</span></span></code></pre></div>
 <pre><code>#&gt; [1] 3.5</code></pre>
-<div class="intuition">
-<p>That these agree is neither a coincidence nor a triviality. It is the first
-appearance of the Law of Large Numbers: run a random process enough times, and
-the average of what you observe closes in on the number you calculated in
-advance.</p>
-<p>Notice how unremarkable that felt. We are about to need it for something far
-less obvious.</p>
+<p>The close agreement between these two numbers is exactly what the Law of Large
+Numbers predicts. The expected value is calculated from the probability model,
+while the sample average is calculated from observed data. As the number of
+observations grows, the latter approaches the former.</p>
+<p>When the random variable represents a randomly selected member of a population,
+its expected value is simply the population mean. For this reason we denote
+both by the same symbol,</p>
+<p><span class="math display">\[E(X) = \mu.\]</span></p>
 </div>
-<p>When the random variable is a draw from a population, its expected value <em>is</em>
-the population mean, which is why both are written <span class="math inline">\(\mu\)</span>. And the spread of a
-random variable around its expectation is its <strong>variance</strong>, written <span class="math inline">\(\sigma^2\)</span>,
-with the standard deviation <span class="math inline">\(\sigma\)</span> its square root.</p>
+<div id="measuring-variation" class="section level3 unnumbered hasAnchor">
+<h3>Measuring variation<a href="u1-random-variables.html#measuring-variation" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Knowing the centre of a distribution is not enough. Two random variables can
+have the same expected value but very different amounts of variation.</p>
+<p>The spread of a random variable around its expected value is measured by its
+<strong>variance</strong>,</p>
+<p><span class="math display">\[\operatorname{Var}(X) = E\big[(X - \mu)^2\big],\]</span></p>
+<p>and the square root of the variance is the <strong>standard deviation</strong>,</p>
+<p><span class="math display">\[\sigma = \sqrt{\operatorname{Var}(X)}.\]</span></p>
+<p>The expected value tells us where a random variable is centred. The variance
+and standard deviation tell us how much it fluctuates around that centre.</p>
 </div>
-<div id="population-and-sample-in-notation" class="section level3 unnumbered hasAnchor">
-<h3>Population and sample, in notation<a href="u1-random-variables.html#population-and-sample-in-notation" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="parameters-and-statistics" class="section level3 unnumbered hasAnchor">
+<h3>Parameters and statistics<a href="u1-random-variables.html#parameters-and-statistics" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Statistics is concerned with learning about populations from samples. It is
+therefore essential to distinguish between quantities that describe a
+population and quantities computed from a sample.</p>
+<p>A <strong>parameter</strong> is a numerical quantity describing the population. The
+population mean is written <span class="math inline">\(\mu\)</span>, the population variance <span class="math inline">\(\sigma^2\)</span>, and the
+population standard deviation <span class="math inline">\(\sigma\)</span>. These quantities are fixed — they do
+not change — but they are usually unknown, because we rarely observe the entire
+population.</p>
+<p>A <strong>statistic</strong>, by contrast, is computed from a sample. The sample mean,
+sample variance and sample standard deviation are all statistics. Unlike
+parameters, statistics change from one sample to the next, because they depend
+on which observations happen to be selected.</p>
+<p>The entire objective of inferential statistics can now be expressed in a single
+sentence:</p>
 <div class="keyidea">
-<p>A <strong>parameter</strong> describes the population: the true mean <span class="math inline">\(\mu\)</span>, the true
-standard deviation <span class="math inline">\(\sigma\)</span>. You never observe these. They are written as Greek
-letters as a permanent reminder that they are out of reach.</p>
-<p>A <strong>statistic</strong> is computed from your sample: <span class="math inline">\(\bar{x}\)</span>, <span class="math inline">\(s\)</span>. You can always
-see these. They are your only evidence.</p>
-<p>The whole problem of inference, in one line:</p>
-<p><span class="math display">\[\underbrace{\bar{x}}_{\text{you have this}} \quad\longrightarrow\quad \underbrace{\mu}_{\text{you want this}}\]</span></p>
-<p>The arrow is not an equals sign.</p>
+<p>Use statistics computed from a sample to learn about unknown parameters
+describing the population.</p>
 </div>
+<p>Everything that follows in this book — estimation, confidence intervals,
+hypothesis testing and regression analysis — is an extension of this single
+idea.</p>
 </div>
-<div id="the-assumption-that-licenses-everything" class="section level3 unnumbered hasAnchor">
-<h3>The assumption that licenses everything<a href="u1-random-variables.html#the-assumption-that-licenses-everything" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>One more thing must be said before the machinery works, and it is usually said
-too quickly.</p>
-<p>We assume the population has an underlying distribution, and that the members
-of our sample are <strong>independent and identically distributed</strong> draws from it.</p>
-<ul>
-<li><strong>Identically distributed</strong>: every observation comes from the same
-distribution. No drift, no changing the rules partway through.</li>
-<li><strong>Independent</strong>: knowing one observation tells you nothing about another.</li>
-</ul>
-<div class="watchout">
-<p>It is this assumption — that your sample is drawn from the same distribution as
-the population you care about — that licenses inference at all.</p>
-<p>If the sample came from a <em>different</em> distribution, no amount of arithmetic
-could bridge them. This is why sampling design matters so much, and why a badly
-drawn sample cannot be repaired by clever statistics afterwards. The formulas
-will still run. They will simply be answering a question about a population you
-did not mean.</p>
-</div>
+<div id="a-summary-of-notation" class="section level3 unnumbered hasAnchor">
+<h3>A summary of notation<a href="u1-random-variables.html#a-summary-of-notation" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>The notation introduced in this section will be used throughout the book.</p>
+<table>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">Symbol</th>
+<th align="left">Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><span class="math inline">\(X,\ Y,\ Z\)</span></td>
+<td align="left">random variables — quantities not yet observed</td>
+</tr>
+<tr class="even">
+<td align="left"><span class="math inline">\(x,\ y,\ z\)</span></td>
+<td align="left">realisations — values actually observed</td>
+</tr>
+<tr class="odd">
+<td align="left"><span class="math inline">\(\bar{X}\)</span></td>
+<td align="left">the sample mean, before the sample is drawn</td>
+</tr>
+<tr class="even">
+<td align="left"><span class="math inline">\(\bar{x}\)</span></td>
+<td align="left">the sample mean, once the sample is observed</td>
+</tr>
+<tr class="odd">
+<td align="left"><span class="math inline">\(n\)</span></td>
+<td align="left">the sample size</td>
+</tr>
+<tr class="even">
+<td align="left"><span class="math inline">\(E(X)\)</span></td>
+<td align="left">expected value: the long-run average of <span class="math inline">\(X\)</span></td>
+</tr>
+<tr class="odd">
+<td align="left"><span class="math inline">\(\operatorname{Var}(X)\)</span></td>
+<td align="left">variance: the spread of <span class="math inline">\(X\)</span> about its expected value</td>
+</tr>
+</tbody>
+</table>
+<p>And, separating what describes the population from what is computed from a
+sample:</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Quantity</th>
+<th align="left">Population (parameter)</th>
+<th align="left">Sample (statistic)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Mean</td>
+<td align="left"><span class="math inline">\(\mu\)</span></td>
+<td align="left"><span class="math inline">\(\bar{x}\)</span></td>
+</tr>
+<tr class="even">
+<td align="left">Variance</td>
+<td align="left"><span class="math inline">\(\sigma^2\)</span></td>
+<td align="left"><span class="math inline">\(s^2\)</span></td>
+</tr>
+<tr class="odd">
+<td align="left">Standard deviation</td>
+<td align="left"><span class="math inline">\(\sigma\)</span></td>
+<td align="left"><span class="math inline">\(s\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>The left-hand column is fixed and unknown. The right-hand column is observed
+and changes with every sample. Almost all of statistics is the effort to say
+something about the first using only the second.</p>
 </div>
 </div>
 <script>

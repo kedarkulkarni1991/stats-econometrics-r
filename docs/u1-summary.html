@@ -159,7 +159,6 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="how-to-use-this-book.html"><a href="how-to-use-this-book.html#learn-by-connecting-ideas"><i class="fa fa-check"></i>Learn by connecting ideas</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="what-you-need.html"><a href="what-you-need.html"><i class="fa fa-check"></i>What you need</a></li>
-<li class="chapter" data-level="" data-path="notation-used-throughout.html"><a href="notation-used-throughout.html"><i class="fa fa-check"></i>Notation used throughout</a></li>
 <li class="chapter" data-level="" data-path="a-note-on-the-data.html"><a href="a-note-on-the-data.html"><i class="fa fa-check"></i>A note on the data</a></li>
 <li class="chapter" data-level="" data-path="licence-and-citation.html"><a href="licence-and-citation.html"><i class="fa fa-check"></i>Licence and citation</a></li>
 </ul></li>
@@ -179,9 +178,12 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="1.7" data-path="u1-random-variables.html"><a href="u1-random-variables.html"><i class="fa fa-check"></i><b>1.7</b> A language for randomness</a>
 <ul>
+<li class="chapter" data-level="" data-path="u1-random-variables.html"><a href="u1-random-variables.html#random-variables"><i class="fa fa-check"></i>Random variables</a></li>
+<li class="chapter" data-level="" data-path="u1-random-variables.html"><a href="u1-random-variables.html#realisations"><i class="fa fa-check"></i>Realisations</a></li>
 <li class="chapter" data-level="" data-path="u1-random-variables.html"><a href="u1-random-variables.html#the-long-run-average"><i class="fa fa-check"></i>The long-run average</a></li>
-<li class="chapter" data-level="" data-path="u1-random-variables.html"><a href="u1-random-variables.html#population-and-sample-in-notation"><i class="fa fa-check"></i>Population and sample, in notation</a></li>
-<li class="chapter" data-level="" data-path="u1-random-variables.html"><a href="u1-random-variables.html#the-assumption-that-licenses-everything"><i class="fa fa-check"></i>The assumption that licenses everything</a></li>
+<li class="chapter" data-level="" data-path="u1-random-variables.html"><a href="u1-random-variables.html#measuring-variation"><i class="fa fa-check"></i>Measuring variation</a></li>
+<li class="chapter" data-level="" data-path="u1-random-variables.html"><a href="u1-random-variables.html#parameters-and-statistics"><i class="fa fa-check"></i>Parameters and statistics</a></li>
+<li class="chapter" data-level="" data-path="u1-random-variables.html"><a href="u1-random-variables.html#a-summary-of-notation"><i class="fa fa-check"></i>A summary of notation</a></li>
 </ul></li>
 <li class="chapter" data-level="1.8" data-path="u1-sampling-distribution.html"><a href="u1-sampling-distribution.html"><i class="fa fa-check"></i><b>1.8</b> A population where we know the answer</a>
 <ul>
@@ -275,8 +277,6 @@ Where nothing varies, there is nothing for statistics to describe.</li>
 <li>Greek letters (<span class="math inline">\(\mu\)</span>, <span class="math inline">\(\sigma\)</span>) denote population quantities, which are
 never observed. Roman letters (<span class="math inline">\(\bar{x}\)</span>, <span class="math inline">\(s\)</span>) denote quantities computed
 from a sample.</li>
-<li>Inference relies on the sample being drawn from the same distribution as the
-population. A poorly drawn sample cannot be repaired by later analysis.</li>
 <li><span class="math inline">\(E(\bar{X}) = \mu\)</span> and <span class="math inline">\(\mathrm{Var}(\bar{X}) = \sigma^2/n\)</span>. The sample
 mean is unbiased, and its standard error <span class="math inline">\(\sigma/\sqrt{n}\)</span> falls with the
 square root of the sample size — so halving it requires quadrupling the
@@ -287,13 +287,15 @@ of those in the tails, are separate questions requiring separate tools.</li>
 </ol>
 </div>
 <p>This unit opened by claiming that the average computed from a sample is almost
-certainly wrong. It is — and we can now say how wrong, and with what
-probability.</p>
-<p>The next unit puts that knowledge to use. Knowing that the sample mean is
-centred on <span class="math inline">\(\mu\)</span>, has standard error <span class="math inline">\(\sigma/\sqrt{n}\)</span>, and is approximately
-normally distributed, a single sample can be turned into a range of plausible
-values for the population mean, accompanied by a stated level of confidence.
-That is the subject of estimation.</p>
+certainly wrong. It is — and we now have both the reason and the language to
+say how wrong, and with what probability.</p>
+<p>We began with plain English and end with a notation for describing uncertainty
+precisely. In the units that follow, that language is put to work on the
+question which has motivated this one from the beginning:</p>
+<blockquote>
+<p><strong>How can a single sample tell us something reliable about an entire
+population?</strong></p>
+</blockquote>
 
 </div>
 <!-- </div> -->
