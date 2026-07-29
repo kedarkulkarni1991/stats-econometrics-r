@@ -337,17 +337,28 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <div class="question">
 <p>Our best guess is a single number. How often is a single number right?</p>
 </div>
-<p>Everything so far has produced point estimates: <span class="math inline">\(\bar{x}\)</span> for <span class="math inline">\(\mu\)</span>, <span class="math inline">\(s^2\)</span> for
-<span class="math inline">\(\sigma^2\)</span>, <span class="math inline">\(\hat{p}\)</span> for <span class="math inline">\(p\)</span>. Each is the best single guess the data can
-offer, and each is offered in the knowledge that it is almost certainly not the
+<p>Everything we have estimated so far has been a <strong>point estimate</strong>: <span class="math inline">\(\bar{x}\)</span> for
+the population mean <span class="math inline">\(\mu\)</span>, <span class="math inline">\(s^2\)</span> for the population variance <span class="math inline">\(\sigma^2\)</span>, and
+<span class="math inline">\(\hat{p}\)</span> for the population proportion <span class="math inline">\(p\)</span>. Each is a single number extracted
+from the sample and presented as our best estimate of an unknown population
+quantity.</p>
+<p>A point estimate, however, is only a guess. It is the best guess the sample can
+provide, but it is almost certainly not exactly equal to the population
+parameter.</p>
+<p>This is worth stating explicitly because it runs against our intuition. Suppose
+a survey reports that students attend an average of 26.1 classes. It is
+tempting to conclude that the population mean attendance is 26.1. In reality
+that conclusion is almost certainly wrong. The estimate is not poorly
+calculated or misleading — it is simply unlikely to equal the true population
+mean exactly. The real question is not whether the estimate is correct, but
+<strong>how far from the truth it is likely to be</strong>.</p>
+<p>To explore that question, let us return to a setting where we know the truth.
+Treat the full dataset of 680 students as the population, whose mean attendance
+is 26.147
+classes. We repeatedly draw random samples of 40 students and compute the
+sample mean for each one. Comparing these estimates with the known population
+mean allows us to see how much a point estimate typically differs from the
 truth.</p>
-<p>That is worth stating plainly, because it is easy to lose sight of. When a
-survey reports average attendance of 26.1 classes, the claim “the population
-mean is 26.1” is essentially certain to be false. Not misleading, not badly
-computed — simply false, by some unknown amount.</p>
-<p>We can put a number on how false. Treat the 680 students as a population, whose
-mean attendance is 26.147
-classes, and draw ten thousand samples of forty.</p>
 <div class="sourceCode" id="cb86"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb86-1"><a href="u3-ci.html#cb86-1" tabindex="-1"></a>students <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/attendance-grades.csv&quot;</span>)</span>
 <span id="cb86-2"><a href="u3-ci.html#cb86-2" tabindex="-1"></a>att      <span class="ot">&lt;-</span> students<span class="sc">$</span>attendance</span>
 <span id="cb86-3"><a href="u3-ci.html#cb86-3" tabindex="-1"></a>mu_pop   <span class="ot">&lt;-</span> <span class="fu">mean</span>(att)</span>
@@ -355,15 +366,21 @@ classes, and draw ten thousand samples of forty.</p>
 <span id="cb86-5"><a href="u3-ci.html#cb86-5" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2</span>)</span>
 <span id="cb86-6"><a href="u3-ci.html#cb86-6" tabindex="-1"></a>guesses <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">10000</span>, <span class="fu">mean</span>(<span class="fu">sample</span>(att, <span class="dv">40</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>)))</span>
 <span id="cb86-7"><a href="u3-ci.html#cb86-7" tabindex="-1"></a></span>
-<span id="cb86-8"><a href="u3-ci.html#cb86-8" tabindex="-1"></a><span class="fu">c</span>(<span class="at">exactly_right   =</span> <span class="fu">sum</span>(guesses <span class="sc">==</span> mu_pop),</span>
-<span id="cb86-9"><a href="u3-ci.html#cb86-9" tabindex="-1"></a>  <span class="at">within_0.1      =</span> <span class="fu">mean</span>(<span class="fu">abs</span>(guesses <span class="sc">-</span> mu_pop) <span class="sc">&lt;</span> <span class="fl">0.1</span>),</span>
-<span id="cb86-10"><a href="u3-ci.html#cb86-10" tabindex="-1"></a>  <span class="at">within_0.5      =</span> <span class="fu">mean</span>(<span class="fu">abs</span>(guesses <span class="sc">-</span> mu_pop) <span class="sc">&lt;</span> <span class="fl">0.5</span>),</span>
-<span id="cb86-11"><a href="u3-ci.html#cb86-11" tabindex="-1"></a>  <span class="at">within_1.0      =</span> <span class="fu">mean</span>(<span class="fu">abs</span>(guesses <span class="sc">-</span> mu_pop) <span class="sc">&lt;</span> <span class="fl">1.0</span>))</span></code></pre></div>
-<pre><code>#&gt; exactly_right    within_0.1    within_0.5    within_1.0 
-#&gt;        0.0000        0.0917        0.4290        0.7536</code></pre>
-<p>Not one of the ten thousand estimates was exactly right. Fewer than one in ten
-came within a tenth of a class. A point estimate is a guess that essentially
-never lands.</p>
+<span id="cb86-8"><a href="u3-ci.html#cb86-8" tabindex="-1"></a>error <span class="ot">&lt;-</span> <span class="fu">abs</span>(guesses <span class="sc">-</span> mu_pop)</span>
+<span id="cb86-9"><a href="u3-ci.html#cb86-9" tabindex="-1"></a></span>
+<span id="cb86-10"><a href="u3-ci.html#cb86-10" tabindex="-1"></a><span class="fu">c</span>(<span class="at">exactly_right    =</span> <span class="fu">sum</span>(guesses <span class="sc">==</span> mu_pop),</span>
+<span id="cb86-11"><a href="u3-ci.html#cb86-11" tabindex="-1"></a>  <span class="at">typical_miss     =</span> <span class="fu">median</span>(error),</span>
+<span id="cb86-12"><a href="u3-ci.html#cb86-12" tabindex="-1"></a>  <span class="at">average_miss     =</span> <span class="fu">mean</span>(error),</span>
+<span id="cb86-13"><a href="u3-ci.html#cb86-13" tabindex="-1"></a>  <span class="at">missed_by_over_1 =</span> <span class="fu">mean</span>(error <span class="sc">&gt;</span> <span class="dv">1</span>))</span></code></pre></div>
+<pre><code>#&gt;    exactly_right     typical_miss     average_miss missed_by_over_1 
+#&gt;           0.0000           0.5779           0.6895           0.2464</code></pre>
+<p>Not one of the ten thousand estimates was exactly right. The typical estimate
+missed the population mean by about 0.58
+classes, and roughly a quarter of them were off by more than a full class.</p>
+<p>None of this indicates that anything has gone wrong. Each of those ten thousand
+estimates was computed correctly, from an honestly drawn sample, using an
+estimator we spent the whole of the previous unit justifying. Missing the truth
+is simply what point estimates do.</p>
 <div class="question">
 <p>So how do we say something that stands a chance of being true?</p>
 </div>

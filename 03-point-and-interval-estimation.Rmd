@@ -440,19 +440,31 @@ sample large enough for a 50-50 split is large enough for anything.
 Our best guess is a single number. How often is a single number right?
 :::
 
-Everything so far has produced point estimates: $\bar{x}$ for $\mu$, $s^2$ for
-$\sigma^2$, $\hat{p}$ for $p$. Each is the best single guess the data can
-offer, and each is offered in the knowledge that it is almost certainly not the
+Everything we have estimated so far has been a **point estimate**: $\bar{x}$ for
+the population mean $\mu$, $s^2$ for the population variance $\sigma^2$, and
+$\hat{p}$ for the population proportion $p$. Each is a single number extracted
+from the sample and presented as our best estimate of an unknown population
+quantity.
+
+A point estimate, however, is only a guess. It is the best guess the sample can
+provide, but it is almost certainly not exactly equal to the population
+parameter.
+
+This is worth stating explicitly because it runs against our intuition. Suppose
+a survey reports that students attend an average of 26.1 classes. It is
+tempting to conclude that the population mean attendance is 26.1. In reality
+that conclusion is almost certainly wrong. The estimate is not poorly
+calculated or misleading — it is simply unlikely to equal the true population
+mean exactly. The real question is not whether the estimate is correct, but
+**how far from the truth it is likely to be**.
+
+To explore that question, let us return to a setting where we know the truth.
+Treat the full dataset of 680 students as the population, whose mean attendance
+is `r round(mean(read.csv("data/attendance-grades.csv")$attendance), 3)`
+classes. We repeatedly draw random samples of 40 students and compute the
+sample mean for each one. Comparing these estimates with the known population
+mean allows us to see how much a point estimate typically differs from the
 truth.
-
-That is worth stating plainly, because it is easy to lose sight of. When a
-survey reports average attendance of 26.1 classes, the claim "the population
-mean is 26.1" is essentially certain to be false. Not misleading, not badly
-computed — simply false, by some unknown amount.
-
-We can put a number on how false. Treat the 680 students as a population, whose
-mean attendance is `r round(mean(read.csv("data/attendance-grades.csv")$attendance), 3)`
-classes, and draw ten thousand samples of forty.
 
 ```{r u3-how-often}
 students <- read.csv("data/attendance-grades.csv")
@@ -462,15 +474,22 @@ mu_pop   <- mean(att)
 set.seed(2)
 guesses <- replicate(10000, mean(sample(att, 40, replace = TRUE)))
 
-c(exactly_right   = sum(guesses == mu_pop),
-  within_0.1      = mean(abs(guesses - mu_pop) < 0.1),
-  within_0.5      = mean(abs(guesses - mu_pop) < 0.5),
-  within_1.0      = mean(abs(guesses - mu_pop) < 1.0))
+error <- abs(guesses - mu_pop)
+
+c(exactly_right    = sum(guesses == mu_pop),
+  typical_miss     = median(error),
+  average_miss     = mean(error),
+  missed_by_over_1 = mean(error > 1))
 ```
 
-Not one of the ten thousand estimates was exactly right. Fewer than one in ten
-came within a tenth of a class. A point estimate is a guess that essentially
-never lands.
+Not one of the ten thousand estimates was exactly right. The typical estimate
+missed the population mean by about `r round(median(abs(guesses - mu_pop)), 2)`
+classes, and roughly a quarter of them were off by more than a full class.
+
+None of this indicates that anything has gone wrong. Each of those ten thousand
+estimates was computed correctly, from an honestly drawn sample, using an
+estimator we spent the whole of the previous unit justifying. Missing the truth
+is simply what point estimates do.
 
 ::: {.question}
 So how do we say something that stands a chance of being true?
