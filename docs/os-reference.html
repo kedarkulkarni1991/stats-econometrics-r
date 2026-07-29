@@ -327,6 +327,7 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="4.8" data-path="os-onetailed.html"><a href="os-onetailed.html"><i class="fa fa-check"></i><b>4.8</b> One-tailed tests</a>
 <ul>
+<li class="chapter" data-level="" data-path="os-onetailed.html"><a href="os-onetailed.html#unknown-%CF%83-the-one-sided-t-test"><i class="fa fa-check"></i>Unknown σ: the one-sided t-test</a></li>
 <li class="chapter" data-level="" data-path="os-onetailed.html"><a href="os-onetailed.html#the-one-sided-interval-looks-backwards"><i class="fa fa-check"></i>The one-sided interval looks backwards</a></li>
 </ul></li>
 <li class="chapter" data-level="4.9" data-path="os-reference.html"><a href="os-reference.html"><i class="fa fa-check"></i><b>4.9</b> Reference tables</a></li>
@@ -364,16 +365,18 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <div id="os-reference" class="section level2 hasAnchor" number="4.9">
 <h2><span class="header-section-number">4.9</span> Reference tables<a href="os-reference.html#os-reference" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <table>
-<caption><span id="tab:os-ref-z">Table 4.3: </span> One-sample tests at a glance. Use <span class="math inline">\(Z\)</span> and <code>z.test()</code> when <span class="math inline">\(\sigma\)</span> is known; use <span class="math inline">\(t\)</span> with <span class="math inline">\(df = n-1\)</span> and <code>t.test()</code> when it is not.</caption>
+<caption><span id="tab:os-ref-z">Table 4.3: </span> Every one-sample test of a mean in this unit. Use <code>z.test()</code> when <span class="math inline">\(\sigma\)</span> is known and <code>t.test()</code> when it is not; the argument below selects the direction. There are only two procedures, each run three ways.</caption>
 <colgroup>
-<col width="25%" />
-<col width="25%" />
-<col width="25%" />
-<col width="25%" />
+<col width="20%" />
+<col width="20%" />
+<col width="20%" />
+<col width="20%" />
+<col width="20%" />
 </colgroup>
 <thead>
 <tr class="header">
-<th align="left">Test</th>
+<th align="left"><span class="math inline">\(\sigma\)</span></th>
+<th align="left">Direction</th>
 <th align="left">Hypotheses</th>
 <th align="left">Reject when</th>
 <th align="left">R argument</th>
@@ -381,25 +384,52 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 </thead>
 <tbody>
 <tr class="odd">
-<td align="left">Two-tailed</td>
+<td align="left">Known</td>
+<td align="left">Two-sided</td>
 <td align="left"><span class="math inline">\(H_0: \mu = \mu_0\)</span> vs <span class="math inline">\(H_A: \mu \neq \mu_0\)</span></td>
 <td align="left"><span class="math inline">\(\lvert Z_{calc} \rvert &gt; Z_{\alpha/2}\)</span></td>
-<td align="left">(default)</td>
+<td align="left"><code>alternative = "two.sided"</code></td>
 </tr>
 <tr class="even">
-<td align="left">Left-tailed</td>
+<td align="left">Known</td>
+<td align="left">Left</td>
 <td align="left"><span class="math inline">\(H_0: \mu \geq \mu_0\)</span> vs <span class="math inline">\(H_A: \mu &lt; \mu_0\)</span></td>
 <td align="left"><span class="math inline">\(Z_{calc} &lt; -Z_{\alpha}\)</span></td>
 <td align="left"><code>alternative = "less"</code></td>
 </tr>
 <tr class="odd">
-<td align="left">Right-tailed</td>
+<td align="left">Known</td>
+<td align="left">Right</td>
 <td align="left"><span class="math inline">\(H_0: \mu \leq \mu_0\)</span> vs <span class="math inline">\(H_A: \mu &gt; \mu_0\)</span></td>
 <td align="left"><span class="math inline">\(Z_{calc} &gt; Z_{\alpha}\)</span></td>
 <td align="left"><code>alternative = "greater"</code></td>
 </tr>
+<tr class="even">
+<td align="left">Unknown</td>
+<td align="left">Two-sided</td>
+<td align="left"><span class="math inline">\(H_0: \mu = \mu_0\)</span> vs <span class="math inline">\(H_A: \mu \neq \mu_0\)</span></td>
+<td align="left"><span class="math inline">\(\lvert t_{calc} \rvert &gt; t_{\alpha/2,\,n-1}\)</span></td>
+<td align="left"><code>alternative = "two.sided"</code></td>
+</tr>
+<tr class="odd">
+<td align="left">Unknown</td>
+<td align="left">Left</td>
+<td align="left"><span class="math inline">\(H_0: \mu \geq \mu_0\)</span> vs <span class="math inline">\(H_A: \mu &lt; \mu_0\)</span></td>
+<td align="left"><span class="math inline">\(t_{calc} &lt; -t_{\alpha,\,n-1}\)</span></td>
+<td align="left"><code>alternative = "less"</code></td>
+</tr>
+<tr class="even">
+<td align="left">Unknown</td>
+<td align="left">Right</td>
+<td align="left"><span class="math inline">\(H_0: \mu \leq \mu_0\)</span> vs <span class="math inline">\(H_A: \mu &gt; \mu_0\)</span></td>
+<td align="left"><span class="math inline">\(t_{calc} &gt; t_{\alpha,\,n-1}\)</span></td>
+<td align="left"><code>alternative = "greater"</code></td>
+</tr>
 </tbody>
 </table>
+<p>Read down the first column rather than across all six rows. The distribution
+changes when <span class="math inline">\(\sigma\)</span> becomes unknown; the direction changes where the
+rejection region sits. Nothing else differs.</p>
 <table>
 <caption><span id="tab:os-ref-crit">Table 4.4: </span> Standard normal critical values. Every figure below is <code>qnorm()</code> evaluated inline, not copied from a printed table.</caption>
 <thead>

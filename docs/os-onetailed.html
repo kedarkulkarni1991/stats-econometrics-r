@@ -327,6 +327,7 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="4.8" data-path="os-onetailed.html"><a href="os-onetailed.html"><i class="fa fa-check"></i><b>4.8</b> One-tailed tests</a>
 <ul>
+<li class="chapter" data-level="" data-path="os-onetailed.html"><a href="os-onetailed.html#unknown-%CF%83-the-one-sided-t-test"><i class="fa fa-check"></i>Unknown σ: the one-sided t-test</a></li>
 <li class="chapter" data-level="" data-path="os-onetailed.html"><a href="os-onetailed.html#the-one-sided-interval-looks-backwards"><i class="fa fa-check"></i>The one-sided interval looks backwards</a></li>
 </ul></li>
 <li class="chapter" data-level="4.9" data-path="os-reference.html"><a href="os-reference.html"><i class="fa fa-check"></i><b>4.9</b> Reference tables</a></li>
@@ -363,9 +364,17 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="os-onetailed" class="section level2 hasAnchor" number="4.8">
 <h2><span class="header-section-number">4.8</span> One-tailed tests<a href="os-onetailed.html#os-onetailed" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>Sometimes only one direction matters. A firm claims its new curing technique
-gets nicotine content <em>below</em> 1.5 mg; we only care if the true mean is lower.</p>
-<p><span class="math display">\[H_0 : \mu \geq 1.5 \qquad H_A : \mu &lt; 1.5\]</span></p>
+<div class="question">
+<p>Sometimes only one direction would worry us. Why spend half the error budget on
+the other?</p>
+</div>
+<p>A paper mill discharges effluent into a river. The state pollution control
+board sets a limit on biochemical oxygen demand of 30 mg per litre, and the
+mill claims its average discharge is <em>below</em> that limit.</p>
+<p>Only one direction matters here. Nobody objects if the effluent is far cleaner
+than required; the concern is entirely about exceeding the limit. So the claim
+being tested is one-sided:</p>
+<p><span class="math display">\[H_0 : \mu \geq 30 \qquad H_A : \mu &lt; 30\]</span></p>
 <p>All the probability we are willing to risk now goes into a single tail, so the
 critical value moves <em>inward</em>: <span class="math inline">\(-Z_{0.05} = -1.645\)</span> rather than <span class="math inline">\(\pm 1.96\)</span>.</p>
 <div class="sourceCode" id="cb146"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb146-1"><a href="os-onetailed.html#cb146-1" tabindex="-1"></a><span class="fu">qnorm</span>(<span class="fl">0.05</span>)             <span class="co"># left-tailed critical value at 5%</span></span></code></pre></div>
@@ -373,28 +382,69 @@ critical value moves <em>inward</em>: <span class="math inline">\(-Z_{0.05} = -1
 <div class="sourceCode" id="cb148"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb148-1"><a href="os-onetailed.html#cb148-1" tabindex="-1"></a><span class="fu">qnorm</span>(<span class="fl">0.95</span>)             <span class="co"># right-tailed critical value at 5%</span></span></code></pre></div>
 <pre><code>#&gt; [1] 1.645</code></pre>
 <p>In R, add the <code>alternative</code> argument:</p>
-<div class="sourceCode" id="cb150"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb150-1"><a href="os-onetailed.html#cb150-1" tabindex="-1"></a>nicotine <span class="ot">&lt;-</span> <span class="fu">make_sample</span>(<span class="at">n =</span> <span class="dv">20</span>, <span class="at">mean =</span> <span class="fl">1.42</span>, <span class="at">sd =</span> <span class="fl">0.7</span>)</span>
+<div class="sourceCode" id="cb150"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb150-1"><a href="os-onetailed.html#cb150-1" tabindex="-1"></a>bod <span class="ot">&lt;-</span> <span class="fu">make_sample</span>(<span class="at">n =</span> <span class="dv">20</span>, <span class="at">mean =</span> <span class="fl">29.2</span>, <span class="at">sd =</span> <span class="dv">7</span>)</span>
 <span id="cb150-2"><a href="os-onetailed.html#cb150-2" tabindex="-1"></a></span>
-<span id="cb150-3"><a href="os-onetailed.html#cb150-3" tabindex="-1"></a><span class="fu">z.test</span>(nicotine, <span class="at">mu =</span> <span class="fl">1.5</span>, <span class="at">sigma.x =</span> <span class="fl">0.7</span>, <span class="at">alternative =</span> <span class="st">&quot;less&quot;</span>,</span>
-<span id="cb150-4"><a href="os-onetailed.html#cb150-4" tabindex="-1"></a>       <span class="at">conf.level =</span> <span class="fl">0.95</span>)</span></code></pre></div>
+<span id="cb150-3"><a href="os-onetailed.html#cb150-3" tabindex="-1"></a><span class="fu">z.test</span>(bod, <span class="at">mu =</span> <span class="dv">30</span>, <span class="at">sigma.x =</span> <span class="dv">7</span>, <span class="at">alternative =</span> <span class="st">&quot;less&quot;</span>, <span class="at">conf.level =</span> <span class="fl">0.95</span>)</span></code></pre></div>
 <pre><code>#&gt; 
 #&gt;  One-sample z-Test
 #&gt; 
-#&gt; data:  nicotine
+#&gt; data:  bod
 #&gt; z = -0.51, p-value = 0.3
-#&gt; alternative hypothesis: true mean is less than 1.5
+#&gt; alternative hypothesis: true mean is less than 30
 #&gt; 95 percent confidence interval:
-#&gt;     NA 1.677
+#&gt;     NA 31.77
 #&gt; sample estimates:
 #&gt; mean of x 
-#&gt;      1.42</code></pre>
+#&gt;      29.2</code></pre>
 <p><span class="math inline">\(Z_{calc} = -0.51\)</span>, which is not below <span class="math inline">\(-1.645\)</span>, so we fail to reject. The
-firm’s claim is not supported — a sample mean of 1.42 would arise about 30% of
-the time even if the true mean were 1.5.</p>
+mill’s claim is not supported by this sample — a mean of 29.2 would arise about
+30% of the time even if the true average were exactly at the limit.</p>
+<p>Two details in that output are worth noticing. The interval has an <em>upper</em>
+limit of 31.77 for a <em>left</em>-tailed test, which looks wrong and is not; that is
+the subject of the last part of this section. And <code>z.test()</code> prints <code>NA</code> for
+the lower limit where it means <span class="math inline">\(-\infty\)</span>, whereas <code>t.test()</code> prints <code>-Inf</code>
+below. The two packages simply report the same thing differently.</p>
+<div id="unknown-σ-the-one-sided-t-test" class="section level3 unnumbered hasAnchor">
+<h3>Unknown σ: the one-sided t-test<a href="os-onetailed.html#unknown-%CF%83-the-one-sided-t-test" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Nothing about one-tailed testing is special to the <span class="math inline">\(Z\)</span>-test. When <span class="math inline">\(\sigma\)</span> is
+unknown, the same <code>alternative</code> argument does the same job.</p>
+<p>Return to the faculty teaching hours. The dean claims 11.0 hours per week, and
+suppose we specifically suspect the true figure is <em>lower</em> — we are not
+interested in the possibility that faculty teach more.</p>
+<p><span class="math display">\[H_0 : \mu \geq 11 \qquad H_A : \mu &lt; 11\]</span></p>
+<div class="sourceCode" id="cb152"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb152-1"><a href="os-onetailed.html#cb152-1" tabindex="-1"></a><span class="fu">t.test</span>(hours, <span class="at">mu =</span> <span class="dv">11</span>, <span class="at">alternative =</span> <span class="st">&quot;less&quot;</span>, <span class="at">conf.level =</span> <span class="fl">0.90</span>)</span></code></pre></div>
+<pre><code>#&gt; 
+#&gt;  One Sample t-test
+#&gt; 
+#&gt; data:  hours
+#&gt; t = -2.9, df = 7, p-value = 0.01
+#&gt; alternative hypothesis: true mean is less than 11
+#&gt; 90 percent confidence interval:
+#&gt;  -Inf 10.1
+#&gt; sample estimates:
+#&gt; mean of x 
+#&gt;     9.225</code></pre>
+<p>Notice that nothing fundamental has changed.</p>
+<ul>
+<li>The hypotheses are written exactly as before.</li>
+<li>The direction comes from <code>alternative</code>, not from a different formula.</li>
+<li>The <span class="math inline">\(p\)</span>-value is one-sided — 0.012 here, half the two-sided 0.024 we computed
+earlier.</li>
+<li>The confidence interval is one-sided, running from <span class="math inline">\(-\infty\)</span> to 10.10.</li>
+<li>The only substantive change is the reference distribution: Student’s <span class="math inline">\(t\)</span> with
+7 degrees of freedom in place of the normal.</li>
+</ul>
+<div class="keyidea">
+<p>There are not six different procedures to learn. There are two — the <span class="math inline">\(Z\)</span>-test
+when <span class="math inline">\(\sigma\)</span> is known and the <span class="math inline">\(t\)</span>-test when it is not — and each can be
+pointed in any of three directions.</p>
+<p>Everything else stays the same.</p>
+</div>
+</div>
 <div id="the-one-sided-interval-looks-backwards" class="section level3 unnumbered hasAnchor">
 <h3>The one-sided interval looks backwards<a href="os-onetailed.html#the-one-sided-interval-looks-backwards" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>This trips up nearly everyone. For the left-tailed test above, the confidence
-interval is</p>
+<p>This trips up nearly everyone. For a left-tailed test, the confidence interval
+is</p>
 <p><span class="math display">\[\left(-\infty,\ \bar{x} + Z_\alpha \frac{\sigma}{\sqrt{n}}\right)\]</span></p>
 <p>An <em>upper</em> bound — for a <em>left</em>-tailed test. Why?</p>
 <div class="theory">
@@ -409,6 +459,10 @@ interval is</p>
 <p>The inequality flipped when <span class="math inline">\(\mu_0\)</span> moved across. So we reject exactly when
 <span class="math inline">\(\mu_0\)</span> is <strong>too large</strong>, and the values we <em>fail</em> to reject are those with
 <span class="math inline">\(\mu \le \bar{x} + Z_\alpha\,\sigma/\sqrt{n}\)</span>.</p>
+<p>The result is identical for the <span class="math inline">\(t\)</span>-test. Replace <span class="math inline">\(Z_\alpha\)</span> with
+<span class="math inline">\(t_{\alpha,\,n-1}\)</span> and <span class="math inline">\(\sigma\)</span> with <span class="math inline">\(s\)</span>; not a single step of the argument
+changes. That is why the interval above ran to 10.10 rather than starting
+there.</p>
 </div>
 <div class="intuition">
 <p>The rejection region is defined in <strong><span class="math inline">\(Z\)</span>-space</strong>; the confidence interval lives

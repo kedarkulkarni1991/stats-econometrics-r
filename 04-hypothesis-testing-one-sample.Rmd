@@ -959,10 +959,20 @@ is far more informative than reporting a bare "significant / not significant."
 
 ## One-tailed tests {#os-onetailed}
 
-Sometimes only one direction matters. A firm claims its new curing technique
-gets nicotine content *below* 1.5 mg; we only care if the true mean is lower.
+::: {.question}
+Sometimes only one direction would worry us. Why spend half the error budget on
+the other?
+:::
 
-$$H_0 : \mu \geq 1.5 \qquad H_A : \mu < 1.5$$
+A paper mill discharges effluent into a river. The state pollution control
+board sets a limit on biochemical oxygen demand of 30 mg per litre, and the
+mill claims its average discharge is *below* that limit.
+
+Only one direction matters here. Nobody objects if the effluent is far cleaner
+than required; the concern is entirely about exceeding the limit. So the claim
+being tested is one-sided:
+
+$$H_0 : \mu \geq 30 \qquad H_A : \mu < 30$$
 
 All the probability we are willing to risk now goes into a single tail, so the
 critical value moves *inward*: $-Z_{0.05} = -1.645$ rather than $\pm 1.96$.
@@ -975,20 +985,58 @@ qnorm(0.95)             # right-tailed critical value at 5%
 In R, add the `alternative` argument:
 
 ```{r os-onetail-test}
-nicotine <- make_sample(n = 20, mean = 1.42, sd = 0.7)
+bod <- make_sample(n = 20, mean = 29.2, sd = 7)
 
-z.test(nicotine, mu = 1.5, sigma.x = 0.7, alternative = "less",
-       conf.level = 0.95)
+z.test(bod, mu = 30, sigma.x = 7, alternative = "less", conf.level = 0.95)
 ```
 
 $Z_{calc} = -0.51$, which is not below $-1.645$, so we fail to reject. The
-firm's claim is not supported — a sample mean of 1.42 would arise about 30% of
-the time even if the true mean were 1.5.
+mill's claim is not supported by this sample — a mean of 29.2 would arise about
+30% of the time even if the true average were exactly at the limit.
+
+Two details in that output are worth noticing. The interval has an *upper*
+limit of 31.77 for a *left*-tailed test, which looks wrong and is not; that is
+the subject of the last part of this section. And `z.test()` prints `NA` for
+the lower limit where it means $-\infty$, whereas `t.test()` prints `-Inf`
+below. The two packages simply report the same thing differently.
+
+### Unknown σ: the one-sided t-test {-}
+
+Nothing about one-tailed testing is special to the $Z$-test. When $\sigma$ is
+unknown, the same `alternative` argument does the same job.
+
+Return to the faculty teaching hours. The dean claims 11.0 hours per week, and
+suppose we specifically suspect the true figure is *lower* — we are not
+interested in the possibility that faculty teach more.
+
+$$H_0 : \mu \geq 11 \qquad H_A : \mu < 11$$
+
+```{r os-onetail-t}
+t.test(hours, mu = 11, alternative = "less", conf.level = 0.90)
+```
+
+Notice that nothing fundamental has changed.
+
+- The hypotheses are written exactly as before.
+- The direction comes from `alternative`, not from a different formula.
+- The $p$-value is one-sided — 0.012 here, half the two-sided 0.024 we computed
+  earlier.
+- The confidence interval is one-sided, running from $-\infty$ to 10.10.
+- The only substantive change is the reference distribution: Student's $t$ with
+  7 degrees of freedom in place of the normal.
+
+::: {.keyidea}
+There are not six different procedures to learn. There are two — the $Z$-test
+when $\sigma$ is known and the $t$-test when it is not — and each can be
+pointed in any of three directions.
+
+Everything else stays the same.
+:::
 
 ### The one-sided interval looks backwards {-}
 
-This trips up nearly everyone. For the left-tailed test above, the confidence
-interval is
+This trips up nearly everyone. For a left-tailed test, the confidence interval
+is
 
 $$\left(-\infty,\ \bar{x} + Z_\alpha \frac{\sigma}{\sqrt{n}}\right)$$
 
@@ -1008,6 +1056,11 @@ $$
 The inequality flipped when $\mu_0$ moved across. So we reject exactly when
 $\mu_0$ is **too large**, and the values we *fail* to reject are those with
 $\mu \le \bar{x} + Z_\alpha\,\sigma/\sqrt{n}$.
+
+The result is identical for the $t$-test. Replace $Z_\alpha$ with
+$t_{\alpha,\,n-1}$ and $\sigma$ with $s$; not a single step of the argument
+changes. That is why the interval above ran to 10.10 rather than starting
+there.
 :::
 
 ::: {.intuition}
@@ -1021,13 +1074,20 @@ relative to what we saw. That leaves an upper bound.
 
 ## Reference tables {#os-reference}
 
-Table: (\#tab:os-ref-z) One-sample tests at a glance. Use $Z$ and `z.test()` when $\sigma$ is known; use $t$ with $df = n-1$ and `t.test()` when it is not.
+Table: (\#tab:os-ref-z) Every one-sample test of a mean in this unit. Use `z.test()` when $\sigma$ is known and `t.test()` when it is not; the argument below selects the direction. There are only two procedures, each run three ways.
 
-| Test | Hypotheses | Reject when | R argument |
-|:--|:--|:--|:--|
-| Two-tailed | $H_0: \mu = \mu_0$ vs $H_A: \mu \neq \mu_0$ | $\lvert Z_{calc} \rvert > Z_{\alpha/2}$ | (default) |
-| Left-tailed | $H_0: \mu \geq \mu_0$ vs $H_A: \mu < \mu_0$ | $Z_{calc} < -Z_{\alpha}$ | `alternative = "less"` |
-| Right-tailed | $H_0: \mu \leq \mu_0$ vs $H_A: \mu > \mu_0$ | $Z_{calc} > Z_{\alpha}$ | `alternative = "greater"` |
+| $\sigma$ | Direction | Hypotheses | Reject when | R argument |
+|:--|:--|:--|:--|:--|
+| Known | Two-sided | $H_0: \mu = \mu_0$ vs $H_A: \mu \neq \mu_0$ | $\lvert Z_{calc} \rvert > Z_{\alpha/2}$ | `alternative = "two.sided"` |
+| Known | Left | $H_0: \mu \geq \mu_0$ vs $H_A: \mu < \mu_0$ | $Z_{calc} < -Z_{\alpha}$ | `alternative = "less"` |
+| Known | Right | $H_0: \mu \leq \mu_0$ vs $H_A: \mu > \mu_0$ | $Z_{calc} > Z_{\alpha}$ | `alternative = "greater"` |
+| Unknown | Two-sided | $H_0: \mu = \mu_0$ vs $H_A: \mu \neq \mu_0$ | $\lvert t_{calc} \rvert > t_{\alpha/2,\,n-1}$ | `alternative = "two.sided"` |
+| Unknown | Left | $H_0: \mu \geq \mu_0$ vs $H_A: \mu < \mu_0$ | $t_{calc} < -t_{\alpha,\,n-1}$ | `alternative = "less"` |
+| Unknown | Right | $H_0: \mu \leq \mu_0$ vs $H_A: \mu > \mu_0$ | $t_{calc} > t_{\alpha,\,n-1}$ | `alternative = "greater"` |
+
+Read down the first column rather than across all six rows. The distribution
+changes when $\sigma$ becomes unknown; the direction changes where the
+rejection region sits. Nothing else differs.
 
 Table: (\#tab:os-ref-crit) Standard normal critical values. Every figure below is `qnorm()` evaluated inline, not copied from a printed table.
 
