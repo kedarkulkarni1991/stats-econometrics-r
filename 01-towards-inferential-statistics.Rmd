@@ -1162,7 +1162,7 @@ households, the other 2,500. Both report a mean. Which should be trusted more,
 and what would you need to know before answering?
 
 ::: {.answer}
-Other things equal, the larger survey has the smaller standard error — by a
+Other things equal, the larger survey has the smaller standard deviation of the sample mean — by a
 factor of five, since $\sqrt{2500/100} = 5$. But this holds only if both
 samples were drawn from the population of interest and drawn at random. A
 carefully designed survey of 100 households is worth more than a badly drawn
@@ -1183,8 +1183,8 @@ Suppose a survey team draws random samples of (a) 50, (b) 100, (c) 200 and
 (d) 1,000 workers.
 
 i. Find the expected value of the sample mean in each case.
-ii. Find the standard error of the sample mean in each case.
-iii. What happens to the standard error as the sample size increases, and why?
+ii. Find the standard deviation of the sample mean in each case.
+iii. What happens to that standard deviation as the sample size increases, and why?
 iv. Verify your answers by simulation.
 
 ::: {.answer}
@@ -1192,7 +1192,7 @@ The expected value of the sample mean equals the population mean whatever the
 sample size, so $E(\bar{X}) = ₹54{,}200$ in all four cases. Sample size affects
 precision, not location.
 
-The standard error is $\sigma/\sqrt{n} = 100{,}100/\sqrt{n}$:
+The standard deviation of the sample mean is $\sigma/\sqrt{n} = 100{,}100/\sqrt{n}$:
 
 ```{r u1-ex-se}
 sigma <- 100100
@@ -1201,10 +1201,10 @@ n     <- c(50, 100, 200, 1000)
 round(data.frame(n, expected = 54200, se = sigma / sqrt(n)))
 ```
 
-The standard error falls in proportion to $1/\sqrt{n}$. Each additional worker
+It falls in proportion to $1/\sqrt{n}$. Each additional worker
 contributes information, so the average over many of them is pulled more
 tightly around the population value. Note that raising the sample from 50 to
-1,000 — twenty times the data — reduces the standard error only by a factor of
+1,000 — twenty times the data — reduces it only by a factor of
 $\sqrt{20} \approx 4.5$.
 
 Because we hold the whole population, the answer can be checked directly:
@@ -1220,7 +1220,7 @@ round(data.frame(n, theoretical = sd(earn) / sqrt(n), simulated = sim))
 ```
 
 The two columns agree closely. The small discrepancies are themselves sampling
-variation: each simulated standard error is estimated from 2,000 samples rather
+variation: each simulated standard deviation is estimated from 2,000 samples rather
 than infinitely many.
 :::
 
@@ -1324,7 +1324,7 @@ less well there.
 against its number of matches. What shape does the scatter take, and why?
 
 ::: {.answer}
-```{r u1-ex-cricket, fig.height = 3.8, fig.cap = "Toss-win percentage against number of matches played, with the theoretical limits of two standard errors."}
+```{r u1-ex-cricket, fig.height = 3.8, fig.cap = "Toss-win percentage against number of matches played, with the theoretical limits of two standard deviations."}
 toss <- read.csv("data/cricket-toss.csv")
 
 band <- data.frame(n = 5:2200)
@@ -1343,7 +1343,7 @@ ggplot(toss, aes(matches, pct_toss_won)) +
 
 The scatter forms a funnel: wide on the left, where teams have played few
 matches, and narrowing towards 50% as the number of matches grows. The shaded
-band shows two standard errors either side of 50, computed as
+band shows two standard deviations either side of 50, computed as
 $50/\sqrt{n}$ — the same formula that governs the sample mean. Almost every
 team falls inside it.
 
@@ -1370,7 +1370,7 @@ c. The mean earnings of a sample of 500 workers, before the sample is drawn
 d. The mean earnings of a sample of 500 workers, after the sample is drawn
 
 **QB 1.2** A population has mean $\mu = 40$ and standard deviation
-$\sigma = 12$. For samples of size 36, the standard error of the sample mean
+$\sigma = 12$. For samples of size 36, the standard deviation of the sample mean
 is
 
 a. 12
@@ -1389,7 +1389,7 @@ c. It applies only when the population is normally distributed
 d. It explains why a survey need not interview everyone
 
 **QB 1.4** A researcher doubles the size of a survey from 500 to 1,000
-households. The standard error of the sample mean falls by a factor of
+households. The standard deviation of the sample mean falls by a factor of
 approximately
 
 a. 2
@@ -1441,8 +1441,8 @@ of offsetting variation rather than any formula.
 standard deviation 0.6 kg. A quality inspector weighs 36 bags.
 
 (a) What is the expected value of the sample mean weight?
-(b) What is its standard error?
-(c) How many bags would need to be weighed to halve that standard error?
+(b) What is its standard deviation?
+(c) How many bags would need to be weighed to halve that standard deviation?
 
 **QB 1.12** Daily wages of agricultural labourers in a district have mean ₹350
 and standard deviation ₹90. For a random sample of 100 labourers, approximate

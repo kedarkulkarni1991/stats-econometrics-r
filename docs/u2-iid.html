@@ -4,13 +4,13 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>2.2 The assumptions behind inference | Statistics and Econometrics with R</title>
+  <title>2.2 What we assume about the sample | Statistics and Econometrics with R</title>
   <meta name="description" content="<p>A first course in statistics and econometrics for Indian students, built on
 the progression from question to intuition to rigour to computation to
 interpretation.</p>" />
   <meta name="generator" content="bookdown 0.47 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="2.2 The assumptions behind inference | Statistics and Econometrics with R" />
+  <meta property="og:title" content="2.2 What we assume about the sample | Statistics and Econometrics with R" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="<p>A first course in statistics and econometrics for Indian students, built on
@@ -19,7 +19,7 @@ interpretation.</p>" />
   <meta name="github-repo" content="kedarkulkarni1991/stats-econometrics-r" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="2.2 The assumptions behind inference | Statistics and Econometrics with R" />
+  <meta name="twitter:title" content="2.2 What we assume about the sample | Statistics and Econometrics with R" />
   
   <meta name="twitter:description" content="<p>A first course in statistics and econometrics for Indian students, built on
 the progression from question to intuition to rigour to computation to
@@ -35,8 +35,8 @@ interpretation.</p>" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="u2-known-truth.html"/>
-<link rel="next" href="one-sample.html"/>
+<link rel="prev" href="u2-problem.html"/>
+<link rel="next" href="u2-known-truth.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -204,18 +204,19 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="2" data-path="estimation.html"><a href="estimation.html"><i class="fa fa-check"></i><b>2</b> Estimation</a>
 <ul>
-<li class="chapter" data-level="2.1" data-path="u2-known-truth.html"><a href="u2-known-truth.html"><i class="fa fa-check"></i><b>2.1</b> A population where we know the truth</a>
+<li class="chapter" data-level="2.1" data-path="u2-problem.html"><a href="u2-problem.html"><i class="fa fa-check"></i><b>2.1</b> The problem of estimation</a></li>
+<li class="chapter" data-level="2.2" data-path="u2-iid.html"><a href="u2-iid.html"><i class="fa fa-check"></i><b>2.2</b> What we assume about the sample</a></li>
+<li class="chapter" data-level="2.3" data-path="u2-known-truth.html"><a href="u2-known-truth.html"><i class="fa fa-check"></i><b>2.3</b> One population where we know the truth</a>
 <ul>
 <li class="chapter" data-level="" data-path="u2-known-truth.html"><a href="u2-known-truth.html#constructing-the-population"><i class="fa fa-check"></i>Constructing the population</a></li>
 <li class="chapter" data-level="" data-path="u2-known-truth.html"><a href="u2-known-truth.html#drawing-one-sample"><i class="fa fa-check"></i>Drawing one sample</a></li>
 <li class="chapter" data-level="" data-path="u2-known-truth.html"><a href="u2-known-truth.html#drawing-a-thousand-samples"><i class="fa fa-check"></i>Drawing a thousand samples</a></li>
-<li class="chapter" data-level="" data-path="u2-known-truth.html"><a href="u2-known-truth.html#two-observations"><i class="fa fa-check"></i>Two observations</a></li>
-<li class="chapter" data-level="" data-path="u2-known-truth.html"><a href="u2-known-truth.html#what-happens-as-the-sample-grows"><i class="fa fa-check"></i>What happens as the sample grows</a></li>
-<li class="chapter" data-level="" data-path="u2-known-truth.html"><a href="u2-known-truth.html#why-were-the-sample-means-centred-on-seven"><i class="fa fa-check"></i>Why were the sample means centred on seven?</a></li>
-<li class="chapter" data-level="" data-path="u2-known-truth.html"><a href="u2-known-truth.html#why-did-the-distribution-become-narrower"><i class="fa fa-check"></i>Why did the distribution become narrower?</a></li>
+<li class="chapter" data-level="" data-path="u2-known-truth.html"><a href="u2-known-truth.html#three-questions"><i class="fa fa-check"></i>Three questions</a></li>
+<li class="chapter" data-level="" data-path="u2-known-truth.html"><a href="u2-known-truth.html#question-1-is-the-sample-mean-centred-on-the-truth"><i class="fa fa-check"></i>Question 1: is the sample mean centred on the truth?</a></li>
+<li class="chapter" data-level="" data-path="u2-known-truth.html"><a href="u2-known-truth.html#question-2-why-do-larger-samples-fluctuate-less"><i class="fa fa-check"></i>Question 2: why do larger samples fluctuate less?</a></li>
+<li class="chapter" data-level="" data-path="u2-known-truth.html"><a href="u2-known-truth.html#question-3-why-does-the-sample-mean-become-more-reliable"><i class="fa fa-check"></i>Question 3: why does the sample mean become more reliable?</a></li>
 <li class="chapter" data-level="" data-path="u2-known-truth.html"><a href="u2-known-truth.html#the-price-of-precision"><i class="fa fa-check"></i>The price of precision</a></li>
 </ul></li>
-<li class="chapter" data-level="2.2" data-path="u2-iid.html"><a href="u2-iid.html"><i class="fa fa-check"></i><b>2.2</b> The assumptions behind inference</a></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="one-sample.html"><a href="one-sample.html"><i class="fa fa-check"></i><b>3</b> Hypothesis Testing: One Sample</a>
 <ul>
@@ -274,32 +275,36 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 
             <section class="normal" id="section-">
 <div id="u2-iid" class="section level2 hasAnchor" number="2.2">
-<h2><span class="header-section-number">2.2</span> The assumptions behind inference<a href="u2-iid.html#u2-iid" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<h2><span class="header-section-number">2.2</span> What we assume about the sample<a href="u2-iid.html#u2-iid" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <div class="question">
-<p>What has to be true before a sample can tell us anything?</p>
+<p>What has to be true of a sample before it can tell us anything at all?</p>
 </div>
-<p>Throughout the previous unit we assumed, without saying so, that our
-observations were drawn from the population of interest. More precisely, we
-assume that the observations are <strong>independent and identically distributed</strong>,
-usually abbreviated to i.i.d.</p>
-<p><strong>Identically distributed</strong> means that every observation is drawn from the same
+<p>Before studying how the sample mean behaves, we have to be explicit about
+something the previous unit assumed silently: that the observations were drawn
+from the population of interest, and drawn in a particular way.</p>
+<p>The standard assumption is that observations are <strong>independent and identically
+distributed</strong>, usually abbreviated to i.i.d.</p>
+<p><strong>Identically distributed</strong> means every observation is drawn from the same
 probability distribution. The process generating the data does not change from
-one observation to the next.</p>
-<p><strong>Independent</strong> means that knowing the value of one observation provides no
-information about the value of another.</p>
-<p>Together, these assumptions ensure that every observation provides comparable
-information about the same population.</p>
+one observation to the next. If the first half of a survey is conducted in
+cities and the second half in villages, this fails.</p>
+<p><strong>Independent</strong> means that knowing the value of one observation tells us
+nothing about the value of another. If an interviewer surveys one household and
+then its next-door neighbour, this fails: neighbours share a locality, a labour
+market and often a caste.</p>
+<p>Together they ensure that every observation carries comparable information
+about the same population. We will see shortly exactly where each is needed —
+they are not decorative, and each does a specific job in a specific line of a
+specific proof.</p>
 <div class="watchout">
-<p>Their importance cannot be overstated. If the sample does not represent the
-population we wish to study, no amount of mathematical sophistication can
-recover the missing information. Statistical methods cannot repair a
-fundamentally flawed sample.</p>
+<p>Their importance is hard to overstate. If a sample does not represent the
+population we wish to study, no amount of mathematical sophistication recovers
+the missing information. Statistical methods cannot repair a fundamentally
+flawed sample.</p>
 <p>Good inference begins not with mathematics, but with good data and thoughtful
 study design.</p>
 </div>
-
 </div>
-<!-- </div> -->
 <script>
 // Solutions are written as plain fenced divs in the source, so the PDF edition
 // can typeset them as boxes. On the web they should stay hidden until asked
@@ -321,8 +326,8 @@ document.addEventListener("DOMContentLoaded", function () {
           </div>
         </div>
       </div>
-<a href="u2-known-truth.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="one-sample.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="u2-problem.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="u2-known-truth.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

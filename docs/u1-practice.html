@@ -204,18 +204,19 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="2" data-path="estimation.html"><a href="estimation.html"><i class="fa fa-check"></i><b>2</b> Estimation</a>
 <ul>
-<li class="chapter" data-level="2.1" data-path="u2-known-truth.html"><a href="u2-known-truth.html"><i class="fa fa-check"></i><b>2.1</b> A population where we know the truth</a>
+<li class="chapter" data-level="2.1" data-path="u2-problem.html"><a href="u2-problem.html"><i class="fa fa-check"></i><b>2.1</b> The problem of estimation</a></li>
+<li class="chapter" data-level="2.2" data-path="u2-iid.html"><a href="u2-iid.html"><i class="fa fa-check"></i><b>2.2</b> What we assume about the sample</a></li>
+<li class="chapter" data-level="2.3" data-path="u2-known-truth.html"><a href="u2-known-truth.html"><i class="fa fa-check"></i><b>2.3</b> One population where we know the truth</a>
 <ul>
 <li class="chapter" data-level="" data-path="u2-known-truth.html"><a href="u2-known-truth.html#constructing-the-population"><i class="fa fa-check"></i>Constructing the population</a></li>
 <li class="chapter" data-level="" data-path="u2-known-truth.html"><a href="u2-known-truth.html#drawing-one-sample"><i class="fa fa-check"></i>Drawing one sample</a></li>
 <li class="chapter" data-level="" data-path="u2-known-truth.html"><a href="u2-known-truth.html#drawing-a-thousand-samples"><i class="fa fa-check"></i>Drawing a thousand samples</a></li>
-<li class="chapter" data-level="" data-path="u2-known-truth.html"><a href="u2-known-truth.html#two-observations"><i class="fa fa-check"></i>Two observations</a></li>
-<li class="chapter" data-level="" data-path="u2-known-truth.html"><a href="u2-known-truth.html#what-happens-as-the-sample-grows"><i class="fa fa-check"></i>What happens as the sample grows</a></li>
-<li class="chapter" data-level="" data-path="u2-known-truth.html"><a href="u2-known-truth.html#why-were-the-sample-means-centred-on-seven"><i class="fa fa-check"></i>Why were the sample means centred on seven?</a></li>
-<li class="chapter" data-level="" data-path="u2-known-truth.html"><a href="u2-known-truth.html#why-did-the-distribution-become-narrower"><i class="fa fa-check"></i>Why did the distribution become narrower?</a></li>
+<li class="chapter" data-level="" data-path="u2-known-truth.html"><a href="u2-known-truth.html#three-questions"><i class="fa fa-check"></i>Three questions</a></li>
+<li class="chapter" data-level="" data-path="u2-known-truth.html"><a href="u2-known-truth.html#question-1-is-the-sample-mean-centred-on-the-truth"><i class="fa fa-check"></i>Question 1: is the sample mean centred on the truth?</a></li>
+<li class="chapter" data-level="" data-path="u2-known-truth.html"><a href="u2-known-truth.html#question-2-why-do-larger-samples-fluctuate-less"><i class="fa fa-check"></i>Question 2: why do larger samples fluctuate less?</a></li>
+<li class="chapter" data-level="" data-path="u2-known-truth.html"><a href="u2-known-truth.html#question-3-why-does-the-sample-mean-become-more-reliable"><i class="fa fa-check"></i>Question 3: why does the sample mean become more reliable?</a></li>
 <li class="chapter" data-level="" data-path="u2-known-truth.html"><a href="u2-known-truth.html#the-price-of-precision"><i class="fa fa-check"></i>The price of precision</a></li>
 </ul></li>
-<li class="chapter" data-level="2.2" data-path="u2-iid.html"><a href="u2-iid.html"><i class="fa fa-check"></i><b>2.2</b> The assumptions behind inference</a></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="one-sample.html"><a href="one-sample.html"><i class="fa fa-check"></i><b>3</b> Hypothesis Testing: One Sample</a>
 <ul>
@@ -345,7 +346,7 @@ approaches one half.</p>
 households, the other 2,500. Both report a mean. Which should be trusted more,
 and what would you need to know before answering?</p>
 <div class="answer">
-<p>Other things equal, the larger survey has the smaller standard error — by a
+<p>Other things equal, the larger survey has the smaller standard deviation of the sample mean — by a
 factor of five, since <span class="math inline">\(\sqrt{2500/100} = 5\)</span>. But this holds only if both
 samples were drawn from the population of interest and drawn at random. A
 carefully designed survey of 100 households is worth more than a badly drawn
@@ -364,15 +365,15 @@ about ₹54,200 and a population standard deviation of about ₹100,100.</p>
 (d) 1,000 workers.</p>
 <ol style="list-style-type: lower-roman">
 <li>Find the expected value of the sample mean in each case.</li>
-<li>Find the standard error of the sample mean in each case.</li>
-<li>What happens to the standard error as the sample size increases, and why?</li>
+<li>Find the standard deviation of the sample mean in each case.</li>
+<li>What happens to that standard deviation as the sample size increases, and why?</li>
 <li>Verify your answers by simulation.</li>
 </ol>
 <div class="answer">
 <p>The expected value of the sample mean equals the population mean whatever the
 sample size, so <span class="math inline">\(E(\bar{X}) = ₹54{,}200\)</span> in all four cases. Sample size affects
 precision, not location.</p>
-<p>The standard error is <span class="math inline">\(\sigma/\sqrt{n} = 100{,}100/\sqrt{n}\)</span>:</p>
+<p>The standard deviation of the sample mean is <span class="math inline">\(\sigma/\sqrt{n} = 100{,}100/\sqrt{n}\)</span>:</p>
 <div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="u1-practice.html#cb44-1" tabindex="-1"></a>sigma <span class="ot">&lt;-</span> <span class="dv">100100</span></span>
 <span id="cb44-2"><a href="u1-practice.html#cb44-2" tabindex="-1"></a>n     <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">50</span>, <span class="dv">100</span>, <span class="dv">200</span>, <span class="dv">1000</span>)</span>
 <span id="cb44-3"><a href="u1-practice.html#cb44-3" tabindex="-1"></a></span>
@@ -382,10 +383,10 @@ precision, not location.</p>
 #&gt; 2  100    54200 10010
 #&gt; 3  200    54200  7078
 #&gt; 4 1000    54200  3165</code></pre>
-<p>The standard error falls in proportion to <span class="math inline">\(1/\sqrt{n}\)</span>. Each additional worker
+<p>It falls in proportion to <span class="math inline">\(1/\sqrt{n}\)</span>. Each additional worker
 contributes information, so the average over many of them is pulled more
 tightly around the population value. Note that raising the sample from 50 to
-1,000 — twenty times the data — reduces the standard error only by a factor of
+1,000 — twenty times the data — reduces it only by a factor of
 <span class="math inline">\(\sqrt{20} \approx 4.5\)</span>.</p>
 <p>Because we hold the whole population, the answer can be checked directly:</p>
 <div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="u1-practice.html#cb46-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">4</span>)</span>
@@ -401,7 +402,7 @@ tightly around the population value. Note that raising the sample from 50 to
 #&gt; 3  200        7081      7204
 #&gt; 4 1000        3167      3120</code></pre>
 <p>The two columns agree closely. The small discrepancies are themselves sampling
-variation: each simulated standard error is estimated from 2,000 samples rather
+variation: each simulated standard deviation is estimated from 2,000 samples rather
 than infinitely many.</p>
 </div>
 <p><strong>1.9</strong> An auto-rickshaw driver’s daily earnings vary from day to day, with a
@@ -510,14 +511,14 @@ against its number of matches. What shape does the scatter take, and why?</p>
 <span id="cb53-13"><a href="u1-practice.html#cb53-13" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Matches played (log scale)&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Toss-win percentage&quot;</span>) <span class="sc">+</span></span>
 <span id="cb53-14"><a href="u1-practice.html#cb53-14" tabindex="-1"></a>  <span class="fu">theme_book</span>()</span></code></pre></div>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:u1-ex-cricket"></span>
-<img src="stats-econometrics-r_files/figure-html/u1-ex-cricket-1.png" alt="Toss-win percentage against number of matches played, with the theoretical limits of two standard errors." width="90%" />
+<img src="stats-econometrics-r_files/figure-html/u1-ex-cricket-1.png" alt="Toss-win percentage against number of matches played, with the theoretical limits of two standard deviations." width="90%" />
 <p class="caption">
-Figure 1.10: Toss-win percentage against number of matches played, with the theoretical limits of two standard errors.
+Figure 1.10: Toss-win percentage against number of matches played, with the theoretical limits of two standard deviations.
 </p>
 </div>
 <p>The scatter forms a funnel: wide on the left, where teams have played few
 matches, and narrowing towards 50% as the number of matches grows. The shaded
-band shows two standard errors either side of 50, computed as
+band shows two standard deviations either side of 50, computed as
 <span class="math inline">\(50/\sqrt{n}\)</span> — the same formula that governs the sample mean. Almost every
 team falls inside it.</p>
 <p>This is the Law of Large Numbers made visible. The teams with extreme records

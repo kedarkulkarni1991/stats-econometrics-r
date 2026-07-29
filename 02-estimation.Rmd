@@ -5,24 +5,126 @@ source("_common.R")
 library(ggplot2)
 ```
 
-## A population where we know the truth {#u2-known-truth}
+## The problem of estimation {#u2-problem}
 
 ::: {.question}
-Can we see these ideas working in practice?
+We want to know something about a population we cannot observe. What exactly
+are we going to do?
 :::
 
-The previous unit introduced a language for describing random phenomena. We
-defined random variables, expected values and variances, and argued that the
-sample mean behaves in remarkably predictable ways.
+The previous unit was about uncertainty. It established that repeated samples
+produce different averages, that those averages have a sampling distribution of
+their own, and that this distribution becomes increasingly concentrated as the
+sample grows. All of that described how a statistic *behaves*.
 
-Those arguments were largely theoretical. With a real population we almost
-never know the true mean or variance, which makes it difficult to check whether
-the machinery behaves as claimed. If a sample mean comes out at ₹54,000, there
-is nothing to compare it against.
+It did not tell us what to *do*.
 
-To overcome this, we construct an artificial population whose properties are
-known exactly. Because we know the truth in advance, we can compare it with
-what repeated sampling actually produces.
+Consider the position of anyone conducting a real survey. There is a quantity
+they want to know — the average annual earnings of Indian wage workers, the
+proportion of households with piped water, the average yield per hectare of
+paddy in Punjab. That quantity is a fixed number. It exists. It is simply not
+observed, because nobody has surveyed all 1.4 billion people, and nobody ever
+will.
+
+What they have instead is a sample, and a decision to make: which number
+computed from that sample should be put forward as the answer?
+
+::: {.keyidea}
+A **parameter** is a fixed, unknown feature of the population, such as $\mu$ or
+$\sigma^2$.
+
+An **estimator** is a rule for computing a guess at a parameter from a sample.
+Because it is computed from a sample, it is a random variable, and we write it
+with a capital letter: $\bar{X}$.
+
+An **estimate** is the number that rule produces from the sample actually
+drawn: $\bar{x} = 54{,}300$.
+:::
+
+The distinction between the last two is worth pausing on, because the words are
+used loosely in ordinary speech. The estimator is the *procedure* — take the
+observations, add them up, divide by $n$. The estimate is the *result*. The
+procedure can be judged before any data are collected; the result cannot be
+judged at all, because we never learn whether it was right.
+
+That last point is the awkward one. If we cannot tell whether a particular
+estimate is close to the truth, then the only thing we can sensibly ask about
+is the procedure that produced it.
+
+::: {.question}
+So: why the sample mean?
+:::
+
+It is not the only available rule. We could use the median. We could use the
+midpoint of the largest and smallest values. We could ignore the data entirely
+and always answer ₹50,000, which costs nothing and is occasionally correct.
+Each of these is an estimator of $\mu$ in the sense defined above.
+
+The sample mean is used almost universally, and the reason is not that it is
+obvious. It is that its behaviour across repeated samples has two specific
+properties that the alternatives lack. The rest of this section establishes
+what they are.
+
+
+
+## What we assume about the sample {#u2-iid}
+
+::: {.question}
+What has to be true of a sample before it can tell us anything at all?
+:::
+
+Before studying how the sample mean behaves, we have to be explicit about
+something the previous unit assumed silently: that the observations were drawn
+from the population of interest, and drawn in a particular way.
+
+The standard assumption is that observations are **independent and identically
+distributed**, usually abbreviated to i.i.d.
+
+**Identically distributed** means every observation is drawn from the same
+probability distribution. The process generating the data does not change from
+one observation to the next. If the first half of a survey is conducted in
+cities and the second half in villages, this fails.
+
+**Independent** means that knowing the value of one observation tells us
+nothing about the value of another. If an interviewer surveys one household and
+then its next-door neighbour, this fails: neighbours share a locality, a labour
+market and often a caste.
+
+Together they ensure that every observation carries comparable information
+about the same population. We will see shortly exactly where each is needed —
+they are not decorative, and each does a specific job in a specific line of a
+specific proof.
+
+::: {.watchout}
+Their importance is hard to overstate. If a sample does not represent the
+population we wish to study, no amount of mathematical sophistication recovers
+the missing information. Statistical methods cannot repair a fundamentally
+flawed sample.
+
+Good inference begins not with mathematics, but with good data and thoughtful
+study design.
+:::
+
+
+
+## One population where we know the truth {#u2-known-truth}
+
+::: {.question}
+How would we ever check that the sample mean is a good rule?
+:::
+
+There is an obvious difficulty in the way. The population mean is almost never
+known. If we survey Indian households we do not know true average household
+income; if we sample firms we do not know true average productivity. So we
+cannot compare a sample mean against the truth and see how close it came —
+which is precisely the comparison we need in order to judge the rule.
+
+The way around this is to build a laboratory. We construct one artificial
+population whose properties are known exactly, and study repeated sampling from
+it. Because the true mean is known in advance, every sample mean can be
+measured against it. Nothing is being discovered about the world here; the
+purpose is to watch a procedure work under conditions where its performance is
+visible.
 
 ### Constructing the population {-}
 
@@ -37,7 +139,7 @@ c(N = length(deck), mu = mean(deck), sigma = sd(deck))
 
 This population contains 52 values. Its mean is exactly $\mu = 7$ and its
 standard deviation is $\sigma = 3.78$. Both are known with certainty, which is
-precisely what real data never offers.
+exactly what real data never offers.
 
 ### Drawing one sample {-}
 
@@ -48,17 +150,17 @@ set.seed(7)
 mean(sample(deck, size = 10, replace = TRUE))
 ```
 
-The result is not 7. Draw again and it would differ again. This is sampling
-variation, exactly as we saw with the earnings surveys — but now we can see
-precisely how far the sample has strayed, because we know where it should be.
+The result is not 7. Draw again and it would differ again — sampling variation,
+as before. What is new is that we can see how far this sample strayed, because
+we know where it should have been.
 
 ::: {.watchout}
 Note `replace = TRUE`: each card is returned to the deck before the next draw.
 
-That is what makes the draws **independent**, the assumption discussed below.
-Drawing without replacement changes what remains after each card is removed, so
-the draws are dependent and the sample mean varies slightly less than theory
-predicts.
+That is what makes the draws **independent**, in the sense of the previous
+section. Drawing without replacement changes what remains after each card is
+removed, so the draws are dependent and the sample mean varies slightly less
+than theory predicts.
 
 It is also the better model of what we usually mean. Surveying 2,000 people
 does not meaningfully deplete a population of a billion.
@@ -66,8 +168,8 @@ does not meaningfully deplete a population of a billion.
 
 ### Drawing a thousand samples {-}
 
-One sample tells us little. Repeating the exercise a thousand times gives the
-whole sampling distribution.
+One sample tells us little about a procedure. Repeating the exercise a thousand
+times shows the whole sampling distribution.
 
 ```{r u2-sampdist}
 set.seed(7)
@@ -89,25 +191,23 @@ ggplot(data.frame(m = deck_means), aes(m)) +
   theme_book()
 ```
 
-This is the sampling distribution discussed throughout the previous unit — but
-for the first time we can hold it against the truth.
+### Three questions {-}
 
-### Two observations {-}
+We now have something the previous unit never had: a sampling distribution and
+the true value it is supposed to be telling us about. Three questions follow
+naturally, and answering them is what justifies using the sample mean at all.
 
-Two features of this simulation are worth recording before we explain them.
+1. Is the sample mean centred on the population mean?
+2. Why do larger samples fluctuate less?
+3. Why does the sample mean become more reliable as the sample grows?
 
-**The average of the sample means is almost exactly the population mean.** No
-individual sample produced 7, yet their average is
-`r round(mean(deck_means), 3)` — essentially the population value.
+### Question 1: is the sample mean centred on the truth? {-}
 
-**The sample means vary far less than the cards do.** The population standard
-deviation is about `r round(sd(rep(1:13, 4)), 2)`; the standard deviation of
-the sample means is about `r round(sd(deck_means), 2)`, roughly a third as
-large. Averaging has cancelled out much of the variation.
+No individual sample produced 7. Yet the average of the thousand sample means
+is `r round(mean(deck_means), 3)` — essentially the population value.
 
-Both observations have names, and both have explanations.
-
-### What happens as the sample grows {-}
+Widen the experiment across several sample sizes and the pattern is
+unmistakable.
 
 ```{r u2-nsizes}
 set.seed(7)
@@ -139,24 +239,9 @@ ggplot(dd, aes(m)) +
   theme(axis.text.y = element_blank())
 ```
 
-Every row is centred on 7 — the sample mean is unbiased at any sample size. But
-the spread shrinks steadily, and in a completely predictable way. Compare the
-last two columns of the table: the observed standard deviation of the sample
-means matches $\sigma/\sqrt{n}$ almost exactly.
-
-::: {.keyidea}
-Two results, both of which can be established directly:
-
-$$E(\bar{X}) = \mu \qquad\qquad \mathrm{Var}(\bar{X}) = \frac{\sigma^2}{n}$$
-
-The sample mean is centred on the population mean, and its spread falls as the
-sample grows. The quantity $\sigma/\sqrt{n}$ is called the **standard error**
-of the sample mean.
-:::
-
-### Why were the sample means centred on seven? {-}
-
-Neither observation requires anything beyond the definition of the sample mean.
+Every row is centred on 7, and the centring does not improve with sample size
+because it was never wrong to begin with. Even samples of five are centred
+correctly. This is not something the simulation discovered by luck.
 
 ::: {.theory}
 
@@ -169,13 +254,36 @@ E(\bar{X}) &= E\!\left(\frac{X_1 + X_2 + \cdots + X_n}{n}\right) \\[4pt]
 \end{aligned}
 $$
 
-Every observation is drawn from the same distribution, so each has expectation
-$\mu$. Averaging $n$ of them leaves $\mu$ unchanged. A statistic with this
-property is described as **unbiased**: it is not systematically too high or too
-low, although any particular value of it will still differ from $\mu$.
+The third line is where **identically distributed** is used: every observation
+is drawn from the same distribution, so each has expectation $\mu$. Averaging
+$n$ of them leaves $\mu$ unchanged.
 :::
 
-### Why did the distribution become narrower? {-}
+This is the first of the two properties promised earlier, and it now has a
+name.
+
+::: {.keyidea}
+An estimator is **unbiased** if its expected value equals the parameter it
+estimates. The sample mean is unbiased for the population mean:
+
+$$E(\bar{X}) = \mu$$
+
+Unbiasedness is a statement about the procedure, not about any particular
+estimate. It says the rule is not systematically too high or too low. It does
+not say your $\bar{x}$ is close to $\mu$ — every one of the thousand samples
+above missed.
+:::
+
+### Question 2: why do larger samples fluctuate less? {-}
+
+Unbiasedness alone is worth little. The useless estimator "take the first
+observation and ignore the rest" is also unbiased, and nobody would use it.
+
+What separates the sample mean is the second column of the simulation. At
+$n = 5$ the sample means have a standard deviation of about
+`r round(results[1, "sd"], 2)`; at $n = 80$ it is about
+`r round(results[5, "sd"], 2)`. Compare the last two columns of that table: the
+observed spread matches $\sigma/\sqrt{n}$ almost exactly at every sample size.
 
 ::: {.theory}
 
@@ -191,57 +299,59 @@ $$
 The second line uses $\mathrm{Var}(aX) = a^2\mathrm{Var}(X)$. The third uses
 **independence**: the variance of a sum equals the sum of the variances only
 when the observations do not influence one another. This is the single point at
-which the independence assumption is required.
+which independence is required, and it is why the assumption matters so much in
+practice.
 :::
 
-These two results explain the behaviour observed in the previous unit. The
-sample mean remains centred on the population mean regardless of sample size,
-while its variability decreases as the sample size increases. Together they
-provide the mathematical foundation for the Law of Large Numbers introduced in
-Section \@ref(u1-lln).
+The square root of this quantity is used so constantly that it has its own
+name.
+
+::: {.keyidea}
+The **standard error** of the sample mean is the standard deviation of its
+sampling distribution:
+
+$$\mathrm{se}(\bar{X}) = \sqrt{\mathrm{Var}(\bar{X})} = \frac{\sigma}{\sqrt{n}}$$
+
+It measures how much the sample mean moves from sample to sample. A small
+standard error means that whatever answer we happened to get, a different
+sample would have given something similar.
+:::
+
+The word *error* is unfortunate, and worth guarding against. It does not
+measure a mistake, and it is not the distance between your estimate and the
+truth — that distance is unknowable. It is a property of the procedure, like
+unbiasedness.
+
+### Question 3: why does the sample mean become more reliable? {-}
+
+The two results answer the third question together, and neither would suffice
+alone.
+
+The Law of Large Numbers was introduced in Section \@ref(u1-lln) as a
+statement about behaviour: as samples grow, sample means settle down around the
+population mean. We can now say why it holds. The sampling distribution of
+$\bar{X}$ is centred on $\mu$ at every sample size, and its spread
+$\sigma/\sqrt{n}$ shrinks towards zero as $n$ grows. A distribution centred on
+the right value and becoming ever narrower must concentrate on that value.
+Large samples are therefore increasingly likely to produce averages close to
+$\mu$.
+
+Notice that both halves are doing work. An estimator that was centred but whose
+spread never shrank would stay permanently unreliable. An estimator whose
+spread shrank towards a value that was not $\mu$ would become reliably wrong,
+which is worse — it would converge confidently on the incorrect answer, and
+more data would only strengthen the mistake.
 
 ### The price of precision {-}
 
-Notice the square root. Doubling the sample size does not halve the
-uncertainty. To reduce the standard error by half, the sample size must
-increase fourfold.
+Return to the square root, because it carries an uncomfortable practical
+message. Doubling the sample size does not halve the standard error; it divides
+it by $\sqrt{2} \approx 1.41$. To halve the standard error, the sample must
+grow fourfold.
 
-This illustrates one of the fundamental realities of empirical research:
-precision is expensive. As samples become larger, each additional observation
-contributes a little less than the one before it. This is why surveys of a few
-thousand households are common, while surveys of hundreds of thousands are
-comparatively rare. Beyond a certain point, the additional precision is simply
-not worth the additional cost.
-
-
-
-## The assumptions behind inference {#u2-iid}
-
-::: {.question}
-What has to be true before a sample can tell us anything?
-:::
-
-Throughout the previous unit we assumed, without saying so, that our
-observations were drawn from the population of interest. More precisely, we
-assume that the observations are **independent and identically distributed**,
-usually abbreviated to i.i.d.
-
-**Identically distributed** means that every observation is drawn from the same
-probability distribution. The process generating the data does not change from
-one observation to the next.
-
-**Independent** means that knowing the value of one observation provides no
-information about the value of another.
-
-Together, these assumptions ensure that every observation provides comparable
-information about the same population.
-
-::: {.watchout}
-Their importance cannot be overstated. If the sample does not represent the
-population we wish to study, no amount of mathematical sophistication can
-recover the missing information. Statistical methods cannot repair a
-fundamentally flawed sample.
-
-Good inference begins not with mathematics, but with good data and thoughtful
-study design.
-:::
+Precision is therefore expensive, and gets more expensive as you buy more of
+it. Each additional observation contributes a little less than the one before.
+This is why surveys of a few thousand households are common while surveys of
+hundreds of thousands are rare: past a certain point the additional precision
+is not worth the additional cost. It is also why the honest answer to "can we
+just collect more data?" is usually "how much more, and who is paying?"

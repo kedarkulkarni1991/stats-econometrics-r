@@ -32,8 +32,9 @@ u1-practice
 u1-question-bank
 u1-looking-ahead
 estimation
-u2-known-truth
+u2-problem
 u2-iid
+u2-known-truth
 one-sample
 os-problem
 os-hypotheses

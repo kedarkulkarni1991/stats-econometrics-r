@@ -4,13 +4,13 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Licence and citation | Statistics and Econometrics with R</title>
+  <title>2.1 The problem of estimation | Statistics and Econometrics with R</title>
   <meta name="description" content="<p>A first course in statistics and econometrics for Indian students, built on
 the progression from question to intuition to rigour to computation to
 interpretation.</p>" />
   <meta name="generator" content="bookdown 0.47 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Licence and citation | Statistics and Econometrics with R" />
+  <meta property="og:title" content="2.1 The problem of estimation | Statistics and Econometrics with R" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="<p>A first course in statistics and econometrics for Indian students, built on
@@ -19,7 +19,7 @@ interpretation.</p>" />
   <meta name="github-repo" content="kedarkulkarni1991/stats-econometrics-r" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Licence and citation | Statistics and Econometrics with R" />
+  <meta name="twitter:title" content="2.1 The problem of estimation | Statistics and Econometrics with R" />
   
   <meta name="twitter:description" content="<p>A first course in statistics and econometrics for Indian students, built on
 the progression from question to intuition to rigour to computation to
@@ -35,8 +35,8 @@ interpretation.</p>" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="a-note-on-the-data.html"/>
-<link rel="next" href="towards-inference.html"/>
+<link rel="prev" href="estimation.html"/>
+<link rel="next" href="u2-iid.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -274,28 +274,54 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="licence-and-citation" class="section level2 unnumbered hasAnchor">
-<h2>Licence and citation<a href="licence-and-citation.html#licence-and-citation" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>This book is free, in both senses. The text, figures, exercises and datasets
-are released under
-<a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0</a>,
-and the code under the <a href="https://opensource.org/licenses/MIT">MIT licence</a>.</p>
-<p>You may copy it, print it, translate it, remix it, teach from it, and build on
-it — for any purpose, including commercially. The only condition is that you
-credit the source.</p>
-<p>If you spot an error, there is a <strong>pencil icon at the top of every page</strong>. It opens that chapter’s source on GitHub, where you can fix the mistake and send it back without installing anything.</p>
-<p>Corrections from students are genuinely welcome; several of the sharper points
-in this book exist because someone asked why.</p>
-<p>To cite:</p>
-<blockquote>
-<p>Kulkarni, K. (2026). <em>Statistics and Econometrics with R.</em>
-Azim Premji University.
-<a href="https://kedarkulkarni1991.github.io/stats-econometrics-r/" class="uri">https://kedarkulkarni1991.github.io/stats-econometrics-r/</a>
-Licensed under CC BY 4.0.</p>
-</blockquote>
-
+<div id="u2-problem" class="section level2 hasAnchor" number="2.1">
+<h2><span class="header-section-number">2.1</span> The problem of estimation<a href="u2-problem.html#u2-problem" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="question">
+<p>We want to know something about a population we cannot observe. What exactly
+are we going to do?</p>
 </div>
-<!-- </div> -->
+<p>The previous unit was about uncertainty. It established that repeated samples
+produce different averages, that those averages have a sampling distribution of
+their own, and that this distribution becomes increasingly concentrated as the
+sample grows. All of that described how a statistic <em>behaves</em>.</p>
+<p>It did not tell us what to <em>do</em>.</p>
+<p>Consider the position of anyone conducting a real survey. There is a quantity
+they want to know — the average annual earnings of Indian wage workers, the
+proportion of households with piped water, the average yield per hectare of
+paddy in Punjab. That quantity is a fixed number. It exists. It is simply not
+observed, because nobody has surveyed all 1.4 billion people, and nobody ever
+will.</p>
+<p>What they have instead is a sample, and a decision to make: which number
+computed from that sample should be put forward as the answer?</p>
+<div class="keyidea">
+<p>A <strong>parameter</strong> is a fixed, unknown feature of the population, such as <span class="math inline">\(\mu\)</span> or
+<span class="math inline">\(\sigma^2\)</span>.</p>
+<p>An <strong>estimator</strong> is a rule for computing a guess at a parameter from a sample.
+Because it is computed from a sample, it is a random variable, and we write it
+with a capital letter: <span class="math inline">\(\bar{X}\)</span>.</p>
+<p>An <strong>estimate</strong> is the number that rule produces from the sample actually
+drawn: <span class="math inline">\(\bar{x} = 54{,}300\)</span>.</p>
+</div>
+<p>The distinction between the last two is worth pausing on, because the words are
+used loosely in ordinary speech. The estimator is the <em>procedure</em> — take the
+observations, add them up, divide by <span class="math inline">\(n\)</span>. The estimate is the <em>result</em>. The
+procedure can be judged before any data are collected; the result cannot be
+judged at all, because we never learn whether it was right.</p>
+<p>That last point is the awkward one. If we cannot tell whether a particular
+estimate is close to the truth, then the only thing we can sensibly ask about
+is the procedure that produced it.</p>
+<div class="question">
+<p>So: why the sample mean?</p>
+</div>
+<p>It is not the only available rule. We could use the median. We could use the
+midpoint of the largest and smallest values. We could ignore the data entirely
+and always answer ₹50,000, which costs nothing and is occasionally correct.
+Each of these is an estimator of <span class="math inline">\(\mu\)</span> in the sense defined above.</p>
+<p>The sample mean is used almost universally, and the reason is not that it is
+obvious. It is that its behaviour across repeated samples has two specific
+properties that the alternatives lack. The rest of this section establishes
+what they are.</p>
+</div>
 <script>
 // Solutions are written as plain fenced divs in the source, so the PDF edition
 // can typeset them as boxes. On the web they should stay hidden until asked
@@ -317,8 +343,8 @@ document.addEventListener("DOMContentLoaded", function () {
           </div>
         </div>
       </div>
-<a href="a-note-on-the-data.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="towards-inference.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="estimation.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="u2-iid.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -349,7 +375,7 @@ gitbook.start({
     "size": 2
   },
   "edit": {
-    "link": "https://github.com/kedarkulkarni1991/stats-econometrics-r/edit/main/index.Rmd",
+    "link": "https://github.com/kedarkulkarni1991/stats-econometrics-r/edit/main/02-estimation.Rmd",
     "text": "Edit"
   },
   "history": {
