@@ -437,8 +437,75 @@ sample large enough for a 50-50 split is large enough for anything.
 ## From a point estimate to an interval {#u3-ci}
 
 ::: {.question}
-We have a number and a standard error. How do we turn them into a range?
+Our best guess is a single number. How often is a single number right?
 :::
+
+Everything so far has produced point estimates: $\bar{x}$ for $\mu$, $s^2$ for
+$\sigma^2$, $\hat{p}$ for $p$. Each is the best single guess the data can
+offer, and each is offered in the knowledge that it is almost certainly not the
+truth.
+
+That is worth stating plainly, because it is easy to lose sight of. When a
+survey reports average attendance of 26.1 classes, the claim "the population
+mean is 26.1" is essentially certain to be false. Not misleading, not badly
+computed — simply false, by some unknown amount.
+
+We can put a number on how false. Treat the 680 students as a population, whose
+mean attendance is `r round(mean(read.csv("data/attendance-grades.csv")$attendance), 3)`
+classes, and draw ten thousand samples of forty.
+
+```{r u3-how-often}
+students <- read.csv("data/attendance-grades.csv")
+att      <- students$attendance
+mu_pop   <- mean(att)
+
+set.seed(2)
+guesses <- replicate(10000, mean(sample(att, 40, replace = TRUE)))
+
+c(exactly_right   = sum(guesses == mu_pop),
+  within_0.1      = mean(abs(guesses - mu_pop) < 0.1),
+  within_0.5      = mean(abs(guesses - mu_pop) < 0.5),
+  within_1.0      = mean(abs(guesses - mu_pop) < 1.0))
+```
+
+Not one of the ten thousand estimates was exactly right. Fewer than one in ten
+came within a tenth of a class. A point estimate is a guess that essentially
+never lands.
+
+::: {.question}
+So how do we say something that stands a chance of being true?
+:::
+
+By widening the guess.
+
+Instead of naming a single value, we name a *range* and claim the truth lies
+inside it. A range can be right, and how often it is right is something we can
+control: the wider we make it, the more often it succeeds.
+
+Notice that this is not a retreat into vagueness. We are not saying "somewhere
+around 26" because we have given up on precision. We are making a **calculated
+guess** — calculated in the literal sense, because the previous units told us
+exactly how much $\bar{X}$ varies from sample to sample. It is
+$\sigma/\sqrt{n}$. Knowing that, we can widen the guess by a specific,
+defensible amount and state in advance how often such a range will contain the
+truth.
+
+::: {.keyidea}
+A **point estimate** names one value. It is the best single guess available,
+and it is essentially never exactly correct.
+
+An **interval estimate** names a range, together with the proportion of the
+time such ranges contain the parameter. It trades precision for the ability to
+be right.
+
+The standard error is what makes the second possible. Without a measure of how
+much the estimate moves from sample to sample, there would be no principled way
+to choose the width.
+:::
+
+The rest of this section works out how wide the range must be.
+
+### Building the interval {-}
 
 Suppose a survey of 40 students gives a mean attendance of 26.4 classes, and we
 know from long experience that $\sigma = 5.45$ classes. The standard error is

@@ -249,6 +249,7 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="3.4" data-path="u3-ci.html"><a href="u3-ci.html"><i class="fa fa-check"></i><b>3.4</b> From a point estimate to an interval</a>
 <ul>
+<li class="chapter" data-level="" data-path="u3-ci.html"><a href="u3-ci.html#building-the-interval"><i class="fa fa-check"></i>Building the interval</a></li>
 <li class="chapter" data-level="" data-path="u3-ci.html"><a href="u3-ci.html#what-does-95-actually-refer-to"><i class="fa fa-check"></i>What does 95% actually refer to?</a></li>
 </ul></li>
 <li class="chapter" data-level="3.5" data-path="u3-t.html"><a href="u3-t.html"><i class="fa fa-check"></i><b>3.5</b> What if the population standard deviation is unknown?</a></li>
@@ -334,8 +335,62 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <div id="u3-ci" class="section level2 hasAnchor" number="3.4">
 <h2><span class="header-section-number">3.4</span> From a point estimate to an interval<a href="u3-ci.html#u3-ci" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <div class="question">
-<p>We have a number and a standard error. How do we turn them into a range?</p>
+<p>Our best guess is a single number. How often is a single number right?</p>
 </div>
+<p>Everything so far has produced point estimates: <span class="math inline">\(\bar{x}\)</span> for <span class="math inline">\(\mu\)</span>, <span class="math inline">\(s^2\)</span> for
+<span class="math inline">\(\sigma^2\)</span>, <span class="math inline">\(\hat{p}\)</span> for <span class="math inline">\(p\)</span>. Each is the best single guess the data can
+offer, and each is offered in the knowledge that it is almost certainly not the
+truth.</p>
+<p>That is worth stating plainly, because it is easy to lose sight of. When a
+survey reports average attendance of 26.1 classes, the claim “the population
+mean is 26.1” is essentially certain to be false. Not misleading, not badly
+computed — simply false, by some unknown amount.</p>
+<p>We can put a number on how false. Treat the 680 students as a population, whose
+mean attendance is 26.147
+classes, and draw ten thousand samples of forty.</p>
+<div class="sourceCode" id="cb86"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb86-1"><a href="u3-ci.html#cb86-1" tabindex="-1"></a>students <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/attendance-grades.csv&quot;</span>)</span>
+<span id="cb86-2"><a href="u3-ci.html#cb86-2" tabindex="-1"></a>att      <span class="ot">&lt;-</span> students<span class="sc">$</span>attendance</span>
+<span id="cb86-3"><a href="u3-ci.html#cb86-3" tabindex="-1"></a>mu_pop   <span class="ot">&lt;-</span> <span class="fu">mean</span>(att)</span>
+<span id="cb86-4"><a href="u3-ci.html#cb86-4" tabindex="-1"></a></span>
+<span id="cb86-5"><a href="u3-ci.html#cb86-5" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2</span>)</span>
+<span id="cb86-6"><a href="u3-ci.html#cb86-6" tabindex="-1"></a>guesses <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">10000</span>, <span class="fu">mean</span>(<span class="fu">sample</span>(att, <span class="dv">40</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>)))</span>
+<span id="cb86-7"><a href="u3-ci.html#cb86-7" tabindex="-1"></a></span>
+<span id="cb86-8"><a href="u3-ci.html#cb86-8" tabindex="-1"></a><span class="fu">c</span>(<span class="at">exactly_right   =</span> <span class="fu">sum</span>(guesses <span class="sc">==</span> mu_pop),</span>
+<span id="cb86-9"><a href="u3-ci.html#cb86-9" tabindex="-1"></a>  <span class="at">within_0.1      =</span> <span class="fu">mean</span>(<span class="fu">abs</span>(guesses <span class="sc">-</span> mu_pop) <span class="sc">&lt;</span> <span class="fl">0.1</span>),</span>
+<span id="cb86-10"><a href="u3-ci.html#cb86-10" tabindex="-1"></a>  <span class="at">within_0.5      =</span> <span class="fu">mean</span>(<span class="fu">abs</span>(guesses <span class="sc">-</span> mu_pop) <span class="sc">&lt;</span> <span class="fl">0.5</span>),</span>
+<span id="cb86-11"><a href="u3-ci.html#cb86-11" tabindex="-1"></a>  <span class="at">within_1.0      =</span> <span class="fu">mean</span>(<span class="fu">abs</span>(guesses <span class="sc">-</span> mu_pop) <span class="sc">&lt;</span> <span class="fl">1.0</span>))</span></code></pre></div>
+<pre><code>#&gt; exactly_right    within_0.1    within_0.5    within_1.0 
+#&gt;        0.0000        0.0917        0.4290        0.7536</code></pre>
+<p>Not one of the ten thousand estimates was exactly right. Fewer than one in ten
+came within a tenth of a class. A point estimate is a guess that essentially
+never lands.</p>
+<div class="question">
+<p>So how do we say something that stands a chance of being true?</p>
+</div>
+<p>By widening the guess.</p>
+<p>Instead of naming a single value, we name a <em>range</em> and claim the truth lies
+inside it. A range can be right, and how often it is right is something we can
+control: the wider we make it, the more often it succeeds.</p>
+<p>Notice that this is not a retreat into vagueness. We are not saying “somewhere
+around 26” because we have given up on precision. We are making a <strong>calculated
+guess</strong> — calculated in the literal sense, because the previous units told us
+exactly how much <span class="math inline">\(\bar{X}\)</span> varies from sample to sample. It is
+<span class="math inline">\(\sigma/\sqrt{n}\)</span>. Knowing that, we can widen the guess by a specific,
+defensible amount and state in advance how often such a range will contain the
+truth.</p>
+<div class="keyidea">
+<p>A <strong>point estimate</strong> names one value. It is the best single guess available,
+and it is essentially never exactly correct.</p>
+<p>An <strong>interval estimate</strong> names a range, together with the proportion of the
+time such ranges contain the parameter. It trades precision for the ability to
+be right.</p>
+<p>The standard error is what makes the second possible. Without a measure of how
+much the estimate moves from sample to sample, there would be no principled way
+to choose the width.</p>
+</div>
+<p>The rest of this section works out how wide the range must be.</p>
+<div id="building-the-interval" class="section level3 unnumbered hasAnchor">
+<h3>Building the interval<a href="u3-ci.html#building-the-interval" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Suppose a survey of 40 students gives a mean attendance of 26.4 classes, and we
 know from long experience that <span class="math inline">\(\sigma = 5.45\)</span> classes. The standard error is
 <span class="math inline">\(5.45/\sqrt{40} = 0.86\)</span>.</p>
@@ -385,16 +440,16 @@ confidence level is <span class="math inline">\(1 - \alpha\)</span>.</p>
 <p>In R these come from <code>qnorm(1 - alpha/2)</code> — there is no need for a printed
 table.</p>
 </div>
-<div class="sourceCode" id="cb86"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb86-1"><a href="u3-ci.html#cb86-1" tabindex="-1"></a>x_bar <span class="ot">&lt;-</span> <span class="fl">26.4</span></span>
-<span id="cb86-2"><a href="u3-ci.html#cb86-2" tabindex="-1"></a>sigma <span class="ot">&lt;-</span> <span class="fl">5.45</span></span>
-<span id="cb86-3"><a href="u3-ci.html#cb86-3" tabindex="-1"></a>n     <span class="ot">&lt;-</span> <span class="dv">40</span></span>
-<span id="cb86-4"><a href="u3-ci.html#cb86-4" tabindex="-1"></a></span>
-<span id="cb86-5"><a href="u3-ci.html#cb86-5" tabindex="-1"></a><span class="cf">for</span> (level <span class="cf">in</span> <span class="fu">c</span>(<span class="fl">0.90</span>, <span class="fl">0.95</span>, <span class="fl">0.99</span>)) {</span>
-<span id="cb86-6"><a href="u3-ci.html#cb86-6" tabindex="-1"></a>  z  <span class="ot">&lt;-</span> <span class="fu">qnorm</span>(<span class="dv">1</span> <span class="sc">-</span> (<span class="dv">1</span> <span class="sc">-</span> level) <span class="sc">/</span> <span class="dv">2</span>)</span>
-<span id="cb86-7"><a href="u3-ci.html#cb86-7" tabindex="-1"></a>  ci <span class="ot">&lt;-</span> x_bar <span class="sc">+</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>) <span class="sc">*</span> z <span class="sc">*</span> sigma <span class="sc">/</span> <span class="fu">sqrt</span>(n)</span>
-<span id="cb86-8"><a href="u3-ci.html#cb86-8" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">&quot;%2.0f%%  z = %.3f   [%.2f, %.2f]   width %.2f</span><span class="sc">\n</span><span class="st">&quot;</span>,</span>
-<span id="cb86-9"><a href="u3-ci.html#cb86-9" tabindex="-1"></a>              <span class="dv">100</span> <span class="sc">*</span> level, z, ci[<span class="dv">1</span>], ci[<span class="dv">2</span>], <span class="fu">diff</span>(ci)))</span>
-<span id="cb86-10"><a href="u3-ci.html#cb86-10" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb88"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb88-1"><a href="u3-ci.html#cb88-1" tabindex="-1"></a>x_bar <span class="ot">&lt;-</span> <span class="fl">26.4</span></span>
+<span id="cb88-2"><a href="u3-ci.html#cb88-2" tabindex="-1"></a>sigma <span class="ot">&lt;-</span> <span class="fl">5.45</span></span>
+<span id="cb88-3"><a href="u3-ci.html#cb88-3" tabindex="-1"></a>n     <span class="ot">&lt;-</span> <span class="dv">40</span></span>
+<span id="cb88-4"><a href="u3-ci.html#cb88-4" tabindex="-1"></a></span>
+<span id="cb88-5"><a href="u3-ci.html#cb88-5" tabindex="-1"></a><span class="cf">for</span> (level <span class="cf">in</span> <span class="fu">c</span>(<span class="fl">0.90</span>, <span class="fl">0.95</span>, <span class="fl">0.99</span>)) {</span>
+<span id="cb88-6"><a href="u3-ci.html#cb88-6" tabindex="-1"></a>  z  <span class="ot">&lt;-</span> <span class="fu">qnorm</span>(<span class="dv">1</span> <span class="sc">-</span> (<span class="dv">1</span> <span class="sc">-</span> level) <span class="sc">/</span> <span class="dv">2</span>)</span>
+<span id="cb88-7"><a href="u3-ci.html#cb88-7" tabindex="-1"></a>  ci <span class="ot">&lt;-</span> x_bar <span class="sc">+</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>) <span class="sc">*</span> z <span class="sc">*</span> sigma <span class="sc">/</span> <span class="fu">sqrt</span>(n)</span>
+<span id="cb88-8"><a href="u3-ci.html#cb88-8" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">&quot;%2.0f%%  z = %.3f   [%.2f, %.2f]   width %.2f</span><span class="sc">\n</span><span class="st">&quot;</span>,</span>
+<span id="cb88-9"><a href="u3-ci.html#cb88-9" tabindex="-1"></a>              <span class="dv">100</span> <span class="sc">*</span> level, z, ci[<span class="dv">1</span>], ci[<span class="dv">2</span>], <span class="fu">diff</span>(ci)))</span>
+<span id="cb88-10"><a href="u3-ci.html#cb88-10" tabindex="-1"></a>}</span></code></pre></div>
 <pre><code>#&gt; 90%  z = 1.645   [24.98, 27.82]   width 2.83
 #&gt; 95%  z = 1.960   [24.71, 28.09]   width 3.38
 #&gt; 99%  z = 2.576   [24.18, 28.62]   width 4.44</code></pre>
@@ -402,6 +457,7 @@ table.</p>
 the whole method. A 99% interval is more likely to contain <span class="math inline">\(\mu\)</span> precisely
 because it commits to less. An interval certain to contain the truth would run
 from minus infinity to infinity and tell us nothing at all.</p>
+</div>
 <div id="what-does-95-actually-refer-to" class="section level3 unnumbered hasAnchor">
 <h3>What does 95% actually refer to?<a href="u3-ci.html#what-does-95-actually-refer-to" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>The interval either contains <span class="math inline">\(\mu\)</span> or it does not. Nothing is random about it
@@ -413,31 +469,31 @@ constructed an interval each time, about 95% of those intervals would contain
 and its coverage rate together.</p>
 <p>We can watch this happen. Treat the 680 students as a population, so <span class="math inline">\(\mu\)</span> is
 known, and construct 100 intervals from 100 samples.</p>
-<div class="sourceCode" id="cb88"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb88-1"><a href="u3-ci.html#cb88-1" tabindex="-1"></a>students <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/attendance-grades.csv&quot;</span>)</span>
-<span id="cb88-2"><a href="u3-ci.html#cb88-2" tabindex="-1"></a>att      <span class="ot">&lt;-</span> students<span class="sc">$</span>attendance</span>
-<span id="cb88-3"><a href="u3-ci.html#cb88-3" tabindex="-1"></a></span>
-<span id="cb88-4"><a href="u3-ci.html#cb88-4" tabindex="-1"></a>mu_pop    <span class="ot">&lt;-</span> <span class="fu">mean</span>(att)</span>
-<span id="cb88-5"><a href="u3-ci.html#cb88-5" tabindex="-1"></a>sigma_pop <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">mean</span>((att <span class="sc">-</span> <span class="fu">mean</span>(att))<span class="sc">^</span><span class="dv">2</span>))</span>
-<span id="cb88-6"><a href="u3-ci.html#cb88-6" tabindex="-1"></a></span>
-<span id="cb88-7"><a href="u3-ci.html#cb88-7" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
-<span id="cb88-8"><a href="u3-ci.html#cb88-8" tabindex="-1"></a>ci_sim <span class="ot">&lt;-</span> <span class="fu">t</span>(<span class="fu">replicate</span>(<span class="dv">100</span>, {</span>
-<span id="cb88-9"><a href="u3-ci.html#cb88-9" tabindex="-1"></a>  x <span class="ot">&lt;-</span> <span class="fu">sample</span>(att, <span class="dv">40</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb88-10"><a href="u3-ci.html#cb88-10" tabindex="-1"></a>  <span class="fu">mean</span>(x) <span class="sc">+</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>) <span class="sc">*</span> <span class="fl">1.96</span> <span class="sc">*</span> sigma_pop <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="dv">40</span>)</span>
-<span id="cb88-11"><a href="u3-ci.html#cb88-11" tabindex="-1"></a>}))</span>
-<span id="cb88-12"><a href="u3-ci.html#cb88-12" tabindex="-1"></a></span>
-<span id="cb88-13"><a href="u3-ci.html#cb88-13" tabindex="-1"></a>covers <span class="ot">&lt;-</span> ci_sim[, <span class="dv">1</span>] <span class="sc">&lt;=</span> mu_pop <span class="sc">&amp;</span> ci_sim[, <span class="dv">2</span>] <span class="sc">&gt;=</span> mu_pop</span>
-<span id="cb88-14"><a href="u3-ci.html#cb88-14" tabindex="-1"></a></span>
-<span id="cb88-15"><a href="u3-ci.html#cb88-15" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">id =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">100</span>, <span class="at">lo =</span> ci_sim[, <span class="dv">1</span>], <span class="at">hi =</span> ci_sim[, <span class="dv">2</span>],</span>
-<span id="cb88-16"><a href="u3-ci.html#cb88-16" tabindex="-1"></a>                <span class="at">covers =</span> <span class="fu">ifelse</span>(covers, <span class="st">&quot;Contains μ&quot;</span>, <span class="st">&quot;Misses μ&quot;</span>))</span>
-<span id="cb88-17"><a href="u3-ci.html#cb88-17" tabindex="-1"></a></span>
-<span id="cb88-18"><a href="u3-ci.html#cb88-18" tabindex="-1"></a><span class="fu">ggplot</span>(d, <span class="fu">aes</span>(<span class="at">y =</span> id, <span class="at">xmin =</span> lo, <span class="at">xmax =</span> hi, <span class="at">colour =</span> covers)) <span class="sc">+</span></span>
-<span id="cb88-19"><a href="u3-ci.html#cb88-19" tabindex="-1"></a>  <span class="fu">geom_errorbarh</span>(<span class="at">height =</span> <span class="dv">0</span>, <span class="at">linewidth =</span> <span class="fl">0.45</span>) <span class="sc">+</span></span>
-<span id="cb88-20"><a href="u3-ci.html#cb88-20" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> mu_pop, <span class="at">linewidth =</span> <span class="fl">0.7</span>, <span class="at">colour =</span> <span class="st">&quot;grey20&quot;</span>) <span class="sc">+</span></span>
-<span id="cb88-21"><a href="u3-ci.html#cb88-21" tabindex="-1"></a>  <span class="fu">scale_colour_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(book_palette<span class="sc">$</span>fill, book_palette<span class="sc">$</span>reject),</span>
-<span id="cb88-22"><a href="u3-ci.html#cb88-22" tabindex="-1"></a>                      <span class="at">name =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
-<span id="cb88-23"><a href="u3-ci.html#cb88-23" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Mean attendance&quot;</span>, <span class="at">y =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
-<span id="cb88-24"><a href="u3-ci.html#cb88-24" tabindex="-1"></a>  <span class="fu">theme_book</span>() <span class="sc">+</span></span>
-<span id="cb88-25"><a href="u3-ci.html#cb88-25" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.y =</span> <span class="fu">element_blank</span>(), <span class="at">legend.position =</span> <span class="st">&quot;top&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb90"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb90-1"><a href="u3-ci.html#cb90-1" tabindex="-1"></a>students <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/attendance-grades.csv&quot;</span>)</span>
+<span id="cb90-2"><a href="u3-ci.html#cb90-2" tabindex="-1"></a>att      <span class="ot">&lt;-</span> students<span class="sc">$</span>attendance</span>
+<span id="cb90-3"><a href="u3-ci.html#cb90-3" tabindex="-1"></a></span>
+<span id="cb90-4"><a href="u3-ci.html#cb90-4" tabindex="-1"></a>mu_pop    <span class="ot">&lt;-</span> <span class="fu">mean</span>(att)</span>
+<span id="cb90-5"><a href="u3-ci.html#cb90-5" tabindex="-1"></a>sigma_pop <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">mean</span>((att <span class="sc">-</span> <span class="fu">mean</span>(att))<span class="sc">^</span><span class="dv">2</span>))</span>
+<span id="cb90-6"><a href="u3-ci.html#cb90-6" tabindex="-1"></a></span>
+<span id="cb90-7"><a href="u3-ci.html#cb90-7" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb90-8"><a href="u3-ci.html#cb90-8" tabindex="-1"></a>ci_sim <span class="ot">&lt;-</span> <span class="fu">t</span>(<span class="fu">replicate</span>(<span class="dv">100</span>, {</span>
+<span id="cb90-9"><a href="u3-ci.html#cb90-9" tabindex="-1"></a>  x <span class="ot">&lt;-</span> <span class="fu">sample</span>(att, <span class="dv">40</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb90-10"><a href="u3-ci.html#cb90-10" tabindex="-1"></a>  <span class="fu">mean</span>(x) <span class="sc">+</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>) <span class="sc">*</span> <span class="fl">1.96</span> <span class="sc">*</span> sigma_pop <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="dv">40</span>)</span>
+<span id="cb90-11"><a href="u3-ci.html#cb90-11" tabindex="-1"></a>}))</span>
+<span id="cb90-12"><a href="u3-ci.html#cb90-12" tabindex="-1"></a></span>
+<span id="cb90-13"><a href="u3-ci.html#cb90-13" tabindex="-1"></a>covers <span class="ot">&lt;-</span> ci_sim[, <span class="dv">1</span>] <span class="sc">&lt;=</span> mu_pop <span class="sc">&amp;</span> ci_sim[, <span class="dv">2</span>] <span class="sc">&gt;=</span> mu_pop</span>
+<span id="cb90-14"><a href="u3-ci.html#cb90-14" tabindex="-1"></a></span>
+<span id="cb90-15"><a href="u3-ci.html#cb90-15" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">id =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">100</span>, <span class="at">lo =</span> ci_sim[, <span class="dv">1</span>], <span class="at">hi =</span> ci_sim[, <span class="dv">2</span>],</span>
+<span id="cb90-16"><a href="u3-ci.html#cb90-16" tabindex="-1"></a>                <span class="at">covers =</span> <span class="fu">ifelse</span>(covers, <span class="st">&quot;Contains μ&quot;</span>, <span class="st">&quot;Misses μ&quot;</span>))</span>
+<span id="cb90-17"><a href="u3-ci.html#cb90-17" tabindex="-1"></a></span>
+<span id="cb90-18"><a href="u3-ci.html#cb90-18" tabindex="-1"></a><span class="fu">ggplot</span>(d, <span class="fu">aes</span>(<span class="at">y =</span> id, <span class="at">xmin =</span> lo, <span class="at">xmax =</span> hi, <span class="at">colour =</span> covers)) <span class="sc">+</span></span>
+<span id="cb90-19"><a href="u3-ci.html#cb90-19" tabindex="-1"></a>  <span class="fu">geom_errorbarh</span>(<span class="at">height =</span> <span class="dv">0</span>, <span class="at">linewidth =</span> <span class="fl">0.45</span>) <span class="sc">+</span></span>
+<span id="cb90-20"><a href="u3-ci.html#cb90-20" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> mu_pop, <span class="at">linewidth =</span> <span class="fl">0.7</span>, <span class="at">colour =</span> <span class="st">&quot;grey20&quot;</span>) <span class="sc">+</span></span>
+<span id="cb90-21"><a href="u3-ci.html#cb90-21" tabindex="-1"></a>  <span class="fu">scale_colour_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(book_palette<span class="sc">$</span>fill, book_palette<span class="sc">$</span>reject),</span>
+<span id="cb90-22"><a href="u3-ci.html#cb90-22" tabindex="-1"></a>                      <span class="at">name =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
+<span id="cb90-23"><a href="u3-ci.html#cb90-23" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Mean attendance&quot;</span>, <span class="at">y =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
+<span id="cb90-24"><a href="u3-ci.html#cb90-24" tabindex="-1"></a>  <span class="fu">theme_book</span>() <span class="sc">+</span></span>
+<span id="cb90-25"><a href="u3-ci.html#cb90-25" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.y =</span> <span class="fu">element_blank</span>(), <span class="at">legend.position =</span> <span class="st">&quot;top&quot;</span>)</span></code></pre></div>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:u3-coverage"></span>
 <img src="stats-econometrics-r_files/figure-html/u3-coverage-1.png" alt="One hundred 95% confidence intervals, each from a fresh sample of 40 students. The vertical line is the true population mean." width="90%" />
 <p class="caption">
