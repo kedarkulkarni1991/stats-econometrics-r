@@ -401,9 +401,9 @@ concepts that statisticians use to describe random phenomena.</p>
 // can typeset them as boxes. On the web they should stay hidden until asked
 // for, so wrap each one in a <details> here.
 document.addEventListener("DOMContentLoaded", function () {
-  document.querySelectorAll("div.solution").forEach(function (div) {
+  document.querySelectorAll("div.answer").forEach(function (div) {
     var d = document.createElement("details");
-    d.className = "solution";
+    d.className = "answer";
     var s = document.createElement("summary");
     s.textContent = "Show the solution";
     d.appendChild(s);

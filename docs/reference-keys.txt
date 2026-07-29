@@ -4,7 +4,6 @@ fig:u1-density
 fig:u1-three-plot
 fig:u1-many-plot
 fig:u1-lln-plot
-exm:unlabeled-div-1
 fig:d2i-clt-plot
 fig:d2i-dice-plot
 fig:u1-sampdist-plot

@@ -101,7 +101,7 @@
 
 /* --- Callout blocks ------------------------------------------------------ */
 
-.intuition, .theory, .inr, .watchout, .yourturn, .keyidea, .example {
+.intuition, .theory, .inr, .watchout, .yourturn, .keyidea {
   margin: 1.7em 0;
   padding: 1.05em 1.25em 1.05em 1.35em;
   border-left: 4px solid;
@@ -110,19 +110,17 @@
 }
 
 .intuition > :first-child, .theory > :first-child, .inr > :first-child,
-.watchout > :first-child, .yourturn > :first-child, .keyidea > :first-child,
-.example > :first-child {
+.watchout > :first-child, .yourturn > :first-child, .keyidea > :first-child {
   margin-top: 0;
 }
 .intuition > :last-child, .theory > :last-child, .inr > :last-child,
-.watchout > :last-child, .yourturn > :last-child, .keyidea > :last-child,
-.example > :last-child {
+.watchout > :last-child, .yourturn > :last-child, .keyidea > :last-child {
   margin-bottom: 0;
 }
 
 /* Each block announces itself, so a student never has to guess its role. */
 .intuition::before, .theory::before, .inr::before,
-.watchout::before, .yourturn::before, .keyidea::before, .example::before {
+.watchout::before, .yourturn::before, .keyidea::before {
   display: block;
   font-size: 0.72em;
   font-weight: 700;
@@ -149,8 +147,56 @@
 .keyidea { border-color: var(--ink); background: #f4f6f8; }
 .keyidea::before { content: "Remember this"; color: var(--ink); }
 
-.example { border-color: var(--rcode); background: var(--rcode-bg); }
-.example::before { content: "Evidence from the real world"; color: var(--rcode); }
+
+
+/* --- Worked examples from real data --------------------------------------
+   NOTE: the class is `realworld`, not `example`. bookdown reserves `example`
+   (along with theorem, lemma, definition, exercise, proof, remark and
+   solution) as an auto-numbered theorem environment, and using it produced a
+   nested "Example 1.1" heading inside the box. Same reason `answer` is used
+   below rather than `solution`.
+   Unlike the callouts above, which are asides within the argument, an example
+   is a self-contained exhibit. It gets a full border and a header band so it
+   reads as something set apart from the running text.
+   -------------------------------------------------------------------------- */
+
+.realworld {
+  margin: 2.2em 0;
+  padding: 0 1.4em 1.2em;
+  border: 1px solid #cfe3d7;
+  border-radius: 6px;
+  background: #ffffff;
+  font-size: 0.97em;
+}
+
+.realworld::before {
+  content: "Evidence from the real world";
+  display: block;
+  margin: 0 -1.4em 1.15em;
+  padding: 0.62em 1.4em;
+  background: var(--rcode-bg);
+  border-bottom: 1px solid #dfeee6;
+  border-radius: 5px 5px 0 0;
+  font-size: 0.72em;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--rcode);
+}
+
+.realworld > :last-child { margin-bottom: 0; }
+
+/* Code inside an exhibit sits on a tint, so it does not read as a second box
+   floating inside the first. */
+.book .book-body .page-inner section.normal .realworld pre {
+  border-color: #e3efe8;
+}
+.realworld div.sourceCode, .realworld pre.sourceCode { background: #f7fbf9; }
+
+@media (max-width: 600px) {
+  .realworld { padding: 0 1em 1em; }
+  .realworld::before { margin: 0 -1em 1em; padding: 0.55em 1em; }
+}
 
 /* --- Code ---------------------------------------------------------------- */
 
@@ -176,7 +222,7 @@ pre.sourceCode, div.sourceCode {
 
 /* --- Collapsible solutions ----------------------------------------------- */
 
-details.solution {
+details.answer {
   margin: 1.2em 0 1.8em;
   border: 1px solid var(--rule);
   border-radius: 6px;
@@ -184,7 +230,7 @@ details.solution {
   background: #fcfcfd;
 }
 
-details.solution > summary {
+details.answer > summary {
   cursor: pointer;
   padding: 0.75em 0;
   font-weight: 600;
@@ -192,15 +238,15 @@ details.solution > summary {
   list-style: none;
 }
 
-details.solution > summary::before {
+details.answer > summary::before {
   content: "▸ ";
   display: inline-block;
   transition: transform 0.15s ease;
 }
 
-details.solution[open] > summary::before { content: "▾ "; }
-details.solution[open] { padding-bottom: 0.6em; }
-details.solution > summary::-webkit-details-marker { display: none; }
+details.answer[open] > summary::before { content: "▾ "; }
+details.answer[open] { padding-bottom: 0.6em; }
+details.answer > summary::-webkit-details-marker { display: none; }
 
 /* --- Tables -------------------------------------------------------------- */
 
@@ -223,7 +269,7 @@ details.solution > summary::-webkit-details-marker { display: none; }
   .book.font-size-3 .book-body .page-inner section.normal { font-size: 18px; }
   .book.font-size-4 .book-body .page-inner section.normal { font-size: 21px; }
 
-  .intuition, .theory, .inr, .watchout, .yourturn, .keyidea, .example {
+  .intuition, .theory, .inr, .watchout, .yourturn, .keyidea {
     padding: 0.9em 1em;
   }
 }

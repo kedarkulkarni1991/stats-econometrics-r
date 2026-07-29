@@ -739,7 +739,7 @@ per 12-ounce bottle of a caffeinated soft drink is 37.7 mg. A random sample of
 36 bottles has a mean of 35.28 mg. The population standard deviation is 10.8 mg.
 At $\alpha = 0.01$, can you reject the organisation's claim?
 
-::: {.solution}
+::: {.answer}
 $H_0: \mu = 37.7$ against $H_A: \mu \neq 37.7$. Two-tailed at $\alpha = 0.01$,
 so the critical value is $Z_{0.005} = 2.58$.
 
@@ -762,7 +762,7 @@ mean 360 gallons and standard deviation 40 gallons per day. A sample of 200
 households averages 374 gallons. Are these data consistent with the historical
 distribution at the 5% level? What is the $p$-value?
 
-::: {.solution}
+::: {.answer}
 $$
 Z_{calc} = \frac{374 - 360}{40/\sqrt{200}} = \frac{14}{2.828} = 4.95
 $$
@@ -786,7 +786,7 @@ cat("91.0, 79.8, 102.0, 93.5, 82.0, 88.6, 90.0, 98.6, 101.0, 84.0")
 
 They believe their professors earn *more*. Test at the 10% and 5% levels.
 
-::: {.solution}
+::: {.answer}
 The word "more" makes this **right-tailed**:
 $H_0: \mu \leq 87.8$ against $H_A: \mu > 87.8$. Since $\sigma$ is unknown and
 $n = 10$, use a $t$-test with $df = 9$.
@@ -810,7 +810,7 @@ not enough evidence that these professors are paid above the national figure.
 minutes. A sample of 34 locations has mean 10.3 minutes, standard deviation 8.0.
 Test at 5% and 1%.
 
-::: {.solution}
+::: {.answer}
 "At most" makes this right-tailed: $H_0: \mu \leq 6$ against $H_A: \mu > 6$,
 $t$-test with $df = 33$.
 
@@ -830,7 +830,7 @@ Is there evidence that one partner tends to be older? Test at the 5% level.
 *Hint: the two columns are not independent samples — they are ten couples. What
 is the one number per couple that captures the question?*
 
-::: {.solution}
+::: {.answer}
 The two columns are **paired**: each row is one couple. Treating them as two
 independent samples throws away that pairing and inflates the standard error.
 The right move is to reduce each couple to a single number — the age gap — and
@@ -879,7 +879,7 @@ detail.**
 chance the null hypothesis is true." Explain what is wrong, and state what
 $p = 0.03$ does mean.
 
-::: {.solution}
+::: {.answer}
 The $p$-value is computed **assuming the null is true**. It cannot then also be
 the probability that the null is true — that would be circular. Formally, your
 classmate has swapped $P(\text{data} \mid H_0)$ for $P(H_0 \mid \text{data})$,

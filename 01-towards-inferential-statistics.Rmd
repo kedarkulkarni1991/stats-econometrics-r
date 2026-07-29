@@ -552,7 +552,7 @@ and economic censuses can provide reliable information about populations
 without observing every individual. The key is not that they observe everyone,
 but that they observe enough.
 
-::: {.example}
+::: {.realworld}
 Real demonstrations of the Law of Large Numbers are surprisingly hard to find.
 The law concerns what happens when the same random process is repeated a great
 many times, and few processes in economic life are repeated identically enough,

@@ -312,8 +312,8 @@ increasingly likely to do so.</p>
 and economic censuses can provide reliable information about populations
 without observing every individual. The key is not that they observe everyone,
 but that they observe enough.</p>
-<div class="example">
-<p><span id="exm:unlabeled-div-1" class="example"><strong>Example 1.1  </strong></span>Real demonstrations of the Law of Large Numbers are surprisingly hard to find.
+<div class="realworld">
+<p>Real demonstrations of the Law of Large Numbers are surprisingly hard to find.
 The law concerns what happens when the same random process is repeated a great
 many times, and few processes in economic life are repeated identically enough,
 often enough, for the convergence to be visible.</p>
@@ -377,9 +377,9 @@ Theorem</strong>.</p>
 // can typeset them as boxes. On the web they should stay hidden until asked
 // for, so wrap each one in a <details> here.
 document.addEventListener("DOMContentLoaded", function () {
-  document.querySelectorAll("div.solution").forEach(function (div) {
+  document.querySelectorAll("div.answer").forEach(function (div) {
     var d = document.createElement("details");
-    d.className = "solution";
+    d.className = "answer";
     var s = document.createElement("summary");
     s.textContent = "Show the solution";
     d.appendChild(s);
