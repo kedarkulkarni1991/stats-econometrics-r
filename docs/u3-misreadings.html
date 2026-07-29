@@ -4,13 +4,13 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>2.3 How can we judge an estimator? | Statistics and Econometrics with R</title>
+  <title>3.8 What a confidence interval does not mean | Statistics and Econometrics with R</title>
   <meta name="description" content="<p>A first course in statistics and econometrics for Indian students, built on
 the progression from question to intuition to rigour to computation to
 interpretation.</p>" />
   <meta name="generator" content="bookdown 0.47 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="2.3 How can we judge an estimator? | Statistics and Econometrics with R" />
+  <meta property="og:title" content="3.8 What a confidence interval does not mean | Statistics and Econometrics with R" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="<p>A first course in statistics and econometrics for Indian students, built on
@@ -19,7 +19,7 @@ interpretation.</p>" />
   <meta name="github-repo" content="kedarkulkarni1991/stats-econometrics-r" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="2.3 How can we judge an estimator? | Statistics and Econometrics with R" />
+  <meta name="twitter:title" content="3.8 What a confidence interval does not mean | Statistics and Econometrics with R" />
   
   <meta name="twitter:description" content="<p>A first course in statistics and econometrics for Indian students, built on
 the progression from question to intuition to rigour to computation to
@@ -35,8 +35,8 @@ interpretation.</p>" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="u2-iid.html"/>
-<link rel="next" href="u2-centred.html"/>
+<link rel="prev" href="u3-onesided.html"/>
+<link rel="next" href="u3-summary.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -328,76 +328,44 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="u2-known-truth" class="section level2 hasAnchor" number="2.3">
-<h2><span class="header-section-number">2.3</span> How can we judge an estimator?<a href="u2-known-truth.html#u2-known-truth" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="u3-misreadings" class="section level2 hasAnchor" number="3.8">
+<h2><span class="header-section-number">3.8</span> What a confidence interval does not mean<a href="u3-misreadings.html#u3-misreadings" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <div class="question">
-<p>If <span class="math inline">\(\mu\)</span> is never known, how can we ever tell whether an estimator is any good?</p>
+<p>Four sentences that sound right. Which are, and why not?</p>
 </div>
-<p>We now know what a sample must satisfy. The original question remains: of the
-many rules available, why the sample mean?</p>
-<p>The obstacle is the one identified at the start. To see whether an estimator
-lands near the truth we would have to know the truth, and in any real
-application we do not. If we survey Indian households we do not know true
-average household income; if we sample firms we do not know true average
-productivity. There is nothing to compare against.</p>
-<p>The way around this is to build a laboratory. We construct one artificial
-population whose properties are known exactly, and study repeated sampling from
-it. Because the true mean is known in advance, every sample mean can be
-measured against it. Nothing is being discovered about the world here — the
-point is to watch a procedure work under conditions where its performance is
-visible.</p>
-<div id="u2-lab-pop" class="section level3 unnumbered hasAnchor">
-<h3>The population<a href="u2-known-truth.html#u2-lab-pop" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>Take a deck of playing cards, scored A = 1, J = 11, Q = 12, K = 13, and 2
-through 10 at face value.</p>
-<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb58-1"><a href="u2-known-truth.html#cb58-1" tabindex="-1"></a>deck <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">13</span>, <span class="at">times =</span> <span class="dv">4</span>)</span>
-<span id="cb58-2"><a href="u2-known-truth.html#cb58-2" tabindex="-1"></a></span>
-<span id="cb58-3"><a href="u2-known-truth.html#cb58-3" tabindex="-1"></a><span class="fu">c</span>(<span class="at">N =</span> <span class="fu">length</span>(deck), <span class="at">mu =</span> <span class="fu">mean</span>(deck), <span class="at">sigma =</span> <span class="fu">sd</span>(deck))</span></code></pre></div>
-<pre><code>#&gt;      N     mu  sigma 
-#&gt; 52.000  7.000  3.778</code></pre>
-<p>This population contains 52 values. Its mean is exactly <span class="math inline">\(\mu = 7\)</span> and its
-standard deviation is <span class="math inline">\(\sigma = 3.78\)</span>. Both are known with certainty, which is
-exactly what real data never offers.</p>
-</div>
-<div id="u2-lab-one" class="section level3 unnumbered hasAnchor">
-<h3>One sample from it<a href="u2-known-truth.html#u2-lab-one" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>Draw ten cards and compute their average.</p>
-<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb60-1"><a href="u2-known-truth.html#cb60-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">7</span>)</span>
-<span id="cb60-2"><a href="u2-known-truth.html#cb60-2" tabindex="-1"></a><span class="fu">mean</span>(<span class="fu">sample</span>(deck, <span class="at">size =</span> <span class="dv">10</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>))</span></code></pre></div>
-<pre><code>#&gt; [1] 5.7</code></pre>
-<p>The result is not 7. Draw again and it would differ again — sampling variation,
-as before. What is new is that we can see how far this sample strayed, because
-we know where it should have been.</p>
-<div class="watchout">
-<p>Note <code>replace = TRUE</code>: each card is returned to the deck before the next draw.</p>
-<p>That is what makes the draws <strong>independent</strong>, in the sense of the previous
-section. Drawing without replacement changes what remains after each card is
-removed, so the draws are dependent and the sample mean varies slightly less
-than theory predicts.</p>
-<p>It is also the better model of what we usually mean. Surveying 2,000 people
-does not meaningfully deplete a population of a billion.</p>
-</div>
-</div>
-<div id="u2-lab-many" class="section level3 unnumbered hasAnchor">
-<h3>A thousand samples<a href="u2-known-truth.html#u2-lab-many" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>One sample tells us little about a procedure. Repeating the exercise a thousand
-times shows the whole sampling distribution — and, for the first time, shows it
-alongside the truth it is supposed to be tracking.</p>
-<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb62-1"><a href="u2-known-truth.html#cb62-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">7</span>)</span>
-<span id="cb62-2"><a href="u2-known-truth.html#cb62-2" tabindex="-1"></a>deck_means <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">1000</span>, <span class="fu">mean</span>(<span class="fu">sample</span>(deck, <span class="at">size =</span> <span class="dv">10</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>)))</span>
-<span id="cb62-3"><a href="u2-known-truth.html#cb62-3" tabindex="-1"></a></span>
-<span id="cb62-4"><a href="u2-known-truth.html#cb62-4" tabindex="-1"></a><span class="fu">c</span>(<span class="at">mean_of_sample_means =</span> <span class="fu">mean</span>(deck_means),</span>
-<span id="cb62-5"><a href="u2-known-truth.html#cb62-5" tabindex="-1"></a>  <span class="at">sd_of_sample_means   =</span> <span class="fu">sd</span>(deck_means))</span></code></pre></div>
-<pre><code>#&gt; mean_of_sample_means   sd_of_sample_means 
-#&gt;                6.932                1.201</code></pre>
-<div class="figure" style="text-align: center"><span style="display:block;" id="fig:u2-sampdist-plot"></span>
-<img src="stats-econometrics-r_files/figure-html/u2-sampdist-plot-1.png" alt="One thousand sample means, each computed from 10 cards drawn from a population whose mean is exactly 7." width="90%" />
-<p class="caption">
-Figure 2.2: One thousand sample means, each computed from 10 cards drawn from a population whose mean is exactly 7.
-</p>
-</div>
-<p>Two features of this picture are worth separating, and the next two sections
-take them one at a time: where the distribution sits, and how wide it is.</p>
+<p>Confidence intervals are misread more often than any other object in
+introductory statistics, and the misreadings are systematic enough to be worth
+naming.</p>
+<p><strong>“There is a 95% probability that <span class="math inline">\(\mu\)</span> lies in <span class="math inline">\([24.4,\ 27.8]\)</span>.”</strong></p>
+<p>This is the most common, and the most understandable. But <span class="math inline">\(\mu\)</span> is a fixed
+number and the interval is a fixed pair of numbers; either the one is inside
+the other or it is not. There is nothing left to assign a probability to. The
+randomness lived in the sampling, and it was spent when the sample was drawn.
+What is 95% is the <em>procedure’s</em> long-run success rate.</p>
+<p><strong>“95% of the population lies within the interval.”</strong></p>
+<p>The interval describes the plausible location of a population <em>mean</em>, not the
+spread of individuals. In the attendance data the 95% interval is under two
+classes wide, while individual students range across the whole register. An
+interval for <span class="math inline">\(\mu\)</span> narrows towards a point as <span class="math inline">\(n\)</span> grows; the spread of the
+population does not budge.</p>
+<p><strong>“The two intervals overlap, so the groups are not different.”</strong></p>
+<p>Tempting, and wrong often enough to matter. Two intervals can overlap while the
+difference between the groups is nevertheless larger than sampling variation
+would explain. Comparing groups requires an interval for the <em>difference</em>,
+which is the subject of a later unit — not an eyeball comparison of two
+separate intervals.</p>
+<p><strong>“A wider interval means the estimate is worse.”</strong></p>
+<p>It means the estimate is less precise, which is not the same thing. A wide
+interval from a well-designed survey is an honest report of genuine
+uncertainty. A narrow interval from a badly designed one, as Survey B in
+Section <a href="u2-iid.html#u2-iid">2.2</a> demonstrated, is a confident statement about the wrong
+population. Width measures precision; nothing in the arithmetic measures
+whether the sample was any good.</p>
+<div class="keyidea">
+<p>A confidence interval reports what the data can support, and no more. It cannot
+detect a badly drawn sample, it says nothing about individuals, and its
+confidence level is a property of the method rather than of the particular
+numbers in front of you.</p>
 </div>
 </div>
 <script>
@@ -421,8 +389,8 @@ document.addEventListener("DOMContentLoaded", function () {
           </div>
         </div>
       </div>
-<a href="u2-iid.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="u2-centred.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="u3-onesided.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="u3-summary.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -453,7 +421,7 @@ gitbook.start({
     "size": 2
   },
   "edit": {
-    "link": "https://github.com/kedarkulkarni1991/stats-econometrics-r/edit/main/02-estimation.Rmd",
+    "link": "https://github.com/kedarkulkarni1991/stats-econometrics-r/edit/main/03-point-and-interval-estimation.Rmd",
     "text": "Edit"
   },
   "history": {

@@ -4,13 +4,13 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>2.3 How can we judge an estimator? | Statistics and Econometrics with R</title>
+  <title>3.5 What if \(\sigma\) is unknown? | Statistics and Econometrics with R</title>
   <meta name="description" content="<p>A first course in statistics and econometrics for Indian students, built on
 the progression from question to intuition to rigour to computation to
 interpretation.</p>" />
   <meta name="generator" content="bookdown 0.47 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="2.3 How can we judge an estimator? | Statistics and Econometrics with R" />
+  <meta property="og:title" content="3.5 What if \(\sigma\) is unknown? | Statistics and Econometrics with R" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="<p>A first course in statistics and econometrics for Indian students, built on
@@ -19,7 +19,7 @@ interpretation.</p>" />
   <meta name="github-repo" content="kedarkulkarni1991/stats-econometrics-r" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="2.3 How can we judge an estimator? | Statistics and Econometrics with R" />
+  <meta name="twitter:title" content="3.5 What if \(\sigma\) is unknown? | Statistics and Econometrics with R" />
   
   <meta name="twitter:description" content="<p>A first course in statistics and econometrics for Indian students, built on
 the progression from question to intuition to rigour to computation to
@@ -35,8 +35,8 @@ interpretation.</p>" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="u2-iid.html"/>
-<link rel="next" href="u2-centred.html"/>
+<link rel="prev" href="u3-ci.html"/>
+<link rel="next" href="u3-samplesize.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -328,76 +328,74 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="u2-known-truth" class="section level2 hasAnchor" number="2.3">
-<h2><span class="header-section-number">2.3</span> How can we judge an estimator?<a href="u2-known-truth.html#u2-known-truth" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="u3-t" class="section level2 hasAnchor" number="3.5">
+<h2><span class="header-section-number">3.5</span> What if <span class="math inline">\(\sigma\)</span> is unknown?<a href="u3-t.html#u3-t" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <div class="question">
-<p>If <span class="math inline">\(\mu\)</span> is never known, how can we ever tell whether an estimator is any good?</p>
+<p>Every interval so far used <span class="math inline">\(\sigma\)</span>. We never know it. What breaks?</p>
 </div>
-<p>We now know what a sample must satisfy. The original question remains: of the
-many rules available, why the sample mean?</p>
-<p>The obstacle is the one identified at the start. To see whether an estimator
-lands near the truth we would have to know the truth, and in any real
-application we do not. If we survey Indian households we do not know true
-average household income; if we sample firms we do not know true average
-productivity. There is nothing to compare against.</p>
-<p>The way around this is to build a laboratory. We construct one artificial
-population whose properties are known exactly, and study repeated sampling from
-it. Because the true mean is known in advance, every sample mean can be
-measured against it. Nothing is being discovered about the world here — the
-point is to watch a procedure work under conditions where its performance is
-visible.</p>
-<div id="u2-lab-pop" class="section level3 unnumbered hasAnchor">
-<h3>The population<a href="u2-known-truth.html#u2-lab-pop" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>Take a deck of playing cards, scored A = 1, J = 11, Q = 12, K = 13, and 2
-through 10 at face value.</p>
-<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb58-1"><a href="u2-known-truth.html#cb58-1" tabindex="-1"></a>deck <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">13</span>, <span class="at">times =</span> <span class="dv">4</span>)</span>
-<span id="cb58-2"><a href="u2-known-truth.html#cb58-2" tabindex="-1"></a></span>
-<span id="cb58-3"><a href="u2-known-truth.html#cb58-3" tabindex="-1"></a><span class="fu">c</span>(<span class="at">N =</span> <span class="fu">length</span>(deck), <span class="at">mu =</span> <span class="fu">mean</span>(deck), <span class="at">sigma =</span> <span class="fu">sd</span>(deck))</span></code></pre></div>
-<pre><code>#&gt;      N     mu  sigma 
-#&gt; 52.000  7.000  3.778</code></pre>
-<p>This population contains 52 values. Its mean is exactly <span class="math inline">\(\mu = 7\)</span> and its
-standard deviation is <span class="math inline">\(\sigma = 3.78\)</span>. Both are known with certainty, which is
-exactly what real data never offers.</p>
+<p>Section <a href="u3-variance.html#u3-variance">3.2</a> suggested substituting <span class="math inline">\(s\)</span> for <span class="math inline">\(\sigma\)</span>, which looks
+like a small matter. It is not, and the reason is worth taking seriously.</p>
+<p>When we use <span class="math inline">\(\sigma\)</span>, the only random quantity in the interval is <span class="math inline">\(\bar{x}\)</span>.
+When we use <span class="math inline">\(s\)</span>, <em>both</em> the centre and the width are estimated from the same
+sample. An unlucky sample can be unrepresentative in its spread as well as its
+centre — and a sample that happens to have a small <span class="math inline">\(s\)</span> produces an interval
+that is both narrow and badly placed. Those two errors compound rather than
+cancel.</p>
+<p>The effect is easy to measure. Take a normal population, draw samples of ten,
+and build intervals using <span class="math inline">\(s\)</span> but the normal critical value 1.96.</p>
+<div class="sourceCode" id="cb87"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb87-1"><a href="u3-t.html#cb87-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">6</span>)</span>
+<span id="cb87-2"><a href="u3-t.html#cb87-2" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">10</span></span>
+<span id="cb87-3"><a href="u3-t.html#cb87-3" tabindex="-1"></a></span>
+<span id="cb87-4"><a href="u3-t.html#cb87-4" tabindex="-1"></a>cover <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">50000</span>, {</span>
+<span id="cb87-5"><a href="u3-t.html#cb87-5" tabindex="-1"></a>  x  <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n, <span class="at">mean =</span> <span class="dv">26</span>, <span class="at">sd =</span> <span class="fl">5.45</span>)</span>
+<span id="cb87-6"><a href="u3-t.html#cb87-6" tabindex="-1"></a>  se <span class="ot">&lt;-</span> <span class="fu">sd</span>(x) <span class="sc">/</span> <span class="fu">sqrt</span>(n)</span>
+<span id="cb87-7"><a href="u3-t.html#cb87-7" tabindex="-1"></a>  <span class="fu">c</span>(<span class="at">using_1.96      =</span> <span class="fu">abs</span>(<span class="fu">mean</span>(x) <span class="sc">-</span> <span class="dv">26</span>) <span class="sc">&lt;</span> <span class="fl">1.96</span> <span class="sc">*</span> se,</span>
+<span id="cb87-8"><a href="u3-t.html#cb87-8" tabindex="-1"></a>    <span class="at">using_t_critical =</span> <span class="fu">abs</span>(<span class="fu">mean</span>(x) <span class="sc">-</span> <span class="dv">26</span>) <span class="sc">&lt;</span> <span class="fu">qt</span>(<span class="fl">0.975</span>, <span class="at">df =</span> n <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">*</span> se)</span>
+<span id="cb87-9"><a href="u3-t.html#cb87-9" tabindex="-1"></a>})</span>
+<span id="cb87-10"><a href="u3-t.html#cb87-10" tabindex="-1"></a></span>
+<span id="cb87-11"><a href="u3-t.html#cb87-11" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">rowMeans</span>(cover), <span class="dv">4</span>)</span></code></pre></div>
+<pre><code>#&gt;       using_1.96 using_t_critical 
+#&gt;           0.9181           0.9495</code></pre>
+<p>The interval advertised as 95% delivers about
+91.8%. One statement in twenty was supposed to
+be wrong; nearly one in twelve is. Using the <span class="math inline">\(t\)</span> critical value instead restores
+it to 95%.</p>
+<p>The fix is to widen the interval by exactly enough to compensate, using a
+distribution with heavier tails than the normal.</p>
+<div class="keyidea">
+<p>When <span class="math inline">\(\sigma\)</span> is unknown, the confidence interval for <span class="math inline">\(\mu\)</span> is</p>
+<p><span class="math display">\[\bar{x} \;\pm\; t_{n-1,\,\alpha/2}\,\frac{s}{\sqrt{n}}\]</span></p>
+<p>where <span class="math inline">\(t_{n-1,\,\alpha/2}\)</span> comes from the <strong><span class="math inline">\(t\)</span> distribution</strong> with <span class="math inline">\(n-1\)</span>
+degrees of freedom — the same <span class="math inline">\(n-1\)</span> that appeared in <span class="math inline">\(s^2\)</span>, and for the same
+reason.</p>
+<p>In R: <code>qt(1 - alpha/2, df = n - 1)</code>.</p>
 </div>
-<div id="u2-lab-one" class="section level3 unnumbered hasAnchor">
-<h3>One sample from it<a href="u2-known-truth.html#u2-lab-one" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>Draw ten cards and compute their average.</p>
-<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb60-1"><a href="u2-known-truth.html#cb60-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">7</span>)</span>
-<span id="cb60-2"><a href="u2-known-truth.html#cb60-2" tabindex="-1"></a><span class="fu">mean</span>(<span class="fu">sample</span>(deck, <span class="at">size =</span> <span class="dv">10</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>))</span></code></pre></div>
-<pre><code>#&gt; [1] 5.7</code></pre>
-<p>The result is not 7. Draw again and it would differ again — sampling variation,
-as before. What is new is that we can see how far this sample strayed, because
-we know where it should have been.</p>
+<p>The <span class="math inline">\(t\)</span> distribution is symmetric and bell-shaped like the normal, but with
+more probability in the tails, which is what makes the interval wider. How much
+wider depends on the degrees of freedom.</p>
+<div class="sourceCode" id="cb89"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb89-1"><a href="u3-t.html#cb89-1" tabindex="-1"></a>ns <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">10</span>, <span class="dv">20</span>, <span class="dv">30</span>, <span class="dv">60</span>, <span class="dv">120</span>)</span>
+<span id="cb89-2"><a href="u3-t.html#cb89-2" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">data.frame</span>(<span class="at">n =</span> ns, <span class="at">df =</span> ns <span class="sc">-</span> <span class="dv">1</span>,</span>
+<span id="cb89-3"><a href="u3-t.html#cb89-3" tabindex="-1"></a>                 <span class="at">t_critical =</span> <span class="fu">qt</span>(<span class="fl">0.975</span>, ns <span class="sc">-</span> <span class="dv">1</span>),</span>
+<span id="cb89-4"><a href="u3-t.html#cb89-4" tabindex="-1"></a>                 <span class="at">z_critical =</span> <span class="fl">1.96</span>), <span class="dv">3</span>)</span></code></pre></div>
+<pre><code>#&gt;     n  df t_critical z_critical
+#&gt; 1   5   4      2.776       1.96
+#&gt; 2  10   9      2.262       1.96
+#&gt; 3  20  19      2.093       1.96
+#&gt; 4  30  29      2.045       1.96
+#&gt; 5  60  59      2.001       1.96
+#&gt; 6 120 119      1.980       1.96</code></pre>
+<p>The correction is substantial in small samples and negligible in large ones. By
+<span class="math inline">\(n = 120\)</span> the two differ in the second decimal place, which is why the
+distinction stops mattering once samples run to a few hundred — and why it
+matters a great deal when a study has thirty observations.</p>
 <div class="watchout">
-<p>Note <code>replace = TRUE</code>: each card is returned to the deck before the next draw.</p>
-<p>That is what makes the draws <strong>independent</strong>, in the sense of the previous
-section. Drawing without replacement changes what remains after each card is
-removed, so the draws are dependent and the sample mean varies slightly less
-than theory predicts.</p>
-<p>It is also the better model of what we usually mean. Surveying 2,000 people
-does not meaningfully deplete a population of a billion.</p>
-</div>
-</div>
-<div id="u2-lab-many" class="section level3 unnumbered hasAnchor">
-<h3>A thousand samples<a href="u2-known-truth.html#u2-lab-many" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>One sample tells us little about a procedure. Repeating the exercise a thousand
-times shows the whole sampling distribution — and, for the first time, shows it
-alongside the truth it is supposed to be tracking.</p>
-<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb62-1"><a href="u2-known-truth.html#cb62-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">7</span>)</span>
-<span id="cb62-2"><a href="u2-known-truth.html#cb62-2" tabindex="-1"></a>deck_means <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">1000</span>, <span class="fu">mean</span>(<span class="fu">sample</span>(deck, <span class="at">size =</span> <span class="dv">10</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>)))</span>
-<span id="cb62-3"><a href="u2-known-truth.html#cb62-3" tabindex="-1"></a></span>
-<span id="cb62-4"><a href="u2-known-truth.html#cb62-4" tabindex="-1"></a><span class="fu">c</span>(<span class="at">mean_of_sample_means =</span> <span class="fu">mean</span>(deck_means),</span>
-<span id="cb62-5"><a href="u2-known-truth.html#cb62-5" tabindex="-1"></a>  <span class="at">sd_of_sample_means   =</span> <span class="fu">sd</span>(deck_means))</span></code></pre></div>
-<pre><code>#&gt; mean_of_sample_means   sd_of_sample_means 
-#&gt;                6.932                1.201</code></pre>
-<div class="figure" style="text-align: center"><span style="display:block;" id="fig:u2-sampdist-plot"></span>
-<img src="stats-econometrics-r_files/figure-html/u2-sampdist-plot-1.png" alt="One thousand sample means, each computed from 10 cards drawn from a population whose mean is exactly 7." width="90%" />
-<p class="caption">
-Figure 2.2: One thousand sample means, each computed from 10 cards drawn from a population whose mean is exactly 7.
-</p>
-</div>
-<p>Two features of this picture are worth separating, and the next two sections
-take them one at a time: where the distribution sits, and how wide it is.</p>
+<p>The <span class="math inline">\(t\)</span> distribution corrects for <em>estimating</em> <span class="math inline">\(\sigma\)</span>. It does not correct
+for a non-normal population.</p>
+<p>Repeat the coverage experiment on the real attendance data rather than a normal
+population, and at <span class="math inline">\(n = 10\)</span> the <span class="math inline">\(t\)</span> interval achieves about 90% rather than
+95%. The remaining shortfall is the Central Limit Theorem not having done its
+work yet at that sample size.</p>
+<p>Two separate assumptions are in play, and <span class="math inline">\(t\)</span> addresses only one of them.</p>
 </div>
 </div>
 <script>
@@ -421,8 +419,8 @@ document.addEventListener("DOMContentLoaded", function () {
           </div>
         </div>
       </div>
-<a href="u2-iid.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="u2-centred.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="u3-ci.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="u3-samplesize.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -453,7 +451,7 @@ gitbook.start({
     "size": 2
   },
   "edit": {
-    "link": "https://github.com/kedarkulkarni1991/stats-econometrics-r/edit/main/02-estimation.Rmd",
+    "link": "https://github.com/kedarkulkarni1991/stats-econometrics-r/edit/main/03-point-and-interval-estimation.Rmd",
     "text": "Edit"
   },
   "history": {

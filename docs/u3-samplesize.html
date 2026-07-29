@@ -4,13 +4,13 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>2.3 How can we judge an estimator? | Statistics and Econometrics with R</title>
+  <title>3.6 How large a sample do we need? | Statistics and Econometrics with R</title>
   <meta name="description" content="<p>A first course in statistics and econometrics for Indian students, built on
 the progression from question to intuition to rigour to computation to
 interpretation.</p>" />
   <meta name="generator" content="bookdown 0.47 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="2.3 How can we judge an estimator? | Statistics and Econometrics with R" />
+  <meta property="og:title" content="3.6 How large a sample do we need? | Statistics and Econometrics with R" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="<p>A first course in statistics and econometrics for Indian students, built on
@@ -19,7 +19,7 @@ interpretation.</p>" />
   <meta name="github-repo" content="kedarkulkarni1991/stats-econometrics-r" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="2.3 How can we judge an estimator? | Statistics and Econometrics with R" />
+  <meta name="twitter:title" content="3.6 How large a sample do we need? | Statistics and Econometrics with R" />
   
   <meta name="twitter:description" content="<p>A first course in statistics and econometrics for Indian students, built on
 the progression from question to intuition to rigour to computation to
@@ -35,8 +35,8 @@ interpretation.</p>" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="u2-iid.html"/>
-<link rel="next" href="u2-centred.html"/>
+<link rel="prev" href="u3-t.html"/>
+<link rel="next" href="u3-onesided.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -328,76 +328,80 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="u2-known-truth" class="section level2 hasAnchor" number="2.3">
-<h2><span class="header-section-number">2.3</span> How can we judge an estimator?<a href="u2-known-truth.html#u2-known-truth" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="u3-samplesize" class="section level2 hasAnchor" number="3.6">
+<h2><span class="header-section-number">3.6</span> How large a sample do we need?<a href="u3-samplesize.html#u3-samplesize" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <div class="question">
-<p>If <span class="math inline">\(\mu\)</span> is never known, how can we ever tell whether an estimator is any good?</p>
+<p>A survey has not yet been run. How many households should it cover?</p>
 </div>
-<p>We now know what a sample must satisfy. The original question remains: of the
-many rules available, why the sample mean?</p>
-<p>The obstacle is the one identified at the start. To see whether an estimator
-lands near the truth we would have to know the truth, and in any real
-application we do not. If we survey Indian households we do not know true
-average household income; if we sample firms we do not know true average
-productivity. There is nothing to compare against.</p>
-<p>The way around this is to build a laboratory. We construct one artificial
-population whose properties are known exactly, and study repeated sampling from
-it. Because the true mean is known in advance, every sample mean can be
-measured against it. Nothing is being discovered about the world here — the
-point is to watch a procedure work under conditions where its performance is
-visible.</p>
-<div id="u2-lab-pop" class="section level3 unnumbered hasAnchor">
-<h3>The population<a href="u2-known-truth.html#u2-lab-pop" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>Take a deck of playing cards, scored A = 1, J = 11, Q = 12, K = 13, and 2
-through 10 at face value.</p>
-<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb58-1"><a href="u2-known-truth.html#cb58-1" tabindex="-1"></a>deck <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">13</span>, <span class="at">times =</span> <span class="dv">4</span>)</span>
-<span id="cb58-2"><a href="u2-known-truth.html#cb58-2" tabindex="-1"></a></span>
-<span id="cb58-3"><a href="u2-known-truth.html#cb58-3" tabindex="-1"></a><span class="fu">c</span>(<span class="at">N =</span> <span class="fu">length</span>(deck), <span class="at">mu =</span> <span class="fu">mean</span>(deck), <span class="at">sigma =</span> <span class="fu">sd</span>(deck))</span></code></pre></div>
-<pre><code>#&gt;      N     mu  sigma 
-#&gt; 52.000  7.000  3.778</code></pre>
-<p>This population contains 52 values. Its mean is exactly <span class="math inline">\(\mu = 7\)</span> and its
-standard deviation is <span class="math inline">\(\sigma = 3.78\)</span>. Both are known with certainty, which is
-exactly what real data never offers.</p>
-</div>
-<div id="u2-lab-one" class="section level3 unnumbered hasAnchor">
-<h3>One sample from it<a href="u2-known-truth.html#u2-lab-one" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>Draw ten cards and compute their average.</p>
-<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb60-1"><a href="u2-known-truth.html#cb60-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">7</span>)</span>
-<span id="cb60-2"><a href="u2-known-truth.html#cb60-2" tabindex="-1"></a><span class="fu">mean</span>(<span class="fu">sample</span>(deck, <span class="at">size =</span> <span class="dv">10</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>))</span></code></pre></div>
-<pre><code>#&gt; [1] 5.7</code></pre>
-<p>The result is not 7. Draw again and it would differ again — sampling variation,
-as before. What is new is that we can see how far this sample strayed, because
-we know where it should have been.</p>
+<p>Everything so far took the sample as given. In practice the question usually
+arrives earlier, from someone who has to budget for the fieldwork.</p>
+<p>The margin of error for a mean is</p>
+<p><span class="math display">\[E = z_{\alpha/2}\,\frac{\sigma}{\sqrt{n}}\]</span></p>
+<p>which can be solved for <span class="math inline">\(n\)</span>:</p>
+<p><span class="math display">\[n = \left(\frac{z_{\alpha/2}\,\sigma}{E}\right)^{2}\]</span></p>
+<p>The squaring is the <span class="math inline">\(\sqrt{n}\)</span> rule from the previous unit, arriving from the
+other direction: halving the margin of error quadruples the sample.</p>
+<p>For a proportion the same rearrangement gives</p>
+<p><span class="math display">\[n = \frac{z_{\alpha/2}^{2}\;p(1-p)}{E^{2}}\]</span></p>
+<p>with one difficulty. It requires <span class="math inline">\(p\)</span>, which is what the survey exists to find
+out. The standard resolution is to use the worst case. Since <span class="math inline">\(p(1-p)\)</span> is
+maximised at <span class="math inline">\(p = 0.5\)</span>, setting <span class="math inline">\(p = 0.5\)</span> gives a sample size large enough
+whatever the truth turns out to be.</p>
+<div class="sourceCode" id="cb91"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb91-1"><a href="u3-samplesize.html#cb91-1" tabindex="-1"></a>sample_size_prop <span class="ot">&lt;-</span> <span class="cf">function</span>(margin, <span class="at">level =</span> <span class="fl">0.95</span>, <span class="at">p =</span> <span class="fl">0.5</span>) {</span>
+<span id="cb91-2"><a href="u3-samplesize.html#cb91-2" tabindex="-1"></a>  z <span class="ot">&lt;-</span> <span class="fu">qnorm</span>(<span class="dv">1</span> <span class="sc">-</span> (<span class="dv">1</span> <span class="sc">-</span> level) <span class="sc">/</span> <span class="dv">2</span>)</span>
+<span id="cb91-3"><a href="u3-samplesize.html#cb91-3" tabindex="-1"></a>  <span class="fu">ceiling</span>(z<span class="sc">^</span><span class="dv">2</span> <span class="sc">*</span> p <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> p) <span class="sc">/</span> margin<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb91-4"><a href="u3-samplesize.html#cb91-4" tabindex="-1"></a>}</span>
+<span id="cb91-5"><a href="u3-samplesize.html#cb91-5" tabindex="-1"></a></span>
+<span id="cb91-6"><a href="u3-samplesize.html#cb91-6" tabindex="-1"></a><span class="fu">data.frame</span>(<span class="at">margin_of_error =</span> <span class="fu">c</span>(<span class="st">&quot;5%&quot;</span>, <span class="st">&quot;3%&quot;</span>, <span class="st">&quot;2%&quot;</span>, <span class="st">&quot;1%&quot;</span>),</span>
+<span id="cb91-7"><a href="u3-samplesize.html#cb91-7" tabindex="-1"></a>           <span class="at">n_at_95 =</span> <span class="fu">sapply</span>(<span class="fu">c</span>(<span class="fl">0.05</span>, <span class="fl">0.03</span>, <span class="fl">0.02</span>, <span class="fl">0.01</span>), sample_size_prop),</span>
+<span id="cb91-8"><a href="u3-samplesize.html#cb91-8" tabindex="-1"></a>           <span class="at">n_at_90 =</span> <span class="fu">sapply</span>(<span class="fu">c</span>(<span class="fl">0.05</span>, <span class="fl">0.03</span>, <span class="fl">0.02</span>, <span class="fl">0.01</span>), sample_size_prop,</span>
+<span id="cb91-9"><a href="u3-samplesize.html#cb91-9" tabindex="-1"></a>                            <span class="at">level =</span> <span class="fl">0.90</span>))</span></code></pre></div>
+<pre><code>#&gt;   margin_of_error n_at_95 n_at_90
+#&gt; 1              5%     385     271
+#&gt; 2              3%    1068     752
+#&gt; 3              2%    2401    1691
+#&gt; 4              1%    9604    6764</code></pre>
+<p>These numbers explain something otherwise puzzling about published surveys. A
+national opinion poll covering 1.4 billion people typically samples one or two
+thousand — and the table shows why that is sufficient rather than negligent.
+The population size does not appear anywhere in the formula. What determines
+precision is the number of people asked, not the fraction of the country they
+represent.</p>
 <div class="watchout">
-<p>Note <code>replace = TRUE</code>: each card is returned to the deck before the next draw.</p>
-<p>That is what makes the draws <strong>independent</strong>, in the sense of the previous
-section. Drawing without replacement changes what remains after each card is
-removed, so the draws are dependent and the sample mean varies slightly less
-than theory predicts.</p>
-<p>It is also the better model of what we usually mean. Surveying 2,000 people
-does not meaningfully deplete a population of a billion.</p>
+<p>This calculation answers a narrow question: how large a sample is needed for
+the standard error to reach a target, <em>assuming the sample is drawn properly</em>.</p>
+<p>It says nothing about the failures of Section <a href="u2-iid.html#u2-iid">2.2</a>, and the sample
+size it returns will not repair any of them. A survey of two thousand urban
+households is not a survey of India, however carefully the two thousand was
+computed.</p>
 </div>
-</div>
-<div id="u2-lab-many" class="section level3 unnumbered hasAnchor">
-<h3>A thousand samples<a href="u2-known-truth.html#u2-lab-many" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>One sample tells us little about a procedure. Repeating the exercise a thousand
-times shows the whole sampling distribution — and, for the first time, shows it
-alongside the truth it is supposed to be tracking.</p>
-<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb62-1"><a href="u2-known-truth.html#cb62-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">7</span>)</span>
-<span id="cb62-2"><a href="u2-known-truth.html#cb62-2" tabindex="-1"></a>deck_means <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">1000</span>, <span class="fu">mean</span>(<span class="fu">sample</span>(deck, <span class="at">size =</span> <span class="dv">10</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>)))</span>
-<span id="cb62-3"><a href="u2-known-truth.html#cb62-3" tabindex="-1"></a></span>
-<span id="cb62-4"><a href="u2-known-truth.html#cb62-4" tabindex="-1"></a><span class="fu">c</span>(<span class="at">mean_of_sample_means =</span> <span class="fu">mean</span>(deck_means),</span>
-<span id="cb62-5"><a href="u2-known-truth.html#cb62-5" tabindex="-1"></a>  <span class="at">sd_of_sample_means   =</span> <span class="fu">sd</span>(deck_means))</span></code></pre></div>
-<pre><code>#&gt; mean_of_sample_means   sd_of_sample_means 
-#&gt;                6.932                1.201</code></pre>
-<div class="figure" style="text-align: center"><span style="display:block;" id="fig:u2-sampdist-plot"></span>
-<img src="stats-econometrics-r_files/figure-html/u2-sampdist-plot-1.png" alt="One thousand sample means, each computed from 10 cards drawn from a population whose mean is exactly 7." width="90%" />
-<p class="caption">
-Figure 2.2: One thousand sample means, each computed from 10 cards drawn from a population whose mean is exactly 7.
-</p>
-</div>
-<p>Two features of this picture are worth separating, and the next two sections
-take them one at a time: where the distribution sits, and how wide it is.</p>
+<div id="intervals-for-a-proportion" class="section level3 unnumbered hasAnchor">
+<h3>Intervals for a proportion<a href="u3-samplesize.html#intervals-for-a-proportion" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Collecting the pieces, an interval for a population proportion is</p>
+<p><span class="math display">\[\hat{p} \;\pm\; z_{\alpha/2}\sqrt{\frac{\hat{p}(1-\hat{p})}{n}}\]</span></p>
+<p>Note that <span class="math inline">\(z\)</span> appears here rather than <span class="math inline">\(t\)</span>. The <span class="math inline">\(t\)</span> correction exists because
+<span class="math inline">\(\sigma\)</span> was estimated separately from <span class="math inline">\(\mu\)</span>; for a proportion, <span class="math inline">\(\hat{p}\)</span>
+determines the standard error on its own, so there is no second estimate to
+account for.</p>
+<p>Suppose that in a random sample of 1,000 secondary school teachers in
+Karnataka, 518 are women.</p>
+<div class="sourceCode" id="cb93"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb93-1"><a href="u3-samplesize.html#cb93-1" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">518</span></span>
+<span id="cb93-2"><a href="u3-samplesize.html#cb93-2" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">1000</span></span>
+<span id="cb93-3"><a href="u3-samplesize.html#cb93-3" tabindex="-1"></a></span>
+<span id="cb93-4"><a href="u3-samplesize.html#cb93-4" tabindex="-1"></a>p_hat <span class="ot">&lt;-</span> x <span class="sc">/</span> n</span>
+<span id="cb93-5"><a href="u3-samplesize.html#cb93-5" tabindex="-1"></a>se    <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(p_hat <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> p_hat) <span class="sc">/</span> n)</span>
+<span id="cb93-6"><a href="u3-samplesize.html#cb93-6" tabindex="-1"></a></span>
+<span id="cb93-7"><a href="u3-samplesize.html#cb93-7" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">p_hat =</span> p_hat, <span class="at">se =</span> se,</span>
+<span id="cb93-8"><a href="u3-samplesize.html#cb93-8" tabindex="-1"></a>        <span class="at">lower =</span> p_hat <span class="sc">-</span> <span class="fl">1.96</span> <span class="sc">*</span> se,</span>
+<span id="cb93-9"><a href="u3-samplesize.html#cb93-9" tabindex="-1"></a>        <span class="at">upper =</span> p_hat <span class="sc">+</span> <span class="fl">1.96</span> <span class="sc">*</span> se), <span class="dv">4</span>)</span></code></pre></div>
+<pre><code>#&gt;  p_hat     se  lower  upper 
+#&gt; 0.5180 0.0158 0.4870 0.5490</code></pre>
+<p>So we report that between 48.7% and 54.9% of secondary school teachers in
+Karnataka are women, with 95% confidence.</p>
+<p>That interval contains 0.5, which is worth noticing. The sample proportion is
+above half, but the data are also consistent with women being a minority of the
+profession. A headline reading “most secondary school teachers are women” would
+be going beyond what a sample of a thousand can support.</p>
 </div>
 </div>
 <script>
@@ -421,8 +425,8 @@ document.addEventListener("DOMContentLoaded", function () {
           </div>
         </div>
       </div>
-<a href="u2-iid.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="u2-centred.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="u3-t.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="u3-onesided.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -453,7 +457,7 @@ gitbook.start({
     "size": 2
   },
   "edit": {
-    "link": "https://github.com/kedarkulkarni1991/stats-econometrics-r/edit/main/02-estimation.Rmd",
+    "link": "https://github.com/kedarkulkarni1991/stats-econometrics-r/edit/main/03-point-and-interval-estimation.Rmd",
     "text": "Edit"
   },
   "history": {

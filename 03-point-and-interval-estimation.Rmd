@@ -1,0 +1,1285 @@
+# Point and Interval Estimation {#interval-estimation}
+
+```{r setup-03, include = FALSE}
+source("_common.R")
+library(ggplot2)
+```
+
+## What can a single sample tell us? {#u3-single-sample}
+
+::: {.question}
+We have one sample and one number. What are we entitled to say?
+:::
+
+The previous unit established why the sample mean deserves our trust. It is
+centred on the population mean, and its standard error $\sigma/\sqrt{n}$ falls
+as the sample grows. Both results were demonstrated by drawing a thousand
+samples and watching how they scattered.
+
+A real survey draws one.
+
+So we are left holding a single number — say a sample mean attendance of 26.1
+classes — and the honest question is what may be claimed on the strength of it.
+Reporting 26.1 alone is misleading, since we know it is almost certainly not
+the population value. Reporting it with a standard error is honest but
+awkward, because a standard error is a technical property of a procedure rather
+than a statement about attendance.
+
+What we want is a claim of the form: *the population mean lies between here and
+there, and this is how confident we are of it.* Producing such claims is the
+business of this unit.
+
+Three things stand between us and that goal.
+
+The first is that $\sigma/\sqrt{n}$ contains $\sigma$, a population quantity we
+do not know. If we are estimating $\mu$ because it is unobserved, we can hardly
+help ourselves to $\sigma$. So we will need to estimate that too.
+
+The second is that many of the questions worth asking are not about averages at
+all. What proportion of workers are in urban areas? What proportion of
+households own land? These are proportions, not means, and we need estimators
+for them as well.
+
+The third is the step from a single number to a range, which requires deciding
+what "confident" is going to mean.
+
+::: {.keyidea}
+Two kinds of answer run through this unit.
+
+A **point estimate** is a single number offered as the best available guess at
+a parameter: $\bar{x} = 26.1$.
+
+An **interval estimate** is a range of values, together with a statement of how
+often such ranges capture the truth: $[24.4,\ 27.8]$ with 95% confidence.
+
+The first is what we have. The second is what we want.
+:::
+
+We take the missing point estimates first, then build the intervals on top of
+them.
+
+
+
+## How do we estimate the population variance? {#u3-variance}
+
+::: {.question}
+The standard error formula needs $\sigma$. Where is that supposed to come from?
+:::
+
+The natural move is to do to the variance what we did to the mean: define the
+sample analogue of the population quantity and hope it behaves.
+
+The population variance is the average squared distance from the population
+mean,
+
+$$\sigma^2 = \frac{1}{N}\sum_{i=1}^{N}(x_i - \mu)^2$$
+
+so the obvious sample version replaces $\mu$ with $\bar{x}$ and $N$ with $n$:
+
+$$\widetilde{s}^2 = \frac{1}{n}\sum_{i=1}^{n}(x_i - \bar{x})^2$$
+
+This turns out to be systematically wrong, and we can see it happen. The
+dataset `attendance-grades.csv` records 680 students at Azim Premji University.
+Treat those 680 as a population, so its variance is known exactly, and sample
+from it.
+
+```{r u3-nminus1}
+students <- read.csv("data/attendance-grades.csv")
+att      <- students$attendance
+
+sigma2_pop <- mean((att - mean(att))^2)      # divisor N, since this IS the population
+
+set.seed(5)
+n <- 10
+sims <- replicate(20000, {
+  x <- sample(att, n, replace = TRUE)
+  c(divide_by_n     = mean((x - mean(x))^2),
+    divide_by_n_1   = var(x))               # var() divides by n - 1
+})
+
+round(c(population_variance = sigma2_pop,
+        avg_divide_by_n     = mean(sims[1, ]),
+        avg_divide_by_n_1   = mean(sims[2, ])), 3)
+```
+
+Dividing by $n$ gives `r round(mean(sims[1, ]), 2)` against a true variance of
+`r round(sigma2_pop, 2)` — too small, not occasionally but on average across
+twenty thousand samples. Dividing by $n - 1$ gives `r round(mean(sims[2, ]), 2)`,
+which lands on the population value.
+
+::: {.question}
+Why should dividing by a smaller number be the correction?
+:::
+
+The reason is that $\bar{x}$ is computed from the very observations whose
+spread we are measuring.
+
+The sample mean sits, by construction, in the middle of the sample. It is the
+value that makes $\sum(x_i - \bar{x})^2$ as small as it can possibly be — no
+other number, including the true $\mu$, gives a smaller total. So when we
+measure the spread of the sample around its own mean, we are measuring it
+around the most flattering point available, and we get an answer that is too
+small.
+
+::: {.theory}
+Once $\bar{x}$ is known, the deviations are not free to take any values. They
+must sum to zero:
+
+$$\sum_{i=1}^{n}(x_i - \bar{x}) = 0$$
+
+Given the first $n-1$ of them, the last is determined. Only $n - 1$ of the $n$
+deviations carry independent information about the spread, and dividing by
+$n - 1$ rather than $n$ is what corrects for it.
+
+The quantity $n - 1$ is called the **degrees of freedom**: the number of
+observations, less the number of quantities estimated from them along the way.
+:::
+
+::: {.keyidea}
+The **sample variance** and **sample standard deviation** are
+
+$$s^2 = \frac{1}{n-1}\sum_{i=1}^{n}(x_i - \bar{x})^2
+\qquad\qquad s = \sqrt{s^2}$$
+
+$s^2$ is an unbiased estimator of $\sigma^2$. In R they are `var()` and `sd()`,
+both of which use $n - 1$.
+:::
+
+::: {.watchout}
+$s$ is *not* an unbiased estimator of $\sigma$, even though $s^2$ is unbiased
+for $\sigma^2$. Taking a square root does not preserve unbiasedness, and $s$
+runs slightly low on average.
+
+The bias is small, it shrinks quickly with $n$, and correcting it is not worth
+the trouble in practice. But it is worth knowing that "unbiased" attaches to a
+specific estimator of a specific parameter, and does not survive being passed
+through an arbitrary function.
+:::
+
+### When the population mean is known {-}
+
+Occasionally $\mu$ is known even though $\sigma^2$ is not — a machine
+calibrated to a specification, or a process with a target value. Then no
+degrees of freedom are spent estimating the centre, nothing is flattered, and
+the divisor is $n$:
+
+$$\widehat{\sigma}^2 = \frac{1}{n}\sum_{i=1}^{n}(x_i - \mu)^2$$
+
+Note that this uses $\mu$, not $\bar{x}$. Since $\bar{x}$ minimises the sum of
+squared deviations, the total measured from $\mu$ is *larger* than the total
+measured from $\bar{x}$ — which is precisely why it can be divided by the
+larger $n$ and still come out right.
+
+::: {.intuition}
+The rule is easier to remember as a question than as two formulas. How many
+quantities did I have to estimate from this sample before I could measure its
+spread?
+
+Estimated the centre from the data: divide by $n - 1$. Knew the centre already:
+divide by $n$.
+:::
+
+### Estimating the standard error {-}
+
+We now have what Section \@ref(u3-single-sample) said was missing. The standard
+error of the sample mean is $\sigma/\sqrt{n}$, and with $\sigma$ unknown we
+substitute $s$:
+
+$$\widehat{\mathrm{se}}(\bar{X}) = \frac{s}{\sqrt{n}}$$
+
+This is what every piece of software reports as "the standard error", and it is
+an estimate, with its own sampling variability. That substitution looks
+harmless and is not, as Section \@ref(u3-t) shows.
+
+
+
+## How do we estimate a proportion? {#u3-proportion}
+
+::: {.question}
+What proportion of Indian wage earners work in urban areas? That is not an
+average. Do we need new machinery?
+:::
+
+Many important quantities are proportions. The share of households below the
+poverty line, the share of children enrolled in school, the share of a
+workforce that is female, the unemployment rate. None of these is obviously an
+average, and it would be reasonable to expect a separate theory.
+
+There is none, and the reason is a small trick.
+
+Write down, for each person in the sample, a variable that equals 1 if they
+have the characteristic and 0 if they do not.
+
+```{r u3-indicator}
+wages <- read.csv("data/wages-india-synthetic.csv")
+
+is_urban <- as.numeric(wages$residence == "Urban")
+head(is_urban, 20)
+```
+
+The *average* of that column is the *proportion* of people with the
+characteristic. Adding up a column of ones and zeros counts the ones, and
+dividing by $n$ turns the count into a share.
+
+```{r u3-phat}
+c(mean_of_indicator = mean(is_urban),
+  proportion_urban  = sum(wages$residence == "Urban") / nrow(wages))
+```
+
+::: {.keyidea}
+A proportion is a mean. The **sample proportion**
+
+$$\hat{p} = \frac{x}{n}$$
+
+where $x$ is the number of observations with the characteristic, is exactly the
+sample mean of a variable coded 1 and 0.
+
+Everything established about $\bar{X}$ therefore applies to $\hat{p}$
+unchanged. It is unbiased, its variability falls with $\sqrt{n}$, and the
+Central Limit Theorem makes it approximately normal in large samples.
+:::
+
+This is worth pausing on, because it is the first time in the book that a
+result has been obtained for free. We did not prove anything new. We noticed
+that a question we had not met was a question we had already answered, wearing
+different clothes.
+
+### How much does a sample proportion vary? {-}
+
+One thing does simplify. For a general population we need $\sigma$ from
+somewhere. For a 0/1 variable, $\sigma$ is determined by $p$ itself.
+
+::: {.theory}
+Let $X_i$ equal 1 with probability $p$ and 0 with probability $1-p$. Then
+
+$$E(X_i) = 1 \cdot p + 0 \cdot (1-p) = p$$
+
+so the population mean of the indicator *is* the population proportion. For the
+variance, note that $X_i^2 = X_i$, since $0^2 = 0$ and $1^2 = 1$. Hence
+$E(X_i^2) = p$ and
+
+$$\mathrm{Var}(X_i) = E(X_i^2) - \big[E(X_i)\big]^2 = p - p^2 = p(1-p)$$
+
+Applying $\mathrm{Var}(\bar{X}) = \sigma^2/n$ from the previous unit,
+
+$$\mathrm{Var}(\hat{p}) = \frac{p(1-p)}{n}
+\qquad\qquad
+\mathrm{se}(\hat{p}) = \sqrt{\frac{p(1-p)}{n}}$$
+:::
+
+In practice $p$ is unknown — it is what we are estimating — so we substitute
+$\hat{p}$:
+
+$$\widehat{\mathrm{se}}(\hat{p}) = \sqrt{\frac{\hat{p}(1-\hat{p})}{n}}$$
+
+```{r u3-se-phat}
+set.seed(8)
+sample_urban <- sample(is_urban, 500)
+
+p_hat <- mean(sample_urban)
+se_p  <- sqrt(p_hat * (1 - p_hat) / 500)
+
+round(c(p_hat = p_hat, se = se_p, true_p = mean(is_urban)), 4)
+```
+
+::: {.intuition}
+The quantity $p(1-p)$ is largest at $p = 0.5$ and falls away towards zero at
+either end.
+
+That has a sensible meaning. A population evenly split is the hardest to pin
+down, because samples can land either way. A population where 99% share a
+characteristic is easy — almost every sample says 99%. Rare and near-universal
+things are estimated precisely; genuinely contested ones are not.
+
+The consequence for survey design is that $p = 0.5$ is the worst case, and a
+sample large enough for a 50-50 split is large enough for anything.
+:::
+
+
+
+## From a point estimate to an interval {#u3-ci}
+
+::: {.question}
+We have a number and a standard error. How do we turn them into a range?
+:::
+
+Suppose a survey of 40 students gives a mean attendance of 26.4 classes, and we
+know from long experience that $\sigma = 5.45$. The standard error is
+$5.45/\sqrt{40} = 0.86$.
+
+We know from the Central Limit Theorem that $\bar{X}$ is approximately normal
+around $\mu$ with that standard error. And we know a fact about normal
+distributions: about 95% of the probability lies within 1.96 standard
+deviations of the centre.
+
+Put those together. Before the sample is drawn,
+
+$$P\left(\mu - 1.96\frac{\sigma}{\sqrt{n}}
+\;\le\; \bar{X} \;\le\;
+\mu + 1.96\frac{\sigma}{\sqrt{n}}\right) \approx 0.95$$
+
+The sample mean lands within 1.96 standard errors of the population mean 95% of
+the time. Now rearrange the inequality so that $\mu$ sits in the middle rather
+than $\bar{X}$ — the algebra is nothing more than moving terms across, but the
+statement it produces is the one we want.
+
+::: {.keyidea}
+A **confidence interval** for $\mu$, when $\sigma$ is known, is
+
+$$\bar{x} \;\pm\; z_{\alpha/2}\,\frac{\sigma}{\sqrt{n}}$$
+
+The quantity $z_{\alpha/2}\,\sigma/\sqrt{n}$ is the **margin of error**. The
+confidence level is $1 - \alpha$.
+
+| Confidence | $\alpha$ | $z_{\alpha/2}$ |
+|:--|:--|:--|
+| 90% | 0.10 | 1.645 |
+| 95% | 0.05 | 1.960 |
+| 99% | 0.01 | 2.576 |
+
+In R these come from `qnorm(1 - alpha/2)` — there is no need for a printed
+table.
+:::
+
+```{r u3-first-ci}
+x_bar <- 26.4
+sigma <- 5.45
+n     <- 40
+
+for (level in c(0.90, 0.95, 0.99)) {
+  z  <- qnorm(1 - (1 - level) / 2)
+  ci <- x_bar + c(-1, 1) * z * sigma / sqrt(n)
+  cat(sprintf("%2.0f%%  z = %.3f   [%.2f, %.2f]   width %.2f\n",
+              100 * level, z, ci[1], ci[2], diff(ci)))
+}
+```
+
+Higher confidence buys a wider interval, and this is the central trade-off of
+the whole method. A 99% interval is more likely to contain $\mu$ precisely
+because it commits to less. An interval certain to contain the truth would run
+from minus infinity to infinity and tell us nothing at all.
+
+### What does 95% actually refer to? {-}
+
+The interval either contains $\mu$ or it does not. Nothing is random about it
+once the sample is drawn — $\mu$ is a fixed number, and so are the two endpoints
+sitting in front of us.
+
+The 95% describes the **procedure**. If we drew sample after sample and
+constructed an interval each time, about 95% of those intervals would contain
+$\mu$. Since we cannot know whether ours is among them, we report the interval
+and its coverage rate together.
+
+We can watch this happen. Treat the 680 students as a population, so $\mu$ is
+known, and construct 100 intervals from 100 samples.
+
+```{r u3-coverage, fig.height = 4.2, fig.cap = "One hundred 95% confidence intervals, each from a fresh sample of 40 students. The vertical line is the true population mean."}
+mu_pop    <- mean(att)
+sigma_pop <- sqrt(mean((att - mean(att))^2))
+
+set.seed(1)
+ci_sim <- t(replicate(100, {
+  x <- sample(att, 40, replace = TRUE)
+  mean(x) + c(-1, 1) * 1.96 * sigma_pop / sqrt(40)
+}))
+
+covers <- ci_sim[, 1] <= mu_pop & ci_sim[, 2] >= mu_pop
+
+d <- data.frame(id = 1:100, lo = ci_sim[, 1], hi = ci_sim[, 2],
+                covers = ifelse(covers, "Contains μ", "Misses μ"))
+
+ggplot(d, aes(y = id, xmin = lo, xmax = hi, colour = covers)) +
+  geom_errorbarh(height = 0, linewidth = 0.45) +
+  geom_vline(xintercept = mu_pop, linewidth = 0.7, colour = "grey20") +
+  scale_colour_manual(values = c(book_palette$fill, book_palette$reject),
+                      name = NULL) +
+  labs(x = "Mean attendance", y = NULL) +
+  theme_book() +
+  theme(axis.text.y = element_blank(), legend.position = "top")
+```
+
+Of these 100 intervals, `r sum(covers)` contain the population mean and
+`r sum(!covers)` do not. The misses are not mistakes. They are the 5% the method
+openly budgets for, and a procedure that never missed would be one that had
+stopped saying anything.
+
+Note also that the misses are not near-misses in any special sense — they are
+simply the samples whose means happened to fall furthest from $\mu$. Nothing
+about such a sample looks wrong from the inside. A researcher holding one of
+those five would see a perfectly ordinary set of forty students.
+
+
+
+## What if $\sigma$ is unknown? {#u3-t}
+
+::: {.question}
+Every interval so far used $\sigma$. We never know it. What breaks?
+:::
+
+Section \@ref(u3-variance) suggested substituting $s$ for $\sigma$, which looks
+like a small matter. It is not, and the reason is worth taking seriously.
+
+When we use $\sigma$, the only random quantity in the interval is $\bar{x}$.
+When we use $s$, *both* the centre and the width are estimated from the same
+sample. An unlucky sample can be unrepresentative in its spread as well as its
+centre — and a sample that happens to have a small $s$ produces an interval
+that is both narrow and badly placed. Those two errors compound rather than
+cancel.
+
+The effect is easy to measure. Take a normal population, draw samples of ten,
+and build intervals using $s$ but the normal critical value 1.96.
+
+```{r u3-t-coverage}
+set.seed(6)
+n <- 10
+
+cover <- replicate(50000, {
+  x  <- rnorm(n, mean = 26, sd = 5.45)
+  se <- sd(x) / sqrt(n)
+  c(using_1.96      = abs(mean(x) - 26) < 1.96 * se,
+    using_t_critical = abs(mean(x) - 26) < qt(0.975, df = n - 1) * se)
+})
+
+round(rowMeans(cover), 4)
+```
+
+The interval advertised as 95% delivers about
+`r round(100 * rowMeans(cover)[1], 1)`%. One statement in twenty was supposed to
+be wrong; nearly one in twelve is. Using the $t$ critical value instead restores
+it to `r round(100 * rowMeans(cover)[2], 1)`%.
+
+The fix is to widen the interval by exactly enough to compensate, using a
+distribution with heavier tails than the normal.
+
+::: {.keyidea}
+When $\sigma$ is unknown, the confidence interval for $\mu$ is
+
+$$\bar{x} \;\pm\; t_{n-1,\,\alpha/2}\,\frac{s}{\sqrt{n}}$$
+
+where $t_{n-1,\,\alpha/2}$ comes from the **$t$ distribution** with $n-1$
+degrees of freedom — the same $n-1$ that appeared in $s^2$, and for the same
+reason.
+
+In R: `qt(1 - alpha/2, df = n - 1)`.
+:::
+
+The $t$ distribution is symmetric and bell-shaped like the normal, but with
+more probability in the tails, which is what makes the interval wider. How much
+wider depends on the degrees of freedom.
+
+```{r u3-t-table}
+ns <- c(5, 10, 20, 30, 60, 120)
+round(data.frame(n = ns, df = ns - 1,
+                 t_critical = qt(0.975, ns - 1),
+                 z_critical = 1.96), 3)
+```
+
+The correction is substantial in small samples and negligible in large ones. By
+$n = 120$ the two differ in the second decimal place, which is why the
+distinction stops mattering once samples run to a few hundred — and why it
+matters a great deal when a study has thirty observations.
+
+::: {.watchout}
+The $t$ distribution corrects for *estimating* $\sigma$. It does not correct
+for a non-normal population.
+
+Repeat the coverage experiment on the real attendance data rather than a normal
+population, and at $n = 10$ the $t$ interval achieves about 90% rather than
+95%. The remaining shortfall is the Central Limit Theorem not having done its
+work yet at that sample size.
+
+Two separate assumptions are in play, and $t$ addresses only one of them.
+:::
+
+
+
+## How large a sample do we need? {#u3-samplesize}
+
+::: {.question}
+A survey has not yet been run. How many households should it cover?
+:::
+
+Everything so far took the sample as given. In practice the question usually
+arrives earlier, from someone who has to budget for the fieldwork.
+
+The margin of error for a mean is
+
+$$E = z_{\alpha/2}\,\frac{\sigma}{\sqrt{n}}$$
+
+which can be solved for $n$:
+
+$$n = \left(\frac{z_{\alpha/2}\,\sigma}{E}\right)^{2}$$
+
+The squaring is the $\sqrt{n}$ rule from the previous unit, arriving from the
+other direction: halving the margin of error quadruples the sample.
+
+For a proportion the same rearrangement gives
+
+$$n = \frac{z_{\alpha/2}^{2}\;p(1-p)}{E^{2}}$$
+
+with one difficulty. It requires $p$, which is what the survey exists to find
+out. The standard resolution is to use the worst case. Since $p(1-p)$ is
+maximised at $p = 0.5$, setting $p = 0.5$ gives a sample size large enough
+whatever the truth turns out to be.
+
+```{r u3-samplesize}
+sample_size_prop <- function(margin, level = 0.95, p = 0.5) {
+  z <- qnorm(1 - (1 - level) / 2)
+  ceiling(z^2 * p * (1 - p) / margin^2)
+}
+
+data.frame(margin_of_error = c("5%", "3%", "2%", "1%"),
+           n_at_95 = sapply(c(0.05, 0.03, 0.02, 0.01), sample_size_prop),
+           n_at_90 = sapply(c(0.05, 0.03, 0.02, 0.01), sample_size_prop,
+                            level = 0.90))
+```
+
+These numbers explain something otherwise puzzling about published surveys. A
+national opinion poll covering 1.4 billion people typically samples one or two
+thousand — and the table shows why that is sufficient rather than negligent.
+The population size does not appear anywhere in the formula. What determines
+precision is the number of people asked, not the fraction of the country they
+represent.
+
+::: {.watchout}
+This calculation answers a narrow question: how large a sample is needed for
+the standard error to reach a target, *assuming the sample is drawn properly*.
+
+It says nothing about the failures of Section \@ref(u2-iid), and the sample
+size it returns will not repair any of them. A survey of two thousand urban
+households is not a survey of India, however carefully the two thousand was
+computed.
+:::
+
+### Intervals for a proportion {-}
+
+Collecting the pieces, an interval for a population proportion is
+
+$$\hat{p} \;\pm\; z_{\alpha/2}\sqrt{\frac{\hat{p}(1-\hat{p})}{n}}$$
+
+Note that $z$ appears here rather than $t$. The $t$ correction exists because
+$\sigma$ was estimated separately from $\mu$; for a proportion, $\hat{p}$
+determines the standard error on its own, so there is no second estimate to
+account for.
+
+Suppose that in a random sample of 1,000 secondary school teachers in
+Karnataka, 518 are women.
+
+```{r u3-prop-ci}
+x <- 518
+n <- 1000
+
+p_hat <- x / n
+se    <- sqrt(p_hat * (1 - p_hat) / n)
+
+round(c(p_hat = p_hat, se = se,
+        lower = p_hat - 1.96 * se,
+        upper = p_hat + 1.96 * se), 4)
+```
+
+So we report that between 48.7% and 54.9% of secondary school teachers in
+Karnataka are women, with 95% confidence.
+
+That interval contains 0.5, which is worth noticing. The sample proportion is
+above half, but the data are also consistent with women being a minority of the
+profession. A headline reading "most secondary school teachers are women" would
+be going beyond what a sample of a thousand can support.
+
+
+
+## When only one direction matters {#u3-onesided}
+
+::: {.question}
+Sometimes we care about one end only. Why pay for the other?
+:::
+
+A confidence interval spends half its error budget at each end. Often only one
+end is of interest.
+
+A regulator checking whether a pollutant exceeds a limit does not care how low
+it might be. A funder asking whether attendance is at least 24 classes does not
+care how high it might be. In these cases the whole of $\alpha$ can be spent on
+the side that matters, which buys a tighter bound.
+
+::: {.keyidea}
+A **one-sided confidence bound** uses $z_{\alpha}$ rather than $z_{\alpha/2}$:
+
+$$\text{upper bound:}\quad \bar{x} + z_{\alpha}\frac{\sigma}{\sqrt{n}}
+\qquad\qquad
+\text{lower bound:}\quad \bar{x} - z_{\alpha}\frac{\sigma}{\sqrt{n}}$$
+
+At 95% confidence, $z_{\alpha} = 1.645$ rather than 1.960.
+:::
+
+```{r u3-onesided}
+x_bar <- 26.4; sigma <- 5.45; n <- 40
+
+round(c(two_sided_lower = x_bar - qnorm(0.975) * sigma / sqrt(n),
+        two_sided_upper = x_bar + qnorm(0.975) * sigma / sqrt(n),
+        one_sided_upper = x_bar + qnorm(0.950) * sigma / sqrt(n),
+        one_sided_lower = x_bar - qnorm(0.950) * sigma / sqrt(n)), 3)
+```
+
+The one-sided bound is closer to the estimate than the two-sided one at the
+same confidence level. Nothing has been gained for free: we have given up any
+claim about the other direction entirely.
+
+::: {.watchout}
+The choice between one-sided and two-sided must be made **before** looking at
+the data, on the basis of what the question is.
+
+Computing a two-sided interval, noticing it just fails to exclude some value of
+interest, and switching to a one-sided bound to obtain a tighter result is not
+a calculation. It is a way of arranging to be right, and the stated confidence
+level no longer describes what was done.
+:::
+
+
+
+## What a confidence interval does not mean {#u3-misreadings}
+
+::: {.question}
+Four sentences that sound right. Which are, and why not?
+:::
+
+Confidence intervals are misread more often than any other object in
+introductory statistics, and the misreadings are systematic enough to be worth
+naming.
+
+**"There is a 95% probability that $\mu$ lies in $[24.4,\ 27.8]$."**
+
+This is the most common, and the most understandable. But $\mu$ is a fixed
+number and the interval is a fixed pair of numbers; either the one is inside
+the other or it is not. There is nothing left to assign a probability to. The
+randomness lived in the sampling, and it was spent when the sample was drawn.
+What is 95% is the *procedure's* long-run success rate.
+
+**"95% of the population lies within the interval."**
+
+The interval describes the plausible location of a population *mean*, not the
+spread of individuals. In the attendance data the 95% interval is under two
+classes wide, while individual students range across the whole register. An
+interval for $\mu$ narrows towards a point as $n$ grows; the spread of the
+population does not budge.
+
+**"The two intervals overlap, so the groups are not different."**
+
+Tempting, and wrong often enough to matter. Two intervals can overlap while the
+difference between the groups is nevertheless larger than sampling variation
+would explain. Comparing groups requires an interval for the *difference*,
+which is the subject of a later unit — not an eyeball comparison of two
+separate intervals.
+
+**"A wider interval means the estimate is worse."**
+
+It means the estimate is less precise, which is not the same thing. A wide
+interval from a well-designed survey is an honest report of genuine
+uncertainty. A narrow interval from a badly designed one, as Survey B in
+Section \@ref(u2-iid) demonstrated, is a confident statement about the wrong
+population. Width measures precision; nothing in the arithmetic measures
+whether the sample was any good.
+
+::: {.keyidea}
+A confidence interval reports what the data can support, and no more. It cannot
+detect a badly drawn sample, it says nothing about individuals, and its
+confidence level is a property of the method rather than of the particular
+numbers in front of you.
+:::
+
+
+
+## Summary {#u3-summary}
+
+::: {.keyidea}
+- The **sample variance** $s^2 = \frac{1}{n-1}\sum(x_i - \bar{x})^2$ is
+  unbiased for $\sigma^2$. The divisor is $n-1$ because $\bar{x}$ was estimated
+  from the same data, leaving $n-1$ free deviations. If $\mu$ is known, the
+  divisor is $n$ and the deviations are taken from $\mu$.
+- A **proportion is a mean** — of a variable coded 1 and 0 — so every result
+  about $\bar{X}$ transfers to $\hat{p} = x/n$ without new proof.
+- $\mathrm{se}(\hat{p}) = \sqrt{p(1-p)/n}$, largest at $p = 0.5$. Evenly split
+  populations are the hardest to estimate; near-universal ones are easy.
+- A **confidence interval** is $\bar{x} \pm z_{\alpha/2}\,\sigma/\sqrt{n}$ when
+  $\sigma$ is known, and $\bar{x} \pm t_{n-1,\,\alpha/2}\,s/\sqrt{n}$ when it is
+  not. For a proportion, $\hat{p} \pm z_{\alpha/2}\sqrt{\hat{p}(1-\hat{p})/n}$.
+- The $t$ distribution compensates for estimating $\sigma$ from the same
+  sample. It does not compensate for a non-normal population — two different
+  assumptions, one correction.
+- The confidence level is a property of the **procedure**: across repeated
+  samples, that proportion of intervals contains the parameter. A particular
+  interval either contains it or does not.
+- Higher confidence means a wider interval. Halving the margin of error
+  quadruples the required sample, and $n = (z_{\alpha/2}\sigma/E)^2$ makes that
+  explicit before any fieldwork is commissioned.
+- What determines precision is how many people were asked, not what fraction of
+  the population they are. Population size appears in none of these formulas.
+:::
+
+Everything in this unit produced a *range* of values consistent with the data.
+The next unit asks a sharper question: given a specific claim about the
+population, is our sample consistent with it?
+
+
+## Practice problems {#u3-practice}
+
+::: {.yourturn}
+These are for learning. Work each one before opening the solution.
+
+The [question bank](#u3-question-bank) that follows has no answers at all.
+:::
+
+### Concept checks {-}
+
+**3.1** Why does the sample variance divide by $n - 1$ rather than $n$?
+
+::: {.answer}
+Because the deviations are measured from $\bar{x}$, which was itself computed
+from the same observations. The sample mean is the value that makes
+$\sum(x_i - \bar{x})^2$ as small as possible, so measuring spread around it
+gives an answer that is too small.
+
+Formally, the deviations must sum to zero, so only $n - 1$ of them are free to
+vary. Dividing by $n - 1$ corrects the shortfall exactly, making $s^2$
+unbiased for $\sigma^2$.
+:::
+
+**3.2** A dataset records whether each of 900 households owns a bicycle. Why is
+no new theory needed to estimate the proportion that do?
+
+::: {.answer}
+Because coding "owns" as 1 and "does not own" as 0 makes the proportion the
+mean of that column. Summing ones counts the owners, and dividing by 900 turns
+the count into a share.
+
+So $\hat{p}$ *is* a sample mean, and everything already established —
+unbiasedness, standard error falling with $\sqrt{n}$, approximate normality by
+the Central Limit Theorem — applies without modification.
+:::
+
+**3.3** Explain why a 99% confidence interval is wider than a 95% one.
+
+::: {.answer}
+Higher confidence requires the interval to succeed more often across repeated
+samples, and the only way to succeed more often is to claim less. Widening the
+interval makes it easier to capture $\mu$.
+
+The trade-off is unavoidable. An interval guaranteed to contain the truth would
+have to span every possible value, and would carry no information.
+:::
+
+**3.4** For which value of $p$ is a proportion hardest to estimate precisely,
+and why does that make sense?
+
+::: {.answer}
+$p = 0.5$, since $p(1-p)$ is maximised there.
+
+It makes sense because an evenly split population is the one where samples can
+most easily land either way. If 99% of households have electricity, almost any
+sample says so. If 50% do, the sample proportion has real room to move.
+
+This is why survey planners use $p = 0.5$ when computing sample sizes: it is
+the worst case, so it is safe whatever the truth turns out to be.
+:::
+
+**3.5** A student reports a 95% interval of $[24.4, 27.8]$ and writes: "so 95%
+of students attend between 24.4 and 27.8 classes." What has gone wrong?
+
+::: {.answer}
+The interval is about the *population mean*, not about individual students.
+
+It says the average attendance is plausibly between 24.4 and 27.8. Individual
+students vary far more widely — the standard deviation is about 5.5 classes,
+so many students lie well outside that range.
+
+Note also that the interval narrows as $n$ grows, whereas the spread of
+students does not change at all. The two quantities behave differently, which
+is a sign they are measuring different things.
+:::
+
+### Explain {-}
+
+**3.6** Explain what the "95%" in a 95% confidence interval refers to, and why
+it cannot refer to the particular interval you have computed.
+
+::: {.answer}
+It refers to the procedure. If samples were drawn repeatedly and an interval
+constructed from each by this method, about 95% of those intervals would
+contain the population parameter.
+
+It cannot refer to the interval in front of you because nothing about it is
+random any more. The population mean is a fixed number, and once the sample is
+drawn, the two endpoints are fixed numbers too. Either $\mu$ is between them or
+it is not; there is no probability left in the situation.
+
+The randomness lived in which sample was drawn, and that was spent. The 95% is
+a statement about the method's track record, which is why we report the
+interval and its confidence level together — the level describes how much such
+statements can generally be trusted.
+:::
+
+**3.7** Why is the $t$ distribution needed at all, and why does it stop
+mattering in large samples?
+
+::: {.answer}
+When $\sigma$ is known, the only quantity estimated from the sample is
+$\bar{x}$. When $\sigma$ is unknown, $s$ is estimated from the same data, so
+both the centre and the width of the interval are subject to sampling error.
+A sample with an unusually small $s$ produces an interval that is narrow *and*
+poorly positioned, and those errors compound. Using 1.96 anyway gives about 92%
+coverage at $n = 10$ instead of 95%.
+
+The $t$ distribution has heavier tails, widening the interval by exactly enough
+to restore the advertised coverage.
+
+It stops mattering in large samples because $s$ becomes an increasingly
+reliable estimate of $\sigma$. The critical value falls from 2.776 at $n = 5$
+to 1.984 at $n = 100$, approaching 1.96 as the degrees of freedom grow. Once
+$s$ is essentially known, there is nothing left to correct for.
+:::
+
+**3.8** A colleague computes a two-sided 95% interval, notices that it barely
+includes zero, and recomputes it as a one-sided bound so that zero falls
+outside. Explain the problem.
+
+::: {.answer}
+The confidence level describes a procedure fixed in advance. Once the choice
+between one-sided and two-sided is made *after* seeing where the data fell, the
+procedure being followed is no longer the one whose 95% property was
+established.
+
+The real procedure here is "compute a two-sided interval, and if it fails to
+give the answer I want, switch." That procedure covers the truth far less than
+95% of the time, because it has two chances to produce the conclusion sought.
+
+One-sided bounds are legitimate when the question is genuinely one-directional
+— a regulator who cares only about exceeding a limit. What makes them
+illegitimate is choosing the direction from the data.
+:::
+
+### Numerical problems {-}
+
+**3.9** A sample of 10 professors reported the following hours worked in a
+week: 48, 22, 19, 65, 72, 37, 55, 60, 49, 28.
+
+i. Estimate the population mean.
+ii. Estimate the population variance and standard deviation.
+iii. Estimate them again given that the population mean is known to be 46 hours.
+iv. Why does (iii) use a different divisor?
+
+::: {.answer}
+**(i)** $\bar{x} = 455/10 = 45.5$ hours.
+
+**(ii)** With $\mu$ unknown, deviations are taken from $\bar{x} = 45.5$ and
+$\sum(x_i - \bar{x})^2 = 3034.5$:
+
+$$s^2 = \frac{3034.5}{9} = 337.17 \qquad s = 18.36$$
+
+**(iii)** With $\mu = 46$ known, deviations are taken from 46 and
+$\sum(x_i - \mu)^2 = 3037$:
+
+$$\widehat{\sigma}^2 = \frac{3037}{10} = 303.7 \qquad \widehat{\sigma} = 17.43$$
+
+**(iv)** In (ii) the centre was estimated from the sample, costing one degree
+of freedom. In (iii) it was known, so none was spent.
+
+Notice that the sum of squares is *larger* in (iii) — 3037 against 3034.5 —
+because $\bar{x}$ minimises that sum and $\mu$ is not $\bar{x}$. The larger
+total divided by the larger $n$ is what keeps both estimates unbiased.
+:::
+
+**3.10** The average life of a sample of 10 tyres was 28,400 km. Lifetimes are
+normally distributed with $\sigma = 3{,}300$ km.
+
+i. Construct 90%, 95% and 99% confidence intervals for the mean life.
+ii. Find a value that, with 95% confidence, is larger than the population mean.
+iii. Find a value that, with 99% confidence, is smaller than the population
+     mean.
+
+::: {.answer}
+$\sigma/\sqrt{n} = 3300/\sqrt{10} = 1043.6$.
+
+**(i)**
+
+$$\begin{aligned}
+90\%:&\quad 28400 \pm 1.645(1043.6) = [26683,\ 30117] \\
+95\%:&\quad 28400 \pm 1.960(1043.6) = [26355,\ 30445] \\
+99\%:&\quad 28400 \pm 2.576(1043.6) = [25712,\ 31088]
+\end{aligned}$$
+
+**(ii)** A one-sided upper bound at 95% uses $z_{0.05} = 1.645$:
+$28400 + 1.645(1043.6) = 30{,}117$ km.
+
+**(iii)** A one-sided lower bound at 99% uses $z_{0.01} = 2.326$:
+$28400 - 2.326(1043.6) = 25{,}973$ km.
+
+Note that (ii) uses 1.645 rather than 1.960: the whole 5% sits in one tail,
+because we are making a claim in one direction only.
+:::
+
+**3.11** In a random sample of 400 death certificates of college students, 98
+recorded a motorcycle accident.
+
+i. Estimate the proportion of such deaths due to motorcycle accidents.
+ii. Estimate the standard error of that estimate.
+iii. Construct a 95% confidence interval.
+
+::: {.answer}
+**(i)** $\hat{p} = 98/400 = 0.245$.
+
+**(ii)**
+
+$$\widehat{\mathrm{se}}(\hat{p}) = \sqrt{\frac{0.245 \times 0.755}{400}}
+= \sqrt{0.000462} = 0.0215$$
+
+**(iii)** $0.245 \pm 1.96(0.0215) = [0.203,\ 0.287]$.
+
+So between about 20% and 29%, with 95% confidence.
+:::
+
+**3.12** In a random sample of 1,000 secondary school teachers in Karnataka,
+518 identify as women.
+
+i. Construct a 95% confidence interval for the population proportion.
+ii. Construct a 90% upper confidence bound.
+iii. Can the state conclude that women are a majority of the profession?
+
+::: {.answer}
+$\hat{p} = 0.518$ and
+$\widehat{\mathrm{se}} = \sqrt{0.518 \times 0.482 / 1000} = 0.0158$.
+
+**(i)** $0.518 \pm 1.96(0.0158) = [0.487,\ 0.549]$.
+
+**(ii)** $0.518 + 1.282(0.0158) = 0.538$.
+
+**(iii)** No. The 95% interval contains 0.5, so the data are also consistent
+with women being slightly under half of secondary school teachers. The point
+estimate is above half, but a sample of a thousand cannot separate 51.8% from
+50% with confidence.
+
+This is a good illustration of why the interval is reported rather than the
+point estimate alone. "51.8% of teachers are women" and "between 48.7% and
+54.9% are" support very different headlines.
+:::
+
+**3.13** A state wants to estimate the proportion of households with a
+functioning water connection to within 2 percentage points at 95% confidence.
+
+i. How many households must be surveyed?
+ii. A pilot suggests the proportion is near 0.85. How many are needed now?
+iii. Why is (i) larger, and when should it still be preferred?
+
+::: {.answer}
+**(i)** With no prior information, use the worst case $p = 0.5$:
+
+$$n = \frac{1.96^2 (0.5)(0.5)}{0.02^2} = \frac{0.9604}{0.0004} = 2401$$
+
+**(ii)** With $p = 0.85$, $p(1-p) = 0.1275$:
+
+$$n = \frac{1.96^2 (0.1275)}{0.0004} = 1225$$
+
+Roughly half as many.
+
+**(iii)** Because $p(1-p)$ is largest at 0.5, so that choice always gives the
+biggest requirement and therefore a safe one.
+
+It should still be preferred when the pilot is thin, or drawn from a
+non-representative area, or when the true proportion might differ across the
+state. If the real figure turns out to be 0.5 and the survey was sized for
+0.85, the margin of error will exceed the 2 points promised.
+:::
+
+### R exercises {-}
+
+**3.14** Using `data/attendance-grades.csv`, compute point estimates of the
+mean, variance and standard deviation of attendance, semester GPA and final
+score. Then construct 95% confidence intervals for each mean.
+
+::: {.answer}
+```{r u3-ex-points}
+students <- read.csv("data/attendance-grades.csv")
+vars     <- c("attendance", "sem_gpa", "final_score")
+
+est <- t(sapply(vars, function(v) {
+  x  <- students[[v]]
+  n  <- length(x)
+  se <- sd(x) / sqrt(n)
+  tc <- qt(0.975, df = n - 1)
+  c(mean = mean(x), var = var(x), sd = sd(x), se = se,
+    lower = mean(x) - tc * se, upper = mean(x) + tc * se)
+}))
+
+round(est, 3)
+```
+
+The intervals are narrow because $n = 680$ is large. Note that `var()` and
+`sd()` already use the $n - 1$ divisor, so no manual correction is needed.
+:::
+
+**3.15** Verify the $n-1$ correction yourself. Treat attendance as a
+population, draw 20,000 samples of 8, and compare the average of
+$\frac{1}{n}\sum(x_i - \bar{x})^2$ with the average of
+$\frac{1}{n-1}\sum(x_i - \bar{x})^2$.
+
+::: {.answer}
+```{r u3-ex-nminus1}
+att <- students$attendance
+sigma2 <- mean((att - mean(att))^2)
+
+set.seed(21)
+n <- 8
+out <- replicate(20000, {
+  x <- sample(att, n, replace = TRUE)
+  c(over_n = mean((x - mean(x))^2), over_n_1 = var(x))
+})
+
+round(c(population_variance = sigma2,
+        avg_over_n          = mean(out[1, ]),
+        avg_over_n_1        = mean(out[2, ]),
+        predicted_over_n    = sigma2 * (n - 1) / n), 3)
+```
+
+Dividing by $n$ understates the population variance, and it does so by exactly
+the predicted factor $(n-1)/n = 7/8$. Dividing by $n - 1$ recovers the right
+answer on average.
+
+The bias is not small at this sample size — about 12% — which is why the
+correction is built into `var()` rather than left to the user.
+:::
+
+**3.16** Treat `wages-india-synthetic.csv` as a population and let $p$ be the
+proportion of workers in urban areas. Draw 1,000 samples of 400, construct a
+95% interval from each, and count how many contain the true $p$.
+
+::: {.answer}
+```{r u3-ex-prop-coverage}
+wages    <- read.csv("data/wages-india-synthetic.csv")
+is_urban <- as.numeric(wages$residence == "Urban")
+p_true   <- mean(is_urban)
+
+set.seed(4)
+ci <- t(replicate(1000, {
+  s  <- sample(is_urban, 400, replace = TRUE)
+  ph <- mean(s)
+  ph + c(-1, 1) * 1.96 * sqrt(ph * (1 - ph) / 400)
+}))
+
+c(true_p = p_true,
+  coverage = mean(ci[, 1] <= p_true & ci[, 2] >= p_true))
+```
+
+Close to the advertised 95%. The method delivers what it promises for a
+proportion of this size at this sample size.
+
+It would perform less well for a very rare characteristic — with $p = 0.01$ and
+$n = 400$ the expected number of successes is 4, the normal approximation is
+poor, and coverage falls short. A common rule of thumb requires both $np$ and
+$n(1-p)$ to be at least 10.
+:::
+
+**3.17** Show that the $t$ correction matters. On a normal population with
+$\mu = 50$ and $\sigma = 12$, compare the coverage of intervals built with 1.96
+against those built with the $t$ critical value, for $n = 5, 10, 30$ and 100.
+
+::: {.answer}
+```{r u3-ex-t}
+set.seed(30)
+cover <- t(sapply(c(5, 10, 30, 100), function(n) {
+  r <- replicate(20000, {
+    x  <- rnorm(n, 50, 12)
+    se <- sd(x) / sqrt(n)
+    c(abs(mean(x) - 50) < 1.96 * se,
+      abs(mean(x) - 50) < qt(0.975, n - 1) * se)
+  })
+  c(n = n, using_z = mean(r[1, ]), using_t = mean(r[2, ]))
+}))
+
+round(cover, 4)
+```
+
+The $t$ intervals hold their 95% at every sample size. The $z$ intervals fall
+well short when $n$ is small, and the gap closes as $n$ grows — by $n = 100$
+the two are nearly indistinguishable.
+
+This is the whole case for the $t$ distribution in one table, and also the
+reason nobody worries about it in large samples.
+:::
+
+**3.18** How does interval width respond to sample size and confidence level?
+Using the attendance population, plot the width of the confidence interval for
+the mean against $n$, for the 90%, 95% and 99% levels.
+
+::: {.answer}
+```{r u3-ex-width, fig.height = 3.4, fig.cap = "Confidence interval width against sample size, at three confidence levels."}
+sigma_att <- sqrt(mean((att - mean(att))^2))
+
+grid <- expand.grid(n = seq(10, 500, by = 5),
+                    level = c(0.90, 0.95, 0.99))
+grid$width <- 2 * qnorm(1 - (1 - grid$level) / 2) * sigma_att / sqrt(grid$n)
+grid$level <- factor(paste0(100 * grid$level, "%"))
+
+ggplot(grid, aes(n, width, colour = level)) +
+  geom_line(linewidth = 0.8) +
+  labs(x = "Sample size", y = "Interval width (classes)", colour = NULL) +
+  theme_book() +
+  theme(legend.position = "top")
+```
+
+Width falls as $1/\sqrt{n}$, steeply at first and then hardly at all. Most of
+the available precision is bought in the first hundred observations.
+
+The three curves never cross, and the gap between them narrows in absolute
+terms as $n$ grows. Choosing 99% over 95% is expensive in a small survey and
+nearly free in a large one.
+:::
+
+
+## Question bank {#u3-question-bank}
+
+::: {.watchout}
+**No answers are given for this section, by design.** These are for testing
+yourself once the practice problems are complete.
+:::
+
+### Multiple choice {-}
+
+**QB 3.1** The divisor $n - 1$ in the sample variance is used because
+
+a. it makes the variance larger, which is safer
+b. $\bar{x}$ was estimated from the same data, leaving $n-1$ free deviations
+c. the population is finite
+d. the sample standard deviation would otherwise be negative
+
+**QB 3.2** A 95% confidence interval for $\mu$ is $[112, 128]$. Which statement
+is correct?
+
+a. 95% of the population lies between 112 and 128
+b. There is a 95% probability that $\mu$ lies between 112 and 128
+c. 95% of intervals built this way would contain $\mu$
+d. The sample mean has a 95% chance of lying between 112 and 128
+
+**QB 3.3** Holding everything else fixed, moving from 95% to 99% confidence
+
+a. narrows the interval
+b. widens the interval
+c. leaves the width unchanged but shifts the centre
+d. requires a larger sample
+
+**QB 3.4** For a sample proportion, the standard error is largest when
+$\hat{p}$ is closest to
+
+a. 0
+b. 0.25
+c. 0.5
+d. 1
+
+**QB 3.5** A survey of 600 households finds 30% own a two-wheeler. The
+approximate 95% margin of error is
+
+a. 0.4 percentage points
+b. 1.9 percentage points
+c. 3.7 percentage points
+d. 7.5 percentage points
+
+**QB 3.6** The $t$ distribution is used instead of the normal when
+
+a. the sample is small
+b. $\sigma$ is estimated from the sample
+c. the population is skewed
+d. the confidence level exceeds 95%
+
+**QB 3.7** To halve the margin of error of a survey, the sample size must be
+multiplied by
+
+a. $\sqrt{2}$
+b. 2
+c. 4
+d. It depends on the confidence level
+
+**QB 3.8** Which of the following would *not* narrow a confidence interval for
+$\mu$? *(select all that apply)*
+
+a. Increasing the sample size
+b. Lowering the confidence level
+c. Sampling from a population with smaller $\sigma$
+d. Sampling only from a subgroup that happens to be homogeneous
+
+### Short reasoning {-}
+
+**QB 3.9** A report gives a 95% confidence interval for mean household income of
+[₹18,200, ₹19,600] and concludes: "almost all households in this district earn
+between ₹18,200 and ₹19,600." Identify the error and state what the interval
+does say.
+
+**QB 3.10** Explain why the population size does not appear in the formula for
+the margin of error, and why this surprises people.
+
+**QB 3.11** Two districts are surveyed. District A's 95% interval for mean
+income is [₹19,000, ₹23,000]; District B's is [₹22,000, ₹26,000]. A journalist
+writes that the districts do not differ significantly because the intervals
+overlap. Evaluate.
+
+**QB 3.12** A researcher has a sample of 12 observations from a strongly
+skewed population and constructs a $t$ interval. State two distinct assumptions
+being relied on, and say which one the $t$ distribution addresses.
+
+**QB 3.13** Explain why $s$ is not an unbiased estimator of $\sigma$ even
+though $s^2$ is unbiased for $\sigma^2$, and why this is rarely mentioned in
+practice.
+
+**QB 3.14** A polling organisation reports a margin of error of ±3 points but
+sampled only households with landline telephones. Explain what the ±3 does and
+does not cover.
+
+### Numerical {-}
+
+**QB 3.15** A sample of 16 bags of rice has mean weight 24.6 kg and sample
+standard deviation 1.2 kg.
+
+i. Construct a 95% confidence interval for the mean weight.
+ii. Construct a 99% confidence interval.
+iii. The label claims 25 kg. Comment.
+iv. How would your answer to (i) change if the standard deviation of 1.2 kg
+    were known to be the population value?
+
+**QB 3.16** In a random sample of 250 farm households in a district, 145
+reported using irrigation.
+
+i. Estimate the proportion and its standard error.
+ii. Construct a 90% confidence interval.
+iii. Construct a 95% lower confidence bound.
+iv. A scheme guarantees that at least half of households have irrigation. Is
+    the sample consistent with that?
+
+**QB 3.17** A state government wishes to estimate mean annual household
+expenditure to within ₹500 at 95% confidence. Previous rounds suggest
+$\sigma \approx ₹9{,}000$.
+
+i. What sample size is required?
+ii. Fieldwork costs ₹1,100 per household. What is the budget?
+iii. The budget is capped at ₹15 lakh. What margin of error is achievable?
+
+**QB 3.18** Using `data/wages-india-synthetic.csv`, write R code to construct
+95% confidence intervals for mean annual earnings separately for urban and
+rural workers, using samples of 300 from each. Report both intervals, state
+whether they overlap, and explain carefully what that does and does not tell
+you about the difference between the two groups.
+
+
+## Looking ahead {#u3-looking-ahead}
+
+We can now take one sample and produce a range of values consistent with it.
+That is a considerable advance on a single number, and for many purposes it is
+the whole answer — a survey estimate reported with its margin of error is doing
+exactly this.
+
+But notice the shape of what we have been asking. We began with the data and
+worked outwards to whatever range they would support.
+
+Many questions arrive the other way round. A government claims average
+attendance meets a target. A manufacturer claims a mean lifetime. A previous
+round of a survey reported a figure, and we want to know whether things have
+changed. In each case a specific value is proposed *before* the data are
+examined, and the question is whether the sample is consistent with it.
+
+That is a different question, and it needs its own machinery — though, as we
+will see, one built from precisely the same parts.

@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>3.10 Practice problems | Statistics and Econometrics with R</title>
+  <meta name="description" content="<p>A first course in statistics and econometrics for Indian students, built on
+the progression from question to intuition to rigour to computation to
+interpretation.</p>" />
+  <meta name="generator" content="bookdown 0.47 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="3.10 Practice problems | Statistics and Econometrics with R" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="<p>A first course in statistics and econometrics for Indian students, built on
+the progression from question to intuition to rigour to computation to
+interpretation.</p>" />
+  <meta name="github-repo" content="kedarkulkarni1991/stats-econometrics-r" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="3.10 Practice problems | Statistics and Econometrics with R" />
+  
+  <meta name="twitter:description" content="<p>A first course in statistics and econometrics for Indian students, built on
+the progression from question to intuition to rigour to computation to
+interpretation.</p>" />
+  
+
+<meta name="author" content="Kedar Kulkarni" />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="u3-summary.html"/>
+<link rel="next" href="u3-question-bank.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  background-color: #f8f8f8; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } /* Alert */
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #204a87; } /* Attribute */
+code span.bn { color: #0000cf; } /* BaseN */
+code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4e9a06; } /* Char */
+code span.cn { color: #8f5902; } /* Constant */
+code span.co { color: #8f5902; font-style: italic; } /* Comment */
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code span.dt { color: #204a87; } /* DataType */
+code span.dv { color: #0000cf; } /* DecVal */
+code span.er { color: #a40000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #0000cf; } /* Float */
+code span.fu { color: #204a87; font-weight: bold; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code span.ot { color: #8f5902; } /* Other */
+code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code span.sc { color: #ce5c00; font-weight: bold; } /* SpecialChar */
+code span.ss { color: #4e9a06; } /* SpecialString */
+code span.st { color: #4e9a06; } /* String */
+code span.va { color: #000000; } /* Variable */
+code span.vs { color: #4e9a06; } /* VerbatimString */
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="css/style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="toc-logo"><a href="./"><strong>Statistics &amp; Econometrics with R</strong></a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Welcome</a>
+<ul>
+<li class="chapter" data-level="" data-path="how-to-use-this-book.html"><a href="how-to-use-this-book.html"><i class="fa fa-check"></i>How to use this book</a>
+<ul>
+<li class="chapter" data-level="" data-path="how-to-use-this-book.html"><a href="how-to-use-this-book.html#read-the-book-in-order"><i class="fa fa-check"></i>Read the book in order</a></li>
+<li class="chapter" data-level="" data-path="how-to-use-this-book.html"><a href="how-to-use-this-book.html#work-through-the-mathematics"><i class="fa fa-check"></i>Work through the mathematics</a></li>
+<li class="chapter" data-level="" data-path="how-to-use-this-book.html"><a href="how-to-use-this-book.html#think-in-words-before-thinking-in-mathematics"><i class="fa fa-check"></i>Think in words before thinking in mathematics</a></li>
+<li class="chapter" data-level="" data-path="how-to-use-this-book.html"><a href="how-to-use-this-book.html#write-the-code-yourself"><i class="fa fa-check"></i>Write the code yourself</a></li>
+<li class="chapter" data-level="" data-path="how-to-use-this-book.html"><a href="how-to-use-this-book.html#think-before-calculating"><i class="fa fa-check"></i>Think before calculating</a></li>
+<li class="chapter" data-level="" data-path="how-to-use-this-book.html"><a href="how-to-use-this-book.html#attempt-the-exercises-first"><i class="fa fa-check"></i>Attempt the exercises first</a></li>
+<li class="chapter" data-level="" data-path="how-to-use-this-book.html"><a href="how-to-use-this-book.html#use-the-book-as-a-reference"><i class="fa fa-check"></i>Use the book as a reference</a></li>
+<li class="chapter" data-level="" data-path="how-to-use-this-book.html"><a href="how-to-use-this-book.html#learn-by-connecting-ideas"><i class="fa fa-check"></i>Learn by connecting ideas</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="what-you-need.html"><a href="what-you-need.html"><i class="fa fa-check"></i>What you need</a></li>
+<li class="chapter" data-level="" data-path="a-note-on-the-data.html"><a href="a-note-on-the-data.html"><i class="fa fa-check"></i>A note on the data</a></li>
+<li class="chapter" data-level="" data-path="licence-and-citation.html"><a href="licence-and-citation.html"><i class="fa fa-check"></i>Licence and citation</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="towards-inference.html"><a href="towards-inference.html"><i class="fa fa-check"></i><b>1</b> Towards Inferential Statistics</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="u1-randomness.html"><a href="u1-randomness.html"><i class="fa fa-check"></i><b>1.1</b> Randomness and variation</a></li>
+<li class="chapter" data-level="1.2" data-path="u1-describing.html"><a href="u1-describing.html"><i class="fa fa-check"></i><b>1.2</b> Describing variation</a></li>
+<li class="chapter" data-level="1.3" data-path="u1-not-enough.html"><a href="u1-not-enough.html"><i class="fa fa-check"></i><b>1.3</b> The limits of descriptive statistics</a></li>
+<li class="chapter" data-level="1.4" data-path="u1-frequentist.html"><a href="u1-frequentist.html"><i class="fa fa-check"></i><b>1.4</b> What if we repeated the survey?</a></li>
+<li class="chapter" data-level="1.5" data-path="u1-lln.html"><a href="u1-lln.html"><i class="fa fa-check"></i><b>1.5</b> Why do larger samples give more reliable answers?</a></li>
+<li class="chapter" data-level="1.6" data-path="u1-clt.html"><a href="u1-clt.html"><i class="fa fa-check"></i><b>1.6</b> The Central Limit Theorem</a>
+<ul>
+<li class="chapter" data-level="" data-path="u1-clt.html"><a href="u1-clt.html#a-simulation"><i class="fa fa-check"></i>A simulation</a></li>
+<li class="chapter" data-level="" data-path="u1-clt.html"><a href="u1-clt.html#an-intuition"><i class="fa fa-check"></i>An intuition</a></li>
+<li class="chapter" data-level="" data-path="u1-clt.html"><a href="u1-clt.html#how-large-is-large-enough"><i class="fa fa-check"></i>How large is “large enough”?</a></li>
+<li class="chapter" data-level="" data-path="u1-clt.html"><a href="u1-clt.html#why-this-matters"><i class="fa fa-check"></i>Why this matters</a></li>
+</ul></li>
+<li class="chapter" data-level="1.7" data-path="u1-random-variables.html"><a href="u1-random-variables.html"><i class="fa fa-check"></i><b>1.7</b> A language for randomness</a>
+<ul>
+<li class="chapter" data-level="" data-path="u1-random-variables.html"><a href="u1-random-variables.html#random-variables"><i class="fa fa-check"></i>Random variables</a></li>
+<li class="chapter" data-level="" data-path="u1-random-variables.html"><a href="u1-random-variables.html#realisations"><i class="fa fa-check"></i>Realisations</a></li>
+<li class="chapter" data-level="" data-path="u1-random-variables.html"><a href="u1-random-variables.html#the-long-run-average"><i class="fa fa-check"></i>The long-run average</a></li>
+<li class="chapter" data-level="" data-path="u1-random-variables.html"><a href="u1-random-variables.html#measuring-variation"><i class="fa fa-check"></i>Measuring variation</a></li>
+<li class="chapter" data-level="" data-path="u1-random-variables.html"><a href="u1-random-variables.html#parameters-and-statistics"><i class="fa fa-check"></i>Parameters and statistics</a></li>
+<li class="chapter" data-level="" data-path="u1-random-variables.html"><a href="u1-random-variables.html#a-summary-of-notation"><i class="fa fa-check"></i>A summary of notation</a></li>
+</ul></li>
+<li class="chapter" data-level="1.8" data-path="u1-what-goes-wrong.html"><a href="u1-what-goes-wrong.html"><i class="fa fa-check"></i><b>1.8</b> Before any mathematics can help</a></li>
+<li class="chapter" data-level="1.9" data-path="u1-summary.html"><a href="u1-summary.html"><i class="fa fa-check"></i><b>1.9</b> Summary</a></li>
+<li class="chapter" data-level="1.10" data-path="u1-practice.html"><a href="u1-practice.html"><i class="fa fa-check"></i><b>1.10</b> Practice problems</a>
+<ul>
+<li class="chapter" data-level="" data-path="u1-practice.html"><a href="u1-practice.html#concept-checks"><i class="fa fa-check"></i>Concept checks</a></li>
+<li class="chapter" data-level="" data-path="u1-practice.html"><a href="u1-practice.html#explain"><i class="fa fa-check"></i>Explain</a></li>
+<li class="chapter" data-level="" data-path="u1-practice.html"><a href="u1-practice.html#numerical-problems"><i class="fa fa-check"></i>Numerical problems</a></li>
+<li class="chapter" data-level="" data-path="u1-practice.html"><a href="u1-practice.html#r-exercises"><i class="fa fa-check"></i>R exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="1.11" data-path="u1-question-bank.html"><a href="u1-question-bank.html"><i class="fa fa-check"></i><b>1.11</b> Question bank</a>
+<ul>
+<li class="chapter" data-level="" data-path="u1-question-bank.html"><a href="u1-question-bank.html#multiple-choice"><i class="fa fa-check"></i>Multiple choice</a></li>
+<li class="chapter" data-level="" data-path="u1-question-bank.html"><a href="u1-question-bank.html#short-reasoning"><i class="fa fa-check"></i>Short reasoning</a></li>
+<li class="chapter" data-level="" data-path="u1-question-bank.html"><a href="u1-question-bank.html#numerical"><i class="fa fa-check"></i>Numerical</a></li>
+</ul></li>
+<li class="chapter" data-level="1.12" data-path="u1-looking-ahead.html"><a href="u1-looking-ahead.html"><i class="fa fa-check"></i><b>1.12</b> Looking ahead</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="estimation.html"><a href="estimation.html"><i class="fa fa-check"></i><b>2</b> Estimation: Why the Sample Mean?</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="u2-problem.html"><a href="u2-problem.html"><i class="fa fa-check"></i><b>2.1</b> The problem of estimation</a></li>
+<li class="chapter" data-level="2.2" data-path="u2-iid.html"><a href="u2-iid.html"><i class="fa fa-check"></i><b>2.2</b> When can a sample represent a population?</a></li>
+<li class="chapter" data-level="2.3" data-path="u2-known-truth.html"><a href="u2-known-truth.html"><i class="fa fa-check"></i><b>2.3</b> How can we judge an estimator?</a>
+<ul>
+<li class="chapter" data-level="" data-path="u2-known-truth.html"><a href="u2-known-truth.html#u2-lab-pop"><i class="fa fa-check"></i>The population</a></li>
+<li class="chapter" data-level="" data-path="u2-known-truth.html"><a href="u2-known-truth.html#u2-lab-one"><i class="fa fa-check"></i>One sample from it</a></li>
+<li class="chapter" data-level="" data-path="u2-known-truth.html"><a href="u2-known-truth.html#u2-lab-many"><i class="fa fa-check"></i>A thousand samples</a></li>
+</ul></li>
+<li class="chapter" data-level="2.4" data-path="u2-centred.html"><a href="u2-centred.html"><i class="fa fa-check"></i><b>2.4</b> Is the sample mean centred on the truth?</a></li>
+<li class="chapter" data-level="2.5" data-path="u2-precision.html"><a href="u2-precision.html"><i class="fa fa-check"></i><b>2.5</b> Why do larger samples fluctuate less?</a></li>
+<li class="chapter" data-level="2.6" data-path="u2-lln-explained.html"><a href="u2-lln-explained.html"><i class="fa fa-check"></i><b>2.6</b> Why does the sample mean become more reliable?</a></li>
+<li class="chapter" data-level="2.7" data-path="u2-cost.html"><a href="u2-cost.html"><i class="fa fa-check"></i><b>2.7</b> Why is precision expensive?</a></li>
+<li class="chapter" data-level="2.8" data-path="u2-summary.html"><a href="u2-summary.html"><i class="fa fa-check"></i><b>2.8</b> Summary</a></li>
+<li class="chapter" data-level="2.9" data-path="u2-practice.html"><a href="u2-practice.html"><i class="fa fa-check"></i><b>2.9</b> Practice problems</a>
+<ul>
+<li class="chapter" data-level="" data-path="u2-practice.html"><a href="u2-practice.html#concept-checks-1"><i class="fa fa-check"></i>Concept checks</a></li>
+<li class="chapter" data-level="" data-path="u2-practice.html"><a href="u2-practice.html#explain-1"><i class="fa fa-check"></i>Explain</a></li>
+<li class="chapter" data-level="" data-path="u2-practice.html"><a href="u2-practice.html#numerical-problems-1"><i class="fa fa-check"></i>Numerical problems</a></li>
+<li class="chapter" data-level="" data-path="u2-practice.html"><a href="u2-practice.html#r-exercises-1"><i class="fa fa-check"></i>R exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="2.10" data-path="u2-question-bank.html"><a href="u2-question-bank.html"><i class="fa fa-check"></i><b>2.10</b> Question bank</a>
+<ul>
+<li class="chapter" data-level="" data-path="u2-question-bank.html"><a href="u2-question-bank.html#multiple-choice-1"><i class="fa fa-check"></i>Multiple choice</a></li>
+<li class="chapter" data-level="" data-path="u2-question-bank.html"><a href="u2-question-bank.html#short-reasoning-1"><i class="fa fa-check"></i>Short reasoning</a></li>
+<li class="chapter" data-level="" data-path="u2-question-bank.html"><a href="u2-question-bank.html#numerical-1"><i class="fa fa-check"></i>Numerical</a></li>
+</ul></li>
+<li class="chapter" data-level="2.11" data-path="u2-looking-ahead.html"><a href="u2-looking-ahead.html"><i class="fa fa-check"></i><b>2.11</b> Looking ahead</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="interval-estimation.html"><a href="interval-estimation.html"><i class="fa fa-check"></i><b>3</b> Point and Interval Estimation</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="u3-single-sample.html"><a href="u3-single-sample.html"><i class="fa fa-check"></i><b>3.1</b> What can a single sample tell us?</a></li>
+<li class="chapter" data-level="3.2" data-path="u3-variance.html"><a href="u3-variance.html"><i class="fa fa-check"></i><b>3.2</b> How do we estimate the population variance?</a>
+<ul>
+<li class="chapter" data-level="" data-path="u3-variance.html"><a href="u3-variance.html#when-the-population-mean-is-known"><i class="fa fa-check"></i>When the population mean is known</a></li>
+<li class="chapter" data-level="" data-path="u3-variance.html"><a href="u3-variance.html#estimating-the-standard-error"><i class="fa fa-check"></i>Estimating the standard error</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="u3-proportion.html"><a href="u3-proportion.html"><i class="fa fa-check"></i><b>3.3</b> How do we estimate a proportion?</a>
+<ul>
+<li class="chapter" data-level="" data-path="u3-proportion.html"><a href="u3-proportion.html#how-much-does-a-sample-proportion-vary"><i class="fa fa-check"></i>How much does a sample proportion vary?</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="u3-ci.html"><a href="u3-ci.html"><i class="fa fa-check"></i><b>3.4</b> From a point estimate to an interval</a>
+<ul>
+<li class="chapter" data-level="" data-path="u3-ci.html"><a href="u3-ci.html#what-does-95-actually-refer-to"><i class="fa fa-check"></i>What does 95% actually refer to?</a></li>
+</ul></li>
+<li class="chapter" data-level="3.5" data-path="u3-t.html"><a href="u3-t.html"><i class="fa fa-check"></i><b>3.5</b> What if <span class="math inline">\(\sigma\)</span> is unknown?</a></li>
+<li class="chapter" data-level="3.6" data-path="u3-samplesize.html"><a href="u3-samplesize.html"><i class="fa fa-check"></i><b>3.6</b> How large a sample do we need?</a>
+<ul>
+<li class="chapter" data-level="" data-path="u3-samplesize.html"><a href="u3-samplesize.html#intervals-for-a-proportion"><i class="fa fa-check"></i>Intervals for a proportion</a></li>
+</ul></li>
+<li class="chapter" data-level="3.7" data-path="u3-onesided.html"><a href="u3-onesided.html"><i class="fa fa-check"></i><b>3.7</b> When only one direction matters</a></li>
+<li class="chapter" data-level="3.8" data-path="u3-misreadings.html"><a href="u3-misreadings.html"><i class="fa fa-check"></i><b>3.8</b> What a confidence interval does not mean</a></li>
+<li class="chapter" data-level="3.9" data-path="u3-summary.html"><a href="u3-summary.html"><i class="fa fa-check"></i><b>3.9</b> Summary</a></li>
+<li class="chapter" data-level="3.10" data-path="u3-practice.html"><a href="u3-practice.html"><i class="fa fa-check"></i><b>3.10</b> Practice problems</a>
+<ul>
+<li class="chapter" data-level="" data-path="u3-practice.html"><a href="u3-practice.html#concept-checks-2"><i class="fa fa-check"></i>Concept checks</a></li>
+<li class="chapter" data-level="" data-path="u3-practice.html"><a href="u3-practice.html#explain-2"><i class="fa fa-check"></i>Explain</a></li>
+<li class="chapter" data-level="" data-path="u3-practice.html"><a href="u3-practice.html#numerical-problems-2"><i class="fa fa-check"></i>Numerical problems</a></li>
+<li class="chapter" data-level="" data-path="u3-practice.html"><a href="u3-practice.html#r-exercises-2"><i class="fa fa-check"></i>R exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="3.11" data-path="u3-question-bank.html"><a href="u3-question-bank.html"><i class="fa fa-check"></i><b>3.11</b> Question bank</a>
+<ul>
+<li class="chapter" data-level="" data-path="u3-question-bank.html"><a href="u3-question-bank.html#multiple-choice-2"><i class="fa fa-check"></i>Multiple choice</a></li>
+<li class="chapter" data-level="" data-path="u3-question-bank.html"><a href="u3-question-bank.html#short-reasoning-2"><i class="fa fa-check"></i>Short reasoning</a></li>
+<li class="chapter" data-level="" data-path="u3-question-bank.html"><a href="u3-question-bank.html#numerical-2"><i class="fa fa-check"></i>Numerical</a></li>
+</ul></li>
+<li class="chapter" data-level="3.12" data-path="u3-looking-ahead.html"><a href="u3-looking-ahead.html"><i class="fa fa-check"></i><b>3.12</b> Looking ahead</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="one-sample.html"><a href="one-sample.html"><i class="fa fa-check"></i><b>4</b> Hypothesis Testing: One Sample</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="os-problem.html"><a href="os-problem.html"><i class="fa fa-check"></i><b>4.1</b> The problem, before any formulas</a></li>
+<li class="chapter" data-level="4.2" data-path="os-hypotheses.html"><a href="os-hypotheses.html"><i class="fa fa-check"></i><b>4.2</b> Naming the two hypotheses</a>
+<ul>
+<li class="chapter" data-level="4.2.1" data-path="os-hypotheses.html"><a href="os-hypotheses.html#os-which-hypothesis"><i class="fa fa-check"></i><b>4.2.1</b> Which hypothesis does the claim go in?</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="os-critical.html"><a href="os-critical.html"><i class="fa fa-check"></i><b>4.3</b> How far is too far?</a></li>
+<li class="chapter" data-level="4.4" data-path="os-worked.html"><a href="os-worked.html"><i class="fa fa-check"></i><b>4.4</b> The worked example, both ways</a>
+<ul>
+<li class="chapter" data-level="" data-path="os-worked.html"><a href="os-worked.html#on-paper"><i class="fa fa-check"></i>On paper</a></li>
+<li class="chapter" data-level="" data-path="os-worked.html"><a href="os-worked.html#the-same-thing-in-r"><i class="fa fa-check"></i>The same thing in R</a></li>
+<li class="chapter" data-level="" data-path="os-worked.html"><a href="os-worked.html#letting-a-package-do-it"><i class="fa fa-check"></i>Letting a package do it</a></li>
+</ul></li>
+<li class="chapter" data-level="4.5" data-path="os-pvalue.html"><a href="os-pvalue.html"><i class="fa fa-check"></i><b>4.5</b> What a <span class="math inline">\(p\)</span>-value actually says</a></li>
+<li class="chapter" data-level="4.6" data-path="os-ci.html"><a href="os-ci.html"><i class="fa fa-check"></i><b>4.6</b> Confidence intervals are the same test in disguise</a></li>
+<li class="chapter" data-level="4.7" data-path="os-ttest.html"><a href="os-ttest.html"><i class="fa fa-check"></i><b>4.7</b> When <span class="math inline">\(\sigma\)</span> is unknown: the <span class="math inline">\(t\)</span>-test</a>
+<ul>
+<li class="chapter" data-level="" data-path="os-ttest.html"><a href="os-ttest.html#settling-the-question-with-the-actual-class"><i class="fa fa-check"></i>Settling the question with the actual class</a></li>
+<li class="chapter" data-level="" data-path="os-ttest.html"><a href="os-ttest.html#worked-example"><i class="fa fa-check"></i>Worked example</a></li>
+</ul></li>
+<li class="chapter" data-level="4.8" data-path="os-onetailed.html"><a href="os-onetailed.html"><i class="fa fa-check"></i><b>4.8</b> One-tailed tests</a>
+<ul>
+<li class="chapter" data-level="" data-path="os-onetailed.html"><a href="os-onetailed.html#the-one-sided-interval-looks-backwards"><i class="fa fa-check"></i>The one-sided interval looks backwards</a></li>
+</ul></li>
+<li class="chapter" data-level="4.9" data-path="os-reference.html"><a href="os-reference.html"><i class="fa fa-check"></i><b>4.9</b> Reference tables</a></li>
+<li class="chapter" data-level="4.10" data-path="os-summary.html"><a href="os-summary.html"><i class="fa fa-check"></i><b>4.10</b> Summary</a></li>
+<li class="chapter" data-level="4.11" data-path="os-exercises.html"><a href="os-exercises.html"><i class="fa fa-check"></i><b>4.11</b> Practice problems</a></li>
+<li class="chapter" data-level="4.12" data-path="os-question-bank.html"><a href="os-question-bank.html"><i class="fa fa-check"></i><b>4.12</b> Question bank</a>
+<ul>
+<li class="chapter" data-level="" data-path="os-question-bank.html"><a href="os-question-bank.html#multiple-choice-3"><i class="fa fa-check"></i>Multiple choice</a></li>
+<li class="chapter" data-level="" data-path="os-question-bank.html"><a href="os-question-bank.html#short-reasoning-3"><i class="fa fa-check"></i>Short reasoning</a></li>
+<li class="chapter" data-level="" data-path="os-question-bank.html"><a href="os-question-bank.html#numerical-3"><i class="fa fa-check"></i>Numerical</a></li>
+</ul></li>
+<li class="chapter" data-level="4.13" data-path="os-looking-ahead.html"><a href="os-looking-ahead.html"><i class="fa fa-check"></i><b>4.13</b> Looking ahead</a></li>
+</ul></li>
+<li class="divider"></li>
+<li class="toc-after">Kedar Kulkarni · Azim Premji University<br>
+<a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Statistics and Econometrics with R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="u3-practice" class="section level2 hasAnchor" number="3.10">
+<h2><span class="header-section-number">3.10</span> Practice problems<a href="u3-practice.html#u3-practice" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="yourturn">
+<p>These are for learning. Work each one before opening the solution.</p>
+<p>The <a href="u3-question-bank.html#u3-question-bank">question bank</a> that follows has no answers at all.</p>
+</div>
+<div id="concept-checks-2" class="section level3 unnumbered hasAnchor">
+<h3>Concept checks<a href="u3-practice.html#concept-checks-2" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p><strong>3.1</strong> Why does the sample variance divide by <span class="math inline">\(n - 1\)</span> rather than <span class="math inline">\(n\)</span>?</p>
+<div class="answer">
+<p>Because the deviations are measured from <span class="math inline">\(\bar{x}\)</span>, which was itself computed
+from the same observations. The sample mean is the value that makes
+<span class="math inline">\(\sum(x_i - \bar{x})^2\)</span> as small as possible, so measuring spread around it
+gives an answer that is too small.</p>
+<p>Formally, the deviations must sum to zero, so only <span class="math inline">\(n - 1\)</span> of them are free to
+vary. Dividing by <span class="math inline">\(n - 1\)</span> corrects the shortfall exactly, making <span class="math inline">\(s^2\)</span>
+unbiased for <span class="math inline">\(\sigma^2\)</span>.</p>
+</div>
+<p><strong>3.2</strong> A dataset records whether each of 900 households owns a bicycle. Why is
+no new theory needed to estimate the proportion that do?</p>
+<div class="answer">
+<p>Because coding “owns” as 1 and “does not own” as 0 makes the proportion the
+mean of that column. Summing ones counts the owners, and dividing by 900 turns
+the count into a share.</p>
+<p>So <span class="math inline">\(\hat{p}\)</span> <em>is</em> a sample mean, and everything already established —
+unbiasedness, standard error falling with <span class="math inline">\(\sqrt{n}\)</span>, approximate normality by
+the Central Limit Theorem — applies without modification.</p>
+</div>
+<p><strong>3.3</strong> Explain why a 99% confidence interval is wider than a 95% one.</p>
+<div class="answer">
+<p>Higher confidence requires the interval to succeed more often across repeated
+samples, and the only way to succeed more often is to claim less. Widening the
+interval makes it easier to capture <span class="math inline">\(\mu\)</span>.</p>
+<p>The trade-off is unavoidable. An interval guaranteed to contain the truth would
+have to span every possible value, and would carry no information.</p>
+</div>
+<p><strong>3.4</strong> For which value of <span class="math inline">\(p\)</span> is a proportion hardest to estimate precisely,
+and why does that make sense?</p>
+<div class="answer">
+<p><span class="math inline">\(p = 0.5\)</span>, since <span class="math inline">\(p(1-p)\)</span> is maximised there.</p>
+<p>It makes sense because an evenly split population is the one where samples can
+most easily land either way. If 99% of households have electricity, almost any
+sample says so. If 50% do, the sample proportion has real room to move.</p>
+<p>This is why survey planners use <span class="math inline">\(p = 0.5\)</span> when computing sample sizes: it is
+the worst case, so it is safe whatever the truth turns out to be.</p>
+</div>
+<p><strong>3.5</strong> A student reports a 95% interval of <span class="math inline">\([24.4, 27.8]\)</span> and writes: “so 95%
+of students attend between 24.4 and 27.8 classes.” What has gone wrong?</p>
+<div class="answer">
+<p>The interval is about the <em>population mean</em>, not about individual students.</p>
+<p>It says the average attendance is plausibly between 24.4 and 27.8. Individual
+students vary far more widely — the standard deviation is about 5.5 classes,
+so many students lie well outside that range.</p>
+<p>Note also that the interval narrows as <span class="math inline">\(n\)</span> grows, whereas the spread of
+students does not change at all. The two quantities behave differently, which
+is a sign they are measuring different things.</p>
+</div>
+</div>
+<div id="explain-2" class="section level3 unnumbered hasAnchor">
+<h3>Explain<a href="u3-practice.html#explain-2" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p><strong>3.6</strong> Explain what the “95%” in a 95% confidence interval refers to, and why
+it cannot refer to the particular interval you have computed.</p>
+<div class="answer">
+<p>It refers to the procedure. If samples were drawn repeatedly and an interval
+constructed from each by this method, about 95% of those intervals would
+contain the population parameter.</p>
+<p>It cannot refer to the interval in front of you because nothing about it is
+random any more. The population mean is a fixed number, and once the sample is
+drawn, the two endpoints are fixed numbers too. Either <span class="math inline">\(\mu\)</span> is between them or
+it is not; there is no probability left in the situation.</p>
+<p>The randomness lived in which sample was drawn, and that was spent. The 95% is
+a statement about the method’s track record, which is why we report the
+interval and its confidence level together — the level describes how much such
+statements can generally be trusted.</p>
+</div>
+<p><strong>3.7</strong> Why is the <span class="math inline">\(t\)</span> distribution needed at all, and why does it stop
+mattering in large samples?</p>
+<div class="answer">
+<p>When <span class="math inline">\(\sigma\)</span> is known, the only quantity estimated from the sample is
+<span class="math inline">\(\bar{x}\)</span>. When <span class="math inline">\(\sigma\)</span> is unknown, <span class="math inline">\(s\)</span> is estimated from the same data, so
+both the centre and the width of the interval are subject to sampling error.
+A sample with an unusually small <span class="math inline">\(s\)</span> produces an interval that is narrow <em>and</em>
+poorly positioned, and those errors compound. Using 1.96 anyway gives about 92%
+coverage at <span class="math inline">\(n = 10\)</span> instead of 95%.</p>
+<p>The <span class="math inline">\(t\)</span> distribution has heavier tails, widening the interval by exactly enough
+to restore the advertised coverage.</p>
+<p>It stops mattering in large samples because <span class="math inline">\(s\)</span> becomes an increasingly
+reliable estimate of <span class="math inline">\(\sigma\)</span>. The critical value falls from 2.776 at <span class="math inline">\(n = 5\)</span>
+to 1.984 at <span class="math inline">\(n = 100\)</span>, approaching 1.96 as the degrees of freedom grow. Once
+<span class="math inline">\(s\)</span> is essentially known, there is nothing left to correct for.</p>
+</div>
+<p><strong>3.8</strong> A colleague computes a two-sided 95% interval, notices that it barely
+includes zero, and recomputes it as a one-sided bound so that zero falls
+outside. Explain the problem.</p>
+<div class="answer">
+<p>The confidence level describes a procedure fixed in advance. Once the choice
+between one-sided and two-sided is made <em>after</em> seeing where the data fell, the
+procedure being followed is no longer the one whose 95% property was
+established.</p>
+<p>The real procedure here is “compute a two-sided interval, and if it fails to
+give the answer I want, switch.” That procedure covers the truth far less than
+95% of the time, because it has two chances to produce the conclusion sought.</p>
+<p>One-sided bounds are legitimate when the question is genuinely one-directional
+— a regulator who cares only about exceeding a limit. What makes them
+illegitimate is choosing the direction from the data.</p>
+</div>
+</div>
+<div id="numerical-problems-2" class="section level3 unnumbered hasAnchor">
+<h3>Numerical problems<a href="u3-practice.html#numerical-problems-2" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p><strong>3.9</strong> A sample of 10 professors reported the following hours worked in a
+week: 48, 22, 19, 65, 72, 37, 55, 60, 49, 28.</p>
+<ol style="list-style-type: lower-roman">
+<li>Estimate the population mean.</li>
+<li>Estimate the population variance and standard deviation.</li>
+<li>Estimate them again given that the population mean is known to be 46 hours.</li>
+<li>Why does (iii) use a different divisor?</li>
+</ol>
+<div class="answer">
+<p><strong>(i)</strong> <span class="math inline">\(\bar{x} = 455/10 = 45.5\)</span> hours.</p>
+<p><strong>(ii)</strong> With <span class="math inline">\(\mu\)</span> unknown, deviations are taken from <span class="math inline">\(\bar{x} = 45.5\)</span> and
+<span class="math inline">\(\sum(x_i - \bar{x})^2 = 3034.5\)</span>:</p>
+<p><span class="math display">\[s^2 = \frac{3034.5}{9} = 337.17 \qquad s = 18.36\]</span></p>
+<p><strong>(iii)</strong> With <span class="math inline">\(\mu = 46\)</span> known, deviations are taken from 46 and
+<span class="math inline">\(\sum(x_i - \mu)^2 = 3037\)</span>:</p>
+<p><span class="math display">\[\widehat{\sigma}^2 = \frac{3037}{10} = 303.7 \qquad \widehat{\sigma} = 17.43\]</span></p>
+<p><strong>(iv)</strong> In (ii) the centre was estimated from the sample, costing one degree
+of freedom. In (iii) it was known, so none was spent.</p>
+<p>Notice that the sum of squares is <em>larger</em> in (iii) — 3037 against 3034.5 —
+because <span class="math inline">\(\bar{x}\)</span> minimises that sum and <span class="math inline">\(\mu\)</span> is not <span class="math inline">\(\bar{x}\)</span>. The larger
+total divided by the larger <span class="math inline">\(n\)</span> is what keeps both estimates unbiased.</p>
+</div>
+<p><strong>3.10</strong> The average life of a sample of 10 tyres was 28,400 km. Lifetimes are
+normally distributed with <span class="math inline">\(\sigma = 3{,}300\)</span> km.</p>
+<ol style="list-style-type: lower-roman">
+<li>Construct 90%, 95% and 99% confidence intervals for the mean life.</li>
+<li>Find a value that, with 95% confidence, is larger than the population mean.</li>
+<li>Find a value that, with 99% confidence, is smaller than the population
+mean.</li>
+</ol>
+<div class="answer">
+<p><span class="math inline">\(\sigma/\sqrt{n} = 3300/\sqrt{10} = 1043.6\)</span>.</p>
+<p><strong>(i)</strong></p>
+<p><span class="math display">\[\begin{aligned}
+90\%:&amp;\quad 28400 \pm 1.645(1043.6) = [26683,\ 30117] \\
+95\%:&amp;\quad 28400 \pm 1.960(1043.6) = [26355,\ 30445] \\
+99\%:&amp;\quad 28400 \pm 2.576(1043.6) = [25712,\ 31088]
+\end{aligned}\]</span></p>
+<p><strong>(ii)</strong> A one-sided upper bound at 95% uses <span class="math inline">\(z_{0.05} = 1.645\)</span>:
+<span class="math inline">\(28400 + 1.645(1043.6) = 30{,}117\)</span> km.</p>
+<p><strong>(iii)</strong> A one-sided lower bound at 99% uses <span class="math inline">\(z_{0.01} = 2.326\)</span>:
+<span class="math inline">\(28400 - 2.326(1043.6) = 25{,}973\)</span> km.</p>
+<p>Note that (ii) uses 1.645 rather than 1.960: the whole 5% sits in one tail,
+because we are making a claim in one direction only.</p>
+</div>
+<p><strong>3.11</strong> In a random sample of 400 death certificates of college students, 98
+recorded a motorcycle accident.</p>
+<ol style="list-style-type: lower-roman">
+<li>Estimate the proportion of such deaths due to motorcycle accidents.</li>
+<li>Estimate the standard error of that estimate.</li>
+<li>Construct a 95% confidence interval.</li>
+</ol>
+<div class="answer">
+<p><strong>(i)</strong> <span class="math inline">\(\hat{p} = 98/400 = 0.245\)</span>.</p>
+<p><strong>(ii)</strong></p>
+<p><span class="math display">\[\widehat{\mathrm{se}}(\hat{p}) = \sqrt{\frac{0.245 \times 0.755}{400}}
+= \sqrt{0.000462} = 0.0215\]</span></p>
+<p><strong>(iii)</strong> <span class="math inline">\(0.245 \pm 1.96(0.0215) = [0.203,\ 0.287]\)</span>.</p>
+<p>So between about 20% and 29%, with 95% confidence.</p>
+</div>
+<p><strong>3.12</strong> In a random sample of 1,000 secondary school teachers in Karnataka,
+518 identify as women.</p>
+<ol style="list-style-type: lower-roman">
+<li>Construct a 95% confidence interval for the population proportion.</li>
+<li>Construct a 90% upper confidence bound.</li>
+<li>Can the state conclude that women are a majority of the profession?</li>
+</ol>
+<div class="answer">
+<p><span class="math inline">\(\hat{p} = 0.518\)</span> and
+<span class="math inline">\(\widehat{\mathrm{se}} = \sqrt{0.518 \times 0.482 / 1000} = 0.0158\)</span>.</p>
+<p><strong>(i)</strong> <span class="math inline">\(0.518 \pm 1.96(0.0158) = [0.487,\ 0.549]\)</span>.</p>
+<p><strong>(ii)</strong> <span class="math inline">\(0.518 + 1.282(0.0158) = 0.538\)</span>.</p>
+<p><strong>(iii)</strong> No. The 95% interval contains 0.5, so the data are also consistent
+with women being slightly under half of secondary school teachers. The point
+estimate is above half, but a sample of a thousand cannot separate 51.8% from
+50% with confidence.</p>
+<p>This is a good illustration of why the interval is reported rather than the
+point estimate alone. “51.8% of teachers are women” and “between 48.7% and
+54.9% are” support very different headlines.</p>
+</div>
+<p><strong>3.13</strong> A state wants to estimate the proportion of households with a
+functioning water connection to within 2 percentage points at 95% confidence.</p>
+<ol style="list-style-type: lower-roman">
+<li>How many households must be surveyed?</li>
+<li>A pilot suggests the proportion is near 0.85. How many are needed now?</li>
+<li>Why is (i) larger, and when should it still be preferred?</li>
+</ol>
+<div class="answer">
+<p><strong>(i)</strong> With no prior information, use the worst case <span class="math inline">\(p = 0.5\)</span>:</p>
+<p><span class="math display">\[n = \frac{1.96^2 (0.5)(0.5)}{0.02^2} = \frac{0.9604}{0.0004} = 2401\]</span></p>
+<p><strong>(ii)</strong> With <span class="math inline">\(p = 0.85\)</span>, <span class="math inline">\(p(1-p) = 0.1275\)</span>:</p>
+<p><span class="math display">\[n = \frac{1.96^2 (0.1275)}{0.0004} = 1225\]</span></p>
+<p>Roughly half as many.</p>
+<p><strong>(iii)</strong> Because <span class="math inline">\(p(1-p)\)</span> is largest at 0.5, so that choice always gives the
+biggest requirement and therefore a safe one.</p>
+<p>It should still be preferred when the pilot is thin, or drawn from a
+non-representative area, or when the true proportion might differ across the
+state. If the real figure turns out to be 0.5 and the survey was sized for
+0.85, the margin of error will exceed the 2 points promised.</p>
+</div>
+</div>
+<div id="r-exercises-2" class="section level3 unnumbered hasAnchor">
+<h3>R exercises<a href="u3-practice.html#r-exercises-2" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p><strong>3.14</strong> Using <code>data/attendance-grades.csv</code>, compute point estimates of the
+mean, variance and standard deviation of attendance, semester GPA and final
+score. Then construct 95% confidence intervals for each mean.</p>
+<div class="answer">
+<div class="sourceCode" id="cb97"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb97-1"><a href="u3-practice.html#cb97-1" tabindex="-1"></a>students <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/attendance-grades.csv&quot;</span>)</span>
+<span id="cb97-2"><a href="u3-practice.html#cb97-2" tabindex="-1"></a>vars     <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;attendance&quot;</span>, <span class="st">&quot;sem_gpa&quot;</span>, <span class="st">&quot;final_score&quot;</span>)</span>
+<span id="cb97-3"><a href="u3-practice.html#cb97-3" tabindex="-1"></a></span>
+<span id="cb97-4"><a href="u3-practice.html#cb97-4" tabindex="-1"></a>est <span class="ot">&lt;-</span> <span class="fu">t</span>(<span class="fu">sapply</span>(vars, <span class="cf">function</span>(v) {</span>
+<span id="cb97-5"><a href="u3-practice.html#cb97-5" tabindex="-1"></a>  x  <span class="ot">&lt;-</span> students[[v]]</span>
+<span id="cb97-6"><a href="u3-practice.html#cb97-6" tabindex="-1"></a>  n  <span class="ot">&lt;-</span> <span class="fu">length</span>(x)</span>
+<span id="cb97-7"><a href="u3-practice.html#cb97-7" tabindex="-1"></a>  se <span class="ot">&lt;-</span> <span class="fu">sd</span>(x) <span class="sc">/</span> <span class="fu">sqrt</span>(n)</span>
+<span id="cb97-8"><a href="u3-practice.html#cb97-8" tabindex="-1"></a>  tc <span class="ot">&lt;-</span> <span class="fu">qt</span>(<span class="fl">0.975</span>, <span class="at">df =</span> n <span class="sc">-</span> <span class="dv">1</span>)</span>
+<span id="cb97-9"><a href="u3-practice.html#cb97-9" tabindex="-1"></a>  <span class="fu">c</span>(<span class="at">mean =</span> <span class="fu">mean</span>(x), <span class="at">var =</span> <span class="fu">var</span>(x), <span class="at">sd =</span> <span class="fu">sd</span>(x), <span class="at">se =</span> se,</span>
+<span id="cb97-10"><a href="u3-practice.html#cb97-10" tabindex="-1"></a>    <span class="at">lower =</span> <span class="fu">mean</span>(x) <span class="sc">-</span> tc <span class="sc">*</span> se, <span class="at">upper =</span> <span class="fu">mean</span>(x) <span class="sc">+</span> tc <span class="sc">*</span> se)</span>
+<span id="cb97-11"><a href="u3-practice.html#cb97-11" tabindex="-1"></a>}))</span>
+<span id="cb97-12"><a href="u3-practice.html#cb97-12" tabindex="-1"></a></span>
+<span id="cb97-13"><a href="u3-practice.html#cb97-13" tabindex="-1"></a><span class="fu">round</span>(est, <span class="dv">3</span>)</span></code></pre></div>
+<pre><code>#&gt;               mean    var    sd    se  lower  upper
+#&gt; attendance  26.147 29.757 5.455 0.209 25.736 26.558
+#&gt; sem_gpa      6.503  3.391 1.841 0.071  6.364  6.641
+#&gt; final_score 90.856 21.455 4.632 0.178 90.507 91.205</code></pre>
+<p>The intervals are narrow because <span class="math inline">\(n = 680\)</span> is large. Note that <code>var()</code> and
+<code>sd()</code> already use the <span class="math inline">\(n - 1\)</span> divisor, so no manual correction is needed.</p>
+</div>
+<p><strong>3.15</strong> Verify the <span class="math inline">\(n-1\)</span> correction yourself. Treat attendance as a
+population, draw 20,000 samples of 8, and compare the average of
+<span class="math inline">\(\frac{1}{n}\sum(x_i - \bar{x})^2\)</span> with the average of
+<span class="math inline">\(\frac{1}{n-1}\sum(x_i - \bar{x})^2\)</span>.</p>
+<div class="answer">
+<div class="sourceCode" id="cb99"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb99-1"><a href="u3-practice.html#cb99-1" tabindex="-1"></a>att <span class="ot">&lt;-</span> students<span class="sc">$</span>attendance</span>
+<span id="cb99-2"><a href="u3-practice.html#cb99-2" tabindex="-1"></a>sigma2 <span class="ot">&lt;-</span> <span class="fu">mean</span>((att <span class="sc">-</span> <span class="fu">mean</span>(att))<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb99-3"><a href="u3-practice.html#cb99-3" tabindex="-1"></a></span>
+<span id="cb99-4"><a href="u3-practice.html#cb99-4" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">21</span>)</span>
+<span id="cb99-5"><a href="u3-practice.html#cb99-5" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">8</span></span>
+<span id="cb99-6"><a href="u3-practice.html#cb99-6" tabindex="-1"></a>out <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">20000</span>, {</span>
+<span id="cb99-7"><a href="u3-practice.html#cb99-7" tabindex="-1"></a>  x <span class="ot">&lt;-</span> <span class="fu">sample</span>(att, n, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb99-8"><a href="u3-practice.html#cb99-8" tabindex="-1"></a>  <span class="fu">c</span>(<span class="at">over_n =</span> <span class="fu">mean</span>((x <span class="sc">-</span> <span class="fu">mean</span>(x))<span class="sc">^</span><span class="dv">2</span>), <span class="at">over_n_1 =</span> <span class="fu">var</span>(x))</span>
+<span id="cb99-9"><a href="u3-practice.html#cb99-9" tabindex="-1"></a>})</span>
+<span id="cb99-10"><a href="u3-practice.html#cb99-10" tabindex="-1"></a></span>
+<span id="cb99-11"><a href="u3-practice.html#cb99-11" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">population_variance =</span> sigma2,</span>
+<span id="cb99-12"><a href="u3-practice.html#cb99-12" tabindex="-1"></a>        <span class="at">avg_over_n          =</span> <span class="fu">mean</span>(out[<span class="dv">1</span>, ]),</span>
+<span id="cb99-13"><a href="u3-practice.html#cb99-13" tabindex="-1"></a>        <span class="at">avg_over_n_1        =</span> <span class="fu">mean</span>(out[<span class="dv">2</span>, ]),</span>
+<span id="cb99-14"><a href="u3-practice.html#cb99-14" tabindex="-1"></a>        <span class="at">predicted_over_n    =</span> sigma2 <span class="sc">*</span> (n <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">/</span> n), <span class="dv">3</span>)</span></code></pre></div>
+<pre><code>#&gt; population_variance          avg_over_n        avg_over_n_1    predicted_over_n 
+#&gt;               29.71               26.18               29.91               26.00</code></pre>
+<p>Dividing by <span class="math inline">\(n\)</span> understates the population variance, and it does so by exactly
+the predicted factor <span class="math inline">\((n-1)/n = 7/8\)</span>. Dividing by <span class="math inline">\(n - 1\)</span> recovers the right
+answer on average.</p>
+<p>The bias is not small at this sample size — about 12% — which is why the
+correction is built into <code>var()</code> rather than left to the user.</p>
+</div>
+<p><strong>3.16</strong> Treat <code>wages-india-synthetic.csv</code> as a population and let <span class="math inline">\(p\)</span> be the
+proportion of workers in urban areas. Draw 1,000 samples of 400, construct a
+95% interval from each, and count how many contain the true <span class="math inline">\(p\)</span>.</p>
+<div class="answer">
+<div class="sourceCode" id="cb101"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb101-1"><a href="u3-practice.html#cb101-1" tabindex="-1"></a>wages    <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/wages-india-synthetic.csv&quot;</span>)</span>
+<span id="cb101-2"><a href="u3-practice.html#cb101-2" tabindex="-1"></a>is_urban <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(wages<span class="sc">$</span>residence <span class="sc">==</span> <span class="st">&quot;Urban&quot;</span>)</span>
+<span id="cb101-3"><a href="u3-practice.html#cb101-3" tabindex="-1"></a>p_true   <span class="ot">&lt;-</span> <span class="fu">mean</span>(is_urban)</span>
+<span id="cb101-4"><a href="u3-practice.html#cb101-4" tabindex="-1"></a></span>
+<span id="cb101-5"><a href="u3-practice.html#cb101-5" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">4</span>)</span>
+<span id="cb101-6"><a href="u3-practice.html#cb101-6" tabindex="-1"></a>ci <span class="ot">&lt;-</span> <span class="fu">t</span>(<span class="fu">replicate</span>(<span class="dv">1000</span>, {</span>
+<span id="cb101-7"><a href="u3-practice.html#cb101-7" tabindex="-1"></a>  s  <span class="ot">&lt;-</span> <span class="fu">sample</span>(is_urban, <span class="dv">400</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb101-8"><a href="u3-practice.html#cb101-8" tabindex="-1"></a>  ph <span class="ot">&lt;-</span> <span class="fu">mean</span>(s)</span>
+<span id="cb101-9"><a href="u3-practice.html#cb101-9" tabindex="-1"></a>  ph <span class="sc">+</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>) <span class="sc">*</span> <span class="fl">1.96</span> <span class="sc">*</span> <span class="fu">sqrt</span>(ph <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> ph) <span class="sc">/</span> <span class="dv">400</span>)</span>
+<span id="cb101-10"><a href="u3-practice.html#cb101-10" tabindex="-1"></a>}))</span>
+<span id="cb101-11"><a href="u3-practice.html#cb101-11" tabindex="-1"></a></span>
+<span id="cb101-12"><a href="u3-practice.html#cb101-12" tabindex="-1"></a><span class="fu">c</span>(<span class="at">true_p =</span> p_true,</span>
+<span id="cb101-13"><a href="u3-practice.html#cb101-13" tabindex="-1"></a>  <span class="at">coverage =</span> <span class="fu">mean</span>(ci[, <span class="dv">1</span>] <span class="sc">&lt;=</span> p_true <span class="sc">&amp;</span> ci[, <span class="dv">2</span>] <span class="sc">&gt;=</span> p_true))</span></code></pre></div>
+<pre><code>#&gt;   true_p coverage 
+#&gt;   0.2684   0.9580</code></pre>
+<p>Close to the advertised 95%. The method delivers what it promises for a
+proportion of this size at this sample size.</p>
+<p>It would perform less well for a very rare characteristic — with <span class="math inline">\(p = 0.01\)</span> and
+<span class="math inline">\(n = 400\)</span> the expected number of successes is 4, the normal approximation is
+poor, and coverage falls short. A common rule of thumb requires both <span class="math inline">\(np\)</span> and
+<span class="math inline">\(n(1-p)\)</span> to be at least 10.</p>
+</div>
+<p><strong>3.17</strong> Show that the <span class="math inline">\(t\)</span> correction matters. On a normal population with
+<span class="math inline">\(\mu = 50\)</span> and <span class="math inline">\(\sigma = 12\)</span>, compare the coverage of intervals built with 1.96
+against those built with the <span class="math inline">\(t\)</span> critical value, for <span class="math inline">\(n = 5, 10, 30\)</span> and 100.</p>
+<div class="answer">
+<div class="sourceCode" id="cb103"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb103-1"><a href="u3-practice.html#cb103-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">30</span>)</span>
+<span id="cb103-2"><a href="u3-practice.html#cb103-2" tabindex="-1"></a>cover <span class="ot">&lt;-</span> <span class="fu">t</span>(<span class="fu">sapply</span>(<span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">10</span>, <span class="dv">30</span>, <span class="dv">100</span>), <span class="cf">function</span>(n) {</span>
+<span id="cb103-3"><a href="u3-practice.html#cb103-3" tabindex="-1"></a>  r <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">20000</span>, {</span>
+<span id="cb103-4"><a href="u3-practice.html#cb103-4" tabindex="-1"></a>    x  <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n, <span class="dv">50</span>, <span class="dv">12</span>)</span>
+<span id="cb103-5"><a href="u3-practice.html#cb103-5" tabindex="-1"></a>    se <span class="ot">&lt;-</span> <span class="fu">sd</span>(x) <span class="sc">/</span> <span class="fu">sqrt</span>(n)</span>
+<span id="cb103-6"><a href="u3-practice.html#cb103-6" tabindex="-1"></a>    <span class="fu">c</span>(<span class="fu">abs</span>(<span class="fu">mean</span>(x) <span class="sc">-</span> <span class="dv">50</span>) <span class="sc">&lt;</span> <span class="fl">1.96</span> <span class="sc">*</span> se,</span>
+<span id="cb103-7"><a href="u3-practice.html#cb103-7" tabindex="-1"></a>      <span class="fu">abs</span>(<span class="fu">mean</span>(x) <span class="sc">-</span> <span class="dv">50</span>) <span class="sc">&lt;</span> <span class="fu">qt</span>(<span class="fl">0.975</span>, n <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">*</span> se)</span>
+<span id="cb103-8"><a href="u3-practice.html#cb103-8" tabindex="-1"></a>  })</span>
+<span id="cb103-9"><a href="u3-practice.html#cb103-9" tabindex="-1"></a>  <span class="fu">c</span>(<span class="at">n =</span> n, <span class="at">using_z =</span> <span class="fu">mean</span>(r[<span class="dv">1</span>, ]), <span class="at">using_t =</span> <span class="fu">mean</span>(r[<span class="dv">2</span>, ]))</span>
+<span id="cb103-10"><a href="u3-practice.html#cb103-10" tabindex="-1"></a>}))</span>
+<span id="cb103-11"><a href="u3-practice.html#cb103-11" tabindex="-1"></a></span>
+<span id="cb103-12"><a href="u3-practice.html#cb103-12" tabindex="-1"></a><span class="fu">round</span>(cover, <span class="dv">4</span>)</span></code></pre></div>
+<pre><code>#&gt;        n using_z using_t
+#&gt; [1,]   5  0.8792  0.9510
+#&gt; [2,]  10  0.9193  0.9486
+#&gt; [3,]  30  0.9404  0.9498
+#&gt; [4,] 100  0.9484  0.9508</code></pre>
+<p>The <span class="math inline">\(t\)</span> intervals hold their 95% at every sample size. The <span class="math inline">\(z\)</span> intervals fall
+well short when <span class="math inline">\(n\)</span> is small, and the gap closes as <span class="math inline">\(n\)</span> grows — by <span class="math inline">\(n = 100\)</span>
+the two are nearly indistinguishable.</p>
+<p>This is the whole case for the <span class="math inline">\(t\)</span> distribution in one table, and also the
+reason nobody worries about it in large samples.</p>
+</div>
+<p><strong>3.18</strong> How does interval width respond to sample size and confidence level?
+Using the attendance population, plot the width of the confidence interval for
+the mean against <span class="math inline">\(n\)</span>, for the 90%, 95% and 99% levels.</p>
+<div class="answer">
+<div class="sourceCode" id="cb105"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb105-1"><a href="u3-practice.html#cb105-1" tabindex="-1"></a>sigma_att <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">mean</span>((att <span class="sc">-</span> <span class="fu">mean</span>(att))<span class="sc">^</span><span class="dv">2</span>))</span>
+<span id="cb105-2"><a href="u3-practice.html#cb105-2" tabindex="-1"></a></span>
+<span id="cb105-3"><a href="u3-practice.html#cb105-3" tabindex="-1"></a>grid <span class="ot">&lt;-</span> <span class="fu">expand.grid</span>(<span class="at">n =</span> <span class="fu">seq</span>(<span class="dv">10</span>, <span class="dv">500</span>, <span class="at">by =</span> <span class="dv">5</span>),</span>
+<span id="cb105-4"><a href="u3-practice.html#cb105-4" tabindex="-1"></a>                    <span class="at">level =</span> <span class="fu">c</span>(<span class="fl">0.90</span>, <span class="fl">0.95</span>, <span class="fl">0.99</span>))</span>
+<span id="cb105-5"><a href="u3-practice.html#cb105-5" tabindex="-1"></a>grid<span class="sc">$</span>width <span class="ot">&lt;-</span> <span class="dv">2</span> <span class="sc">*</span> <span class="fu">qnorm</span>(<span class="dv">1</span> <span class="sc">-</span> (<span class="dv">1</span> <span class="sc">-</span> grid<span class="sc">$</span>level) <span class="sc">/</span> <span class="dv">2</span>) <span class="sc">*</span> sigma_att <span class="sc">/</span> <span class="fu">sqrt</span>(grid<span class="sc">$</span>n)</span>
+<span id="cb105-6"><a href="u3-practice.html#cb105-6" tabindex="-1"></a>grid<span class="sc">$</span>level <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">paste0</span>(<span class="dv">100</span> <span class="sc">*</span> grid<span class="sc">$</span>level, <span class="st">&quot;%&quot;</span>))</span>
+<span id="cb105-7"><a href="u3-practice.html#cb105-7" tabindex="-1"></a></span>
+<span id="cb105-8"><a href="u3-practice.html#cb105-8" tabindex="-1"></a><span class="fu">ggplot</span>(grid, <span class="fu">aes</span>(n, width, <span class="at">colour =</span> level)) <span class="sc">+</span></span>
+<span id="cb105-9"><a href="u3-practice.html#cb105-9" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
+<span id="cb105-10"><a href="u3-practice.html#cb105-10" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Sample size&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Interval width (classes)&quot;</span>, <span class="at">colour =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
+<span id="cb105-11"><a href="u3-practice.html#cb105-11" tabindex="-1"></a>  <span class="fu">theme_book</span>() <span class="sc">+</span></span>
+<span id="cb105-12"><a href="u3-practice.html#cb105-12" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;top&quot;</span>)</span></code></pre></div>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:u3-ex-width"></span>
+<img src="stats-econometrics-r_files/figure-html/u3-ex-width-1.png" alt="Confidence interval width against sample size, at three confidence levels." width="90%" />
+<p class="caption">
+Figure 3.2: Confidence interval width against sample size, at three confidence levels.
+</p>
+</div>
+<p>Width falls as <span class="math inline">\(1/\sqrt{n}\)</span>, steeply at first and then hardly at all. Most of
+the available precision is bought in the first hundred observations.</p>
+<p>The three curves never cross, and the gap between them narrows in absolute
+terms as <span class="math inline">\(n\)</span> grows. Choosing 99% over 95% is expensive in a small survey and
+nearly free in a large one.</p>
+</div>
+</div>
+</div>
+<script>
+// Solutions are written as plain fenced divs in the source, so the PDF edition
+// can typeset them as boxes. On the web they should stay hidden until asked
+// for, so wrap each one in a <details> here.
+document.addEventListener("DOMContentLoaded", function () {
+  document.querySelectorAll("div.answer").forEach(function (div) {
+    var d = document.createElement("details");
+    d.className = "answer";
+    var s = document.createElement("summary");
+    s.textContent = "Show the solution";
+    d.appendChild(s);
+    while (div.firstChild) d.appendChild(div.firstChild);
+    div.parentNode.replaceChild(d, div);
+  });
+});
+</script>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="u3-summary.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="u3-question-bank.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+  "sharing": {
+    "github": true,
+    "facebook": false,
+    "twitter": false,
+    "linkedin": false,
+    "weibo": false,
+    "instapaper": false,
+    "vk": false,
+    "whatsapp": false,
+    "all": false
+  },
+  "fontsettings": {
+    "theme": "white",
+    "family": "sans",
+    "size": 2
+  },
+  "edit": {
+    "link": "https://github.com/kedarkulkarni1991/stats-econometrics-r/edit/main/03-point-and-interval-estimation.Rmd",
+    "text": "Edit"
+  },
+  "history": {
+    "link": null,
+    "text": null
+  },
+  "view": {
+    "link": null,
+    "text": null
+  },
+  "download": null,
+  "search": {
+    "engine": "fuse",
+    "options": null
+  },
+  "toc": {
+    "collapse": "subsection",
+    "scroll_highlight": true
+  },
+  "toolbar": {
+    "position": "fixed"
+  },
+  "info": false
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

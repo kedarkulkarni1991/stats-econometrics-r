@@ -4,13 +4,13 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>2.3 How can we judge an estimator? | Statistics and Econometrics with R</title>
+  <title>3.2 How do we estimate the population variance? | Statistics and Econometrics with R</title>
   <meta name="description" content="<p>A first course in statistics and econometrics for Indian students, built on
 the progression from question to intuition to rigour to computation to
 interpretation.</p>" />
   <meta name="generator" content="bookdown 0.47 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="2.3 How can we judge an estimator? | Statistics and Econometrics with R" />
+  <meta property="og:title" content="3.2 How do we estimate the population variance? | Statistics and Econometrics with R" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="<p>A first course in statistics and econometrics for Indian students, built on
@@ -19,7 +19,7 @@ interpretation.</p>" />
   <meta name="github-repo" content="kedarkulkarni1991/stats-econometrics-r" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="2.3 How can we judge an estimator? | Statistics and Econometrics with R" />
+  <meta name="twitter:title" content="3.2 How do we estimate the population variance? | Statistics and Econometrics with R" />
   
   <meta name="twitter:description" content="<p>A first course in statistics and econometrics for Indian students, built on
 the progression from question to intuition to rigour to computation to
@@ -35,8 +35,8 @@ interpretation.</p>" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="u2-iid.html"/>
-<link rel="next" href="u2-centred.html"/>
+<link rel="prev" href="u3-single-sample.html"/>
+<link rel="next" href="u3-proportion.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -328,76 +328,109 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="u2-known-truth" class="section level2 hasAnchor" number="2.3">
-<h2><span class="header-section-number">2.3</span> How can we judge an estimator?<a href="u2-known-truth.html#u2-known-truth" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="u3-variance" class="section level2 hasAnchor" number="3.2">
+<h2><span class="header-section-number">3.2</span> How do we estimate the population variance?<a href="u3-variance.html#u3-variance" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <div class="question">
-<p>If <span class="math inline">\(\mu\)</span> is never known, how can we ever tell whether an estimator is any good?</p>
+<p>The standard error formula needs <span class="math inline">\(\sigma\)</span>. Where is that supposed to come from?</p>
 </div>
-<p>We now know what a sample must satisfy. The original question remains: of the
-many rules available, why the sample mean?</p>
-<p>The obstacle is the one identified at the start. To see whether an estimator
-lands near the truth we would have to know the truth, and in any real
-application we do not. If we survey Indian households we do not know true
-average household income; if we sample firms we do not know true average
-productivity. There is nothing to compare against.</p>
-<p>The way around this is to build a laboratory. We construct one artificial
-population whose properties are known exactly, and study repeated sampling from
-it. Because the true mean is known in advance, every sample mean can be
-measured against it. Nothing is being discovered about the world here — the
-point is to watch a procedure work under conditions where its performance is
-visible.</p>
-<div id="u2-lab-pop" class="section level3 unnumbered hasAnchor">
-<h3>The population<a href="u2-known-truth.html#u2-lab-pop" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>Take a deck of playing cards, scored A = 1, J = 11, Q = 12, K = 13, and 2
-through 10 at face value.</p>
-<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb58-1"><a href="u2-known-truth.html#cb58-1" tabindex="-1"></a>deck <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">13</span>, <span class="at">times =</span> <span class="dv">4</span>)</span>
-<span id="cb58-2"><a href="u2-known-truth.html#cb58-2" tabindex="-1"></a></span>
-<span id="cb58-3"><a href="u2-known-truth.html#cb58-3" tabindex="-1"></a><span class="fu">c</span>(<span class="at">N =</span> <span class="fu">length</span>(deck), <span class="at">mu =</span> <span class="fu">mean</span>(deck), <span class="at">sigma =</span> <span class="fu">sd</span>(deck))</span></code></pre></div>
-<pre><code>#&gt;      N     mu  sigma 
-#&gt; 52.000  7.000  3.778</code></pre>
-<p>This population contains 52 values. Its mean is exactly <span class="math inline">\(\mu = 7\)</span> and its
-standard deviation is <span class="math inline">\(\sigma = 3.78\)</span>. Both are known with certainty, which is
-exactly what real data never offers.</p>
+<p>The natural move is to do to the variance what we did to the mean: define the
+sample analogue of the population quantity and hope it behaves.</p>
+<p>The population variance is the average squared distance from the population
+mean,</p>
+<p><span class="math display">\[\sigma^2 = \frac{1}{N}\sum_{i=1}^{N}(x_i - \mu)^2\]</span></p>
+<p>so the obvious sample version replaces <span class="math inline">\(\mu\)</span> with <span class="math inline">\(\bar{x}\)</span> and <span class="math inline">\(N\)</span> with <span class="math inline">\(n\)</span>:</p>
+<p><span class="math display">\[\widetilde{s}^2 = \frac{1}{n}\sum_{i=1}^{n}(x_i - \bar{x})^2\]</span></p>
+<p>This turns out to be systematically wrong, and we can see it happen. The
+dataset <code>attendance-grades.csv</code> records 680 students at Azim Premji University.
+Treat those 680 as a population, so its variance is known exactly, and sample
+from it.</p>
+<div class="sourceCode" id="cb76"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb76-1"><a href="u3-variance.html#cb76-1" tabindex="-1"></a>students <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/attendance-grades.csv&quot;</span>)</span>
+<span id="cb76-2"><a href="u3-variance.html#cb76-2" tabindex="-1"></a>att      <span class="ot">&lt;-</span> students<span class="sc">$</span>attendance</span>
+<span id="cb76-3"><a href="u3-variance.html#cb76-3" tabindex="-1"></a></span>
+<span id="cb76-4"><a href="u3-variance.html#cb76-4" tabindex="-1"></a>sigma2_pop <span class="ot">&lt;-</span> <span class="fu">mean</span>((att <span class="sc">-</span> <span class="fu">mean</span>(att))<span class="sc">^</span><span class="dv">2</span>)      <span class="co"># divisor N, since this IS the population</span></span>
+<span id="cb76-5"><a href="u3-variance.html#cb76-5" tabindex="-1"></a></span>
+<span id="cb76-6"><a href="u3-variance.html#cb76-6" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">5</span>)</span>
+<span id="cb76-7"><a href="u3-variance.html#cb76-7" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">10</span></span>
+<span id="cb76-8"><a href="u3-variance.html#cb76-8" tabindex="-1"></a>sims <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">20000</span>, {</span>
+<span id="cb76-9"><a href="u3-variance.html#cb76-9" tabindex="-1"></a>  x <span class="ot">&lt;-</span> <span class="fu">sample</span>(att, n, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb76-10"><a href="u3-variance.html#cb76-10" tabindex="-1"></a>  <span class="fu">c</span>(<span class="at">divide_by_n     =</span> <span class="fu">mean</span>((x <span class="sc">-</span> <span class="fu">mean</span>(x))<span class="sc">^</span><span class="dv">2</span>),</span>
+<span id="cb76-11"><a href="u3-variance.html#cb76-11" tabindex="-1"></a>    <span class="at">divide_by_n_1   =</span> <span class="fu">var</span>(x))               <span class="co"># var() divides by n - 1</span></span>
+<span id="cb76-12"><a href="u3-variance.html#cb76-12" tabindex="-1"></a>})</span>
+<span id="cb76-13"><a href="u3-variance.html#cb76-13" tabindex="-1"></a></span>
+<span id="cb76-14"><a href="u3-variance.html#cb76-14" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">population_variance =</span> sigma2_pop,</span>
+<span id="cb76-15"><a href="u3-variance.html#cb76-15" tabindex="-1"></a>        <span class="at">avg_divide_by_n     =</span> <span class="fu">mean</span>(sims[<span class="dv">1</span>, ]),</span>
+<span id="cb76-16"><a href="u3-variance.html#cb76-16" tabindex="-1"></a>        <span class="at">avg_divide_by_n_1   =</span> <span class="fu">mean</span>(sims[<span class="dv">2</span>, ])), <span class="dv">3</span>)</span></code></pre></div>
+<pre><code>#&gt; population_variance     avg_divide_by_n   avg_divide_by_n_1 
+#&gt;               29.71               26.79               29.77</code></pre>
+<p>Dividing by <span class="math inline">\(n\)</span> gives 26.79 against a true variance of
+29.71 — too small, not occasionally but on average across
+twenty thousand samples. Dividing by <span class="math inline">\(n - 1\)</span> gives 29.77,
+which lands on the population value.</p>
+<div class="question">
+<p>Why should dividing by a smaller number be the correction?</p>
 </div>
-<div id="u2-lab-one" class="section level3 unnumbered hasAnchor">
-<h3>One sample from it<a href="u2-known-truth.html#u2-lab-one" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>Draw ten cards and compute their average.</p>
-<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb60-1"><a href="u2-known-truth.html#cb60-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">7</span>)</span>
-<span id="cb60-2"><a href="u2-known-truth.html#cb60-2" tabindex="-1"></a><span class="fu">mean</span>(<span class="fu">sample</span>(deck, <span class="at">size =</span> <span class="dv">10</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>))</span></code></pre></div>
-<pre><code>#&gt; [1] 5.7</code></pre>
-<p>The result is not 7. Draw again and it would differ again — sampling variation,
-as before. What is new is that we can see how far this sample strayed, because
-we know where it should have been.</p>
+<p>The reason is that <span class="math inline">\(\bar{x}\)</span> is computed from the very observations whose
+spread we are measuring.</p>
+<p>The sample mean sits, by construction, in the middle of the sample. It is the
+value that makes <span class="math inline">\(\sum(x_i - \bar{x})^2\)</span> as small as it can possibly be — no
+other number, including the true <span class="math inline">\(\mu\)</span>, gives a smaller total. So when we
+measure the spread of the sample around its own mean, we are measuring it
+around the most flattering point available, and we get an answer that is too
+small.</p>
+<div class="theory">
+<p>Once <span class="math inline">\(\bar{x}\)</span> is known, the deviations are not free to take any values. They
+must sum to zero:</p>
+<p><span class="math display">\[\sum_{i=1}^{n}(x_i - \bar{x}) = 0\]</span></p>
+<p>Given the first <span class="math inline">\(n-1\)</span> of them, the last is determined. Only <span class="math inline">\(n - 1\)</span> of the <span class="math inline">\(n\)</span>
+deviations carry independent information about the spread, and dividing by
+<span class="math inline">\(n - 1\)</span> rather than <span class="math inline">\(n\)</span> is what corrects for it.</p>
+<p>The quantity <span class="math inline">\(n - 1\)</span> is called the <strong>degrees of freedom</strong>: the number of
+observations, less the number of quantities estimated from them along the way.</p>
+</div>
+<div class="keyidea">
+<p>The <strong>sample variance</strong> and <strong>sample standard deviation</strong> are</p>
+<p><span class="math display">\[s^2 = \frac{1}{n-1}\sum_{i=1}^{n}(x_i - \bar{x})^2
+\qquad\qquad s = \sqrt{s^2}\]</span></p>
+<p><span class="math inline">\(s^2\)</span> is an unbiased estimator of <span class="math inline">\(\sigma^2\)</span>. In R they are <code>var()</code> and <code>sd()</code>,
+both of which use <span class="math inline">\(n - 1\)</span>.</p>
+</div>
 <div class="watchout">
-<p>Note <code>replace = TRUE</code>: each card is returned to the deck before the next draw.</p>
-<p>That is what makes the draws <strong>independent</strong>, in the sense of the previous
-section. Drawing without replacement changes what remains after each card is
-removed, so the draws are dependent and the sample mean varies slightly less
-than theory predicts.</p>
-<p>It is also the better model of what we usually mean. Surveying 2,000 people
-does not meaningfully deplete a population of a billion.</p>
+<p><span class="math inline">\(s\)</span> is <em>not</em> an unbiased estimator of <span class="math inline">\(\sigma\)</span>, even though <span class="math inline">\(s^2\)</span> is unbiased
+for <span class="math inline">\(\sigma^2\)</span>. Taking a square root does not preserve unbiasedness, and <span class="math inline">\(s\)</span>
+runs slightly low on average.</p>
+<p>The bias is small, it shrinks quickly with <span class="math inline">\(n\)</span>, and correcting it is not worth
+the trouble in practice. But it is worth knowing that “unbiased” attaches to a
+specific estimator of a specific parameter, and does not survive being passed
+through an arbitrary function.</p>
+</div>
+<div id="when-the-population-mean-is-known" class="section level3 unnumbered hasAnchor">
+<h3>When the population mean is known<a href="u3-variance.html#when-the-population-mean-is-known" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Occasionally <span class="math inline">\(\mu\)</span> is known even though <span class="math inline">\(\sigma^2\)</span> is not — a machine
+calibrated to a specification, or a process with a target value. Then no
+degrees of freedom are spent estimating the centre, nothing is flattered, and
+the divisor is <span class="math inline">\(n\)</span>:</p>
+<p><span class="math display">\[\widehat{\sigma}^2 = \frac{1}{n}\sum_{i=1}^{n}(x_i - \mu)^2\]</span></p>
+<p>Note that this uses <span class="math inline">\(\mu\)</span>, not <span class="math inline">\(\bar{x}\)</span>. Since <span class="math inline">\(\bar{x}\)</span> minimises the sum of
+squared deviations, the total measured from <span class="math inline">\(\mu\)</span> is <em>larger</em> than the total
+measured from <span class="math inline">\(\bar{x}\)</span> — which is precisely why it can be divided by the
+larger <span class="math inline">\(n\)</span> and still come out right.</p>
+<div class="intuition">
+<p>The rule is easier to remember as a question than as two formulas. How many
+quantities did I have to estimate from this sample before I could measure its
+spread?</p>
+<p>Estimated the centre from the data: divide by <span class="math inline">\(n - 1\)</span>. Knew the centre already:
+divide by <span class="math inline">\(n\)</span>.</p>
 </div>
 </div>
-<div id="u2-lab-many" class="section level3 unnumbered hasAnchor">
-<h3>A thousand samples<a href="u2-known-truth.html#u2-lab-many" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>One sample tells us little about a procedure. Repeating the exercise a thousand
-times shows the whole sampling distribution — and, for the first time, shows it
-alongside the truth it is supposed to be tracking.</p>
-<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb62-1"><a href="u2-known-truth.html#cb62-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">7</span>)</span>
-<span id="cb62-2"><a href="u2-known-truth.html#cb62-2" tabindex="-1"></a>deck_means <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">1000</span>, <span class="fu">mean</span>(<span class="fu">sample</span>(deck, <span class="at">size =</span> <span class="dv">10</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>)))</span>
-<span id="cb62-3"><a href="u2-known-truth.html#cb62-3" tabindex="-1"></a></span>
-<span id="cb62-4"><a href="u2-known-truth.html#cb62-4" tabindex="-1"></a><span class="fu">c</span>(<span class="at">mean_of_sample_means =</span> <span class="fu">mean</span>(deck_means),</span>
-<span id="cb62-5"><a href="u2-known-truth.html#cb62-5" tabindex="-1"></a>  <span class="at">sd_of_sample_means   =</span> <span class="fu">sd</span>(deck_means))</span></code></pre></div>
-<pre><code>#&gt; mean_of_sample_means   sd_of_sample_means 
-#&gt;                6.932                1.201</code></pre>
-<div class="figure" style="text-align: center"><span style="display:block;" id="fig:u2-sampdist-plot"></span>
-<img src="stats-econometrics-r_files/figure-html/u2-sampdist-plot-1.png" alt="One thousand sample means, each computed from 10 cards drawn from a population whose mean is exactly 7." width="90%" />
-<p class="caption">
-Figure 2.2: One thousand sample means, each computed from 10 cards drawn from a population whose mean is exactly 7.
-</p>
-</div>
-<p>Two features of this picture are worth separating, and the next two sections
-take them one at a time: where the distribution sits, and how wide it is.</p>
+<div id="estimating-the-standard-error" class="section level3 unnumbered hasAnchor">
+<h3>Estimating the standard error<a href="u3-variance.html#estimating-the-standard-error" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>We now have what Section <a href="u3-single-sample.html#u3-single-sample">3.1</a> said was missing. The standard
+error of the sample mean is <span class="math inline">\(\sigma/\sqrt{n}\)</span>, and with <span class="math inline">\(\sigma\)</span> unknown we
+substitute <span class="math inline">\(s\)</span>:</p>
+<p><span class="math display">\[\widehat{\mathrm{se}}(\bar{X}) = \frac{s}{\sqrt{n}}\]</span></p>
+<p>This is what every piece of software reports as “the standard error”, and it is
+an estimate, with its own sampling variability. That substitution looks
+harmless and is not, as Section <a href="u3-t.html#u3-t">3.5</a> shows.</p>
 </div>
 </div>
 <script>
@@ -421,8 +454,8 @@ document.addEventListener("DOMContentLoaded", function () {
           </div>
         </div>
       </div>
-<a href="u2-iid.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="u2-centred.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="u3-single-sample.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="u3-proportion.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -453,7 +486,7 @@ gitbook.start({
     "size": 2
   },
   "edit": {
-    "link": "https://github.com/kedarkulkarni1991/stats-econometrics-r/edit/main/02-estimation.Rmd",
+    "link": "https://github.com/kedarkulkarni1991/stats-econometrics-r/edit/main/03-point-and-interval-estimation.Rmd",
     "text": "Edit"
   },
   "history": {

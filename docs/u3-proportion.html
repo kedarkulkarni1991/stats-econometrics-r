@@ -4,13 +4,13 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>2.3 How can we judge an estimator? | Statistics and Econometrics with R</title>
+  <title>3.3 How do we estimate a proportion? | Statistics and Econometrics with R</title>
   <meta name="description" content="<p>A first course in statistics and econometrics for Indian students, built on
 the progression from question to intuition to rigour to computation to
 interpretation.</p>" />
   <meta name="generator" content="bookdown 0.47 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="2.3 How can we judge an estimator? | Statistics and Econometrics with R" />
+  <meta property="og:title" content="3.3 How do we estimate a proportion? | Statistics and Econometrics with R" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="<p>A first course in statistics and econometrics for Indian students, built on
@@ -19,7 +19,7 @@ interpretation.</p>" />
   <meta name="github-repo" content="kedarkulkarni1991/stats-econometrics-r" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="2.3 How can we judge an estimator? | Statistics and Econometrics with R" />
+  <meta name="twitter:title" content="3.3 How do we estimate a proportion? | Statistics and Econometrics with R" />
   
   <meta name="twitter:description" content="<p>A first course in statistics and econometrics for Indian students, built on
 the progression from question to intuition to rigour to computation to
@@ -35,8 +35,8 @@ interpretation.</p>" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="u2-iid.html"/>
-<link rel="next" href="u2-centred.html"/>
+<link rel="prev" href="u3-variance.html"/>
+<link rel="next" href="u3-ci.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -328,76 +328,82 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="u2-known-truth" class="section level2 hasAnchor" number="2.3">
-<h2><span class="header-section-number">2.3</span> How can we judge an estimator?<a href="u2-known-truth.html#u2-known-truth" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="u3-proportion" class="section level2 hasAnchor" number="3.3">
+<h2><span class="header-section-number">3.3</span> How do we estimate a proportion?<a href="u3-proportion.html#u3-proportion" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <div class="question">
-<p>If <span class="math inline">\(\mu\)</span> is never known, how can we ever tell whether an estimator is any good?</p>
+<p>What proportion of Indian wage earners work in urban areas? That is not an
+average. Do we need new machinery?</p>
 </div>
-<p>We now know what a sample must satisfy. The original question remains: of the
-many rules available, why the sample mean?</p>
-<p>The obstacle is the one identified at the start. To see whether an estimator
-lands near the truth we would have to know the truth, and in any real
-application we do not. If we survey Indian households we do not know true
-average household income; if we sample firms we do not know true average
-productivity. There is nothing to compare against.</p>
-<p>The way around this is to build a laboratory. We construct one artificial
-population whose properties are known exactly, and study repeated sampling from
-it. Because the true mean is known in advance, every sample mean can be
-measured against it. Nothing is being discovered about the world here — the
-point is to watch a procedure work under conditions where its performance is
-visible.</p>
-<div id="u2-lab-pop" class="section level3 unnumbered hasAnchor">
-<h3>The population<a href="u2-known-truth.html#u2-lab-pop" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>Take a deck of playing cards, scored A = 1, J = 11, Q = 12, K = 13, and 2
-through 10 at face value.</p>
-<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb58-1"><a href="u2-known-truth.html#cb58-1" tabindex="-1"></a>deck <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">13</span>, <span class="at">times =</span> <span class="dv">4</span>)</span>
-<span id="cb58-2"><a href="u2-known-truth.html#cb58-2" tabindex="-1"></a></span>
-<span id="cb58-3"><a href="u2-known-truth.html#cb58-3" tabindex="-1"></a><span class="fu">c</span>(<span class="at">N =</span> <span class="fu">length</span>(deck), <span class="at">mu =</span> <span class="fu">mean</span>(deck), <span class="at">sigma =</span> <span class="fu">sd</span>(deck))</span></code></pre></div>
-<pre><code>#&gt;      N     mu  sigma 
-#&gt; 52.000  7.000  3.778</code></pre>
-<p>This population contains 52 values. Its mean is exactly <span class="math inline">\(\mu = 7\)</span> and its
-standard deviation is <span class="math inline">\(\sigma = 3.78\)</span>. Both are known with certainty, which is
-exactly what real data never offers.</p>
+<p>Many important quantities are proportions. The share of households below the
+poverty line, the share of children enrolled in school, the share of a
+workforce that is female, the unemployment rate. None of these is obviously an
+average, and it would be reasonable to expect a separate theory.</p>
+<p>There is none, and the reason is a small trick.</p>
+<p>Write down, for each person in the sample, a variable that equals 1 if they
+have the characteristic and 0 if they do not.</p>
+<div class="sourceCode" id="cb78"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb78-1"><a href="u3-proportion.html#cb78-1" tabindex="-1"></a>wages <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/wages-india-synthetic.csv&quot;</span>)</span>
+<span id="cb78-2"><a href="u3-proportion.html#cb78-2" tabindex="-1"></a></span>
+<span id="cb78-3"><a href="u3-proportion.html#cb78-3" tabindex="-1"></a>is_urban <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(wages<span class="sc">$</span>residence <span class="sc">==</span> <span class="st">&quot;Urban&quot;</span>)</span>
+<span id="cb78-4"><a href="u3-proportion.html#cb78-4" tabindex="-1"></a><span class="fu">head</span>(is_urban, <span class="dv">20</span>)</span></code></pre></div>
+<pre><code>#&gt;  [1] 0 0 1 1 0 1 0 0 0 1 0 1 0 1 1 0 0 0 0 1</code></pre>
+<p>The <em>average</em> of that column is the <em>proportion</em> of people with the
+characteristic. Adding up a column of ones and zeros counts the ones, and
+dividing by <span class="math inline">\(n\)</span> turns the count into a share.</p>
+<div class="sourceCode" id="cb80"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb80-1"><a href="u3-proportion.html#cb80-1" tabindex="-1"></a><span class="fu">c</span>(<span class="at">mean_of_indicator =</span> <span class="fu">mean</span>(is_urban),</span>
+<span id="cb80-2"><a href="u3-proportion.html#cb80-2" tabindex="-1"></a>  <span class="at">proportion_urban  =</span> <span class="fu">sum</span>(wages<span class="sc">$</span>residence <span class="sc">==</span> <span class="st">&quot;Urban&quot;</span>) <span class="sc">/</span> <span class="fu">nrow</span>(wages))</span></code></pre></div>
+<pre><code>#&gt; mean_of_indicator  proportion_urban 
+#&gt;            0.2684            0.2685</code></pre>
+<div class="keyidea">
+<p>A proportion is a mean. The <strong>sample proportion</strong></p>
+<p><span class="math display">\[\hat{p} = \frac{x}{n}\]</span></p>
+<p>where <span class="math inline">\(x\)</span> is the number of observations with the characteristic, is exactly the
+sample mean of a variable coded 1 and 0.</p>
+<p>Everything established about <span class="math inline">\(\bar{X}\)</span> therefore applies to <span class="math inline">\(\hat{p}\)</span>
+unchanged. It is unbiased, its variability falls with <span class="math inline">\(\sqrt{n}\)</span>, and the
+Central Limit Theorem makes it approximately normal in large samples.</p>
 </div>
-<div id="u2-lab-one" class="section level3 unnumbered hasAnchor">
-<h3>One sample from it<a href="u2-known-truth.html#u2-lab-one" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>Draw ten cards and compute their average.</p>
-<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb60-1"><a href="u2-known-truth.html#cb60-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">7</span>)</span>
-<span id="cb60-2"><a href="u2-known-truth.html#cb60-2" tabindex="-1"></a><span class="fu">mean</span>(<span class="fu">sample</span>(deck, <span class="at">size =</span> <span class="dv">10</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>))</span></code></pre></div>
-<pre><code>#&gt; [1] 5.7</code></pre>
-<p>The result is not 7. Draw again and it would differ again — sampling variation,
-as before. What is new is that we can see how far this sample strayed, because
-we know where it should have been.</p>
-<div class="watchout">
-<p>Note <code>replace = TRUE</code>: each card is returned to the deck before the next draw.</p>
-<p>That is what makes the draws <strong>independent</strong>, in the sense of the previous
-section. Drawing without replacement changes what remains after each card is
-removed, so the draws are dependent and the sample mean varies slightly less
-than theory predicts.</p>
-<p>It is also the better model of what we usually mean. Surveying 2,000 people
-does not meaningfully deplete a population of a billion.</p>
+<p>This is worth pausing on, because it is the first time in the book that a
+result has been obtained for free. We did not prove anything new. We noticed
+that a question we had not met was a question we had already answered, wearing
+different clothes.</p>
+<div id="how-much-does-a-sample-proportion-vary" class="section level3 unnumbered hasAnchor">
+<h3>How much does a sample proportion vary?<a href="u3-proportion.html#how-much-does-a-sample-proportion-vary" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>One thing does simplify. For a general population we need <span class="math inline">\(\sigma\)</span> from
+somewhere. For a 0/1 variable, <span class="math inline">\(\sigma\)</span> is determined by <span class="math inline">\(p\)</span> itself.</p>
+<div class="theory">
+<p>Let <span class="math inline">\(X_i\)</span> equal 1 with probability <span class="math inline">\(p\)</span> and 0 with probability <span class="math inline">\(1-p\)</span>. Then</p>
+<p><span class="math display">\[E(X_i) = 1 \cdot p + 0 \cdot (1-p) = p\]</span></p>
+<p>so the population mean of the indicator <em>is</em> the population proportion. For the
+variance, note that <span class="math inline">\(X_i^2 = X_i\)</span>, since <span class="math inline">\(0^2 = 0\)</span> and <span class="math inline">\(1^2 = 1\)</span>. Hence
+<span class="math inline">\(E(X_i^2) = p\)</span> and</p>
+<p><span class="math display">\[\mathrm{Var}(X_i) = E(X_i^2) - \big[E(X_i)\big]^2 = p - p^2 = p(1-p)\]</span></p>
+<p>Applying <span class="math inline">\(\mathrm{Var}(\bar{X}) = \sigma^2/n\)</span> from the previous unit,</p>
+<p><span class="math display">\[\mathrm{Var}(\hat{p}) = \frac{p(1-p)}{n}
+\qquad\qquad
+\mathrm{se}(\hat{p}) = \sqrt{\frac{p(1-p)}{n}}\]</span></p>
 </div>
+<p>In practice <span class="math inline">\(p\)</span> is unknown — it is what we are estimating — so we substitute
+<span class="math inline">\(\hat{p}\)</span>:</p>
+<p><span class="math display">\[\widehat{\mathrm{se}}(\hat{p}) = \sqrt{\frac{\hat{p}(1-\hat{p})}{n}}\]</span></p>
+<div class="sourceCode" id="cb82"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb82-1"><a href="u3-proportion.html#cb82-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">8</span>)</span>
+<span id="cb82-2"><a href="u3-proportion.html#cb82-2" tabindex="-1"></a>sample_urban <span class="ot">&lt;-</span> <span class="fu">sample</span>(is_urban, <span class="dv">500</span>)</span>
+<span id="cb82-3"><a href="u3-proportion.html#cb82-3" tabindex="-1"></a></span>
+<span id="cb82-4"><a href="u3-proportion.html#cb82-4" tabindex="-1"></a>p_hat <span class="ot">&lt;-</span> <span class="fu">mean</span>(sample_urban)</span>
+<span id="cb82-5"><a href="u3-proportion.html#cb82-5" tabindex="-1"></a>se_p  <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(p_hat <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> p_hat) <span class="sc">/</span> <span class="dv">500</span>)</span>
+<span id="cb82-6"><a href="u3-proportion.html#cb82-6" tabindex="-1"></a></span>
+<span id="cb82-7"><a href="u3-proportion.html#cb82-7" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">p_hat =</span> p_hat, <span class="at">se =</span> se_p, <span class="at">true_p =</span> <span class="fu">mean</span>(is_urban)), <span class="dv">4</span>)</span></code></pre></div>
+<pre><code>#&gt;  p_hat     se true_p 
+#&gt; 0.2820 0.0201 0.2684</code></pre>
+<div class="intuition">
+<p>The quantity <span class="math inline">\(p(1-p)\)</span> is largest at <span class="math inline">\(p = 0.5\)</span> and falls away towards zero at
+either end.</p>
+<p>That has a sensible meaning. A population evenly split is the hardest to pin
+down, because samples can land either way. A population where 99% share a
+characteristic is easy — almost every sample says 99%. Rare and near-universal
+things are estimated precisely; genuinely contested ones are not.</p>
+<p>The consequence for survey design is that <span class="math inline">\(p = 0.5\)</span> is the worst case, and a
+sample large enough for a 50-50 split is large enough for anything.</p>
 </div>
-<div id="u2-lab-many" class="section level3 unnumbered hasAnchor">
-<h3>A thousand samples<a href="u2-known-truth.html#u2-lab-many" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>One sample tells us little about a procedure. Repeating the exercise a thousand
-times shows the whole sampling distribution — and, for the first time, shows it
-alongside the truth it is supposed to be tracking.</p>
-<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb62-1"><a href="u2-known-truth.html#cb62-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">7</span>)</span>
-<span id="cb62-2"><a href="u2-known-truth.html#cb62-2" tabindex="-1"></a>deck_means <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">1000</span>, <span class="fu">mean</span>(<span class="fu">sample</span>(deck, <span class="at">size =</span> <span class="dv">10</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>)))</span>
-<span id="cb62-3"><a href="u2-known-truth.html#cb62-3" tabindex="-1"></a></span>
-<span id="cb62-4"><a href="u2-known-truth.html#cb62-4" tabindex="-1"></a><span class="fu">c</span>(<span class="at">mean_of_sample_means =</span> <span class="fu">mean</span>(deck_means),</span>
-<span id="cb62-5"><a href="u2-known-truth.html#cb62-5" tabindex="-1"></a>  <span class="at">sd_of_sample_means   =</span> <span class="fu">sd</span>(deck_means))</span></code></pre></div>
-<pre><code>#&gt; mean_of_sample_means   sd_of_sample_means 
-#&gt;                6.932                1.201</code></pre>
-<div class="figure" style="text-align: center"><span style="display:block;" id="fig:u2-sampdist-plot"></span>
-<img src="stats-econometrics-r_files/figure-html/u2-sampdist-plot-1.png" alt="One thousand sample means, each computed from 10 cards drawn from a population whose mean is exactly 7." width="90%" />
-<p class="caption">
-Figure 2.2: One thousand sample means, each computed from 10 cards drawn from a population whose mean is exactly 7.
-</p>
-</div>
-<p>Two features of this picture are worth separating, and the next two sections
-take them one at a time: where the distribution sits, and how wide it is.</p>
 </div>
 </div>
 <script>
@@ -421,8 +427,8 @@ document.addEventListener("DOMContentLoaded", function () {
           </div>
         </div>
       </div>
-<a href="u2-iid.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="u2-centred.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="u3-variance.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="u3-ci.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -453,7 +459,7 @@ gitbook.start({
     "size": 2
   },
   "edit": {
-    "link": "https://github.com/kedarkulkarni1991/stats-econometrics-r/edit/main/02-estimation.Rmd",
+    "link": "https://github.com/kedarkulkarni1991/stats-econometrics-r/edit/main/03-point-and-interval-estimation.Rmd",
     "text": "Edit"
   },
   "history": {

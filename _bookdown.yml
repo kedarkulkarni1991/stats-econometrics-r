@@ -11,7 +11,8 @@ rmd_files:
   - "index.Rmd"
   - "01-towards-inferential-statistics.Rmd"
   - "02-estimation.Rmd"
-  - "06-hypothesis-testing-one-sample.Rmd"
+  - "03-point-and-interval-estimation.Rmd"
+  - "04-hypothesis-testing-one-sample.Rmd"
 
 language:
   ui:
