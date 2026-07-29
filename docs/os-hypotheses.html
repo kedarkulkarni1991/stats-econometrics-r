@@ -399,12 +399,12 @@ evidence at <span class="math inline">\(\alpha = 0.01\)</span> to support the re
 <p>The question says <strong>support</strong>, so the claim is the alternative:</p>
 <p><span class="math display">\[H_0 : \mu \leq 499 \qquad H_A : \mu &gt; 499\]</span></p>
 <p>This is right-tailed. The critical value is <span class="math inline">\(Z_{0.01} = 2.33\)</span>, not <span class="math inline">\(-2.33\)</span>.</p>
-<div class="sourceCode" id="cb110"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb110-1"><a href="os-hypotheses.html#cb110-1" tabindex="-1"></a>xbar_c <span class="ot">&lt;-</span> <span class="dv">502</span>; mu_c <span class="ot">&lt;-</span> <span class="dv">499</span>; sigma_c <span class="ot">&lt;-</span> <span class="fl">10.6</span>; n_c <span class="ot">&lt;-</span> <span class="dv">100</span></span>
-<span id="cb110-2"><a href="os-hypotheses.html#cb110-2" tabindex="-1"></a></span>
-<span id="cb110-3"><a href="os-hypotheses.html#cb110-3" tabindex="-1"></a>z_c <span class="ot">&lt;-</span> (xbar_c <span class="sc">-</span> mu_c) <span class="sc">/</span> (sigma_c <span class="sc">/</span> <span class="fu">sqrt</span>(n_c))</span>
-<span id="cb110-4"><a href="os-hypotheses.html#cb110-4" tabindex="-1"></a><span class="fu">c</span>(<span class="at">z_calc =</span> z_c,</span>
-<span id="cb110-5"><a href="os-hypotheses.html#cb110-5" tabindex="-1"></a>  <span class="at">z_crit =</span> <span class="fu">qnorm</span>(<span class="fl">0.99</span>),</span>
-<span id="cb110-6"><a href="os-hypotheses.html#cb110-6" tabindex="-1"></a>  <span class="at">p_value =</span> <span class="fu">pnorm</span>(z_c, <span class="at">lower.tail =</span> <span class="cn">FALSE</span>))   <span class="co"># upper tail: H_A is &quot;&gt;&quot;</span></span></code></pre></div>
+<div class="sourceCode" id="cb112"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb112-1"><a href="os-hypotheses.html#cb112-1" tabindex="-1"></a>xbar_c <span class="ot">&lt;-</span> <span class="dv">502</span>; mu_c <span class="ot">&lt;-</span> <span class="dv">499</span>; sigma_c <span class="ot">&lt;-</span> <span class="fl">10.6</span>; n_c <span class="ot">&lt;-</span> <span class="dv">100</span></span>
+<span id="cb112-2"><a href="os-hypotheses.html#cb112-2" tabindex="-1"></a></span>
+<span id="cb112-3"><a href="os-hypotheses.html#cb112-3" tabindex="-1"></a>z_c <span class="ot">&lt;-</span> (xbar_c <span class="sc">-</span> mu_c) <span class="sc">/</span> (sigma_c <span class="sc">/</span> <span class="fu">sqrt</span>(n_c))</span>
+<span id="cb112-4"><a href="os-hypotheses.html#cb112-4" tabindex="-1"></a><span class="fu">c</span>(<span class="at">z_calc =</span> z_c,</span>
+<span id="cb112-5"><a href="os-hypotheses.html#cb112-5" tabindex="-1"></a>  <span class="at">z_crit =</span> <span class="fu">qnorm</span>(<span class="fl">0.99</span>),</span>
+<span id="cb112-6"><a href="os-hypotheses.html#cb112-6" tabindex="-1"></a>  <span class="at">p_value =</span> <span class="fu">pnorm</span>(z_c, <span class="at">lower.tail =</span> <span class="cn">FALSE</span>))   <span class="co"># upper tail: H_A is &quot;&gt;&quot;</span></span></code></pre></div>
 <pre><code>#&gt;   z_calc   z_crit  p_value 
 #&gt; 2.830189 2.326348 0.002326</code></pre>
 <p><span class="math inline">\(Z_{calc} = 2.83 &gt; 2.33\)</span>, and <span class="math inline">\(p = 0.0023 &lt; 0.01\)</span>. We <strong>reject <span class="math inline">\(H_0\)</span></strong>, which

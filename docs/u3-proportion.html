@@ -341,16 +341,16 @@ average, and it would be reasonable to expect a separate theory.</p>
 <p>There is none, and the reason is a small trick.</p>
 <p>Write down, for each person in the sample, a variable that equals 1 if they
 have the characteristic and 0 if they do not.</p>
-<div class="sourceCode" id="cb78"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb78-1"><a href="u3-proportion.html#cb78-1" tabindex="-1"></a>wages <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/wages-india-synthetic.csv&quot;</span>)</span>
-<span id="cb78-2"><a href="u3-proportion.html#cb78-2" tabindex="-1"></a></span>
-<span id="cb78-3"><a href="u3-proportion.html#cb78-3" tabindex="-1"></a>is_urban <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(wages<span class="sc">$</span>residence <span class="sc">==</span> <span class="st">&quot;Urban&quot;</span>)</span>
-<span id="cb78-4"><a href="u3-proportion.html#cb78-4" tabindex="-1"></a><span class="fu">head</span>(is_urban, <span class="dv">20</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb80"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb80-1"><a href="u3-proportion.html#cb80-1" tabindex="-1"></a>wages <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/wages-india-synthetic.csv&quot;</span>)</span>
+<span id="cb80-2"><a href="u3-proportion.html#cb80-2" tabindex="-1"></a></span>
+<span id="cb80-3"><a href="u3-proportion.html#cb80-3" tabindex="-1"></a>is_urban <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(wages<span class="sc">$</span>residence <span class="sc">==</span> <span class="st">&quot;Urban&quot;</span>)</span>
+<span id="cb80-4"><a href="u3-proportion.html#cb80-4" tabindex="-1"></a><span class="fu">head</span>(is_urban, <span class="dv">20</span>)</span></code></pre></div>
 <pre><code>#&gt;  [1] 0 0 1 1 0 1 0 0 0 1 0 1 0 1 1 0 0 0 0 1</code></pre>
 <p>The <em>average</em> of that column is the <em>proportion</em> of people with the
 characteristic. Adding up a column of ones and zeros counts the ones, and
 dividing by <span class="math inline">\(n\)</span> turns the count into a share.</p>
-<div class="sourceCode" id="cb80"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb80-1"><a href="u3-proportion.html#cb80-1" tabindex="-1"></a><span class="fu">c</span>(<span class="at">mean_of_indicator =</span> <span class="fu">mean</span>(is_urban),</span>
-<span id="cb80-2"><a href="u3-proportion.html#cb80-2" tabindex="-1"></a>  <span class="at">proportion_urban  =</span> <span class="fu">sum</span>(wages<span class="sc">$</span>residence <span class="sc">==</span> <span class="st">&quot;Urban&quot;</span>) <span class="sc">/</span> <span class="fu">nrow</span>(wages))</span></code></pre></div>
+<div class="sourceCode" id="cb82"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb82-1"><a href="u3-proportion.html#cb82-1" tabindex="-1"></a><span class="fu">c</span>(<span class="at">mean_of_indicator =</span> <span class="fu">mean</span>(is_urban),</span>
+<span id="cb82-2"><a href="u3-proportion.html#cb82-2" tabindex="-1"></a>  <span class="at">proportion_urban  =</span> <span class="fu">sum</span>(wages<span class="sc">$</span>residence <span class="sc">==</span> <span class="st">&quot;Urban&quot;</span>) <span class="sc">/</span> <span class="fu">nrow</span>(wages))</span></code></pre></div>
 <pre><code>#&gt; mean_of_indicator  proportion_urban 
 #&gt;            0.2684            0.2685</code></pre>
 <div class="keyidea">
@@ -385,13 +385,13 @@ variance, note that <span class="math inline">\(X_i^2 = X_i\)</span>, since <spa
 <p>In practice <span class="math inline">\(p\)</span> is unknown — it is what we are estimating — so we substitute
 <span class="math inline">\(\hat{p}\)</span>:</p>
 <p><span class="math display">\[\widehat{\mathrm{se}}(\hat{p}) = \sqrt{\frac{\hat{p}(1-\hat{p})}{n}}\]</span></p>
-<div class="sourceCode" id="cb82"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb82-1"><a href="u3-proportion.html#cb82-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">8</span>)</span>
-<span id="cb82-2"><a href="u3-proportion.html#cb82-2" tabindex="-1"></a>sample_urban <span class="ot">&lt;-</span> <span class="fu">sample</span>(is_urban, <span class="dv">500</span>)</span>
-<span id="cb82-3"><a href="u3-proportion.html#cb82-3" tabindex="-1"></a></span>
-<span id="cb82-4"><a href="u3-proportion.html#cb82-4" tabindex="-1"></a>p_hat <span class="ot">&lt;-</span> <span class="fu">mean</span>(sample_urban)</span>
-<span id="cb82-5"><a href="u3-proportion.html#cb82-5" tabindex="-1"></a>se_p  <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(p_hat <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> p_hat) <span class="sc">/</span> <span class="dv">500</span>)</span>
-<span id="cb82-6"><a href="u3-proportion.html#cb82-6" tabindex="-1"></a></span>
-<span id="cb82-7"><a href="u3-proportion.html#cb82-7" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">p_hat =</span> p_hat, <span class="at">se =</span> se_p, <span class="at">true_p =</span> <span class="fu">mean</span>(is_urban)), <span class="dv">4</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb84"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb84-1"><a href="u3-proportion.html#cb84-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">8</span>)</span>
+<span id="cb84-2"><a href="u3-proportion.html#cb84-2" tabindex="-1"></a>sample_urban <span class="ot">&lt;-</span> <span class="fu">sample</span>(is_urban, <span class="dv">500</span>)</span>
+<span id="cb84-3"><a href="u3-proportion.html#cb84-3" tabindex="-1"></a></span>
+<span id="cb84-4"><a href="u3-proportion.html#cb84-4" tabindex="-1"></a>p_hat <span class="ot">&lt;-</span> <span class="fu">mean</span>(sample_urban)</span>
+<span id="cb84-5"><a href="u3-proportion.html#cb84-5" tabindex="-1"></a>se_p  <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(p_hat <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> p_hat) <span class="sc">/</span> <span class="dv">500</span>)</span>
+<span id="cb84-6"><a href="u3-proportion.html#cb84-6" tabindex="-1"></a></span>
+<span id="cb84-7"><a href="u3-proportion.html#cb84-7" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">p_hat =</span> p_hat, <span class="at">se =</span> se_p, <span class="at">true_p =</span> <span class="fu">mean</span>(is_urban)), <span class="dv">4</span>)</span></code></pre></div>
 <pre><code>#&gt;  p_hat     se true_p 
 #&gt; 0.2820 0.0201 0.2684</code></pre>
 <div class="intuition">

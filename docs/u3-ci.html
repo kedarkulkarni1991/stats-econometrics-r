@@ -334,7 +334,7 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <p>We have a number and a standard error. How do we turn them into a range?</p>
 </div>
 <p>Suppose a survey of 40 students gives a mean attendance of 26.4 classes, and we
-know from long experience that <span class="math inline">\(\sigma = 5.45\)</span>. The standard error is
+know from long experience that <span class="math inline">\(\sigma = 5.45\)</span> classes. The standard error is
 <span class="math inline">\(5.45/\sqrt{40} = 0.86\)</span>.</p>
 <p>We know from the Central Limit Theorem that <span class="math inline">\(\bar{X}\)</span> is approximately normal
 around <span class="math inline">\(\mu\)</span> with that standard error. And we know a fact about normal
@@ -382,16 +382,16 @@ confidence level is <span class="math inline">\(1 - \alpha\)</span>.</p>
 <p>In R these come from <code>qnorm(1 - alpha/2)</code> — there is no need for a printed
 table.</p>
 </div>
-<div class="sourceCode" id="cb84"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb84-1"><a href="u3-ci.html#cb84-1" tabindex="-1"></a>x_bar <span class="ot">&lt;-</span> <span class="fl">26.4</span></span>
-<span id="cb84-2"><a href="u3-ci.html#cb84-2" tabindex="-1"></a>sigma <span class="ot">&lt;-</span> <span class="fl">5.45</span></span>
-<span id="cb84-3"><a href="u3-ci.html#cb84-3" tabindex="-1"></a>n     <span class="ot">&lt;-</span> <span class="dv">40</span></span>
-<span id="cb84-4"><a href="u3-ci.html#cb84-4" tabindex="-1"></a></span>
-<span id="cb84-5"><a href="u3-ci.html#cb84-5" tabindex="-1"></a><span class="cf">for</span> (level <span class="cf">in</span> <span class="fu">c</span>(<span class="fl">0.90</span>, <span class="fl">0.95</span>, <span class="fl">0.99</span>)) {</span>
-<span id="cb84-6"><a href="u3-ci.html#cb84-6" tabindex="-1"></a>  z  <span class="ot">&lt;-</span> <span class="fu">qnorm</span>(<span class="dv">1</span> <span class="sc">-</span> (<span class="dv">1</span> <span class="sc">-</span> level) <span class="sc">/</span> <span class="dv">2</span>)</span>
-<span id="cb84-7"><a href="u3-ci.html#cb84-7" tabindex="-1"></a>  ci <span class="ot">&lt;-</span> x_bar <span class="sc">+</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>) <span class="sc">*</span> z <span class="sc">*</span> sigma <span class="sc">/</span> <span class="fu">sqrt</span>(n)</span>
-<span id="cb84-8"><a href="u3-ci.html#cb84-8" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">&quot;%2.0f%%  z = %.3f   [%.2f, %.2f]   width %.2f</span><span class="sc">\n</span><span class="st">&quot;</span>,</span>
-<span id="cb84-9"><a href="u3-ci.html#cb84-9" tabindex="-1"></a>              <span class="dv">100</span> <span class="sc">*</span> level, z, ci[<span class="dv">1</span>], ci[<span class="dv">2</span>], <span class="fu">diff</span>(ci)))</span>
-<span id="cb84-10"><a href="u3-ci.html#cb84-10" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb86"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb86-1"><a href="u3-ci.html#cb86-1" tabindex="-1"></a>x_bar <span class="ot">&lt;-</span> <span class="fl">26.4</span></span>
+<span id="cb86-2"><a href="u3-ci.html#cb86-2" tabindex="-1"></a>sigma <span class="ot">&lt;-</span> <span class="fl">5.45</span></span>
+<span id="cb86-3"><a href="u3-ci.html#cb86-3" tabindex="-1"></a>n     <span class="ot">&lt;-</span> <span class="dv">40</span></span>
+<span id="cb86-4"><a href="u3-ci.html#cb86-4" tabindex="-1"></a></span>
+<span id="cb86-5"><a href="u3-ci.html#cb86-5" tabindex="-1"></a><span class="cf">for</span> (level <span class="cf">in</span> <span class="fu">c</span>(<span class="fl">0.90</span>, <span class="fl">0.95</span>, <span class="fl">0.99</span>)) {</span>
+<span id="cb86-6"><a href="u3-ci.html#cb86-6" tabindex="-1"></a>  z  <span class="ot">&lt;-</span> <span class="fu">qnorm</span>(<span class="dv">1</span> <span class="sc">-</span> (<span class="dv">1</span> <span class="sc">-</span> level) <span class="sc">/</span> <span class="dv">2</span>)</span>
+<span id="cb86-7"><a href="u3-ci.html#cb86-7" tabindex="-1"></a>  ci <span class="ot">&lt;-</span> x_bar <span class="sc">+</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>) <span class="sc">*</span> z <span class="sc">*</span> sigma <span class="sc">/</span> <span class="fu">sqrt</span>(n)</span>
+<span id="cb86-8"><a href="u3-ci.html#cb86-8" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">&quot;%2.0f%%  z = %.3f   [%.2f, %.2f]   width %.2f</span><span class="sc">\n</span><span class="st">&quot;</span>,</span>
+<span id="cb86-9"><a href="u3-ci.html#cb86-9" tabindex="-1"></a>              <span class="dv">100</span> <span class="sc">*</span> level, z, ci[<span class="dv">1</span>], ci[<span class="dv">2</span>], <span class="fu">diff</span>(ci)))</span>
+<span id="cb86-10"><a href="u3-ci.html#cb86-10" tabindex="-1"></a>}</span></code></pre></div>
 <pre><code>#&gt; 90%  z = 1.645   [24.98, 27.82]   width 2.83
 #&gt; 95%  z = 1.960   [24.71, 28.09]   width 3.38
 #&gt; 99%  z = 2.576   [24.18, 28.62]   width 4.44</code></pre>
@@ -410,28 +410,31 @@ constructed an interval each time, about 95% of those intervals would contain
 and its coverage rate together.</p>
 <p>We can watch this happen. Treat the 680 students as a population, so <span class="math inline">\(\mu\)</span> is
 known, and construct 100 intervals from 100 samples.</p>
-<div class="sourceCode" id="cb86"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb86-1"><a href="u3-ci.html#cb86-1" tabindex="-1"></a>mu_pop    <span class="ot">&lt;-</span> <span class="fu">mean</span>(att)</span>
-<span id="cb86-2"><a href="u3-ci.html#cb86-2" tabindex="-1"></a>sigma_pop <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">mean</span>((att <span class="sc">-</span> <span class="fu">mean</span>(att))<span class="sc">^</span><span class="dv">2</span>))</span>
-<span id="cb86-3"><a href="u3-ci.html#cb86-3" tabindex="-1"></a></span>
-<span id="cb86-4"><a href="u3-ci.html#cb86-4" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
-<span id="cb86-5"><a href="u3-ci.html#cb86-5" tabindex="-1"></a>ci_sim <span class="ot">&lt;-</span> <span class="fu">t</span>(<span class="fu">replicate</span>(<span class="dv">100</span>, {</span>
-<span id="cb86-6"><a href="u3-ci.html#cb86-6" tabindex="-1"></a>  x <span class="ot">&lt;-</span> <span class="fu">sample</span>(att, <span class="dv">40</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb86-7"><a href="u3-ci.html#cb86-7" tabindex="-1"></a>  <span class="fu">mean</span>(x) <span class="sc">+</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>) <span class="sc">*</span> <span class="fl">1.96</span> <span class="sc">*</span> sigma_pop <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="dv">40</span>)</span>
-<span id="cb86-8"><a href="u3-ci.html#cb86-8" tabindex="-1"></a>}))</span>
-<span id="cb86-9"><a href="u3-ci.html#cb86-9" tabindex="-1"></a></span>
-<span id="cb86-10"><a href="u3-ci.html#cb86-10" tabindex="-1"></a>covers <span class="ot">&lt;-</span> ci_sim[, <span class="dv">1</span>] <span class="sc">&lt;=</span> mu_pop <span class="sc">&amp;</span> ci_sim[, <span class="dv">2</span>] <span class="sc">&gt;=</span> mu_pop</span>
-<span id="cb86-11"><a href="u3-ci.html#cb86-11" tabindex="-1"></a></span>
-<span id="cb86-12"><a href="u3-ci.html#cb86-12" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">id =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">100</span>, <span class="at">lo =</span> ci_sim[, <span class="dv">1</span>], <span class="at">hi =</span> ci_sim[, <span class="dv">2</span>],</span>
-<span id="cb86-13"><a href="u3-ci.html#cb86-13" tabindex="-1"></a>                <span class="at">covers =</span> <span class="fu">ifelse</span>(covers, <span class="st">&quot;Contains μ&quot;</span>, <span class="st">&quot;Misses μ&quot;</span>))</span>
-<span id="cb86-14"><a href="u3-ci.html#cb86-14" tabindex="-1"></a></span>
-<span id="cb86-15"><a href="u3-ci.html#cb86-15" tabindex="-1"></a><span class="fu">ggplot</span>(d, <span class="fu">aes</span>(<span class="at">y =</span> id, <span class="at">xmin =</span> lo, <span class="at">xmax =</span> hi, <span class="at">colour =</span> covers)) <span class="sc">+</span></span>
-<span id="cb86-16"><a href="u3-ci.html#cb86-16" tabindex="-1"></a>  <span class="fu">geom_errorbarh</span>(<span class="at">height =</span> <span class="dv">0</span>, <span class="at">linewidth =</span> <span class="fl">0.45</span>) <span class="sc">+</span></span>
-<span id="cb86-17"><a href="u3-ci.html#cb86-17" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> mu_pop, <span class="at">linewidth =</span> <span class="fl">0.7</span>, <span class="at">colour =</span> <span class="st">&quot;grey20&quot;</span>) <span class="sc">+</span></span>
-<span id="cb86-18"><a href="u3-ci.html#cb86-18" tabindex="-1"></a>  <span class="fu">scale_colour_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(book_palette<span class="sc">$</span>fill, book_palette<span class="sc">$</span>reject),</span>
-<span id="cb86-19"><a href="u3-ci.html#cb86-19" tabindex="-1"></a>                      <span class="at">name =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
-<span id="cb86-20"><a href="u3-ci.html#cb86-20" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Mean attendance&quot;</span>, <span class="at">y =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
-<span id="cb86-21"><a href="u3-ci.html#cb86-21" tabindex="-1"></a>  <span class="fu">theme_book</span>() <span class="sc">+</span></span>
-<span id="cb86-22"><a href="u3-ci.html#cb86-22" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.y =</span> <span class="fu">element_blank</span>(), <span class="at">legend.position =</span> <span class="st">&quot;top&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb88"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb88-1"><a href="u3-ci.html#cb88-1" tabindex="-1"></a>students <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/attendance-grades.csv&quot;</span>)</span>
+<span id="cb88-2"><a href="u3-ci.html#cb88-2" tabindex="-1"></a>att      <span class="ot">&lt;-</span> students<span class="sc">$</span>attendance</span>
+<span id="cb88-3"><a href="u3-ci.html#cb88-3" tabindex="-1"></a></span>
+<span id="cb88-4"><a href="u3-ci.html#cb88-4" tabindex="-1"></a>mu_pop    <span class="ot">&lt;-</span> <span class="fu">mean</span>(att)</span>
+<span id="cb88-5"><a href="u3-ci.html#cb88-5" tabindex="-1"></a>sigma_pop <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">mean</span>((att <span class="sc">-</span> <span class="fu">mean</span>(att))<span class="sc">^</span><span class="dv">2</span>))</span>
+<span id="cb88-6"><a href="u3-ci.html#cb88-6" tabindex="-1"></a></span>
+<span id="cb88-7"><a href="u3-ci.html#cb88-7" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb88-8"><a href="u3-ci.html#cb88-8" tabindex="-1"></a>ci_sim <span class="ot">&lt;-</span> <span class="fu">t</span>(<span class="fu">replicate</span>(<span class="dv">100</span>, {</span>
+<span id="cb88-9"><a href="u3-ci.html#cb88-9" tabindex="-1"></a>  x <span class="ot">&lt;-</span> <span class="fu">sample</span>(att, <span class="dv">40</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb88-10"><a href="u3-ci.html#cb88-10" tabindex="-1"></a>  <span class="fu">mean</span>(x) <span class="sc">+</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>) <span class="sc">*</span> <span class="fl">1.96</span> <span class="sc">*</span> sigma_pop <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="dv">40</span>)</span>
+<span id="cb88-11"><a href="u3-ci.html#cb88-11" tabindex="-1"></a>}))</span>
+<span id="cb88-12"><a href="u3-ci.html#cb88-12" tabindex="-1"></a></span>
+<span id="cb88-13"><a href="u3-ci.html#cb88-13" tabindex="-1"></a>covers <span class="ot">&lt;-</span> ci_sim[, <span class="dv">1</span>] <span class="sc">&lt;=</span> mu_pop <span class="sc">&amp;</span> ci_sim[, <span class="dv">2</span>] <span class="sc">&gt;=</span> mu_pop</span>
+<span id="cb88-14"><a href="u3-ci.html#cb88-14" tabindex="-1"></a></span>
+<span id="cb88-15"><a href="u3-ci.html#cb88-15" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">id =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">100</span>, <span class="at">lo =</span> ci_sim[, <span class="dv">1</span>], <span class="at">hi =</span> ci_sim[, <span class="dv">2</span>],</span>
+<span id="cb88-16"><a href="u3-ci.html#cb88-16" tabindex="-1"></a>                <span class="at">covers =</span> <span class="fu">ifelse</span>(covers, <span class="st">&quot;Contains μ&quot;</span>, <span class="st">&quot;Misses μ&quot;</span>))</span>
+<span id="cb88-17"><a href="u3-ci.html#cb88-17" tabindex="-1"></a></span>
+<span id="cb88-18"><a href="u3-ci.html#cb88-18" tabindex="-1"></a><span class="fu">ggplot</span>(d, <span class="fu">aes</span>(<span class="at">y =</span> id, <span class="at">xmin =</span> lo, <span class="at">xmax =</span> hi, <span class="at">colour =</span> covers)) <span class="sc">+</span></span>
+<span id="cb88-19"><a href="u3-ci.html#cb88-19" tabindex="-1"></a>  <span class="fu">geom_errorbarh</span>(<span class="at">height =</span> <span class="dv">0</span>, <span class="at">linewidth =</span> <span class="fl">0.45</span>) <span class="sc">+</span></span>
+<span id="cb88-20"><a href="u3-ci.html#cb88-20" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> mu_pop, <span class="at">linewidth =</span> <span class="fl">0.7</span>, <span class="at">colour =</span> <span class="st">&quot;grey20&quot;</span>) <span class="sc">+</span></span>
+<span id="cb88-21"><a href="u3-ci.html#cb88-21" tabindex="-1"></a>  <span class="fu">scale_colour_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(book_palette<span class="sc">$</span>fill, book_palette<span class="sc">$</span>reject),</span>
+<span id="cb88-22"><a href="u3-ci.html#cb88-22" tabindex="-1"></a>                      <span class="at">name =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
+<span id="cb88-23"><a href="u3-ci.html#cb88-23" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Mean attendance&quot;</span>, <span class="at">y =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
+<span id="cb88-24"><a href="u3-ci.html#cb88-24" tabindex="-1"></a>  <span class="fu">theme_book</span>() <span class="sc">+</span></span>
+<span id="cb88-25"><a href="u3-ci.html#cb88-25" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.y =</span> <span class="fu">element_blank</span>(), <span class="at">legend.position =</span> <span class="st">&quot;top&quot;</span>)</span></code></pre></div>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:u3-coverage"></span>
 <img src="stats-econometrics-r_files/figure-html/u3-coverage-1.png" alt="One hundred 95% confidence intervals, each from a fresh sample of 40 students. The vertical line is the true population mean." width="90%" />
 <p class="caption">

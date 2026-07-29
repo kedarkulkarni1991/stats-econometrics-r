@@ -347,15 +347,15 @@ other direction: halving the margin of error quadruples the sample.</p>
 out. The standard resolution is to use the worst case. Since <span class="math inline">\(p(1-p)\)</span> is
 maximised at <span class="math inline">\(p = 0.5\)</span>, setting <span class="math inline">\(p = 0.5\)</span> gives a sample size large enough
 whatever the truth turns out to be.</p>
-<div class="sourceCode" id="cb91"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb91-1"><a href="u3-samplesize.html#cb91-1" tabindex="-1"></a>sample_size_prop <span class="ot">&lt;-</span> <span class="cf">function</span>(margin, <span class="at">level =</span> <span class="fl">0.95</span>, <span class="at">p =</span> <span class="fl">0.5</span>) {</span>
-<span id="cb91-2"><a href="u3-samplesize.html#cb91-2" tabindex="-1"></a>  z <span class="ot">&lt;-</span> <span class="fu">qnorm</span>(<span class="dv">1</span> <span class="sc">-</span> (<span class="dv">1</span> <span class="sc">-</span> level) <span class="sc">/</span> <span class="dv">2</span>)</span>
-<span id="cb91-3"><a href="u3-samplesize.html#cb91-3" tabindex="-1"></a>  <span class="fu">ceiling</span>(z<span class="sc">^</span><span class="dv">2</span> <span class="sc">*</span> p <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> p) <span class="sc">/</span> margin<span class="sc">^</span><span class="dv">2</span>)</span>
-<span id="cb91-4"><a href="u3-samplesize.html#cb91-4" tabindex="-1"></a>}</span>
-<span id="cb91-5"><a href="u3-samplesize.html#cb91-5" tabindex="-1"></a></span>
-<span id="cb91-6"><a href="u3-samplesize.html#cb91-6" tabindex="-1"></a><span class="fu">data.frame</span>(<span class="at">margin_of_error =</span> <span class="fu">c</span>(<span class="st">&quot;5%&quot;</span>, <span class="st">&quot;3%&quot;</span>, <span class="st">&quot;2%&quot;</span>, <span class="st">&quot;1%&quot;</span>),</span>
-<span id="cb91-7"><a href="u3-samplesize.html#cb91-7" tabindex="-1"></a>           <span class="at">n_at_95 =</span> <span class="fu">sapply</span>(<span class="fu">c</span>(<span class="fl">0.05</span>, <span class="fl">0.03</span>, <span class="fl">0.02</span>, <span class="fl">0.01</span>), sample_size_prop),</span>
-<span id="cb91-8"><a href="u3-samplesize.html#cb91-8" tabindex="-1"></a>           <span class="at">n_at_90 =</span> <span class="fu">sapply</span>(<span class="fu">c</span>(<span class="fl">0.05</span>, <span class="fl">0.03</span>, <span class="fl">0.02</span>, <span class="fl">0.01</span>), sample_size_prop,</span>
-<span id="cb91-9"><a href="u3-samplesize.html#cb91-9" tabindex="-1"></a>                            <span class="at">level =</span> <span class="fl">0.90</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb93"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb93-1"><a href="u3-samplesize.html#cb93-1" tabindex="-1"></a>sample_size_prop <span class="ot">&lt;-</span> <span class="cf">function</span>(margin, <span class="at">level =</span> <span class="fl">0.95</span>, <span class="at">p =</span> <span class="fl">0.5</span>) {</span>
+<span id="cb93-2"><a href="u3-samplesize.html#cb93-2" tabindex="-1"></a>  z <span class="ot">&lt;-</span> <span class="fu">qnorm</span>(<span class="dv">1</span> <span class="sc">-</span> (<span class="dv">1</span> <span class="sc">-</span> level) <span class="sc">/</span> <span class="dv">2</span>)</span>
+<span id="cb93-3"><a href="u3-samplesize.html#cb93-3" tabindex="-1"></a>  <span class="fu">ceiling</span>(z<span class="sc">^</span><span class="dv">2</span> <span class="sc">*</span> p <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> p) <span class="sc">/</span> margin<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb93-4"><a href="u3-samplesize.html#cb93-4" tabindex="-1"></a>}</span>
+<span id="cb93-5"><a href="u3-samplesize.html#cb93-5" tabindex="-1"></a></span>
+<span id="cb93-6"><a href="u3-samplesize.html#cb93-6" tabindex="-1"></a><span class="fu">data.frame</span>(<span class="at">margin_of_error =</span> <span class="fu">c</span>(<span class="st">&quot;5%&quot;</span>, <span class="st">&quot;3%&quot;</span>, <span class="st">&quot;2%&quot;</span>, <span class="st">&quot;1%&quot;</span>),</span>
+<span id="cb93-7"><a href="u3-samplesize.html#cb93-7" tabindex="-1"></a>           <span class="at">n_at_95 =</span> <span class="fu">sapply</span>(<span class="fu">c</span>(<span class="fl">0.05</span>, <span class="fl">0.03</span>, <span class="fl">0.02</span>, <span class="fl">0.01</span>), sample_size_prop),</span>
+<span id="cb93-8"><a href="u3-samplesize.html#cb93-8" tabindex="-1"></a>           <span class="at">n_at_90 =</span> <span class="fu">sapply</span>(<span class="fu">c</span>(<span class="fl">0.05</span>, <span class="fl">0.03</span>, <span class="fl">0.02</span>, <span class="fl">0.01</span>), sample_size_prop,</span>
+<span id="cb93-9"><a href="u3-samplesize.html#cb93-9" tabindex="-1"></a>                            <span class="at">level =</span> <span class="fl">0.90</span>))</span></code></pre></div>
 <pre><code>#&gt;   margin_of_error n_at_95 n_at_90
 #&gt; 1              5%     385     271
 #&gt; 2              3%    1068     752
@@ -385,15 +385,15 @@ determines the standard error on its own, so there is no second estimate to
 account for.</p>
 <p>Suppose that in a random sample of 1,000 secondary school teachers in
 Karnataka, 518 are women.</p>
-<div class="sourceCode" id="cb93"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb93-1"><a href="u3-samplesize.html#cb93-1" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">518</span></span>
-<span id="cb93-2"><a href="u3-samplesize.html#cb93-2" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">1000</span></span>
-<span id="cb93-3"><a href="u3-samplesize.html#cb93-3" tabindex="-1"></a></span>
-<span id="cb93-4"><a href="u3-samplesize.html#cb93-4" tabindex="-1"></a>p_hat <span class="ot">&lt;-</span> x <span class="sc">/</span> n</span>
-<span id="cb93-5"><a href="u3-samplesize.html#cb93-5" tabindex="-1"></a>se    <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(p_hat <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> p_hat) <span class="sc">/</span> n)</span>
-<span id="cb93-6"><a href="u3-samplesize.html#cb93-6" tabindex="-1"></a></span>
-<span id="cb93-7"><a href="u3-samplesize.html#cb93-7" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">p_hat =</span> p_hat, <span class="at">se =</span> se,</span>
-<span id="cb93-8"><a href="u3-samplesize.html#cb93-8" tabindex="-1"></a>        <span class="at">lower =</span> p_hat <span class="sc">-</span> <span class="fl">1.96</span> <span class="sc">*</span> se,</span>
-<span id="cb93-9"><a href="u3-samplesize.html#cb93-9" tabindex="-1"></a>        <span class="at">upper =</span> p_hat <span class="sc">+</span> <span class="fl">1.96</span> <span class="sc">*</span> se), <span class="dv">4</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb95"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb95-1"><a href="u3-samplesize.html#cb95-1" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">518</span></span>
+<span id="cb95-2"><a href="u3-samplesize.html#cb95-2" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">1000</span></span>
+<span id="cb95-3"><a href="u3-samplesize.html#cb95-3" tabindex="-1"></a></span>
+<span id="cb95-4"><a href="u3-samplesize.html#cb95-4" tabindex="-1"></a>p_hat <span class="ot">&lt;-</span> x <span class="sc">/</span> n</span>
+<span id="cb95-5"><a href="u3-samplesize.html#cb95-5" tabindex="-1"></a>se    <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(p_hat <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> p_hat) <span class="sc">/</span> n)</span>
+<span id="cb95-6"><a href="u3-samplesize.html#cb95-6" tabindex="-1"></a></span>
+<span id="cb95-7"><a href="u3-samplesize.html#cb95-7" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">p_hat =</span> p_hat, <span class="at">se =</span> se,</span>
+<span id="cb95-8"><a href="u3-samplesize.html#cb95-8" tabindex="-1"></a>        <span class="at">lower =</span> p_hat <span class="sc">-</span> <span class="fl">1.96</span> <span class="sc">*</span> se,</span>
+<span id="cb95-9"><a href="u3-samplesize.html#cb95-9" tabindex="-1"></a>        <span class="at">upper =</span> p_hat <span class="sc">+</span> <span class="fl">1.96</span> <span class="sc">*</span> se), <span class="dv">4</span>)</span></code></pre></div>
 <pre><code>#&gt;  p_hat     se  lower  upper 
 #&gt; 0.5180 0.0158 0.4870 0.5490</code></pre>
 <p>So we report that between 48.7% and 54.9% of secondary school teachers in

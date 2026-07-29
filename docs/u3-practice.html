@@ -544,19 +544,19 @@ state. If the real figure turns out to be 0.5 and the survey was sized for
 mean, variance and standard deviation of attendance, semester GPA and final
 score. Then construct 95% confidence intervals for each mean.</p>
 <div class="answer">
-<div class="sourceCode" id="cb97"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb97-1"><a href="u3-practice.html#cb97-1" tabindex="-1"></a>students <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/attendance-grades.csv&quot;</span>)</span>
-<span id="cb97-2"><a href="u3-practice.html#cb97-2" tabindex="-1"></a>vars     <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;attendance&quot;</span>, <span class="st">&quot;sem_gpa&quot;</span>, <span class="st">&quot;final_score&quot;</span>)</span>
-<span id="cb97-3"><a href="u3-practice.html#cb97-3" tabindex="-1"></a></span>
-<span id="cb97-4"><a href="u3-practice.html#cb97-4" tabindex="-1"></a>est <span class="ot">&lt;-</span> <span class="fu">t</span>(<span class="fu">sapply</span>(vars, <span class="cf">function</span>(v) {</span>
-<span id="cb97-5"><a href="u3-practice.html#cb97-5" tabindex="-1"></a>  x  <span class="ot">&lt;-</span> students[[v]]</span>
-<span id="cb97-6"><a href="u3-practice.html#cb97-6" tabindex="-1"></a>  n  <span class="ot">&lt;-</span> <span class="fu">length</span>(x)</span>
-<span id="cb97-7"><a href="u3-practice.html#cb97-7" tabindex="-1"></a>  se <span class="ot">&lt;-</span> <span class="fu">sd</span>(x) <span class="sc">/</span> <span class="fu">sqrt</span>(n)</span>
-<span id="cb97-8"><a href="u3-practice.html#cb97-8" tabindex="-1"></a>  tc <span class="ot">&lt;-</span> <span class="fu">qt</span>(<span class="fl">0.975</span>, <span class="at">df =</span> n <span class="sc">-</span> <span class="dv">1</span>)</span>
-<span id="cb97-9"><a href="u3-practice.html#cb97-9" tabindex="-1"></a>  <span class="fu">c</span>(<span class="at">mean =</span> <span class="fu">mean</span>(x), <span class="at">var =</span> <span class="fu">var</span>(x), <span class="at">sd =</span> <span class="fu">sd</span>(x), <span class="at">se =</span> se,</span>
-<span id="cb97-10"><a href="u3-practice.html#cb97-10" tabindex="-1"></a>    <span class="at">lower =</span> <span class="fu">mean</span>(x) <span class="sc">-</span> tc <span class="sc">*</span> se, <span class="at">upper =</span> <span class="fu">mean</span>(x) <span class="sc">+</span> tc <span class="sc">*</span> se)</span>
-<span id="cb97-11"><a href="u3-practice.html#cb97-11" tabindex="-1"></a>}))</span>
-<span id="cb97-12"><a href="u3-practice.html#cb97-12" tabindex="-1"></a></span>
-<span id="cb97-13"><a href="u3-practice.html#cb97-13" tabindex="-1"></a><span class="fu">round</span>(est, <span class="dv">3</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb99"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb99-1"><a href="u3-practice.html#cb99-1" tabindex="-1"></a>students <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/attendance-grades.csv&quot;</span>)</span>
+<span id="cb99-2"><a href="u3-practice.html#cb99-2" tabindex="-1"></a>vars     <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;attendance&quot;</span>, <span class="st">&quot;sem_gpa&quot;</span>, <span class="st">&quot;final_score&quot;</span>)</span>
+<span id="cb99-3"><a href="u3-practice.html#cb99-3" tabindex="-1"></a></span>
+<span id="cb99-4"><a href="u3-practice.html#cb99-4" tabindex="-1"></a>est <span class="ot">&lt;-</span> <span class="fu">t</span>(<span class="fu">sapply</span>(vars, <span class="cf">function</span>(v) {</span>
+<span id="cb99-5"><a href="u3-practice.html#cb99-5" tabindex="-1"></a>  x  <span class="ot">&lt;-</span> students[[v]]</span>
+<span id="cb99-6"><a href="u3-practice.html#cb99-6" tabindex="-1"></a>  n  <span class="ot">&lt;-</span> <span class="fu">length</span>(x)</span>
+<span id="cb99-7"><a href="u3-practice.html#cb99-7" tabindex="-1"></a>  se <span class="ot">&lt;-</span> <span class="fu">sd</span>(x) <span class="sc">/</span> <span class="fu">sqrt</span>(n)</span>
+<span id="cb99-8"><a href="u3-practice.html#cb99-8" tabindex="-1"></a>  tc <span class="ot">&lt;-</span> <span class="fu">qt</span>(<span class="fl">0.975</span>, <span class="at">df =</span> n <span class="sc">-</span> <span class="dv">1</span>)</span>
+<span id="cb99-9"><a href="u3-practice.html#cb99-9" tabindex="-1"></a>  <span class="fu">c</span>(<span class="at">mean =</span> <span class="fu">mean</span>(x), <span class="at">var =</span> <span class="fu">var</span>(x), <span class="at">sd =</span> <span class="fu">sd</span>(x), <span class="at">se =</span> se,</span>
+<span id="cb99-10"><a href="u3-practice.html#cb99-10" tabindex="-1"></a>    <span class="at">lower =</span> <span class="fu">mean</span>(x) <span class="sc">-</span> tc <span class="sc">*</span> se, <span class="at">upper =</span> <span class="fu">mean</span>(x) <span class="sc">+</span> tc <span class="sc">*</span> se)</span>
+<span id="cb99-11"><a href="u3-practice.html#cb99-11" tabindex="-1"></a>}))</span>
+<span id="cb99-12"><a href="u3-practice.html#cb99-12" tabindex="-1"></a></span>
+<span id="cb99-13"><a href="u3-practice.html#cb99-13" tabindex="-1"></a><span class="fu">round</span>(est, <span class="dv">3</span>)</span></code></pre></div>
 <pre><code>#&gt;               mean    var    sd    se  lower  upper
 #&gt; attendance  26.147 29.757 5.455 0.209 25.736 26.558
 #&gt; sem_gpa      6.503  3.391 1.841 0.071  6.364  6.641
@@ -569,20 +569,20 @@ population, draw 20,000 samples of 8, and compare the average of
 <span class="math inline">\(\frac{1}{n}\sum(x_i - \bar{x})^2\)</span> with the average of
 <span class="math inline">\(\frac{1}{n-1}\sum(x_i - \bar{x})^2\)</span>.</p>
 <div class="answer">
-<div class="sourceCode" id="cb99"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb99-1"><a href="u3-practice.html#cb99-1" tabindex="-1"></a>att <span class="ot">&lt;-</span> students<span class="sc">$</span>attendance</span>
-<span id="cb99-2"><a href="u3-practice.html#cb99-2" tabindex="-1"></a>sigma2 <span class="ot">&lt;-</span> <span class="fu">mean</span>((att <span class="sc">-</span> <span class="fu">mean</span>(att))<span class="sc">^</span><span class="dv">2</span>)</span>
-<span id="cb99-3"><a href="u3-practice.html#cb99-3" tabindex="-1"></a></span>
-<span id="cb99-4"><a href="u3-practice.html#cb99-4" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">21</span>)</span>
-<span id="cb99-5"><a href="u3-practice.html#cb99-5" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">8</span></span>
-<span id="cb99-6"><a href="u3-practice.html#cb99-6" tabindex="-1"></a>out <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">20000</span>, {</span>
-<span id="cb99-7"><a href="u3-practice.html#cb99-7" tabindex="-1"></a>  x <span class="ot">&lt;-</span> <span class="fu">sample</span>(att, n, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb99-8"><a href="u3-practice.html#cb99-8" tabindex="-1"></a>  <span class="fu">c</span>(<span class="at">over_n =</span> <span class="fu">mean</span>((x <span class="sc">-</span> <span class="fu">mean</span>(x))<span class="sc">^</span><span class="dv">2</span>), <span class="at">over_n_1 =</span> <span class="fu">var</span>(x))</span>
-<span id="cb99-9"><a href="u3-practice.html#cb99-9" tabindex="-1"></a>})</span>
-<span id="cb99-10"><a href="u3-practice.html#cb99-10" tabindex="-1"></a></span>
-<span id="cb99-11"><a href="u3-practice.html#cb99-11" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">population_variance =</span> sigma2,</span>
-<span id="cb99-12"><a href="u3-practice.html#cb99-12" tabindex="-1"></a>        <span class="at">avg_over_n          =</span> <span class="fu">mean</span>(out[<span class="dv">1</span>, ]),</span>
-<span id="cb99-13"><a href="u3-practice.html#cb99-13" tabindex="-1"></a>        <span class="at">avg_over_n_1        =</span> <span class="fu">mean</span>(out[<span class="dv">2</span>, ]),</span>
-<span id="cb99-14"><a href="u3-practice.html#cb99-14" tabindex="-1"></a>        <span class="at">predicted_over_n    =</span> sigma2 <span class="sc">*</span> (n <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">/</span> n), <span class="dv">3</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb101"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb101-1"><a href="u3-practice.html#cb101-1" tabindex="-1"></a>att <span class="ot">&lt;-</span> students<span class="sc">$</span>attendance</span>
+<span id="cb101-2"><a href="u3-practice.html#cb101-2" tabindex="-1"></a>sigma2 <span class="ot">&lt;-</span> <span class="fu">mean</span>((att <span class="sc">-</span> <span class="fu">mean</span>(att))<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb101-3"><a href="u3-practice.html#cb101-3" tabindex="-1"></a></span>
+<span id="cb101-4"><a href="u3-practice.html#cb101-4" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">21</span>)</span>
+<span id="cb101-5"><a href="u3-practice.html#cb101-5" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">8</span></span>
+<span id="cb101-6"><a href="u3-practice.html#cb101-6" tabindex="-1"></a>out <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">20000</span>, {</span>
+<span id="cb101-7"><a href="u3-practice.html#cb101-7" tabindex="-1"></a>  x <span class="ot">&lt;-</span> <span class="fu">sample</span>(att, n, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb101-8"><a href="u3-practice.html#cb101-8" tabindex="-1"></a>  <span class="fu">c</span>(<span class="at">over_n =</span> <span class="fu">mean</span>((x <span class="sc">-</span> <span class="fu">mean</span>(x))<span class="sc">^</span><span class="dv">2</span>), <span class="at">over_n_1 =</span> <span class="fu">var</span>(x))</span>
+<span id="cb101-9"><a href="u3-practice.html#cb101-9" tabindex="-1"></a>})</span>
+<span id="cb101-10"><a href="u3-practice.html#cb101-10" tabindex="-1"></a></span>
+<span id="cb101-11"><a href="u3-practice.html#cb101-11" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">population_variance =</span> sigma2,</span>
+<span id="cb101-12"><a href="u3-practice.html#cb101-12" tabindex="-1"></a>        <span class="at">avg_over_n          =</span> <span class="fu">mean</span>(out[<span class="dv">1</span>, ]),</span>
+<span id="cb101-13"><a href="u3-practice.html#cb101-13" tabindex="-1"></a>        <span class="at">avg_over_n_1        =</span> <span class="fu">mean</span>(out[<span class="dv">2</span>, ]),</span>
+<span id="cb101-14"><a href="u3-practice.html#cb101-14" tabindex="-1"></a>        <span class="at">predicted_over_n    =</span> sigma2 <span class="sc">*</span> (n <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">/</span> n), <span class="dv">3</span>)</span></code></pre></div>
 <pre><code>#&gt; population_variance          avg_over_n        avg_over_n_1    predicted_over_n 
 #&gt;               29.71               26.18               29.91               26.00</code></pre>
 <p>Dividing by <span class="math inline">\(n\)</span> understates the population variance, and it does so by exactly
@@ -595,19 +595,19 @@ correction is built into <code>var()</code> rather than left to the user.</p>
 proportion of workers in urban areas. Draw 1,000 samples of 400, construct a
 95% interval from each, and count how many contain the true <span class="math inline">\(p\)</span>.</p>
 <div class="answer">
-<div class="sourceCode" id="cb101"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb101-1"><a href="u3-practice.html#cb101-1" tabindex="-1"></a>wages    <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/wages-india-synthetic.csv&quot;</span>)</span>
-<span id="cb101-2"><a href="u3-practice.html#cb101-2" tabindex="-1"></a>is_urban <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(wages<span class="sc">$</span>residence <span class="sc">==</span> <span class="st">&quot;Urban&quot;</span>)</span>
-<span id="cb101-3"><a href="u3-practice.html#cb101-3" tabindex="-1"></a>p_true   <span class="ot">&lt;-</span> <span class="fu">mean</span>(is_urban)</span>
-<span id="cb101-4"><a href="u3-practice.html#cb101-4" tabindex="-1"></a></span>
-<span id="cb101-5"><a href="u3-practice.html#cb101-5" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">4</span>)</span>
-<span id="cb101-6"><a href="u3-practice.html#cb101-6" tabindex="-1"></a>ci <span class="ot">&lt;-</span> <span class="fu">t</span>(<span class="fu">replicate</span>(<span class="dv">1000</span>, {</span>
-<span id="cb101-7"><a href="u3-practice.html#cb101-7" tabindex="-1"></a>  s  <span class="ot">&lt;-</span> <span class="fu">sample</span>(is_urban, <span class="dv">400</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb101-8"><a href="u3-practice.html#cb101-8" tabindex="-1"></a>  ph <span class="ot">&lt;-</span> <span class="fu">mean</span>(s)</span>
-<span id="cb101-9"><a href="u3-practice.html#cb101-9" tabindex="-1"></a>  ph <span class="sc">+</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>) <span class="sc">*</span> <span class="fl">1.96</span> <span class="sc">*</span> <span class="fu">sqrt</span>(ph <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> ph) <span class="sc">/</span> <span class="dv">400</span>)</span>
-<span id="cb101-10"><a href="u3-practice.html#cb101-10" tabindex="-1"></a>}))</span>
-<span id="cb101-11"><a href="u3-practice.html#cb101-11" tabindex="-1"></a></span>
-<span id="cb101-12"><a href="u3-practice.html#cb101-12" tabindex="-1"></a><span class="fu">c</span>(<span class="at">true_p =</span> p_true,</span>
-<span id="cb101-13"><a href="u3-practice.html#cb101-13" tabindex="-1"></a>  <span class="at">coverage =</span> <span class="fu">mean</span>(ci[, <span class="dv">1</span>] <span class="sc">&lt;=</span> p_true <span class="sc">&amp;</span> ci[, <span class="dv">2</span>] <span class="sc">&gt;=</span> p_true))</span></code></pre></div>
+<div class="sourceCode" id="cb103"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb103-1"><a href="u3-practice.html#cb103-1" tabindex="-1"></a>wages    <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/wages-india-synthetic.csv&quot;</span>)</span>
+<span id="cb103-2"><a href="u3-practice.html#cb103-2" tabindex="-1"></a>is_urban <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(wages<span class="sc">$</span>residence <span class="sc">==</span> <span class="st">&quot;Urban&quot;</span>)</span>
+<span id="cb103-3"><a href="u3-practice.html#cb103-3" tabindex="-1"></a>p_true   <span class="ot">&lt;-</span> <span class="fu">mean</span>(is_urban)</span>
+<span id="cb103-4"><a href="u3-practice.html#cb103-4" tabindex="-1"></a></span>
+<span id="cb103-5"><a href="u3-practice.html#cb103-5" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">4</span>)</span>
+<span id="cb103-6"><a href="u3-practice.html#cb103-6" tabindex="-1"></a>ci <span class="ot">&lt;-</span> <span class="fu">t</span>(<span class="fu">replicate</span>(<span class="dv">1000</span>, {</span>
+<span id="cb103-7"><a href="u3-practice.html#cb103-7" tabindex="-1"></a>  s  <span class="ot">&lt;-</span> <span class="fu">sample</span>(is_urban, <span class="dv">400</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb103-8"><a href="u3-practice.html#cb103-8" tabindex="-1"></a>  ph <span class="ot">&lt;-</span> <span class="fu">mean</span>(s)</span>
+<span id="cb103-9"><a href="u3-practice.html#cb103-9" tabindex="-1"></a>  ph <span class="sc">+</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>) <span class="sc">*</span> <span class="fl">1.96</span> <span class="sc">*</span> <span class="fu">sqrt</span>(ph <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> ph) <span class="sc">/</span> <span class="dv">400</span>)</span>
+<span id="cb103-10"><a href="u3-practice.html#cb103-10" tabindex="-1"></a>}))</span>
+<span id="cb103-11"><a href="u3-practice.html#cb103-11" tabindex="-1"></a></span>
+<span id="cb103-12"><a href="u3-practice.html#cb103-12" tabindex="-1"></a><span class="fu">c</span>(<span class="at">true_p =</span> p_true,</span>
+<span id="cb103-13"><a href="u3-practice.html#cb103-13" tabindex="-1"></a>  <span class="at">coverage =</span> <span class="fu">mean</span>(ci[, <span class="dv">1</span>] <span class="sc">&lt;=</span> p_true <span class="sc">&amp;</span> ci[, <span class="dv">2</span>] <span class="sc">&gt;=</span> p_true))</span></code></pre></div>
 <pre><code>#&gt;   true_p coverage 
 #&gt;   0.2684   0.9580</code></pre>
 <p>Close to the advertised 95%. The method delivers what it promises for a
@@ -621,18 +621,18 @@ poor, and coverage falls short. A common rule of thumb requires both <span class
 <span class="math inline">\(\mu = 50\)</span> and <span class="math inline">\(\sigma = 12\)</span>, compare the coverage of intervals built with 1.96
 against those built with the <span class="math inline">\(t\)</span> critical value, for <span class="math inline">\(n = 5, 10, 30\)</span> and 100.</p>
 <div class="answer">
-<div class="sourceCode" id="cb103"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb103-1"><a href="u3-practice.html#cb103-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">30</span>)</span>
-<span id="cb103-2"><a href="u3-practice.html#cb103-2" tabindex="-1"></a>cover <span class="ot">&lt;-</span> <span class="fu">t</span>(<span class="fu">sapply</span>(<span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">10</span>, <span class="dv">30</span>, <span class="dv">100</span>), <span class="cf">function</span>(n) {</span>
-<span id="cb103-3"><a href="u3-practice.html#cb103-3" tabindex="-1"></a>  r <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">20000</span>, {</span>
-<span id="cb103-4"><a href="u3-practice.html#cb103-4" tabindex="-1"></a>    x  <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n, <span class="dv">50</span>, <span class="dv">12</span>)</span>
-<span id="cb103-5"><a href="u3-practice.html#cb103-5" tabindex="-1"></a>    se <span class="ot">&lt;-</span> <span class="fu">sd</span>(x) <span class="sc">/</span> <span class="fu">sqrt</span>(n)</span>
-<span id="cb103-6"><a href="u3-practice.html#cb103-6" tabindex="-1"></a>    <span class="fu">c</span>(<span class="fu">abs</span>(<span class="fu">mean</span>(x) <span class="sc">-</span> <span class="dv">50</span>) <span class="sc">&lt;</span> <span class="fl">1.96</span> <span class="sc">*</span> se,</span>
-<span id="cb103-7"><a href="u3-practice.html#cb103-7" tabindex="-1"></a>      <span class="fu">abs</span>(<span class="fu">mean</span>(x) <span class="sc">-</span> <span class="dv">50</span>) <span class="sc">&lt;</span> <span class="fu">qt</span>(<span class="fl">0.975</span>, n <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">*</span> se)</span>
-<span id="cb103-8"><a href="u3-practice.html#cb103-8" tabindex="-1"></a>  })</span>
-<span id="cb103-9"><a href="u3-practice.html#cb103-9" tabindex="-1"></a>  <span class="fu">c</span>(<span class="at">n =</span> n, <span class="at">using_z =</span> <span class="fu">mean</span>(r[<span class="dv">1</span>, ]), <span class="at">using_t =</span> <span class="fu">mean</span>(r[<span class="dv">2</span>, ]))</span>
-<span id="cb103-10"><a href="u3-practice.html#cb103-10" tabindex="-1"></a>}))</span>
-<span id="cb103-11"><a href="u3-practice.html#cb103-11" tabindex="-1"></a></span>
-<span id="cb103-12"><a href="u3-practice.html#cb103-12" tabindex="-1"></a><span class="fu">round</span>(cover, <span class="dv">4</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb105"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb105-1"><a href="u3-practice.html#cb105-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">30</span>)</span>
+<span id="cb105-2"><a href="u3-practice.html#cb105-2" tabindex="-1"></a>cover <span class="ot">&lt;-</span> <span class="fu">t</span>(<span class="fu">sapply</span>(<span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">10</span>, <span class="dv">30</span>, <span class="dv">100</span>), <span class="cf">function</span>(n) {</span>
+<span id="cb105-3"><a href="u3-practice.html#cb105-3" tabindex="-1"></a>  r <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">20000</span>, {</span>
+<span id="cb105-4"><a href="u3-practice.html#cb105-4" tabindex="-1"></a>    x  <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n, <span class="dv">50</span>, <span class="dv">12</span>)</span>
+<span id="cb105-5"><a href="u3-practice.html#cb105-5" tabindex="-1"></a>    se <span class="ot">&lt;-</span> <span class="fu">sd</span>(x) <span class="sc">/</span> <span class="fu">sqrt</span>(n)</span>
+<span id="cb105-6"><a href="u3-practice.html#cb105-6" tabindex="-1"></a>    <span class="fu">c</span>(<span class="fu">abs</span>(<span class="fu">mean</span>(x) <span class="sc">-</span> <span class="dv">50</span>) <span class="sc">&lt;</span> <span class="fl">1.96</span> <span class="sc">*</span> se,</span>
+<span id="cb105-7"><a href="u3-practice.html#cb105-7" tabindex="-1"></a>      <span class="fu">abs</span>(<span class="fu">mean</span>(x) <span class="sc">-</span> <span class="dv">50</span>) <span class="sc">&lt;</span> <span class="fu">qt</span>(<span class="fl">0.975</span>, n <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">*</span> se)</span>
+<span id="cb105-8"><a href="u3-practice.html#cb105-8" tabindex="-1"></a>  })</span>
+<span id="cb105-9"><a href="u3-practice.html#cb105-9" tabindex="-1"></a>  <span class="fu">c</span>(<span class="at">n =</span> n, <span class="at">using_z =</span> <span class="fu">mean</span>(r[<span class="dv">1</span>, ]), <span class="at">using_t =</span> <span class="fu">mean</span>(r[<span class="dv">2</span>, ]))</span>
+<span id="cb105-10"><a href="u3-practice.html#cb105-10" tabindex="-1"></a>}))</span>
+<span id="cb105-11"><a href="u3-practice.html#cb105-11" tabindex="-1"></a></span>
+<span id="cb105-12"><a href="u3-practice.html#cb105-12" tabindex="-1"></a><span class="fu">round</span>(cover, <span class="dv">4</span>)</span></code></pre></div>
 <pre><code>#&gt;        n using_z using_t
 #&gt; [1,]   5  0.8792  0.9510
 #&gt; [2,]  10  0.9193  0.9486
@@ -648,18 +648,18 @@ reason nobody worries about it in large samples.</p>
 Using the attendance population, plot the width of the confidence interval for
 the mean against <span class="math inline">\(n\)</span>, for the 90%, 95% and 99% levels.</p>
 <div class="answer">
-<div class="sourceCode" id="cb105"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb105-1"><a href="u3-practice.html#cb105-1" tabindex="-1"></a>sigma_att <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">mean</span>((att <span class="sc">-</span> <span class="fu">mean</span>(att))<span class="sc">^</span><span class="dv">2</span>))</span>
-<span id="cb105-2"><a href="u3-practice.html#cb105-2" tabindex="-1"></a></span>
-<span id="cb105-3"><a href="u3-practice.html#cb105-3" tabindex="-1"></a>grid <span class="ot">&lt;-</span> <span class="fu">expand.grid</span>(<span class="at">n =</span> <span class="fu">seq</span>(<span class="dv">10</span>, <span class="dv">500</span>, <span class="at">by =</span> <span class="dv">5</span>),</span>
-<span id="cb105-4"><a href="u3-practice.html#cb105-4" tabindex="-1"></a>                    <span class="at">level =</span> <span class="fu">c</span>(<span class="fl">0.90</span>, <span class="fl">0.95</span>, <span class="fl">0.99</span>))</span>
-<span id="cb105-5"><a href="u3-practice.html#cb105-5" tabindex="-1"></a>grid<span class="sc">$</span>width <span class="ot">&lt;-</span> <span class="dv">2</span> <span class="sc">*</span> <span class="fu">qnorm</span>(<span class="dv">1</span> <span class="sc">-</span> (<span class="dv">1</span> <span class="sc">-</span> grid<span class="sc">$</span>level) <span class="sc">/</span> <span class="dv">2</span>) <span class="sc">*</span> sigma_att <span class="sc">/</span> <span class="fu">sqrt</span>(grid<span class="sc">$</span>n)</span>
-<span id="cb105-6"><a href="u3-practice.html#cb105-6" tabindex="-1"></a>grid<span class="sc">$</span>level <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">paste0</span>(<span class="dv">100</span> <span class="sc">*</span> grid<span class="sc">$</span>level, <span class="st">&quot;%&quot;</span>))</span>
-<span id="cb105-7"><a href="u3-practice.html#cb105-7" tabindex="-1"></a></span>
-<span id="cb105-8"><a href="u3-practice.html#cb105-8" tabindex="-1"></a><span class="fu">ggplot</span>(grid, <span class="fu">aes</span>(n, width, <span class="at">colour =</span> level)) <span class="sc">+</span></span>
-<span id="cb105-9"><a href="u3-practice.html#cb105-9" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
-<span id="cb105-10"><a href="u3-practice.html#cb105-10" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Sample size&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Interval width (classes)&quot;</span>, <span class="at">colour =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
-<span id="cb105-11"><a href="u3-practice.html#cb105-11" tabindex="-1"></a>  <span class="fu">theme_book</span>() <span class="sc">+</span></span>
-<span id="cb105-12"><a href="u3-practice.html#cb105-12" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;top&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb107"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb107-1"><a href="u3-practice.html#cb107-1" tabindex="-1"></a>sigma_att <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">mean</span>((att <span class="sc">-</span> <span class="fu">mean</span>(att))<span class="sc">^</span><span class="dv">2</span>))</span>
+<span id="cb107-2"><a href="u3-practice.html#cb107-2" tabindex="-1"></a></span>
+<span id="cb107-3"><a href="u3-practice.html#cb107-3" tabindex="-1"></a>grid <span class="ot">&lt;-</span> <span class="fu">expand.grid</span>(<span class="at">n =</span> <span class="fu">seq</span>(<span class="dv">10</span>, <span class="dv">500</span>, <span class="at">by =</span> <span class="dv">5</span>),</span>
+<span id="cb107-4"><a href="u3-practice.html#cb107-4" tabindex="-1"></a>                    <span class="at">level =</span> <span class="fu">c</span>(<span class="fl">0.90</span>, <span class="fl">0.95</span>, <span class="fl">0.99</span>))</span>
+<span id="cb107-5"><a href="u3-practice.html#cb107-5" tabindex="-1"></a>grid<span class="sc">$</span>width <span class="ot">&lt;-</span> <span class="dv">2</span> <span class="sc">*</span> <span class="fu">qnorm</span>(<span class="dv">1</span> <span class="sc">-</span> (<span class="dv">1</span> <span class="sc">-</span> grid<span class="sc">$</span>level) <span class="sc">/</span> <span class="dv">2</span>) <span class="sc">*</span> sigma_att <span class="sc">/</span> <span class="fu">sqrt</span>(grid<span class="sc">$</span>n)</span>
+<span id="cb107-6"><a href="u3-practice.html#cb107-6" tabindex="-1"></a>grid<span class="sc">$</span>level <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">paste0</span>(<span class="dv">100</span> <span class="sc">*</span> grid<span class="sc">$</span>level, <span class="st">&quot;%&quot;</span>))</span>
+<span id="cb107-7"><a href="u3-practice.html#cb107-7" tabindex="-1"></a></span>
+<span id="cb107-8"><a href="u3-practice.html#cb107-8" tabindex="-1"></a><span class="fu">ggplot</span>(grid, <span class="fu">aes</span>(n, width, <span class="at">colour =</span> level)) <span class="sc">+</span></span>
+<span id="cb107-9"><a href="u3-practice.html#cb107-9" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
+<span id="cb107-10"><a href="u3-practice.html#cb107-10" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Sample size&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Interval width (classes)&quot;</span>, <span class="at">colour =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
+<span id="cb107-11"><a href="u3-practice.html#cb107-11" tabindex="-1"></a>  <span class="fu">theme_book</span>() <span class="sc">+</span></span>
+<span id="cb107-12"><a href="u3-practice.html#cb107-12" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;top&quot;</span>)</span></code></pre></div>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:u3-ex-width"></span>
 <img src="stats-econometrics-r_files/figure-html/u3-ex-width-1.png" alt="Confidence interval width against sample size, at three confidence levels." width="90%" />
 <p class="caption">

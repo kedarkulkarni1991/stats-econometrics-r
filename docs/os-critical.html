@@ -372,10 +372,10 @@ statistic exceeds the critical value, reject the null.</em></p>
 <p>Those critical values are the ones you have been reading off a printed table.
 There is no need — <code>qnorm()</code> gives you any of them to as many decimals as you
 like.</p>
-<div class="sourceCode" id="cb112"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb112-1"><a href="os-critical.html#cb112-1" tabindex="-1"></a>alpha <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.10</span>, <span class="fl">0.05</span>, <span class="fl">0.01</span>)</span>
-<span id="cb112-2"><a href="os-critical.html#cb112-2" tabindex="-1"></a></span>
-<span id="cb112-3"><a href="os-critical.html#cb112-3" tabindex="-1"></a><span class="co"># Two-tailed: we want the value leaving alpha/2 in the upper tail</span></span>
-<span id="cb112-4"><a href="os-critical.html#cb112-4" tabindex="-1"></a><span class="fu">qnorm</span>(<span class="dv">1</span> <span class="sc">-</span> alpha <span class="sc">/</span> <span class="dv">2</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb114"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb114-1"><a href="os-critical.html#cb114-1" tabindex="-1"></a>alpha <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.10</span>, <span class="fl">0.05</span>, <span class="fl">0.01</span>)</span>
+<span id="cb114-2"><a href="os-critical.html#cb114-2" tabindex="-1"></a></span>
+<span id="cb114-3"><a href="os-critical.html#cb114-3" tabindex="-1"></a><span class="co"># Two-tailed: we want the value leaving alpha/2 in the upper tail</span></span>
+<span id="cb114-4"><a href="os-critical.html#cb114-4" tabindex="-1"></a><span class="fu">qnorm</span>(<span class="dv">1</span> <span class="sc">-</span> alpha <span class="sc">/</span> <span class="dv">2</span>)</span></code></pre></div>
 <pre><code>#&gt; [1] 1.645 1.960 2.576</code></pre>
 <p>Those three numbers are the 1.645, 1.96 and 2.58 you have memorised. Now you
 know where they come from, and you will never need the table again.</p>

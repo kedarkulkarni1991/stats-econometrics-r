@@ -343,17 +343,17 @@ that is both narrow and badly placed. Those two errors compound rather than
 cancel.</p>
 <p>The effect is easy to measure. Take a normal population, draw samples of ten,
 and build intervals using <span class="math inline">\(s\)</span> but the normal critical value 1.96.</p>
-<div class="sourceCode" id="cb87"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb87-1"><a href="u3-t.html#cb87-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">6</span>)</span>
-<span id="cb87-2"><a href="u3-t.html#cb87-2" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">10</span></span>
-<span id="cb87-3"><a href="u3-t.html#cb87-3" tabindex="-1"></a></span>
-<span id="cb87-4"><a href="u3-t.html#cb87-4" tabindex="-1"></a>cover <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">50000</span>, {</span>
-<span id="cb87-5"><a href="u3-t.html#cb87-5" tabindex="-1"></a>  x  <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n, <span class="at">mean =</span> <span class="dv">26</span>, <span class="at">sd =</span> <span class="fl">5.45</span>)</span>
-<span id="cb87-6"><a href="u3-t.html#cb87-6" tabindex="-1"></a>  se <span class="ot">&lt;-</span> <span class="fu">sd</span>(x) <span class="sc">/</span> <span class="fu">sqrt</span>(n)</span>
-<span id="cb87-7"><a href="u3-t.html#cb87-7" tabindex="-1"></a>  <span class="fu">c</span>(<span class="at">using_1.96      =</span> <span class="fu">abs</span>(<span class="fu">mean</span>(x) <span class="sc">-</span> <span class="dv">26</span>) <span class="sc">&lt;</span> <span class="fl">1.96</span> <span class="sc">*</span> se,</span>
-<span id="cb87-8"><a href="u3-t.html#cb87-8" tabindex="-1"></a>    <span class="at">using_t_critical =</span> <span class="fu">abs</span>(<span class="fu">mean</span>(x) <span class="sc">-</span> <span class="dv">26</span>) <span class="sc">&lt;</span> <span class="fu">qt</span>(<span class="fl">0.975</span>, <span class="at">df =</span> n <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">*</span> se)</span>
-<span id="cb87-9"><a href="u3-t.html#cb87-9" tabindex="-1"></a>})</span>
-<span id="cb87-10"><a href="u3-t.html#cb87-10" tabindex="-1"></a></span>
-<span id="cb87-11"><a href="u3-t.html#cb87-11" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">rowMeans</span>(cover), <span class="dv">4</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb89"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb89-1"><a href="u3-t.html#cb89-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">6</span>)</span>
+<span id="cb89-2"><a href="u3-t.html#cb89-2" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">10</span></span>
+<span id="cb89-3"><a href="u3-t.html#cb89-3" tabindex="-1"></a></span>
+<span id="cb89-4"><a href="u3-t.html#cb89-4" tabindex="-1"></a>cover <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">50000</span>, {</span>
+<span id="cb89-5"><a href="u3-t.html#cb89-5" tabindex="-1"></a>  x  <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n, <span class="at">mean =</span> <span class="dv">26</span>, <span class="at">sd =</span> <span class="fl">5.45</span>)</span>
+<span id="cb89-6"><a href="u3-t.html#cb89-6" tabindex="-1"></a>  se <span class="ot">&lt;-</span> <span class="fu">sd</span>(x) <span class="sc">/</span> <span class="fu">sqrt</span>(n)</span>
+<span id="cb89-7"><a href="u3-t.html#cb89-7" tabindex="-1"></a>  <span class="fu">c</span>(<span class="at">using_1.96      =</span> <span class="fu">abs</span>(<span class="fu">mean</span>(x) <span class="sc">-</span> <span class="dv">26</span>) <span class="sc">&lt;</span> <span class="fl">1.96</span> <span class="sc">*</span> se,</span>
+<span id="cb89-8"><a href="u3-t.html#cb89-8" tabindex="-1"></a>    <span class="at">using_t_critical =</span> <span class="fu">abs</span>(<span class="fu">mean</span>(x) <span class="sc">-</span> <span class="dv">26</span>) <span class="sc">&lt;</span> <span class="fu">qt</span>(<span class="fl">0.975</span>, <span class="at">df =</span> n <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">*</span> se)</span>
+<span id="cb89-9"><a href="u3-t.html#cb89-9" tabindex="-1"></a>})</span>
+<span id="cb89-10"><a href="u3-t.html#cb89-10" tabindex="-1"></a></span>
+<span id="cb89-11"><a href="u3-t.html#cb89-11" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">rowMeans</span>(cover), <span class="dv">4</span>)</span></code></pre></div>
 <pre><code>#&gt;       using_1.96 using_t_critical 
 #&gt;           0.9181           0.9495</code></pre>
 <p>The interval advertised as 95% delivers about
@@ -373,10 +373,10 @@ reason.</p>
 <p>The <span class="math inline">\(t\)</span> distribution is symmetric and bell-shaped like the normal, but with
 more probability in the tails, which is what makes the interval wider. How much
 wider depends on the degrees of freedom.</p>
-<div class="sourceCode" id="cb89"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb89-1"><a href="u3-t.html#cb89-1" tabindex="-1"></a>ns <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">10</span>, <span class="dv">20</span>, <span class="dv">30</span>, <span class="dv">60</span>, <span class="dv">120</span>)</span>
-<span id="cb89-2"><a href="u3-t.html#cb89-2" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">data.frame</span>(<span class="at">n =</span> ns, <span class="at">df =</span> ns <span class="sc">-</span> <span class="dv">1</span>,</span>
-<span id="cb89-3"><a href="u3-t.html#cb89-3" tabindex="-1"></a>                 <span class="at">t_critical =</span> <span class="fu">qt</span>(<span class="fl">0.975</span>, ns <span class="sc">-</span> <span class="dv">1</span>),</span>
-<span id="cb89-4"><a href="u3-t.html#cb89-4" tabindex="-1"></a>                 <span class="at">z_critical =</span> <span class="fl">1.96</span>), <span class="dv">3</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb91"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb91-1"><a href="u3-t.html#cb91-1" tabindex="-1"></a>ns <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">10</span>, <span class="dv">20</span>, <span class="dv">30</span>, <span class="dv">60</span>, <span class="dv">120</span>)</span>
+<span id="cb91-2"><a href="u3-t.html#cb91-2" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">data.frame</span>(<span class="at">n =</span> ns, <span class="at">df =</span> ns <span class="sc">-</span> <span class="dv">1</span>,</span>
+<span id="cb91-3"><a href="u3-t.html#cb91-3" tabindex="-1"></a>                 <span class="at">t_critical =</span> <span class="fu">qt</span>(<span class="fl">0.975</span>, ns <span class="sc">-</span> <span class="dv">1</span>),</span>
+<span id="cb91-4"><a href="u3-t.html#cb91-4" tabindex="-1"></a>                 <span class="at">z_critical =</span> <span class="fl">1.96</span>), <span class="dv">3</span>)</span></code></pre></div>
 <pre><code>#&gt;     n  df t_critical z_critical
 #&gt; 1   5   4      2.776       1.96
 #&gt; 2  10   9      2.262       1.96

@@ -78,34 +78,46 @@ so the obvious sample version replaces $\mu$ with $\bar{x}$ and $N$ with $n$:
 
 $$\widetilde{s}^2 = \frac{1}{n}\sum_{i=1}^{n}(x_i - \bar{x})^2$$
 
-This turns out to be systematically wrong, and we can see it happen. The
-dataset `attendance-grades.csv` records 680 students at Azim Premji University.
-Treat those 680 as a population, so its variance is known exactly, and sample
-from it.
+This turns out to be systematically wrong, and we can watch it fail. A fair die
+is the ideal population to check against, because both its mean and its
+variance are known exactly:
 
-```{r u3-nminus1}
-students <- read.csv("data/attendance-grades.csv")
-att      <- students$attendance
+$$\mu = 3.5 \qquad \sigma^2 = \frac{35}{12} = 2.9167 \qquad \sigma = 1.7078$$
 
-sigma2_pop <- mean((att - mean(att))^2)      # divisor N, since this IS the population
+Roll ten dice, compute the sum of squared deviations from the sample mean, and
+divide it by four different numbers. Repeat twenty thousand times.
 
-set.seed(5)
+```{r u3-divisors}
+set.seed(11)
 n <- 10
-sims <- replicate(20000, {
-  x <- sample(att, n, replace = TRUE)
-  c(divide_by_n     = mean((x - mean(x))^2),
-    divide_by_n_1   = var(x))               # var() divides by n - 1
+
+ss <- replicate(20000, {
+  d <- sample(1:6, n, replace = TRUE)
+  sum((d - mean(d))^2)                     # the sum of squared deviations
 })
 
-round(c(population_variance = sigma2_pop,
-        avg_divide_by_n     = mean(sims[1, ]),
-        avg_divide_by_n_1   = mean(sims[2, ])), 3)
+divisors <- c(n, n - 1, n - 2, n - 3)
+
+tab <- data.frame(
+  divisor      = divisors,
+  avg_variance = sapply(divisors, function(k) mean(ss / k)),
+  avg_sd       = sapply(divisors, function(k) mean(sqrt(ss / k)))
+)
+
+round(tab, 4)
+c(true_variance = 35 / 12, true_sd = sqrt(35 / 12))
 ```
 
-Dividing by $n$ gives `r round(mean(sims[1, ]), 2)` against a true variance of
-`r round(sigma2_pop, 2)` — too small, not occasionally but on average across
-twenty thousand samples. Dividing by $n - 1$ gives `r round(mean(sims[2, ]), 2)`,
-which lands on the population value.
+Only one divisor works. Dividing by $n$ gives an average variance well below
+the truth. Dividing by $n - 2$ or $n - 3$ overshoots, and increasingly so. The
+divisor $n - 1$ lands on `r round(mean(ss/(n-1)), 4)` against a true
+`r round(35/12, 4)`.
+
+This is worth doing with several divisors rather than two, because $n - 1$ can
+otherwise look like an arbitrary fudge — a nudge in the right direction that
+someone settled on. It is not. It is the unique divisor that makes the
+estimator correct on average, and the simulation shows the neighbours failing
+on either side.
 
 ::: {.question}
 Why should dividing by a smaller number be the correction?
@@ -121,19 +133,80 @@ measure the spread of the sample around its own mean, we are measuring it
 around the most flattering point available, and we get an answer that is too
 small.
 
-::: {.theory}
+::: {.intuition}
 Once $\bar{x}$ is known, the deviations are not free to take any values. They
 must sum to zero:
 
 $$\sum_{i=1}^{n}(x_i - \bar{x}) = 0$$
 
 Given the first $n-1$ of them, the last is determined. Only $n - 1$ of the $n$
-deviations carry independent information about the spread, and dividing by
-$n - 1$ rather than $n$ is what corrects for it.
+deviations carry independent information about the spread.
 
 The quantity $n - 1$ is called the **degrees of freedom**: the number of
 observations, less the number of quantities estimated from them along the way.
 :::
+
+That argument says the answer should be too small. It does not say by how much,
+and it is the "how much" that pins the divisor to $n-1$ rather than to anything
+else nearby. For that we need the expectation.
+
+::: {.theory}
+Write $\widetilde{S}^2$ for the divide-by-$n$ version and simplify it first.
+Expanding the square,
+
+$$
+\begin{aligned}
+\widetilde{S}^2 &= \frac{1}{n}\sum_{i=1}^{n}(X_i - \bar{X})^2 \\[4pt]
+&= \frac{1}{n}\left(\sum_{i=1}^{n} X_i^2 - 2\bar{X}\sum_{i=1}^{n} X_i + n\bar{X}^2\right) \\[4pt]
+&= \frac{1}{n}\left(\sum_{i=1}^{n} X_i^2 - 2n\bar{X}^2 + n\bar{X}^2\right)
+   && \text{since } \textstyle\sum X_i = n\bar{X} \\[4pt]
+&= \frac{1}{n}\sum_{i=1}^{n} X_i^2 \;-\; \bar{X}^2
+\end{aligned}
+$$
+
+Now take expectations:
+
+$$E(\widetilde{S}^2) = \frac{1}{n}E\!\left(\sum_{i=1}^{n} X_i^2\right) - E(\bar{X}^2)$$
+
+Both terms follow from rearranging the definition of variance,
+$\mathrm{Var}(X) = E(X^2) - [E(X)]^2$, into $E(X^2) = \mathrm{Var}(X) + [E(X)]^2$.
+
+For a single observation, $E(X_i) = \mu$ and $\mathrm{Var}(X_i) = \sigma^2$, so
+
+$$E(X_i^2) = \sigma^2 + \mu^2
+\qquad\Longrightarrow\qquad
+E\!\left(\sum_{i=1}^{n} X_i^2\right) = n(\sigma^2 + \mu^2)$$
+
+For the sample mean, the previous unit established $E(\bar{X}) = \mu$ and
+$\mathrm{Var}(\bar{X}) = \sigma^2/n$, so
+
+$$E(\bar{X}^2) = \frac{\sigma^2}{n} + \mu^2$$
+
+Substituting both,
+
+$$
+\begin{aligned}
+E(\widetilde{S}^2) &= \frac{1}{n}\,n(\sigma^2 + \mu^2) - \left(\frac{\sigma^2}{n} + \mu^2\right) \\[4pt]
+&= \sigma^2 + \mu^2 - \frac{\sigma^2}{n} - \mu^2 \\[4pt]
+&= \sigma^2\left(1 - \frac{1}{n}\right) \;=\; \sigma^2\,\frac{n-1}{n}
+\end{aligned}
+$$
+
+So the divide-by-$n$ estimator is too small by exactly the factor $(n-1)/n$ —
+not approximately, and not only for dice. Multiplying it by $n/(n-1)$ removes
+the factor:
+
+$$\frac{n}{n-1}\,\widetilde{S}^2 = \frac{1}{n-1}\sum_{i=1}^{n}(X_i - \bar{X})^2 = s^2
+\qquad\Longrightarrow\qquad E(s^2) = \sigma^2$$
+
+Multiplying by $n/(n-1)$ and dividing by $n-1$ are the same operation. The
+correction is called **Bessel's correction**.
+:::
+
+Check it against the simulation. With $n = 10$ the predicted shortfall is
+$(n-1)/n = 0.9$, so dividing by $n$ should return
+$0.9 \times 2.9167 = `r round(0.9 * 35/12, 4)`$. The simulation returned
+`r round(mean(ss/n), 4)`.
 
 ::: {.keyidea}
 The **sample variance** and **sample standard deviation** are
@@ -147,13 +220,20 @@ both of which use $n - 1$.
 
 ::: {.watchout}
 $s$ is *not* an unbiased estimator of $\sigma$, even though $s^2$ is unbiased
-for $\sigma^2$. Taking a square root does not preserve unbiasedness, and $s$
-runs slightly low on average.
+for $\sigma^2$. Taking a square root does not preserve unbiasedness.
 
-The bias is small, it shrinks quickly with $n$, and correcting it is not worth
-the trouble in practice. But it is worth knowing that "unbiased" attaches to a
+The evidence is already in the table above. Look at the `avg_sd` column: the
+$n-1$ row gives `r round(mean(sqrt(ss/(n-1))), 4)` against a true $\sigma$ of
+`r round(sqrt(35/12), 4)` — close, but low, and it stays low however many
+samples are run. On that column no divisor in the table is right; the best
+would fall somewhere between $n-1$ and $n-2$, and would depend on the
+distribution.
+
+The bias is small, shrinks quickly with $n$, and is not worth correcting in
+practice. What is worth taking away is that **unbiasedness attaches to a
 specific estimator of a specific parameter, and does not survive being passed
-through an arbitrary function.
+through a nonlinear function.** Squaring and square-rooting are not neutral
+operations on an average.
 :::
 
 ### When the population mean is known {-}
@@ -304,7 +384,7 @@ We have a number and a standard error. How do we turn them into a range?
 :::
 
 Suppose a survey of 40 students gives a mean attendance of 26.4 classes, and we
-know from long experience that $\sigma = 5.45$. The standard error is
+know from long experience that $\sigma = 5.45$ classes. The standard error is
 $5.45/\sqrt{40} = 0.86$.
 
 We know from the Central Limit Theorem that $\bar{X}$ is approximately normal
@@ -374,6 +454,9 @@ We can watch this happen. Treat the 680 students as a population, so $\mu$ is
 known, and construct 100 intervals from 100 samples.
 
 ```{r u3-coverage, fig.height = 4.2, fig.cap = "One hundred 95% confidence intervals, each from a fresh sample of 40 students. The vertical line is the true population mean."}
+students <- read.csv("data/attendance-grades.csv")
+att      <- students$attendance
+
 mu_pop    <- mean(att)
 sigma_pop <- sqrt(mean((att - mean(att))^2))
 
