@@ -1,22 +1,219 @@
-<!--
-  DRAFT — not yet listed in _bookdown.yml, so it is not built.
-
-  This file exists so the material below is not lost. The i.i.d. assumptions
-  were written for Unit 1 and moved here deliberately: they are a premise for
-  estimation, not a conclusion about uncertainty, and Unit 1 should end on the
-  question rather than on an assumption.
-
-  Unit 1 now closes with: "How can a single sample tell us something reliable
-  about an entire population?" This unit is intended to open by answering
-  "before we can, we need one crucial assumption".
--->
-
 # Estimation {#estimation}
 
 ```{r setup-02, include = FALSE}
 source("_common.R")
 library(ggplot2)
 ```
+
+## A population where we know the truth {#u2-known-truth}
+
+::: {.question}
+Can we see these ideas working in practice?
+:::
+
+The previous unit introduced a language for describing random phenomena. We
+defined random variables, expected values and variances, and argued that the
+sample mean behaves in remarkably predictable ways.
+
+Those arguments were largely theoretical. With a real population we almost
+never know the true mean or variance, which makes it difficult to check whether
+the machinery behaves as claimed. If a sample mean comes out at ₹54,000, there
+is nothing to compare it against.
+
+To overcome this, we construct an artificial population whose properties are
+known exactly. Because we know the truth in advance, we can compare it with
+what repeated sampling actually produces.
+
+### Constructing the population {-}
+
+Take a deck of playing cards, scored A = 1, J = 11, Q = 12, K = 13, and 2
+through 10 at face value.
+
+```{r u2-deck}
+deck <- rep(1:13, times = 4)
+
+c(N = length(deck), mu = mean(deck), sigma = sd(deck))
+```
+
+This population contains 52 values. Its mean is exactly $\mu = 7$ and its
+standard deviation is $\sigma = 3.78$. Both are known with certainty, which is
+precisely what real data never offers.
+
+### Drawing one sample {-}
+
+Now draw ten cards and compute their average.
+
+```{r u2-onesample}
+set.seed(7)
+mean(sample(deck, size = 10, replace = TRUE))
+```
+
+The result is not 7. Draw again and it would differ again. This is sampling
+variation, exactly as we saw with the earnings surveys — but now we can see
+precisely how far the sample has strayed, because we know where it should be.
+
+::: {.watchout}
+Note `replace = TRUE`: each card is returned to the deck before the next draw.
+
+That is what makes the draws **independent**, the assumption discussed below.
+Drawing without replacement changes what remains after each card is removed, so
+the draws are dependent and the sample mean varies slightly less than theory
+predicts.
+
+It is also the better model of what we usually mean. Surveying 2,000 people
+does not meaningfully deplete a population of a billion.
+:::
+
+### Drawing a thousand samples {-}
+
+One sample tells us little. Repeating the exercise a thousand times gives the
+whole sampling distribution.
+
+```{r u2-sampdist}
+set.seed(7)
+deck_means <- replicate(1000, mean(sample(deck, size = 10, replace = TRUE)))
+
+c(mean_of_sample_means = mean(deck_means),
+  sd_of_sample_means   = sd(deck_means))
+```
+
+```{r u2-sampdist-plot, echo = FALSE, fig.height = 3.6, fig.cap = "One thousand sample means, each computed from 10 cards drawn from a population whose mean is exactly 7."}
+ggplot(data.frame(m = deck_means), aes(m)) +
+  geom_histogram(bins = 32, fill = book_palette$fill, colour = "white",
+                 linewidth = 0.2) +
+  geom_vline(xintercept = 7, colour = book_palette$reject, linewidth = 0.9) +
+  annotate("label", x = 7, y = Inf, vjust = 1.4, label = "Population mean = 7",
+           colour = book_palette$reject, fill = "white", size = 3.5,
+           label.size = 0.3) +
+  labs(x = "Sample mean of 10 cards", y = "Number of samples") +
+  theme_book()
+```
+
+This is the sampling distribution discussed throughout the previous unit — but
+for the first time we can hold it against the truth.
+
+### Two observations {-}
+
+Two features of this simulation are worth recording before we explain them.
+
+**The average of the sample means is almost exactly the population mean.** No
+individual sample produced 7, yet their average is
+`r round(mean(deck_means), 3)` — essentially the population value.
+
+**The sample means vary far less than the cards do.** The population standard
+deviation is about `r round(sd(rep(1:13, 4)), 2)`; the standard deviation of
+the sample means is about `r round(sd(deck_means), 2)`, roughly a third as
+large. Averaging has cancelled out much of the variation.
+
+Both observations have names, and both have explanations.
+
+### What happens as the sample grows {-}
+
+```{r u2-nsizes}
+set.seed(7)
+
+sizes <- c(5, 10, 20, 40, 80)
+results <- t(sapply(sizes, function(n) {
+  m <- replicate(2000, mean(sample(deck, size = n, replace = TRUE)))
+  c(n = n, mean = mean(m), sd = sd(m), theoretical_sd = sd(deck) / sqrt(n))
+}))
+
+round(results, 3)
+```
+
+```{r u2-nsizes-plot, echo = FALSE, fig.height = 4.4, fig.cap = "Sampling distributions of the mean for growing sample sizes. The centre never moves. The spread collapses."}
+set.seed(7)
+dd <- do.call(rbind, lapply(c(5, 20, 80), function(n) {
+  data.frame(n = paste("n =", n),
+             m = replicate(2000, mean(sample(deck, n, replace = TRUE))))
+}))
+dd$n <- factor(dd$n, levels = paste("n =", c(5, 20, 80)))
+
+ggplot(dd, aes(m)) +
+  geom_histogram(bins = 40, fill = book_palette$fill, colour = "white",
+                 linewidth = 0.15) +
+  geom_vline(xintercept = 7, colour = book_palette$reject, linewidth = 0.8) +
+  facet_wrap(~ n, ncol = 1, scales = "free_y") +
+  labs(x = "Sample mean", y = NULL) +
+  theme_book() +
+  theme(axis.text.y = element_blank())
+```
+
+Every row is centred on 7 — the sample mean is unbiased at any sample size. But
+the spread shrinks steadily, and in a completely predictable way. Compare the
+last two columns of the table: the observed standard deviation of the sample
+means matches $\sigma/\sqrt{n}$ almost exactly.
+
+::: {.keyidea}
+Two results, both of which can be established directly:
+
+$$E(\bar{X}) = \mu \qquad\qquad \mathrm{Var}(\bar{X}) = \frac{\sigma^2}{n}$$
+
+The sample mean is centred on the population mean, and its spread falls as the
+sample grows. The quantity $\sigma/\sqrt{n}$ is called the **standard error**
+of the sample mean.
+:::
+
+### Why were the sample means centred on seven? {-}
+
+Neither observation requires anything beyond the definition of the sample mean.
+
+::: {.theory}
+
+$$
+\begin{aligned}
+E(\bar{X}) &= E\!\left(\frac{X_1 + X_2 + \cdots + X_n}{n}\right) \\[4pt]
+&= \frac{1}{n}\Big(E(X_1) + E(X_2) + \cdots + E(X_n)\Big) \\[4pt]
+&= \frac{1}{n}\underbrace{(\mu + \mu + \cdots + \mu)}_{n \text{ times}} \\[4pt]
+&= \frac{n\mu}{n} \;=\; \mu
+\end{aligned}
+$$
+
+Every observation is drawn from the same distribution, so each has expectation
+$\mu$. Averaging $n$ of them leaves $\mu$ unchanged. A statistic with this
+property is described as **unbiased**: it is not systematically too high or too
+low, although any particular value of it will still differ from $\mu$.
+:::
+
+### Why did the distribution become narrower? {-}
+
+::: {.theory}
+
+$$
+\begin{aligned}
+\mathrm{Var}(\bar{X}) &= \mathrm{Var}\!\left(\frac{1}{n}(X_1 + \cdots + X_n)\right) \\[4pt]
+&= \frac{1}{n^2}\,\mathrm{Var}(X_1 + \cdots + X_n) \\[4pt]
+&= \frac{1}{n^2}\underbrace{(\sigma^2 + \sigma^2 + \cdots + \sigma^2)}_{n \text{ times}} \\[4pt]
+&= \frac{n\sigma^2}{n^2} \;=\; \frac{\sigma^2}{n}
+\end{aligned}
+$$
+
+The second line uses $\mathrm{Var}(aX) = a^2\mathrm{Var}(X)$. The third uses
+**independence**: the variance of a sum equals the sum of the variances only
+when the observations do not influence one another. This is the single point at
+which the independence assumption is required.
+:::
+
+These two results explain the behaviour observed in the previous unit. The
+sample mean remains centred on the population mean regardless of sample size,
+while its variability decreases as the sample size increases. Together they
+provide the mathematical foundation for the Law of Large Numbers introduced in
+Section \@ref(u1-lln).
+
+### The price of precision {-}
+
+Notice the square root. Doubling the sample size does not halve the
+uncertainty. To reduce the standard error by half, the sample size must
+increase fourfold.
+
+This illustrates one of the fundamental realities of empirical research:
+precision is expensive. As samples become larger, each additional observation
+contributes a little less than the one before it. This is why surveys of a few
+thousand households are common, while surveys of hundreds of thousands are
+comparatively rare. Beyond a certain point, the additional precision is simply
+not worth the additional cost.
+
+
 
 ## The assumptions behind inference {#u2-iid}
 

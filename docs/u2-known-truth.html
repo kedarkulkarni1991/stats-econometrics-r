@@ -4,13 +4,13 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Licence and citation | Statistics and Econometrics with R</title>
+  <title>2.1 A population where we know the truth | Statistics and Econometrics with R</title>
   <meta name="description" content="<p>A first course in statistics and econometrics for Indian students, built on
 the progression from question to intuition to rigour to computation to
 interpretation.</p>" />
   <meta name="generator" content="bookdown 0.47 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Licence and citation | Statistics and Econometrics with R" />
+  <meta property="og:title" content="2.1 A population where we know the truth | Statistics and Econometrics with R" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="<p>A first course in statistics and econometrics for Indian students, built on
@@ -19,7 +19,7 @@ interpretation.</p>" />
   <meta name="github-repo" content="kedarkulkarni1991/stats-econometrics-r" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Licence and citation | Statistics and Econometrics with R" />
+  <meta name="twitter:title" content="2.1 A population where we know the truth | Statistics and Econometrics with R" />
   
   <meta name="twitter:description" content="<p>A first course in statistics and econometrics for Indian students, built on
 the progression from question to intuition to rigour to computation to
@@ -35,8 +35,8 @@ interpretation.</p>" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="a-note-on-the-data.html"/>
-<link rel="next" href="towards-inference.html"/>
+<link rel="prev" href="estimation.html"/>
+<link rel="next" href="u2-iid.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -273,28 +273,173 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="licence-and-citation" class="section level2 unnumbered hasAnchor">
-<h2>Licence and citation<a href="licence-and-citation.html#licence-and-citation" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>This book is free, in both senses. The text, figures, exercises and datasets
-are released under
-<a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0</a>,
-and the code under the <a href="https://opensource.org/licenses/MIT">MIT licence</a>.</p>
-<p>You may copy it, print it, translate it, remix it, teach from it, and build on
-it — for any purpose, including commercially. The only condition is that you
-credit the source.</p>
-<p>If you spot an error, there is a <strong>pencil icon at the top of every page</strong>. It opens that chapter’s source on GitHub, where you can fix the mistake and send it back without installing anything.</p>
-<p>Corrections from students are genuinely welcome; several of the sharper points
-in this book exist because someone asked why.</p>
-<p>To cite:</p>
-<blockquote>
-<p>Kulkarni, K. (2026). <em>Statistics and Econometrics with R.</em>
-Azim Premji University.
-<a href="https://kedarkulkarni1991.github.io/stats-econometrics-r/" class="uri">https://kedarkulkarni1991.github.io/stats-econometrics-r/</a>
-Licensed under CC BY 4.0.</p>
-</blockquote>
-
+<div id="u2-known-truth" class="section level2 hasAnchor" number="2.1">
+<h2><span class="header-section-number">2.1</span> A population where we know the truth<a href="u2-known-truth.html#u2-known-truth" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="question">
+<p>Can we see these ideas working in practice?</p>
 </div>
-<!-- </div> -->
+<p>The previous unit introduced a language for describing random phenomena. We
+defined random variables, expected values and variances, and argued that the
+sample mean behaves in remarkably predictable ways.</p>
+<p>Those arguments were largely theoretical. With a real population we almost
+never know the true mean or variance, which makes it difficult to check whether
+the machinery behaves as claimed. If a sample mean comes out at ₹54,000, there
+is nothing to compare it against.</p>
+<p>To overcome this, we construct an artificial population whose properties are
+known exactly. Because we know the truth in advance, we can compare it with
+what repeated sampling actually produces.</p>
+<div id="constructing-the-population" class="section level3 unnumbered hasAnchor">
+<h3>Constructing the population<a href="u2-known-truth.html#constructing-the-population" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Take a deck of playing cards, scored A = 1, J = 11, Q = 12, K = 13, and 2
+through 10 at face value.</p>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="u2-known-truth.html#cb50-1" tabindex="-1"></a>deck <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">13</span>, <span class="at">times =</span> <span class="dv">4</span>)</span>
+<span id="cb50-2"><a href="u2-known-truth.html#cb50-2" tabindex="-1"></a></span>
+<span id="cb50-3"><a href="u2-known-truth.html#cb50-3" tabindex="-1"></a><span class="fu">c</span>(<span class="at">N =</span> <span class="fu">length</span>(deck), <span class="at">mu =</span> <span class="fu">mean</span>(deck), <span class="at">sigma =</span> <span class="fu">sd</span>(deck))</span></code></pre></div>
+<pre><code>#&gt;      N     mu  sigma 
+#&gt; 52.000  7.000  3.778</code></pre>
+<p>This population contains 52 values. Its mean is exactly <span class="math inline">\(\mu = 7\)</span> and its
+standard deviation is <span class="math inline">\(\sigma = 3.78\)</span>. Both are known with certainty, which is
+precisely what real data never offers.</p>
+</div>
+<div id="drawing-one-sample" class="section level3 unnumbered hasAnchor">
+<h3>Drawing one sample<a href="u2-known-truth.html#drawing-one-sample" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Now draw ten cards and compute their average.</p>
+<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="u2-known-truth.html#cb52-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">7</span>)</span>
+<span id="cb52-2"><a href="u2-known-truth.html#cb52-2" tabindex="-1"></a><span class="fu">mean</span>(<span class="fu">sample</span>(deck, <span class="at">size =</span> <span class="dv">10</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>))</span></code></pre></div>
+<pre><code>#&gt; [1] 5.7</code></pre>
+<p>The result is not 7. Draw again and it would differ again. This is sampling
+variation, exactly as we saw with the earnings surveys — but now we can see
+precisely how far the sample has strayed, because we know where it should be.</p>
+<div class="watchout">
+<p>Note <code>replace = TRUE</code>: each card is returned to the deck before the next draw.</p>
+<p>That is what makes the draws <strong>independent</strong>, the assumption discussed below.
+Drawing without replacement changes what remains after each card is removed, so
+the draws are dependent and the sample mean varies slightly less than theory
+predicts.</p>
+<p>It is also the better model of what we usually mean. Surveying 2,000 people
+does not meaningfully deplete a population of a billion.</p>
+</div>
+</div>
+<div id="drawing-a-thousand-samples" class="section level3 unnumbered hasAnchor">
+<h3>Drawing a thousand samples<a href="u2-known-truth.html#drawing-a-thousand-samples" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>One sample tells us little. Repeating the exercise a thousand times gives the
+whole sampling distribution.</p>
+<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="u2-known-truth.html#cb54-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">7</span>)</span>
+<span id="cb54-2"><a href="u2-known-truth.html#cb54-2" tabindex="-1"></a>deck_means <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">1000</span>, <span class="fu">mean</span>(<span class="fu">sample</span>(deck, <span class="at">size =</span> <span class="dv">10</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>)))</span>
+<span id="cb54-3"><a href="u2-known-truth.html#cb54-3" tabindex="-1"></a></span>
+<span id="cb54-4"><a href="u2-known-truth.html#cb54-4" tabindex="-1"></a><span class="fu">c</span>(<span class="at">mean_of_sample_means =</span> <span class="fu">mean</span>(deck_means),</span>
+<span id="cb54-5"><a href="u2-known-truth.html#cb54-5" tabindex="-1"></a>  <span class="at">sd_of_sample_means   =</span> <span class="fu">sd</span>(deck_means))</span></code></pre></div>
+<pre><code>#&gt; mean_of_sample_means   sd_of_sample_means 
+#&gt;                6.932                1.201</code></pre>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:u2-sampdist-plot"></span>
+<img src="stats-econometrics-r_files/figure-html/u2-sampdist-plot-1.png" alt="One thousand sample means, each computed from 10 cards drawn from a population whose mean is exactly 7." width="90%" />
+<p class="caption">
+Figure 2.1: One thousand sample means, each computed from 10 cards drawn from a population whose mean is exactly 7.
+</p>
+</div>
+<p>This is the sampling distribution discussed throughout the previous unit — but
+for the first time we can hold it against the truth.</p>
+</div>
+<div id="two-observations" class="section level3 unnumbered hasAnchor">
+<h3>Two observations<a href="u2-known-truth.html#two-observations" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Two features of this simulation are worth recording before we explain them.</p>
+<p><strong>The average of the sample means is almost exactly the population mean.</strong> No
+individual sample produced 7, yet their average is
+6.932 — essentially the population value.</p>
+<p><strong>The sample means vary far less than the cards do.</strong> The population standard
+deviation is about 3.78; the standard deviation of
+the sample means is about 1.2, roughly a third as
+large. Averaging has cancelled out much of the variation.</p>
+<p>Both observations have names, and both have explanations.</p>
+</div>
+<div id="what-happens-as-the-sample-grows" class="section level3 unnumbered hasAnchor">
+<h3>What happens as the sample grows<a href="u2-known-truth.html#what-happens-as-the-sample-grows" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb56-1"><a href="u2-known-truth.html#cb56-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">7</span>)</span>
+<span id="cb56-2"><a href="u2-known-truth.html#cb56-2" tabindex="-1"></a></span>
+<span id="cb56-3"><a href="u2-known-truth.html#cb56-3" tabindex="-1"></a>sizes <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">10</span>, <span class="dv">20</span>, <span class="dv">40</span>, <span class="dv">80</span>)</span>
+<span id="cb56-4"><a href="u2-known-truth.html#cb56-4" tabindex="-1"></a>results <span class="ot">&lt;-</span> <span class="fu">t</span>(<span class="fu">sapply</span>(sizes, <span class="cf">function</span>(n) {</span>
+<span id="cb56-5"><a href="u2-known-truth.html#cb56-5" tabindex="-1"></a>  m <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">2000</span>, <span class="fu">mean</span>(<span class="fu">sample</span>(deck, <span class="at">size =</span> n, <span class="at">replace =</span> <span class="cn">TRUE</span>)))</span>
+<span id="cb56-6"><a href="u2-known-truth.html#cb56-6" tabindex="-1"></a>  <span class="fu">c</span>(<span class="at">n =</span> n, <span class="at">mean =</span> <span class="fu">mean</span>(m), <span class="at">sd =</span> <span class="fu">sd</span>(m), <span class="at">theoretical_sd =</span> <span class="fu">sd</span>(deck) <span class="sc">/</span> <span class="fu">sqrt</span>(n))</span>
+<span id="cb56-7"><a href="u2-known-truth.html#cb56-7" tabindex="-1"></a>}))</span>
+<span id="cb56-8"><a href="u2-known-truth.html#cb56-8" tabindex="-1"></a></span>
+<span id="cb56-9"><a href="u2-known-truth.html#cb56-9" tabindex="-1"></a><span class="fu">round</span>(results, <span class="dv">3</span>)</span></code></pre></div>
+<pre><code>#&gt;       n  mean    sd theoretical_sd
+#&gt; [1,]  5 6.932 1.688          1.690
+#&gt; [2,] 10 7.022 1.165          1.195
+#&gt; [3,] 20 7.009 0.845          0.845
+#&gt; [4,] 40 7.019 0.597          0.597
+#&gt; [5,] 80 6.996 0.415          0.422</code></pre>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:u2-nsizes-plot"></span>
+<img src="stats-econometrics-r_files/figure-html/u2-nsizes-plot-1.png" alt="Sampling distributions of the mean for growing sample sizes. The centre never moves. The spread collapses." width="90%" />
+<p class="caption">
+Figure 2.2: Sampling distributions of the mean for growing sample sizes. The centre never moves. The spread collapses.
+</p>
+</div>
+<p>Every row is centred on 7 — the sample mean is unbiased at any sample size. But
+the spread shrinks steadily, and in a completely predictable way. Compare the
+last two columns of the table: the observed standard deviation of the sample
+means matches <span class="math inline">\(\sigma/\sqrt{n}\)</span> almost exactly.</p>
+<div class="keyidea">
+<p>Two results, both of which can be established directly:</p>
+<p><span class="math display">\[E(\bar{X}) = \mu \qquad\qquad \mathrm{Var}(\bar{X}) = \frac{\sigma^2}{n}\]</span></p>
+<p>The sample mean is centred on the population mean, and its spread falls as the
+sample grows. The quantity <span class="math inline">\(\sigma/\sqrt{n}\)</span> is called the <strong>standard error</strong>
+of the sample mean.</p>
+</div>
+</div>
+<div id="why-were-the-sample-means-centred-on-seven" class="section level3 unnumbered hasAnchor">
+<h3>Why were the sample means centred on seven?<a href="u2-known-truth.html#why-were-the-sample-means-centred-on-seven" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Neither observation requires anything beyond the definition of the sample mean.</p>
+<div class="theory">
+<p><span class="math display">\[
+\begin{aligned}
+E(\bar{X}) &amp;= E\!\left(\frac{X_1 + X_2 + \cdots + X_n}{n}\right) \\[4pt]
+&amp;= \frac{1}{n}\Big(E(X_1) + E(X_2) + \cdots + E(X_n)\Big) \\[4pt]
+&amp;= \frac{1}{n}\underbrace{(\mu + \mu + \cdots + \mu)}_{n \text{ times}} \\[4pt]
+&amp;= \frac{n\mu}{n} \;=\; \mu
+\end{aligned}
+\]</span></p>
+<p>Every observation is drawn from the same distribution, so each has expectation
+<span class="math inline">\(\mu\)</span>. Averaging <span class="math inline">\(n\)</span> of them leaves <span class="math inline">\(\mu\)</span> unchanged. A statistic with this
+property is described as <strong>unbiased</strong>: it is not systematically too high or too
+low, although any particular value of it will still differ from <span class="math inline">\(\mu\)</span>.</p>
+</div>
+</div>
+<div id="why-did-the-distribution-become-narrower" class="section level3 unnumbered hasAnchor">
+<h3>Why did the distribution become narrower?<a href="u2-known-truth.html#why-did-the-distribution-become-narrower" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="theory">
+<p><span class="math display">\[
+\begin{aligned}
+\mathrm{Var}(\bar{X}) &amp;= \mathrm{Var}\!\left(\frac{1}{n}(X_1 + \cdots + X_n)\right) \\[4pt]
+&amp;= \frac{1}{n^2}\,\mathrm{Var}(X_1 + \cdots + X_n) \\[4pt]
+&amp;= \frac{1}{n^2}\underbrace{(\sigma^2 + \sigma^2 + \cdots + \sigma^2)}_{n \text{ times}} \\[4pt]
+&amp;= \frac{n\sigma^2}{n^2} \;=\; \frac{\sigma^2}{n}
+\end{aligned}
+\]</span></p>
+<p>The second line uses <span class="math inline">\(\mathrm{Var}(aX) = a^2\mathrm{Var}(X)\)</span>. The third uses
+<strong>independence</strong>: the variance of a sum equals the sum of the variances only
+when the observations do not influence one another. This is the single point at
+which the independence assumption is required.</p>
+</div>
+<p>These two results explain the behaviour observed in the previous unit. The
+sample mean remains centred on the population mean regardless of sample size,
+while its variability decreases as the sample size increases. Together they
+provide the mathematical foundation for the Law of Large Numbers introduced in
+Section <a href="u1-lln.html#u1-lln">1.5</a>.</p>
+</div>
+<div id="the-price-of-precision" class="section level3 unnumbered hasAnchor">
+<h3>The price of precision<a href="u2-known-truth.html#the-price-of-precision" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Notice the square root. Doubling the sample size does not halve the
+uncertainty. To reduce the standard error by half, the sample size must
+increase fourfold.</p>
+<p>This illustrates one of the fundamental realities of empirical research:
+precision is expensive. As samples become larger, each additional observation
+contributes a little less than the one before it. This is why surveys of a few
+thousand households are common, while surveys of hundreds of thousands are
+comparatively rare. Beyond a certain point, the additional precision is simply
+not worth the additional cost.</p>
+</div>
+</div>
 <script>
 // Solutions are written as plain fenced divs in the source, so the PDF edition
 // can typeset them as boxes. On the web they should stay hidden until asked
@@ -316,8 +461,8 @@ document.addEventListener("DOMContentLoaded", function () {
           </div>
         </div>
       </div>
-<a href="a-note-on-the-data.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="towards-inference.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="estimation.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="u2-iid.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -348,7 +493,7 @@ gitbook.start({
     "size": 2
   },
   "edit": {
-    "link": "https://github.com/kedarkulkarni1991/stats-econometrics-r/edit/main/index.Rmd",
+    "link": "https://github.com/kedarkulkarni1991/stats-econometrics-r/edit/main/02-estimation.Rmd",
     "text": "Edit"
   },
   "history": {

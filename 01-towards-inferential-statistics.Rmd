@@ -984,374 +984,417 @@ The left-hand column is fixed and unknown. The right-hand column is observed
 and changes with every sample. Almost all of statistics is the effort to say
 something about the first using only the second.
 
-## A population where we know the answer {#u1-sampling-distribution}
+## Before any mathematics can help {#u1-what-goes-wrong}
 
 ::: {.question}
-Can we check that any of this actually works?
+What must be true of the data before any of this applies?
 :::
 
-The earnings data has a drawback for learning. We treated it as a population,
-but in a real study we would never see the population at all, and so could
-never confirm that a sampling distribution behaves as claimed.
+Everything in this unit assumes that the sample carries information about the
+population we care about. That assumption is not guaranteed by any formula, and
+when it fails, no amount of statistical sophistication will announce the
+failure. The arithmetic runs perfectly on data that cannot answer the question.
 
-The remedy is to build a population small enough that its true mean can be
-written down exactly, and then see whether the machinery recovers it.
+Four ways it fails, none of which any calculation will warn you about.
 
-Take a deck of cards, scored A = 1, J = 11, Q = 12, K = 13, and 2 through 10 at
-face value.
+**The sample is not from the population you mean.** The Annual Survey of
+Industries covers *registered* factories. Most Indian manufacturing employment
+is unregistered. Conclusions about "Indian manufacturing" drawn from that
+source are conclusions about a formal sliver of it, however large the sample.
 
-```{r u1-deck}
-deck <- rep(1:13, times = 4)
+**The sample is not random.** The class survey in Section
+\@ref(u1-describing) has thirty-two heights. They are not a random sample of
+students at the university, still less of young Indians: they are the people
+who took the course and attended that day. A confidence interval computed from
+them is arithmetically correct and tells you nothing about anyone else.
 
-c(N = length(deck), mu = mean(deck), sigma = sd(deck))
-```
+**The data are measured badly.** Incomes reported from memory are systematically
+understated. Rainfall attributed to a district may have been recorded at a
+station a hundred kilometres away. National accounts are revised for years
+after first publication. A sampling distribution describes how an estimate
+varies across samples; it says nothing about whether the quantity was measured
+correctly in the first place. Careful statistics performed on poor measurements
+remain poor statistics.
 
-The population mean is exactly $\mu = 7$. Now draw ten cards and average them:
+**The question is causal but the data are not.** Suppose states with more
+industry have higher literacy. Does industry raise literacy? Does literacy
+attract industry? Does something else drive both? The correlation is identical
+in all three cases, and no statistical procedure separates them without an
+argument about how the data came to exist.
 
-```{r u1-onesample}
-set.seed(7)
-mean(sample(deck, size = 10, replace = TRUE))
-```
+::: {.keyidea}
+These are not edge cases. They are the ordinary condition of applied economics,
+and recognising them is a skill quite separate from computation.
 
-::: {.watchout}
-Note `replace = TRUE`: each card goes back before the next draw.
-
-That is not a technicality. It is what makes the draws **independent**, the
-assumption we just spent a page on. Draw *without* replacement and each card
-removed changes what is left, so the draws are dependent and the sample mean
-varies slightly less than theory predicts.
-
-It is also the better model of what we usually mean. Surveying 2,000 people
-does not meaningfully deplete a population of a billion.
+Good inference begins with good data and thoughtful study design, not with
+clever mathematics.
 :::
 
-The result is not 7, and a second draw would give something else again. This is
-sampling variation, exactly as observed with the earnings surveys. Repeating
-the draw a thousand times gives the whole sampling distribution:
+## What you should remember {#u1-summary}
 
-```{r u1-sampdist}
-set.seed(7)
-deck_means <- replicate(1000, mean(sample(deck, size = 10, replace = TRUE)))
+1. Randomness creates variation. Where nothing varies, there is nothing for
+   statistics to describe.
+2. Because samples differ, different samples give different answers. This is
+   sampling variation, and it is unavoidable rather than a defect.
+3. The sample mean is itself a random variable, and therefore has a
+   distribution of its own — its **sampling distribution**.
+4. The **Law of Large Numbers** explains why averages settle down as samples
+   grow.
+5. The **Central Limit Theorem** explains why those averages become
+   approximately normal, whatever the population looks like — though how large
+   a sample this requires depends on how skewed the population is.
+6. Random variables have **expectations** and **variances**; capital letters
+   denote them before observation, lower-case letters after.
+7. Good inference begins with good sampling, not with clever mathematics.
 
-c(mean_of_deck_means = mean(deck_means),
-  sd_of_deck_means   = sd(deck_means))
+Taken together, these ideas amount to a single change of perspective. We
+stopped asking what a particular sample says, and began asking how a statistic
+behaves across the many samples that might have been drawn. Everything that
+follows in this book — estimation, confidence intervals, hypothesis testing,
+regression — rests on that shift.
+
+## Practice problems {#u1-practice}
+
+::: {.yourturn}
+These are for learning. Work each one before opening the solution; the answer
+is worth very little if you have not first tried to produce it yourself.
+
+The [question bank](#u1-question-bank) that follows is for testing yourself and
+has no answers at all.
+:::
+
+### Concept checks {-}
+
+Short questions. A sentence or two is enough.
+
+**1.1** Why does repeating the same survey produce a different average each
+time?
+
+::: {.answer}
+Because a different set of people is surveyed each time. Every average is
+computed from whoever happened to be selected, and selection involves chance.
+The population has not changed and no arithmetic error has occurred — only the
+membership of the sample.
+:::
+
+**1.2** A die with a three painted on all six faces is rolled ten thousand
+times. What is the distribution of the outcome? Why is this example in the
+chapter at all?
+
+::: {.answer}
+There is no distribution to speak of: every outcome is three, and the standard
+deviation is zero. The example is there to show that statistics requires
+variation. Where outcomes never differ, there is nothing to describe, nothing
+to be uncertain about, and no inference to perform.
+:::
+
+**1.3** Distinguish between $\bar{X}$ and $\bar{x}$.
+
+::: {.answer}
+$\bar{X}$ is the sample mean regarded as a random variable, before the sample
+is drawn: it has a distribution, a centre and a spread. $\bar{x}$ is the single
+number obtained once a particular sample has been collected — one realisation
+of $\bar{X}$.
+:::
+
+**1.4** A survey of 400 households gives a mean monthly income of ₹18,000. Is
+₹18,000 a parameter or a statistic? What is the parameter here?
+
+::: {.answer}
+₹18,000 is a statistic: it was computed from a sample and would change with a
+different sample. The parameter is the mean monthly income of the whole
+population, $\mu$, which is fixed but unknown.
+:::
+
+### Explain {-}
+
+One paragraph each. These reward clarity rather than calculation.
+
+**1.5** Explain to a friend who has never studied statistics why the Law of
+Large Numbers does not mean that a large sample is guaranteed to give the right
+answer.
+
+::: {.answer}
+The law says that as the sample grows, the sample mean becomes increasingly
+likely to lie close to the population mean — not that it will equal it. Any
+particular large sample may still be unlucky. What changes with sample size is
+the *probability* of being far off, which shrinks; the possibility never
+disappears. A large sample makes a badly wrong answer improbable, not
+impossible.
+:::
+
+**1.6** A friend argues that because a coin has landed heads six times running,
+tails is now more likely. Using the Law of Large Numbers, explain why this is
+wrong.
+
+::: {.answer}
+The coin has no memory, and the law promises nothing of the kind. What
+converges is the *proportion* of heads, and it converges by dilution rather
+than by correction. The six extra heads are never cancelled out; they simply
+become a smaller and smaller share of a growing total. The absolute surplus of
+heads typically grows with the number of tosses even as the proportion
+approaches one half.
+:::
+
+**1.7** Two researchers study earnings in the same district. One surveys 100
+households, the other 2,500. Both report a mean. Which should be trusted more,
+and what would you need to know before answering?
+
+::: {.answer}
+Other things equal, the larger survey has the smaller standard error — by a
+factor of five, since $\sqrt{2500/100} = 5$. But this holds only if both
+samples were drawn from the population of interest and drawn at random. A
+carefully designed survey of 100 households is worth more than a badly drawn
+survey of 2,500. Sample size governs precision; sampling design governs whether
+precision is about the right quantity at all.
+:::
+
+### Numerical problems {-}
+
+Work these with a pen before turning to R.
+
+**1.8** A producer of cigarettes claims that the mean nicotine content of its
+cigarettes is 3.6 milligrams with a standard deviation of 0.4 milligrams.
+Assuming these figures are correct, find the expected value and the variance of
+the sample mean nicotine content for samples of (a) 50, (b) 100, (c) 200 and
+(d) 1000 randomly chosen cigarettes. What happens to the variance of the sample
+mean as the sample size increases, and why?
+
+::: {.answer}
+The expected value of the sample mean equals the population mean regardless of
+sample size, so $E(\bar{X}) = 3.6$ mg in every case.
+
+The variance is $\operatorname{Var}(\bar{X}) = \sigma^2/n = 0.16/n$, and the
+standard error is $\sigma/\sqrt{n} = 0.4/\sqrt{n}$:
+
+```{r u1-ex-nicotine}
+n  <- c(50, 100, 200, 1000)
+se <- 0.4 / sqrt(n)
+
+round(data.frame(n, expected = 3.6, se, variance = se^2), 5)
 ```
 
-```{r u1-sampdist-plot, echo = FALSE, fig.height = 3.6, fig.cap = "One thousand sample means, each from 10 cards. Individual samples miss the population mean constantly. Their average lands almost exactly on it."}
-ggplot(data.frame(m = deck_means), aes(m)) +
-  geom_histogram(bins = 32, fill = book_palette$fill, colour = "white",
-                 linewidth = 0.2) +
-  geom_vline(xintercept = 7, colour = book_palette$reject, linewidth = 0.9) +
-  annotate("label", x = 7, y = Inf, vjust = 1.4, label = "population mean = 7",
-           colour = book_palette$reject, fill = "white", size = 3.5,
-           label.size = 0.3) +
-  labs(x = "sample mean of 10 cards", y = "how often") +
-  theme_book()
+The variance falls in proportion to $1/n$. Each additional cigarette adds
+information, so the average over many of them is pulled more tightly around the
+population value. Note that going from 50 to 1000 cigarettes — twenty times the
+sample — reduces the standard error only by a factor of $\sqrt{20} \approx
+4.5$.
+:::
+
+**1.9** The lifetime of a type of battery used in electric vehicles has mean
+225 minutes and standard deviation 24 minutes. A set of 10 batteries is used
+one after another. Approximate the probability that the set lasts
+
+(a) more than 2,200 minutes, (b) more than 2,350 minutes, (c) more than 2,500
+minutes, and (d) between 2,200 and 2,350 minutes.
+
+::: {.answer}
+Ten batteries lasting more than 2,200 minutes in total is the same event as
+their *mean* lifetime exceeding 220 minutes. Working with the sample mean lets
+us use the Central Limit Theorem, since $\bar{X}$ is approximately normal with
+mean 225 and standard error $24/\sqrt{10} = 7.589$.
+
+```{r u1-ex-battery}
+mu <- 225; sigma <- 24; n <- 10
+se <- sigma / sqrt(n)
+
+# convert each total into the equivalent statement about the mean
+c(a = pnorm(2200 / n, mu, se, lower.tail = FALSE),
+  b = pnorm(2350 / n, mu, se, lower.tail = FALSE),
+  c = pnorm(2500 / n, mu, se, lower.tail = FALSE),
+  d = pnorm(2350 / n, mu, se) - pnorm(2200 / n, mu, se))
 ```
 
-Two things happened, and both matter.
+By hand, for (a): $z = (220 - 225)/7.589 = -0.66$, so
+$P(Z > -0.66) = 0.745$. The others follow the same way.
 
-**The sample means are centred on the population mean.** No single sample got
-it right, but their average is `r round(mean(deck_means), 3)` — essentially
-7. The sample mean is an **unbiased** estimator: not right, but not
-*systematically* wrong, which is a different and far more useful property.
+Note the assumption being made. The Central Limit Theorem is being applied at
+$n = 10$, which is small. It is defensible here only because battery lifetimes
+are not badly skewed; for a heavily skewed variable, ten observations would not
+be enough.
+:::
 
-**The sample means vary much less than the cards do.** The population standard
-deviation is about `r round(sd(rep(1:13, 4)), 2)`; the sample means have a
-standard deviation of about `r round(sd(deck_means), 2)`. Averaging has
-cancelled out much of the noise.
+### R exercises {-}
 
-### What happens as the sample grows {-}
+**1.10** Simulate the Central Limit Theorem starting from an exponential
+distribution, which is strongly right-skewed. Draw 5,000 sample means for
+sample sizes of 1, 5, 30 and 200 from `rexp(n, rate = 1)`, and plot the four
+distributions. At which sample size does the result begin to look normal?
 
-```{r u1-nsizes}
-set.seed(7)
+::: {.answer}
+```{r u1-ex-clt, fig.height = 5, fig.cap = "Sampling distributions of the mean from an exponential population."}
+set.seed(1)
 
-sizes <- c(5, 10, 20, 40, 80)
-results <- t(sapply(sizes, function(n) {
-  m <- replicate(2000, mean(sample(deck, size = n, replace = TRUE)))
-  c(n = n, mean = mean(m), sd = sd(m), theoretical_sd = sd(deck) / sqrt(n))
-}))
+sizes <- c(1, 5, 30, 200)
+sim <- do.call(rbind, lapply(sizes, function(n)
+  data.frame(n = factor(paste("n =", n), levels = paste("n =", sizes)),
+             m = replicate(5000, mean(rexp(n, rate = 1))))))
 
-round(results, 3)
-```
-
-```{r u1-nsizes-plot, echo = FALSE, fig.height = 4.4, fig.cap = "Sampling distributions of the mean for growing sample sizes. The centre never moves. The spread collapses."}
-set.seed(7)
-dd <- do.call(rbind, lapply(c(5, 20, 80), function(n) {
-  data.frame(n = paste("n =", n),
-             m = replicate(2000, mean(sample(deck, n, replace = TRUE))))
-}))
-dd$n <- factor(dd$n, levels = paste("n =", c(5, 20, 80)))
-
-ggplot(dd, aes(m)) +
-  geom_histogram(bins = 40, fill = book_palette$fill, colour = "white",
-                 linewidth = 0.15) +
-  geom_vline(xintercept = 7, colour = book_palette$reject, linewidth = 0.8) +
-  facet_wrap(~ n, ncol = 1, scales = "free_y") +
-  labs(x = "sample mean", y = NULL) +
+ggplot(sim, aes(m)) +
+  geom_histogram(bins = 50, fill = book_palette$fill, colour = "white",
+                 linewidth = 0.1) +
+  facet_wrap(~ n, scales = "free") +
+  labs(x = "Sample mean", y = NULL) +
   theme_book() +
   theme(axis.text.y = element_blank())
 ```
 
-Every row is centred on 7 — the sample mean is unbiased at any sample size. But
-the spread shrinks steadily, and in a completely predictable way. Compare the
-last two columns of the table: the observed standard deviation of the sample
-means matches $\sigma/\sqrt{n}$ almost exactly.
+At $n = 1$ the picture is the exponential distribution itself — a sharp peak at
+zero with a long right tail. By $n = 5$ it has a recognisable mound but remains
+clearly skewed. By $n = 30$ it is close to symmetric, and by $n = 200$ it is
+difficult to distinguish from a normal distribution by eye.
 
-::: {.keyidea}
-Two results, both of which can be established directly:
-
-$$E(\bar{X}) = \mu \qquad\qquad \mathrm{Var}(\bar{X}) = \frac{\sigma^2}{n}$$
-
-The sample mean is centred on the population mean, and its spread falls as the
-sample grows. The quantity $\sigma/\sqrt{n}$ is called the **standard error**
-of the sample mean.
+The exponential distribution has skewness 2, which is milder than the earnings
+data used in this chapter. That is why $n = 30$ works reasonably well here and
+less well there.
 :::
 
-### Where these results come from {-}
+**1.11** Using `data/cricket-toss.csv`, plot each team's toss-win percentage
+against its number of matches. What shape does the scatter take, and why?
 
-Neither result requires anything beyond the definition of the sample mean.
+::: {.answer}
+```{r u1-ex-cricket, fig.height = 3.8, fig.cap = "Toss-win percentage against number of matches played, with the theoretical limits of two standard errors."}
+toss <- read.csv("data/cricket-toss.csv")
 
-::: {.theory}
-**The sample mean is centred on the population mean.**
+band <- data.frame(n = 5:2200)
+band$hi <- 50 + 2 * 50 / sqrt(band$n)
+band$lo <- 50 - 2 * 50 / sqrt(band$n)
 
-$$
-\begin{aligned}
-E(\bar{X}) &= E\!\left(\frac{X_1 + X_2 + \cdots + X_n}{n}\right) \\[4pt]
-&= \frac{1}{n}\Big(E(X_1) + E(X_2) + \cdots + E(X_n)\Big) \\[4pt]
-&= \frac{1}{n}\underbrace{(\mu + \mu + \cdots + \mu)}_{n \text{ times}} \\[4pt]
-&= \frac{n\mu}{n} \;=\; \mu
-\end{aligned}
-$$
-
-Every observation is drawn from the same distribution, so each has expectation
-$\mu$. Averaging $n$ of them leaves $\mu$ unchanged. A statistic with this
-property is described as **unbiased**: it is not systematically too high or too
-low, although any particular value of it will still differ from $\mu$.
-:::
-
-::: {.theory}
-**Its spread falls as the sample grows.**
-
-$$
-\begin{aligned}
-\mathrm{Var}(\bar{X}) &= \mathrm{Var}\!\left(\frac{1}{n}(X_1 + \cdots + X_n)\right) \\[4pt]
-&= \frac{1}{n^2}\,\mathrm{Var}(X_1 + \cdots + X_n) \\[4pt]
-&= \frac{1}{n^2}\underbrace{(\sigma^2 + \sigma^2 + \cdots + \sigma^2)}_{n \text{ times}} \\[4pt]
-&= \frac{n\sigma^2}{n^2} \;=\; \frac{\sigma^2}{n}
-\end{aligned}
-$$
-
-The second line uses $\mathrm{Var}(aX) = a^2\mathrm{Var}(X)$. The third uses
-**independence**: the variance of a sum equals the sum of the variances only
-when the observations do not influence one another. This is the single point at
-which the independence assumption is required.
-:::
-
-Together these two results account for what Figure \@ref(fig:u1-lln-plot)
-showed. The sampling distribution is centred on $\mu$ at every sample size,
-and its width is $\sigma/\sqrt{n}$, which falls as $n$ grows. The Law of
-Large Numbers is the consequence: a distribution centred on the right value,
-whose spread tends to zero, must eventually concentrate on that value.
-
-::: {.watchout}
-Note the square root. To halve your standard error you must **quadruple** your
-sample. Precision is expensive, and it grows more expensive the more of it you
-already have.
-
-This is why surveys of two thousand people are common and surveys of two lakh
-are not: the second costs a hundred times as much for about seven times the
-precision.
-:::
-
-
-## The average is not the distribution {#u1-average}
-
-::: {.question}
-And what does an average hide?
-:::
-
-Before leaving this unit, one qualification deserves attention.
-
-Almost all of inferential statistics concerns averages. Most of the methods in
-this book estimate a mean, compare two means, or fit a line through conditional
-means. That emphasis is not arbitrary: means are well behaved, their sampling
-distributions are tractable, and both of the results we have just studied are
-statements about them.
-
-The mean, however, is only one feature of a distribution, and frequently not
-the feature that a policy question concerns.
-
-```{r u1-skew}
-c(mean   = mean(earn),
-  median = median(earn))
-
-mean(earn) / median(earn)
-```
-
-The mean is more than **twice** the median. When those two diverge that
-sharply, the average has stopped describing a typical worker.
-
-```{r u1-skew-plot, echo = FALSE, fig.height = 4, fig.cap = "Annual earnings of 20,000 Indian workers. The mean sits far to the right of most people, dragged there by a thin tail of high earners."}
-ggplot(workers, aes(annual_earnings / 1000)) +
-  geom_histogram(bins = 60, fill = book_palette$fill, colour = "white",
-                 linewidth = 0.15) +
-  geom_vline(xintercept = median(earn) / 1000,
-             colour = book_palette$ink, linetype = "dashed", linewidth = 0.7) +
-  geom_vline(xintercept = mean(earn) / 1000,
-             colour = book_palette$reject, linewidth = 0.9) +
-  annotate("label", x = mean(earn) / 1000, y = Inf, vjust = 1.4,
-           label = "mean", colour = book_palette$reject, fill = "white",
-           size = 3.5, label.size = 0.3) +
-  annotate("label", x = median(earn) / 1000, y = Inf, vjust = 3.2,
-           label = "median", colour = book_palette$ink, fill = "white",
-           size = 3.5, label.size = 0.3) +
-  coord_cartesian(xlim = c(0, 400)) +
-  labs(x = "annual earnings (₹ thousand)", y = "number of workers") +
+ggplot(toss, aes(matches, pct_toss_won)) +
+  geom_ribbon(data = band, aes(x = n, ymin = lo, ymax = hi),
+              inherit.aes = FALSE, fill = book_palette$fill, alpha = 0.45) +
+  geom_hline(yintercept = 50, colour = book_palette$reject, linewidth = 0.6) +
+  geom_point(alpha = 0.7, size = 1.6, colour = book_palette$ink) +
+  scale_x_log10(labels = scales::comma) +
+  labs(x = "Matches played (log scale)", y = "Toss-win percentage") +
   theme_book()
 ```
 
-How concentrated is it?
+The scatter forms a funnel: wide on the left, where teams have played few
+matches, and narrowing towards 50% as the number of matches grows. The shaded
+band shows two standard errors either side of 50, computed as
+$50/\sqrt{n}$ — the same formula that governs the sample mean. Almost every
+team falls inside it.
 
-```{r u1-concentration}
-top10 <- earn[earn >= quantile(earn, 0.90)]
-
-round(100 * sum(top10) / sum(earn))              # % of all earnings, top tenth
-round(quantile(earn, 0.90) / median(earn), 1)    # top-decile threshold vs median
-```
-
-The best-paid tenth of workers take a large share of all earnings, and the
-threshold for entering that tenth is several times the median wage.
-
-::: {.intuition}
-Consider what "average earnings in India" is able to answer.
-
-For total earnings it is exact: the mean multiplied by the number of workers is
-the total, by construction.
-
-For the earnings of a typical worker it is misleading. Very few people earn
-anything close to the mean, and most earn considerably less.
-
-For whether a policy has helped it can be actively deceptive. If the gains
-accrue at the top, the mean may rise while the majority are worse off. **An
-average can move in the opposite direction to almost everyone within it.**
+This is the Law of Large Numbers made visible. The teams with extreme records
+are not lucky; they are simply the teams with few observations.
 :::
 
-::: {.keyidea}
-Ask two questions of every average you meet, including your own:
-
-1. **What is the spread?** A mean with no measure of dispersion is half a
-   sentence.
-2. **Who is where?** Means are the wrong tool for questions about the bottom of
-   a distribution — poverty, vulnerability, who is hurt by a shock. Those are
-   questions about *tails*, and the mean is precisely the statistic that
-   averages tails away.
-:::
-
-This is not a philosophical aside; it changes what you estimate. Whole
-literatures in development economics exist because the mean was the wrong
-target. Poverty measures weight the poor rather than averaging over everyone.
-Vulnerability measures ask who is at risk of falling below a line.
-Distributional analysis asks whether a policy that raised average income raised
-the income of anyone who was badly off to begin with.
-
-We will return to this repeatedly. When we fit a regression we will be
-modelling a conditional *mean*, and it will be worth asking each time what that
-choice conceals. When we reach binary explanatory variables and estimate an
-average treatment effect, the word "average" in that phrase will deserve every
-bit of suspicion you can bring to it.
+## Question bank {#u1-question-bank}
 
 ::: {.watchout}
-None of this makes averages bad. They are the right tool for a great many
-questions, and this book spends most of its length on them for good reason.
-
-It means an average is an **answer to a specific question**, not a neutral
-summary of the data. Decide which question you are asking before deciding the
-mean answers it.
+**No answers are given for this section, by design.** These questions are for
+testing yourself once the practice problems are complete. There are no hints
+and no worked solutions — exactly as in an examination.
 :::
 
-## What can go wrong before any mathematics {#u1-what-goes-wrong}
+### Multiple choice {-}
 
-::: {.question}
-When does none of this machinery help?
-:::
+**QB 1.1** Which of the following is a random variable? *(select all that
+apply)*
 
-Inference assumes your sample carries information about the population you care
-about. Three ways that fails, none of which any formula will warn you about.
+a. The number showing after a die is rolled
+b. The number showing on a die with a three painted on every face
+c. The mean earnings of a sample of 500 workers, before the sample is drawn
+d. The mean earnings of a sample of 500 workers, after the sample is drawn
 
-**The sample is not from the population you mean.** The ASI covers *registered*
-factories. Most Indian manufacturing employment is unregistered. Conclusions
-about "Indian manufacturing" drawn from ASI data are conclusions about a formal
-sliver of it. The arithmetic will not object.
+**QB 1.2** A population has mean $\mu = 40$ and standard deviation
+$\sigma = 12$. For samples of size 36, the standard error of the sample mean
+is
 
-**The sample is not random.** Our class survey has 32 heights. They are not a
-random sample of APU students, let alone of young Indians — they are the people
-who took this course and turned up that day. You may compute a confidence
-interval from them and it will mean nothing about the university.
+a. 12
+b. 2
+c. 0.33
+d. 6
 
-**The question is causal but the data is not.** Suppose states with more
-industry have higher literacy. Does industry raise literacy? Does literacy
-attract industry? Does something else drive both? The correlation is identical
-in all three cases, and no statistical machinery separates them without an
-argument about *how the data came to exist*.
+**QB 1.3** Which statements about the Law of Large Numbers are correct?
+*(select all that apply)*
 
-::: {.intuition}
-That last failure is why this book is organised as it is. From the unit on
-two-sample tests onwards, we stop asking only "what is this number?" and start
-asking "what would have to be true for this number to mean what I want it to
-mean?"
+a. As the sample grows, the sample mean becomes more likely to be close to the
+   population mean
+b. As the sample grows, the sample mean becomes certain to equal the population
+   mean
+c. It applies only when the population is normally distributed
+d. It explains why a survey need not interview everyone
 
-That question — not any particular estimator — is what separates a good applied
-economist from someone who can run regressions.
-:::
+**QB 1.4** A researcher doubles the size of a survey from 500 to 1,000
+households. The standard error of the sample mean falls by a factor of
+approximately
 
-## Summary {#u1-summary}
+a. 2
+b. 4
+c. 1.41
+d. It does not change
 
-The argument of this unit can be stated in a few sentences.
+**QB 1.5** The Central Limit Theorem states that
 
-Observations vary, and they vary because the processes that generate them
-involve chance. Descriptive statistics summarises the variation in the data we
-have, accurately and completely. But the data we have is a sample, and a
-different sample would have produced different summaries. That difference —
-sampling variation — is not a defect in the data, and cannot be removed by
-working more carefully.
+a. Large samples are normally distributed
+b. The population becomes normal as the sample grows
+c. The sampling distribution of the sample mean is approximately normal for
+   sufficiently large samples
+d. Any variable is approximately normal if enough observations are collected
 
-The resolution is to change the object of study. Instead of asking what a
-particular sample says, we ask how a statistic behaves across the many samples
-that might have been drawn. The pattern formed by a statistic under repeated
-sampling is its sampling distribution, and it is the foundation on which
-inference rests.
+**QB 1.6** Which of the following would make the normal approximation to the
+sampling distribution *less* accurate at a given sample size? *(select all that
+apply)*
 
-Two results describe that pattern. The Law of Large Numbers establishes that
-the sample mean approaches the population mean as the sample grows. The Central
-Limit Theorem establishes that the sampling distribution of the sample mean is
-approximately normal, whatever the shape of the population — although how large
-a sample this requires depends on how skewed that population is.
+a. A heavily right-skewed population
+b. A symmetric population
+c. A population with a small number of extreme outliers
+d. A larger population standard deviation
 
-::: {.keyidea}
-Points worth carrying forward:
+**QB 1.7** A statistic differs from a parameter because
 
-1. A distribution is a pattern that emerges from repetition under randomness.
-   Where nothing varies, there is nothing for statistics to describe.
-2. Greek letters ($\mu$, $\sigma$) denote population quantities, which are
-   never observed. Roman letters ($\bar{x}$, $s$) denote quantities computed
-   from a sample.
-3. $E(\bar{X}) = \mu$ and $\mathrm{Var}(\bar{X}) = \sigma^2/n$. The sample
-   mean is unbiased, and its standard error $\sigma/\sqrt{n}$ falls with the
-   square root of the sample size — so halving it requires quadrupling the
-   sample.
-4. The mean is one feature of a distribution, not a summary of it. Indian
-   earnings have a mean more than twice their median. Spread, and the position
-   of those in the tails, are separate questions requiring separate tools.
-:::
+a. A statistic is always correct
+b. A statistic is computed from a sample and changes from sample to sample
+c. A parameter is computed from a sample
+d. A parameter changes when a different sample is drawn
 
-This unit opened by claiming that the average computed from a sample is almost
-certainly wrong. It is — and we now have both the reason and the language to
-say how wrong, and with what probability.
+### Short reasoning {-}
 
-We began with plain English and end with a notation for describing uncertainty
-precisely. In the units that follow, that language is put to work on the
-question which has motivated this one from the beginning:
+**QB 1.8** A newspaper reports that average household income in a district is
+₹32,000, based on a survey of 800 households, and describes this as "the income
+of a typical household". Give two separate objections to that description.
 
-> **How can a single sample tell us something reliable about an entire
-> population?**
+**QB 1.9** An analyst has a sample of 50,000 observations and concludes that
+because the sample is very large, the results must be reliable. Under what
+circumstances would this reasoning be wrong?
+
+**QB 1.10** Explain why the sampling distribution of the sample mean is
+narrower than the distribution of the individual observations, using the idea
+of offsetting variation rather than any formula.
+
+### Numerical {-}
+
+**QB 1.11** The weights of rice bags filled by a machine have mean 25 kg and
+standard deviation 0.6 kg. A quality inspector weighs 36 bags.
+
+(a) What is the expected value of the sample mean weight?
+(b) What is its standard error?
+(c) How many bags would need to be weighed to halve that standard error?
+
+**QB 1.12** Daily wages of agricultural labourers in a district have mean ₹350
+and standard deviation ₹90. For a random sample of 100 labourers, approximate
+the probability that the sample mean wage
+
+(a) exceeds ₹360, (b) falls below ₹340, (c) lies between ₹340 and ₹360.
+
+**QB 1.13** A population is strongly right-skewed with mean 12 and standard
+deviation 15. A student proposes to use the normal approximation for the
+sampling distribution of the mean with a sample of 20 observations. Comment on
+whether this is advisable, and describe how you would check.
+
+## Looking ahead {#u1-looking-ahead}
+
+We now understand why different samples produce different answers, and why
+those answers follow predictable patterns.
+
+Suppose you collect a sample of fifty households and find an average monthly
+income of ₹24,000.
+
+Is that evidence that the population average is ₹24,000?
+
+Could the true average instead be ₹25,000? Or ₹23,500? How different would your
+sample have to be before you concluded that the population itself is different?
+
+These questions motivate the next unit.
