@@ -4,13 +4,13 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>5.5 When two samples are not two samples | Statistics and Econometrics with R</title>
+  <title>5.5 When two samples are not really two samples | Statistics and Econometrics with R</title>
   <meta name="description" content="<p>A first course in statistics and econometrics for Indian students, built on
 the progression from question to intuition to rigour to computation to
 interpretation.</p>" />
   <meta name="generator" content="bookdown 0.47 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="5.5 When two samples are not two samples | Statistics and Econometrics with R" />
+  <meta property="og:title" content="5.5 When two samples are not really two samples | Statistics and Econometrics with R" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="<p>A first course in statistics and econometrics for Indian students, built on
@@ -19,7 +19,7 @@ interpretation.</p>" />
   <meta name="github-repo" content="kedarkulkarni1991/stats-econometrics-r" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="5.5 When two samples are not two samples | Statistics and Econometrics with R" />
+  <meta name="twitter:title" content="5.5 When two samples are not really two samples | Statistics and Econometrics with R" />
   
   <meta name="twitter:description" content="<p>A first course in statistics and econometrics for Indian students, built on
 the progression from question to intuition to rigour to computation to
@@ -356,7 +356,21 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="ts-unknown.html"><a href="ts-unknown.html#unequal-variances-welchs-test"><i class="fa fa-check"></i>Unequal variances: Welch’s test</a></li>
 <li class="chapter" data-level="" data-path="ts-unknown.html"><a href="ts-unknown.html#do-north-and-south-indian-students-differ-in-height"><i class="fa fa-check"></i>Do North and South Indian students differ in height?</a></li>
 </ul></li>
-<li class="chapter" data-level="5.5" data-path="ts-paired.html"><a href="ts-paired.html"><i class="fa fa-check"></i><b>5.5</b> When two samples are not two samples</a></li>
+<li class="chapter" data-level="5.5" data-path="ts-paired.html"><a href="ts-paired.html"><i class="fa fa-check"></i><b>5.5</b> When two samples are not really two samples</a>
+<ul>
+<li class="chapter" data-level="" data-path="ts-paired.html"><a href="ts-paired.html#something-is-wrong"><i class="fa fa-check"></i>Something is wrong</a></li>
+<li class="chapter" data-level="" data-path="ts-paired.html"><a href="ts-paired.html#what-the-two-sample-test-assumed"><i class="fa fa-check"></i>What the two-sample test assumed</a></li>
+<li class="chapter" data-level="" data-path="ts-paired.html"><a href="ts-paired.html#two-sources-of-variation"><i class="fa fa-check"></i>Two sources of variation</a></li>
+<li class="chapter" data-level="" data-path="ts-paired.html"><a href="ts-paired.html#removing-what-we-do-not-care-about"><i class="fa fa-check"></i>Removing what we do not care about</a></li>
+<li class="chapter" data-level="" data-path="ts-paired.html"><a href="ts-paired.html#the-statistical-model"><i class="fa fa-check"></i>The statistical model</a></li>
+<li class="chapter" data-level="" data-path="ts-paired.html"><a href="ts-paired.html#setting-up-the-hypotheses"><i class="fa fa-check"></i>Setting up the hypotheses</a></li>
+<li class="chapter" data-level="" data-path="ts-paired.html"><a href="ts-paired.html#estimating-the-mean-difference"><i class="fa fa-check"></i>Estimating the mean difference</a></li>
+<li class="chapter" data-level="" data-path="ts-paired.html"><a href="ts-paired.html#the-test-statistic"><i class="fa fa-check"></i>The test statistic</a></li>
+<li class="chapter" data-level="" data-path="ts-paired.html"><a href="ts-paired.html#confidence-interval"><i class="fa fa-check"></i>Confidence interval</a></li>
+<li class="chapter" data-level="" data-path="ts-paired.html"><a href="ts-paired.html#doing-it-in-r"><i class="fa fa-check"></i>Doing it in R</a></li>
+<li class="chapter" data-level="" data-path="ts-paired.html"><a href="ts-paired.html#why-did-the-answer-change-so-much"><i class="fa fa-check"></i>Why did the answer change so much?</a></li>
+<li class="chapter" data-level="" data-path="ts-paired.html"><a href="ts-paired.html#when-should-we-use-a-paired-test"><i class="fa fa-check"></i>When should we use a paired test?</a></li>
+</ul></li>
 <li class="chapter" data-level="5.6" data-path="ts-causal.html"><a href="ts-causal.html"><i class="fa fa-check"></i><b>5.6</b> A difference is not an effect</a>
 <ul>
 <li class="chapter" data-level="" data-path="ts-causal.html"><a href="ts-causal.html#the-difference-is-significant-and-trivial"><i class="fa fa-check"></i>The difference is significant and trivial</a></li>
@@ -400,11 +414,11 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 
             <section class="normal" id="section-">
 <div id="ts-paired" class="section level2 hasAnchor" number="5.5">
-<h2><span class="header-section-number">5.5</span> When two samples are not two samples<a href="ts-paired.html#ts-paired" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<h2><span class="header-section-number">5.5</span> When two samples are not really two samples<a href="ts-paired.html#ts-paired" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <div class="question">
 <p>Ten couples. Two columns of ages. Is that two samples?</p>
 </div>
-<p><code>marriage-ages.csv</code> holds the ages of both partners in ten married couples.</p>
+<p>Suppose we record the ages of both partners in ten married couples.</p>
 <div class="sourceCode" id="cb186"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb186-1"><a href="ts-paired.html#cb186-1" tabindex="-1"></a>couples <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/marriage-ages.csv&quot;</span>)</span>
 <span id="cb186-2"><a href="ts-paired.html#cb186-2" tabindex="-1"></a>couples</span></code></pre></div>
 <pre><code>#&gt;    partner1 partner2
@@ -418,9 +432,10 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 #&gt; 8        50       42
 #&gt; 9        37       36
 #&gt; 10       41       41</code></pre>
-<p>The question is whether partner 1 is on average older than partner 2. There are
-two columns of ten numbers, so it is tempting to run the test we have just
-learned.</p>
+<p>Our question is simple: <strong>is partner 1, on average, older than partner 2?</strong></p>
+<p>At first glance this looks like a two-sample problem. There are two columns.
+There are ten observations in each. So why not perform the test we have just
+learned?</p>
 <div class="sourceCode" id="cb188"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb188-1"><a href="ts-paired.html#cb188-1" tabindex="-1"></a><span class="fu">t.test</span>(couples<span class="sc">$</span>partner1, couples<span class="sc">$</span>partner2)</span></code></pre></div>
 <pre><code>#&gt; 
 #&gt;  Welch Two Sample t-test
@@ -433,19 +448,72 @@ learned.</p>
 #&gt; sample estimates:
 #&gt; mean of x mean of y 
 #&gt;      45.7      43.2</code></pre>
-<p>Nothing at all: <span class="math inline">\(t = 0.52\)</span>, <span class="math inline">\(p = 0.61\)</span>. On this evidence the two are the same
-age on average.</p>
-<p>Now look at the data again. In eight of the ten couples partner 1 is the older
-one, and in the remaining two the partners are exactly the same age. Not once is
-partner 2 older. A procedure that looks at that and reports <span class="math inline">\(p = 0.61\)</span> has
-thrown something away.</p>
-<p>What it threw away is the pairing. The two-sample test treats the twenty numbers
-as two unrelated heaps, and asks whether one heap averages higher than the
-other. But the ages within a couple are strongly related — couples marry at
-similar ages to each other, and the couples differ hugely among themselves,
-from the mid-thirties to the seventies. That between-couple variation is
-enormous, it is identical in both columns, and it swamps the small, consistent
-within-couple gap.</p>
+<p>The test finds essentially nothing: <span class="math inline">\(t = 0.52\)</span> with <span class="math inline">\(p = 0.61\)</span>. On this evidence
+the two are the same age on average, and the interval for the difference runs
+from <span class="math inline">\(-7.5\)</span> to <span class="math inline">\(12.5\)</span> years.</p>
+<div id="something-is-wrong" class="section level3 unnumbered hasAnchor">
+<h3>Something is wrong<a href="ts-paired.html#something-is-wrong" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Look carefully at the data. In every couple, which partner is older?</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Couple</th>
+<th align="left">1</th>
+<th align="left">2</th>
+<th align="left">3</th>
+<th align="left">4</th>
+<th align="left">5</th>
+<th align="left">6</th>
+<th align="left">7</th>
+<th align="left">8</th>
+<th align="left">9</th>
+<th align="left">10</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Older</td>
+<td align="left">P1</td>
+<td align="left">P1</td>
+<td align="left">P1</td>
+<td align="left">P1</td>
+<td align="left">P1</td>
+<td align="left">P1</td>
+<td align="left">same</td>
+<td align="left">P1</td>
+<td align="left">P1</td>
+<td align="left">same</td>
+</tr>
+</tbody>
+</table>
+<p>Partner 1 is older in eight couples. In the other two the partners are exactly
+the same age. <strong>Partner 2 is never older.</strong></p>
+<p>How can a statistical test look at that and return <span class="math inline">\(p = 0.61\)</span>?</p>
+<p>The answer is that we analysed the wrong problem.</p>
+</div>
+<div id="what-the-two-sample-test-assumed" class="section level3 unnumbered hasAnchor">
+<h3>What the two-sample test assumed<a href="ts-paired.html#what-the-two-sample-test-assumed" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>The two-sample <span class="math inline">\(t\)</span>-test assumes the observations in one sample have nothing to
+do with the observations in the other. It treats the data as two unrelated
+collections of people:</p>
+<p><span class="math display">\[\text{Partner 1:}\quad 36 \quad 72 \quad 37 \quad 36 \quad 51 \quad \ldots\]</span>
+<span class="math display">\[\text{Partner 2:}\quad 35 \quad 67 \quad 33 \quad 35 \quad 50 \quad \ldots\]</span></p>
+<p>But they are not unrelated. Each observation belongs to a <em>married couple</em>, and
+within a couple the two ages are naturally linked. Someone who marries at 70 is
+likely to have a spouse around 70; someone who marries at 35 is likely to have a
+spouse around 35. The ages within a couple are strongly correlated.</p>
+</div>
+<div id="two-sources-of-variation" class="section level3 unnumbered hasAnchor">
+<h3>Two sources of variation<a href="ts-paired.html#two-sources-of-variation" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>There are two quite different sources of variation in this dataset, and only one
+of them is of any interest.</p>
+<p><strong>Variation between couples.</strong> Some couples are in their thirties, some in
+their fifties, one in their seventies. These differences are enormous.</p>
+<p><strong>Variation within couples.</strong> Partners usually differ by only a few years. This
+is the variation we actually care about.</p>
+<p>The two-sample test mixes them together. The between-couple variation dominates
+the calculation and hides the small but remarkably consistent within-couple
+differences.</p>
 <p>Seen properly, the structure is obvious.</p>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:ts-marriage-plot"></span>
 <img src="stats-econometrics-r_files/figure-html/ts-marriage-plot-1.png" alt="Ten couples, ordered by the age of partner 2. Each segment joins the two partners in one couple. The couples span nearly forty years between them; within any couple the gap is at most eight. Two couples are the same age, and show as a red ring around a blue centre." width="90%"  />
@@ -456,26 +524,110 @@ Figure 5.1: Ten couples, ordered by the age of partner 2. Each segment joins the
 <p>The figure explains both results at once. Vertically, the couples are spread
 across nearly forty years — that is the variation the unpaired test measures the
 gap against, and it is overwhelming. Horizontally, within each couple, the red
-point is at or to the right of the blue one every single time — in two cases
-exactly on top of it — and never more than eight years away. That small, utterly consistent gap is what the paired
-test measures.</p>
-<p>The fix, then, is to compare each partner with <em>their own</em> partner, by working
-with the differences.</p>
+point is at or to the right of the blue one every single time, and never more
+than eight years away. That small, utterly consistent gap is what a paired test
+measures.</p>
+</div>
+<div id="removing-what-we-do-not-care-about" class="section level3 unnumbered hasAnchor">
+<h3>Removing what we do not care about<a href="ts-paired.html#removing-what-we-do-not-care-about" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Instead of comparing all the partner 1s with all the partner 2s, compare each
+person with <em>their own</em> partner. Compute the difference for every couple.</p>
 <div class="sourceCode" id="cb190"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb190-1"><a href="ts-paired.html#cb190-1" tabindex="-1"></a>d <span class="ot">&lt;-</span> couples<span class="sc">$</span>partner1 <span class="sc">-</span> couples<span class="sc">$</span>partner2</span>
 <span id="cb190-2"><a href="ts-paired.html#cb190-2" tabindex="-1"></a>d</span></code></pre></div>
 <pre><code>#&gt;  [1] 1 5 4 1 1 4 0 8 1 0</code></pre>
-<div class="sourceCode" id="cb192"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb192-1"><a href="ts-paired.html#cb192-1" tabindex="-1"></a><span class="fu">c</span>(<span class="at">mean_difference =</span> <span class="fu">mean</span>(d), <span class="at">sd =</span> <span class="fu">sd</span>(d), <span class="at">n =</span> <span class="fu">length</span>(d))</span></code></pre></div>
-<pre><code>#&gt; mean_difference              sd               n 
-#&gt;           2.500           2.635          10.000</code></pre>
-<p>Every difference is zero or positive. Now the between-couple variation has
-cancelled out entirely — it was common to both columns, so subtracting removes
-it — and what remains is the quantity of interest.</p>
-<div class="keyidea">
-<p>A <strong>paired</strong> design produces one number per unit, not two samples. Take the
-differences and run a <em>one-sample</em> test on them, against <span class="math inline">\(H_0: \mu_d = 0\)</span>.</p>
-<p>In R, <code>paired = TRUE</code>.</p>
+<p>Now something worth pausing on has happened. The ages of the couples have
+disappeared completely.</p>
+<p>The couple aged 72 and 67 contributes <span class="math inline">\(72 - 67 = 5\)</span>. The couple aged 36 and 35
+contributes <span class="math inline">\(36 - 35 = 1\)</span>. It no longer matters whether a couple is young or
+old — subtracting removes the between-couple variation automatically, because it
+was common to both columns.</p>
+<p>Only the within-couple difference remains, and that is exactly the quantity we
+wanted to study.</p>
 </div>
-<div class="sourceCode" id="cb194"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb194-1"><a href="ts-paired.html#cb194-1" tabindex="-1"></a><span class="fu">t.test</span>(couples<span class="sc">$</span>partner1, couples<span class="sc">$</span>partner2, <span class="at">paired =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<div id="the-statistical-model" class="section level3 unnumbered hasAnchor">
+<h3>The statistical model<a href="ts-paired.html#the-statistical-model" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Let</p>
+<p><span class="math display">\[d_i = x_i - y_i\]</span></p>
+<p>where <span class="math inline">\(x_i\)</span> is the age of partner 1 in couple <span class="math inline">\(i\)</span> and <span class="math inline">\(y_i\)</span> is the age of
+partner 2 in the <em>same</em> couple.</p>
+<p>Instead of two samples, we now have one sample of differences
+<span class="math inline">\(d_1, d_2, \ldots, d_n\)</span>. Our parameter of interest is</p>
+<p><span class="math display">\[\mu_d = E(d)\]</span></p>
+<p>the population mean difference.</p>
+</div>
+<div id="setting-up-the-hypotheses" class="section level3 unnumbered hasAnchor">
+<h3>Setting up the hypotheses<a href="ts-paired.html#setting-up-the-hypotheses" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>If we simply want to know whether the average ages differ,</p>
+<p><span class="math display">\[H_0 : \mu_d = 0 \qquad H_A : \mu_d \neq 0\]</span></p>
+<p>If we specifically suspect partner 1 is older, the alternative is one-sided, as
+in Section <a href="os-onetailed.html#os-onetailed">4.8</a>:</p>
+<p><span class="math display">\[H_0 : \mu_d \leq 0 \qquad H_A : \mu_d &gt; 0\]</span></p>
+<div class="keyidea">
+<p>Notice that the hypotheses are no longer about two population means. We are not
+testing <span class="math inline">\(H_0: \mu_1 = \mu_2\)</span>.</p>
+<p>We are testing whether the average <em>difference</em> equals zero — a claim about a
+single parameter, which is why the machinery of Unit <a href="one-sample.html#one-sample">4</a> applies
+unchanged.</p>
+</div>
+</div>
+<div id="estimating-the-mean-difference" class="section level3 unnumbered hasAnchor">
+<h3>Estimating the mean difference<a href="ts-paired.html#estimating-the-mean-difference" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>The sample mean difference is</p>
+<p><span class="math display">\[\bar{d} = \frac{1}{n}\sum_{i=1}^{n} d_i\]</span></p>
+<p>and the sample standard deviation of the differences is the ordinary one from
+Section <a href="u3-variance.html#u3-variance">3.2</a>, applied to the <span class="math inline">\(d_i\)</span>:</p>
+<p><span class="math display">\[s_d = \sqrt{\frac{\sum_{i=1}^{n}(d_i - \bar{d})^2}{n-1}}\]</span></p>
+<div class="sourceCode" id="cb192"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb192-1"><a href="ts-paired.html#cb192-1" tabindex="-1"></a><span class="fu">c</span>(<span class="at">n =</span> <span class="fu">length</span>(d), <span class="at">d_bar =</span> <span class="fu">mean</span>(d), <span class="at">s_d =</span> <span class="fu">sd</span>(d), <span class="at">se =</span> <span class="fu">sd</span>(d) <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="fu">length</span>(d)))</span></code></pre></div>
+<pre><code>#&gt;       n   d_bar     s_d      se 
+#&gt; 10.0000  2.5000  2.6352  0.8333</code></pre>
+<p>So <span class="math inline">\(\bar{d} = 2.5\)</span> years and <span class="math inline">\(s_d = 2.635\)</span> years.</p>
+</div>
+<div id="the-test-statistic" class="section level3 unnumbered hasAnchor">
+<h3>The test statistic<a href="ts-paired.html#the-test-statistic" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Under the null hypothesis <span class="math inline">\(\mu_d = 0\)</span>,</p>
+<p><span class="math display">\[t = \frac{\bar{d} - 0}{s_d / \sqrt{n}}\]</span></p>
+<p>This is exactly the one-sample <span class="math inline">\(t\)</span> statistic from Section <a href="os-ttest.html#os-ttest">4.7</a>, with
+<span class="math inline">\(d\)</span> in place of <span class="math inline">\(x\)</span>. Substituting,</p>
+<p><span class="math display">\[t = \frac{2.5}{2.635/\sqrt{10}} = \frac{2.5}{0.833} = 3.00\]</span></p>
+<p>and under <span class="math inline">\(H_0\)</span> this follows <span class="math inline">\(t_{n-1}\)</span>, so with <span class="math inline">\(n = 10\)</span> we have <span class="math inline">\(df = 9\)</span>.</p>
+<div class="sourceCode" id="cb194"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb194-1"><a href="ts-paired.html#cb194-1" tabindex="-1"></a>t_calc <span class="ot">&lt;-</span> <span class="fu">mean</span>(d) <span class="sc">/</span> (<span class="fu">sd</span>(d) <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="fu">length</span>(d)))</span>
+<span id="cb194-2"><a href="ts-paired.html#cb194-2" tabindex="-1"></a></span>
+<span id="cb194-3"><a href="ts-paired.html#cb194-3" tabindex="-1"></a><span class="fu">c</span>(<span class="at">t_calc  =</span> t_calc,</span>
+<span id="cb194-4"><a href="ts-paired.html#cb194-4" tabindex="-1"></a>  <span class="at">df      =</span> <span class="fu">length</span>(d) <span class="sc">-</span> <span class="dv">1</span>,</span>
+<span id="cb194-5"><a href="ts-paired.html#cb194-5" tabindex="-1"></a>  <span class="at">t_crit  =</span> <span class="fu">qt</span>(<span class="fl">0.975</span>, <span class="at">df =</span> <span class="fu">length</span>(d) <span class="sc">-</span> <span class="dv">1</span>),</span>
+<span id="cb194-6"><a href="ts-paired.html#cb194-6" tabindex="-1"></a>  <span class="at">p_value =</span> <span class="dv">2</span> <span class="sc">*</span> <span class="fu">pt</span>(<span class="sc">-</span><span class="fu">abs</span>(t_calc), <span class="at">df =</span> <span class="fu">length</span>(d) <span class="sc">-</span> <span class="dv">1</span>))</span></code></pre></div>
+<pre><code>#&gt;  t_calc      df  t_crit p_value 
+#&gt; 3.00000 9.00000 2.26216 0.01496</code></pre>
+<p>Since <span class="math inline">\(3.00 &gt; 2.262\)</span>, we reject <span class="math inline">\(H_0\)</span> at the 5% level. The two-sided <span class="math inline">\(p\)</span>-value
+is 0.015.</p>
+</div>
+<div id="confidence-interval" class="section level3 unnumbered hasAnchor">
+<h3>Confidence interval<a href="ts-paired.html#confidence-interval" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>A 95% interval for the mean difference is</p>
+<p><span class="math display">\[\bar{d} \pm t_{\alpha/2,\,n-1}\,\frac{s_d}{\sqrt{n}}\]</span></p>
+<div class="sourceCode" id="cb196"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb196-1"><a href="ts-paired.html#cb196-1" tabindex="-1"></a><span class="fu">mean</span>(d) <span class="sc">+</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>) <span class="sc">*</span> <span class="fu">qt</span>(<span class="fl">0.975</span>, <span class="at">df =</span> <span class="dv">9</span>) <span class="sc">*</span> <span class="fu">sd</span>(d) <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="dv">10</span>)</span></code></pre></div>
+<pre><code>#&gt; [1] 0.6149 4.3851</code></pre>
+<p>Partner 1 is between about 0.6 and 4.4 years older, on average. The interval
+excludes zero, agreeing with the test as always.</p>
+</div>
+<div id="doing-it-in-r" class="section level3 unnumbered hasAnchor">
+<h3>Doing it in R<a href="ts-paired.html#doing-it-in-r" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Everything above can be had two ways. Either compute the differences yourself
+and run a one-sample test,</p>
+<div class="sourceCode" id="cb198"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb198-1"><a href="ts-paired.html#cb198-1" tabindex="-1"></a><span class="fu">t.test</span>(d, <span class="at">mu =</span> <span class="dv">0</span>)</span></code></pre></div>
+<pre><code>#&gt; 
+#&gt;  One Sample t-test
+#&gt; 
+#&gt; data:  d
+#&gt; t = 3, df = 9, p-value = 0.01
+#&gt; alternative hypothesis: true mean is not equal to 0
+#&gt; 95 percent confidence interval:
+#&gt;  0.6149 4.3851
+#&gt; sample estimates:
+#&gt; mean of x 
+#&gt;       2.5</code></pre>
+<p>or let R take the differences for you:</p>
+<div class="sourceCode" id="cb200"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb200-1"><a href="ts-paired.html#cb200-1" tabindex="-1"></a><span class="fu">t.test</span>(couples<span class="sc">$</span>partner1, couples<span class="sc">$</span>partner2, <span class="at">paired =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 <pre><code>#&gt; 
 #&gt;  Paired t-test
 #&gt; 
@@ -487,16 +639,139 @@ differences and run a <em>one-sample</em> test on them, against <span class="mat
 #&gt; sample estimates:
 #&gt; mean difference 
 #&gt;             2.5</code></pre>
-<p><span class="math inline">\(t = 3.0\)</span> on 9 degrees of freedom, <span class="math inline">\(p = 0.015\)</span>. Partner 1 is older by between
-0.6 and 4.4 years, with 95% confidence.</p>
+<p>The two are the same test, because <code>paired = TRUE</code> does nothing more than
+subtract the columns and run the one-sample test on the result.</p>
+</div>
+<div id="why-did-the-answer-change-so-much" class="section level3 unnumbered hasAnchor">
+<h3>Why did the answer change so much?<a href="ts-paired.html#why-did-the-answer-change-so-much" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Notice what changed, and what did not.</p>
+<table>
+<caption><span id="tab:ts-paired-compare">Table 5.1: </span> The same ten couples, analysed twice.</caption>
+<thead>
+<tr class="header">
+<th align="left">Analysis</th>
+<th align="left">Treats the observations as</th>
+<th align="right"><span class="math inline">\(p\)</span>-value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Two-sample <span class="math inline">\(t\)</span>-test</td>
+<td align="left">Twenty unrelated people</td>
+<td align="right">0.61</td>
+</tr>
+<tr class="even">
+<td align="left">Paired <span class="math inline">\(t\)</span>-test</td>
+<td align="left">Ten differences within couples</td>
+<td align="right">0.015</td>
+</tr>
+</tbody>
+</table>
+<p>The data never changed. The same ten couples were analysed twice. The only
+difference was whether the analysis respected the way the data were collected.</p>
+<div class="theory">
+<p>The algebra shows exactly what pairing removes. Write each age as</p>
+<p><span class="math display">\[x_i = \mu + \alpha_i + \delta_i \qquad\qquad y_i = \mu + \alpha_i + \varepsilon_i\]</span></p>
+<p>where <span class="math inline">\(\mu\)</span> is the overall average age, <span class="math inline">\(\alpha_i\)</span> captures whether couple <span class="math inline">\(i\)</span>
+is generally young or old, and <span class="math inline">\(\delta_i\)</span> and <span class="math inline">\(\varepsilon_i\)</span> are the remaining
+individual departures.</p>
+<p>The term <span class="math inline">\(\alpha_i\)</span> is what makes the columns so variable: it ranges across
+nearly forty years in these data. Crucially, it is <em>the same</em> <span class="math inline">\(\alpha_i\)</span> in both
+expressions, because both partners belong to the same couple.</p>
+<p>Taking differences,</p>
+<p><span class="math display">\[
+\begin{aligned}
+d_i &amp;= x_i - y_i \\[4pt]
+&amp;= (\mu + \alpha_i + \delta_i) - (\mu + \alpha_i + \varepsilon_i) \\[4pt]
+&amp;= \delta_i - \varepsilon_i
+\end{aligned}
+\]</span></p>
+<p>Both <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\alpha_i\)</span> cancel. The large between-couple effect disappears
+entirely, and the differences carry only the within-couple departures.</p>
+<p>That is why the paired test is so much more powerful. It is not measuring a
+smaller quantity more cleverly; it is measuring the same quantity against a much
+smaller standard error.</p>
+</div>
+<p>The standard deviations make the point numerically:</p>
+<div class="sourceCode" id="cb202"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb202-1"><a href="ts-paired.html#cb202-1" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">sd_partner1 =</span> <span class="fu">sd</span>(couples<span class="sc">$</span>partner1),</span>
+<span id="cb202-2"><a href="ts-paired.html#cb202-2" tabindex="-1"></a>        <span class="at">sd_partner2 =</span> <span class="fu">sd</span>(couples<span class="sc">$</span>partner2),</span>
+<span id="cb202-3"><a href="ts-paired.html#cb202-3" tabindex="-1"></a>        <span class="at">sd_of_diffs =</span> <span class="fu">sd</span>(d)), <span class="dv">3</span>)</span></code></pre></div>
+<pre><code>#&gt; sd_partner1 sd_partner2 sd_of_diffs 
+#&gt;      11.156      10.174       2.635</code></pre>
+<p>Each column varies by about eleven years. The differences vary by 2.6. The
+unpaired test measured a 2.5-year gap against eleven years of noise and saw
+nothing; the paired test measures it against 2.6 and finds it clearly.</p>
+</div>
+<div id="when-should-we-use-a-paired-test" class="section level3 unnumbered hasAnchor">
+<h3>When should we use a paired test?<a href="ts-paired.html#when-should-we-use-a-paired-test" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>A paired test is appropriate whenever the two measurements belong to the same
+unit. Typical cases:</p>
+<ul>
+<li>before and after measurements on the same patients;</li>
+<li>yields from the same plots under two fertilisers in successive seasons;</li>
+<li>examination scores of the same students before and after a training programme;</li>
+<li>the same households interviewed in two survey rounds;</li>
+<li>twins, or matched pairs, receiving different treatments.</li>
+</ul>
+<p>The common feature is that every observation in one column has a natural partner
+in the other. The analysis should therefore focus on the difference within each
+pair, not on the two columns separately.</p>
 <div class="watchout">
-<p>The same ten couples gave <span class="math inline">\(p = 0.61\)</span> and <span class="math inline">\(p = 0.015\)</span>. The data did not change.
-Only whether the analysis respected the design.</p>
-<p>Pairing arises whenever the two measurements belong to the same unit: before and
-after a training programme on the same workers, the same plots under two
-treatments in successive seasons, the same households surveyed in two rounds. In
-every such case, treating the columns as independent samples discards the
-comparison the design was built to make.</p>
+<p>The reverse error is also possible. If the two columns are <em>not</em> paired — 45
+government school students and 52 private school students, say — then there is
+no natural partner for anyone, <code>paired = TRUE</code> will pair them by row number,
+which is meaningless, and R will simply refuse if the lengths differ.</p>
+<p>Pairing is a fact about how the data were collected, not an option to try.</p>
+</div>
+<div class="keyidea">
+<p><strong>A paired <span class="math inline">\(t\)</span>-test is not a special kind of two-sample <span class="math inline">\(t\)</span>-test. It is a
+one-sample <span class="math inline">\(t\)</span>-test applied to the differences between paired observations.</strong></p>
+<p>If you remember one sentence from this section, it should be that one.</p>
+</div>
+<table>
+<caption><span id="tab:ts-paired-vs-one">Table 5.2: </span> A paired test is a one-sample test wearing different clothes.</caption>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left"></th>
+<th align="left">One-sample <span class="math inline">\(t\)</span>-test</th>
+<th align="left">Paired <span class="math inline">\(t\)</span>-test</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Data</td>
+<td align="left"><span class="math inline">\(x_1, \ldots, x_n\)</span></td>
+<td align="left"><span class="math inline">\(d_1, \ldots, d_n\)</span> where <span class="math inline">\(d_i = x_i - y_i\)</span></td>
+</tr>
+<tr class="even">
+<td align="left">Parameter</td>
+<td align="left"><span class="math inline">\(\mu\)</span></td>
+<td align="left"><span class="math inline">\(\mu_d\)</span></td>
+</tr>
+<tr class="odd">
+<td align="left">Null</td>
+<td align="left"><span class="math inline">\(H_0: \mu = \mu_0\)</span></td>
+<td align="left"><span class="math inline">\(H_0: \mu_d = 0\)</span></td>
+</tr>
+<tr class="even">
+<td align="left">Statistic</td>
+<td align="left"><span class="math inline">\(t = \dfrac{\bar{x} - \mu_0}{s/\sqrt{n}}\)</span></td>
+<td align="left"><span class="math inline">\(t = \dfrac{\bar{d}}{s_d/\sqrt{n}}\)</span></td>
+</tr>
+<tr class="odd">
+<td align="left">Degrees of freedom</td>
+<td align="left"><span class="math inline">\(n - 1\)</span></td>
+<td align="left"><span class="math inline">\(n - 1\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>Read across the rows. There is no new mathematics here at all — only a new first
+step, in which two columns become one.</p>
 </div>
 </div>
 <script>

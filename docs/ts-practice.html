@@ -356,7 +356,21 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="ts-unknown.html"><a href="ts-unknown.html#unequal-variances-welchs-test"><i class="fa fa-check"></i>Unequal variances: Welch’s test</a></li>
 <li class="chapter" data-level="" data-path="ts-unknown.html"><a href="ts-unknown.html#do-north-and-south-indian-students-differ-in-height"><i class="fa fa-check"></i>Do North and South Indian students differ in height?</a></li>
 </ul></li>
-<li class="chapter" data-level="5.5" data-path="ts-paired.html"><a href="ts-paired.html"><i class="fa fa-check"></i><b>5.5</b> When two samples are not two samples</a></li>
+<li class="chapter" data-level="5.5" data-path="ts-paired.html"><a href="ts-paired.html"><i class="fa fa-check"></i><b>5.5</b> When two samples are not really two samples</a>
+<ul>
+<li class="chapter" data-level="" data-path="ts-paired.html"><a href="ts-paired.html#something-is-wrong"><i class="fa fa-check"></i>Something is wrong</a></li>
+<li class="chapter" data-level="" data-path="ts-paired.html"><a href="ts-paired.html#what-the-two-sample-test-assumed"><i class="fa fa-check"></i>What the two-sample test assumed</a></li>
+<li class="chapter" data-level="" data-path="ts-paired.html"><a href="ts-paired.html#two-sources-of-variation"><i class="fa fa-check"></i>Two sources of variation</a></li>
+<li class="chapter" data-level="" data-path="ts-paired.html"><a href="ts-paired.html#removing-what-we-do-not-care-about"><i class="fa fa-check"></i>Removing what we do not care about</a></li>
+<li class="chapter" data-level="" data-path="ts-paired.html"><a href="ts-paired.html#the-statistical-model"><i class="fa fa-check"></i>The statistical model</a></li>
+<li class="chapter" data-level="" data-path="ts-paired.html"><a href="ts-paired.html#setting-up-the-hypotheses"><i class="fa fa-check"></i>Setting up the hypotheses</a></li>
+<li class="chapter" data-level="" data-path="ts-paired.html"><a href="ts-paired.html#estimating-the-mean-difference"><i class="fa fa-check"></i>Estimating the mean difference</a></li>
+<li class="chapter" data-level="" data-path="ts-paired.html"><a href="ts-paired.html#the-test-statistic"><i class="fa fa-check"></i>The test statistic</a></li>
+<li class="chapter" data-level="" data-path="ts-paired.html"><a href="ts-paired.html#confidence-interval"><i class="fa fa-check"></i>Confidence interval</a></li>
+<li class="chapter" data-level="" data-path="ts-paired.html"><a href="ts-paired.html#doing-it-in-r"><i class="fa fa-check"></i>Doing it in R</a></li>
+<li class="chapter" data-level="" data-path="ts-paired.html"><a href="ts-paired.html#why-did-the-answer-change-so-much"><i class="fa fa-check"></i>Why did the answer change so much?</a></li>
+<li class="chapter" data-level="" data-path="ts-paired.html"><a href="ts-paired.html#when-should-we-use-a-paired-test"><i class="fa fa-check"></i>When should we use a paired test?</a></li>
+</ul></li>
 <li class="chapter" data-level="5.6" data-path="ts-causal.html"><a href="ts-causal.html"><i class="fa fa-check"></i><b>5.6</b> A difference is not an effect</a>
 <ul>
 <li class="chapter" data-level="" data-path="ts-causal.html"><a href="ts-causal.html#the-difference-is-significant-and-trivial"><i class="fa fa-check"></i>The difference is significant and trivial</a></li>
@@ -562,14 +576,14 @@ people. It is not an estimate of what the programme did to anybody.</p>
 students report different average hours of sleep. Report the interval and say
 what you conclude.</p>
 <div class="answer">
-<div class="sourceCode" id="cb200"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb200-1"><a href="ts-practice.html#cb200-1" tabindex="-1"></a>sleep <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/student-survey-sleep.csv&quot;</span>)</span>
-<span id="cb200-2"><a href="ts-practice.html#cb200-2" tabindex="-1"></a></span>
-<span id="cb200-3"><a href="ts-practice.html#cb200-3" tabindex="-1"></a><span class="fu">aggregate</span>(sleep <span class="sc">~</span> residence, <span class="at">data =</span> sleep,</span>
-<span id="cb200-4"><a href="ts-practice.html#cb200-4" tabindex="-1"></a>          <span class="cf">function</span>(x) <span class="fu">round</span>(<span class="fu">c</span>(<span class="at">n =</span> <span class="fu">length</span>(x), <span class="at">mean =</span> <span class="fu">mean</span>(x), <span class="at">sd =</span> <span class="fu">sd</span>(x)), <span class="dv">2</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb208"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb208-1"><a href="ts-practice.html#cb208-1" tabindex="-1"></a>sleep <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/student-survey-sleep.csv&quot;</span>)</span>
+<span id="cb208-2"><a href="ts-practice.html#cb208-2" tabindex="-1"></a></span>
+<span id="cb208-3"><a href="ts-practice.html#cb208-3" tabindex="-1"></a><span class="fu">aggregate</span>(sleep <span class="sc">~</span> residence, <span class="at">data =</span> sleep,</span>
+<span id="cb208-4"><a href="ts-practice.html#cb208-4" tabindex="-1"></a>          <span class="cf">function</span>(x) <span class="fu">round</span>(<span class="fu">c</span>(<span class="at">n =</span> <span class="fu">length</span>(x), <span class="at">mean =</span> <span class="fu">mean</span>(x), <span class="at">sd =</span> <span class="fu">sd</span>(x)), <span class="dv">2</span>))</span></code></pre></div>
 <pre><code>#&gt;   residence sleep.n sleep.mean sleep.sd
 #&gt; 1     Rural   21.00       6.52     1.53
 #&gt; 2     Urban   85.00       6.60     1.12</code></pre>
-<div class="sourceCode" id="cb202"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb202-1"><a href="ts-practice.html#cb202-1" tabindex="-1"></a><span class="fu">t.test</span>(sleep <span class="sc">~</span> residence, <span class="at">data =</span> sleep)</span></code></pre></div>
+<div class="sourceCode" id="cb210"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb210-1"><a href="ts-practice.html#cb210-1" tabindex="-1"></a><span class="fu">t.test</span>(sleep <span class="sc">~</span> residence, <span class="at">data =</span> sleep)</span></code></pre></div>
 <pre><code>#&gt; 
 #&gt;  Welch Two Sample t-test
 #&gt; 
@@ -592,10 +606,10 @@ to detect at all, and the interval says as much by being wide.</p>
 students in the same dataset, using both Welch and the pooled test. Do they
 agree, and which would you report?</p>
 <div class="answer">
-<div class="sourceCode" id="cb204"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb204-1"><a href="ts-practice.html#cb204-1" tabindex="-1"></a><span class="fu">rbind</span>(</span>
-<span id="cb204-2"><a href="ts-practice.html#cb204-2" tabindex="-1"></a>  <span class="at">welch  =</span> <span class="fu">unlist</span>(<span class="fu">t.test</span>(socialmediahours <span class="sc">~</span> region, <span class="at">data =</span> sleep)[<span class="fu">c</span>(<span class="st">&quot;statistic&quot;</span>, <span class="st">&quot;parameter&quot;</span>, <span class="st">&quot;p.value&quot;</span>)]),</span>
-<span id="cb204-3"><a href="ts-practice.html#cb204-3" tabindex="-1"></a>  <span class="at">pooled =</span> <span class="fu">unlist</span>(<span class="fu">t.test</span>(socialmediahours <span class="sc">~</span> region, <span class="at">data =</span> sleep, <span class="at">var.equal =</span> <span class="cn">TRUE</span>)[<span class="fu">c</span>(<span class="st">&quot;statistic&quot;</span>, <span class="st">&quot;parameter&quot;</span>, <span class="st">&quot;p.value&quot;</span>)])</span>
-<span id="cb204-4"><a href="ts-practice.html#cb204-4" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb212"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb212-1"><a href="ts-practice.html#cb212-1" tabindex="-1"></a><span class="fu">rbind</span>(</span>
+<span id="cb212-2"><a href="ts-practice.html#cb212-2" tabindex="-1"></a>  <span class="at">welch  =</span> <span class="fu">unlist</span>(<span class="fu">t.test</span>(socialmediahours <span class="sc">~</span> region, <span class="at">data =</span> sleep)[<span class="fu">c</span>(<span class="st">&quot;statistic&quot;</span>, <span class="st">&quot;parameter&quot;</span>, <span class="st">&quot;p.value&quot;</span>)]),</span>
+<span id="cb212-3"><a href="ts-practice.html#cb212-3" tabindex="-1"></a>  <span class="at">pooled =</span> <span class="fu">unlist</span>(<span class="fu">t.test</span>(socialmediahours <span class="sc">~</span> region, <span class="at">data =</span> sleep, <span class="at">var.equal =</span> <span class="cn">TRUE</span>)[<span class="fu">c</span>(<span class="st">&quot;statistic&quot;</span>, <span class="st">&quot;parameter&quot;</span>, <span class="st">&quot;p.value&quot;</span>)])</span>
+<span id="cb212-4"><a href="ts-practice.html#cb212-4" tabindex="-1"></a>)</span></code></pre></div>
 <pre><code>#&gt;        statistic.t parameter.df p.value
 #&gt; welch       0.9172        50.63  0.3634
 #&gt; pooled      0.9845       104.00  0.3271</code></pre>
@@ -610,13 +624,13 @@ choice.</p>
 urban and 200 rural workers. Test whether mean annual earnings differ, and
 report the interval. Then say what the interval does and does not establish.</p>
 <div class="answer">
-<div class="sourceCode" id="cb206"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb206-1"><a href="ts-practice.html#cb206-1" tabindex="-1"></a>wages <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/wages-india-synthetic.csv&quot;</span>)</span>
-<span id="cb206-2"><a href="ts-practice.html#cb206-2" tabindex="-1"></a></span>
-<span id="cb206-3"><a href="ts-practice.html#cb206-3" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">9</span>)</span>
-<span id="cb206-4"><a href="ts-practice.html#cb206-4" tabindex="-1"></a>urban <span class="ot">&lt;-</span> <span class="fu">sample</span>(wages<span class="sc">$</span>annual_earnings[wages<span class="sc">$</span>residence <span class="sc">==</span> <span class="st">&quot;Urban&quot;</span>], <span class="dv">200</span>)</span>
-<span id="cb206-5"><a href="ts-practice.html#cb206-5" tabindex="-1"></a>rural <span class="ot">&lt;-</span> <span class="fu">sample</span>(wages<span class="sc">$</span>annual_earnings[wages<span class="sc">$</span>residence <span class="sc">==</span> <span class="st">&quot;Rural&quot;</span>], <span class="dv">200</span>)</span>
-<span id="cb206-6"><a href="ts-practice.html#cb206-6" tabindex="-1"></a></span>
-<span id="cb206-7"><a href="ts-practice.html#cb206-7" tabindex="-1"></a><span class="fu">t.test</span>(urban, rural)</span></code></pre></div>
+<div class="sourceCode" id="cb214"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb214-1"><a href="ts-practice.html#cb214-1" tabindex="-1"></a>wages <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/wages-india-synthetic.csv&quot;</span>)</span>
+<span id="cb214-2"><a href="ts-practice.html#cb214-2" tabindex="-1"></a></span>
+<span id="cb214-3"><a href="ts-practice.html#cb214-3" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">9</span>)</span>
+<span id="cb214-4"><a href="ts-practice.html#cb214-4" tabindex="-1"></a>urban <span class="ot">&lt;-</span> <span class="fu">sample</span>(wages<span class="sc">$</span>annual_earnings[wages<span class="sc">$</span>residence <span class="sc">==</span> <span class="st">&quot;Urban&quot;</span>], <span class="dv">200</span>)</span>
+<span id="cb214-5"><a href="ts-practice.html#cb214-5" tabindex="-1"></a>rural <span class="ot">&lt;-</span> <span class="fu">sample</span>(wages<span class="sc">$</span>annual_earnings[wages<span class="sc">$</span>residence <span class="sc">==</span> <span class="st">&quot;Rural&quot;</span>], <span class="dv">200</span>)</span>
+<span id="cb214-6"><a href="ts-practice.html#cb214-6" tabindex="-1"></a></span>
+<span id="cb214-7"><a href="ts-practice.html#cb214-7" tabindex="-1"></a><span class="fu">t.test</span>(urban, rural)</span></code></pre></div>
 <pre><code>#&gt; 
 #&gt;  Welch Two Sample t-test
 #&gt; 
@@ -641,17 +655,17 @@ belongs to the place and which to the people.</p>
 deviation of <span class="math inline">\(\bar{x}\)</span> with that of <span class="math inline">\(\bar{x} - \bar{y}\)</span> across 5,000
 repetitions. Check both against theory.</p>
 <div class="answer">
-<div class="sourceCode" id="cb208"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb208-1"><a href="ts-practice.html#cb208-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">4</span>)</span>
-<span id="cb208-2"><a href="ts-practice.html#cb208-2" tabindex="-1"></a>sims <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">5000</span>, {</span>
-<span id="cb208-3"><a href="ts-practice.html#cb208-3" tabindex="-1"></a>  x <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">100</span>, <span class="at">mean =</span> <span class="dv">50</span>, <span class="at">sd =</span> <span class="dv">10</span>)</span>
-<span id="cb208-4"><a href="ts-practice.html#cb208-4" tabindex="-1"></a>  y <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">100</span>, <span class="at">mean =</span> <span class="dv">50</span>, <span class="at">sd =</span> <span class="dv">10</span>)</span>
-<span id="cb208-5"><a href="ts-practice.html#cb208-5" tabindex="-1"></a>  <span class="fu">c</span>(<span class="at">one_mean =</span> <span class="fu">mean</span>(x), <span class="at">difference =</span> <span class="fu">mean</span>(x) <span class="sc">-</span> <span class="fu">mean</span>(y))</span>
-<span id="cb208-6"><a href="ts-practice.html#cb208-6" tabindex="-1"></a>})</span>
-<span id="cb208-7"><a href="ts-practice.html#cb208-7" tabindex="-1"></a></span>
-<span id="cb208-8"><a href="ts-practice.html#cb208-8" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">sd_of_one_mean       =</span> <span class="fu">sd</span>(sims[<span class="st">&quot;one_mean&quot;</span>, ]),</span>
-<span id="cb208-9"><a href="ts-practice.html#cb208-9" tabindex="-1"></a>        <span class="at">theory_one_mean      =</span> <span class="dv">10</span> <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="dv">100</span>),</span>
-<span id="cb208-10"><a href="ts-practice.html#cb208-10" tabindex="-1"></a>        <span class="at">sd_of_difference     =</span> <span class="fu">sd</span>(sims[<span class="st">&quot;difference&quot;</span>, ]),</span>
-<span id="cb208-11"><a href="ts-practice.html#cb208-11" tabindex="-1"></a>        <span class="at">theory_difference    =</span> <span class="fu">sqrt</span>(<span class="dv">10</span><span class="sc">^</span><span class="dv">2</span><span class="sc">/</span><span class="dv">100</span> <span class="sc">+</span> <span class="dv">10</span><span class="sc">^</span><span class="dv">2</span><span class="sc">/</span><span class="dv">100</span>)), <span class="dv">4</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb216"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb216-1"><a href="ts-practice.html#cb216-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">4</span>)</span>
+<span id="cb216-2"><a href="ts-practice.html#cb216-2" tabindex="-1"></a>sims <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">5000</span>, {</span>
+<span id="cb216-3"><a href="ts-practice.html#cb216-3" tabindex="-1"></a>  x <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">100</span>, <span class="at">mean =</span> <span class="dv">50</span>, <span class="at">sd =</span> <span class="dv">10</span>)</span>
+<span id="cb216-4"><a href="ts-practice.html#cb216-4" tabindex="-1"></a>  y <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">100</span>, <span class="at">mean =</span> <span class="dv">50</span>, <span class="at">sd =</span> <span class="dv">10</span>)</span>
+<span id="cb216-5"><a href="ts-practice.html#cb216-5" tabindex="-1"></a>  <span class="fu">c</span>(<span class="at">one_mean =</span> <span class="fu">mean</span>(x), <span class="at">difference =</span> <span class="fu">mean</span>(x) <span class="sc">-</span> <span class="fu">mean</span>(y))</span>
+<span id="cb216-6"><a href="ts-practice.html#cb216-6" tabindex="-1"></a>})</span>
+<span id="cb216-7"><a href="ts-practice.html#cb216-7" tabindex="-1"></a></span>
+<span id="cb216-8"><a href="ts-practice.html#cb216-8" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">sd_of_one_mean       =</span> <span class="fu">sd</span>(sims[<span class="st">&quot;one_mean&quot;</span>, ]),</span>
+<span id="cb216-9"><a href="ts-practice.html#cb216-9" tabindex="-1"></a>        <span class="at">theory_one_mean      =</span> <span class="dv">10</span> <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="dv">100</span>),</span>
+<span id="cb216-10"><a href="ts-practice.html#cb216-10" tabindex="-1"></a>        <span class="at">sd_of_difference     =</span> <span class="fu">sd</span>(sims[<span class="st">&quot;difference&quot;</span>, ]),</span>
+<span id="cb216-11"><a href="ts-practice.html#cb216-11" tabindex="-1"></a>        <span class="at">theory_difference    =</span> <span class="fu">sqrt</span>(<span class="dv">10</span><span class="sc">^</span><span class="dv">2</span><span class="sc">/</span><span class="dv">100</span> <span class="sc">+</span> <span class="dv">10</span><span class="sc">^</span><span class="dv">2</span><span class="sc">/</span><span class="dv">100</span>)), <span class="dv">4</span>)</span></code></pre></div>
 <pre><code>#&gt;    sd_of_one_mean   theory_one_mean  sd_of_difference theory_difference 
 #&gt;            0.9989            1.0000            1.4260            1.4142</code></pre>
 <p>The difference is about <span class="math inline">\(\sqrt{2}\)</span> times as variable as a single mean, exactly
@@ -664,15 +678,15 @@ report the paired and unpaired <span class="math inline">\(p\)</span>-values, an
 standard deviation of the differences with the standard deviations of the two
 columns.</p>
 <div class="answer">
-<div class="sourceCode" id="cb210"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb210-1"><a href="ts-practice.html#cb210-1" tabindex="-1"></a>couples <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/marriage-ages.csv&quot;</span>)</span>
-<span id="cb210-2"><a href="ts-practice.html#cb210-2" tabindex="-1"></a></span>
-<span id="cb210-3"><a href="ts-practice.html#cb210-3" tabindex="-1"></a><span class="fu">c</span>(<span class="at">paired   =</span> <span class="fu">t.test</span>(couples<span class="sc">$</span>partner1, couples<span class="sc">$</span>partner2, <span class="at">paired =</span> <span class="cn">TRUE</span>)<span class="sc">$</span>p.value,</span>
-<span id="cb210-4"><a href="ts-practice.html#cb210-4" tabindex="-1"></a>  <span class="at">unpaired =</span> <span class="fu">t.test</span>(couples<span class="sc">$</span>partner1, couples<span class="sc">$</span>partner2)<span class="sc">$</span>p.value)</span></code></pre></div>
+<div class="sourceCode" id="cb218"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb218-1"><a href="ts-practice.html#cb218-1" tabindex="-1"></a>couples <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/marriage-ages.csv&quot;</span>)</span>
+<span id="cb218-2"><a href="ts-practice.html#cb218-2" tabindex="-1"></a></span>
+<span id="cb218-3"><a href="ts-practice.html#cb218-3" tabindex="-1"></a><span class="fu">c</span>(<span class="at">paired   =</span> <span class="fu">t.test</span>(couples<span class="sc">$</span>partner1, couples<span class="sc">$</span>partner2, <span class="at">paired =</span> <span class="cn">TRUE</span>)<span class="sc">$</span>p.value,</span>
+<span id="cb218-4"><a href="ts-practice.html#cb218-4" tabindex="-1"></a>  <span class="at">unpaired =</span> <span class="fu">t.test</span>(couples<span class="sc">$</span>partner1, couples<span class="sc">$</span>partner2)<span class="sc">$</span>p.value)</span></code></pre></div>
 <pre><code>#&gt;   paired unpaired 
 #&gt;  0.01496  0.60699</code></pre>
-<div class="sourceCode" id="cb212"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb212-1"><a href="ts-practice.html#cb212-1" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">sd_partner1  =</span> <span class="fu">sd</span>(couples<span class="sc">$</span>partner1),</span>
-<span id="cb212-2"><a href="ts-practice.html#cb212-2" tabindex="-1"></a>        <span class="at">sd_partner2  =</span> <span class="fu">sd</span>(couples<span class="sc">$</span>partner2),</span>
-<span id="cb212-3"><a href="ts-practice.html#cb212-3" tabindex="-1"></a>        <span class="at">sd_of_diffs  =</span> <span class="fu">sd</span>(couples<span class="sc">$</span>partner1 <span class="sc">-</span> couples<span class="sc">$</span>partner2)), <span class="dv">3</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb220"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb220-1"><a href="ts-practice.html#cb220-1" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">sd_partner1  =</span> <span class="fu">sd</span>(couples<span class="sc">$</span>partner1),</span>
+<span id="cb220-2"><a href="ts-practice.html#cb220-2" tabindex="-1"></a>        <span class="at">sd_partner2  =</span> <span class="fu">sd</span>(couples<span class="sc">$</span>partner2),</span>
+<span id="cb220-3"><a href="ts-practice.html#cb220-3" tabindex="-1"></a>        <span class="at">sd_of_diffs  =</span> <span class="fu">sd</span>(couples<span class="sc">$</span>partner1 <span class="sc">-</span> couples<span class="sc">$</span>partner2)), <span class="dv">3</span>)</span></code></pre></div>
 <pre><code>#&gt; sd_partner1 sd_partner2 sd_of_diffs 
 #&gt;      11.156      10.174       2.635</code></pre>
 <p>The two columns each have a standard deviation of about 11 years, because the

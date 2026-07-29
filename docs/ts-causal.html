@@ -356,7 +356,21 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="ts-unknown.html"><a href="ts-unknown.html#unequal-variances-welchs-test"><i class="fa fa-check"></i>Unequal variances: Welch’s test</a></li>
 <li class="chapter" data-level="" data-path="ts-unknown.html"><a href="ts-unknown.html#do-north-and-south-indian-students-differ-in-height"><i class="fa fa-check"></i>Do North and South Indian students differ in height?</a></li>
 </ul></li>
-<li class="chapter" data-level="5.5" data-path="ts-paired.html"><a href="ts-paired.html"><i class="fa fa-check"></i><b>5.5</b> When two samples are not two samples</a></li>
+<li class="chapter" data-level="5.5" data-path="ts-paired.html"><a href="ts-paired.html"><i class="fa fa-check"></i><b>5.5</b> When two samples are not really two samples</a>
+<ul>
+<li class="chapter" data-level="" data-path="ts-paired.html"><a href="ts-paired.html#something-is-wrong"><i class="fa fa-check"></i>Something is wrong</a></li>
+<li class="chapter" data-level="" data-path="ts-paired.html"><a href="ts-paired.html#what-the-two-sample-test-assumed"><i class="fa fa-check"></i>What the two-sample test assumed</a></li>
+<li class="chapter" data-level="" data-path="ts-paired.html"><a href="ts-paired.html#two-sources-of-variation"><i class="fa fa-check"></i>Two sources of variation</a></li>
+<li class="chapter" data-level="" data-path="ts-paired.html"><a href="ts-paired.html#removing-what-we-do-not-care-about"><i class="fa fa-check"></i>Removing what we do not care about</a></li>
+<li class="chapter" data-level="" data-path="ts-paired.html"><a href="ts-paired.html#the-statistical-model"><i class="fa fa-check"></i>The statistical model</a></li>
+<li class="chapter" data-level="" data-path="ts-paired.html"><a href="ts-paired.html#setting-up-the-hypotheses"><i class="fa fa-check"></i>Setting up the hypotheses</a></li>
+<li class="chapter" data-level="" data-path="ts-paired.html"><a href="ts-paired.html#estimating-the-mean-difference"><i class="fa fa-check"></i>Estimating the mean difference</a></li>
+<li class="chapter" data-level="" data-path="ts-paired.html"><a href="ts-paired.html#the-test-statistic"><i class="fa fa-check"></i>The test statistic</a></li>
+<li class="chapter" data-level="" data-path="ts-paired.html"><a href="ts-paired.html#confidence-interval"><i class="fa fa-check"></i>Confidence interval</a></li>
+<li class="chapter" data-level="" data-path="ts-paired.html"><a href="ts-paired.html#doing-it-in-r"><i class="fa fa-check"></i>Doing it in R</a></li>
+<li class="chapter" data-level="" data-path="ts-paired.html"><a href="ts-paired.html#why-did-the-answer-change-so-much"><i class="fa fa-check"></i>Why did the answer change so much?</a></li>
+<li class="chapter" data-level="" data-path="ts-paired.html"><a href="ts-paired.html#when-should-we-use-a-paired-test"><i class="fa fa-check"></i>When should we use a paired test?</a></li>
+</ul></li>
 <li class="chapter" data-level="5.6" data-path="ts-causal.html"><a href="ts-causal.html"><i class="fa fa-check"></i><b>5.6</b> A difference is not an effect</a>
 <ul>
 <li class="chapter" data-level="" data-path="ts-causal.html"><a href="ts-causal.html#the-difference-is-significant-and-trivial"><i class="fa fa-check"></i>The difference is significant and trivial</a></li>
@@ -409,16 +423,16 @@ That is a genuine achievement, and it is not what most interesting questions
 actually ask.</p>
 <p>Consider the attendance data from this course. Split the 680 students at the
 median attendance and compare their final examination scores.</p>
-<div class="sourceCode" id="cb196"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb196-1"><a href="ts-causal.html#cb196-1" tabindex="-1"></a>students <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/attendance-grades.csv&quot;</span>)</span>
-<span id="cb196-2"><a href="ts-causal.html#cb196-2" tabindex="-1"></a>students<span class="sc">$</span>group <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(students<span class="sc">$</span>attendance <span class="sc">&gt;=</span> <span class="fu">median</span>(students<span class="sc">$</span>attendance),</span>
-<span id="cb196-3"><a href="ts-causal.html#cb196-3" tabindex="-1"></a>                         <span class="st">&quot;High attendance&quot;</span>, <span class="st">&quot;Low attendance&quot;</span>)</span>
-<span id="cb196-4"><a href="ts-causal.html#cb196-4" tabindex="-1"></a></span>
-<span id="cb196-5"><a href="ts-causal.html#cb196-5" tabindex="-1"></a><span class="fu">aggregate</span>(final_score <span class="sc">~</span> group, <span class="at">data =</span> students,</span>
-<span id="cb196-6"><a href="ts-causal.html#cb196-6" tabindex="-1"></a>          <span class="cf">function</span>(x) <span class="fu">round</span>(<span class="fu">c</span>(<span class="at">n =</span> <span class="fu">length</span>(x), <span class="at">mean =</span> <span class="fu">mean</span>(x)), <span class="dv">2</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb204"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb204-1"><a href="ts-causal.html#cb204-1" tabindex="-1"></a>students <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/attendance-grades.csv&quot;</span>)</span>
+<span id="cb204-2"><a href="ts-causal.html#cb204-2" tabindex="-1"></a>students<span class="sc">$</span>group <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(students<span class="sc">$</span>attendance <span class="sc">&gt;=</span> <span class="fu">median</span>(students<span class="sc">$</span>attendance),</span>
+<span id="cb204-3"><a href="ts-causal.html#cb204-3" tabindex="-1"></a>                         <span class="st">&quot;High attendance&quot;</span>, <span class="st">&quot;Low attendance&quot;</span>)</span>
+<span id="cb204-4"><a href="ts-causal.html#cb204-4" tabindex="-1"></a></span>
+<span id="cb204-5"><a href="ts-causal.html#cb204-5" tabindex="-1"></a><span class="fu">aggregate</span>(final_score <span class="sc">~</span> group, <span class="at">data =</span> students,</span>
+<span id="cb204-6"><a href="ts-causal.html#cb204-6" tabindex="-1"></a>          <span class="cf">function</span>(x) <span class="fu">round</span>(<span class="fu">c</span>(<span class="at">n =</span> <span class="fu">length</span>(x), <span class="at">mean =</span> <span class="fu">mean</span>(x)), <span class="dv">2</span>))</span></code></pre></div>
 <pre><code>#&gt;             group final_score.n final_score.mean
 #&gt; 1 High attendance         346.0             91.3
 #&gt; 2  Low attendance         334.0             90.4</code></pre>
-<div class="sourceCode" id="cb198"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb198-1"><a href="ts-causal.html#cb198-1" tabindex="-1"></a><span class="fu">t.test</span>(final_score <span class="sc">~</span> group, <span class="at">data =</span> students)</span></code></pre></div>
+<div class="sourceCode" id="cb206"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb206-1"><a href="ts-causal.html#cb206-1" tabindex="-1"></a><span class="fu">t.test</span>(final_score <span class="sc">~</span> group, <span class="at">data =</span> students)</span></code></pre></div>
 <pre><code>#&gt; 
 #&gt;  Welch Two Sample t-test
 #&gt; 
