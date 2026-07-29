@@ -235,10 +235,13 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="3" data-path="interval-estimation.html"><a href="interval-estimation.html"><i class="fa fa-check"></i><b>3</b> Point and Interval Estimation</a>
 <ul>
 <li class="chapter" data-level="3.1" data-path="u3-single-sample.html"><a href="u3-single-sample.html"><i class="fa fa-check"></i><b>3.1</b> What can a single sample tell us?</a></li>
-<li class="chapter" data-level="3.2" data-path="u3-variance.html"><a href="u3-variance.html"><i class="fa fa-check"></i><b>3.2</b> How do we estimate the population variance?</a>
+<li class="chapter" data-level="3.2" data-path="u3-variance.html"><a href="u3-variance.html"><i class="fa fa-check"></i><b>3.2</b> Estimating the standard error</a>
 <ul>
+<li class="chapter" data-level="" data-path="u3-variance.html"><a href="u3-variance.html#a-statistical-laboratory"><i class="fa fa-check"></i>A statistical laboratory</a></li>
+<li class="chapter" data-level="" data-path="u3-variance.html"><a href="u3-variance.html#why-dividing-by-n-fails"><i class="fa fa-check"></i>Why dividing by n fails</a></li>
+<li class="chapter" data-level="" data-path="u3-variance.html"><a href="u3-variance.html#why-the-correction-is-exactly-n-1"><i class="fa fa-check"></i>Why the correction is exactly n − 1</a></li>
 <li class="chapter" data-level="" data-path="u3-variance.html"><a href="u3-variance.html#when-the-population-mean-is-known"><i class="fa fa-check"></i>When the population mean is known</a></li>
-<li class="chapter" data-level="" data-path="u3-variance.html"><a href="u3-variance.html#estimating-the-standard-error"><i class="fa fa-check"></i>Estimating the standard error</a></li>
+<li class="chapter" data-level="" data-path="u3-variance.html"><a href="u3-variance.html#back-to-the-standard-error"><i class="fa fa-check"></i>Back to the standard error</a></li>
 </ul></li>
 <li class="chapter" data-level="3.3" data-path="u3-proportion.html"><a href="u3-proportion.html"><i class="fa fa-check"></i><b>3.3</b> How do we estimate a proportion?</a>
 <ul>
@@ -248,7 +251,7 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li class="chapter" data-level="" data-path="u3-ci.html"><a href="u3-ci.html#what-does-95-actually-refer-to"><i class="fa fa-check"></i>What does 95% actually refer to?</a></li>
 </ul></li>
-<li class="chapter" data-level="3.5" data-path="u3-t.html"><a href="u3-t.html"><i class="fa fa-check"></i><b>3.5</b> What if <span class="math inline">\(\sigma\)</span> is unknown?</a></li>
+<li class="chapter" data-level="3.5" data-path="u3-t.html"><a href="u3-t.html"><i class="fa fa-check"></i><b>3.5</b> What if the population standard deviation is unknown?</a></li>
 <li class="chapter" data-level="3.6" data-path="u3-samplesize.html"><a href="u3-samplesize.html"><i class="fa fa-check"></i><b>3.6</b> How large a sample do we need?</a>
 <ul>
 <li class="chapter" data-level="" data-path="u3-samplesize.html"><a href="u3-samplesize.html#intervals-for-a-proportion"><i class="fa fa-check"></i>Intervals for a proportion</a></li>
@@ -333,40 +336,74 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <div class="question">
 <p>We have one sample and one number. What are we entitled to say?</p>
 </div>
-<p>The previous unit established why the sample mean deserves our trust. It is
-centred on the population mean, and its standard error <span class="math inline">\(\sigma/\sqrt{n}\)</span> falls
-as the sample grows. Both results were demonstrated by drawing a thousand
-samples and watching how they scattered.</p>
-<p>A real survey draws one.</p>
-<p>So we are left holding a single number — say a sample mean attendance of 26.1
-classes — and the honest question is what may be claimed on the strength of it.
-Reporting 26.1 alone is misleading, since we know it is almost certainly not
-the population value. Reporting it with a standard error is honest but
-awkward, because a standard error is a technical property of a procedure rather
-than a statement about attendance.</p>
-<p>What we want is a claim of the form: <em>the population mean lies between here and
-there, and this is how confident we are of it.</em> Producing such claims is the
-business of this unit.</p>
-<p>Three things stand between us and that goal.</p>
-<p>The first is that <span class="math inline">\(\sigma/\sqrt{n}\)</span> contains <span class="math inline">\(\sigma\)</span>, a population quantity we
-do not know. If we are estimating <span class="math inline">\(\mu\)</span> because it is unobserved, we can hardly
-help ourselves to <span class="math inline">\(\sigma\)</span>. So we will need to estimate that too.</p>
-<p>The second is that many of the questions worth asking are not about averages at
-all. What proportion of workers are in urban areas? What proportion of
-households own land? These are proportions, not means, and we need estimators
-for them as well.</p>
-<p>The third is the step from a single number to a range, which requires deciding
-what “confident” is going to mean.</p>
+<p>The previous unit answered an important question: why do statisticians use the
+sample mean to estimate the population mean? We found that it has two desirable
+properties. First, it is unbiased — over repeated samples it is centred on the
+true population mean. Second, its variability decreases as the sample size
+grows. Larger samples therefore tend to produce estimates closer to the truth.</p>
+<p>There was, however, one feature of that argument which is impossible in
+practice.</p>
+<p>To judge the behaviour of the sample mean we repeatedly drew thousands of
+samples from a population whose true mean we already knew. By watching the
+sampling distribution emerge, we could see that the sample mean was centred
+correctly and became more precise as the sample grew.</p>
+<p>Real surveys do not work that way.</p>
+<p>A labour force survey, a household expenditure survey, a school attendance
+audit — each is conducted once. We observe one sample, calculate one estimate,
+and the data collection ends. We never see the thousands of alternative samples
+that might have been drawn.</p>
+<p>Suppose a survey of students reports an average attendance of 26.1 classes.</p>
+<p>Is the population mean exactly 26.1? Almost certainly not. How close is it? The
+data alone do not tell us.</p>
+<p>Simply reporting the estimate is therefore incomplete. We already know that
+every sample mean varies from sample to sample; some will be larger than the
+population mean and others smaller. Without a measure of that variability, the
+estimate has no context.</p>
+<p>The natural response is to report the estimate together with its standard
+error. For the sample mean we found that</p>
+<p><span class="math display">\[\mathrm{se}(\bar{X}) = \frac{\sigma}{\sqrt{n}}\]</span></p>
+<p>This is a useful result, and it immediately raises another difficulty. The
+formula contains the population standard deviation <span class="math inline">\(\sigma\)</span>, which is unknown.
+If we are estimating the population mean because it is unknown, we can hardly
+assume we know the population standard deviation.</p>
+<p>One missing quantity has become two.</p>
+<p>Nor are all questions about population means. Many surveys seek to estimate
+proportions instead.</p>
+<ul>
+<li>What proportion of households live below the poverty line?</li>
+<li>What proportion of workers are employed in the informal sector?</li>
+<li>What proportion of children are fully vaccinated?</li>
+</ul>
+<p>These require estimators of a different kind.</p>
+<p>Finally, even once we can calculate both an estimate and its standard error, we
+still face the central question of statistical inference. Suppose two surveys
+both estimate average attendance at 26.1 classes. One has a standard error of
+0.4; the other has a standard error of 3.2.</p>
+<p>How should those numbers change our confidence in the estimate? How uncertain
+is “uncertain”?</p>
+<p>Answering that requires moving beyond a single number. Rather than reporting
+only a point estimate, we will construct <strong>interval estimates</strong> — ranges of
+plausible values for the unknown parameter, together with a statement of how
+reliable such ranges are.</p>
 <div class="keyidea">
-<p>Two kinds of answer run through this unit.</p>
-<p>A <strong>point estimate</strong> is a single number offered as the best available guess at
-a parameter: <span class="math inline">\(\bar{x} = 26.1\)</span>.</p>
-<p>An <strong>interval estimate</strong> is a range of values, together with a statement of how
-often such ranges capture the truth: <span class="math inline">\([24.4,\ 27.8]\)</span> with 95% confidence.</p>
-<p>The first is what we have. The second is what we want.</p>
+<p>This unit develops the three ingredients needed for statistical inference.</p>
+<ol style="list-style-type: decimal">
+<li>How to estimate unknown population variability.</li>
+<li>How to extend estimation from means to proportions.</li>
+<li>How to combine point estimates and standard errors into confidence
+intervals.</li>
+</ol>
 </div>
-<p>We take the missing point estimates first, then build the intervals on top of
-them.</p>
+<p>By the end of the unit we will be able to replace a statement such as</p>
+<blockquote>
+<p>The average attendance is 26.1 classes.</p>
+</blockquote>
+<p>with one that is considerably more informative:</p>
+<blockquote>
+<p>We estimate the average attendance to lie between 24.4 and 27.8 classes, with
+95% confidence.</p>
+</blockquote>
+<p>That is the central goal of this unit.</p>
 </div>
 <script>
 // Solutions are written as plain fenced divs in the source, so the PDF edition

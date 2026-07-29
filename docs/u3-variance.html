@@ -4,13 +4,13 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>3.2 How do we estimate the population variance? | Statistics and Econometrics with R</title>
+  <title>3.2 Estimating the standard error | Statistics and Econometrics with R</title>
   <meta name="description" content="<p>A first course in statistics and econometrics for Indian students, built on
 the progression from question to intuition to rigour to computation to
 interpretation.</p>" />
   <meta name="generator" content="bookdown 0.47 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="3.2 How do we estimate the population variance? | Statistics and Econometrics with R" />
+  <meta property="og:title" content="3.2 Estimating the standard error | Statistics and Econometrics with R" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="<p>A first course in statistics and econometrics for Indian students, built on
@@ -19,7 +19,7 @@ interpretation.</p>" />
   <meta name="github-repo" content="kedarkulkarni1991/stats-econometrics-r" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="3.2 How do we estimate the population variance? | Statistics and Econometrics with R" />
+  <meta name="twitter:title" content="3.2 Estimating the standard error | Statistics and Econometrics with R" />
   
   <meta name="twitter:description" content="<p>A first course in statistics and econometrics for Indian students, built on
 the progression from question to intuition to rigour to computation to
@@ -235,10 +235,13 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="3" data-path="interval-estimation.html"><a href="interval-estimation.html"><i class="fa fa-check"></i><b>3</b> Point and Interval Estimation</a>
 <ul>
 <li class="chapter" data-level="3.1" data-path="u3-single-sample.html"><a href="u3-single-sample.html"><i class="fa fa-check"></i><b>3.1</b> What can a single sample tell us?</a></li>
-<li class="chapter" data-level="3.2" data-path="u3-variance.html"><a href="u3-variance.html"><i class="fa fa-check"></i><b>3.2</b> How do we estimate the population variance?</a>
+<li class="chapter" data-level="3.2" data-path="u3-variance.html"><a href="u3-variance.html"><i class="fa fa-check"></i><b>3.2</b> Estimating the standard error</a>
 <ul>
+<li class="chapter" data-level="" data-path="u3-variance.html"><a href="u3-variance.html#a-statistical-laboratory"><i class="fa fa-check"></i>A statistical laboratory</a></li>
+<li class="chapter" data-level="" data-path="u3-variance.html"><a href="u3-variance.html#why-dividing-by-n-fails"><i class="fa fa-check"></i>Why dividing by n fails</a></li>
+<li class="chapter" data-level="" data-path="u3-variance.html"><a href="u3-variance.html#why-the-correction-is-exactly-n-1"><i class="fa fa-check"></i>Why the correction is exactly n − 1</a></li>
 <li class="chapter" data-level="" data-path="u3-variance.html"><a href="u3-variance.html#when-the-population-mean-is-known"><i class="fa fa-check"></i>When the population mean is known</a></li>
-<li class="chapter" data-level="" data-path="u3-variance.html"><a href="u3-variance.html#estimating-the-standard-error"><i class="fa fa-check"></i>Estimating the standard error</a></li>
+<li class="chapter" data-level="" data-path="u3-variance.html"><a href="u3-variance.html#back-to-the-standard-error"><i class="fa fa-check"></i>Back to the standard error</a></li>
 </ul></li>
 <li class="chapter" data-level="3.3" data-path="u3-proportion.html"><a href="u3-proportion.html"><i class="fa fa-check"></i><b>3.3</b> How do we estimate a proportion?</a>
 <ul>
@@ -248,7 +251,7 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li class="chapter" data-level="" data-path="u3-ci.html"><a href="u3-ci.html#what-does-95-actually-refer-to"><i class="fa fa-check"></i>What does 95% actually refer to?</a></li>
 </ul></li>
-<li class="chapter" data-level="3.5" data-path="u3-t.html"><a href="u3-t.html"><i class="fa fa-check"></i><b>3.5</b> What if <span class="math inline">\(\sigma\)</span> is unknown?</a></li>
+<li class="chapter" data-level="3.5" data-path="u3-t.html"><a href="u3-t.html"><i class="fa fa-check"></i><b>3.5</b> What if the population standard deviation is unknown?</a></li>
 <li class="chapter" data-level="3.6" data-path="u3-samplesize.html"><a href="u3-samplesize.html"><i class="fa fa-check"></i><b>3.6</b> How large a sample do we need?</a>
 <ul>
 <li class="chapter" data-level="" data-path="u3-samplesize.html"><a href="u3-samplesize.html#intervals-for-a-proportion"><i class="fa fa-check"></i>Intervals for a proportion</a></li>
@@ -329,23 +332,35 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 
             <section class="normal" id="section-">
 <div id="u3-variance" class="section level2 hasAnchor" number="3.2">
-<h2><span class="header-section-number">3.2</span> How do we estimate the population variance?<a href="u3-variance.html#u3-variance" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<h2><span class="header-section-number">3.2</span> Estimating the standard error<a href="u3-variance.html#u3-variance" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <div class="question">
-<p>The standard error formula needs <span class="math inline">\(\sigma\)</span>. Where is that supposed to come from?</p>
+<p>The standard error is the number we want. Where is it supposed to come from?</p>
 </div>
-<p>The natural move is to do to the variance what we did to the mean: define the
-sample analogue of the population quantity and hope it behaves.</p>
-<p>The population variance is the average squared distance from the population
-mean,</p>
-<p><span class="math display">\[\sigma^2 = \frac{1}{N}\sum_{i=1}^{N}(x_i - \mu)^2\]</span></p>
-<p>so the obvious sample version replaces <span class="math inline">\(\mu\)</span> with <span class="math inline">\(\bar{x}\)</span> and <span class="math inline">\(N\)</span> with <span class="math inline">\(n\)</span>:</p>
-<p><span class="math display">\[\widetilde{s}^2 = \frac{1}{n}\sum_{i=1}^{n}(x_i - \bar{x})^2\]</span></p>
-<p>This turns out to be systematically wrong, and we can watch it fail. A fair die
-is the ideal population to check against, because both its mean and its
-variance are known exactly:</p>
-<p><span class="math display">\[\mu = 3.5 \qquad \sigma^2 = \frac{35}{12} = 2.9167 \qquad \sigma = 1.7078\]</span></p>
-<p>Roll ten dice, compute the sum of squared deviations from the sample mean, and
-divide it by four different numbers. Repeat twenty thousand times.</p>
+<p>At the end of the previous section we identified the first obstacle to
+statistical inference. The standard error of the sample mean is</p>
+<p><span class="math display">\[\mathrm{se}(\bar{X}) = \frac{\sigma}{\sqrt{n}}\]</span></p>
+<p>but the population standard deviation <span class="math inline">\(\sigma\)</span> is unknown.</p>
+<p>This should not surprise us. Every quantity in that formula except <span class="math inline">\(n\)</span> belongs
+to the population, while all we possess is a sample. If the population mean
+must be estimated, the population standard deviation must be estimated too.</p>
+<p>The obvious strategy is the one that already worked. Replace the unknown
+population quantity by its sample analogue. For the mean this gave</p>
+<p><span class="math display">\[\mu \quad\longrightarrow\quad \bar{X}\]</span></p>
+<p>For the variance we might therefore try</p>
+<p><span class="math display">\[\sigma^2 \quad\longrightarrow\quad \frac{1}{n}\sum_{i=1}^{n}(X_i - \bar{X})^2\]</span></p>
+<p>It is an appealing estimator. It measures the average squared distance of the
+observations from their centre, exactly as the population variance does.</p>
+<p>Unfortunately it is wrong. Not disastrously wrong, but systematically wrong: it
+underestimates the population variance.</p>
+<p>Before trying to understand why, let us see the problem.</p>
+<div id="a-statistical-laboratory" class="section level3 unnumbered hasAnchor">
+<h3>A statistical laboratory<a href="u3-variance.html#a-statistical-laboratory" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>As in the previous unit, we need a population where the truth is known. A fair
+die is ideal, because its variance is known exactly:</p>
+<p><span class="math display">\[\mu = 3.5 \qquad \sigma^2 = \frac{35}{12} = 2.9167\]</span></p>
+<p>Draw samples of ten rolls, compute the sum of squared deviations from the
+sample mean, and divide it by four different numbers. If any of these is a good
+estimator, its average across thousands of samples should land on 2.9167.</p>
 <div class="sourceCode" id="cb76"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb76-1"><a href="u3-variance.html#cb76-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">11</span>)</span>
 <span id="cb76-2"><a href="u3-variance.html#cb76-2" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">10</span></span>
 <span id="cb76-3"><a href="u3-variance.html#cb76-3" tabindex="-1"></a></span>
@@ -371,26 +386,30 @@ divide it by four different numbers. Repeat twenty thousand times.</p>
 <div class="sourceCode" id="cb78"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb78-1"><a href="u3-variance.html#cb78-1" tabindex="-1"></a><span class="fu">c</span>(<span class="at">true_variance =</span> <span class="dv">35</span> <span class="sc">/</span> <span class="dv">12</span>, <span class="at">true_sd =</span> <span class="fu">sqrt</span>(<span class="dv">35</span> <span class="sc">/</span> <span class="dv">12</span>))</span></code></pre></div>
 <pre><code>#&gt; true_variance       true_sd 
 #&gt;         2.917         1.708</code></pre>
-<p>Only one divisor works. Dividing by <span class="math inline">\(n\)</span> gives an average variance well below
-the truth. Dividing by <span class="math inline">\(n - 2\)</span> or <span class="math inline">\(n - 3\)</span> overshoots, and increasingly so. The
-divisor <span class="math inline">\(n - 1\)</span> lands on 2.9219 against a true
+<p>Notice what the table shows. Dividing by <span class="math inline">\(n\)</span> is always too small. Dividing by
+<span class="math inline">\(n - 2\)</span> is too large, and <span class="math inline">\(n - 3\)</span> is worse. Only one divisor consistently lands
+on the truth, and it is not <span class="math inline">\(n\)</span>.</p>
+<p>It is <span class="math inline">\(n - 1\)</span>, which gives 2.9219 against a true
 2.9167.</p>
-<p>This is worth doing with several divisors rather than two, because <span class="math inline">\(n - 1\)</span> can
-otherwise look like an arbitrary fudge — a nudge in the right direction that
-someone settled on. It is not. It is the unique divisor that makes the
-estimator correct on average, and the simulation shows the neighbours failing
-on either side.</p>
-<div class="question">
-<p>Why should dividing by a smaller number be the correction?</p>
+<p>That observation raises two questions, and the rest of this section answers
+them in turn.</p>
+<ol style="list-style-type: decimal">
+<li>Why does dividing by <span class="math inline">\(n\)</span> underestimate the variance?</li>
+<li>Why is the correction exactly <span class="math inline">\(n - 1\)</span>, rather than <span class="math inline">\(n - 2\)</span> or some other
+number?</li>
+</ol>
+<p>The second question is the one that matters. Any downward adjustment would move
+the estimate in the right direction; only one gets the size right.</p>
 </div>
+<div id="why-dividing-by-n-fails" class="section level3 unnumbered hasAnchor">
+<h3>Why dividing by n fails<a href="u3-variance.html#why-dividing-by-n-fails" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>The reason is that <span class="math inline">\(\bar{x}\)</span> is computed from the very observations whose
 spread we are measuring.</p>
 <p>The sample mean sits, by construction, in the middle of the sample. It is the
 value that makes <span class="math inline">\(\sum(x_i - \bar{x})^2\)</span> as small as it can possibly be — no
 other number, including the true <span class="math inline">\(\mu\)</span>, gives a smaller total. So when we
-measure the spread of the sample around its own mean, we are measuring it
-around the most flattering point available, and we get an answer that is too
-small.</p>
+measure the spread of the sample around its own mean, we measure it around the
+most flattering point available, and the answer comes out too small.</p>
 <div class="intuition">
 <p>Once <span class="math inline">\(\bar{x}\)</span> is known, the deviations are not free to take any values. They
 must sum to zero:</p>
@@ -400,11 +419,14 @@ deviations carry independent information about the spread.</p>
 <p>The quantity <span class="math inline">\(n - 1\)</span> is called the <strong>degrees of freedom</strong>: the number of
 observations, less the number of quantities estimated from them along the way.</p>
 </div>
-<p>That argument says the answer should be too small. It does not say by how much,
-and it is the “how much” that pins the divisor to <span class="math inline">\(n-1\)</span> rather than to anything
-else nearby. For that we need the expectation.</p>
+</div>
+<div id="why-the-correction-is-exactly-n-1" class="section level3 unnumbered hasAnchor">
+<h3>Why the correction is exactly n − 1<a href="u3-variance.html#why-the-correction-is-exactly-n-1" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>The argument above explains the direction of the error. It does not explain its
+size, and the size is what distinguishes <span class="math inline">\(n-1\)</span> from <span class="math inline">\(n-2\)</span>. For that we need to
+take an expectation.</p>
 <div class="theory">
-<p>Write <span class="math inline">\(\widetilde{S}^2\)</span> for the divide-by-<span class="math inline">\(n\)</span> version and simplify it first.
+<p>Write <span class="math inline">\(\widetilde{S}^2\)</span> for the divide-by-<span class="math inline">\(n\)</span> version, and simplify it first.
 Expanding the square,</p>
 <p><span class="math display">\[
 \begin{aligned}
@@ -434,39 +456,22 @@ E(\widetilde{S}^2) &amp;= \frac{1}{n}\,n(\sigma^2 + \mu^2) - \left(\frac{\sigma^
 &amp;= \sigma^2\left(1 - \frac{1}{n}\right) \;=\; \sigma^2\,\frac{n-1}{n}
 \end{aligned}
 \]</span></p>
+</div>
 <p>So the divide-by-<span class="math inline">\(n\)</span> estimator is too small by exactly the factor <span class="math inline">\((n-1)/n\)</span> —
 not approximately, and not only for dice. Multiplying it by <span class="math inline">\(n/(n-1)\)</span> removes
-the factor:</p>
-<p><span class="math display">\[\frac{n}{n-1}\,\widetilde{S}^2 = \frac{1}{n-1}\sum_{i=1}^{n}(X_i - \bar{X})^2 = s^2
-\qquad\Longrightarrow\qquad E(s^2) = \sigma^2\]</span></p>
-<p>Multiplying by <span class="math inline">\(n/(n-1)\)</span> and dividing by <span class="math inline">\(n-1\)</span> are the same operation. The
-correction is called <strong>Bessel’s correction</strong>.</p>
-</div>
-<p>Check it against the simulation. With <span class="math inline">\(n = 10\)</span> the predicted shortfall is
-<span class="math inline">\((n-1)/n = 0.9\)</span>, so dividing by <span class="math inline">\(n\)</span> should return
-<span class="math inline">\(0.9 \times 2.9167 = 2.625\)</span>. The simulation returned
-2.6297.</p>
+the factor, and multiplying by <span class="math inline">\(n/(n-1)\)</span> is the same as dividing by <span class="math inline">\(n-1\)</span>.</p>
 <div class="keyidea">
 <p>The <strong>sample variance</strong> and <strong>sample standard deviation</strong> are</p>
 <p><span class="math display">\[s^2 = \frac{1}{n-1}\sum_{i=1}^{n}(x_i - \bar{x})^2
 \qquad\qquad s = \sqrt{s^2}\]</span></p>
-<p><span class="math inline">\(s^2\)</span> is an unbiased estimator of <span class="math inline">\(\sigma^2\)</span>. In R they are <code>var()</code> and <code>sd()</code>,
-both of which use <span class="math inline">\(n - 1\)</span>.</p>
+<p><span class="math inline">\(s^2\)</span> is an unbiased estimator of <span class="math inline">\(\sigma^2\)</span>: <span class="math inline">\(E(s^2) = \sigma^2\)</span>. The
+adjustment from <span class="math inline">\(n\)</span> to <span class="math inline">\(n-1\)</span> is called <strong>Bessel’s correction</strong>.</p>
+<p>In R these are <code>var()</code> and <code>sd()</code>, both of which already use <span class="math inline">\(n - 1\)</span>.</p>
 </div>
-<div class="watchout">
-<p><span class="math inline">\(s\)</span> is <em>not</em> an unbiased estimator of <span class="math inline">\(\sigma\)</span>, even though <span class="math inline">\(s^2\)</span> is unbiased
-for <span class="math inline">\(\sigma^2\)</span>. Taking a square root does not preserve unbiasedness.</p>
-<p>The evidence is already in the table above. Look at the <code>avg_sd</code> column: the
-<span class="math inline">\(n-1\)</span> row gives 1.6876 against a true <span class="math inline">\(\sigma\)</span> of
-1.7078 — close, but low, and it stays low however many
-samples are run. On that column no divisor in the table is right; the best
-would fall somewhere between <span class="math inline">\(n-1\)</span> and <span class="math inline">\(n-2\)</span>, and would depend on the
-distribution.</p>
-<p>The bias is small, shrinks quickly with <span class="math inline">\(n\)</span>, and is not worth correcting in
-practice. What is worth taking away is that <strong>unbiasedness attaches to a
-specific estimator of a specific parameter, and does not survive being passed
-through a nonlinear function.</strong> Squaring and square-rooting are not neutral
-operations on an average.</p>
+<p>Check the theory against the simulation. With <span class="math inline">\(n = 10\)</span> the predicted shortfall
+is <span class="math inline">\((n-1)/n = 0.9\)</span>, so dividing by <span class="math inline">\(n\)</span> should return
+<span class="math inline">\(0.9 \times 2.9167 = 2.625\)</span>. The simulation returned
+2.6297.</p>
 </div>
 <div id="when-the-population-mean-is-known" class="section level3 unnumbered hasAnchor">
 <h3>When the population mean is known<a href="u3-variance.html#when-the-population-mean-is-known" class="anchor-section" aria-label="Anchor link to header"></a></h3>
@@ -487,15 +492,29 @@ spread?</p>
 divide by <span class="math inline">\(n\)</span>.</p>
 </div>
 </div>
-<div id="estimating-the-standard-error" class="section level3 unnumbered hasAnchor">
-<h3>Estimating the standard error<a href="u3-variance.html#estimating-the-standard-error" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>We now have what Section <a href="u3-single-sample.html#u3-single-sample">3.1</a> said was missing. The standard
-error of the sample mean is <span class="math inline">\(\sigma/\sqrt{n}\)</span>, and with <span class="math inline">\(\sigma\)</span> unknown we
-substitute <span class="math inline">\(s\)</span>:</p>
+<div id="back-to-the-standard-error" class="section level3 unnumbered hasAnchor">
+<h3>Back to the standard error<a href="u3-variance.html#back-to-the-standard-error" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>We can now return to where the section began. The standard error of the sample
+mean is <span class="math inline">\(\sigma/\sqrt{n}\)</span>, and with <span class="math inline">\(\sigma\)</span> unknown we substitute <span class="math inline">\(s\)</span>:</p>
 <p><span class="math display">\[\widehat{\mathrm{se}}(\bar{X}) = \frac{s}{\sqrt{n}}\]</span></p>
-<p>This is what every piece of software reports as “the standard error”, and it is
-an estimate, with its own sampling variability. That substitution looks
-harmless and is not, as Section <a href="u3-t.html#u3-t">3.5</a> shows.</p>
+<p>This is the quantity reported by every statistical package. Note the hat: it is
+itself an estimate, depending on the random sample through <span class="math inline">\(s\)</span>, and therefore
+carrying sampling variability of its own.</p>
+<p>That substitution looks harmless. It is not, and Section <a href="u3-t.html#u3-t">3.5</a> measures
+the damage.</p>
+<div class="deeper">
+<p><span class="math inline">\(s^2\)</span> is unbiased for <span class="math inline">\(\sigma^2\)</span>, but <span class="math inline">\(s\)</span> is <strong>not</strong> unbiased for <span class="math inline">\(\sigma\)</span>.
+Taking a square root does not preserve unbiasedness.</p>
+<p>The evidence is already in the table above. Look at the <code>avg_sd</code> column: the
+<span class="math inline">\(n-1\)</span> row gives 1.6876 against a true <span class="math inline">\(\sigma\)</span> of
+1.7078 — close, but low, and it stays low however many
+samples are run. On that column no divisor in the table is right; the best
+would fall between <span class="math inline">\(n-1\)</span> and <span class="math inline">\(n-2\)</span>, and would depend on the distribution.</p>
+<p>The bias is small, shrinks quickly with <span class="math inline">\(n\)</span>, and is not worth correcting in
+practice. What is worth taking away is that unbiasedness attaches to a specific
+estimator of a specific parameter, and does not survive being passed through a
+nonlinear function.</p>
+</div>
 </div>
 </div>
 <script>

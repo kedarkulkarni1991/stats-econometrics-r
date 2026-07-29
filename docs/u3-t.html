@@ -4,13 +4,13 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>3.5 What if \(\sigma\) is unknown? | Statistics and Econometrics with R</title>
+  <title>3.5 What if the population standard deviation is unknown? | Statistics and Econometrics with R</title>
   <meta name="description" content="<p>A first course in statistics and econometrics for Indian students, built on
 the progression from question to intuition to rigour to computation to
 interpretation.</p>" />
   <meta name="generator" content="bookdown 0.47 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="3.5 What if \(\sigma\) is unknown? | Statistics and Econometrics with R" />
+  <meta property="og:title" content="3.5 What if the population standard deviation is unknown? | Statistics and Econometrics with R" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="<p>A first course in statistics and econometrics for Indian students, built on
@@ -19,7 +19,7 @@ interpretation.</p>" />
   <meta name="github-repo" content="kedarkulkarni1991/stats-econometrics-r" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="3.5 What if \(\sigma\) is unknown? | Statistics and Econometrics with R" />
+  <meta name="twitter:title" content="3.5 What if the population standard deviation is unknown? | Statistics and Econometrics with R" />
   
   <meta name="twitter:description" content="<p>A first course in statistics and econometrics for Indian students, built on
 the progression from question to intuition to rigour to computation to
@@ -235,10 +235,13 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="3" data-path="interval-estimation.html"><a href="interval-estimation.html"><i class="fa fa-check"></i><b>3</b> Point and Interval Estimation</a>
 <ul>
 <li class="chapter" data-level="3.1" data-path="u3-single-sample.html"><a href="u3-single-sample.html"><i class="fa fa-check"></i><b>3.1</b> What can a single sample tell us?</a></li>
-<li class="chapter" data-level="3.2" data-path="u3-variance.html"><a href="u3-variance.html"><i class="fa fa-check"></i><b>3.2</b> How do we estimate the population variance?</a>
+<li class="chapter" data-level="3.2" data-path="u3-variance.html"><a href="u3-variance.html"><i class="fa fa-check"></i><b>3.2</b> Estimating the standard error</a>
 <ul>
+<li class="chapter" data-level="" data-path="u3-variance.html"><a href="u3-variance.html#a-statistical-laboratory"><i class="fa fa-check"></i>A statistical laboratory</a></li>
+<li class="chapter" data-level="" data-path="u3-variance.html"><a href="u3-variance.html#why-dividing-by-n-fails"><i class="fa fa-check"></i>Why dividing by n fails</a></li>
+<li class="chapter" data-level="" data-path="u3-variance.html"><a href="u3-variance.html#why-the-correction-is-exactly-n-1"><i class="fa fa-check"></i>Why the correction is exactly n − 1</a></li>
 <li class="chapter" data-level="" data-path="u3-variance.html"><a href="u3-variance.html#when-the-population-mean-is-known"><i class="fa fa-check"></i>When the population mean is known</a></li>
-<li class="chapter" data-level="" data-path="u3-variance.html"><a href="u3-variance.html#estimating-the-standard-error"><i class="fa fa-check"></i>Estimating the standard error</a></li>
+<li class="chapter" data-level="" data-path="u3-variance.html"><a href="u3-variance.html#back-to-the-standard-error"><i class="fa fa-check"></i>Back to the standard error</a></li>
 </ul></li>
 <li class="chapter" data-level="3.3" data-path="u3-proportion.html"><a href="u3-proportion.html"><i class="fa fa-check"></i><b>3.3</b> How do we estimate a proportion?</a>
 <ul>
@@ -248,7 +251,7 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li class="chapter" data-level="" data-path="u3-ci.html"><a href="u3-ci.html#what-does-95-actually-refer-to"><i class="fa fa-check"></i>What does 95% actually refer to?</a></li>
 </ul></li>
-<li class="chapter" data-level="3.5" data-path="u3-t.html"><a href="u3-t.html"><i class="fa fa-check"></i><b>3.5</b> What if <span class="math inline">\(\sigma\)</span> is unknown?</a></li>
+<li class="chapter" data-level="3.5" data-path="u3-t.html"><a href="u3-t.html"><i class="fa fa-check"></i><b>3.5</b> What if the population standard deviation is unknown?</a></li>
 <li class="chapter" data-level="3.6" data-path="u3-samplesize.html"><a href="u3-samplesize.html"><i class="fa fa-check"></i><b>3.6</b> How large a sample do we need?</a>
 <ul>
 <li class="chapter" data-level="" data-path="u3-samplesize.html"><a href="u3-samplesize.html#intervals-for-a-proportion"><i class="fa fa-check"></i>Intervals for a proportion</a></li>
@@ -329,7 +332,7 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 
             <section class="normal" id="section-">
 <div id="u3-t" class="section level2 hasAnchor" number="3.5">
-<h2><span class="header-section-number">3.5</span> What if <span class="math inline">\(\sigma\)</span> is unknown?<a href="u3-t.html#u3-t" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<h2><span class="header-section-number">3.5</span> What if the population standard deviation is unknown?<a href="u3-t.html#u3-t" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <div class="question">
 <p>Every interval so far used <span class="math inline">\(\sigma\)</span>. We never know it. What breaks?</p>
 </div>

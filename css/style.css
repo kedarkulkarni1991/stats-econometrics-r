@@ -101,7 +101,7 @@
 
 /* --- Callout blocks ------------------------------------------------------ */
 
-.intuition, .theory, .inr, .watchout, .yourturn, .keyidea {
+.intuition, .theory, .inr, .watchout, .yourturn, .keyidea, .deeper {
   margin: 1.7em 0;
   padding: 1.05em 1.25em 1.05em 1.35em;
   border-left: 4px solid;
@@ -110,17 +110,19 @@
 }
 
 .intuition > :first-child, .theory > :first-child, .inr > :first-child,
-.watchout > :first-child, .yourturn > :first-child, .keyidea > :first-child {
+.watchout > :first-child, .yourturn > :first-child, .keyidea > :first-child,
+.deeper > :first-child {
   margin-top: 0;
 }
 .intuition > :last-child, .theory > :last-child, .inr > :last-child,
-.watchout > :last-child, .yourturn > :last-child, .keyidea > :last-child {
+.watchout > :last-child, .yourturn > :last-child, .keyidea > :last-child,
+.deeper > :last-child {
   margin-bottom: 0;
 }
 
 /* Each block announces itself, so a student never has to guess its role. */
 .intuition::before, .theory::before, .inr::before,
-.watchout::before, .yourturn::before, .keyidea::before {
+.watchout::before, .yourturn::before, .keyidea::before, .deeper::before {
   display: block;
   font-size: 0.72em;
   font-weight: 700;
@@ -146,6 +148,12 @@
 
 .keyidea { border-color: var(--ink); background: #f4f6f8; }
 .keyidea::before { content: "Remember this"; color: var(--ink); }
+
+/* An aside for the elegant-but-inessential. Kept visually quieter than the
+   other callouts so a reader can skip it without feeling they have missed a
+   step in the argument. */
+.deeper { border-color: #8b8ea3; background: #f7f7fa; }
+.deeper::before { content: "Going a little further"; color: #6b6e85; }
 
 
 
@@ -269,7 +277,7 @@ details.answer > summary::-webkit-details-marker { display: none; }
   .book.font-size-3 .book-body .page-inner section.normal { font-size: 18px; }
   .book.font-size-4 .book-body .page-inner section.normal { font-size: 21px; }
 
-  .intuition, .theory, .inr, .watchout, .yourturn, .keyidea {
+  .intuition, .theory, .inr, .watchout, .yourturn, .keyidea, .deeper {
     padding: 0.9em 1em;
   }
 }
