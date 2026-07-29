@@ -435,9 +435,10 @@ learned.</p>
 #&gt;      45.7      43.2</code></pre>
 <p>Nothing at all: <span class="math inline">\(t = 0.52\)</span>, <span class="math inline">\(p = 0.61\)</span>. On this evidence the two are the same
 age on average.</p>
-<p>Now look at the data again. In nine of the ten couples partner 1 is the older
-one, and in the tenth they are the same age. Not once is partner 2 older. A
-procedure that looks at that and reports <span class="math inline">\(p = 0.61\)</span> has thrown something away.</p>
+<p>Now look at the data again. In eight of the ten couples partner 1 is the older
+one, and in the remaining two the partners are exactly the same age. Not once is
+partner 2 older. A procedure that looks at that and reports <span class="math inline">\(p = 0.61\)</span> has
+thrown something away.</p>
 <p>What it threw away is the pairing. The two-sample test treats the twenty numbers
 as two unrelated heaps, and asks whether one heap averages higher than the
 other. But the ages within a couple are strongly related — couples marry at
@@ -445,8 +446,21 @@ similar ages to each other, and the couples differ hugely among themselves,
 from the mid-thirties to the seventies. That between-couple variation is
 enormous, it is identical in both columns, and it swamps the small, consistent
 within-couple gap.</p>
-<p>The fix is to compare each partner with <em>their own</em> partner, by working with the
-differences.</p>
+<p>Seen properly, the structure is obvious.</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:ts-marriage-plot"></span>
+<img src="stats-econometrics-r_files/figure-html/ts-marriage-plot-1.png" alt="Ten couples, ordered by the age of partner 2. Each segment joins the two partners in one couple. The couples span nearly forty years between them; within any couple the gap is at most eight. Two couples are the same age, and show as a red ring around a blue centre." width="90%"  />
+<p class="caption">
+Figure 5.1: Ten couples, ordered by the age of partner 2. Each segment joins the two partners in one couple. The couples span nearly forty years between them; within any couple the gap is at most eight. Two couples are the same age, and show as a red ring around a blue centre.
+</p>
+</div>
+<p>The figure explains both results at once. Vertically, the couples are spread
+across nearly forty years — that is the variation the unpaired test measures the
+gap against, and it is overwhelming. Horizontally, within each couple, the red
+point is at or to the right of the blue one every single time — in two cases
+exactly on top of it — and never more than eight years away. That small, utterly consistent gap is what the paired
+test measures.</p>
+<p>The fix, then, is to compare each partner with <em>their own</em> partner, by working
+with the differences.</p>
 <div class="sourceCode" id="cb190"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb190-1"><a href="ts-paired.html#cb190-1" tabindex="-1"></a>d <span class="ot">&lt;-</span> couples<span class="sc">$</span>partner1 <span class="sc">-</span> couples<span class="sc">$</span>partner2</span>
 <span id="cb190-2"><a href="ts-paired.html#cb190-2" tabindex="-1"></a>d</span></code></pre></div>
 <pre><code>#&gt;  [1] 1 5 4 1 1 4 0 8 1 0</code></pre>

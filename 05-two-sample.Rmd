@@ -368,9 +368,10 @@ t.test(couples$partner1, couples$partner2)
 Nothing at all: $t = 0.52$, $p = 0.61$. On this evidence the two are the same
 age on average.
 
-Now look at the data again. In nine of the ten couples partner 1 is the older
-one, and in the tenth they are the same age. Not once is partner 2 older. A
-procedure that looks at that and reports $p = 0.61$ has thrown something away.
+Now look at the data again. In eight of the ten couples partner 1 is the older
+one, and in the remaining two the partners are exactly the same age. Not once is
+partner 2 older. A procedure that looks at that and reports $p = 0.61$ has
+thrown something away.
 
 What it threw away is the pairing. The two-sample test treats the twenty numbers
 as two unrelated heaps, and asks whether one heap averages higher than the
@@ -380,8 +381,44 @@ from the mid-thirties to the seventies. That between-couple variation is
 enormous, it is identical in both columns, and it swamps the small, consistent
 within-couple gap.
 
-The fix is to compare each partner with *their own* partner, by working with the
-differences.
+Seen properly, the structure is obvious.
+
+```{r ts-marriage-plot, echo = FALSE, fig.height = 3.8, fig.cap = "Ten couples, ordered by the age of partner 2. Each segment joins the two partners in one couple. The couples span nearly forty years between them; within any couple the gap is at most eight. Two couples are the same age, and show as a red ring around a blue centre."}
+cp <- couples[order(couples$partner2), ]
+cp$id <- seq_len(nrow(cp))
+
+# Partner 1 is drawn first and larger: in the two couples of equal age the two
+# points coincide exactly, and this leaves a visible ring rather than one dot
+# silently covering the other.
+long <- rbind(
+  data.frame(id = cp$id, age = cp$partner1, who = "Partner 1", sz = 3.6),
+  data.frame(id = cp$id, age = cp$partner2, who = "Partner 2", sz = 1.9)
+)
+
+ggplot(long, aes(age, id)) +
+  geom_segment(data = cp, aes(x = partner2, xend = partner1, y = id, yend = id),
+               colour = book_palette$soft, linewidth = 1.6,
+               inherit.aes = FALSE) +
+  geom_point(aes(colour = who, size = sz)) +
+  scale_size_identity() +
+  scale_colour_manual(values = c("Partner 1" = book_palette$reject,
+                                 "Partner 2" = book_palette$accent),
+                      name = NULL) +
+  scale_y_continuous(breaks = NULL) +
+  labs(x = "Age (years)", y = "Couple") +
+  theme_book() +
+  theme(legend.position = "top", panel.grid.major.y = element_blank())
+```
+
+The figure explains both results at once. Vertically, the couples are spread
+across nearly forty years — that is the variation the unpaired test measures the
+gap against, and it is overwhelming. Horizontally, within each couple, the red
+point is at or to the right of the blue one every single time — in two cases
+exactly on top of it — and never more than eight years away. That small, utterly consistent gap is what the paired
+test measures.
+
+The fix, then, is to compare each partner with *their own* partner, by working
+with the differences.
 
 ```{r ts-marriage-diff}
 d <- couples$partner1 - couples$partner2
