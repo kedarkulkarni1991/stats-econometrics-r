@@ -470,11 +470,10 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <p>Unit <a href="two-sample.html#two-sample">5</a> compared students above and below the median attendance.
 Those who attended more had higher average grades, by more than sampling
 variation alone would explain.</p>
-<p>Knowing that two groups differ is only a beginning. It tells us nothing about
-how grades change <em>as</em> attendance changes, nothing about the relationship
-outside those two groups, and nothing about whether attendance is responsible
-for the difference.</p>
-<p>That last gap is the deepest, and it is worth seeing clearly.</p>
+<p>But knowing that two groups differ is only the beginning. We still do not know
+how grades change <em>as</em> attendance changes, or whether attendance itself is
+responsible for the difference.</p>
+<p>That second gap is the deeper one, and it is worth seeing clearly.</p>
 <div id="the-experiment-we-cannot-run" class="section level3 unnumbered hasAnchor">
 <h3>The experiment we cannot run<a href="sr-motivation.html#the-experiment-we-cannot-run" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>What we would really like is a thought experiment. Take one student and observe
@@ -483,14 +482,13 @@ else about them unchanged — the same ability, the same motivation, the same
 teacher, the same week. The difference in their grades would isolate the effect
 of attendance itself.</p>
 <p>That experiment is impossible. A student cannot attend both 20 and 30 classes.
-What we observe instead are <em>different</em> students who differ in many ways at
-once, and the whole difficulty of empirical economics lies in separating the
-effect of attendance from the effects of everything else that differs alongside
-it.</p>
+Instead, we observe <em>different</em> students who differ in many ways at once. The
+challenge of empirical economics is to separate the effect of attendance from
+all the other differences between those students.</p>
 <div class="watchout">
-<p>Simple regression does not solve that problem. Section <a href="sr-causal.html#sr-causal">6.9</a> will be
-explicit that it does not, and a reader who finishes this unit believing
-otherwise has been badly served.</p>
+<p>Simple regression does not solve that problem. Section <a href="sr-causal.html#sr-causal">6.9</a> returns
+to this point in detail. If a reader finishes this unit believing that regression
+automatically uncovers causal effects, then this book has failed them.</p>
 <p>What regression does is change the question we ask of the data, and build the
 machinery that later units extend towards the thought experiment above.</p>
 </div>
@@ -499,9 +497,10 @@ machinery that later units extend towards the thought experiment above.</p>
 <h3>The question has changed<a href="sr-motivation.html#the-question-has-changed" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Instead of asking whether students with high attendance differ from those with
 low attendance, we now ask whether grades tend to rise as attendance rises.</p>
-<p>Attendance stops being a group label and becomes a numerical variable whose
-entire range carries information. That is the conceptual step from a <span class="math inline">\(t\)</span>-test to
-a regression, and everything technical in this unit follows from it.</p>
+<p>Attendance is no longer a group label. It becomes a <strong>numerical variable whose
+entire range carries information.</strong></p>
+<p>That is the conceptual step from a <span class="math inline">\(t\)</span>-test to a regression, and everything
+technical in this unit follows from it.</p>
 </div>
 <div id="the-price-of-the-old-question" class="section level3 unnumbered hasAnchor">
 <h3>The price of the old question<a href="sr-motivation.html#the-price-of-the-old-question" class="anchor-section" aria-label="Anchor link to header"></a></h3>
@@ -518,23 +517,25 @@ attended 28 and one who attended 27 were placed in opposite groups.</p>
 <span id="cb228-5"><a href="sr-motivation.html#cb228-5" tabindex="-1"></a>  <span class="at">regression_t =</span> <span class="fu">summary</span>(<span class="fu">lm</span>(sem_gpa <span class="sc">~</span> attendance, <span class="at">data =</span> students))<span class="sc">$</span>coefficients[<span class="dv">2</span>, <span class="dv">3</span>])</span></code></pre></div>
 <pre><code>#&gt;    split_t.t regression_t 
 #&gt;        11.80        17.59</code></pre>
-<p>The same data, the same outcome, and essentially the same question. Splitting
-attendance into two groups produces a <span class="math inline">\(t\)</span> statistic of 11.8; using the full
-attendance variable produces one of 17.6. The relationship was always present —
-the median split simply discarded much of the evidence for it.</p>
+<p>The same data. The same outcome. Almost the same question. Splitting attendance
+into two groups produces a <span class="math inline">\(t\)</span> statistic of 11.8; using the full attendance
+variable produces one of 17.6.</p>
+<p>The relationship was always present — the median split simply discarded much of
+the evidence for it.</p>
 <div class="keyidea">
-<p>Regression improves on a two-sample comparison in two ways.</p>
+<p>Regression changes the question we ask, and in doing so improves on a two-sample
+comparison in two ways.</p>
 <ul>
 <li>It uses the <strong>full</strong> explanatory variable rather than reducing it to two
 groups.</li>
-<li>It estimates a <strong>slope</strong> — how much <span class="math inline">\(y\)</span> changes for a one-unit increase in
-<span class="math inline">\(x\)</span> — instead of merely comparing two averages.</li>
+<li>It estimates a <strong>slope</strong> — the expected change in <span class="math inline">\(y\)</span> for a one-unit increase
+in <span class="math inline">\(x\)</span> — instead of merely comparing two averages.</li>
 </ul>
 </div>
-<p>Later we extend this framework to several explanatory variables at once, which
-lets us compare observations while holding other measured characteristics
-fixed. That is a step closer to the thought experiment we would like to
-perform, though as we shall see it never gets all the way there.</p>
+<p>In the next unit we will add more explanatory variables, allowing us to compare
+observations while holding other measured characteristics fixed. That brings us
+closer to the counterfactual comparison we would like to make, although — as we
+shall see — it does not eliminate the problem entirely.</p>
 </div>
 </div>
 <script>
