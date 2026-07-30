@@ -125,10 +125,25 @@ trying to estimate?
 It is tempting to think that regression is trying to draw a straight line
 through a cloud of points. That is not quite right.
 
-Suppose we look at every student in the population who attended exactly 25
-classes. They did not all receive the same semester GPA. Some performed
-exceptionally well, others poorly, and many lay somewhere in between. Attendance
-alone clearly does not determine grades.
+Start with the individual outcomes, because they are noisier than students
+expect.
+
+Forty-nine students in our data attended exactly 25 classes. They did not
+receive the same semester GPA.
+
+```{r sr-at25}
+at25 <- students[students$attendance == 25, ]
+
+round(c(n = nrow(at25), average_gpa = mean(at25$sem_gpa),
+        lowest = min(at25$sem_gpa), highest = max(at25$sem_gpa)), 3)
+```
+
+One scored 1.58 and another 9.08, and forty-seven others lay in between — all of
+them having attended the same twenty-five classes. Attendance alone plainly does
+not determine anyone's grade.
+
+So a line through the individual points cannot be what we are looking for. There
+is no line that passes near 1.58 and 9.08 at the same value of $x$.
 
 Instead of looking at every individual student, suppose we ask a different
 question:
@@ -251,21 +266,12 @@ The PRF describes averages. Individual students are not averages. How do we
 write down the difference?
 :::
 
-The conditional expectation function tells us how the *average* value of $y$
-changes with $x$. It does not say that $y = \beta_0 + \beta_1 x$ for every member
-of the population, and the data make that obvious.
+Return to the forty-nine students who attended exactly 25 classes. Their
+conditional mean was 6.10, and two of them scored 1.58 and 9.08.
 
-Forty-nine students in our data attended exactly 25 classes.
-
-```{r sr-at25}
-at25 <- students[students$attendance == 25, ]
-
-round(c(n = nrow(at25), conditional_mean = mean(at25$sem_gpa),
-        lowest = min(at25$sem_gpa), highest = max(at25$sem_gpa)), 3)
-```
-
-Their average GPA was 6.10. One of them scored 1.58 and another 9.08. All three
-numbers describe students who attended the same 25 classes.
+The conditional expectation function accounts for the 6.10. It has nothing to say
+about why one student was four and a half points below it and another three
+points above.
 
 So an individual's grade is the conditional mean *plus* a departure from it. Give
 that departure a name.

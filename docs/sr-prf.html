@@ -476,10 +476,21 @@ two-sample comparison. The natural next question is: what is the object we are
 trying to estimate?</p>
 <p>It is tempting to think that regression is trying to draw a straight line
 through a cloud of points. That is not quite right.</p>
-<p>Suppose we look at every student in the population who attended exactly 25
-classes. They did not all receive the same semester GPA. Some performed
-exceptionally well, others poorly, and many lay somewhere in between. Attendance
-alone clearly does not determine grades.</p>
+<p>Start with the individual outcomes, because they are noisier than students
+expect.</p>
+<p>Forty-nine students in our data attended exactly 25 classes. They did not
+receive the same semester GPA.</p>
+<div class="sourceCode" id="cb230"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb230-1"><a href="sr-prf.html#cb230-1" tabindex="-1"></a>at25 <span class="ot">&lt;-</span> students[students<span class="sc">$</span>attendance <span class="sc">==</span> <span class="dv">25</span>, ]</span>
+<span id="cb230-2"><a href="sr-prf.html#cb230-2" tabindex="-1"></a></span>
+<span id="cb230-3"><a href="sr-prf.html#cb230-3" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">n =</span> <span class="fu">nrow</span>(at25), <span class="at">average_gpa =</span> <span class="fu">mean</span>(at25<span class="sc">$</span>sem_gpa),</span>
+<span id="cb230-4"><a href="sr-prf.html#cb230-4" tabindex="-1"></a>        <span class="at">lowest =</span> <span class="fu">min</span>(at25<span class="sc">$</span>sem_gpa), <span class="at">highest =</span> <span class="fu">max</span>(at25<span class="sc">$</span>sem_gpa)), <span class="dv">3</span>)</span></code></pre></div>
+<pre><code>#&gt;           n average_gpa      lowest     highest 
+#&gt;      49.000       6.098       1.575       9.075</code></pre>
+<p>One scored 1.58 and another 9.08, and forty-seven others lay in between — all of
+them having attended the same twenty-five classes. Attendance alone plainly does
+not determine anyone’s grade.</p>
+<p>So a line through the individual points cannot be what we are looking for. There
+is no line that passes near 1.58 and 9.08 at the same value of <span class="math inline">\(x\)</span>.</p>
 <p>Instead of looking at every individual student, suppose we ask a different
 question:</p>
 <blockquote>
@@ -494,12 +505,12 @@ conditional on a particular attendance level. We write the conditional mean as</
 whose <span class="math inline">\(X\)</span> equals <span class="math inline">\(x\)</span>.”</p>
 <p>The table below approximates these conditional means by grouping attendance into
 bands.</p>
-<div class="sourceCode" id="cb230"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb230-1"><a href="sr-prf.html#cb230-1" tabindex="-1"></a>students<span class="sc">$</span>band <span class="ot">&lt;-</span> <span class="fu">cut</span>(students<span class="sc">$</span>attendance,</span>
-<span id="cb230-2"><a href="sr-prf.html#cb230-2" tabindex="-1"></a>                     <span class="at">breaks =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">20</span>, <span class="dv">24</span>, <span class="dv">27</span>, <span class="dv">30</span>, <span class="dv">33</span>),</span>
-<span id="cb230-3"><a href="sr-prf.html#cb230-3" tabindex="-1"></a>                     <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;2–20&quot;</span>, <span class="st">&quot;21–24&quot;</span>, <span class="st">&quot;25–27&quot;</span>, <span class="st">&quot;28–30&quot;</span>, <span class="st">&quot;31–32&quot;</span>))</span>
-<span id="cb230-4"><a href="sr-prf.html#cb230-4" tabindex="-1"></a></span>
-<span id="cb230-5"><a href="sr-prf.html#cb230-5" tabindex="-1"></a><span class="fu">aggregate</span>(sem_gpa <span class="sc">~</span> band, <span class="at">data =</span> students,</span>
-<span id="cb230-6"><a href="sr-prf.html#cb230-6" tabindex="-1"></a>          <span class="cf">function</span>(x) <span class="fu">round</span>(<span class="fu">c</span>(<span class="at">n =</span> <span class="fu">length</span>(x), <span class="at">mean_gpa =</span> <span class="fu">mean</span>(x)), <span class="dv">2</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb232"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb232-1"><a href="sr-prf.html#cb232-1" tabindex="-1"></a>students<span class="sc">$</span>band <span class="ot">&lt;-</span> <span class="fu">cut</span>(students<span class="sc">$</span>attendance,</span>
+<span id="cb232-2"><a href="sr-prf.html#cb232-2" tabindex="-1"></a>                     <span class="at">breaks =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">20</span>, <span class="dv">24</span>, <span class="dv">27</span>, <span class="dv">30</span>, <span class="dv">33</span>),</span>
+<span id="cb232-3"><a href="sr-prf.html#cb232-3" tabindex="-1"></a>                     <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;2–20&quot;</span>, <span class="st">&quot;21–24&quot;</span>, <span class="st">&quot;25–27&quot;</span>, <span class="st">&quot;28–30&quot;</span>, <span class="st">&quot;31–32&quot;</span>))</span>
+<span id="cb232-4"><a href="sr-prf.html#cb232-4" tabindex="-1"></a></span>
+<span id="cb232-5"><a href="sr-prf.html#cb232-5" tabindex="-1"></a><span class="fu">aggregate</span>(sem_gpa <span class="sc">~</span> band, <span class="at">data =</span> students,</span>
+<span id="cb232-6"><a href="sr-prf.html#cb232-6" tabindex="-1"></a>          <span class="cf">function</span>(x) <span class="fu">round</span>(<span class="fu">c</span>(<span class="at">n =</span> <span class="fu">length</span>(x), <span class="at">mean_gpa =</span> <span class="fu">mean</span>(x)), <span class="dv">2</span>))</span></code></pre></div>
 <pre><code>#&gt;    band sem_gpa.n sem_gpa.mean_gpa
 #&gt; 1  2–20     94.00             4.38
 #&gt; 2 21–24     85.00             6.18
