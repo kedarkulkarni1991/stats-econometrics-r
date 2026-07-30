@@ -405,11 +405,11 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="sr-motivation.html"><a href="sr-motivation.html#the-price-of-the-old-question"><i class="fa fa-check"></i>The price of the old question</a></li>
 </ul></li>
 <li class="chapter" data-level="6.2" data-path="sr-prf.html"><a href="sr-prf.html"><i class="fa fa-check"></i><b>6.2</b> The population regression function</a></li>
-<li class="chapter" data-level="6.3" data-path="sr-model.html"><a href="sr-model.html"><i class="fa fa-check"></i><b>6.3</b> From averages to individuals</a></li>
+<li class="chapter" data-level="6.3" data-path="sr-model.html"><a href="sr-model.html"><i class="fa fa-check"></i><b>6.3</b> From averages to observations</a></li>
 <li class="chapter" data-level="6.4" data-path="sr-error.html"><a href="sr-error.html"><i class="fa fa-check"></i><b>6.4</b> The error term</a>
 <ul>
 <li class="chapter" data-level="" data-path="sr-error.html"><a href="sr-error.html#systematic-and-stochastic"><i class="fa fa-check"></i>Systematic and stochastic</a></li>
-<li class="chapter" data-level="" data-path="sr-error.html"><a href="sr-error.html#the-vocabulary"><i class="fa fa-check"></i>The vocabulary</a></li>
+<li class="chapter" data-level="" data-path="sr-error.html"><a href="sr-error.html#what-the-two-parameters-mean"><i class="fa fa-check"></i>What the two parameters mean</a></li>
 </ul></li>
 <li class="chapter" data-level="6.5" data-path="sr-assumptions.html"><a href="sr-assumptions.html"><i class="fa fa-check"></i><b>6.5</b> When does β₁ measure an effect?</a>
 <ul>
@@ -420,7 +420,7 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li class="chapter" data-level="" data-path="sr-srf.html"><a href="sr-srf.html#every-sample-gives-a-different-line"><i class="fa fa-check"></i>Every sample gives a different line</a></li>
 </ul></li>
-<li class="chapter" data-level="6.7" data-path="sr-ols.html"><a href="sr-ols.html"><i class="fa fa-check"></i><b>6.7</b> Choosing a line: ordinary least squares</a></li>
+<li class="chapter" data-level="6.7" data-path="sr-ols.html"><a href="sr-ols.html"><i class="fa fa-check"></i><b>6.7</b> Which line should we fit?</a></li>
 <li class="chapter" data-level="6.8" data-path="sr-summary.html"><a href="sr-summary.html"><i class="fa fa-check"></i><b>6.8</b> Summary</a></li>
 <li class="chapter" data-level="6.9" data-path="sr-practice.html"><a href="sr-practice.html"><i class="fa fa-check"></i><b>6.9</b> Practice problems</a>
 <ul>
@@ -513,8 +513,8 @@ want it to mean?</p>
 moves with <span class="math inline">\(x\)</span> and a part that does not, which is true of any two variables
 whatever and therefore not yet useful.</p>
 <p>To read <span class="math inline">\(\beta_1\)</span> as the effect of <span class="math inline">\(x\)</span> on <span class="math inline">\(y\)</span>, we need an assumption about how
-<span class="math inline">\(u\)</span> and <span class="math inline">\(x\)</span> are related. Two assumptions are usually stated; only the second has
-any content.</p>
+<span class="math inline">\(u\)</span> and <span class="math inline">\(x\)</span> are related. Two assumptions are usually stated; only the second
+restricts the world.</p>
 <div id="the-error-averages-zero" class="section level3 unnumbered hasAnchor">
 <h3>The error averages zero<a href="sr-assumptions.html#the-error-averages-zero" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p><span class="math display">\[E(u) = 0\]</span></p>
@@ -536,23 +536,26 @@ is what we want, assuming <span class="math inline">\(E(u) = 0\)</span> restrict
 </div>
 <div id="the-error-is-unrelated-to-x" class="section level3 unnumbered hasAnchor">
 <h3>The error is unrelated to x<a href="sr-assumptions.html#the-error-is-unrelated-to-x" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>Since <span class="math inline">\(u\)</span> and <span class="math inline">\(x\)</span> are both random variables, we can ask what the average of <span class="math inline">\(u\)</span>
-is among individuals with a particular value of <span class="math inline">\(x\)</span>. The assumption is that this
-average is the <em>same</em> at every value of <span class="math inline">\(x\)</span>, and equal to the overall average of
-zero:</p>
+<p>We now ask a simple question. Among students with the same attendance, what is
+the average value of everything contained in <span class="math inline">\(u\)</span>?</p>
+<p>The assumption is that this average is the <em>same</em> at every value of <span class="math inline">\(x\)</span>, and
+equal to the overall average of zero:</p>
 <p><span class="math display">\[E(u \mid x) = E(u) = 0\]</span></p>
 <p>In that case <span class="math inline">\(u\)</span> is said to be <strong>mean independent</strong> of <span class="math inline">\(x\)</span>. Taken together with
 <span class="math inline">\(E(u) = 0\)</span>, this is the <strong>zero conditional mean assumption</strong>.</p>
 <div class="keyidea">
 <p><span class="math display">\[E(u \mid x) = 0\]</span></p>
-<p>This is the assumption on which everything rests, and the only way to judge it is
-to state it in the language of the problem.</p>
+<p>This is the key assumption for interpreting the slope as the effect of <span class="math inline">\(x\)</span>, and
+the only way to judge it is to state it in the language of the problem.</p>
 <p>For the grades example it says</p>
 <p><span class="math display">\[E(\textit{effort} \mid \textit{attendance} = \text{low})
 = E(\textit{effort} \mid \textit{attendance} = \text{high}) = 0\]</span></p>
 <p>— that students who attend more classes are, on average, no more and no less
 able, motivated, or well-taught than students who attend fewer.</p>
 </div>
+<p>Note carefully what is <em>not</em> required. The assumption does not say that students
+have identical effort — obviously they do not. It says only that effort does not
+systematically differ with attendance. Equal averages, not equal individuals.</p>
 <p>Stated that concretely, the assumption is clearly doubtful here. Students who
 attend regularly are plausibly working harder in other ways too, and effort
 raises grades on its own.</p>

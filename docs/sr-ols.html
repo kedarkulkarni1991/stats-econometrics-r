@@ -4,13 +4,13 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>6.7 Choosing a line: ordinary least squares | Statistics and Econometrics with R</title>
+  <title>6.7 Which line should we fit? | Statistics and Econometrics with R</title>
   <meta name="description" content="<p>A first course in statistics and econometrics for Indian students, built on
 the progression from question to intuition to rigour to computation to
 interpretation.</p>" />
   <meta name="generator" content="bookdown 0.47 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="6.7 Choosing a line: ordinary least squares | Statistics and Econometrics with R" />
+  <meta property="og:title" content="6.7 Which line should we fit? | Statistics and Econometrics with R" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="<p>A first course in statistics and econometrics for Indian students, built on
@@ -19,7 +19,7 @@ interpretation.</p>" />
   <meta name="github-repo" content="kedarkulkarni1991/stats-econometrics-r" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="6.7 Choosing a line: ordinary least squares | Statistics and Econometrics with R" />
+  <meta name="twitter:title" content="6.7 Which line should we fit? | Statistics and Econometrics with R" />
   
   <meta name="twitter:description" content="<p>A first course in statistics and econometrics for Indian students, built on
 the progression from question to intuition to rigour to computation to
@@ -405,11 +405,11 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="sr-motivation.html"><a href="sr-motivation.html#the-price-of-the-old-question"><i class="fa fa-check"></i>The price of the old question</a></li>
 </ul></li>
 <li class="chapter" data-level="6.2" data-path="sr-prf.html"><a href="sr-prf.html"><i class="fa fa-check"></i><b>6.2</b> The population regression function</a></li>
-<li class="chapter" data-level="6.3" data-path="sr-model.html"><a href="sr-model.html"><i class="fa fa-check"></i><b>6.3</b> From averages to individuals</a></li>
+<li class="chapter" data-level="6.3" data-path="sr-model.html"><a href="sr-model.html"><i class="fa fa-check"></i><b>6.3</b> From averages to observations</a></li>
 <li class="chapter" data-level="6.4" data-path="sr-error.html"><a href="sr-error.html"><i class="fa fa-check"></i><b>6.4</b> The error term</a>
 <ul>
 <li class="chapter" data-level="" data-path="sr-error.html"><a href="sr-error.html#systematic-and-stochastic"><i class="fa fa-check"></i>Systematic and stochastic</a></li>
-<li class="chapter" data-level="" data-path="sr-error.html"><a href="sr-error.html#the-vocabulary"><i class="fa fa-check"></i>The vocabulary</a></li>
+<li class="chapter" data-level="" data-path="sr-error.html"><a href="sr-error.html#what-the-two-parameters-mean"><i class="fa fa-check"></i>What the two parameters mean</a></li>
 </ul></li>
 <li class="chapter" data-level="6.5" data-path="sr-assumptions.html"><a href="sr-assumptions.html"><i class="fa fa-check"></i><b>6.5</b> When does β₁ measure an effect?</a>
 <ul>
@@ -420,7 +420,7 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li class="chapter" data-level="" data-path="sr-srf.html"><a href="sr-srf.html#every-sample-gives-a-different-line"><i class="fa fa-check"></i>Every sample gives a different line</a></li>
 </ul></li>
-<li class="chapter" data-level="6.7" data-path="sr-ols.html"><a href="sr-ols.html"><i class="fa fa-check"></i><b>6.7</b> Choosing a line: ordinary least squares</a></li>
+<li class="chapter" data-level="6.7" data-path="sr-ols.html"><a href="sr-ols.html"><i class="fa fa-check"></i><b>6.7</b> Which line should we fit?</a></li>
 <li class="chapter" data-level="6.8" data-path="sr-summary.html"><a href="sr-summary.html"><i class="fa fa-check"></i><b>6.8</b> Summary</a></li>
 <li class="chapter" data-level="6.9" data-path="sr-practice.html"><a href="sr-practice.html"><i class="fa fa-check"></i><b>6.9</b> Practice problems</a>
 <ul>
@@ -504,11 +504,13 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 
             <section class="normal" id="section-">
 <div id="sr-ols" class="section level2 hasAnchor" number="6.7">
-<h2><span class="header-section-number">6.7</span> Choosing a line: ordinary least squares<a href="sr-ols.html#sr-ols" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<h2><span class="header-section-number">6.7</span> Which line should we fit?<a href="sr-ols.html#sr-ols" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <div class="question">
 <p>Infinitely many lines pass through a scatter of points. Which one?</p>
 </div>
-<p>A residual measures how badly the line misses observation <span class="math inline">\(i\)</span>:</p>
+<p>Every sample admits infinitely many possible lines. We therefore need a rule
+telling us which one deserves to be called <em>the</em> regression line.</p>
+<p>A residual measures how badly a candidate line misses observation <span class="math inline">\(i\)</span>:</p>
 <p><span class="math display">\[\hat{u}_i = y_i - \hat{y}_i = y_i - \hat{\beta}_0 - \hat{\beta}_1 x_i\]</span></p>
 <p>We want the residuals small. The obvious criterion is to make their sum as close
 to zero as possible.</p>
@@ -527,6 +529,9 @@ first, so that they cannot cancel and large misses count for more than small
 ones. We choose <span class="math inline">\(\hat{\beta}_0\)</span> and <span class="math inline">\(\hat{\beta}_1\)</span> to minimise</p>
 <p><span class="math display">\[L = \sum_{i=1}^{n} \hat{u}_i^2 = \sum_{i=1}^{n}\left(y_i - \hat{\beta}_0 - \hat{\beta}_1 x_i\right)^2\]</span></p>
 <p>This is the <strong>method of ordinary least squares</strong>, or OLS.</p>
+<p>Notice that the criterion depends only on quantities we can observe. It is built
+from residuals, not errors — we could not minimise <span class="math inline">\(\sum u_i^2\)</span> even if we wanted
+to, because nobody sees <span class="math inline">\(u\)</span>.</p>
 <p>We now have a criterion. Finding the line that satisfies it is a matter of
 calculus, and it is where the next unit begins.</p>
 <div class="keyidea">

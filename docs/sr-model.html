@@ -4,13 +4,13 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>6.3 From averages to individuals | Statistics and Econometrics with R</title>
+  <title>6.3 From averages to observations | Statistics and Econometrics with R</title>
   <meta name="description" content="<p>A first course in statistics and econometrics for Indian students, built on
 the progression from question to intuition to rigour to computation to
 interpretation.</p>" />
   <meta name="generator" content="bookdown 0.47 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="6.3 From averages to individuals | Statistics and Econometrics with R" />
+  <meta property="og:title" content="6.3 From averages to observations | Statistics and Econometrics with R" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="<p>A first course in statistics and econometrics for Indian students, built on
@@ -19,7 +19,7 @@ interpretation.</p>" />
   <meta name="github-repo" content="kedarkulkarni1991/stats-econometrics-r" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="6.3 From averages to individuals | Statistics and Econometrics with R" />
+  <meta name="twitter:title" content="6.3 From averages to observations | Statistics and Econometrics with R" />
   
   <meta name="twitter:description" content="<p>A first course in statistics and econometrics for Indian students, built on
 the progression from question to intuition to rigour to computation to
@@ -405,11 +405,11 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="sr-motivation.html"><a href="sr-motivation.html#the-price-of-the-old-question"><i class="fa fa-check"></i>The price of the old question</a></li>
 </ul></li>
 <li class="chapter" data-level="6.2" data-path="sr-prf.html"><a href="sr-prf.html"><i class="fa fa-check"></i><b>6.2</b> The population regression function</a></li>
-<li class="chapter" data-level="6.3" data-path="sr-model.html"><a href="sr-model.html"><i class="fa fa-check"></i><b>6.3</b> From averages to individuals</a></li>
+<li class="chapter" data-level="6.3" data-path="sr-model.html"><a href="sr-model.html"><i class="fa fa-check"></i><b>6.3</b> From averages to observations</a></li>
 <li class="chapter" data-level="6.4" data-path="sr-error.html"><a href="sr-error.html"><i class="fa fa-check"></i><b>6.4</b> The error term</a>
 <ul>
 <li class="chapter" data-level="" data-path="sr-error.html"><a href="sr-error.html#systematic-and-stochastic"><i class="fa fa-check"></i>Systematic and stochastic</a></li>
-<li class="chapter" data-level="" data-path="sr-error.html"><a href="sr-error.html#the-vocabulary"><i class="fa fa-check"></i>The vocabulary</a></li>
+<li class="chapter" data-level="" data-path="sr-error.html"><a href="sr-error.html#what-the-two-parameters-mean"><i class="fa fa-check"></i>What the two parameters mean</a></li>
 </ul></li>
 <li class="chapter" data-level="6.5" data-path="sr-assumptions.html"><a href="sr-assumptions.html"><i class="fa fa-check"></i><b>6.5</b> When does β₁ measure an effect?</a>
 <ul>
@@ -420,7 +420,7 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li class="chapter" data-level="" data-path="sr-srf.html"><a href="sr-srf.html#every-sample-gives-a-different-line"><i class="fa fa-check"></i>Every sample gives a different line</a></li>
 </ul></li>
-<li class="chapter" data-level="6.7" data-path="sr-ols.html"><a href="sr-ols.html"><i class="fa fa-check"></i><b>6.7</b> Choosing a line: ordinary least squares</a></li>
+<li class="chapter" data-level="6.7" data-path="sr-ols.html"><a href="sr-ols.html"><i class="fa fa-check"></i><b>6.7</b> Which line should we fit?</a></li>
 <li class="chapter" data-level="6.8" data-path="sr-summary.html"><a href="sr-summary.html"><i class="fa fa-check"></i><b>6.8</b> Summary</a></li>
 <li class="chapter" data-level="6.9" data-path="sr-practice.html"><a href="sr-practice.html"><i class="fa fa-check"></i><b>6.9</b> Practice problems</a>
 <ul>
@@ -504,7 +504,7 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 
             <section class="normal" id="section-">
 <div id="sr-model" class="section level2 hasAnchor" number="6.3">
-<h2><span class="header-section-number">6.3</span> From averages to individuals<a href="sr-model.html#sr-model" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<h2><span class="header-section-number">6.3</span> From averages to observations<a href="sr-model.html#sr-model" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <div class="question">
 <p>The PRF describes averages. Individual students are not averages. How do we
 write down the difference?</p>
@@ -525,8 +525,8 @@ which individual <span class="math inline">\(i\)</span> departs from the average
 <strong>simple linear regression model</strong>:</p>
 <p><span class="math display">\[y_i = \beta_0 + \beta_1 x_i + u_i\]</span></p>
 </div>
-<p>That equation is not a new assumption. It is the population regression function
-with a name attached to the part it does not describe.</p>
+<p>This is not a new model. It is simply another way of writing the population
+regression function once we give the unexplained part a name.</p>
 <p>The two students above become</p>
 <p><span class="math display">\[1.58 = \beta_0 + \beta_1(25) + u_1
 \qquad\qquad

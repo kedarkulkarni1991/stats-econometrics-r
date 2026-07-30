@@ -405,11 +405,11 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="sr-motivation.html"><a href="sr-motivation.html#the-price-of-the-old-question"><i class="fa fa-check"></i>The price of the old question</a></li>
 </ul></li>
 <li class="chapter" data-level="6.2" data-path="sr-prf.html"><a href="sr-prf.html"><i class="fa fa-check"></i><b>6.2</b> The population regression function</a></li>
-<li class="chapter" data-level="6.3" data-path="sr-model.html"><a href="sr-model.html"><i class="fa fa-check"></i><b>6.3</b> From averages to individuals</a></li>
+<li class="chapter" data-level="6.3" data-path="sr-model.html"><a href="sr-model.html"><i class="fa fa-check"></i><b>6.3</b> From averages to observations</a></li>
 <li class="chapter" data-level="6.4" data-path="sr-error.html"><a href="sr-error.html"><i class="fa fa-check"></i><b>6.4</b> The error term</a>
 <ul>
 <li class="chapter" data-level="" data-path="sr-error.html"><a href="sr-error.html#systematic-and-stochastic"><i class="fa fa-check"></i>Systematic and stochastic</a></li>
-<li class="chapter" data-level="" data-path="sr-error.html"><a href="sr-error.html#the-vocabulary"><i class="fa fa-check"></i>The vocabulary</a></li>
+<li class="chapter" data-level="" data-path="sr-error.html"><a href="sr-error.html#what-the-two-parameters-mean"><i class="fa fa-check"></i>What the two parameters mean</a></li>
 </ul></li>
 <li class="chapter" data-level="6.5" data-path="sr-assumptions.html"><a href="sr-assumptions.html"><i class="fa fa-check"></i><b>6.5</b> When does β₁ measure an effect?</a>
 <ul>
@@ -420,7 +420,7 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li class="chapter" data-level="" data-path="sr-srf.html"><a href="sr-srf.html#every-sample-gives-a-different-line"><i class="fa fa-check"></i>Every sample gives a different line</a></li>
 </ul></li>
-<li class="chapter" data-level="6.7" data-path="sr-ols.html"><a href="sr-ols.html"><i class="fa fa-check"></i><b>6.7</b> Choosing a line: ordinary least squares</a></li>
+<li class="chapter" data-level="6.7" data-path="sr-ols.html"><a href="sr-ols.html"><i class="fa fa-check"></i><b>6.7</b> Which line should we fit?</a></li>
 <li class="chapter" data-level="6.8" data-path="sr-summary.html"><a href="sr-summary.html"><i class="fa fa-check"></i><b>6.8</b> Summary</a></li>
 <li class="chapter" data-level="6.9" data-path="sr-practice.html"><a href="sr-practice.html"><i class="fa fa-check"></i><b>6.9</b> Practice problems</a>
 <ul>
@@ -581,10 +581,23 @@ with explaining every individual observation.</p>
 Figure 6.1: Semester GPA against attendance for 680 students. Grey points are individual students; orange points are the average GPA within each attendance band. Regression describes the orange points.
 </p>
 </div>
+<p>Each conditional mean <span class="math inline">\(E(Y \mid X = x)\)</span> is a function of <span class="math inline">\(x\)</span>, so the PRF is also
+called the <strong>conditional expectation function</strong> (CEF):</p>
+<p><span class="math display">\[E(Y \mid X = x) = f(x)\]</span></p>
+<div class="watchout">
+<p>The CEF tells us how the <em>average</em> value of <span class="math inline">\(y\)</span> changes with <span class="math inline">\(x\)</span>. It does <strong>not</strong>
+say that <span class="math inline">\(y = \beta_0 + \beta_1 x\)</span> for every member of the population.</p>
+<p>Individual students depart from the average for their attendance level, often by
+a great deal. Confusing the conditional mean with the individual outcome is the
+most common misreading of a regression.</p>
+</div>
 <p>Notice that the orange points do not lie exactly on a straight line. Nothing in
 the definition of the population regression function requires linearity. The
 conditional mean could be curved, flat over some ranges, or highly nonlinear.</p>
 <p>Only now do we make a modelling choice.</p>
+<p>The PRF is the object we want to estimate. Unfortunately it is an unknown
+<em>function</em>, and functions can take infinitely many shapes. To make estimation
+possible at all, we approximate it with a simple mathematical form.</p>
 <p>In this unit we assume that the population regression function is approximately
 linear,</p>
 <p><span class="math display">\[E(Y \mid X = x) = \beta_0 + \beta_1 x\]</span></p>
@@ -593,18 +606,6 @@ provides a useful approximation to more complicated relationships.</p>
 <p>Whether a straight line is a good approximation is an empirical question rather
 than a mathematical one. Section <a href="ols-fit.html#ols-fit">7.2</a> returns to how well it
 performs for these data.</p>
-<p>Each conditional mean <span class="math inline">\(E(Y \mid X = x)\)</span> is a function of <span class="math inline">\(x\)</span>, so the PRF is also
-called the <strong>conditional expectation function</strong> (CEF):</p>
-<p><span class="math display">\[E(Y \mid X = x) = f(x)\]</span></p>
-<p>and in this unit we take that function to be linear.</p>
-<div class="watchout">
-<p>The CEF tells us how the <em>average</em> value of <span class="math inline">\(y\)</span> changes with <span class="math inline">\(x\)</span>. It does <strong>not</strong>
-say that <span class="math inline">\(y = \beta_0 + \beta_1 x\)</span> for every member of the population.</p>
-<p>Individual students depart from the average for their attendance level, often by
-a great deal. Confusing the conditional mean with the individual outcome is the
-most common misreading of a regression, and the next section gives that departure
-a name.</p>
-</div>
 <p>The population regression function gives us the target. Two questions remain.</p>
 <p>First, why do individual students differ from the conditional mean? Second, how
 can we estimate the population regression function when we observe only a sample

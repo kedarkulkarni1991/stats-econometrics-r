@@ -405,11 +405,11 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="sr-motivation.html"><a href="sr-motivation.html#the-price-of-the-old-question"><i class="fa fa-check"></i>The price of the old question</a></li>
 </ul></li>
 <li class="chapter" data-level="6.2" data-path="sr-prf.html"><a href="sr-prf.html"><i class="fa fa-check"></i><b>6.2</b> The population regression function</a></li>
-<li class="chapter" data-level="6.3" data-path="sr-model.html"><a href="sr-model.html"><i class="fa fa-check"></i><b>6.3</b> From averages to individuals</a></li>
+<li class="chapter" data-level="6.3" data-path="sr-model.html"><a href="sr-model.html"><i class="fa fa-check"></i><b>6.3</b> From averages to observations</a></li>
 <li class="chapter" data-level="6.4" data-path="sr-error.html"><a href="sr-error.html"><i class="fa fa-check"></i><b>6.4</b> The error term</a>
 <ul>
 <li class="chapter" data-level="" data-path="sr-error.html"><a href="sr-error.html#systematic-and-stochastic"><i class="fa fa-check"></i>Systematic and stochastic</a></li>
-<li class="chapter" data-level="" data-path="sr-error.html"><a href="sr-error.html#the-vocabulary"><i class="fa fa-check"></i>The vocabulary</a></li>
+<li class="chapter" data-level="" data-path="sr-error.html"><a href="sr-error.html#what-the-two-parameters-mean"><i class="fa fa-check"></i>What the two parameters mean</a></li>
 </ul></li>
 <li class="chapter" data-level="6.5" data-path="sr-assumptions.html"><a href="sr-assumptions.html"><i class="fa fa-check"></i><b>6.5</b> When does β₁ measure an effect?</a>
 <ul>
@@ -420,7 +420,7 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li class="chapter" data-level="" data-path="sr-srf.html"><a href="sr-srf.html#every-sample-gives-a-different-line"><i class="fa fa-check"></i>Every sample gives a different line</a></li>
 </ul></li>
-<li class="chapter" data-level="6.7" data-path="sr-ols.html"><a href="sr-ols.html"><i class="fa fa-check"></i><b>6.7</b> Choosing a line: ordinary least squares</a></li>
+<li class="chapter" data-level="6.7" data-path="sr-ols.html"><a href="sr-ols.html"><i class="fa fa-check"></i><b>6.7</b> Which line should we fit?</a></li>
 <li class="chapter" data-level="6.8" data-path="sr-summary.html"><a href="sr-summary.html"><i class="fa fa-check"></i><b>6.8</b> Summary</a></li>
 <li class="chapter" data-level="6.9" data-path="sr-practice.html"><a href="sr-practice.html"><i class="fa fa-check"></i><b>6.9</b> Practice problems</a>
 <ul>
@@ -530,6 +530,8 @@ the world.</strong></p>
 <p>That is why <span class="math inline">\(u\)</span> is sometimes called the <strong>unobserved</strong> variable, and why
 econometricians spend so much of their time worrying about it. It is the part of
 the story we did not measure.</p>
+<p>Whether those omitted influences are related to attendance is the central
+question of causal inference.</p>
 <div id="systematic-and-stochastic" class="section level3 unnumbered hasAnchor">
 <h3>Systematic and stochastic<a href="sr-error.html#systematic-and-stochastic" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>The model divides <span class="math inline">\(y\)</span> into two parts, and it is worth naming them.</p>
@@ -540,19 +542,19 @@ attendance.</p>
 <p>The <strong>stochastic</strong> part, <span class="math inline">\(u\)</span>, is everything else. It differs from person to
 person and is not observed.</p>
 </div>
-<div id="the-vocabulary" class="section level3 unnumbered hasAnchor">
-<h3>The vocabulary<a href="sr-error.html#the-vocabulary" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<ul>
-<li><span class="math inline">\(y\)</span> is the <strong>dependent</strong> variable — semester GPA.</li>
-<li><span class="math inline">\(x\)</span> is the <strong>independent</strong> variable, also called the explanatory or control
-variable — attendance.</li>
-<li><span class="math inline">\(u\)</span> is the <strong>error</strong> or disturbance term.</li>
-<li><span class="math inline">\(\beta_0\)</span> is the <strong>intercept</strong> or constant term, and is rarely central to the
-analysis.</li>
-<li><span class="math inline">\(\beta_1\)</span> is the <strong>slope</strong>, and is almost always the parameter of interest. It
-gives the change in <span class="math inline">\(y\)</span> associated with a one-unit change in <span class="math inline">\(x\)</span>:
-<span class="math inline">\(\partial y / \partial x = \beta_1\)</span>.</li>
-</ul>
+<div id="what-the-two-parameters-mean" class="section level3 unnumbered hasAnchor">
+<h3>What the two parameters mean<a href="sr-error.html#what-the-two-parameters-mean" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>In the linear PRF <span class="math inline">\(E(Y \mid X = x) = \beta_0 + \beta_1 x\)</span>:</p>
+<p><span class="math inline">\(\beta_0\)</span> is the conditional mean when <span class="math inline">\(x = 0\)</span> — the average <span class="math inline">\(y\)</span> among
+individuals with no <span class="math inline">\(x\)</span> at all. It is called the <strong>intercept</strong>, and it is rarely
+central to the analysis; sometimes <span class="math inline">\(x = 0\)</span> does not even occur in the data.</p>
+<p><span class="math inline">\(\beta_1\)</span> is the amount by which the conditional mean changes when <span class="math inline">\(x\)</span> increases
+by one unit, <span class="math inline">\(\partial y / \partial x\)</span>. It is called the <strong>slope</strong>, and it is
+almost always the parameter of interest.</p>
+<p>The remaining names are worth having in one place. <span class="math inline">\(y\)</span> is the <strong>dependent</strong>
+variable — semester GPA. <span class="math inline">\(x\)</span> is the <strong>independent</strong> variable, also called the
+explanatory or control variable — attendance. <span class="math inline">\(u\)</span> is the <strong>error</strong> or disturbance
+term.</p>
 <p>For the grades example,</p>
 <p><span class="math display">\[\textit{GPA} = \beta_0 + \beta_1\,\textit{attendance} + u\]</span></p>
 <p>and <span class="math inline">\(\beta_1\)</span> is the change in GPA associated with attending one more class.</p>
