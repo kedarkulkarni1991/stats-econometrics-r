@@ -22,7 +22,9 @@ The unit answers five questions.
 2. What does that line guarantee, and what does it merely appear to guarantee?
 3. How much of the variation in $y$ has it accounted for?
 4. Is $\hat{\beta}_1$ centred on $\beta_1$, and how much does it vary?
-5. Is the slope we found distinguishable from zero?
+5. What happens when the errors are not equally spread?
+6. Is the slope we found distinguishable from zero?
+7. What does the slope mean, and in what units?
 :::
 
 ## Deriving the estimators {#ols-derive}
@@ -369,6 +371,221 @@ c(sigma_hat = sigma_hat, se_b1 = se_b1,
   se_from_lm = summary(fit)$coefficients[2, 2])
 ```
 
+## When the error variance is not constant {#ols-hetero}
+
+::: {.question}
+SLR5 assumed the errors have the same variance at every value of $x$. Why would
+they?
+:::
+
+The variance formula of the previous section rested on **homoskedasticity**:
+
+$$\mathrm{Var}(u \mid x) = \sigma^2 \quad \text{for every } x$$
+
+Read that as a claim about the world. It says the unobserved factors are just as
+spread out among students who attended 5 classes as among those who attended 30,
+and just as spread out among poor households as among rich ones.
+
+Often they are not.
+
+::: {.intuition}
+Consider annual earnings against years of schooling.
+
+Someone with two years of schooling has little scope to be unusual. Their
+earnings are constrained from above by the work available to them, and there is
+not much room between the floor and that ceiling.
+
+Someone with sixteen years of schooling might be a clerk, a teacher, a doctor or
+a company director. The same qualification is consistent with an enormous range
+of outcomes, because what happens after school depends on far more than school.
+
+So the spread of the errors grows with $x$. This is **heteroskedasticity**, and in
+economic data it is the normal case rather than the exception.
+:::
+
+### Seeing it {-}
+
+Regress annual earnings on years of education for the 20,000 wage earners, and
+look at how the residuals are spread.
+
+```{r ols-het-see}
+wages <- read.csv("data/wages-india-synthetic.csv")
+fit_w <- lm(annual_earnings ~ education, data = wages)
+
+u_w <- residuals(fit_w)
+f_w <- fitted(fit_w)
+
+quartile <- cut(f_w, quantile(f_w, 0:4/4), include.lowest = TRUE)
+round(tapply(u_w, quartile, sd))
+```
+
+The residuals in the top quarter of fitted values are more than three times as
+spread out as those in the bottom quarter.
+
+```{r ols-het-plot, echo = FALSE, fig.height = 3.6, fig.cap = "Residuals from a regression of annual earnings on years of schooling, shown as a boxplot at each level of education. The boxes widen steadily to the right: errors are far more variable where schooling is high. Homoskedasticity would appear as boxes of constant height. A few extreme residuals lie above the range plotted."}
+res_df <- data.frame(education = wages$education, resid = u_w)
+
+ggplot(res_df, aes(factor(education), resid)) +
+  geom_hline(yintercept = 0, colour = book_palette$reject, linewidth = 0.6) +
+  geom_boxplot(outlier.size = 0.4, outlier.alpha = 0.25,
+               fill = book_palette$fill, colour = "grey35",
+               linewidth = 0.35) +
+  coord_cartesian(ylim = c(-2e5, 4e5)) +
+  scale_y_continuous(labels = function(x) format(x, big.mark = ",")) +
+  labs(x = "Years of education", y = "Residual (₹)") +
+  theme_book()
+```
+
+::: {.keyidea}
+The **residual plot** — residuals against fitted values — is the standard
+diagnostic.
+
+Homoskedasticity appears as a band of roughly constant width. Heteroskedasticity
+appears as a fan, widening or narrowing across the plot.
+
+Look at it every time. It costs one line of code and catches a great deal.
+:::
+
+Education takes only whole-number values, so a plain scatter of residuals against
+fitted values collapses into a series of vertical stripes. Drawing a box at each
+level of education shows the same thing more legibly.
+
+Formal tests exist — the Breusch–Pagan and White tests both regress squared
+residuals on the explanatory variables and ask whether anything is there. They
+are useful, but a plot usually settles the matter faster and tells you the shape
+of the problem rather than merely its presence.
+
+### What breaks, and what does not {-}
+
+This is the part worth being careful about, because heteroskedasticity is often
+described as though it invalidated everything.
+
+::: {.keyidea}
+**Unbiasedness survives.** The proof of $E(\hat{\beta}_1) = \beta_1$ used SLR1 to
+SLR4 and never mentioned SLR5. The estimate is still centred on the truth.
+
+**The variance formula fails.** $\mathrm{Var}(\hat{\beta}_1) = \sigma^2/\text{SST}_x$
+was derived by replacing every $\mathrm{Var}(u_i)$ with a common $\sigma^2$. If
+there is no common $\sigma^2$, that step is invalid.
+
+So the estimate is fine and the *reported precision of the estimate* is wrong —
+which means the standard errors, the $t$ statistics, the $p$-values and the
+confidence intervals are all unreliable.
+:::
+
+How wrong? We can find out, by simulating from a model where we know both the
+truth and the severity of the problem.
+
+```{r ols-het-sim}
+robust_se <- function(m) {
+  X <- model.matrix(m); u <- residuals(m)
+  n <- nrow(X); k <- ncol(X)
+  XtXi <- solve(crossprod(X))
+  V <- XtXi %*% (t(X) %*% diag(u^2) %*% X) %*% XtXi * n / (n - k)
+  sqrt(diag(V))[2]
+}
+
+set.seed(8)
+out <- replicate(4000, {
+  x <- rexp(60, rate = 1/5)              # skewed x, as economic data often is
+  y <- 2 + 1 * x + rnorm(60, sd = x)     # sd of the error grows with x
+  m <- lm(y ~ x)
+  c(b1 = coef(m)[2], classical = coef(summary(m))[2, 2], robust = robust_se(m))
+})
+
+round(c(actual_sd_of_b1  = sd(out[1, ]),
+        avg_classical_se = mean(out[2, ]),
+        avg_robust_se    = mean(out[3, ])), 4)
+```
+
+The true slope is 1, and across four thousand samples $\hat{\beta}_1$ has a
+standard deviation of 0.43. That is the actual variability of the estimator.
+
+The classical standard error reports 0.18 — less than half of it. Software that
+prints 0.18 is claiming a precision the estimator does not have.
+
+The consequence for confidence intervals is severe.
+
+```{r ols-het-coverage}
+round(c(classical = mean(abs(out[1, ] - 1) < qt(0.975, 58) * out[2, ]),
+        robust    = mean(abs(out[1, ] - 1) < qt(0.975, 58) * out[3, ])), 3)
+```
+
+An interval advertised as 95% contains the true slope 59% of the time.
+
+### Robust standard errors {-}
+
+The fix does not touch $\hat{\beta}_1$, which needs no fixing. It replaces the
+formula for its variance with one that does not assume a common $\sigma^2$,
+using each observation's own squared residual in place of a single estimate.
+
+These are called **heteroskedasticity-robust standard errors**, or often just
+robust standard errors.
+
+In the simulation above they report 0.33 against a true 0.43, and lift coverage
+from 59% to 85%. A large improvement, and — worth noticing — not a complete
+repair at this sample size and this severity.
+
+```{r ols-het-robust}
+round(c(classical_se = coef(summary(fit_w))[2, 2],
+        robust_se    = robust_se(fit_w)), 2)
+```
+
+For the earnings regression the robust standard error is 175 against a classical
+137 — a quarter larger again. Any conclusion resting on the difference between
+those two numbers was resting on an assumption the residual plot had already
+refused.
+
+::: {.watchout}
+Three things robust standard errors do not do.
+
+They do not fix bias. There was none to fix; heteroskedasticity does not bias
+$\hat{\beta}_1$.
+
+They do not fix a wrong functional form. A fan-shaped residual plot sometimes
+means the relationship is not linear rather than that the variance is
+non-constant, and robust standard errors would paper over that.
+
+They do not work miracles in small samples, as the simulation shows. They are an
+improvement, not a guarantee.
+:::
+
+### Sometimes the variable is the problem {-}
+
+Robust standard errors accept the heteroskedasticity and correct for it. The
+other response is to ask why it is there.
+
+Earnings are a highly skewed variable, and skewed variables often produce
+fan-shaped residuals simply because their upper tail is long. Taking logarithms
+compresses that tail.
+
+```{r ols-het-logs}
+fit_log <- lm(log(annual_earnings) ~ education, data = wages)
+
+q_log <- cut(fitted(fit_log), quantile(fitted(fit_log), 0:4/4),
+             include.lowest = TRUE)
+round(tapply(residuals(fit_log), q_log, sd), 4)
+```
+
+The spread is now essentially identical across quartiles — a ratio of 1.01
+against 3.61 in levels. The heteroskedasticity was not a deep feature of the
+world; it was a consequence of measuring earnings in rupees rather than in
+proportional terms.
+
+Section \@ref(ols-forms) takes up what the log form means for interpretation.
+For now, note that a residual plot which fans out is sometimes telling you about
+the variance and sometimes telling you that the variable wants transforming.
+
+::: {.intuition}
+Modern practice is to report robust standard errors by default in
+cross-sectional work.
+
+The reasoning is the same asymmetric-risk argument as Welch's test in Section
+\@ref(ts-unknown). When the errors really are homoskedastic, robust standard
+errors cost very little. When they are not, classical standard errors mislead —
+and you can never establish homoskedasticity, only fail to reject it.
+:::
+
 ## Inference about the slope {#ols-inference}
 
 ::: {.question}
@@ -415,6 +632,199 @@ Always ask what the slope means in the units of the problem. Here 0.19 GPA
 points per class is large. In the regression of final examination score on
 attendance in the same dataset, the slope is 0.117 marks per class and equally
 "significant" — and 0.117 marks is nothing at all.
+:::
+
+## Functional forms {#ols-forms}
+
+::: {.question}
+A slope of $-0.006$ km per litre per kilogram. Is that a lot?
+:::
+
+The regression of fuel efficiency on weight in Section \@ref(ols-practice)
+returned a slope of $-0.00601$. Nothing about that number tells you whether the
+effect is large, because it depends entirely on the units chosen. Measure weight
+in tonnes and the slope becomes $-6.01$. Measure efficiency in litres per
+hundred kilometres and the sign flips.
+
+Two problems follow, and one transformation solves both.
+
+**Units are arbitrary.** A coefficient in kilograms and one in tonnes describe
+the same relationship, but only one of them is easy to talk about. We would
+prefer a measure that does not change when someone changes their mind about units.
+
+**Straight lines are not always the right shape.** Section \@ref(sr-prf) showed
+that the conditional mean of GPA against attendance was not exactly linear, and
+took a line as an approximation. Sometimes a better approximation is available at
+no cost, by transforming a variable before fitting.
+
+Taking logarithms addresses both.
+
+### The four forms {-}
+
+Either variable may be entered in levels or in logarithms, giving four
+combinations. The interpretation of $\beta_1$ changes in each.
+
+Table: (\#tab:ols-forms) The four functional forms and what the slope means in each.
+
+| Model | Equation | Interpretation of $\beta_1$ |
+|:--|:--|:--|
+| Level–level | $y = \beta_0 + \beta_1 x + u$ | A one-unit rise in $x$ changes $y$ by $\beta_1$ **units** |
+| Log–level | $\ln y = \beta_0 + \beta_1 x + u$ | A one-unit rise in $x$ changes $y$ by $100\beta_1$ **per cent** |
+| Level–log | $y = \beta_0 + \beta_1 \ln x + u$ | A 1% rise in $x$ changes $y$ by $\beta_1/100$ **units** |
+| Log–log | $\ln y = \beta_0 + \beta_1 \ln x + u$ | A 1% rise in $x$ changes $y$ by $\beta_1$ **per cent** |
+
+The last is an **elasticity**, and it is unit-free: it does not matter whether
+weight is in kilograms or tonnes, or price in rupees or lakhs.
+
+::: {.theory}
+All four interpretations follow from one fact of calculus. For small changes,
+
+$$\Delta \ln y \;\approx\; \frac{\Delta y}{y}$$
+
+that is, a change in the logarithm is approximately a *proportional* change in
+the variable. Multiplying by 100 turns it into a percentage.
+
+**Log–level.** Differentiating $\ln y = \beta_0 + \beta_1 x$ with respect to $x$,
+
+$$\frac{1}{y}\frac{dy}{dx} = \beta_1
+\qquad\Longrightarrow\qquad
+\frac{dy/y}{dx} = \beta_1$$
+
+so a one-unit rise in $x$ raises $y$ by a proportion $\beta_1$, which is
+$100\beta_1$ per cent.
+
+**Level–log.** From $y = \beta_0 + \beta_1 \ln x$,
+
+$$dy = \beta_1 \, d(\ln x) = \beta_1 \frac{dx}{x}$$
+
+A 1% rise in $x$ means $dx/x = 0.01$, so $dy = 0.01\beta_1 = \beta_1/100$ units.
+
+**Log–log.** From $\ln y = \beta_0 + \beta_1 \ln x$,
+
+$$\frac{dy/y}{dx/x} = \beta_1$$
+
+which is the definition of an elasticity: the ratio of the proportional change in
+$y$ to the proportional change in $x$.
+:::
+
+### Fuel efficiency, in elasticity form {-}
+
+```{r ols-forms-cars}
+cars <- read.csv("data/car-mileage.csv")
+
+level_level <- lm(mileage_kmpl ~ weight_kg, data = cars)
+log_log     <- lm(log(mileage_kmpl) ~ log(weight_kg), data = cars)
+
+round(rbind(level_level = c(slope = coef(level_level)[2],
+                            r_squared = summary(level_level)$r.squared),
+            log_log     = c(slope = coef(log_log)[2],
+                            r_squared = summary(log_log)$r.squared)), 4)
+```
+
+The log–log slope is $-0.825$: **a car that is 1% heavier is about 0.83% less
+fuel-efficient.** That is a sentence anyone can evaluate, and it would be
+unchanged if weight were recorded in tonnes.
+
+The fit also improves, from $R^2 = 0.65$ to $0.71$. That is a modest gain rather
+than a dramatic one, and it is worth being clear that the case for the log form
+here rests mainly on interpretation rather than on fit. Still, the direction is
+not an accident: a constant *proportional* penalty for weight describes cars
+better than the constant absolute penalty the level–level model imposed.
+
+```{r ols-forms-plot, echo = FALSE, fig.height = 3.4, fig.cap = "The same 74 cars in levels and in logarithms. Both look broadly linear; the logarithmic version is a little tighter around the line, which is the improvement in R-squared from 0.65 to 0.71. The gain here is real but modest -- the case for the log form rests mainly on interpretation."}
+d1 <- data.frame(x = cars$weight_kg, y = cars$mileage_kmpl, panel = "Levels")
+d2 <- data.frame(x = log(cars$weight_kg), y = log(cars$mileage_kmpl),
+                 panel = "Logarithms")
+both <- rbind(d1, d2)
+
+ggplot(both, aes(x, y)) +
+  geom_point(alpha = 0.55, colour = book_palette$ink, size = 1.3) +
+  geom_smooth(method = "lm", se = FALSE, colour = book_palette$accent,
+              linewidth = 0.9) +
+  facet_wrap(~ panel, scales = "free") +
+  labs(x = NULL, y = NULL) +
+  theme_book()
+```
+
+::: {.watchout}
+This is where the warning about linearity belongs.
+
+A great deal of weak empirical work consists of fitting a straight line to a
+relationship that is not straight, and reporting the slope as though it described
+the whole range. The residual plot of Section \@ref(ols-hetero) catches this too:
+a curved band of residuals means the functional form is wrong, not that the
+variance is non-constant.
+
+Fitting a line is a choice. Check it.
+:::
+
+### The return to schooling {-}
+
+The log–level form is the workhorse of labour economics, because wages are
+naturally discussed in percentages.
+
+```{r ols-forms-wages}
+wages <- read.csv("data/wages-india-synthetic.csv")
+
+fit_w <- lm(log(annual_earnings) ~ education, data = wages)
+round(coef(summary(fit_w)), 5)
+```
+
+The slope of 0.0942 says that **one more year of schooling is associated with
+about 9.4% higher annual earnings.** Multiply by 100 and read as a percentage;
+that is the whole rule.
+
+::: {.watchout}
+Two cautions on that number.
+
+It is a simple regression, so it carries every confounder discussed in Section
+\@ref(ols-causal). People with more schooling differ in family background and
+much else, and the coefficient absorbs all of it. Adding controls in the next
+unit lowers it appreciably.
+
+And the percentage reading is an approximation that degrades for large changes.
+For a coefficient of 0.0942 the exact figure is
+$100(e^{0.0942} - 1) = `r round(100*(exp(0.0942)-1), 2)`$%, which is close
+enough. For a coefficient of 0.7 the approximation says 70% and the truth is
+$`r round(100*(exp(0.7)-1), 0)`$%. Above about 0.2, use the exact expression.
+:::
+
+### Choosing a form {-}
+
+::: {.keyidea}
+Three considerations, in order of importance.
+
+**What is the natural way to talk about the variable?** Wages, prices and GDP are
+discussed in percentages, so logs. Test scores, class attendance and family size
+are discussed in units, so levels.
+
+**Does the relationship look multiplicative?** If a proportional change in $x$
+plausibly produces a proportional change in $y$ — as with weight and fuel use —
+logs will fit better and mean more.
+
+**Does the scatter suggest it?** Skewed variables often straighten out in logs,
+and heteroskedasticity often shrinks at the same time, since logs compress the
+upper tail.
+
+What should *not* drive the choice is which version gives the larger $R^2$ or the
+smaller $p$-value. Trying transformations until something is significant produces
+findings that will not replicate.
+:::
+
+::: {.watchout}
+**Logarithms are undefined at zero and for negative numbers.**
+
+Earnings data routinely contain zeros — people who did not work. Taking logs
+silently deletes them, and since those are rarely a random subset of the sample,
+the remaining regression answers a different question from the one asked.
+
+```{r ols-forms-zero}
+sum(wages$annual_earnings <= 0)
+```
+
+There are none here, which is a property of this simulated dataset rather than of
+earnings data in general. With real data, check before transforming and say what
+you did.
 :::
 
 ## What regression does not fix {#ols-causal}

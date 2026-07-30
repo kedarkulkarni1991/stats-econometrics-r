@@ -4,13 +4,13 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>6.10 Question bank | Statistics and Econometrics with R</title>
+  <title>7.6 Functional forms | Statistics and Econometrics with R</title>
   <meta name="description" content="<p>A first course in statistics and econometrics for Indian students, built on
 the progression from question to intuition to rigour to computation to
 interpretation.</p>" />
   <meta name="generator" content="bookdown 0.47 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="6.10 Question bank | Statistics and Econometrics with R" />
+  <meta property="og:title" content="7.6 Functional forms | Statistics and Econometrics with R" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="<p>A first course in statistics and econometrics for Indian students, built on
@@ -19,7 +19,7 @@ interpretation.</p>" />
   <meta name="github-repo" content="kedarkulkarni1991/stats-econometrics-r" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="6.10 Question bank | Statistics and Econometrics with R" />
+  <meta name="twitter:title" content="7.6 Functional forms | Statistics and Econometrics with R" />
   
   <meta name="twitter:description" content="<p>A first course in statistics and econometrics for Indian students, built on
 the progression from question to intuition to rigour to computation to
@@ -35,8 +35,8 @@ interpretation.</p>" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="sr-practice.html"/>
-<link rel="next" href="sr-looking-ahead.html"/>
+<link rel="prev" href="ols-inference.html"/>
+<link rel="next" href="ols-causal.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -503,92 +503,181 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="sr-question-bank" class="section level2 hasAnchor" number="6.10">
-<h2><span class="header-section-number">6.10</span> Question bank<a href="sr-question-bank.html#sr-question-bank" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="ols-forms" class="section level2 hasAnchor" number="7.6">
+<h2><span class="header-section-number">7.6</span> Functional forms<a href="ols-forms.html#ols-forms" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="question">
+<p>A slope of <span class="math inline">\(-0.006\)</span> km per litre per kilogram. Is that a lot?</p>
+</div>
+<p>The regression of fuel efficiency on weight in Section <a href="ols-practice.html#ols-practice">7.9</a>
+returned a slope of <span class="math inline">\(-0.00601\)</span>. Nothing about that number tells you whether the
+effect is large, because it depends entirely on the units chosen. Measure weight
+in tonnes and the slope becomes <span class="math inline">\(-6.01\)</span>. Measure efficiency in litres per
+hundred kilometres and the sign flips.</p>
+<p>Two problems follow, and one transformation solves both.</p>
+<p><strong>Units are arbitrary.</strong> A coefficient in kilograms and one in tonnes describe
+the same relationship, but only one of them is easy to talk about. We would
+prefer a measure that does not change when someone changes their mind about units.</p>
+<p><strong>Straight lines are not always the right shape.</strong> Section <a href="sr-prf.html#sr-prf">6.2</a> showed
+that the conditional mean of GPA against attendance was not exactly linear, and
+took a line as an approximation. Sometimes a better approximation is available at
+no cost, by transforming a variable before fitting.</p>
+<p>Taking logarithms addresses both.</p>
+<div id="the-four-forms" class="section level3 unnumbered hasAnchor">
+<h3>The four forms<a href="ols-forms.html#the-four-forms" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Either variable may be entered in levels or in logarithms, giving four
+combinations. The interpretation of <span class="math inline">\(\beta_1\)</span> changes in each.</p>
+<table>
+<caption><span id="tab:ols-forms">Table 7.1: </span> The four functional forms and what the slope means in each.</caption>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">Model</th>
+<th align="left">Equation</th>
+<th align="left">Interpretation of <span class="math inline">\(\beta_1\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Level–level</td>
+<td align="left"><span class="math inline">\(y = \beta_0 + \beta_1 x + u\)</span></td>
+<td align="left">A one-unit rise in <span class="math inline">\(x\)</span> changes <span class="math inline">\(y\)</span> by <span class="math inline">\(\beta_1\)</span> <strong>units</strong></td>
+</tr>
+<tr class="even">
+<td align="left">Log–level</td>
+<td align="left"><span class="math inline">\(\ln y = \beta_0 + \beta_1 x + u\)</span></td>
+<td align="left">A one-unit rise in <span class="math inline">\(x\)</span> changes <span class="math inline">\(y\)</span> by <span class="math inline">\(100\beta_1\)</span> <strong>per cent</strong></td>
+</tr>
+<tr class="odd">
+<td align="left">Level–log</td>
+<td align="left"><span class="math inline">\(y = \beta_0 + \beta_1 \ln x + u\)</span></td>
+<td align="left">A 1% rise in <span class="math inline">\(x\)</span> changes <span class="math inline">\(y\)</span> by <span class="math inline">\(\beta_1/100\)</span> <strong>units</strong></td>
+</tr>
+<tr class="even">
+<td align="left">Log–log</td>
+<td align="left"><span class="math inline">\(\ln y = \beta_0 + \beta_1 \ln x + u\)</span></td>
+<td align="left">A 1% rise in <span class="math inline">\(x\)</span> changes <span class="math inline">\(y\)</span> by <span class="math inline">\(\beta_1\)</span> <strong>per cent</strong></td>
+</tr>
+</tbody>
+</table>
+<p>The last is an <strong>elasticity</strong>, and it is unit-free: it does not matter whether
+weight is in kilograms or tonnes, or price in rupees or lakhs.</p>
+<div class="theory">
+<p>All four interpretations follow from one fact of calculus. For small changes,</p>
+<p><span class="math display">\[\Delta \ln y \;\approx\; \frac{\Delta y}{y}\]</span></p>
+<p>that is, a change in the logarithm is approximately a <em>proportional</em> change in
+the variable. Multiplying by 100 turns it into a percentage.</p>
+<p><strong>Log–level.</strong> Differentiating <span class="math inline">\(\ln y = \beta_0 + \beta_1 x\)</span> with respect to <span class="math inline">\(x\)</span>,</p>
+<p><span class="math display">\[\frac{1}{y}\frac{dy}{dx} = \beta_1
+\qquad\Longrightarrow\qquad
+\frac{dy/y}{dx} = \beta_1\]</span></p>
+<p>so a one-unit rise in <span class="math inline">\(x\)</span> raises <span class="math inline">\(y\)</span> by a proportion <span class="math inline">\(\beta_1\)</span>, which is
+<span class="math inline">\(100\beta_1\)</span> per cent.</p>
+<p><strong>Level–log.</strong> From <span class="math inline">\(y = \beta_0 + \beta_1 \ln x\)</span>,</p>
+<p><span class="math display">\[dy = \beta_1 \, d(\ln x) = \beta_1 \frac{dx}{x}\]</span></p>
+<p>A 1% rise in <span class="math inline">\(x\)</span> means <span class="math inline">\(dx/x = 0.01\)</span>, so <span class="math inline">\(dy = 0.01\beta_1 = \beta_1/100\)</span> units.</p>
+<p><strong>Log–log.</strong> From <span class="math inline">\(\ln y = \beta_0 + \beta_1 \ln x\)</span>,</p>
+<p><span class="math display">\[\frac{dy/y}{dx/x} = \beta_1\]</span></p>
+<p>which is the definition of an elasticity: the ratio of the proportional change in
+<span class="math inline">\(y\)</span> to the proportional change in <span class="math inline">\(x\)</span>.</p>
+</div>
+</div>
+<div id="fuel-efficiency-in-elasticity-form" class="section level3 unnumbered hasAnchor">
+<h3>Fuel efficiency, in elasticity form<a href="ols-forms.html#fuel-efficiency-in-elasticity-form" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb260"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb260-1"><a href="ols-forms.html#cb260-1" tabindex="-1"></a>cars <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/car-mileage.csv&quot;</span>)</span>
+<span id="cb260-2"><a href="ols-forms.html#cb260-2" tabindex="-1"></a></span>
+<span id="cb260-3"><a href="ols-forms.html#cb260-3" tabindex="-1"></a>level_level <span class="ot">&lt;-</span> <span class="fu">lm</span>(mileage_kmpl <span class="sc">~</span> weight_kg, <span class="at">data =</span> cars)</span>
+<span id="cb260-4"><a href="ols-forms.html#cb260-4" tabindex="-1"></a>log_log     <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="fu">log</span>(mileage_kmpl) <span class="sc">~</span> <span class="fu">log</span>(weight_kg), <span class="at">data =</span> cars)</span>
+<span id="cb260-5"><a href="ols-forms.html#cb260-5" tabindex="-1"></a></span>
+<span id="cb260-6"><a href="ols-forms.html#cb260-6" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">rbind</span>(<span class="at">level_level =</span> <span class="fu">c</span>(<span class="at">slope =</span> <span class="fu">coef</span>(level_level)[<span class="dv">2</span>],</span>
+<span id="cb260-7"><a href="ols-forms.html#cb260-7" tabindex="-1"></a>                            <span class="at">r_squared =</span> <span class="fu">summary</span>(level_level)<span class="sc">$</span>r.squared),</span>
+<span id="cb260-8"><a href="ols-forms.html#cb260-8" tabindex="-1"></a>            <span class="at">log_log     =</span> <span class="fu">c</span>(<span class="at">slope =</span> <span class="fu">coef</span>(log_log)[<span class="dv">2</span>],</span>
+<span id="cb260-9"><a href="ols-forms.html#cb260-9" tabindex="-1"></a>                            <span class="at">r_squared =</span> <span class="fu">summary</span>(log_log)<span class="sc">$</span>r.squared)), <span class="dv">4</span>)</span></code></pre></div>
+<pre><code>#&gt;             slope.weight_kg r_squared
+#&gt; level_level         -0.0060    0.6515
+#&gt; log_log             -0.8252    0.7136</code></pre>
+<p>The log–log slope is <span class="math inline">\(-0.825\)</span>: <strong>a car that is 1% heavier is about 0.83% less
+fuel-efficient.</strong> That is a sentence anyone can evaluate, and it would be
+unchanged if weight were recorded in tonnes.</p>
+<p>The fit also improves, from <span class="math inline">\(R^2 = 0.65\)</span> to <span class="math inline">\(0.71\)</span>. That is a modest gain rather
+than a dramatic one, and it is worth being clear that the case for the log form
+here rests mainly on interpretation rather than on fit. Still, the direction is
+not an accident: a constant <em>proportional</em> penalty for weight describes cars
+better than the constant absolute penalty the level–level model imposed.</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:ols-forms-plot"></span>
+<img src="stats-econometrics-r_files/figure-html/ols-forms-plot-1.png" alt="The same 74 cars in levels and in logarithms. Both look broadly linear; the logarithmic version is a little tighter around the line, which is the improvement in R-squared from 0.65 to 0.71. The gain here is real but modest -- the case for the log form rests mainly on interpretation." width="90%"  />
+<p class="caption">
+Figure 7.3: The same 74 cars in levels and in logarithms. Both look broadly linear; the logarithmic version is a little tighter around the line, which is the improvement in R-squared from 0.65 to 0.71. The gain here is real but modest – the case for the log form rests mainly on interpretation.
+</p>
+</div>
 <div class="watchout">
-<p><strong>No answers are given for this section, by design.</strong></p>
+<p>This is where the warning about linearity belongs.</p>
+<p>A great deal of weak empirical work consists of fitting a straight line to a
+relationship that is not straight, and reporting the slope as though it described
+the whole range. The residual plot of Section <a href="ols-hetero.html#ols-hetero">7.4</a> catches this too:
+a curved band of residuals means the functional form is wrong, not that the
+variance is non-constant.</p>
+<p>Fitting a line is a choice. Check it.</p>
 </div>
-<div id="multiple-choice-5" class="section level3 unnumbered hasAnchor">
-<h3>Multiple choice<a href="sr-question-bank.html#multiple-choice-5" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p><strong>QB 6.1</strong> In the model <span class="math inline">\(y = \beta_0 + \beta_1 x + u\)</span>, the term <span class="math inline">\(u\)</span> represents</p>
-<ol style="list-style-type: lower-alpha">
-<li>measurement error in <span class="math inline">\(y\)</span></li>
-<li>all factors other than <span class="math inline">\(x\)</span> that affect <span class="math inline">\(y\)</span></li>
-<li>the residual from the fitted line</li>
-<li>the difference between <span class="math inline">\(\hat{\beta}_1\)</span> and <span class="math inline">\(\beta_1\)</span></li>
-</ol>
-<p><strong>QB 6.2</strong> The population regression function is</p>
-<ol style="list-style-type: lower-alpha">
-<li>the line fitted by ordinary least squares</li>
-<li>the conditional mean <span class="math inline">\(E(Y \mid X = x)\)</span></li>
-<li>the average of <span class="math inline">\(y\)</span> in the sample</li>
-<li>the line that minimises squared residuals</li>
-</ol>
-<p><strong>QB 6.3</strong> <span class="math inline">\(E(u \mid x) = 0\)</span> says that</p>
-<ol style="list-style-type: lower-alpha">
-<li>the residuals sum to zero</li>
-<li>the unobserved factors average zero at every value of <span class="math inline">\(x\)</span></li>
-<li><span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> are uncorrelated</li>
-<li>the model is linear</li>
-</ol>
-<p><strong>QB 6.4</strong> Which of the following are unobservable? <em>(select all that apply)</em></p>
-<ol style="list-style-type: lower-alpha">
-<li><span class="math inline">\(u_i\)</span></li>
-<li><span class="math inline">\(\hat{u}_i\)</span></li>
-<li><span class="math inline">\(\beta_1\)</span></li>
-<li><span class="math inline">\(\hat{\beta}_1\)</span></li>
-</ol>
-<p><strong>QB 6.5</strong> Minimising <span class="math inline">\(\sum \hat{u}_i\)</span> rather than <span class="math inline">\(\sum \hat{u}_i^2\)</span> fails
-because</p>
-<ol style="list-style-type: lower-alpha">
-<li>the sum is always negative</li>
-<li>positive and negative residuals cancel</li>
-<li>it cannot be differentiated</li>
-<li>it requires a larger sample</li>
-</ol>
-<p><strong>QB 6.6</strong> Treating the conditional expectation function as linear is</p>
-<ol style="list-style-type: lower-alpha">
-<li>implied by the definition of the PRF</li>
-<li>a modelling choice</li>
-<li>required for <span class="math inline">\(E(u) = 0\)</span></li>
-<li>a consequence of random sampling</li>
-</ol>
 </div>
-<div id="short-reasoning-5" class="section level3 unnumbered hasAnchor">
-<h3>Short reasoning<a href="sr-question-bank.html#short-reasoning-5" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p><strong>QB 6.7</strong> Explain the difference between the population regression function and
-the sample regression function, and say which one changes when a new sample is
-drawn.</p>
-<p><strong>QB 6.8</strong> A colleague says the error term captures “measurement error in the
-data”. Explain what is wrong with that, and give three examples of what <span class="math inline">\(u\)</span>
-actually contains in a regression of wages on years of schooling.</p>
-<p><strong>QB 6.9</strong> Why is <span class="math inline">\(E(u) = 0\)</span> described as costing nothing, while
-<span class="math inline">\(E(u \mid x) = 0\)</span> is the assumption on which everything rests?</p>
-<p><strong>QB 6.10</strong> State the zero conditional mean assumption in words for a regression
-of crop yield on fertiliser use, and give one concrete reason it might fail.</p>
-<p><strong>QB 6.11</strong> A researcher regresses district crop yield on rainfall and finds a
-strong positive slope. Give two reasons the slope may not measure the effect of
-rainfall on yield.</p>
-<p><strong>QB 6.12</strong> Explain why the least squares criterion penalises one residual of 8
-more heavily than eight residuals of 1.</p>
+<div id="the-return-to-schooling" class="section level3 unnumbered hasAnchor">
+<h3>The return to schooling<a href="ols-forms.html#the-return-to-schooling" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>The log–level form is the workhorse of labour economics, because wages are
+naturally discussed in percentages.</p>
+<div class="sourceCode" id="cb262"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb262-1"><a href="ols-forms.html#cb262-1" tabindex="-1"></a>wages <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/wages-india-synthetic.csv&quot;</span>)</span>
+<span id="cb262-2"><a href="ols-forms.html#cb262-2" tabindex="-1"></a></span>
+<span id="cb262-3"><a href="ols-forms.html#cb262-3" tabindex="-1"></a>fit_w <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="fu">log</span>(annual_earnings) <span class="sc">~</span> education, <span class="at">data =</span> wages)</span>
+<span id="cb262-4"><a href="ols-forms.html#cb262-4" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">coef</span>(<span class="fu">summary</span>(fit_w)), <span class="dv">5</span>)</span></code></pre></div>
+<pre><code>#&gt;             Estimate Std. Error t value Pr(&gt;|t|)
+#&gt; (Intercept)  9.56930    0.01260  759.26        0
+#&gt; education    0.09416    0.00167   56.52        0</code></pre>
+<p>The slope of 0.0942 says that <strong>one more year of schooling is associated with
+about 9.4% higher annual earnings.</strong> Multiply by 100 and read as a percentage;
+that is the whole rule.</p>
+<div class="watchout">
+<p>Two cautions on that number.</p>
+<p>It is a simple regression, so it carries every confounder discussed in Section
+<a href="ols-causal.html#ols-causal">7.7</a>. People with more schooling differ in family background and
+much else, and the coefficient absorbs all of it. Adding controls in the next
+unit lowers it appreciably.</p>
+<p>And the percentage reading is an approximation that degrades for large changes.
+For a coefficient of 0.0942 the exact figure is
+<span class="math inline">\(100(e^{0.0942} - 1) = 9.88\)</span>%, which is close
+enough. For a coefficient of 0.7 the approximation says 70% and the truth is
+<span class="math inline">\(101\)</span>%. Above about 0.2, use the exact expression.</p>
 </div>
-<div id="numerical-5" class="section level3 unnumbered hasAnchor">
-<h3>Numerical<a href="sr-question-bank.html#numerical-5" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p><strong>QB 6.13</strong> A population’s conditional means are <span class="math inline">\(E(Y \mid X = x) = 12 - 0.5x\)</span>.</p>
-<ol style="list-style-type: lower-roman">
-<li>State <span class="math inline">\(\beta_0\)</span> and <span class="math inline">\(\beta_1\)</span>.</li>
-<li>What is the average <span class="math inline">\(y\)</span> among individuals with <span class="math inline">\(x = 10\)</span>?</li>
-<li>An individual with <span class="math inline">\(x = 10\)</span> has <span class="math inline">\(y = 9\)</span>. Find <span class="math inline">\(u_i\)</span>.</li>
-<li>Interpret <span class="math inline">\(\beta_1\)</span> in words.</li>
-</ol>
-<p><strong>QB 6.14</strong> Four individuals with <span class="math inline">\(x = 6\)</span> have <span class="math inline">\(y\)</span> values 14, 18, 11 and 21.</p>
-<ol style="list-style-type: lower-roman">
-<li>Estimate <span class="math inline">\(E(Y \mid X = 6)\)</span>.</li>
-<li>Compute the four implied values of <span class="math inline">\(u_i\)</span>.</li>
-<li>Verify that they sum to zero, and explain why that had to happen.</li>
-<li>Explain why this does <em>not</em> demonstrate that <span class="math inline">\(E(u \mid x) = 0\)</span> in the
-population.</li>
-</ol>
+</div>
+<div id="choosing-a-form" class="section level3 unnumbered hasAnchor">
+<h3>Choosing a form<a href="ols-forms.html#choosing-a-form" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="keyidea">
+<p>Three considerations, in order of importance.</p>
+<p><strong>What is the natural way to talk about the variable?</strong> Wages, prices and GDP are
+discussed in percentages, so logs. Test scores, class attendance and family size
+are discussed in units, so levels.</p>
+<p><strong>Does the relationship look multiplicative?</strong> If a proportional change in <span class="math inline">\(x\)</span>
+plausibly produces a proportional change in <span class="math inline">\(y\)</span> — as with weight and fuel use —
+logs will fit better and mean more.</p>
+<p><strong>Does the scatter suggest it?</strong> Skewed variables often straighten out in logs,
+and heteroskedasticity often shrinks at the same time, since logs compress the
+upper tail.</p>
+<p>What should <em>not</em> drive the choice is which version gives the larger <span class="math inline">\(R^2\)</span> or the
+smaller <span class="math inline">\(p\)</span>-value. Trying transformations until something is significant produces
+findings that will not replicate.</p>
+</div>
+<div class="watchout">
+<p><strong>Logarithms are undefined at zero and for negative numbers.</strong></p>
+<p>Earnings data routinely contain zeros — people who did not work. Taking logs
+silently deletes them, and since those are rarely a random subset of the sample,
+the remaining regression answers a different question from the one asked.</p>
+<div class="sourceCode" id="cb264"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb264-1"><a href="ols-forms.html#cb264-1" tabindex="-1"></a><span class="fu">sum</span>(wages<span class="sc">$</span>annual_earnings <span class="sc">&lt;=</span> <span class="dv">0</span>)</span></code></pre></div>
+<pre><code>#&gt; [1] 0</code></pre>
+<p>There are none here, which is a property of this simulated dataset rather than of
+earnings data in general. With real data, check before transforming and say what
+you did.</p>
+</div>
 </div>
 </div>
 <script>
@@ -612,8 +701,8 @@ document.addEventListener("DOMContentLoaded", function () {
           </div>
         </div>
       </div>
-<a href="sr-practice.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="sr-looking-ahead.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="ols-inference.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="ols-causal.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -644,7 +733,7 @@ gitbook.start({
     "size": 2
   },
   "edit": {
-    "link": "https://github.com/kedarkulkarni1991/stats-econometrics-r/edit/main/06-simple-regression.Rmd",
+    "link": "https://github.com/kedarkulkarni1991/stats-econometrics-r/edit/main/07-ols.Rmd",
     "text": "Edit"
   },
   "history": {
