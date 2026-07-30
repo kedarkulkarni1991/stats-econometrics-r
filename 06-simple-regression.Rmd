@@ -5,13 +5,23 @@ source("_common.R")
 library(ggplot2)
 ```
 
-Econometrics is the branch of economics concerned with measuring things. It
-takes the propositions of economic theory, which are usually qualitative — a
-demand curve slopes down, education raises earnings — and asks by how much, in
-what units, and with how much confidence.
+Throughout this book we have asked whether differences between groups are
+larger than we would expect from chance alone. Regression asks a broader
+question: **how is one variable related to another?**
 
-Regression is its central tool, and this unit builds it from the pieces we
-already have.
+That shift matters because economic theory usually makes qualitative
+predictions — higher prices reduce demand, more education increases earnings —
+and qualitative predictions are hard to act on. Regression lets us estimate *how
+much* one variable moves with another, express it in units someone can use, and
+attach a measure of uncertainty to the answer.
+
+In this unit we build it out of ideas we already have: variation, sampling and
+statistical inference. Nothing genuinely new is required. What changes is the
+object of study, from a mean or a difference of means to a relationship.
+
+The result is the central tool of **econometrics** — the field concerned with
+measuring economic relationships from data — though the tool itself is used
+across the social sciences and beyond.
 
 ## From two groups to a whole variable {#sr-motivation}
 
