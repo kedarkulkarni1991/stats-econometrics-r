@@ -1,0 +1,1223 @@
+# Simple Regression {#simple-regression}
+
+```{r setup-06, include = FALSE}
+source("_common.R")
+library(ggplot2)
+```
+
+Econometrics is the branch of economics concerned with measuring things. It
+takes the propositions of economic theory, which are usually qualitative — a
+demand curve slopes down, education raises earnings — and asks by how much, in
+what units, and with how much confidence.
+
+Regression is its central tool, and this unit builds it from the pieces we
+already have.
+
+## From two groups to a whole variable {#sr-motivation}
+
+::: {.question}
+We can compare two groups. Why is that not enough?
+:::
+
+Unit \@ref(two-sample) compared students above and below the median attendance.
+To do it, we took a variable recording how many classes each of 680 students
+attended — a number running from 2 to 32 — and replaced it with a label saying
+"high" or "low".
+
+That is a considerable act of destruction. A student who attended 32 classes and
+one who attended 28 were treated as identical, while one who attended 28 and one
+who attended 27 were placed in opposite groups.
+
+We can measure what it cost.
+
+```{r sr-waste}
+students <- read.csv("data/attendance-grades.csv")
+students$high <- students$attendance >= median(students$attendance)
+
+c(split_t      = abs(t.test(sem_gpa ~ high, data = students)$statistic),
+  regression_t = summary(lm(sem_gpa ~ attendance, data = students))$coefficients[2, 3])
+```
+
+The same data, the same outcome, the same question. Splitting attendance in two
+gives a $t$ statistic of 11.8; using the whole variable gives 17.6. The
+relationship was always there — the median split simply could not see all of it.
+
+::: {.keyidea}
+Regression differs from a two-sample comparison in three ways, and each is an
+improvement.
+
+It uses the **whole** of the explanatory variable rather than a binary
+simplification of it.
+
+It reports a **slope** — how much $y$ changes per unit of $x$ — rather than a
+difference between two averages, which is more informative and in more useful
+units.
+
+It can hold **other variables fixed**, which is what the next unit builds and
+what the causal problem requires.
+:::
+
+## The population regression function {#sr-prf}
+
+::: {.question}
+What is the thing we are trying to estimate?
+:::
+
+Before fitting anything, it is worth being clear about what a regression is
+looking for. It is not looking for a line through a cloud of points. It is
+looking for the way the *average* of $y$ moves with $x$.
+
+Group the students by attendance and compute the average semester GPA within
+each group.
+
+```{r sr-condmeans}
+students$band <- cut(students$attendance,
+                     breaks = c(0, 20, 24, 27, 30, 33),
+                     labels = c("2–20", "21–24", "25–27", "28–30", "31–32"))
+
+aggregate(sem_gpa ~ band, data = students,
+          function(x) round(c(n = length(x), mean_gpa = mean(x)), 2))
+```
+
+Two things stand out, and both matter.
+
+**Within each band, grades vary enormously.** Students who attended the same
+number of classes did not get the same grade. Attendance plainly does not
+determine grades.
+
+**Across bands, the averages rise steadily** — from 4.38 to 7.67. The
+*conditional mean* of GPA increases with attendance, even though individual
+grades scatter widely around it.
+
+That second pattern is what regression is about.
+
+::: {.keyidea}
+$E(y \mid x)$ — the average of $y$ among all members of the population with a
+given value of $x$ — is called the **conditional mean** of $y$ given $x$.
+
+Traced out across all values of $x$, it forms the **population regression
+function** (PRF).
+
+Regression estimates the conditional mean. It does not claim to predict
+individuals, and the scatter around the line is not a defect in the method: it
+is the part of $y$ that $x$ does not account for.
+:::
+
+```{r sr-prf-plot, echo = FALSE, fig.height = 3.8, fig.cap = "Semester GPA against attendance for 680 students. The points scatter widely at every level of attendance. The band averages, in orange, rise steadily -- and it is those averages that a regression line estimates."}
+band_means <- aggregate(cbind(sem_gpa, attendance) ~ band, data = students, mean)
+
+ggplot(students, aes(attendance, sem_gpa)) +
+  geom_point(alpha = 0.18, colour = book_palette$ink, size = 1.1) +
+  geom_point(data = band_means, aes(attendance, sem_gpa),
+             colour = book_palette$reject, size = 3.4) +
+  geom_line(data = band_means, aes(attendance, sem_gpa),
+            colour = book_palette$reject, linewidth = 0.9) +
+  labs(x = "Classes attended", y = "Semester GPA") +
+  theme_book()
+```
+
+Notice that the orange points rise but not in a perfectly straight line. The
+first band sits well below the others, and the second and third are almost
+level. Nothing forced the conditional mean to be linear, and here it is not
+exactly so.
+
+This matters for what we are about to do. A *linear* regression describes the
+conditional mean with a straight line, which is an approximation to the pattern
+above rather than a description of it. That approximation is a modelling choice,
+and one worth examining rather than assuming — Section \@ref(sr-algebra) returns
+to how well it does.
+
+## The model {#sr-model}
+
+::: {.question}
+How do we write down "grades depend on attendance, but not only on attendance"?
+:::
+
+Economic theory says grades depend on attendance. It also says grades depend on
+effort, ability, teaching quality, health, and how many hours a student must
+work for pay. Only the first is in our dataset.
+
+The **simple linear regression model** handles this by dividing $y$ into a part
+explained by $x$ and a part that is not:
+
+$$y = \beta_0 + \beta_1 x + u$$
+
+- $y$ is the **dependent** variable — semester GPA.
+- $x$ is the **independent** or explanatory variable — attendance.
+- $u$ is the **error** or disturbance term, holding everything else that affects
+  $y$. It is not a mistake; it is the rest of the world.
+- $\beta_0$ is the **intercept**, and is rarely of interest in itself.
+- $\beta_1$ is the **slope**, and is almost always what we care about. It says
+  how much $y$ changes when $x$ rises by one unit.
+
+For the grades example,
+
+$$\textit{GPA} = \beta_0 + \beta_1\,\textit{attendance} + u$$
+
+and $\beta_1$ is the change in GPA associated with attending one more class.
+
+### What must be true of the error term {-}
+
+The model as written is empty until we say something about $u$. Two assumptions
+do the work.
+
+**The error has mean zero:** $E(u) = 0$.
+
+This costs nothing. If the unobserved factors had a non-zero average, we could
+absorb that average into the intercept and start again.
+
+::: {.deeper}
+Suppose $u = e + c$ where $c$ is some non-zero constant — a fixed effect of, say,
+generous marking. Then
+
+$$
+\begin{aligned}
+y &= \beta_0 + \beta_1 x + (e + c) \\[4pt]
+&= (\beta_0 + c) + \beta_1 x + e \\[4pt]
+&= \beta_0^{*} + \beta_1 x + e
+\end{aligned}
+$$
+
+with $E(e) = 0$. The intercept has changed and the slope has not. Since $\beta_1$
+is what we want, assuming $E(u) = 0$ restricts nothing of importance.
+:::
+
+**The error is unrelated to $x$:** $E(u \mid x) = E(u) = 0$.
+
+This one is not free at all. It says that the average of the unobserved factors
+is the *same* at every value of $x$.
+
+::: {.keyidea}
+The **zero conditional mean assumption**, $E(u \mid x) = 0$, is the assumption on
+which everything rests.
+
+For the grades example it says: students who attend more classes are, on
+average, no more and no less able, motivated, or well-taught than students who
+attend fewer.
+
+If that fails, $\beta_1$ does not measure the effect of attendance. It measures
+the effect of attendance plus whatever else differs between high and low
+attenders.
+:::
+
+Stated in that concrete form, the assumption is clearly doubtful here. Students
+who attend regularly are plausibly more motivated, and motivation raises grades
+on its own. We cannot check this, because effort is not in the dataset — that is
+what "unobserved" means.
+
+Section \@ref(sr-causal) returns to what follows. For now we proceed, keeping in
+mind that we are estimating a conditional mean, and that whether it is an
+*effect* is a separate question.
+
+## From the population to a sample {#sr-srf}
+
+::: {.question}
+The PRF describes a population we cannot see. What do we actually have?
+:::
+
+The parameters $\beta_0$ and $\beta_1$ belong to the population. They are fixed,
+unknown numbers — exactly like $\mu$ in Unit \@ref(estimation) — and we have a
+sample.
+
+From the sample we compute estimates $\hat{\beta}_0$ and $\hat{\beta}_1$, and
+these define the **sample regression function**:
+
+$$\hat{y}_i = \hat{\beta}_0 + \hat{\beta}_1 x_i$$
+
+::: {.keyidea}
+| Population | Sample |
+|:--|:--|
+| $y = \beta_0 + \beta_1 x + u$ | $y_i = \hat{\beta}_0 + \hat{\beta}_1 x_i + \hat{u}_i$ |
+| $E(y \mid x) = \beta_0 + \beta_1 x$ (the PRF) | $\hat{y}_i = \hat{\beta}_0 + \hat{\beta}_1 x_i$ (the SRF) |
+| $u$ is the **error**, and is unobservable | $\hat{u}_i$ is the **residual**, and is computed |
+| $\beta_1$ is a parameter | $\hat{\beta}_1$ is an estimator, with a sampling distribution |
+
+The distinction between $u$ and $\hat{u}$ matters. The error is the deviation
+from the true line, which nobody sees. The residual is the deviation from our
+fitted line, which we can print.
+:::
+
+Every sample gives a different line. So $\hat{\beta}_1$ is a random variable
+with a sampling distribution, and every question from Units
+\@ref(estimation)–\@ref(one-sample) applies to it: is it unbiased, what is its
+standard error, and how do we test a claim about it.
+
+## Choosing a line: ordinary least squares {#sr-ols}
+
+::: {.question}
+Infinitely many lines pass through a scatter of points. Which one?
+:::
+
+A residual measures how badly the line misses observation $i$:
+
+$$\hat{u}_i = y_i - \hat{y}_i = y_i - \hat{\beta}_0 - \hat{\beta}_1 x_i$$
+
+We want the residuals small. The obvious criterion is to make their sum as close
+to zero as possible.
+
+That criterion fails, and it is worth seeing why.
+
+::: {.watchout}
+Consider two lines. The first misses four points by $+1, -1, +1, -1$. The second
+misses them by $+8, -8, +8, -8$.
+
+Both have residuals summing to exactly zero. By that criterion the two lines are
+equally good, which is absurd — the second is dreadful.
+
+The problem is that positive and negative misses cancel. A criterion that lets
+errors offset one another can be satisfied by a line that is nowhere near the
+data.
+:::
+
+The fix is the one from Section \@ref(u1-describing): square the deviations
+first, so that they cannot cancel and large misses count for more than small
+ones. We choose $\hat{\beta}_0$ and $\hat{\beta}_1$ to minimise
+
+$$L = \sum_{i=1}^{n} \hat{u}_i^2 = \sum_{i=1}^{n}\left(y_i - \hat{\beta}_0 - \hat{\beta}_1 x_i\right)^2$$
+
+This is the **method of ordinary least squares**, or OLS.
+
+::: {.theory}
+Minimising $L$ means setting both partial derivatives to zero.
+
+**With respect to the intercept:**
+
+$$
+\begin{aligned}
+\frac{\partial L}{\partial \hat{\beta}_0}
+&= \sum_{i=1}^{n} -2\left(y_i - \hat{\beta}_0 - \hat{\beta}_1 x_i\right) = 0 \\[4pt]
+0 &= \sum_{i=1}^{n} y_i - n\hat{\beta}_0 - \hat{\beta}_1\sum_{i=1}^{n} x_i
+   && \text{divide by } -2 \text{ and expand} \\[4pt]
+0 &= n\bar{y} - n\hat{\beta}_0 - \hat{\beta}_1 n\bar{x}
+   && \text{since } \textstyle\sum x_i = n\bar{x} \\[4pt]
+\hat{\beta}_0 &= \bar{y} - \hat{\beta}_1\bar{x}
+   && \text{divide by } n \text{ and rearrange}
+\end{aligned}
+$$
+
+**With respect to the slope:**
+
+$$
+\begin{aligned}
+\frac{\partial L}{\partial \hat{\beta}_1}
+&= \sum_{i=1}^{n} -2x_i\left(y_i - \hat{\beta}_0 - \hat{\beta}_1 x_i\right) = 0 \\[4pt]
+0 &= \sum x_i y_i - \hat{\beta}_0\sum x_i - \hat{\beta}_1 \sum x_i^2 \\[4pt]
+0 &= \sum x_i y_i - \left(\bar{y} - \hat{\beta}_1\bar{x}\right)n\bar{x} - \hat{\beta}_1\sum x_i^2
+   && \text{substitute } \hat{\beta}_0 \\[4pt]
+0 &= \sum x_i y_i - n\bar{x}\bar{y} - \hat{\beta}_1\left(\sum x_i^2 - n\bar{x}^2\right) \\[4pt]
+\hat{\beta}_1 &= \frac{\sum x_i y_i - n\bar{x}\bar{y}}{\sum x_i^2 - n\bar{x}^2}
+\end{aligned}
+$$
+
+Both parts of that fraction can be written more meaningfully. Expanding the
+numerator,
+
+$$
+\begin{aligned}
+\sum (x_i - \bar{x})(y_i - \bar{y})
+&= \sum x_i y_i - \bar{y}\sum x_i - \bar{x}\sum y_i + n\bar{x}\bar{y} \\[4pt]
+&= \sum x_i y_i - n\bar{x}\bar{y}
+\end{aligned}
+$$
+
+and the denominator,
+
+$$\sum (x_i - \bar{x})^2 = \sum x_i^2 - 2\bar{x}\sum x_i + n\bar{x}^2
+= \sum x_i^2 - n\bar{x}^2$$
+
+so that
+
+$$\hat{\beta}_1 = \frac{\sum_{i=1}^{n}(x_i - \bar{x})(y_i - \bar{y})}{\sum_{i=1}^{n}(x_i - \bar{x})^2}$$
+:::
+
+::: {.keyidea}
+The OLS estimators are
+
+$$\hat{\beta}_1 = \frac{\sum(x_i - \bar{x})(y_i - \bar{y})}{\sum(x_i - \bar{x})^2}
+\qquad\qquad
+\hat{\beta}_0 = \bar{y} - \hat{\beta}_1\bar{x}$$
+
+The slope is the **sample covariance of $x$ and $y$ divided by the sample
+variance of $x$**. It answers: when $x$ is above its mean, is $y$ also above
+its mean, and by how much per unit?
+:::
+
+::: {.intuition}
+That reading explains several things at once.
+
+If $x$ and $y$ move together, the numerator is positive and so is the slope. If
+they move oppositely, it is negative. If they are unrelated, the products cancel
+and the slope is near zero.
+
+And the denominator explains why $x$ must vary. If every student attended the
+same number of classes, $\sum(x_i - \bar{x})^2 = 0$ and the slope is undefined —
+there is no way to learn how GPA responds to attendance from data in which
+attendance never changes. This is the same requirement as Section
+\@ref(u1-randomness): no variation, nothing to learn.
+:::
+
+### Doing it by hand and in R {-}
+
+```{r sr-byhand}
+x <- students$attendance
+y <- students$sem_gpa
+
+b1 <- sum((x - mean(x)) * (y - mean(y))) / sum((x - mean(x))^2)
+b0 <- mean(y) - b1 * mean(x)
+
+c(b0 = b0, b1 = b1)
+```
+
+```{r sr-lm}
+fit <- lm(sem_gpa ~ attendance, data = students)
+coef(fit)
+```
+
+Identical. `lm()` solves the same two equations.
+
+So $\hat{\beta}_1 = 0.189$: each additional class attended is associated with
+about 0.19 of a GPA point. Ten more classes, roughly 1.9 points — which on a
+ten-point scale is a great deal.
+
+```{r sr-fit-plot, echo = FALSE, fig.height = 3.8, fig.cap = "The fitted line, with the vertical distances it misses by shown for a handful of students. Ordinary least squares chooses the line making the sum of those squared distances as small as possible."}
+set.seed(3)
+shown <- students[sample(nrow(students), 25), ]
+shown$pred <- predict(fit, newdata = shown)
+
+ggplot(students, aes(attendance, sem_gpa)) +
+  geom_point(alpha = 0.13, colour = book_palette$ink, size = 1.1) +
+  geom_segment(data = shown, aes(xend = attendance, y = sem_gpa, yend = pred),
+               colour = book_palette$reject, linewidth = 0.45) +
+  geom_point(data = shown, colour = book_palette$reject, size = 1.5) +
+  geom_abline(intercept = coef(fit)[1], slope = coef(fit)[2],
+              colour = book_palette$accent, linewidth = 1) +
+  labs(x = "Classes attended", y = "Semester GPA") +
+  theme_book()
+```
+
+## What the fitted line guarantees {#sr-algebra}
+
+::: {.question}
+Having minimised the squares, what do we get for free?
+:::
+
+Three algebraic facts follow directly from the two equations we just solved.
+They hold for *every* OLS regression, in every dataset, whether or not the model
+is any good.
+
+::: {.keyidea}
+1. **The residuals sum to zero**: $\sum \hat{u}_i = 0$. This is the first
+   normal equation, restated.
+2. **The residuals are uncorrelated with $x$**: $\sum x_i \hat{u}_i = 0$.
+   Whatever pattern is left over, it is not linearly related to $x$ — OLS has
+   already extracted all of that.
+3. **The line passes through the means**: $\bar{y} = \hat{\beta}_0 +
+   \hat{\beta}_1\bar{x}$. The point $(\bar{x}, \bar{y})$ always lies on the
+   fitted line.
+:::
+
+```{r sr-algebra-check}
+u_hat <- residuals(fit)
+
+c(sum_residuals   = sum(u_hat),
+  sum_x_times_u   = sum(x * u_hat),
+  predicted_at_xbar = coef(fit)[1] + coef(fit)[2] * mean(x),
+  mean_of_y         = mean(y))
+```
+
+The first two are zero up to floating-point error, and the last two agree.
+
+::: {.watchout}
+These are *algebraic* properties, not evidence. They hold by construction, so
+finding them in your output tells you the arithmetic worked and nothing more.
+
+In particular, $\sum x_i \hat{u}_i = 0$ is true whether or not
+$E(u \mid x) = 0$. The first is forced by the estimator; the second is an
+assumption about the world that no computation can verify.
+:::
+
+### How much does the line explain? {-}
+
+Decompose the variation in $y$. Each observation's distance from $\bar{y}$
+splits into a part the line accounts for and a part it does not:
+
+$$\underbrace{\sum(y_i - \bar{y})^2}_{\text{SST}}
+= \underbrace{\sum(\hat{y}_i - \bar{y})^2}_{\text{SSE}}
++ \underbrace{\sum \hat{u}_i^2}_{\text{SSR}}$$
+
+with SST the total sum of squares, SSE the explained sum of squares, and SSR the
+residual sum of squares. The cross-term vanishes precisely because of property 2
+above.
+
+::: {.keyidea}
+The **coefficient of determination** is the share of the variation in $y$ that
+the regression accounts for:
+
+$$R^2 = \frac{\text{SSE}}{\text{SST}} = 1 - \frac{\text{SSR}}{\text{SST}}$$
+
+It lies between 0 and 1. In a simple regression it is exactly the square of the
+correlation between $x$ and $y$.
+:::
+
+```{r sr-r2}
+sst <- sum((y - mean(y))^2)
+ssr <- sum(u_hat^2)
+
+c(r_squared      = 1 - ssr / sst,
+  from_summary   = summary(fit)$r.squared,
+  cor_squared    = cor(x, y)^2)
+```
+
+So attendance accounts for about 31% of the variation in semester GPA. The other
+69% is everything else — ability, effort, subject, luck.
+
+::: {.watchout}
+A low $R^2$ does not mean a regression is useless, and a high one does not mean
+it is right.
+
+$R^2$ measures how tightly the points cluster around the line. It says nothing
+about whether $\beta_1$ is estimated accurately, and nothing whatever about
+whether the relationship is causal. A regression of grades on shoe size might
+achieve a respectable $R^2$ in a sample of children, where both rise with age.
+
+In economics, $R^2$ values of 0.1 or 0.2 are common and unremarkable. Human
+behaviour is not tidy.
+:::
+
+## How good is the estimate? {#sr-properties}
+
+::: {.question}
+$\hat{\beta}_1$ came from one sample. What would it do across many?
+:::
+
+We now ask about $\hat{\beta}_1$ exactly what Unit \@ref(estimation) asked about
+$\bar{X}$: is it centred on the truth, and how much does it vary?
+
+The answers require assumptions, which are worth listing plainly.
+
+::: {.keyidea}
+**The assumptions of simple regression.**
+
+**SLR1 — linear in parameters.** The population model is
+$y = \beta_0 + \beta_1 x + u$.
+
+**SLR2 — random sampling.** The $n$ observations are a random sample from that
+population.
+
+**SLR3 — variation in $x$.** The $x_i$ are not all equal.
+
+**SLR4 — zero conditional mean.** $E(u \mid x) = 0$.
+
+**SLR5 — homoskedasticity.** $\mathrm{Var}(u \mid x) = \sigma^2$, the same at
+every value of $x$.
+
+The first four give unbiasedness. The fifth is needed only for the variance
+formula.
+:::
+
+### Unbiasedness {-}
+
+::: {.theory}
+Write the slope in deviation form and substitute the model. With
+$\text{SST}_x = \sum(x_i - \bar{x})^2$,
+
+$$
+\begin{aligned}
+\hat{\beta}_1 &= \frac{\sum(x_i - \bar{x})y_i}{\text{SST}_x}
+   && \text{since } \textstyle\sum(x_i-\bar{x})\bar{y} = 0 \\[4pt]
+&= \frac{\sum(x_i - \bar{x})(\beta_0 + \beta_1 x_i + u_i)}{\text{SST}_x}
+   && \text{substituting SLR1} \\[4pt]
+&= \beta_1 + \frac{\sum(x_i - \bar{x})u_i}{\text{SST}_x}
+\end{aligned}
+$$
+
+because $\sum(x_i - \bar{x}) = 0$ kills the $\beta_0$ term and
+$\sum(x_i - \bar{x})x_i = \text{SST}_x$ leaves $\beta_1$.
+
+That last line is worth reading carefully. **The estimate equals the truth plus
+a term built entirely from the errors.** Taking expectations conditional on the
+$x$'s, and using SLR4 to set $E(u_i \mid x) = 0$,
+
+$$E(\hat{\beta}_1) = \beta_1 + \frac{\sum(x_i - \bar{x})E(u_i \mid x)}{\text{SST}_x} = \beta_1$$
+:::
+
+So OLS is unbiased: across repeated samples, $\hat{\beta}_1$ is centred on
+$\beta_1$. And the derivation shows exactly where that can fail. If the errors
+are systematically larger at larger $x$ — if high attenders are more able — then
+$E(u_i \mid x) \neq 0$, the second term does not vanish, and $\hat{\beta}_1$ is
+biased by precisely that amount.
+
+### The variance of the slope {-}
+
+::: {.theory}
+From the same expression, and treating the $x$'s as fixed,
+
+$$
+\begin{aligned}
+\mathrm{Var}(\hat{\beta}_1)
+&= \mathrm{Var}\!\left(\frac{\sum(x_i - \bar{x})u_i}{\text{SST}_x}\right) \\[4pt]
+&= \frac{1}{\text{SST}_x^2}\sum(x_i - \bar{x})^2\,\mathrm{Var}(u_i)
+   && \text{independence} \\[4pt]
+&= \frac{\sigma^2 \,\text{SST}_x}{\text{SST}_x^2}
+   && \text{homoskedasticity, SLR5} \\[4pt]
+&= \frac{\sigma^2}{\text{SST}_x}
+\end{aligned}
+$$
+:::
+
+::: {.keyidea}
+$$\mathrm{Var}(\hat{\beta}_1) = \frac{\sigma^2}{\sum(x_i - \bar{x})^2}$$
+
+The slope is estimated more precisely when the errors are small (small
+$\sigma^2$) and when $x$ varies a lot (large $\text{SST}_x$).
+:::
+
+::: {.intuition}
+The second half is the useful insight. To learn how $y$ responds to $x$, you
+need to observe $x$ over a wide range.
+
+Comparing students who attended 27 classes with students who attended 28 tells
+you very little. Comparing those who attended 5 with those who attended 30 tells
+you a great deal. Spread in the explanatory variable is *information*, and this
+is why the median split of Section \@ref(sr-motivation) performed so much worse
+— it discarded most of the spread.
+:::
+
+Since $\sigma^2$ is unknown, it is estimated from the residuals. Two parameters
+were estimated on the way, so the divisor is $n - 2$:
+
+$$\hat{\sigma}^2 = \frac{\sum \hat{u}_i^2}{n - 2}
+\qquad\qquad
+\mathrm{se}(\hat{\beta}_1) = \frac{\hat{\sigma}}{\sqrt{\sum(x_i - \bar{x})^2}}$$
+
+The $n - 2$ is the same accounting as Section \@ref(u3-variance), where
+estimating one mean cost one degree of freedom. Here we estimated an intercept
+and a slope.
+
+```{r sr-se-byhand}
+n <- length(y)
+sigma_hat <- sqrt(sum(u_hat^2) / (n - 2))
+se_b1     <- sigma_hat / sqrt(sum((x - mean(x))^2))
+
+c(sigma_hat = sigma_hat, se_b1 = se_b1,
+  se_from_lm = summary(fit)$coefficients[2, 2])
+```
+
+## Inference about the slope {#sr-inference}
+
+::: {.question}
+Is the slope we found distinguishable from zero?
+:::
+
+$\hat{\beta}_1$ is an estimator with a standard error, so everything in Unit
+\@ref(one-sample) applies without modification.
+
+The hypothesis of interest is almost always that $x$ has no effect at all:
+
+$$H_0 : \beta_1 = 0 \qquad H_A : \beta_1 \neq 0$$
+
+and the test statistic has the form it always has — estimate minus hypothesised
+value, over standard error:
+
+$$t = \frac{\hat{\beta}_1 - 0}{\mathrm{se}(\hat{\beta}_1)}$$
+
+compared against $t$ with $n - 2$ degrees of freedom.
+
+```{r sr-inference}
+summary(fit)$coefficients
+```
+
+$\hat{\beta}_1 = 0.189$ with a standard error of 0.0107, giving $t = 17.6$ on
+678 degrees of freedom and a $p$-value indistinguishable from zero. We reject
+the claim that attendance is unrelated to GPA.
+
+The confidence interval is the more informative report:
+
+```{r sr-confint}
+confint(fit, level = 0.95)
+```
+
+Each additional class is associated with between 0.168 and 0.210 of a GPA point,
+with 95% confidence. The interval excludes zero, agreeing with the test as it
+must.
+
+::: {.watchout}
+"Statistically significant" is a claim about distinguishability from zero, not
+about magnitude. With 680 observations, very small slopes clear the bar easily.
+
+Always ask what the slope means in the units of the problem. Here 0.19 GPA
+points per class is large. In the regression of final examination score on
+attendance in the same dataset, the slope is 0.117 marks per class and equally
+"significant" — and 0.117 marks is nothing at all.
+:::
+
+## What regression does not fix {#sr-causal}
+
+::: {.question}
+We have a slope, a standard error, and a tiny $p$-value. Do we have an effect?
+:::
+
+No, and it is worth being exact about why.
+
+Everything in this unit estimates a conditional mean. We have established, with
+considerable precision, that students who attend more classes have higher
+average GPAs. That is a fact about the population.
+
+The claim that attending more classes *raises* a student's GPA is a different
+claim, and it requires SLR4: $E(u \mid x) = 0$. Section \@ref(sr-model) put that
+assumption in concrete terms — students who attend more must be no more
+motivated or able, on average, than students who attend less.
+
+Nobody believes that.
+
+::: {.keyidea}
+When $E(u \mid x) \neq 0$, the unbiasedness derivation shows exactly what
+happens. We had
+
+$$\hat{\beta}_1 = \beta_1 + \frac{\sum(x_i - \bar{x})u_i}{\text{SST}_x}$$
+
+and the second term no longer has expectation zero. Its expectation is the
+**bias**, and its sign is the sign of the relationship between $x$ and the
+omitted factors.
+
+If motivated students both attend more *and* score higher for reasons unrelated
+to attendance, then $\hat{\beta}_1$ overstates the effect of attendance. This is
+**omitted variable bias**.
+:::
+
+Notice what this does and does not affect. The estimate is still the best
+description of the conditional mean. The standard error is still right. The
+$p$-value is still right. What is wrong is the *interpretation* — and no
+diagnostic in the regression output will tell you so, because the problem lies
+in a variable that is not in the data.
+
+Two routes lead out, and both come later.
+
+The first is to measure the confounders and hold them fixed, which is multiple
+regression, the subject of the next unit. It works only for confounders you can
+observe.
+
+The second is to find a source of variation in $x$ that has nothing to do with
+the unobservables — a lottery, a rule, an accident of administration. That is
+the subject of the second part of this book.
+
+::: {.intuition}
+Regression is a description of how averages move together. Turning it into a
+statement about causes requires an argument about where the variation in $x$
+came from, and that argument is made by the researcher, not by the software.
+:::
+
+## Summary {#sr-summary}
+
+::: {.keyidea}
+- Regression uses the whole of an explanatory variable rather than splitting it
+  in two, reports a slope in interpretable units, and can be extended to hold
+  other variables fixed. On the same data, the median split gave $t = 11.8$ and
+  the regression $t = 17.6$.
+- The **population regression function** is the conditional mean
+  $E(y \mid x) = \beta_0 + \beta_1 x$. Regression estimates how the average of
+  $y$ moves with $x$; the scatter around it is the part $x$ does not account
+  for.
+- The model $y = \beta_0 + \beta_1 x + u$ splits $y$ into an explained part and
+  an error containing everything else. $E(u) = 0$ costs nothing;
+  $E(u \mid x) = 0$ costs everything.
+- **OLS** minimises $\sum \hat{u}_i^2$. Minimising $\sum \hat{u}_i$ instead
+  fails, because positive and negative misses cancel and a terrible line can
+  satisfy it.
+- $\hat{\beta}_1 = \dfrac{\sum(x_i-\bar{x})(y_i-\bar{y})}{\sum(x_i-\bar{x})^2}$,
+  the sample covariance over the sample variance of $x$, and
+  $\hat{\beta}_0 = \bar{y} - \hat{\beta}_1\bar{x}$.
+- By construction $\sum\hat{u}_i = 0$, $\sum x_i\hat{u}_i = 0$, and the line
+  passes through $(\bar{x}, \bar{y})$. These are algebraic and are not evidence
+  of anything.
+- $R^2 = 1 - \text{SSR}/\text{SST}$ is the share of variation explained. It
+  measures fit, not correctness, and says nothing about causality.
+- Under SLR1–SLR4, $E(\hat{\beta}_1) = \beta_1$. Under SLR5 as well,
+  $\mathrm{Var}(\hat{\beta}_1) = \sigma^2/\sum(x_i - \bar{x})^2$ — so spread in
+  $x$ buys precision. $\hat{\sigma}^2 = \sum\hat{u}_i^2/(n-2)$.
+- Testing $H_0: \beta_1 = 0$ uses $t = \hat{\beta}_1/\mathrm{se}(\hat{\beta}_1)$
+  on $n - 2$ degrees of freedom, exactly as in Unit \@ref(one-sample).
+- $\hat{\beta}_1 = \beta_1 + \sum(x_i-\bar{x})u_i/\text{SST}_x$. When
+  $E(u\mid x) \neq 0$ the second term is **omitted variable bias**, and nothing
+  in the output reveals it.
+:::
+
+## Practice problems {#sr-practice}
+
+::: {.yourturn}
+Work each one before opening the solution. The
+[question bank](#sr-question-bank) that follows has no answers.
+:::
+
+### Concept checks {-}
+
+**6.1** Why does regression estimate a conditional mean rather than predict
+individual outcomes?
+
+::: {.answer}
+Because $y$ is not determined by $x$. At any given attendance level, students
+obtain a wide range of grades, because grades also depend on effort, ability and
+much else — all of which sit in the error term.
+
+What is stable across the population is the *average* of $y$ at each value of
+$x$. That is what $E(y \mid x)$ describes and what the regression line
+estimates.
+
+The scatter around the line is therefore not a failure of the method. It is the
+part of $y$ that $x$ does not account for, and a model claiming otherwise would
+be claiming that attendance alone determines grades.
+:::
+
+**6.2** Why is minimising the sum of residuals a bad criterion?
+
+::: {.answer}
+Because positive and negative residuals cancel, so a line that misses badly in
+both directions can have residuals summing to zero.
+
+Misses of $+8, -8, +8, -8$ sum to zero, and so do misses of $+1, -1, +1, -1$. By
+that criterion the two lines are equally good, though the first is far worse.
+
+Squaring removes the cancellation and makes large misses count more than small
+ones, which is what we want from a measure of fit.
+:::
+
+**6.3** What goes wrong if every observation has the same value of $x$?
+
+::: {.answer}
+The slope is undefined. Its denominator is $\sum(x_i - \bar{x})^2$, which is
+zero when every $x_i$ equals $\bar{x}$, and the estimate would require dividing
+by zero.
+
+The statistical content is more interesting than the algebra. If attendance
+never varies, the data contain no information about how GPA responds to
+attendance — there is nothing to compare. This is assumption SLR3, and it is the
+same point as Section \@ref(u1-randomness): where nothing varies, nothing can be
+learned.
+:::
+
+**6.4** Distinguish the error $u_i$ from the residual $\hat{u}_i$.
+
+::: {.answer}
+The error is the deviation of $y_i$ from the *population* regression line:
+$u_i = y_i - \beta_0 - \beta_1 x_i$. It involves the true parameters and is
+therefore unobservable.
+
+The residual is the deviation from our *fitted* line:
+$\hat{u}_i = y_i - \hat{\beta}_0 - \hat{\beta}_1 x_i$. It is computed from the
+data and can be printed.
+
+The relationship mirrors $\mu$ against $\bar{x}$. Residuals are estimates of
+errors, and confusing the two leads to claims like "the errors are uncorrelated
+with $x$, so SLR4 holds" — which is wrong, because the *residuals* are
+uncorrelated with $x$ by construction, whatever the errors do.
+:::
+
+**6.5** A regression reports $R^2 = 0.04$ and a slope significant at the 1%
+level. Is that a contradiction?
+
+::: {.answer}
+No. They measure different things.
+
+$R^2$ says the regression accounts for 4% of the variation in $y$ — the points
+scatter widely around the line. The $p$-value says the slope is distinguishable
+from zero, which depends on the standard error and therefore on the sample size.
+
+With a large sample, a real but small relationship produces exactly this
+pattern: a reliably estimated slope explaining little of the variation. Both
+statements are true and neither is more important; they answer "how much does
+$x$ account for?" and "is there a relationship at all?"
+:::
+
+### Explain {-}
+
+**6.6** Explain why $\mathrm{Var}(\hat{\beta}_1)$ falls as the spread of $x$
+increases, and what this implies for research design.
+
+::: {.answer}
+The formula is $\mathrm{Var}(\hat{\beta}_1) = \sigma^2/\sum(x_i - \bar{x})^2$,
+so spread in $x$ appears in the denominator and larger spread means a smaller
+variance.
+
+The intuition is that a slope is a rate of change, and rates of change are
+measured by observing change. If every student attended between 27 and 29
+classes, we would be trying to infer the effect of attendance from almost no
+variation in attendance, and small errors in $y$ would translate into wild
+swings in the fitted slope. Observing attendance from 5 to 30 pins the line down.
+
+For design, this says that variation in the explanatory variable is valuable and
+should be sought rather than avoided. A study of the effect of class size that
+only observes classes of 39 to 41 students will struggle no matter how many
+schools it covers. It also explains why the median split did worse than the
+regression: collapsing attendance to two categories discards most of its spread.
+:::
+
+**6.7** State the zero conditional mean assumption for a regression of earnings
+on years of schooling, in concrete terms, and say whether you believe it.
+
+::: {.answer}
+The model is $\textit{earnings} = \beta_0 + \beta_1\,\textit{schooling} + u$,
+where $u$ holds everything else affecting earnings — ability, family
+connections, school quality, motivation, region.
+
+$E(u \mid \textit{schooling}) = 0$ says that people with more schooling are, on
+average, no more able, no better connected, and no better taught than people
+with less.
+
+That is not believable. Schooling is not distributed at random: children of
+wealthier and better-connected families obtain more of it, and those advantages
+raise earnings on their own. So $u$ is positively related to schooling, and
+$\hat{\beta}_1$ overstates the return to education.
+
+This does not make the regression useless. It correctly describes how average
+earnings differ across schooling levels. It simply does not measure what an
+extra year of schooling would do to a given person.
+:::
+
+### Numerical problems {-}
+
+**6.8** For five plots, fertiliser applied ($x$, kg) and yield ($y$, quintals):
+
+| $x$ | 2 | 4 | 6 | 8 | 10 |
+|:--|:--|:--|:--|:--|:--|
+| $y$ | 4 | 7 | 8 | 12 | 14 |
+
+i. Compute $\bar{x}$, $\bar{y}$, $\hat{\beta}_1$ and $\hat{\beta}_0$.
+ii. Write the fitted line and interpret the slope.
+iii. Compute the fitted values and residuals, and verify they sum to zero.
+iv. Compute $R^2$.
+
+::: {.answer}
+**(i)** $\bar{x} = 6$, $\bar{y} = 9$.
+
+| $x_i$ | $y_i$ | $x_i - \bar{x}$ | $y_i - \bar{y}$ | product | $(x_i-\bar{x})^2$ |
+|--:|--:|--:|--:|--:|--:|
+| 2 | 4 | $-4$ | $-5$ | 20 | 16 |
+| 4 | 7 | $-2$ | $-2$ | 4 | 4 |
+| 6 | 8 | 0 | $-1$ | 0 | 0 |
+| 8 | 12 | 2 | 3 | 6 | 4 |
+| 10 | 14 | 4 | 5 | 20 | 16 |
+| | | | | **50** | **40** |
+
+$$\hat{\beta}_1 = \frac{50}{40} = 1.25
+\qquad
+\hat{\beta}_0 = 9 - 1.25(6) = 1.5$$
+
+**(ii)** $\hat{y} = 1.5 + 1.25x$. Each additional kilogram of fertiliser is
+associated with 1.25 more quintals of yield.
+
+**(iii)** Fitted values: $4.0, 6.5, 9.0, 11.5, 14.0$. Residuals:
+$0, 0.5, -1, 0.5, 0$, which sum to zero as they must.
+
+**(iv)** $\text{SSR} = 0 + 0.25 + 1 + 0.25 + 0 = 1.5$ and
+$\text{SST} = 25 + 4 + 1 + 9 + 25 = 64$, so
+
+$$R^2 = 1 - \frac{1.5}{64} = 0.977$$
+
+An unusually tight fit, because these are made-up numbers. Real data rarely
+behaves so well.
+:::
+
+**6.9** Using the previous question's results:
+
+i. Compute $\hat{\sigma}^2$ and $\hat{\sigma}$.
+ii. Compute $\mathrm{se}(\hat{\beta}_1)$.
+iii. Test $H_0: \beta_1 = 0$ at the 5% level.
+iv. Construct a 95% confidence interval for $\beta_1$.
+
+::: {.answer}
+**(i)** With $n = 5$ and two parameters estimated,
+
+$$\hat{\sigma}^2 = \frac{\text{SSR}}{n-2} = \frac{1.5}{3} = 0.5
+\qquad \hat{\sigma} = 0.707$$
+
+**(ii)** $\mathrm{se}(\hat{\beta}_1) = \dfrac{0.707}{\sqrt{40}} = 0.1118$.
+
+**(iii)** $t = 1.25/0.1118 = 11.18$ on $n - 2 = 3$ degrees of freedom. The
+critical value is $t_{0.025,\,3} = 3.182$, and $11.18 > 3.182$, so we reject
+$H_0$.
+
+**(iv)** $1.25 \pm 3.182(0.1118) = [0.894,\ 1.606]$.
+
+Note how wide that interval is despite the excellent fit — three degrees of
+freedom buy very little. The critical value of 3.182 rather than 1.96 is doing
+most of the damage.
+:::
+
+**6.10** A regression of household expenditure on income in a sample of 200
+gives $\hat{\beta}_1 = 0.62$ with $\mathrm{se}(\hat{\beta}_1) = 0.05$.
+
+i. Test $H_0: \beta_1 = 0$.
+ii. Test $H_0: \beta_1 = 1$, and explain why an economist might care about that
+    hypothesis specifically.
+iii. Construct a 95% interval and interpret it.
+
+::: {.answer}
+**(i)** $t = 0.62/0.05 = 12.4$ on 198 degrees of freedom. Reject overwhelmingly.
+
+**(ii)** $t = (0.62 - 1)/0.05 = -7.6$, which also rejects.
+
+An economist cares because $\beta_1$ is the marginal propensity to consume, and
+$\beta_1 = 1$ would mean households spend every additional rupee of income. The
+test says they do not: expenditure rises by about 62 paise per additional rupee,
+and the remainder is saved.
+
+This is worth noticing as a matter of method. The interesting null hypothesis is
+not always zero. Testing against a value that theory suggests is often far more
+informative.
+
+**(iii)** $0.62 \pm 1.96(0.05) = [0.522,\ 0.718]$. The interval excludes both 0
+and 1, so the data are consistent with a marginal propensity to consume of
+roughly two-thirds and with neither extreme.
+:::
+
+### R exercises {-}
+
+**6.11** Using `data/car-mileage.csv`, regress fuel efficiency on weight. Report
+the slope with its interval, interpret it in the units of the data, and plot the
+fit.
+
+::: {.answer}
+```{r sr-ex-cars, fig.height = 3.4, fig.cap = "Fuel efficiency against weight for 74 cars, with the fitted line."}
+cars <- read.csv("data/car-mileage.csv")
+
+fit_cars <- lm(mileage_kmpl ~ weight_kg, data = cars)
+summary(fit_cars)$coefficients
+confint(fit_cars)["weight_kg", ]
+
+ggplot(cars, aes(weight_kg, mileage_kmpl)) +
+  geom_point(colour = book_palette$ink, alpha = 0.6) +
+  geom_smooth(method = "lm", se = TRUE, colour = book_palette$accent,
+              fill = book_palette$fill) +
+  labs(x = "Weight (kg)", y = "Fuel efficiency (km per litre)") +
+  theme_book()
+```
+
+The slope is $-0.00601$ km per litre per kilogram, which is awkward to read at
+that scale. Multiply by 100: each additional 100 kg costs about 0.6 km per
+litre, with an interval of roughly 0.50 to 0.70.
+
+$R^2$ is 0.65, much higher than the attendance regression, because weight is a
+genuinely dominant determinant of fuel consumption in a way that attendance is
+not of grades.
+:::
+
+**6.12** Verify the algebra. For the car regression, check that the residuals
+sum to zero, that they are uncorrelated with weight, and that the line passes
+through the point of means.
+
+::: {.answer}
+```{r sr-ex-algebra}
+u <- residuals(fit_cars)
+w <- cars$weight_kg
+
+round(c(sum_u        = sum(u),
+        sum_w_u      = sum(w * u),
+        cor_w_u      = cor(w, u),
+        fitted_at_wbar = coef(fit_cars)[1] + coef(fit_cars)[2] * mean(w),
+        mean_mileage   = mean(cars$mileage_kmpl)), 6)
+```
+
+All three hold. The first two are zero to within floating-point error, and the
+last two agree exactly.
+
+None of this is evidence that the model is correct. These identities are forced
+by the two equations OLS solves, and they would hold just as exactly if we
+regressed mileage on something absurd.
+:::
+
+**6.13** Demonstrate that OLS is unbiased, and that spread in $x$ buys
+precision. Simulate from a known model with $\beta_1 = 2$, using $x$ spread
+widely in one case and narrowly in the other.
+
+::: {.answer}
+```{r sr-ex-unbiased}
+simulate_slope <- function(x_sd, reps = 3000) {
+  b1 <- replicate(reps, {
+    x <- rnorm(50, mean = 20, sd = x_sd)
+    y <- 5 + 2 * x + rnorm(50, sd = 3)          # truth: beta_1 = 2
+    coef(lm(y ~ x))[2]
+  })
+  c(x_sd = x_sd, mean_b1 = mean(b1), sd_b1 = sd(b1))
+}
+
+set.seed(11)
+round(t(sapply(c(1, 5), simulate_slope)), 4)
+```
+
+Both rows are centred on 2, so OLS is unbiased at either spread — that is what
+SLR1–SLR4 deliver, and the spread of $x$ has nothing to do with it.
+
+What the spread changes is precision. With $x$ five times as spread out, the
+standard deviation of $\hat{\beta}_1$ falls by roughly a factor of five, exactly
+as $\sigma^2/\sum(x_i - \bar{x})^2$ predicts.
+:::
+
+**6.14** Show what omitted variable bias looks like. Simulate data where $y$
+depends on both $x$ and a variable $z$ that is correlated with $x$, then
+estimate a regression that omits $z$.
+
+::: {.answer}
+```{r sr-ex-ovb}
+set.seed(2)
+
+biased <- replicate(3000, {
+  z <- rnorm(200)                       # unobserved: motivation, say
+  x <- 10 + 2 * z + rnorm(200)          # x is correlated with z
+  y <- 5 + 1 * x + 3 * z + rnorm(200)   # truth: the effect of x is 1
+  c(omitting_z  = coef(lm(y ~ x))[2],
+    including_z = coef(lm(y ~ x + z))[2])
+})
+
+round(rowMeans(biased), 4)
+```
+
+The true effect of $x$ on $y$ is 1. Omitting $z$ returns about 2.2 — more than
+double.
+
+The reason is exactly the term in the unbiasedness derivation. With $z$ left
+out, it sits inside the error, and since $z$ is correlated with $x$ the errors
+are correlated with $x$ too, so $E(u \mid x) \neq 0$ and the bias does not
+vanish. Including $z$ recovers 1.
+
+Note that the biased regression is not badly behaved in any visible way. Its
+residuals still sum to zero, its standard errors are still computed correctly,
+and its $p$-value is still tiny. It is confidently wrong, and nothing in the
+output says so.
+:::
+
+## Question bank {#sr-question-bank}
+
+::: {.watchout}
+**No answers are given for this section, by design.**
+:::
+
+### Multiple choice {-}
+
+**QB 6.1** In the model $y = \beta_0 + \beta_1 x + u$, the term $u$ represents
+
+a. measurement error in $y$
+b. all factors other than $x$ that affect $y$
+c. the residual from the fitted line
+d. the difference between $\hat{\beta}_1$ and $\beta_1$
+
+**QB 6.2** The OLS slope estimator equals
+
+a. the correlation between $x$ and $y$
+b. the sample covariance of $x$ and $y$ divided by the sample variance of $y$
+c. the sample covariance of $x$ and $y$ divided by the sample variance of $x$
+d. the ratio of the two sample means
+
+**QB 6.3** Which of the following hold by construction in every OLS regression?
+*(select all that apply)*
+
+a. $\sum \hat{u}_i = 0$
+b. $\sum x_i \hat{u}_i = 0$
+c. $E(u \mid x) = 0$
+d. The line passes through $(\bar{x}, \bar{y})$
+
+**QB 6.4** In a simple regression, $\hat{\sigma}^2$ divides the sum of squared
+residuals by
+
+a. $n$
+b. $n - 1$
+c. $n - 2$
+d. $n - 3$
+
+**QB 6.5** $\mathrm{Var}(\hat{\beta}_1)$ decreases when
+
+a. $\sigma^2$ increases
+b. the spread of $x$ increases
+c. the spread of $y$ increases
+d. $R^2$ decreases
+
+**QB 6.6** A regression of wages on schooling gives $R^2 = 0.11$. This means
+
+a. the model is misspecified
+b. schooling accounts for 11% of the variation in wages
+c. 11% of the coefficient is reliable
+d. schooling causes 11% of wage differences
+
+**QB 6.7** Omitted variable bias arises when the omitted variable
+
+a. is correlated with $y$ only
+b. is correlated with $x$ only
+c. is correlated with both $x$ and $y$
+d. has a large variance
+
+### Short reasoning {-}
+
+**QB 6.8** Explain why $\sum x_i\hat{u}_i = 0$ is not evidence that
+$E(u \mid x) = 0$.
+
+**QB 6.9** A student reports that their regression "explains 95% of the
+variation, so the model must be correct." Evaluate.
+
+**QB 6.10** Why does the divisor in $\hat{\sigma}^2$ change from $n-1$ in Unit
+\@ref(interval-estimation) to $n-2$ here?
+
+**QB 6.11** A researcher regresses district crop yield on rainfall and finds a
+strong positive slope. Give two reasons the slope may not measure the effect of
+rainfall on yield.
+
+**QB 6.12** In the fertiliser example the slope was 1.25 quintals per kilogram.
+Explain what would happen to that number, and to its standard error, if
+fertiliser were measured in grams instead.
+
+**QB 6.13** Explain why a regression can have a correctly computed standard
+error, a valid $p$-value, and a completely misleading interpretation.
+
+### Numerical {-}
+
+**QB 6.14** For six observations, $\sum(x_i - \bar{x})(y_i - \bar{y}) = 84$,
+$\sum(x_i - \bar{x})^2 = 56$, $\bar{x} = 9$, $\bar{y} = 21$ and
+$\sum \hat{u}_i^2 = 12$.
+
+i. Compute $\hat{\beta}_1$ and $\hat{\beta}_0$.
+ii. Compute $\hat{\sigma}^2$ and $\mathrm{se}(\hat{\beta}_1)$.
+iii. Test $H_0: \beta_1 = 0$ at the 5% level.
+iv. Construct a 95% confidence interval for $\beta_1$.
+
+**QB 6.15** A regression on 30 observations gives $\hat{\beta}_1 = 4.8$,
+$\mathrm{se}(\hat{\beta}_1) = 1.5$, $\text{SST} = 900$ and $\text{SSR} = 400$.
+
+i. Compute $R^2$.
+ii. Test $H_0: \beta_1 = 0$ at the 1% level.
+iii. Test $H_0: \beta_1 = 8$ at the 5% level.
+iv. Compute $\hat{\sigma}^2$.
+
+**QB 6.16** Yields and rainfall for five districts:
+
+| Rainfall (cm) | 60 | 80 | 100 | 120 | 140 |
+|--:|--:|--:|--:|--:|--:|
+| Yield (quintals) | 18 | 23 | 24 | 30 | 35 |
+
+i. Compute the OLS estimates.
+ii. Compute all five residuals and verify they sum to zero.
+iii. Compute $R^2$.
+iv. Predict yield at 110 cm, and say why predicting at 300 cm would be unwise.
+
+**QB 6.17** Using `data/india-production.csv`, write R code to regress log
+output on log labour. Report the slope with its confidence interval, interpret
+it as an elasticity, and state what assumption would have to hold for it to
+represent the effect of labour on output.
+
+## Looking ahead {#sr-looking-ahead}
+
+Simple regression gave us a slope, a standard error, and a test — and left us
+exactly where Unit \@ref(two-sample) did, unable to separate the effect of $x$
+from the effects of everything correlated with $x$.
+
+The problem was never the arithmetic. It is that the model contains one
+explanatory variable, and the world contains many.
+
+If motivated students both attend more classes and score higher for reasons
+unrelated to attendance, the remedy is to measure motivation and account for it
+— to ask how GPA varies with attendance *among students of similar motivation*.
+That requires a model with more than one explanatory variable on the right-hand
+side.
+
+Building it is the subject of the next unit, and it turns out to require
+surprisingly little new machinery: the same least squares criterion, the same
+normal equations, the same $t$ statistics. What changes is the interpretation of
+a coefficient, which becomes considerably more subtle — and considerably more
+useful.

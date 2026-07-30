@@ -1,0 +1,936 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>6.11 Practice problems | Statistics and Econometrics with R</title>
+  <meta name="description" content="<p>A first course in statistics and econometrics for Indian students, built on
+the progression from question to intuition to rigour to computation to
+interpretation.</p>" />
+  <meta name="generator" content="bookdown 0.47 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="6.11 Practice problems | Statistics and Econometrics with R" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="<p>A first course in statistics and econometrics for Indian students, built on
+the progression from question to intuition to rigour to computation to
+interpretation.</p>" />
+  <meta name="github-repo" content="kedarkulkarni1991/stats-econometrics-r" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="6.11 Practice problems | Statistics and Econometrics with R" />
+  
+  <meta name="twitter:description" content="<p>A first course in statistics and econometrics for Indian students, built on
+the progression from question to intuition to rigour to computation to
+interpretation.</p>" />
+  
+
+<meta name="author" content="Kedar Kulkarni" />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="sr-summary.html"/>
+<link rel="next" href="sr-question-bank.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  background-color: #f8f8f8; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } /* Alert */
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #204a87; } /* Attribute */
+code span.bn { color: #0000cf; } /* BaseN */
+code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4e9a06; } /* Char */
+code span.cn { color: #8f5902; } /* Constant */
+code span.co { color: #8f5902; font-style: italic; } /* Comment */
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code span.dt { color: #204a87; } /* DataType */
+code span.dv { color: #0000cf; } /* DecVal */
+code span.er { color: #a40000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #0000cf; } /* Float */
+code span.fu { color: #204a87; font-weight: bold; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code span.ot { color: #8f5902; } /* Other */
+code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code span.sc { color: #ce5c00; font-weight: bold; } /* SpecialChar */
+code span.ss { color: #4e9a06; } /* SpecialString */
+code span.st { color: #4e9a06; } /* String */
+code span.va { color: #000000; } /* Variable */
+code span.vs { color: #4e9a06; } /* VerbatimString */
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="css/style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="toc-logo"><a href="./"><strong>Statistics &amp; Econometrics with R</strong></a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Welcome</a>
+<ul>
+<li class="chapter" data-level="" data-path="how-to-use-this-book.html"><a href="how-to-use-this-book.html"><i class="fa fa-check"></i>How to use this book</a>
+<ul>
+<li class="chapter" data-level="" data-path="how-to-use-this-book.html"><a href="how-to-use-this-book.html#read-the-book-in-order"><i class="fa fa-check"></i>Read the book in order</a></li>
+<li class="chapter" data-level="" data-path="how-to-use-this-book.html"><a href="how-to-use-this-book.html#work-through-the-mathematics"><i class="fa fa-check"></i>Work through the mathematics</a></li>
+<li class="chapter" data-level="" data-path="how-to-use-this-book.html"><a href="how-to-use-this-book.html#think-in-words-before-thinking-in-mathematics"><i class="fa fa-check"></i>Think in words before thinking in mathematics</a></li>
+<li class="chapter" data-level="" data-path="how-to-use-this-book.html"><a href="how-to-use-this-book.html#write-the-code-yourself"><i class="fa fa-check"></i>Write the code yourself</a></li>
+<li class="chapter" data-level="" data-path="how-to-use-this-book.html"><a href="how-to-use-this-book.html#think-before-calculating"><i class="fa fa-check"></i>Think before calculating</a></li>
+<li class="chapter" data-level="" data-path="how-to-use-this-book.html"><a href="how-to-use-this-book.html#attempt-the-exercises-first"><i class="fa fa-check"></i>Attempt the exercises first</a></li>
+<li class="chapter" data-level="" data-path="how-to-use-this-book.html"><a href="how-to-use-this-book.html#use-the-book-as-a-reference"><i class="fa fa-check"></i>Use the book as a reference</a></li>
+<li class="chapter" data-level="" data-path="how-to-use-this-book.html"><a href="how-to-use-this-book.html#learn-by-connecting-ideas"><i class="fa fa-check"></i>Learn by connecting ideas</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="a-note-on-the-data.html"><a href="a-note-on-the-data.html"><i class="fa fa-check"></i>A note on the data</a></li>
+<li class="chapter" data-level="" data-path="what-you-need.html"><a href="what-you-need.html"><i class="fa fa-check"></i>What you need</a></li>
+<li class="chapter" data-level="" data-path="mathematical-background.html"><a href="mathematical-background.html"><i class="fa fa-check"></i>Mathematical background</a></li>
+<li class="chapter" data-level="" data-path="licence-and-citation.html"><a href="licence-and-citation.html"><i class="fa fa-check"></i>Licence and citation</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="towards-inference.html"><a href="towards-inference.html"><i class="fa fa-check"></i><b>1</b> Towards Inferential Statistics</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="u1-randomness.html"><a href="u1-randomness.html"><i class="fa fa-check"></i><b>1.1</b> Randomness and variation</a></li>
+<li class="chapter" data-level="1.2" data-path="u1-describing.html"><a href="u1-describing.html"><i class="fa fa-check"></i><b>1.2</b> Describing variation</a></li>
+<li class="chapter" data-level="1.3" data-path="u1-not-enough.html"><a href="u1-not-enough.html"><i class="fa fa-check"></i><b>1.3</b> The limits of descriptive statistics</a></li>
+<li class="chapter" data-level="1.4" data-path="u1-frequentist.html"><a href="u1-frequentist.html"><i class="fa fa-check"></i><b>1.4</b> What if we repeated the survey?</a></li>
+<li class="chapter" data-level="1.5" data-path="u1-lln.html"><a href="u1-lln.html"><i class="fa fa-check"></i><b>1.5</b> Why do larger samples give more reliable answers?</a></li>
+<li class="chapter" data-level="1.6" data-path="u1-clt.html"><a href="u1-clt.html"><i class="fa fa-check"></i><b>1.6</b> The Central Limit Theorem</a>
+<ul>
+<li class="chapter" data-level="" data-path="u1-clt.html"><a href="u1-clt.html#a-simulation"><i class="fa fa-check"></i>A simulation</a></li>
+<li class="chapter" data-level="" data-path="u1-clt.html"><a href="u1-clt.html#an-intuition"><i class="fa fa-check"></i>An intuition</a></li>
+<li class="chapter" data-level="" data-path="u1-clt.html"><a href="u1-clt.html#how-large-is-large-enough"><i class="fa fa-check"></i>How large is “large enough”?</a></li>
+<li class="chapter" data-level="" data-path="u1-clt.html"><a href="u1-clt.html#why-this-matters"><i class="fa fa-check"></i>Why this matters</a></li>
+</ul></li>
+<li class="chapter" data-level="1.7" data-path="u1-random-variables.html"><a href="u1-random-variables.html"><i class="fa fa-check"></i><b>1.7</b> A language for randomness</a>
+<ul>
+<li class="chapter" data-level="" data-path="u1-random-variables.html"><a href="u1-random-variables.html#random-variables"><i class="fa fa-check"></i>Random variables</a></li>
+<li class="chapter" data-level="" data-path="u1-random-variables.html"><a href="u1-random-variables.html#realisations"><i class="fa fa-check"></i>Realisations</a></li>
+<li class="chapter" data-level="" data-path="u1-random-variables.html"><a href="u1-random-variables.html#the-long-run-average"><i class="fa fa-check"></i>The long-run average</a></li>
+<li class="chapter" data-level="" data-path="u1-random-variables.html"><a href="u1-random-variables.html#measuring-variation"><i class="fa fa-check"></i>Measuring variation</a></li>
+<li class="chapter" data-level="" data-path="u1-random-variables.html"><a href="u1-random-variables.html#parameters-and-statistics"><i class="fa fa-check"></i>Parameters and statistics</a></li>
+<li class="chapter" data-level="" data-path="u1-random-variables.html"><a href="u1-random-variables.html#a-summary-of-notation"><i class="fa fa-check"></i>A summary of notation</a></li>
+</ul></li>
+<li class="chapter" data-level="1.8" data-path="u1-what-goes-wrong.html"><a href="u1-what-goes-wrong.html"><i class="fa fa-check"></i><b>1.8</b> Before any mathematics can help</a></li>
+<li class="chapter" data-level="1.9" data-path="u1-summary.html"><a href="u1-summary.html"><i class="fa fa-check"></i><b>1.9</b> Summary</a></li>
+<li class="chapter" data-level="1.10" data-path="u1-practice.html"><a href="u1-practice.html"><i class="fa fa-check"></i><b>1.10</b> Practice problems</a>
+<ul>
+<li class="chapter" data-level="" data-path="u1-practice.html"><a href="u1-practice.html#concept-checks"><i class="fa fa-check"></i>Concept checks</a></li>
+<li class="chapter" data-level="" data-path="u1-practice.html"><a href="u1-practice.html#explain"><i class="fa fa-check"></i>Explain</a></li>
+<li class="chapter" data-level="" data-path="u1-practice.html"><a href="u1-practice.html#numerical-problems"><i class="fa fa-check"></i>Numerical problems</a></li>
+<li class="chapter" data-level="" data-path="u1-practice.html"><a href="u1-practice.html#r-exercises"><i class="fa fa-check"></i>R exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="1.11" data-path="u1-question-bank.html"><a href="u1-question-bank.html"><i class="fa fa-check"></i><b>1.11</b> Question bank</a>
+<ul>
+<li class="chapter" data-level="" data-path="u1-question-bank.html"><a href="u1-question-bank.html#multiple-choice"><i class="fa fa-check"></i>Multiple choice</a></li>
+<li class="chapter" data-level="" data-path="u1-question-bank.html"><a href="u1-question-bank.html#short-reasoning"><i class="fa fa-check"></i>Short reasoning</a></li>
+<li class="chapter" data-level="" data-path="u1-question-bank.html"><a href="u1-question-bank.html#numerical"><i class="fa fa-check"></i>Numerical</a></li>
+</ul></li>
+<li class="chapter" data-level="1.12" data-path="u1-looking-ahead.html"><a href="u1-looking-ahead.html"><i class="fa fa-check"></i><b>1.12</b> Looking ahead</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="estimation.html"><a href="estimation.html"><i class="fa fa-check"></i><b>2</b> Estimation: Why the Sample Mean?</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="u2-problem.html"><a href="u2-problem.html"><i class="fa fa-check"></i><b>2.1</b> The problem of estimation</a></li>
+<li class="chapter" data-level="2.2" data-path="u2-iid.html"><a href="u2-iid.html"><i class="fa fa-check"></i><b>2.2</b> When can a sample represent a population?</a></li>
+<li class="chapter" data-level="2.3" data-path="u2-known-truth.html"><a href="u2-known-truth.html"><i class="fa fa-check"></i><b>2.3</b> How can we judge an estimator?</a>
+<ul>
+<li class="chapter" data-level="" data-path="u2-known-truth.html"><a href="u2-known-truth.html#u2-lab-pop"><i class="fa fa-check"></i>The population</a></li>
+<li class="chapter" data-level="" data-path="u2-known-truth.html"><a href="u2-known-truth.html#u2-lab-one"><i class="fa fa-check"></i>One sample from it</a></li>
+<li class="chapter" data-level="" data-path="u2-known-truth.html"><a href="u2-known-truth.html#u2-lab-many"><i class="fa fa-check"></i>A thousand samples</a></li>
+</ul></li>
+<li class="chapter" data-level="2.4" data-path="u2-centred.html"><a href="u2-centred.html"><i class="fa fa-check"></i><b>2.4</b> Is the sample mean centred on the truth?</a></li>
+<li class="chapter" data-level="2.5" data-path="u2-precision.html"><a href="u2-precision.html"><i class="fa fa-check"></i><b>2.5</b> Why do larger samples fluctuate less?</a></li>
+<li class="chapter" data-level="2.6" data-path="u2-lln-explained.html"><a href="u2-lln-explained.html"><i class="fa fa-check"></i><b>2.6</b> Why does the sample mean become more reliable?</a></li>
+<li class="chapter" data-level="2.7" data-path="u2-cost.html"><a href="u2-cost.html"><i class="fa fa-check"></i><b>2.7</b> Why is precision expensive?</a></li>
+<li class="chapter" data-level="2.8" data-path="u2-summary.html"><a href="u2-summary.html"><i class="fa fa-check"></i><b>2.8</b> Summary</a></li>
+<li class="chapter" data-level="2.9" data-path="u2-practice.html"><a href="u2-practice.html"><i class="fa fa-check"></i><b>2.9</b> Practice problems</a>
+<ul>
+<li class="chapter" data-level="" data-path="u2-practice.html"><a href="u2-practice.html#concept-checks-1"><i class="fa fa-check"></i>Concept checks</a></li>
+<li class="chapter" data-level="" data-path="u2-practice.html"><a href="u2-practice.html#explain-1"><i class="fa fa-check"></i>Explain</a></li>
+<li class="chapter" data-level="" data-path="u2-practice.html"><a href="u2-practice.html#numerical-problems-1"><i class="fa fa-check"></i>Numerical problems</a></li>
+<li class="chapter" data-level="" data-path="u2-practice.html"><a href="u2-practice.html#r-exercises-1"><i class="fa fa-check"></i>R exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="2.10" data-path="u2-question-bank.html"><a href="u2-question-bank.html"><i class="fa fa-check"></i><b>2.10</b> Question bank</a>
+<ul>
+<li class="chapter" data-level="" data-path="u2-question-bank.html"><a href="u2-question-bank.html#multiple-choice-1"><i class="fa fa-check"></i>Multiple choice</a></li>
+<li class="chapter" data-level="" data-path="u2-question-bank.html"><a href="u2-question-bank.html#short-reasoning-1"><i class="fa fa-check"></i>Short reasoning</a></li>
+<li class="chapter" data-level="" data-path="u2-question-bank.html"><a href="u2-question-bank.html#numerical-1"><i class="fa fa-check"></i>Numerical</a></li>
+</ul></li>
+<li class="chapter" data-level="2.11" data-path="u2-looking-ahead.html"><a href="u2-looking-ahead.html"><i class="fa fa-check"></i><b>2.11</b> Looking ahead</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="interval-estimation.html"><a href="interval-estimation.html"><i class="fa fa-check"></i><b>3</b> Point and Interval Estimation</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="u3-single-sample.html"><a href="u3-single-sample.html"><i class="fa fa-check"></i><b>3.1</b> What can a single sample tell us?</a></li>
+<li class="chapter" data-level="3.2" data-path="u3-variance.html"><a href="u3-variance.html"><i class="fa fa-check"></i><b>3.2</b> Estimating the standard error</a>
+<ul>
+<li class="chapter" data-level="" data-path="u3-variance.html"><a href="u3-variance.html#a-statistical-laboratory"><i class="fa fa-check"></i>A statistical laboratory</a></li>
+<li class="chapter" data-level="" data-path="u3-variance.html"><a href="u3-variance.html#why-dividing-by-n-fails"><i class="fa fa-check"></i>Why dividing by n fails</a></li>
+<li class="chapter" data-level="" data-path="u3-variance.html"><a href="u3-variance.html#why-the-correction-is-exactly-n-1"><i class="fa fa-check"></i>Why the correction is exactly n − 1</a></li>
+<li class="chapter" data-level="" data-path="u3-variance.html"><a href="u3-variance.html#when-the-population-mean-is-known"><i class="fa fa-check"></i>When the population mean is known</a></li>
+<li class="chapter" data-level="" data-path="u3-variance.html"><a href="u3-variance.html#back-to-the-standard-error"><i class="fa fa-check"></i>Back to the standard error</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="u3-proportion.html"><a href="u3-proportion.html"><i class="fa fa-check"></i><b>3.3</b> How do we estimate a proportion?</a>
+<ul>
+<li class="chapter" data-level="" data-path="u3-proportion.html"><a href="u3-proportion.html#how-much-does-a-sample-proportion-vary"><i class="fa fa-check"></i>How much does a sample proportion vary?</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="u3-ci.html"><a href="u3-ci.html"><i class="fa fa-check"></i><b>3.4</b> From a point estimate to an interval</a>
+<ul>
+<li class="chapter" data-level="" data-path="u3-ci.html"><a href="u3-ci.html#building-the-interval"><i class="fa fa-check"></i>Building the interval</a></li>
+<li class="chapter" data-level="" data-path="u3-ci.html"><a href="u3-ci.html#reversing-the-question"><i class="fa fa-check"></i>Reversing the question</a></li>
+<li class="chapter" data-level="" data-path="u3-ci.html"><a href="u3-ci.html#what-does-95-actually-refer-to"><i class="fa fa-check"></i>What does 95% actually refer to?</a></li>
+</ul></li>
+<li class="chapter" data-level="3.5" data-path="u3-t.html"><a href="u3-t.html"><i class="fa fa-check"></i><b>3.5</b> What changes when σ is unknown?</a>
+<ul>
+<li class="chapter" data-level="" data-path="u3-t.html"><a href="u3-t.html#why-does-the-interval-change"><i class="fa fa-check"></i>Why does the interval change?</a></li>
+<li class="chapter" data-level="" data-path="u3-t.html"><a href="u3-t.html#how-serious-is-the-problem"><i class="fa fa-check"></i>How serious is the problem?</a></li>
+<li class="chapter" data-level="" data-path="u3-t.html"><a href="u3-t.html#the-t-distribution"><i class="fa fa-check"></i>The <span class="math inline">\(t\)</span> distribution</a></li>
+<li class="chapter" data-level="" data-path="u3-t.html"><a href="u3-t.html#how-much-difference-does-it-make"><i class="fa fa-check"></i>How much difference does it make?</a></li>
+<li class="chapter" data-level="" data-path="u3-t.html"><a href="u3-t.html#one-final-point"><i class="fa fa-check"></i>One final point</a></li>
+</ul></li>
+<li class="chapter" data-level="3.6" data-path="u3-samplesize.html"><a href="u3-samplesize.html"><i class="fa fa-check"></i><b>3.6</b> How large a sample do we need?</a>
+<ul>
+<li class="chapter" data-level="" data-path="u3-samplesize.html"><a href="u3-samplesize.html#intervals-for-a-proportion"><i class="fa fa-check"></i>Intervals for a proportion</a></li>
+</ul></li>
+<li class="chapter" data-level="3.7" data-path="u3-onesided.html"><a href="u3-onesided.html"><i class="fa fa-check"></i><b>3.7</b> When only one direction matters</a></li>
+<li class="chapter" data-level="3.8" data-path="u3-misreadings.html"><a href="u3-misreadings.html"><i class="fa fa-check"></i><b>3.8</b> What a confidence interval does not mean</a>
+<ul>
+<li class="chapter" data-level="" data-path="u3-misreadings.html"><a href="u3-misreadings.html#statement-1-the-probability-the-mean-is-inside"><i class="fa fa-check"></i>Statement 1: the probability the mean is inside</a></li>
+<li class="chapter" data-level="" data-path="u3-misreadings.html"><a href="u3-misreadings.html#statement-2-the-spread-of-the-population"><i class="fa fa-check"></i>Statement 2: the spread of the population</a></li>
+<li class="chapter" data-level="" data-path="u3-misreadings.html"><a href="u3-misreadings.html#statement-3-two-intervals-that-overlap"><i class="fa fa-check"></i>Statement 3: two intervals that overlap</a></li>
+<li class="chapter" data-level="" data-path="u3-misreadings.html"><a href="u3-misreadings.html#statement-4-a-wider-interval"><i class="fa fa-check"></i>Statement 4: a wider interval</a></li>
+</ul></li>
+<li class="chapter" data-level="3.9" data-path="u3-summary.html"><a href="u3-summary.html"><i class="fa fa-check"></i><b>3.9</b> Summary</a></li>
+<li class="chapter" data-level="3.10" data-path="u3-practice.html"><a href="u3-practice.html"><i class="fa fa-check"></i><b>3.10</b> Practice problems</a>
+<ul>
+<li class="chapter" data-level="" data-path="u3-practice.html"><a href="u3-practice.html#concept-checks-2"><i class="fa fa-check"></i>Concept checks</a></li>
+<li class="chapter" data-level="" data-path="u3-practice.html"><a href="u3-practice.html#explain-2"><i class="fa fa-check"></i>Explain</a></li>
+<li class="chapter" data-level="" data-path="u3-practice.html"><a href="u3-practice.html#numerical-problems-2"><i class="fa fa-check"></i>Numerical problems</a></li>
+<li class="chapter" data-level="" data-path="u3-practice.html"><a href="u3-practice.html#r-exercises-2"><i class="fa fa-check"></i>R exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="3.11" data-path="u3-question-bank.html"><a href="u3-question-bank.html"><i class="fa fa-check"></i><b>3.11</b> Question bank</a>
+<ul>
+<li class="chapter" data-level="" data-path="u3-question-bank.html"><a href="u3-question-bank.html#multiple-choice-2"><i class="fa fa-check"></i>Multiple choice</a></li>
+<li class="chapter" data-level="" data-path="u3-question-bank.html"><a href="u3-question-bank.html#short-reasoning-2"><i class="fa fa-check"></i>Short reasoning</a></li>
+<li class="chapter" data-level="" data-path="u3-question-bank.html"><a href="u3-question-bank.html#numerical-2"><i class="fa fa-check"></i>Numerical</a></li>
+</ul></li>
+<li class="chapter" data-level="3.12" data-path="u3-looking-ahead.html"><a href="u3-looking-ahead.html"><i class="fa fa-check"></i><b>3.12</b> Looking ahead</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="one-sample.html"><a href="one-sample.html"><i class="fa fa-check"></i><b>4</b> Hypothesis Testing: One Sample</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="os-problem.html"><a href="os-problem.html"><i class="fa fa-check"></i><b>4.1</b> The problem, before any formulas</a></li>
+<li class="chapter" data-level="4.2" data-path="os-hypotheses.html"><a href="os-hypotheses.html"><i class="fa fa-check"></i><b>4.2</b> Naming the two hypotheses</a>
+<ul>
+<li class="chapter" data-level="" data-path="os-hypotheses.html"><a href="os-hypotheses.html#why-begin-by-assuming-the-claim-is-true"><i class="fa fa-check"></i>Why begin by assuming the claim is true?</a></li>
+<li class="chapter" data-level="4.2.1" data-path="os-hypotheses.html"><a href="os-hypotheses.html#os-which-hypothesis"><i class="fa fa-check"></i><b>4.2.1</b> Which hypothesis does the claim go in?</a></li>
+<li class="chapter" data-level="" data-path="os-hypotheses.html"><a href="os-hypotheses.html#where-the-equality-goes"><i class="fa fa-check"></i>Where the equality goes</a></li>
+<li class="chapter" data-level="" data-path="os-hypotheses.html"><a href="os-hypotheses.html#the-cat-report-worked-through"><i class="fa fa-check"></i>The CAT report, worked through</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="os-pvalue.html"><a href="os-pvalue.html"><i class="fa fa-check"></i><b>4.3</b> What a p-value actually says</a>
+<ul>
+<li class="chapter" data-level="" data-path="os-pvalue.html"><a href="os-pvalue.html#four-ways-to-read-it-backwards"><i class="fa fa-check"></i>Four ways to read it backwards</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="os-critical.html"><a href="os-critical.html"><i class="fa fa-check"></i><b>4.4</b> How far is too far?</a>
+<ul>
+<li class="chapter" data-level="" data-path="os-critical.html"><a href="os-critical.html#choosing-the-cutoff"><i class="fa fa-check"></i>Choosing the cutoff</a></li>
+<li class="chapter" data-level="" data-path="os-critical.html"><a href="os-critical.html#the-decision-rule"><i class="fa fa-check"></i>The decision rule</a></li>
+</ul></li>
+<li class="chapter" data-level="4.5" data-path="os-worked.html"><a href="os-worked.html"><i class="fa fa-check"></i><b>4.5</b> The worked example, both ways</a>
+<ul>
+<li class="chapter" data-level="" data-path="os-worked.html"><a href="os-worked.html#on-paper"><i class="fa fa-check"></i>On paper</a></li>
+<li class="chapter" data-level="" data-path="os-worked.html"><a href="os-worked.html#the-same-thing-in-r"><i class="fa fa-check"></i>The same thing in R</a></li>
+<li class="chapter" data-level="" data-path="os-worked.html"><a href="os-worked.html#letting-a-package-do-it"><i class="fa fa-check"></i>Letting a package do it</a></li>
+</ul></li>
+<li class="chapter" data-level="4.6" data-path="os-ci.html"><a href="os-ci.html"><i class="fa fa-check"></i><b>4.6</b> The same test, viewed as an interval</a>
+<ul>
+<li class="chapter" data-level="" data-path="os-ci.html"><a href="os-ci.html#testing-every-possible-claim-at-once"><i class="fa fa-check"></i>Testing every possible claim at once</a></li>
+<li class="chapter" data-level="" data-path="os-ci.html"><a href="os-ci.html#so-why-keep-both"><i class="fa fa-check"></i>So why keep both?</a></li>
+</ul></li>
+<li class="chapter" data-level="4.7" data-path="os-ttest.html"><a href="os-ttest.html"><i class="fa fa-check"></i><b>4.7</b> When σ is unknown: the t-test</a>
+<ul>
+<li class="chapter" data-level="" data-path="os-ttest.html"><a href="os-ttest.html#settling-the-question-with-the-actual-class"><i class="fa fa-check"></i>Settling the question with the actual class</a></li>
+<li class="chapter" data-level="" data-path="os-ttest.html"><a href="os-ttest.html#worked-example"><i class="fa fa-check"></i>Worked example</a></li>
+</ul></li>
+<li class="chapter" data-level="4.8" data-path="os-onetailed.html"><a href="os-onetailed.html"><i class="fa fa-check"></i><b>4.8</b> One-tailed tests</a>
+<ul>
+<li class="chapter" data-level="" data-path="os-onetailed.html"><a href="os-onetailed.html#unknown-%CF%83-the-one-sided-t-test"><i class="fa fa-check"></i>Unknown σ: the one-sided t-test</a></li>
+<li class="chapter" data-level="" data-path="os-onetailed.html"><a href="os-onetailed.html#the-one-sided-interval-looks-backwards"><i class="fa fa-check"></i>The one-sided interval looks backwards</a></li>
+</ul></li>
+<li class="chapter" data-level="4.9" data-path="os-reference.html"><a href="os-reference.html"><i class="fa fa-check"></i><b>4.9</b> Reference tables</a></li>
+<li class="chapter" data-level="4.10" data-path="os-summary.html"><a href="os-summary.html"><i class="fa fa-check"></i><b>4.10</b> Summary</a></li>
+<li class="chapter" data-level="4.11" data-path="os-exercises.html"><a href="os-exercises.html"><i class="fa fa-check"></i><b>4.11</b> Practice problems</a></li>
+<li class="chapter" data-level="4.12" data-path="os-question-bank.html"><a href="os-question-bank.html"><i class="fa fa-check"></i><b>4.12</b> Question bank</a>
+<ul>
+<li class="chapter" data-level="" data-path="os-question-bank.html"><a href="os-question-bank.html#multiple-choice-3"><i class="fa fa-check"></i>Multiple choice</a></li>
+<li class="chapter" data-level="" data-path="os-question-bank.html"><a href="os-question-bank.html#short-reasoning-3"><i class="fa fa-check"></i>Short reasoning</a></li>
+<li class="chapter" data-level="" data-path="os-question-bank.html"><a href="os-question-bank.html#numerical-3"><i class="fa fa-check"></i>Numerical</a></li>
+</ul></li>
+<li class="chapter" data-level="4.13" data-path="os-looking-ahead.html"><a href="os-looking-ahead.html"><i class="fa fa-check"></i><b>4.13</b> Looking ahead</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="two-sample.html"><a href="two-sample.html"><i class="fa fa-check"></i><b>5</b> Hypothesis Testing: Two Samples</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="ts-motivation.html"><a href="ts-motivation.html"><i class="fa fa-check"></i><b>5.1</b> Comparing two groups</a></li>
+<li class="chapter" data-level="5.2" data-path="ts-sampling.html"><a href="ts-sampling.html"><i class="fa fa-check"></i><b>5.2</b> What does a difference of means do across samples?</a></li>
+<li class="chapter" data-level="5.3" data-path="ts-known.html"><a href="ts-known.html"><i class="fa fa-check"></i><b>5.3</b> Testing the difference when σ is known</a>
+<ul>
+<li class="chapter" data-level="" data-path="ts-known.html"><a href="ts-known.html#conventional-against-high-yielding-wheat"><i class="fa fa-check"></i>Conventional against high-yielding wheat</a></li>
+</ul></li>
+<li class="chapter" data-level="5.4" data-path="ts-unknown.html"><a href="ts-unknown.html"><i class="fa fa-check"></i><b>5.4</b> When σ is unknown</a>
+<ul>
+<li class="chapter" data-level="" data-path="ts-unknown.html"><a href="ts-unknown.html#large-samples"><i class="fa fa-check"></i>Large samples</a></li>
+<li class="chapter" data-level="" data-path="ts-unknown.html"><a href="ts-unknown.html#equal-variances-the-pooled-estimator"><i class="fa fa-check"></i>Equal variances: the pooled estimator</a></li>
+<li class="chapter" data-level="" data-path="ts-unknown.html"><a href="ts-unknown.html#unequal-variances-welchs-test"><i class="fa fa-check"></i>Unequal variances: Welch’s test</a></li>
+<li class="chapter" data-level="" data-path="ts-unknown.html"><a href="ts-unknown.html#do-north-and-south-indian-students-differ-in-height"><i class="fa fa-check"></i>Do North and South Indian students differ in height?</a></li>
+</ul></li>
+<li class="chapter" data-level="5.5" data-path="ts-paired.html"><a href="ts-paired.html"><i class="fa fa-check"></i><b>5.5</b> When two samples are not really two samples</a>
+<ul>
+<li class="chapter" data-level="" data-path="ts-paired.html"><a href="ts-paired.html#something-is-wrong"><i class="fa fa-check"></i>Something is wrong</a></li>
+<li class="chapter" data-level="" data-path="ts-paired.html"><a href="ts-paired.html#what-the-two-sample-test-assumed"><i class="fa fa-check"></i>What the two-sample test assumed</a></li>
+<li class="chapter" data-level="" data-path="ts-paired.html"><a href="ts-paired.html#two-sources-of-variation"><i class="fa fa-check"></i>Two sources of variation</a></li>
+<li class="chapter" data-level="" data-path="ts-paired.html"><a href="ts-paired.html#removing-what-we-do-not-care-about"><i class="fa fa-check"></i>Removing what we do not care about</a></li>
+<li class="chapter" data-level="" data-path="ts-paired.html"><a href="ts-paired.html#the-statistical-model"><i class="fa fa-check"></i>The statistical model</a></li>
+<li class="chapter" data-level="" data-path="ts-paired.html"><a href="ts-paired.html#setting-up-the-hypotheses"><i class="fa fa-check"></i>Setting up the hypotheses</a></li>
+<li class="chapter" data-level="" data-path="ts-paired.html"><a href="ts-paired.html#estimating-the-mean-difference"><i class="fa fa-check"></i>Estimating the mean difference</a></li>
+<li class="chapter" data-level="" data-path="ts-paired.html"><a href="ts-paired.html#the-test-statistic"><i class="fa fa-check"></i>The test statistic</a></li>
+<li class="chapter" data-level="" data-path="ts-paired.html"><a href="ts-paired.html#confidence-interval"><i class="fa fa-check"></i>Confidence interval</a></li>
+<li class="chapter" data-level="" data-path="ts-paired.html"><a href="ts-paired.html#doing-it-in-r"><i class="fa fa-check"></i>Doing it in R</a></li>
+<li class="chapter" data-level="" data-path="ts-paired.html"><a href="ts-paired.html#why-did-the-answer-change-so-much"><i class="fa fa-check"></i>Why did the answer change so much?</a></li>
+<li class="chapter" data-level="" data-path="ts-paired.html"><a href="ts-paired.html#when-should-we-use-a-paired-test"><i class="fa fa-check"></i>When should we use a paired test?</a></li>
+</ul></li>
+<li class="chapter" data-level="5.6" data-path="ts-causal.html"><a href="ts-causal.html"><i class="fa fa-check"></i><b>5.6</b> A difference is not an effect</a>
+<ul>
+<li class="chapter" data-level="" data-path="ts-causal.html"><a href="ts-causal.html#the-difference-is-significant-and-trivial"><i class="fa fa-check"></i>The difference is significant and trivial</a></li>
+<li class="chapter" data-level="" data-path="ts-causal.html"><a href="ts-causal.html#the-groups-were-not-assigned"><i class="fa fa-check"></i>The groups were not assigned</a></li>
+</ul></li>
+<li class="chapter" data-level="5.7" data-path="ts-summary.html"><a href="ts-summary.html"><i class="fa fa-check"></i><b>5.7</b> Summary</a></li>
+<li class="chapter" data-level="5.8" data-path="ts-practice.html"><a href="ts-practice.html"><i class="fa fa-check"></i><b>5.8</b> Practice problems</a>
+<ul>
+<li class="chapter" data-level="" data-path="ts-practice.html"><a href="ts-practice.html#concept-checks-3"><i class="fa fa-check"></i>Concept checks</a></li>
+<li class="chapter" data-level="" data-path="ts-practice.html"><a href="ts-practice.html#explain-3"><i class="fa fa-check"></i>Explain</a></li>
+<li class="chapter" data-level="" data-path="ts-practice.html"><a href="ts-practice.html#numerical-problems-3"><i class="fa fa-check"></i>Numerical problems</a></li>
+<li class="chapter" data-level="" data-path="ts-practice.html"><a href="ts-practice.html#r-exercises-3"><i class="fa fa-check"></i>R exercises</a></li>
+<li class="chapter" data-level="" data-path="ts-practice.html"><a href="ts-practice.html#paired-designs"><i class="fa fa-check"></i>Paired designs</a></li>
+</ul></li>
+<li class="chapter" data-level="5.9" data-path="ts-question-bank.html"><a href="ts-question-bank.html"><i class="fa fa-check"></i><b>5.9</b> Question bank</a>
+<ul>
+<li class="chapter" data-level="" data-path="ts-question-bank.html"><a href="ts-question-bank.html#multiple-choice-4"><i class="fa fa-check"></i>Multiple choice</a></li>
+<li class="chapter" data-level="" data-path="ts-question-bank.html"><a href="ts-question-bank.html#short-reasoning-4"><i class="fa fa-check"></i>Short reasoning</a></li>
+<li class="chapter" data-level="" data-path="ts-question-bank.html"><a href="ts-question-bank.html#numerical-4"><i class="fa fa-check"></i>Numerical</a></li>
+<li class="chapter" data-level="" data-path="ts-question-bank.html"><a href="ts-question-bank.html#paired-designs-1"><i class="fa fa-check"></i>Paired designs</a></li>
+<li class="chapter" data-level="" data-path="ts-question-bank.html"><a href="ts-question-bank.html#paired-reasoning"><i class="fa fa-check"></i>Paired reasoning</a></li>
+<li class="chapter" data-level="" data-path="ts-question-bank.html"><a href="ts-question-bank.html#paired-numerical"><i class="fa fa-check"></i>Paired numerical</a></li>
+</ul></li>
+<li class="chapter" data-level="5.10" data-path="ts-looking-ahead.html"><a href="ts-looking-ahead.html"><i class="fa fa-check"></i><b>5.10</b> Looking ahead</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="simple-regression.html"><a href="simple-regression.html"><i class="fa fa-check"></i><b>6</b> Simple Regression</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="sr-motivation.html"><a href="sr-motivation.html"><i class="fa fa-check"></i><b>6.1</b> From two groups to a whole variable</a></li>
+<li class="chapter" data-level="6.2" data-path="sr-prf.html"><a href="sr-prf.html"><i class="fa fa-check"></i><b>6.2</b> The population regression function</a></li>
+<li class="chapter" data-level="6.3" data-path="sr-model.html"><a href="sr-model.html"><i class="fa fa-check"></i><b>6.3</b> The model</a>
+<ul>
+<li class="chapter" data-level="" data-path="sr-model.html"><a href="sr-model.html#what-must-be-true-of-the-error-term"><i class="fa fa-check"></i>What must be true of the error term</a></li>
+</ul></li>
+<li class="chapter" data-level="6.4" data-path="sr-srf.html"><a href="sr-srf.html"><i class="fa fa-check"></i><b>6.4</b> From the population to a sample</a></li>
+<li class="chapter" data-level="6.5" data-path="sr-ols.html"><a href="sr-ols.html"><i class="fa fa-check"></i><b>6.5</b> Choosing a line: ordinary least squares</a>
+<ul>
+<li class="chapter" data-level="" data-path="sr-ols.html"><a href="sr-ols.html#doing-it-by-hand-and-in-r"><i class="fa fa-check"></i>Doing it by hand and in R</a></li>
+</ul></li>
+<li class="chapter" data-level="6.6" data-path="sr-algebra.html"><a href="sr-algebra.html"><i class="fa fa-check"></i><b>6.6</b> What the fitted line guarantees</a>
+<ul>
+<li class="chapter" data-level="" data-path="sr-algebra.html"><a href="sr-algebra.html#how-much-does-the-line-explain"><i class="fa fa-check"></i>How much does the line explain?</a></li>
+</ul></li>
+<li class="chapter" data-level="6.7" data-path="sr-properties.html"><a href="sr-properties.html"><i class="fa fa-check"></i><b>6.7</b> How good is the estimate?</a>
+<ul>
+<li class="chapter" data-level="" data-path="sr-properties.html"><a href="sr-properties.html#unbiasedness"><i class="fa fa-check"></i>Unbiasedness</a></li>
+<li class="chapter" data-level="" data-path="sr-properties.html"><a href="sr-properties.html#the-variance-of-the-slope"><i class="fa fa-check"></i>The variance of the slope</a></li>
+</ul></li>
+<li class="chapter" data-level="6.8" data-path="sr-inference.html"><a href="sr-inference.html"><i class="fa fa-check"></i><b>6.8</b> Inference about the slope</a></li>
+<li class="chapter" data-level="6.9" data-path="sr-causal.html"><a href="sr-causal.html"><i class="fa fa-check"></i><b>6.9</b> What regression does not fix</a></li>
+<li class="chapter" data-level="6.10" data-path="sr-summary.html"><a href="sr-summary.html"><i class="fa fa-check"></i><b>6.10</b> Summary</a></li>
+<li class="chapter" data-level="6.11" data-path="sr-practice.html"><a href="sr-practice.html"><i class="fa fa-check"></i><b>6.11</b> Practice problems</a>
+<ul>
+<li class="chapter" data-level="" data-path="sr-practice.html"><a href="sr-practice.html#concept-checks-4"><i class="fa fa-check"></i>Concept checks</a></li>
+<li class="chapter" data-level="" data-path="sr-practice.html"><a href="sr-practice.html#explain-4"><i class="fa fa-check"></i>Explain</a></li>
+<li class="chapter" data-level="" data-path="sr-practice.html"><a href="sr-practice.html#numerical-problems-4"><i class="fa fa-check"></i>Numerical problems</a></li>
+<li class="chapter" data-level="" data-path="sr-practice.html"><a href="sr-practice.html#r-exercises-4"><i class="fa fa-check"></i>R exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="6.12" data-path="sr-question-bank.html"><a href="sr-question-bank.html"><i class="fa fa-check"></i><b>6.12</b> Question bank</a>
+<ul>
+<li class="chapter" data-level="" data-path="sr-question-bank.html"><a href="sr-question-bank.html#multiple-choice-5"><i class="fa fa-check"></i>Multiple choice</a></li>
+<li class="chapter" data-level="" data-path="sr-question-bank.html"><a href="sr-question-bank.html#short-reasoning-5"><i class="fa fa-check"></i>Short reasoning</a></li>
+<li class="chapter" data-level="" data-path="sr-question-bank.html"><a href="sr-question-bank.html#numerical-5"><i class="fa fa-check"></i>Numerical</a></li>
+</ul></li>
+<li class="chapter" data-level="6.13" data-path="sr-looking-ahead.html"><a href="sr-looking-ahead.html"><i class="fa fa-check"></i><b>6.13</b> Looking ahead</a></li>
+</ul></li>
+<li class="divider"></li>
+<li class="toc-after">Kedar Kulkarni · Azim Premji University<br>
+<a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Statistics and Econometrics with R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="sr-practice" class="section level2 hasAnchor" number="6.11">
+<h2><span class="header-section-number">6.11</span> Practice problems<a href="sr-practice.html#sr-practice" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="yourturn">
+<p>Work each one before opening the solution. The
+<a href="sr-question-bank.html#sr-question-bank">question bank</a> that follows has no answers.</p>
+</div>
+<div id="concept-checks-4" class="section level3 unnumbered hasAnchor">
+<h3>Concept checks<a href="sr-practice.html#concept-checks-4" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p><strong>6.1</strong> Why does regression estimate a conditional mean rather than predict
+individual outcomes?</p>
+<div class="answer">
+<p>Because <span class="math inline">\(y\)</span> is not determined by <span class="math inline">\(x\)</span>. At any given attendance level, students
+obtain a wide range of grades, because grades also depend on effort, ability and
+much else — all of which sit in the error term.</p>
+<p>What is stable across the population is the <em>average</em> of <span class="math inline">\(y\)</span> at each value of
+<span class="math inline">\(x\)</span>. That is what <span class="math inline">\(E(y \mid x)\)</span> describes and what the regression line
+estimates.</p>
+<p>The scatter around the line is therefore not a failure of the method. It is the
+part of <span class="math inline">\(y\)</span> that <span class="math inline">\(x\)</span> does not account for, and a model claiming otherwise would
+be claiming that attendance alone determines grades.</p>
+</div>
+<p><strong>6.2</strong> Why is minimising the sum of residuals a bad criterion?</p>
+<div class="answer">
+<p>Because positive and negative residuals cancel, so a line that misses badly in
+both directions can have residuals summing to zero.</p>
+<p>Misses of <span class="math inline">\(+8, -8, +8, -8\)</span> sum to zero, and so do misses of <span class="math inline">\(+1, -1, +1, -1\)</span>. By
+that criterion the two lines are equally good, though the first is far worse.</p>
+<p>Squaring removes the cancellation and makes large misses count more than small
+ones, which is what we want from a measure of fit.</p>
+</div>
+<p><strong>6.3</strong> What goes wrong if every observation has the same value of <span class="math inline">\(x\)</span>?</p>
+<div class="answer">
+<p>The slope is undefined. Its denominator is <span class="math inline">\(\sum(x_i - \bar{x})^2\)</span>, which is
+zero when every <span class="math inline">\(x_i\)</span> equals <span class="math inline">\(\bar{x}\)</span>, and the estimate would require dividing
+by zero.</p>
+<p>The statistical content is more interesting than the algebra. If attendance
+never varies, the data contain no information about how GPA responds to
+attendance — there is nothing to compare. This is assumption SLR3, and it is the
+same point as Section <a href="u1-randomness.html#u1-randomness">1.1</a>: where nothing varies, nothing can be
+learned.</p>
+</div>
+<p><strong>6.4</strong> Distinguish the error <span class="math inline">\(u_i\)</span> from the residual <span class="math inline">\(\hat{u}_i\)</span>.</p>
+<div class="answer">
+<p>The error is the deviation of <span class="math inline">\(y_i\)</span> from the <em>population</em> regression line:
+<span class="math inline">\(u_i = y_i - \beta_0 - \beta_1 x_i\)</span>. It involves the true parameters and is
+therefore unobservable.</p>
+<p>The residual is the deviation from our <em>fitted</em> line:
+<span class="math inline">\(\hat{u}_i = y_i - \hat{\beta}_0 - \hat{\beta}_1 x_i\)</span>. It is computed from the
+data and can be printed.</p>
+<p>The relationship mirrors <span class="math inline">\(\mu\)</span> against <span class="math inline">\(\bar{x}\)</span>. Residuals are estimates of
+errors, and confusing the two leads to claims like “the errors are uncorrelated
+with <span class="math inline">\(x\)</span>, so SLR4 holds” — which is wrong, because the <em>residuals</em> are
+uncorrelated with <span class="math inline">\(x\)</span> by construction, whatever the errors do.</p>
+</div>
+<p><strong>6.5</strong> A regression reports <span class="math inline">\(R^2 = 0.04\)</span> and a slope significant at the 1%
+level. Is that a contradiction?</p>
+<div class="answer">
+<p>No. They measure different things.</p>
+<p><span class="math inline">\(R^2\)</span> says the regression accounts for 4% of the variation in <span class="math inline">\(y\)</span> — the points
+scatter widely around the line. The <span class="math inline">\(p\)</span>-value says the slope is distinguishable
+from zero, which depends on the standard error and therefore on the sample size.</p>
+<p>With a large sample, a real but small relationship produces exactly this
+pattern: a reliably estimated slope explaining little of the variation. Both
+statements are true and neither is more important; they answer “how much does
+<span class="math inline">\(x\)</span> account for?” and “is there a relationship at all?”</p>
+</div>
+</div>
+<div id="explain-4" class="section level3 unnumbered hasAnchor">
+<h3>Explain<a href="sr-practice.html#explain-4" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p><strong>6.6</strong> Explain why <span class="math inline">\(\mathrm{Var}(\hat{\beta}_1)\)</span> falls as the spread of <span class="math inline">\(x\)</span>
+increases, and what this implies for research design.</p>
+<div class="answer">
+<p>The formula is <span class="math inline">\(\mathrm{Var}(\hat{\beta}_1) = \sigma^2/\sum(x_i - \bar{x})^2\)</span>,
+so spread in <span class="math inline">\(x\)</span> appears in the denominator and larger spread means a smaller
+variance.</p>
+<p>The intuition is that a slope is a rate of change, and rates of change are
+measured by observing change. If every student attended between 27 and 29
+classes, we would be trying to infer the effect of attendance from almost no
+variation in attendance, and small errors in <span class="math inline">\(y\)</span> would translate into wild
+swings in the fitted slope. Observing attendance from 5 to 30 pins the line down.</p>
+<p>For design, this says that variation in the explanatory variable is valuable and
+should be sought rather than avoided. A study of the effect of class size that
+only observes classes of 39 to 41 students will struggle no matter how many
+schools it covers. It also explains why the median split did worse than the
+regression: collapsing attendance to two categories discards most of its spread.</p>
+</div>
+<p><strong>6.7</strong> State the zero conditional mean assumption for a regression of earnings
+on years of schooling, in concrete terms, and say whether you believe it.</p>
+<div class="answer">
+<p>The model is <span class="math inline">\(\textit{earnings} = \beta_0 + \beta_1\,\textit{schooling} + u\)</span>,
+where <span class="math inline">\(u\)</span> holds everything else affecting earnings — ability, family
+connections, school quality, motivation, region.</p>
+<p><span class="math inline">\(E(u \mid \textit{schooling}) = 0\)</span> says that people with more schooling are, on
+average, no more able, no better connected, and no better taught than people
+with less.</p>
+<p>That is not believable. Schooling is not distributed at random: children of
+wealthier and better-connected families obtain more of it, and those advantages
+raise earnings on their own. So <span class="math inline">\(u\)</span> is positively related to schooling, and
+<span class="math inline">\(\hat{\beta}_1\)</span> overstates the return to education.</p>
+<p>This does not make the regression useless. It correctly describes how average
+earnings differ across schooling levels. It simply does not measure what an
+extra year of schooling would do to a given person.</p>
+</div>
+</div>
+<div id="numerical-problems-4" class="section level3 unnumbered hasAnchor">
+<h3>Numerical problems<a href="sr-practice.html#numerical-problems-4" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p><strong>6.8</strong> For five plots, fertiliser applied (<span class="math inline">\(x\)</span>, kg) and yield (<span class="math inline">\(y\)</span>, quintals):</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left"><span class="math inline">\(x\)</span></th>
+<th align="left">2</th>
+<th align="left">4</th>
+<th align="left">6</th>
+<th align="left">8</th>
+<th align="left">10</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><span class="math inline">\(y\)</span></td>
+<td align="left">4</td>
+<td align="left">7</td>
+<td align="left">8</td>
+<td align="left">12</td>
+<td align="left">14</td>
+</tr>
+</tbody>
+</table>
+<ol style="list-style-type: lower-roman">
+<li>Compute <span class="math inline">\(\bar{x}\)</span>, <span class="math inline">\(\bar{y}\)</span>, <span class="math inline">\(\hat{\beta}_1\)</span> and <span class="math inline">\(\hat{\beta}_0\)</span>.</li>
+<li>Write the fitted line and interpret the slope.</li>
+<li>Compute the fitted values and residuals, and verify they sum to zero.</li>
+<li>Compute <span class="math inline">\(R^2\)</span>.</li>
+</ol>
+<div class="answer">
+<p><strong>(i)</strong> <span class="math inline">\(\bar{x} = 6\)</span>, <span class="math inline">\(\bar{y} = 9\)</span>.</p>
+<table style="width:100%;">
+<colgroup>
+<col width="16%" />
+<col width="16%" />
+<col width="16%" />
+<col width="16%" />
+<col width="16%" />
+<col width="16%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="right"><span class="math inline">\(x_i\)</span></th>
+<th align="right"><span class="math inline">\(y_i\)</span></th>
+<th align="right"><span class="math inline">\(x_i - \bar{x}\)</span></th>
+<th align="right"><span class="math inline">\(y_i - \bar{y}\)</span></th>
+<th align="right">product</th>
+<th align="right"><span class="math inline">\((x_i-\bar{x})^2\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">2</td>
+<td align="right">4</td>
+<td align="right"><span class="math inline">\(-4\)</span></td>
+<td align="right"><span class="math inline">\(-5\)</span></td>
+<td align="right">20</td>
+<td align="right">16</td>
+</tr>
+<tr class="even">
+<td align="right">4</td>
+<td align="right">7</td>
+<td align="right"><span class="math inline">\(-2\)</span></td>
+<td align="right"><span class="math inline">\(-2\)</span></td>
+<td align="right">4</td>
+<td align="right">4</td>
+</tr>
+<tr class="odd">
+<td align="right">6</td>
+<td align="right">8</td>
+<td align="right">0</td>
+<td align="right"><span class="math inline">\(-1\)</span></td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="right">8</td>
+<td align="right">12</td>
+<td align="right">2</td>
+<td align="right">3</td>
+<td align="right">6</td>
+<td align="right">4</td>
+</tr>
+<tr class="odd">
+<td align="right">10</td>
+<td align="right">14</td>
+<td align="right">4</td>
+<td align="right">5</td>
+<td align="right">20</td>
+<td align="right">16</td>
+</tr>
+<tr class="even">
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"><strong>50</strong></td>
+<td align="right"><strong>40</strong></td>
+</tr>
+</tbody>
+</table>
+<p><span class="math display">\[\hat{\beta}_1 = \frac{50}{40} = 1.25
+\qquad
+\hat{\beta}_0 = 9 - 1.25(6) = 1.5\]</span></p>
+<p><strong>(ii)</strong> <span class="math inline">\(\hat{y} = 1.5 + 1.25x\)</span>. Each additional kilogram of fertiliser is
+associated with 1.25 more quintals of yield.</p>
+<p><strong>(iii)</strong> Fitted values: <span class="math inline">\(4.0, 6.5, 9.0, 11.5, 14.0\)</span>. Residuals:
+<span class="math inline">\(0, 0.5, -1, 0.5, 0\)</span>, which sum to zero as they must.</p>
+<p><strong>(iv)</strong> <span class="math inline">\(\text{SSR} = 0 + 0.25 + 1 + 0.25 + 0 = 1.5\)</span> and
+<span class="math inline">\(\text{SST} = 25 + 4 + 1 + 9 + 25 = 64\)</span>, so</p>
+<p><span class="math display">\[R^2 = 1 - \frac{1.5}{64} = 0.977\]</span></p>
+<p>An unusually tight fit, because these are made-up numbers. Real data rarely
+behaves so well.</p>
+</div>
+<p><strong>6.9</strong> Using the previous question’s results:</p>
+<ol style="list-style-type: lower-roman">
+<li>Compute <span class="math inline">\(\hat{\sigma}^2\)</span> and <span class="math inline">\(\hat{\sigma}\)</span>.</li>
+<li>Compute <span class="math inline">\(\mathrm{se}(\hat{\beta}_1)\)</span>.</li>
+<li>Test <span class="math inline">\(H_0: \beta_1 = 0\)</span> at the 5% level.</li>
+<li>Construct a 95% confidence interval for <span class="math inline">\(\beta_1\)</span>.</li>
+</ol>
+<div class="answer">
+<p><strong>(i)</strong> With <span class="math inline">\(n = 5\)</span> and two parameters estimated,</p>
+<p><span class="math display">\[\hat{\sigma}^2 = \frac{\text{SSR}}{n-2} = \frac{1.5}{3} = 0.5
+\qquad \hat{\sigma} = 0.707\]</span></p>
+<p><strong>(ii)</strong> <span class="math inline">\(\mathrm{se}(\hat{\beta}_1) = \dfrac{0.707}{\sqrt{40}} = 0.1118\)</span>.</p>
+<p><strong>(iii)</strong> <span class="math inline">\(t = 1.25/0.1118 = 11.18\)</span> on <span class="math inline">\(n - 2 = 3\)</span> degrees of freedom. The
+critical value is <span class="math inline">\(t_{0.025,\,3} = 3.182\)</span>, and <span class="math inline">\(11.18 &gt; 3.182\)</span>, so we reject
+<span class="math inline">\(H_0\)</span>.</p>
+<p><strong>(iv)</strong> <span class="math inline">\(1.25 \pm 3.182(0.1118) = [0.894,\ 1.606]\)</span>.</p>
+<p>Note how wide that interval is despite the excellent fit — three degrees of
+freedom buy very little. The critical value of 3.182 rather than 1.96 is doing
+most of the damage.</p>
+</div>
+<p><strong>6.10</strong> A regression of household expenditure on income in a sample of 200
+gives <span class="math inline">\(\hat{\beta}_1 = 0.62\)</span> with <span class="math inline">\(\mathrm{se}(\hat{\beta}_1) = 0.05\)</span>.</p>
+<ol style="list-style-type: lower-roman">
+<li>Test <span class="math inline">\(H_0: \beta_1 = 0\)</span>.</li>
+<li>Test <span class="math inline">\(H_0: \beta_1 = 1\)</span>, and explain why an economist might care about that
+hypothesis specifically.</li>
+<li>Construct a 95% interval and interpret it.</li>
+</ol>
+<div class="answer">
+<p><strong>(i)</strong> <span class="math inline">\(t = 0.62/0.05 = 12.4\)</span> on 198 degrees of freedom. Reject overwhelmingly.</p>
+<p><strong>(ii)</strong> <span class="math inline">\(t = (0.62 - 1)/0.05 = -7.6\)</span>, which also rejects.</p>
+<p>An economist cares because <span class="math inline">\(\beta_1\)</span> is the marginal propensity to consume, and
+<span class="math inline">\(\beta_1 = 1\)</span> would mean households spend every additional rupee of income. The
+test says they do not: expenditure rises by about 62 paise per additional rupee,
+and the remainder is saved.</p>
+<p>This is worth noticing as a matter of method. The interesting null hypothesis is
+not always zero. Testing against a value that theory suggests is often far more
+informative.</p>
+<p><strong>(iii)</strong> <span class="math inline">\(0.62 \pm 1.96(0.05) = [0.522,\ 0.718]\)</span>. The interval excludes both 0
+and 1, so the data are consistent with a marginal propensity to consume of
+roughly two-thirds and with neither extreme.</p>
+</div>
+</div>
+<div id="r-exercises-4" class="section level3 unnumbered hasAnchor">
+<h3>R exercises<a href="sr-practice.html#r-exercises-4" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p><strong>6.11</strong> Using <code>data/car-mileage.csv</code>, regress fuel efficiency on weight. Report
+the slope with its interval, interpret it in the units of the data, and plot the
+fit.</p>
+<div class="answer">
+<div class="sourceCode" id="cb246"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb246-1"><a href="sr-practice.html#cb246-1" tabindex="-1"></a>cars <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/car-mileage.csv&quot;</span>)</span>
+<span id="cb246-2"><a href="sr-practice.html#cb246-2" tabindex="-1"></a></span>
+<span id="cb246-3"><a href="sr-practice.html#cb246-3" tabindex="-1"></a>fit_cars <span class="ot">&lt;-</span> <span class="fu">lm</span>(mileage_kmpl <span class="sc">~</span> weight_kg, <span class="at">data =</span> cars)</span>
+<span id="cb246-4"><a href="sr-practice.html#cb246-4" tabindex="-1"></a><span class="fu">summary</span>(fit_cars)<span class="sc">$</span>coefficients</span></code></pre></div>
+<pre><code>#&gt;              Estimate Std. Error t value
+#&gt; (Intercept) 39.440284  1.6140031   24.44
+#&gt; weight_kg   -0.006009  0.0005179  -11.60
+#&gt;                                              Pr(&gt;|t|)
+#&gt; (Intercept) 0.000000000000000000000000000000000001385
+#&gt; weight_kg   0.000000000000000003798485936567012204243</code></pre>
+<div class="sourceCode" id="cb248"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb248-1"><a href="sr-practice.html#cb248-1" tabindex="-1"></a><span class="fu">confint</span>(fit_cars)[<span class="st">&quot;weight_kg&quot;</span>, ]</span></code></pre></div>
+<pre><code>#&gt;     2.5 %    97.5 % 
+#&gt; -0.007041 -0.004976</code></pre>
+<div class="sourceCode" id="cb250"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb250-1"><a href="sr-practice.html#cb250-1" tabindex="-1"></a><span class="fu">ggplot</span>(cars, <span class="fu">aes</span>(weight_kg, mileage_kmpl)) <span class="sc">+</span></span>
+<span id="cb250-2"><a href="sr-practice.html#cb250-2" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">colour =</span> book_palette<span class="sc">$</span>ink, <span class="at">alpha =</span> <span class="fl">0.6</span>) <span class="sc">+</span></span>
+<span id="cb250-3"><a href="sr-practice.html#cb250-3" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">&quot;lm&quot;</span>, <span class="at">se =</span> <span class="cn">TRUE</span>, <span class="at">colour =</span> book_palette<span class="sc">$</span>accent,</span>
+<span id="cb250-4"><a href="sr-practice.html#cb250-4" tabindex="-1"></a>              <span class="at">fill =</span> book_palette<span class="sc">$</span>fill) <span class="sc">+</span></span>
+<span id="cb250-5"><a href="sr-practice.html#cb250-5" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Weight (kg)&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Fuel efficiency (km per litre)&quot;</span>) <span class="sc">+</span></span>
+<span id="cb250-6"><a href="sr-practice.html#cb250-6" tabindex="-1"></a>  <span class="fu">theme_book</span>()</span></code></pre></div>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:sr-ex-cars"></span>
+<img src="stats-econometrics-r_files/figure-html/sr-ex-cars-1.png" alt="Fuel efficiency against weight for 74 cars, with the fitted line." width="90%"  />
+<p class="caption">
+Figure 6.3: Fuel efficiency against weight for 74 cars, with the fitted line.
+</p>
+</div>
+<p>The slope is <span class="math inline">\(-0.00601\)</span> km per litre per kilogram, which is awkward to read at
+that scale. Multiply by 100: each additional 100 kg costs about 0.6 km per
+litre, with an interval of roughly 0.50 to 0.70.</p>
+<p><span class="math inline">\(R^2\)</span> is 0.65, much higher than the attendance regression, because weight is a
+genuinely dominant determinant of fuel consumption in a way that attendance is
+not of grades.</p>
+</div>
+<p><strong>6.12</strong> Verify the algebra. For the car regression, check that the residuals
+sum to zero, that they are uncorrelated with weight, and that the line passes
+through the point of means.</p>
+<div class="answer">
+<div class="sourceCode" id="cb251"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb251-1"><a href="sr-practice.html#cb251-1" tabindex="-1"></a>u <span class="ot">&lt;-</span> <span class="fu">residuals</span>(fit_cars)</span>
+<span id="cb251-2"><a href="sr-practice.html#cb251-2" tabindex="-1"></a>w <span class="ot">&lt;-</span> cars<span class="sc">$</span>weight_kg</span>
+<span id="cb251-3"><a href="sr-practice.html#cb251-3" tabindex="-1"></a></span>
+<span id="cb251-4"><a href="sr-practice.html#cb251-4" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">sum_u        =</span> <span class="fu">sum</span>(u),</span>
+<span id="cb251-5"><a href="sr-practice.html#cb251-5" tabindex="-1"></a>        <span class="at">sum_w_u      =</span> <span class="fu">sum</span>(w <span class="sc">*</span> u),</span>
+<span id="cb251-6"><a href="sr-practice.html#cb251-6" tabindex="-1"></a>        <span class="at">cor_w_u      =</span> <span class="fu">cor</span>(w, u),</span>
+<span id="cb251-7"><a href="sr-practice.html#cb251-7" tabindex="-1"></a>        <span class="at">fitted_at_wbar =</span> <span class="fu">coef</span>(fit_cars)[<span class="dv">1</span>] <span class="sc">+</span> <span class="fu">coef</span>(fit_cars)[<span class="dv">2</span>] <span class="sc">*</span> <span class="fu">mean</span>(w),</span>
+<span id="cb251-8"><a href="sr-practice.html#cb251-8" tabindex="-1"></a>        <span class="at">mean_mileage   =</span> <span class="fu">mean</span>(cars<span class="sc">$</span>mileage_kmpl)), <span class="dv">6</span>)</span></code></pre></div>
+<pre><code>#&gt;                      sum_u                    sum_w_u 
+#&gt;                        0.0                        0.0 
+#&gt;                    cor_w_u fitted_at_wbar.(Intercept) 
+#&gt;                        0.0                       21.3 
+#&gt;               mean_mileage 
+#&gt;                       21.3</code></pre>
+<p>All three hold. The first two are zero to within floating-point error, and the
+last two agree exactly.</p>
+<p>None of this is evidence that the model is correct. These identities are forced
+by the two equations OLS solves, and they would hold just as exactly if we
+regressed mileage on something absurd.</p>
+</div>
+<p><strong>6.13</strong> Demonstrate that OLS is unbiased, and that spread in <span class="math inline">\(x\)</span> buys
+precision. Simulate from a known model with <span class="math inline">\(\beta_1 = 2\)</span>, using <span class="math inline">\(x\)</span> spread
+widely in one case and narrowly in the other.</p>
+<div class="answer">
+<div class="sourceCode" id="cb253"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb253-1"><a href="sr-practice.html#cb253-1" tabindex="-1"></a>simulate_slope <span class="ot">&lt;-</span> <span class="cf">function</span>(x_sd, <span class="at">reps =</span> <span class="dv">3000</span>) {</span>
+<span id="cb253-2"><a href="sr-practice.html#cb253-2" tabindex="-1"></a>  b1 <span class="ot">&lt;-</span> <span class="fu">replicate</span>(reps, {</span>
+<span id="cb253-3"><a href="sr-practice.html#cb253-3" tabindex="-1"></a>    x <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">50</span>, <span class="at">mean =</span> <span class="dv">20</span>, <span class="at">sd =</span> x_sd)</span>
+<span id="cb253-4"><a href="sr-practice.html#cb253-4" tabindex="-1"></a>    y <span class="ot">&lt;-</span> <span class="dv">5</span> <span class="sc">+</span> <span class="dv">2</span> <span class="sc">*</span> x <span class="sc">+</span> <span class="fu">rnorm</span>(<span class="dv">50</span>, <span class="at">sd =</span> <span class="dv">3</span>)          <span class="co"># truth: beta_1 = 2</span></span>
+<span id="cb253-5"><a href="sr-practice.html#cb253-5" tabindex="-1"></a>    <span class="fu">coef</span>(<span class="fu">lm</span>(y <span class="sc">~</span> x))[<span class="dv">2</span>]</span>
+<span id="cb253-6"><a href="sr-practice.html#cb253-6" tabindex="-1"></a>  })</span>
+<span id="cb253-7"><a href="sr-practice.html#cb253-7" tabindex="-1"></a>  <span class="fu">c</span>(<span class="at">x_sd =</span> x_sd, <span class="at">mean_b1 =</span> <span class="fu">mean</span>(b1), <span class="at">sd_b1 =</span> <span class="fu">sd</span>(b1))</span>
+<span id="cb253-8"><a href="sr-practice.html#cb253-8" tabindex="-1"></a>}</span>
+<span id="cb253-9"><a href="sr-practice.html#cb253-9" tabindex="-1"></a></span>
+<span id="cb253-10"><a href="sr-practice.html#cb253-10" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">11</span>)</span>
+<span id="cb253-11"><a href="sr-practice.html#cb253-11" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">t</span>(<span class="fu">sapply</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">5</span>), simulate_slope)), <span class="dv">4</span>)</span></code></pre></div>
+<pre><code>#&gt;      x_sd mean_b1  sd_b1
+#&gt; [1,]    1   1.996 0.4384
+#&gt; [2,]    5   1.999 0.0875</code></pre>
+<p>Both rows are centred on 2, so OLS is unbiased at either spread — that is what
+SLR1–SLR4 deliver, and the spread of <span class="math inline">\(x\)</span> has nothing to do with it.</p>
+<p>What the spread changes is precision. With <span class="math inline">\(x\)</span> five times as spread out, the
+standard deviation of <span class="math inline">\(\hat{\beta}_1\)</span> falls by roughly a factor of five, exactly
+as <span class="math inline">\(\sigma^2/\sum(x_i - \bar{x})^2\)</span> predicts.</p>
+</div>
+<p><strong>6.14</strong> Show what omitted variable bias looks like. Simulate data where <span class="math inline">\(y\)</span>
+depends on both <span class="math inline">\(x\)</span> and a variable <span class="math inline">\(z\)</span> that is correlated with <span class="math inline">\(x\)</span>, then
+estimate a regression that omits <span class="math inline">\(z\)</span>.</p>
+<div class="answer">
+<div class="sourceCode" id="cb255"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb255-1"><a href="sr-practice.html#cb255-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2</span>)</span>
+<span id="cb255-2"><a href="sr-practice.html#cb255-2" tabindex="-1"></a></span>
+<span id="cb255-3"><a href="sr-practice.html#cb255-3" tabindex="-1"></a>biased <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">3000</span>, {</span>
+<span id="cb255-4"><a href="sr-practice.html#cb255-4" tabindex="-1"></a>  z <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">200</span>)                       <span class="co"># unobserved: motivation, say</span></span>
+<span id="cb255-5"><a href="sr-practice.html#cb255-5" tabindex="-1"></a>  x <span class="ot">&lt;-</span> <span class="dv">10</span> <span class="sc">+</span> <span class="dv">2</span> <span class="sc">*</span> z <span class="sc">+</span> <span class="fu">rnorm</span>(<span class="dv">200</span>)          <span class="co"># x is correlated with z</span></span>
+<span id="cb255-6"><a href="sr-practice.html#cb255-6" tabindex="-1"></a>  y <span class="ot">&lt;-</span> <span class="dv">5</span> <span class="sc">+</span> <span class="dv">1</span> <span class="sc">*</span> x <span class="sc">+</span> <span class="dv">3</span> <span class="sc">*</span> z <span class="sc">+</span> <span class="fu">rnorm</span>(<span class="dv">200</span>)   <span class="co"># truth: the effect of x is 1</span></span>
+<span id="cb255-7"><a href="sr-practice.html#cb255-7" tabindex="-1"></a>  <span class="fu">c</span>(<span class="at">omitting_z  =</span> <span class="fu">coef</span>(<span class="fu">lm</span>(y <span class="sc">~</span> x))[<span class="dv">2</span>],</span>
+<span id="cb255-8"><a href="sr-practice.html#cb255-8" tabindex="-1"></a>    <span class="at">including_z =</span> <span class="fu">coef</span>(<span class="fu">lm</span>(y <span class="sc">~</span> x <span class="sc">+</span> z))[<span class="dv">2</span>])</span>
+<span id="cb255-9"><a href="sr-practice.html#cb255-9" tabindex="-1"></a>})</span>
+<span id="cb255-10"><a href="sr-practice.html#cb255-10" tabindex="-1"></a></span>
+<span id="cb255-11"><a href="sr-practice.html#cb255-11" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">rowMeans</span>(biased), <span class="dv">4</span>)</span></code></pre></div>
+<pre><code>#&gt;  omitting_z.x including_z.x 
+#&gt;        2.1997        0.9996</code></pre>
+<p>The true effect of <span class="math inline">\(x\)</span> on <span class="math inline">\(y\)</span> is 1. Omitting <span class="math inline">\(z\)</span> returns about 2.2 — more than
+double.</p>
+<p>The reason is exactly the term in the unbiasedness derivation. With <span class="math inline">\(z\)</span> left
+out, it sits inside the error, and since <span class="math inline">\(z\)</span> is correlated with <span class="math inline">\(x\)</span> the errors
+are correlated with <span class="math inline">\(x\)</span> too, so <span class="math inline">\(E(u \mid x) \neq 0\)</span> and the bias does not
+vanish. Including <span class="math inline">\(z\)</span> recovers 1.</p>
+<p>Note that the biased regression is not badly behaved in any visible way. Its
+residuals still sum to zero, its standard errors are still computed correctly,
+and its <span class="math inline">\(p\)</span>-value is still tiny. It is confidently wrong, and nothing in the
+output says so.</p>
+</div>
+</div>
+</div>
+<script>
+// Solutions are written as plain fenced divs in the source, so the PDF edition
+// can typeset them as boxes. On the web they should stay hidden until asked
+// for, so wrap each one in a <details> here.
+document.addEventListener("DOMContentLoaded", function () {
+  document.querySelectorAll("div.answer").forEach(function (div) {
+    var d = document.createElement("details");
+    d.className = "answer";
+    var s = document.createElement("summary");
+    s.textContent = "Show the solution";
+    d.appendChild(s);
+    while (div.firstChild) d.appendChild(div.firstChild);
+    div.parentNode.replaceChild(d, div);
+  });
+});
+</script>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="sr-summary.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="sr-question-bank.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+  "sharing": {
+    "github": true,
+    "facebook": false,
+    "twitter": false,
+    "linkedin": false,
+    "weibo": false,
+    "instapaper": false,
+    "vk": false,
+    "whatsapp": false,
+    "all": false
+  },
+  "fontsettings": {
+    "theme": "white",
+    "family": "sans",
+    "size": 2
+  },
+  "edit": {
+    "link": "https://github.com/kedarkulkarni1991/stats-econometrics-r/edit/main/06-simple-regression.Rmd",
+    "text": "Edit"
+  },
+  "history": {
+    "link": null,
+    "text": null
+  },
+  "view": {
+    "link": null,
+    "text": null
+  },
+  "download": ["stats-econometrics-r.pdf"],
+  "search": {
+    "engine": "fuse",
+    "options": null
+  },
+  "toc": {
+    "collapse": "subsection",
+    "scroll_highlight": true
+  },
+  "toolbar": {
+    "position": "fixed"
+  },
+  "info": false
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

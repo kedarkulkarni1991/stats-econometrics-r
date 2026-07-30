@@ -36,7 +36,7 @@ interpretation.</p>" />
   
   
 <link rel="prev" href="ts-question-bank.html"/>
-
+<link rel="next" href="simple-regression.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -396,6 +396,46 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="5.10" data-path="ts-looking-ahead.html"><a href="ts-looking-ahead.html"><i class="fa fa-check"></i><b>5.10</b> Looking ahead</a></li>
 </ul></li>
+<li class="chapter" data-level="6" data-path="simple-regression.html"><a href="simple-regression.html"><i class="fa fa-check"></i><b>6</b> Simple Regression</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="sr-motivation.html"><a href="sr-motivation.html"><i class="fa fa-check"></i><b>6.1</b> From two groups to a whole variable</a></li>
+<li class="chapter" data-level="6.2" data-path="sr-prf.html"><a href="sr-prf.html"><i class="fa fa-check"></i><b>6.2</b> The population regression function</a></li>
+<li class="chapter" data-level="6.3" data-path="sr-model.html"><a href="sr-model.html"><i class="fa fa-check"></i><b>6.3</b> The model</a>
+<ul>
+<li class="chapter" data-level="" data-path="sr-model.html"><a href="sr-model.html#what-must-be-true-of-the-error-term"><i class="fa fa-check"></i>What must be true of the error term</a></li>
+</ul></li>
+<li class="chapter" data-level="6.4" data-path="sr-srf.html"><a href="sr-srf.html"><i class="fa fa-check"></i><b>6.4</b> From the population to a sample</a></li>
+<li class="chapter" data-level="6.5" data-path="sr-ols.html"><a href="sr-ols.html"><i class="fa fa-check"></i><b>6.5</b> Choosing a line: ordinary least squares</a>
+<ul>
+<li class="chapter" data-level="" data-path="sr-ols.html"><a href="sr-ols.html#doing-it-by-hand-and-in-r"><i class="fa fa-check"></i>Doing it by hand and in R</a></li>
+</ul></li>
+<li class="chapter" data-level="6.6" data-path="sr-algebra.html"><a href="sr-algebra.html"><i class="fa fa-check"></i><b>6.6</b> What the fitted line guarantees</a>
+<ul>
+<li class="chapter" data-level="" data-path="sr-algebra.html"><a href="sr-algebra.html#how-much-does-the-line-explain"><i class="fa fa-check"></i>How much does the line explain?</a></li>
+</ul></li>
+<li class="chapter" data-level="6.7" data-path="sr-properties.html"><a href="sr-properties.html"><i class="fa fa-check"></i><b>6.7</b> How good is the estimate?</a>
+<ul>
+<li class="chapter" data-level="" data-path="sr-properties.html"><a href="sr-properties.html#unbiasedness"><i class="fa fa-check"></i>Unbiasedness</a></li>
+<li class="chapter" data-level="" data-path="sr-properties.html"><a href="sr-properties.html#the-variance-of-the-slope"><i class="fa fa-check"></i>The variance of the slope</a></li>
+</ul></li>
+<li class="chapter" data-level="6.8" data-path="sr-inference.html"><a href="sr-inference.html"><i class="fa fa-check"></i><b>6.8</b> Inference about the slope</a></li>
+<li class="chapter" data-level="6.9" data-path="sr-causal.html"><a href="sr-causal.html"><i class="fa fa-check"></i><b>6.9</b> What regression does not fix</a></li>
+<li class="chapter" data-level="6.10" data-path="sr-summary.html"><a href="sr-summary.html"><i class="fa fa-check"></i><b>6.10</b> Summary</a></li>
+<li class="chapter" data-level="6.11" data-path="sr-practice.html"><a href="sr-practice.html"><i class="fa fa-check"></i><b>6.11</b> Practice problems</a>
+<ul>
+<li class="chapter" data-level="" data-path="sr-practice.html"><a href="sr-practice.html#concept-checks-4"><i class="fa fa-check"></i>Concept checks</a></li>
+<li class="chapter" data-level="" data-path="sr-practice.html"><a href="sr-practice.html#explain-4"><i class="fa fa-check"></i>Explain</a></li>
+<li class="chapter" data-level="" data-path="sr-practice.html"><a href="sr-practice.html#numerical-problems-4"><i class="fa fa-check"></i>Numerical problems</a></li>
+<li class="chapter" data-level="" data-path="sr-practice.html"><a href="sr-practice.html#r-exercises-4"><i class="fa fa-check"></i>R exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="6.12" data-path="sr-question-bank.html"><a href="sr-question-bank.html"><i class="fa fa-check"></i><b>6.12</b> Question bank</a>
+<ul>
+<li class="chapter" data-level="" data-path="sr-question-bank.html"><a href="sr-question-bank.html#multiple-choice-5"><i class="fa fa-check"></i>Multiple choice</a></li>
+<li class="chapter" data-level="" data-path="sr-question-bank.html"><a href="sr-question-bank.html#short-reasoning-5"><i class="fa fa-check"></i>Short reasoning</a></li>
+<li class="chapter" data-level="" data-path="sr-question-bank.html"><a href="sr-question-bank.html#numerical-5"><i class="fa fa-check"></i>Numerical</a></li>
+</ul></li>
+<li class="chapter" data-level="6.13" data-path="sr-looking-ahead.html"><a href="sr-looking-ahead.html"><i class="fa fa-check"></i><b>6.13</b> Looking ahead</a></li>
+</ul></li>
 <li class="divider"></li>
 <li class="toc-after">Kedar Kulkarni · Azim Premji University<br>
 <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a></li>
@@ -458,8 +498,8 @@ document.addEventListener("DOMContentLoaded", function () {
           </div>
         </div>
       </div>
-<a href="ts-question-bank.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-
+<a href="ts-question-bank.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="simple-regression.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
