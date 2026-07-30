@@ -405,11 +405,15 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="sr-motivation.html"><a href="sr-motivation.html#the-price-of-the-old-question"><i class="fa fa-check"></i>The price of the old question</a></li>
 </ul></li>
 <li class="chapter" data-level="6.2" data-path="sr-prf.html"><a href="sr-prf.html"><i class="fa fa-check"></i><b>6.2</b> The population regression function</a></li>
-<li class="chapter" data-level="6.3" data-path="sr-model.html"><a href="sr-model.html"><i class="fa fa-check"></i><b>6.3</b> The model</a>
+<li class="chapter" data-level="6.3" data-path="sr-model.html"><a href="sr-model.html"><i class="fa fa-check"></i><b>6.3</b> From averages to individuals</a>
 <ul>
+<li class="chapter" data-level="" data-path="sr-model.html"><a href="sr-model.html#the-vocabulary"><i class="fa fa-check"></i>The vocabulary</a></li>
 <li class="chapter" data-level="" data-path="sr-model.html"><a href="sr-model.html#what-must-be-true-of-the-error-term"><i class="fa fa-check"></i>What must be true of the error term</a></li>
 </ul></li>
-<li class="chapter" data-level="6.4" data-path="sr-srf.html"><a href="sr-srf.html"><i class="fa fa-check"></i><b>6.4</b> From the population to a sample</a></li>
+<li class="chapter" data-level="6.4" data-path="sr-srf.html"><a href="sr-srf.html"><i class="fa fa-check"></i><b>6.4</b> From the population to a sample</a>
+<ul>
+<li class="chapter" data-level="" data-path="sr-srf.html"><a href="sr-srf.html#every-sample-gives-a-different-line"><i class="fa fa-check"></i>Every sample gives a different line</a></li>
+</ul></li>
 <li class="chapter" data-level="6.5" data-path="sr-ols.html"><a href="sr-ols.html"><i class="fa fa-check"></i><b>6.5</b> Choosing a line: ordinary least squares</a>
 <ul>
 <li class="chapter" data-level="" data-path="sr-ols.html"><a href="sr-ols.html#doing-it-by-hand-and-in-r"><i class="fa fa-check"></i>Doing it by hand and in R</a></li>
@@ -731,29 +735,29 @@ roughly two-thirds and with neither extreme.</p>
 the slope with its interval, interpret it in the units of the data, and plot the
 fit.</p>
 <div class="answer">
-<div class="sourceCode" id="cb246"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb246-1"><a href="sr-practice.html#cb246-1" tabindex="-1"></a>cars <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/car-mileage.csv&quot;</span>)</span>
-<span id="cb246-2"><a href="sr-practice.html#cb246-2" tabindex="-1"></a></span>
-<span id="cb246-3"><a href="sr-practice.html#cb246-3" tabindex="-1"></a>fit_cars <span class="ot">&lt;-</span> <span class="fu">lm</span>(mileage_kmpl <span class="sc">~</span> weight_kg, <span class="at">data =</span> cars)</span>
-<span id="cb246-4"><a href="sr-practice.html#cb246-4" tabindex="-1"></a><span class="fu">summary</span>(fit_cars)<span class="sc">$</span>coefficients</span></code></pre></div>
+<div class="sourceCode" id="cb250"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb250-1"><a href="sr-practice.html#cb250-1" tabindex="-1"></a>cars <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/car-mileage.csv&quot;</span>)</span>
+<span id="cb250-2"><a href="sr-practice.html#cb250-2" tabindex="-1"></a></span>
+<span id="cb250-3"><a href="sr-practice.html#cb250-3" tabindex="-1"></a>fit_cars <span class="ot">&lt;-</span> <span class="fu">lm</span>(mileage_kmpl <span class="sc">~</span> weight_kg, <span class="at">data =</span> cars)</span>
+<span id="cb250-4"><a href="sr-practice.html#cb250-4" tabindex="-1"></a><span class="fu">summary</span>(fit_cars)<span class="sc">$</span>coefficients</span></code></pre></div>
 <pre><code>#&gt;              Estimate Std. Error t value
 #&gt; (Intercept) 39.440284  1.6140031   24.44
 #&gt; weight_kg   -0.006009  0.0005179  -11.60
 #&gt;                                              Pr(&gt;|t|)
 #&gt; (Intercept) 0.000000000000000000000000000000000001385
 #&gt; weight_kg   0.000000000000000003798485936567012204243</code></pre>
-<div class="sourceCode" id="cb248"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb248-1"><a href="sr-practice.html#cb248-1" tabindex="-1"></a><span class="fu">confint</span>(fit_cars)[<span class="st">&quot;weight_kg&quot;</span>, ]</span></code></pre></div>
+<div class="sourceCode" id="cb252"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb252-1"><a href="sr-practice.html#cb252-1" tabindex="-1"></a><span class="fu">confint</span>(fit_cars)[<span class="st">&quot;weight_kg&quot;</span>, ]</span></code></pre></div>
 <pre><code>#&gt;     2.5 %    97.5 % 
 #&gt; -0.007041 -0.004976</code></pre>
-<div class="sourceCode" id="cb250"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb250-1"><a href="sr-practice.html#cb250-1" tabindex="-1"></a><span class="fu">ggplot</span>(cars, <span class="fu">aes</span>(weight_kg, mileage_kmpl)) <span class="sc">+</span></span>
-<span id="cb250-2"><a href="sr-practice.html#cb250-2" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">colour =</span> book_palette<span class="sc">$</span>ink, <span class="at">alpha =</span> <span class="fl">0.6</span>) <span class="sc">+</span></span>
-<span id="cb250-3"><a href="sr-practice.html#cb250-3" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">&quot;lm&quot;</span>, <span class="at">se =</span> <span class="cn">TRUE</span>, <span class="at">colour =</span> book_palette<span class="sc">$</span>accent,</span>
-<span id="cb250-4"><a href="sr-practice.html#cb250-4" tabindex="-1"></a>              <span class="at">fill =</span> book_palette<span class="sc">$</span>fill) <span class="sc">+</span></span>
-<span id="cb250-5"><a href="sr-practice.html#cb250-5" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Weight (kg)&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Fuel efficiency (km per litre)&quot;</span>) <span class="sc">+</span></span>
-<span id="cb250-6"><a href="sr-practice.html#cb250-6" tabindex="-1"></a>  <span class="fu">theme_book</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb254"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb254-1"><a href="sr-practice.html#cb254-1" tabindex="-1"></a><span class="fu">ggplot</span>(cars, <span class="fu">aes</span>(weight_kg, mileage_kmpl)) <span class="sc">+</span></span>
+<span id="cb254-2"><a href="sr-practice.html#cb254-2" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">colour =</span> book_palette<span class="sc">$</span>ink, <span class="at">alpha =</span> <span class="fl">0.6</span>) <span class="sc">+</span></span>
+<span id="cb254-3"><a href="sr-practice.html#cb254-3" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">&quot;lm&quot;</span>, <span class="at">se =</span> <span class="cn">TRUE</span>, <span class="at">colour =</span> book_palette<span class="sc">$</span>accent,</span>
+<span id="cb254-4"><a href="sr-practice.html#cb254-4" tabindex="-1"></a>              <span class="at">fill =</span> book_palette<span class="sc">$</span>fill) <span class="sc">+</span></span>
+<span id="cb254-5"><a href="sr-practice.html#cb254-5" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Weight (kg)&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Fuel efficiency (km per litre)&quot;</span>) <span class="sc">+</span></span>
+<span id="cb254-6"><a href="sr-practice.html#cb254-6" tabindex="-1"></a>  <span class="fu">theme_book</span>()</span></code></pre></div>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:sr-ex-cars"></span>
 <img src="stats-econometrics-r_files/figure-html/sr-ex-cars-1.png" alt="Fuel efficiency against weight for 74 cars, with the fitted line." width="90%"  />
 <p class="caption">
-Figure 6.3: Fuel efficiency against weight for 74 cars, with the fitted line.
+Figure 6.4: Fuel efficiency against weight for 74 cars, with the fitted line.
 </p>
 </div>
 <p>The slope is <span class="math inline">\(-0.00601\)</span> km per litre per kilogram, which is awkward to read at
@@ -767,14 +771,14 @@ not of grades.</p>
 sum to zero, that they are uncorrelated with weight, and that the line passes
 through the point of means.</p>
 <div class="answer">
-<div class="sourceCode" id="cb251"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb251-1"><a href="sr-practice.html#cb251-1" tabindex="-1"></a>u <span class="ot">&lt;-</span> <span class="fu">residuals</span>(fit_cars)</span>
-<span id="cb251-2"><a href="sr-practice.html#cb251-2" tabindex="-1"></a>w <span class="ot">&lt;-</span> cars<span class="sc">$</span>weight_kg</span>
-<span id="cb251-3"><a href="sr-practice.html#cb251-3" tabindex="-1"></a></span>
-<span id="cb251-4"><a href="sr-practice.html#cb251-4" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">sum_u        =</span> <span class="fu">sum</span>(u),</span>
-<span id="cb251-5"><a href="sr-practice.html#cb251-5" tabindex="-1"></a>        <span class="at">sum_w_u      =</span> <span class="fu">sum</span>(w <span class="sc">*</span> u),</span>
-<span id="cb251-6"><a href="sr-practice.html#cb251-6" tabindex="-1"></a>        <span class="at">cor_w_u      =</span> <span class="fu">cor</span>(w, u),</span>
-<span id="cb251-7"><a href="sr-practice.html#cb251-7" tabindex="-1"></a>        <span class="at">fitted_at_wbar =</span> <span class="fu">coef</span>(fit_cars)[<span class="dv">1</span>] <span class="sc">+</span> <span class="fu">coef</span>(fit_cars)[<span class="dv">2</span>] <span class="sc">*</span> <span class="fu">mean</span>(w),</span>
-<span id="cb251-8"><a href="sr-practice.html#cb251-8" tabindex="-1"></a>        <span class="at">mean_mileage   =</span> <span class="fu">mean</span>(cars<span class="sc">$</span>mileage_kmpl)), <span class="dv">6</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb255"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb255-1"><a href="sr-practice.html#cb255-1" tabindex="-1"></a>u <span class="ot">&lt;-</span> <span class="fu">residuals</span>(fit_cars)</span>
+<span id="cb255-2"><a href="sr-practice.html#cb255-2" tabindex="-1"></a>w <span class="ot">&lt;-</span> cars<span class="sc">$</span>weight_kg</span>
+<span id="cb255-3"><a href="sr-practice.html#cb255-3" tabindex="-1"></a></span>
+<span id="cb255-4"><a href="sr-practice.html#cb255-4" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">sum_u        =</span> <span class="fu">sum</span>(u),</span>
+<span id="cb255-5"><a href="sr-practice.html#cb255-5" tabindex="-1"></a>        <span class="at">sum_w_u      =</span> <span class="fu">sum</span>(w <span class="sc">*</span> u),</span>
+<span id="cb255-6"><a href="sr-practice.html#cb255-6" tabindex="-1"></a>        <span class="at">cor_w_u      =</span> <span class="fu">cor</span>(w, u),</span>
+<span id="cb255-7"><a href="sr-practice.html#cb255-7" tabindex="-1"></a>        <span class="at">fitted_at_wbar =</span> <span class="fu">coef</span>(fit_cars)[<span class="dv">1</span>] <span class="sc">+</span> <span class="fu">coef</span>(fit_cars)[<span class="dv">2</span>] <span class="sc">*</span> <span class="fu">mean</span>(w),</span>
+<span id="cb255-8"><a href="sr-practice.html#cb255-8" tabindex="-1"></a>        <span class="at">mean_mileage   =</span> <span class="fu">mean</span>(cars<span class="sc">$</span>mileage_kmpl)), <span class="dv">6</span>)</span></code></pre></div>
 <pre><code>#&gt;                      sum_u                    sum_w_u 
 #&gt;                        0.0                        0.0 
 #&gt;                    cor_w_u fitted_at_wbar.(Intercept) 
@@ -791,17 +795,17 @@ regressed mileage on something absurd.</p>
 precision. Simulate from a known model with <span class="math inline">\(\beta_1 = 2\)</span>, using <span class="math inline">\(x\)</span> spread
 widely in one case and narrowly in the other.</p>
 <div class="answer">
-<div class="sourceCode" id="cb253"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb253-1"><a href="sr-practice.html#cb253-1" tabindex="-1"></a>simulate_slope <span class="ot">&lt;-</span> <span class="cf">function</span>(x_sd, <span class="at">reps =</span> <span class="dv">3000</span>) {</span>
-<span id="cb253-2"><a href="sr-practice.html#cb253-2" tabindex="-1"></a>  b1 <span class="ot">&lt;-</span> <span class="fu">replicate</span>(reps, {</span>
-<span id="cb253-3"><a href="sr-practice.html#cb253-3" tabindex="-1"></a>    x <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">50</span>, <span class="at">mean =</span> <span class="dv">20</span>, <span class="at">sd =</span> x_sd)</span>
-<span id="cb253-4"><a href="sr-practice.html#cb253-4" tabindex="-1"></a>    y <span class="ot">&lt;-</span> <span class="dv">5</span> <span class="sc">+</span> <span class="dv">2</span> <span class="sc">*</span> x <span class="sc">+</span> <span class="fu">rnorm</span>(<span class="dv">50</span>, <span class="at">sd =</span> <span class="dv">3</span>)          <span class="co"># truth: beta_1 = 2</span></span>
-<span id="cb253-5"><a href="sr-practice.html#cb253-5" tabindex="-1"></a>    <span class="fu">coef</span>(<span class="fu">lm</span>(y <span class="sc">~</span> x))[<span class="dv">2</span>]</span>
-<span id="cb253-6"><a href="sr-practice.html#cb253-6" tabindex="-1"></a>  })</span>
-<span id="cb253-7"><a href="sr-practice.html#cb253-7" tabindex="-1"></a>  <span class="fu">c</span>(<span class="at">x_sd =</span> x_sd, <span class="at">mean_b1 =</span> <span class="fu">mean</span>(b1), <span class="at">sd_b1 =</span> <span class="fu">sd</span>(b1))</span>
-<span id="cb253-8"><a href="sr-practice.html#cb253-8" tabindex="-1"></a>}</span>
-<span id="cb253-9"><a href="sr-practice.html#cb253-9" tabindex="-1"></a></span>
-<span id="cb253-10"><a href="sr-practice.html#cb253-10" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">11</span>)</span>
-<span id="cb253-11"><a href="sr-practice.html#cb253-11" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">t</span>(<span class="fu">sapply</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">5</span>), simulate_slope)), <span class="dv">4</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb257"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb257-1"><a href="sr-practice.html#cb257-1" tabindex="-1"></a>simulate_slope <span class="ot">&lt;-</span> <span class="cf">function</span>(x_sd, <span class="at">reps =</span> <span class="dv">3000</span>) {</span>
+<span id="cb257-2"><a href="sr-practice.html#cb257-2" tabindex="-1"></a>  b1 <span class="ot">&lt;-</span> <span class="fu">replicate</span>(reps, {</span>
+<span id="cb257-3"><a href="sr-practice.html#cb257-3" tabindex="-1"></a>    x <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">50</span>, <span class="at">mean =</span> <span class="dv">20</span>, <span class="at">sd =</span> x_sd)</span>
+<span id="cb257-4"><a href="sr-practice.html#cb257-4" tabindex="-1"></a>    y <span class="ot">&lt;-</span> <span class="dv">5</span> <span class="sc">+</span> <span class="dv">2</span> <span class="sc">*</span> x <span class="sc">+</span> <span class="fu">rnorm</span>(<span class="dv">50</span>, <span class="at">sd =</span> <span class="dv">3</span>)          <span class="co"># truth: beta_1 = 2</span></span>
+<span id="cb257-5"><a href="sr-practice.html#cb257-5" tabindex="-1"></a>    <span class="fu">coef</span>(<span class="fu">lm</span>(y <span class="sc">~</span> x))[<span class="dv">2</span>]</span>
+<span id="cb257-6"><a href="sr-practice.html#cb257-6" tabindex="-1"></a>  })</span>
+<span id="cb257-7"><a href="sr-practice.html#cb257-7" tabindex="-1"></a>  <span class="fu">c</span>(<span class="at">x_sd =</span> x_sd, <span class="at">mean_b1 =</span> <span class="fu">mean</span>(b1), <span class="at">sd_b1 =</span> <span class="fu">sd</span>(b1))</span>
+<span id="cb257-8"><a href="sr-practice.html#cb257-8" tabindex="-1"></a>}</span>
+<span id="cb257-9"><a href="sr-practice.html#cb257-9" tabindex="-1"></a></span>
+<span id="cb257-10"><a href="sr-practice.html#cb257-10" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">11</span>)</span>
+<span id="cb257-11"><a href="sr-practice.html#cb257-11" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">t</span>(<span class="fu">sapply</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">5</span>), simulate_slope)), <span class="dv">4</span>)</span></code></pre></div>
 <pre><code>#&gt;      x_sd mean_b1  sd_b1
 #&gt; [1,]    1   1.996 0.4384
 #&gt; [2,]    5   1.999 0.0875</code></pre>
@@ -815,17 +819,17 @@ as <span class="math inline">\(\sigma^2/\sum(x_i - \bar{x})^2\)</span> predicts.
 depends on both <span class="math inline">\(x\)</span> and a variable <span class="math inline">\(z\)</span> that is correlated with <span class="math inline">\(x\)</span>, then
 estimate a regression that omits <span class="math inline">\(z\)</span>.</p>
 <div class="answer">
-<div class="sourceCode" id="cb255"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb255-1"><a href="sr-practice.html#cb255-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2</span>)</span>
-<span id="cb255-2"><a href="sr-practice.html#cb255-2" tabindex="-1"></a></span>
-<span id="cb255-3"><a href="sr-practice.html#cb255-3" tabindex="-1"></a>biased <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">3000</span>, {</span>
-<span id="cb255-4"><a href="sr-practice.html#cb255-4" tabindex="-1"></a>  z <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">200</span>)                       <span class="co"># unobserved: motivation, say</span></span>
-<span id="cb255-5"><a href="sr-practice.html#cb255-5" tabindex="-1"></a>  x <span class="ot">&lt;-</span> <span class="dv">10</span> <span class="sc">+</span> <span class="dv">2</span> <span class="sc">*</span> z <span class="sc">+</span> <span class="fu">rnorm</span>(<span class="dv">200</span>)          <span class="co"># x is correlated with z</span></span>
-<span id="cb255-6"><a href="sr-practice.html#cb255-6" tabindex="-1"></a>  y <span class="ot">&lt;-</span> <span class="dv">5</span> <span class="sc">+</span> <span class="dv">1</span> <span class="sc">*</span> x <span class="sc">+</span> <span class="dv">3</span> <span class="sc">*</span> z <span class="sc">+</span> <span class="fu">rnorm</span>(<span class="dv">200</span>)   <span class="co"># truth: the effect of x is 1</span></span>
-<span id="cb255-7"><a href="sr-practice.html#cb255-7" tabindex="-1"></a>  <span class="fu">c</span>(<span class="at">omitting_z  =</span> <span class="fu">coef</span>(<span class="fu">lm</span>(y <span class="sc">~</span> x))[<span class="dv">2</span>],</span>
-<span id="cb255-8"><a href="sr-practice.html#cb255-8" tabindex="-1"></a>    <span class="at">including_z =</span> <span class="fu">coef</span>(<span class="fu">lm</span>(y <span class="sc">~</span> x <span class="sc">+</span> z))[<span class="dv">2</span>])</span>
-<span id="cb255-9"><a href="sr-practice.html#cb255-9" tabindex="-1"></a>})</span>
-<span id="cb255-10"><a href="sr-practice.html#cb255-10" tabindex="-1"></a></span>
-<span id="cb255-11"><a href="sr-practice.html#cb255-11" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">rowMeans</span>(biased), <span class="dv">4</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb259"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb259-1"><a href="sr-practice.html#cb259-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2</span>)</span>
+<span id="cb259-2"><a href="sr-practice.html#cb259-2" tabindex="-1"></a></span>
+<span id="cb259-3"><a href="sr-practice.html#cb259-3" tabindex="-1"></a>biased <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">3000</span>, {</span>
+<span id="cb259-4"><a href="sr-practice.html#cb259-4" tabindex="-1"></a>  z <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">200</span>)                       <span class="co"># unobserved: motivation, say</span></span>
+<span id="cb259-5"><a href="sr-practice.html#cb259-5" tabindex="-1"></a>  x <span class="ot">&lt;-</span> <span class="dv">10</span> <span class="sc">+</span> <span class="dv">2</span> <span class="sc">*</span> z <span class="sc">+</span> <span class="fu">rnorm</span>(<span class="dv">200</span>)          <span class="co"># x is correlated with z</span></span>
+<span id="cb259-6"><a href="sr-practice.html#cb259-6" tabindex="-1"></a>  y <span class="ot">&lt;-</span> <span class="dv">5</span> <span class="sc">+</span> <span class="dv">1</span> <span class="sc">*</span> x <span class="sc">+</span> <span class="dv">3</span> <span class="sc">*</span> z <span class="sc">+</span> <span class="fu">rnorm</span>(<span class="dv">200</span>)   <span class="co"># truth: the effect of x is 1</span></span>
+<span id="cb259-7"><a href="sr-practice.html#cb259-7" tabindex="-1"></a>  <span class="fu">c</span>(<span class="at">omitting_z  =</span> <span class="fu">coef</span>(<span class="fu">lm</span>(y <span class="sc">~</span> x))[<span class="dv">2</span>],</span>
+<span id="cb259-8"><a href="sr-practice.html#cb259-8" tabindex="-1"></a>    <span class="at">including_z =</span> <span class="fu">coef</span>(<span class="fu">lm</span>(y <span class="sc">~</span> x <span class="sc">+</span> z))[<span class="dv">2</span>])</span>
+<span id="cb259-9"><a href="sr-practice.html#cb259-9" tabindex="-1"></a>})</span>
+<span id="cb259-10"><a href="sr-practice.html#cb259-10" tabindex="-1"></a></span>
+<span id="cb259-11"><a href="sr-practice.html#cb259-11" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">rowMeans</span>(biased), <span class="dv">4</span>)</span></code></pre></div>
 <pre><code>#&gt;  omitting_z.x including_z.x 
 #&gt;        2.1997        0.9996</code></pre>
 <p>The true effect of <span class="math inline">\(x\)</span> on <span class="math inline">\(y\)</span> is 1. Omitting <span class="math inline">\(z\)</span> returns about 2.2 — more than

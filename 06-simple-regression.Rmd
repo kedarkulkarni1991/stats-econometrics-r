@@ -219,6 +219,23 @@ Whether a straight line is a good approximation is an empirical question rather
 than a mathematical one. Section \@ref(sr-algebra) returns to how well it
 performs for these data.
 
+Each conditional mean $E(Y \mid X = x)$ is a function of $x$, so the PRF is also
+called the **conditional expectation function** (CEF):
+
+$$E(Y \mid X = x) = f(x)$$
+
+and in this unit we take that function to be linear.
+
+::: {.watchout}
+The CEF tells us how the *average* value of $y$ changes with $x$. It does **not**
+say that $y = \beta_0 + \beta_1 x$ for every member of the population.
+
+Individual students depart from the average for their attendance level, often by
+a great deal. Confusing the conditional mean with the individual outcome is the
+most common misreading of a regression, and the next section gives that departure
+a name.
+:::
+
 The population regression function gives us the target. Two questions remain.
 
 First, why do individual students differ from the conditional mean? Second, how
@@ -227,28 +244,82 @@ rather than the entire population?
 
 The next two sections answer those questions.
 
-## The model {#sr-model}
+## From averages to individuals {#sr-model}
 
 ::: {.question}
-How do we write down "grades depend on attendance, but not only on attendance"?
+The PRF describes averages. Individual students are not averages. How do we
+write down the difference?
 :::
 
-Economic theory says grades depend on attendance. It also says grades depend on
-effort, ability, teaching quality, health, and how many hours a student must
-work for pay. Only the first is in our dataset.
+The conditional expectation function tells us how the *average* value of $y$
+changes with $x$. It does not say that $y = \beta_0 + \beta_1 x$ for every member
+of the population, and the data make that obvious.
 
-The **simple linear regression model** handles this by dividing $y$ into a part
-explained by $x$ and a part that is not:
+Forty-nine students in our data attended exactly 25 classes.
 
-$$y = \beta_0 + \beta_1 x + u$$
+```{r sr-at25}
+at25 <- students[students$attendance == 25, ]
+
+round(c(n = nrow(at25), conditional_mean = mean(at25$sem_gpa),
+        lowest = min(at25$sem_gpa), highest = max(at25$sem_gpa)), 3)
+```
+
+Their average GPA was 6.10. One of them scored 1.58 and another 9.08. All three
+numbers describe students who attended the same 25 classes.
+
+So an individual's grade is the conditional mean *plus* a departure from it. Give
+that departure a name.
+
+::: {.keyidea}
+For each individual $i$,
+
+$$y_i = \underbrace{E(Y \mid X = x_i)}_{\text{systematic}} + \underbrace{u_i}_{\text{stochastic}}$$
+
+where $u_i$ is the **stochastic disturbance** or **error term** — the amount by
+which individual $i$ departs from the average for their value of $x$.
+
+Substituting the linear conditional mean gives the **simple linear regression
+model**:
+
+$$y_i = \beta_0 + \beta_1 x_i + u_i$$
+:::
+
+That equation is not a new assumption. It is the population regression function
+of Section \@ref(sr-prf) with a name attached to the part it does not describe.
+The two students above become
+
+$$1.58 = \beta_0 + \beta_1(25) + u_1
+\qquad\qquad
+9.08 = \beta_0 + \beta_1(25) + u_2$$
+
+with a large negative $u_1$ and a large positive $u_2$.
+
+::: {.intuition}
+Read the model as a division of $y$ into two parts.
+
+The **systematic** part, $\beta_0 + \beta_1 x$, is what attendance accounts for.
+It is the same for everyone with the same attendance.
+
+The **stochastic** part, $u$, is everything else: effort, ability, teaching
+quality, health, whether the student had a job that semester. It differs from
+person to person and it is not observed.
+
+The error term is not a mistake and not measurement noise. It is the rest of the
+world.
+:::
+
+### The vocabulary {-}
 
 - $y$ is the **dependent** variable — semester GPA.
-- $x$ is the **independent** or explanatory variable — attendance.
-- $u$ is the **error** or disturbance term, holding everything else that affects
-  $y$. It is not a mistake; it is the rest of the world.
-- $\beta_0$ is the **intercept**, and is rarely of interest in itself.
-- $\beta_1$ is the **slope**, and is almost always what we care about. It says
-  how much $y$ changes when $x$ rises by one unit.
+- $x$ is the **independent**, explanatory or control variable — attendance.
+- $u$ is the **error** or disturbance term, holding all factors other than $x$
+  that affect $y$. Because the econometrician does not observe them, $u$ is
+  sometimes called the unobserved variable.
+- $\beta_0$ is the **intercept** or constant term, and is rarely central to the
+  analysis.
+- $\beta_1$ is the **slope**, and is almost always the parameter of interest. It
+  gives the marginal effect of $x$ on $y$:
+  $\partial y / \partial x = \beta_1$.
 
 For the grades example,
 
@@ -258,8 +329,8 @@ and $\beta_1$ is the change in GPA associated with attending one more class.
 
 ### What must be true of the error term {-}
 
-The model as written is empty until we say something about $u$. Two assumptions
-do the work.
+The model is empty until we say something about $u$. Two assumptions do the
+work.
 
 **The error has mean zero:** $E(u) = 0$.
 
@@ -284,30 +355,52 @@ is what we want, assuming $E(u) = 0$ restricts nothing of importance.
 
 **The error is unrelated to $x$:** $E(u \mid x) = E(u) = 0$.
 
-This one is not free at all. It says that the average of the unobserved factors
-is the *same* at every value of $x$.
+This one is not free at all. Since $u$ and $x$ are both random variables, we can
+ask what the average of $u$ is among individuals with a particular value of $x$.
+The assumption says that average is the *same* at every value of $x$, and equal
+to the overall average of zero. In that case $u$ is said to be **mean
+independent** of $x$.
+
+Taken together, the two are the **zero conditional mean assumption**.
 
 ::: {.keyidea}
-The **zero conditional mean assumption**, $E(u \mid x) = 0$, is the assumption on
-which everything rests.
+$$E(u \mid x) = 0$$
 
-For the grades example it says: students who attend more classes are, on
-average, no more and no less able, motivated, or well-taught than students who
-attend fewer.
+This is the assumption on which everything rests.
 
-If that fails, $\beta_1$ does not measure the effect of attendance. It measures
-the effect of attendance plus whatever else differs between high and low
-attenders.
+For the grades example it says
+$E(\textit{effort} \mid \textit{attendance} = \text{low}) =
+E(\textit{effort} \mid \textit{attendance} = \text{high}) = 0$ — students who
+attend more classes are, on average, no more and no less able, motivated, or
+well-taught than students who attend fewer.
+
+If it fails, $\beta_1$ does not measure the effect of attendance. It measures the
+effect of attendance plus whatever else differs between high and low attenders.
 :::
 
 Stated in that concrete form, the assumption is clearly doubtful here. Students
-who attend regularly are plausibly more motivated, and motivation raises grades
-on its own. We cannot check this, because effort is not in the dataset — that is
-what "unobserved" means.
+who attend regularly are plausibly working harder in other ways too, and effort
+raises grades on its own. We cannot check it, because effort is not in the
+dataset — that is what "unobserved" means. When it fails we have **omitted
+variable bias**, and Section \@ref(sr-causal) returns to it.
 
-Section \@ref(sr-causal) returns to what follows. For now we proceed, keeping in
-mind that we are estimating a conditional mean, and that whether it is an
-*effect* is a separate question.
+::: {.deeper}
+There is a subtlety worth noticing, because it explains why different books
+present this assumption differently.
+
+If $u_i$ is *defined* as $y_i - E(Y \mid X = x_i)$ — the departure from the true
+conditional mean — then $E(u \mid x) = 0$ holds automatically. It is a
+consequence of the definition, not an assumption about the world.
+
+The content of the assumption enters in two places instead. First, we assumed
+the conditional mean is *linear*: if the true PRF curves and we fit a line, then
+$u$ defined as $y - \beta_0 - \beta_1 x$ will not average zero at every $x$.
+Second, and more importantly, calling $\beta_1$ an *effect* requires that the
+conditional mean reflect what would happen if attendance were changed, rather
+than merely what is true of students who differ in attendance.
+
+The second is the causal question, and it is the one that matters in practice.
+:::
 
 ## From the population to a sample {#sr-srf}
 
@@ -315,32 +408,91 @@ mind that we are estimating a conditional mean, and that whether it is an
 The PRF describes a population we cannot see. What do we actually have?
 :::
 
-The parameters $\beta_0$ and $\beta_1$ belong to the population. They are fixed,
-unknown numbers — exactly like $\mu$ in Unit \@ref(estimation) — and we have a
-sample.
+Everything so far has assumed the whole population was available. In practice it
+never is. We observe a sample of $y$ values with their corresponding $x$ values,
+and the goal is to estimate the population regression function from it.
 
-From the sample we compute estimates $\hat{\beta}_0$ and $\hat{\beta}_1$, and
-these define the **sample regression function**:
+The parameters $\beta_0$ and $\beta_1$ belong to the population. They are fixed,
+unknown numbers — exactly like $\mu$ in Unit \@ref(estimation). From the sample
+we compute estimates $\hat{\beta}_0$ and $\hat{\beta}_1$, and these define the
+**sample regression function**:
 
 $$\hat{y}_i = \hat{\beta}_0 + \hat{\beta}_1 x_i$$
 
+where $\hat{y}$ estimates $E(Y \mid X = x)$, and $\hat{\beta}_0$ and
+$\hat{\beta}_1$ estimate $\beta_0$ and $\beta_1$.
+
+### Every sample gives a different line {-}
+
+Suppose two sections of forty students each are surveyed, and a line is fitted to
+each. Which one is the population regression function?
+
+```{r sr-two-samples}
+set.seed(12)
+shuffle <- sample(nrow(students))
+
+section_a <- students[shuffle[1:40], ]
+section_b <- students[shuffle[41:80], ]
+
+round(c(section_a   = coef(lm(sem_gpa ~ attendance, section_a))[2],
+        section_b   = coef(lm(sem_gpa ~ attendance, section_b))[2],
+        whole_class = coef(lm(sem_gpa ~ attendance, students))[2]), 4)
+```
+
+```{r sr-two-samples-plot, echo = FALSE, fig.height = 3.8, fig.cap = "Two sections of forty students, each with its own fitted line, against the line fitted to all 680. Neither section's line is the population regression function, and from a single section there would be no way to tell how far off it was."}
+lines_df <- data.frame(
+  which = c("Section A (n = 40)", "Section B (n = 40)", "All 680 students"),
+  int   = c(coef(lm(sem_gpa ~ attendance, section_a))[1],
+            coef(lm(sem_gpa ~ attendance, section_b))[1],
+            coef(lm(sem_gpa ~ attendance, students))[1]),
+  slope = c(coef(lm(sem_gpa ~ attendance, section_a))[2],
+            coef(lm(sem_gpa ~ attendance, section_b))[2],
+            coef(lm(sem_gpa ~ attendance, students))[2])
+)
+lines_df$which <- factor(lines_df$which, levels = lines_df$which)
+
+ggplot(students, aes(attendance, sem_gpa)) +
+  geom_point(alpha = 0.10, colour = book_palette$ink, size = 1.1) +
+  geom_abline(data = lines_df, aes(intercept = int, slope = slope,
+                                   colour = which, linewidth = which)) +
+  scale_colour_manual(values = c(book_palette$reject, book_palette$accent,
+                                 "grey30"), name = NULL) +
+  scale_linewidth_manual(values = c(0.9, 0.9, 1.4), guide = "none") +
+  labs(x = "Classes attended", y = "Semester GPA") +
+  theme_book() +
+  theme(legend.position = "top")
+```
+
+There is no way to tell. Section A's slope is 0.277 and Section B's is 0.159 —
+one is nearly twice the other, and both come from the same class. A third section
+would give a third answer.
+
+This is the situation of Unit \@ref(estimation) in a new costume. The estimate
+varies from sample to sample, and our task is to understand how much and why.
+Notice too that the two sections of forty scatter far more widely around the
+full-sample line than the halves of a large sample would — which is the
+$\sqrt{n}$ lesson of Unit \@ref(estimation) arriving in a new form.
+
 ::: {.keyidea}
-| Population | Sample |
+| Population (PRF) | Sample (SRF) |
 |:--|:--|
 | $y = \beta_0 + \beta_1 x + u$ | $y_i = \hat{\beta}_0 + \hat{\beta}_1 x_i + \hat{u}_i$ |
-| $E(y \mid x) = \beta_0 + \beta_1 x$ (the PRF) | $\hat{y}_i = \hat{\beta}_0 + \hat{\beta}_1 x_i$ (the SRF) |
-| $u$ is the **error**, and is unobservable | $\hat{u}_i$ is the **residual**, and is computed |
-| $\beta_1$ is a parameter | $\hat{\beta}_1$ is an estimator, with a sampling distribution |
+| $y = E(Y \mid X = x) + u$ | $y_i = \hat{y}_i + \hat{u}_i$ |
+| $\beta_0$ is the intercept | $\hat{\beta}_0$ estimates $\beta_0$ |
+| $\beta_1$ is the slope | $\hat{\beta}_1$ estimates $\beta_1$ |
+| $u$ is the **error**, and is unobservable | $\hat{u}$ is the **residual**, and is computed |
 
-The distinction between $u$ and $\hat{u}$ matters. The error is the deviation
-from the true line, which nobody sees. The residual is the deviation from our
-fitted line, which we can print.
+The distinction between $u$ and $\hat{u}$ is the one to hold onto. The error is
+the deviation from the true line, which nobody sees. The residual is the
+deviation from our fitted line, which we can print.
 :::
 
-Every sample gives a different line. So $\hat{\beta}_1$ is a random variable
-with a sampling distribution, and every question from Units
-\@ref(estimation)–\@ref(one-sample) applies to it: is it unbiased, what is its
-standard error, and how do we test a claim about it.
+Because every sample gives a different line, $\hat{\beta}_1$ is a random
+variable with a sampling distribution — and every question from Units
+\@ref(estimation) to \@ref(one-sample) applies to it. Is it unbiased? What is its
+standard error? How do we test a claim about it?
+
+Before any of that, though, we need to decide *which* line to fit.
 
 ## Choosing a line: ordinary least squares {#sr-ols}
 

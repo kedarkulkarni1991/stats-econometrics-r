@@ -405,11 +405,15 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="sr-motivation.html"><a href="sr-motivation.html#the-price-of-the-old-question"><i class="fa fa-check"></i>The price of the old question</a></li>
 </ul></li>
 <li class="chapter" data-level="6.2" data-path="sr-prf.html"><a href="sr-prf.html"><i class="fa fa-check"></i><b>6.2</b> The population regression function</a></li>
-<li class="chapter" data-level="6.3" data-path="sr-model.html"><a href="sr-model.html"><i class="fa fa-check"></i><b>6.3</b> The model</a>
+<li class="chapter" data-level="6.3" data-path="sr-model.html"><a href="sr-model.html"><i class="fa fa-check"></i><b>6.3</b> From averages to individuals</a>
 <ul>
+<li class="chapter" data-level="" data-path="sr-model.html"><a href="sr-model.html#the-vocabulary"><i class="fa fa-check"></i>The vocabulary</a></li>
 <li class="chapter" data-level="" data-path="sr-model.html"><a href="sr-model.html#what-must-be-true-of-the-error-term"><i class="fa fa-check"></i>What must be true of the error term</a></li>
 </ul></li>
-<li class="chapter" data-level="6.4" data-path="sr-srf.html"><a href="sr-srf.html"><i class="fa fa-check"></i><b>6.4</b> From the population to a sample</a></li>
+<li class="chapter" data-level="6.4" data-path="sr-srf.html"><a href="sr-srf.html"><i class="fa fa-check"></i><b>6.4</b> From the population to a sample</a>
+<ul>
+<li class="chapter" data-level="" data-path="sr-srf.html"><a href="sr-srf.html#every-sample-gives-a-different-line"><i class="fa fa-check"></i>Every sample gives a different line</a></li>
+</ul></li>
 <li class="chapter" data-level="6.5" data-path="sr-ols.html"><a href="sr-ols.html"><i class="fa fa-check"></i><b>6.5</b> Choosing a line: ordinary least squares</a>
 <ul>
 <li class="chapter" data-level="" data-path="sr-ols.html"><a href="sr-ols.html#doing-it-by-hand-and-in-r"><i class="fa fa-check"></i>Doing it by hand and in R</a></li>
@@ -550,17 +554,17 @@ attendance never changes. This is the same requirement as Section
 </div>
 <div id="doing-it-by-hand-and-in-r" class="section level3 unnumbered hasAnchor">
 <h3>Doing it by hand and in R<a href="sr-ols.html#doing-it-by-hand-and-in-r" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<div class="sourceCode" id="cb232"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb232-1"><a href="sr-ols.html#cb232-1" tabindex="-1"></a>x <span class="ot">&lt;-</span> students<span class="sc">$</span>attendance</span>
-<span id="cb232-2"><a href="sr-ols.html#cb232-2" tabindex="-1"></a>y <span class="ot">&lt;-</span> students<span class="sc">$</span>sem_gpa</span>
-<span id="cb232-3"><a href="sr-ols.html#cb232-3" tabindex="-1"></a></span>
-<span id="cb232-4"><a href="sr-ols.html#cb232-4" tabindex="-1"></a>b1 <span class="ot">&lt;-</span> <span class="fu">sum</span>((x <span class="sc">-</span> <span class="fu">mean</span>(x)) <span class="sc">*</span> (y <span class="sc">-</span> <span class="fu">mean</span>(y))) <span class="sc">/</span> <span class="fu">sum</span>((x <span class="sc">-</span> <span class="fu">mean</span>(x))<span class="sc">^</span><span class="dv">2</span>)</span>
-<span id="cb232-5"><a href="sr-ols.html#cb232-5" tabindex="-1"></a>b0 <span class="ot">&lt;-</span> <span class="fu">mean</span>(y) <span class="sc">-</span> b1 <span class="sc">*</span> <span class="fu">mean</span>(x)</span>
-<span id="cb232-6"><a href="sr-ols.html#cb232-6" tabindex="-1"></a></span>
-<span id="cb232-7"><a href="sr-ols.html#cb232-7" tabindex="-1"></a><span class="fu">c</span>(<span class="at">b0 =</span> b0, <span class="at">b1 =</span> b1)</span></code></pre></div>
+<div class="sourceCode" id="cb236"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb236-1"><a href="sr-ols.html#cb236-1" tabindex="-1"></a>x <span class="ot">&lt;-</span> students<span class="sc">$</span>attendance</span>
+<span id="cb236-2"><a href="sr-ols.html#cb236-2" tabindex="-1"></a>y <span class="ot">&lt;-</span> students<span class="sc">$</span>sem_gpa</span>
+<span id="cb236-3"><a href="sr-ols.html#cb236-3" tabindex="-1"></a></span>
+<span id="cb236-4"><a href="sr-ols.html#cb236-4" tabindex="-1"></a>b1 <span class="ot">&lt;-</span> <span class="fu">sum</span>((x <span class="sc">-</span> <span class="fu">mean</span>(x)) <span class="sc">*</span> (y <span class="sc">-</span> <span class="fu">mean</span>(y))) <span class="sc">/</span> <span class="fu">sum</span>((x <span class="sc">-</span> <span class="fu">mean</span>(x))<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb236-5"><a href="sr-ols.html#cb236-5" tabindex="-1"></a>b0 <span class="ot">&lt;-</span> <span class="fu">mean</span>(y) <span class="sc">-</span> b1 <span class="sc">*</span> <span class="fu">mean</span>(x)</span>
+<span id="cb236-6"><a href="sr-ols.html#cb236-6" tabindex="-1"></a></span>
+<span id="cb236-7"><a href="sr-ols.html#cb236-7" tabindex="-1"></a><span class="fu">c</span>(<span class="at">b0 =</span> b0, <span class="at">b1 =</span> b1)</span></code></pre></div>
 <pre><code>#&gt;    b0    b1 
 #&gt; 1.562 0.189</code></pre>
-<div class="sourceCode" id="cb234"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb234-1"><a href="sr-ols.html#cb234-1" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">lm</span>(sem_gpa <span class="sc">~</span> attendance, <span class="at">data =</span> students)</span>
-<span id="cb234-2"><a href="sr-ols.html#cb234-2" tabindex="-1"></a><span class="fu">coef</span>(fit)</span></code></pre></div>
+<div class="sourceCode" id="cb238"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb238-1"><a href="sr-ols.html#cb238-1" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">lm</span>(sem_gpa <span class="sc">~</span> attendance, <span class="at">data =</span> students)</span>
+<span id="cb238-2"><a href="sr-ols.html#cb238-2" tabindex="-1"></a><span class="fu">coef</span>(fit)</span></code></pre></div>
 <pre><code>#&gt; (Intercept)  attendance 
 #&gt;       1.562       0.189</code></pre>
 <p>Identical. <code>lm()</code> solves the same two equations.</p>
@@ -570,7 +574,7 @@ ten-point scale is a great deal.</p>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:sr-fit-plot"></span>
 <img src="stats-econometrics-r_files/figure-html/sr-fit-plot-1.png" alt="The fitted line, with the vertical distances it misses by shown for a handful of students. Ordinary least squares chooses the line making the sum of those squared distances as small as possible." width="90%"  />
 <p class="caption">
-Figure 6.2: The fitted line, with the vertical distances it misses by shown for a handful of students. Ordinary least squares chooses the line making the sum of those squared distances as small as possible.
+Figure 6.3: The fitted line, with the vertical distances it misses by shown for a handful of students. Ordinary least squares chooses the line making the sum of those squared distances as small as possible.
 </p>
 </div>
 </div>

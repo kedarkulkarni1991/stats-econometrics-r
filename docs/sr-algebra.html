@@ -405,11 +405,15 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="sr-motivation.html"><a href="sr-motivation.html#the-price-of-the-old-question"><i class="fa fa-check"></i>The price of the old question</a></li>
 </ul></li>
 <li class="chapter" data-level="6.2" data-path="sr-prf.html"><a href="sr-prf.html"><i class="fa fa-check"></i><b>6.2</b> The population regression function</a></li>
-<li class="chapter" data-level="6.3" data-path="sr-model.html"><a href="sr-model.html"><i class="fa fa-check"></i><b>6.3</b> The model</a>
+<li class="chapter" data-level="6.3" data-path="sr-model.html"><a href="sr-model.html"><i class="fa fa-check"></i><b>6.3</b> From averages to individuals</a>
 <ul>
+<li class="chapter" data-level="" data-path="sr-model.html"><a href="sr-model.html#the-vocabulary"><i class="fa fa-check"></i>The vocabulary</a></li>
 <li class="chapter" data-level="" data-path="sr-model.html"><a href="sr-model.html#what-must-be-true-of-the-error-term"><i class="fa fa-check"></i>What must be true of the error term</a></li>
 </ul></li>
-<li class="chapter" data-level="6.4" data-path="sr-srf.html"><a href="sr-srf.html"><i class="fa fa-check"></i><b>6.4</b> From the population to a sample</a></li>
+<li class="chapter" data-level="6.4" data-path="sr-srf.html"><a href="sr-srf.html"><i class="fa fa-check"></i><b>6.4</b> From the population to a sample</a>
+<ul>
+<li class="chapter" data-level="" data-path="sr-srf.html"><a href="sr-srf.html#every-sample-gives-a-different-line"><i class="fa fa-check"></i>Every sample gives a different line</a></li>
+</ul></li>
 <li class="chapter" data-level="6.5" data-path="sr-ols.html"><a href="sr-ols.html"><i class="fa fa-check"></i><b>6.5</b> Choosing a line: ordinary least squares</a>
 <ul>
 <li class="chapter" data-level="" data-path="sr-ols.html"><a href="sr-ols.html#doing-it-by-hand-and-in-r"><i class="fa fa-check"></i>Doing it by hand and in R</a></li>
@@ -482,12 +486,12 @@ already extracted all of that.</li>
 fitted line.</li>
 </ol>
 </div>
-<div class="sourceCode" id="cb236"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb236-1"><a href="sr-algebra.html#cb236-1" tabindex="-1"></a>u_hat <span class="ot">&lt;-</span> <span class="fu">residuals</span>(fit)</span>
-<span id="cb236-2"><a href="sr-algebra.html#cb236-2" tabindex="-1"></a></span>
-<span id="cb236-3"><a href="sr-algebra.html#cb236-3" tabindex="-1"></a><span class="fu">c</span>(<span class="at">sum_residuals   =</span> <span class="fu">sum</span>(u_hat),</span>
-<span id="cb236-4"><a href="sr-algebra.html#cb236-4" tabindex="-1"></a>  <span class="at">sum_x_times_u   =</span> <span class="fu">sum</span>(x <span class="sc">*</span> u_hat),</span>
-<span id="cb236-5"><a href="sr-algebra.html#cb236-5" tabindex="-1"></a>  <span class="at">predicted_at_xbar =</span> <span class="fu">coef</span>(fit)[<span class="dv">1</span>] <span class="sc">+</span> <span class="fu">coef</span>(fit)[<span class="dv">2</span>] <span class="sc">*</span> <span class="fu">mean</span>(x),</span>
-<span id="cb236-6"><a href="sr-algebra.html#cb236-6" tabindex="-1"></a>  <span class="at">mean_of_y         =</span> <span class="fu">mean</span>(y))</span></code></pre></div>
+<div class="sourceCode" id="cb240"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb240-1"><a href="sr-algebra.html#cb240-1" tabindex="-1"></a>u_hat <span class="ot">&lt;-</span> <span class="fu">residuals</span>(fit)</span>
+<span id="cb240-2"><a href="sr-algebra.html#cb240-2" tabindex="-1"></a></span>
+<span id="cb240-3"><a href="sr-algebra.html#cb240-3" tabindex="-1"></a><span class="fu">c</span>(<span class="at">sum_residuals   =</span> <span class="fu">sum</span>(u_hat),</span>
+<span id="cb240-4"><a href="sr-algebra.html#cb240-4" tabindex="-1"></a>  <span class="at">sum_x_times_u   =</span> <span class="fu">sum</span>(x <span class="sc">*</span> u_hat),</span>
+<span id="cb240-5"><a href="sr-algebra.html#cb240-5" tabindex="-1"></a>  <span class="at">predicted_at_xbar =</span> <span class="fu">coef</span>(fit)[<span class="dv">1</span>] <span class="sc">+</span> <span class="fu">coef</span>(fit)[<span class="dv">2</span>] <span class="sc">*</span> <span class="fu">mean</span>(x),</span>
+<span id="cb240-6"><a href="sr-algebra.html#cb240-6" tabindex="-1"></a>  <span class="at">mean_of_y         =</span> <span class="fu">mean</span>(y))</span></code></pre></div>
 <pre><code>#&gt;                 sum_residuals                 sum_x_times_u 
 #&gt;           -0.0000000000000111            0.0000000000009965 
 #&gt; predicted_at_xbar.(Intercept)                     mean_of_y 
@@ -517,12 +521,12 @@ the regression accounts for:</p>
 <p>It lies between 0 and 1. In a simple regression it is exactly the square of the
 correlation between <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span>.</p>
 </div>
-<div class="sourceCode" id="cb238"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb238-1"><a href="sr-algebra.html#cb238-1" tabindex="-1"></a>sst <span class="ot">&lt;-</span> <span class="fu">sum</span>((y <span class="sc">-</span> <span class="fu">mean</span>(y))<span class="sc">^</span><span class="dv">2</span>)</span>
-<span id="cb238-2"><a href="sr-algebra.html#cb238-2" tabindex="-1"></a>ssr <span class="ot">&lt;-</span> <span class="fu">sum</span>(u_hat<span class="sc">^</span><span class="dv">2</span>)</span>
-<span id="cb238-3"><a href="sr-algebra.html#cb238-3" tabindex="-1"></a></span>
-<span id="cb238-4"><a href="sr-algebra.html#cb238-4" tabindex="-1"></a><span class="fu">c</span>(<span class="at">r_squared      =</span> <span class="dv">1</span> <span class="sc">-</span> ssr <span class="sc">/</span> sst,</span>
-<span id="cb238-5"><a href="sr-algebra.html#cb238-5" tabindex="-1"></a>  <span class="at">from_summary   =</span> <span class="fu">summary</span>(fit)<span class="sc">$</span>r.squared,</span>
-<span id="cb238-6"><a href="sr-algebra.html#cb238-6" tabindex="-1"></a>  <span class="at">cor_squared    =</span> <span class="fu">cor</span>(x, y)<span class="sc">^</span><span class="dv">2</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb242"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb242-1"><a href="sr-algebra.html#cb242-1" tabindex="-1"></a>sst <span class="ot">&lt;-</span> <span class="fu">sum</span>((y <span class="sc">-</span> <span class="fu">mean</span>(y))<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb242-2"><a href="sr-algebra.html#cb242-2" tabindex="-1"></a>ssr <span class="ot">&lt;-</span> <span class="fu">sum</span>(u_hat<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb242-3"><a href="sr-algebra.html#cb242-3" tabindex="-1"></a></span>
+<span id="cb242-4"><a href="sr-algebra.html#cb242-4" tabindex="-1"></a><span class="fu">c</span>(<span class="at">r_squared      =</span> <span class="dv">1</span> <span class="sc">-</span> ssr <span class="sc">/</span> sst,</span>
+<span id="cb242-5"><a href="sr-algebra.html#cb242-5" tabindex="-1"></a>  <span class="at">from_summary   =</span> <span class="fu">summary</span>(fit)<span class="sc">$</span>r.squared,</span>
+<span id="cb242-6"><a href="sr-algebra.html#cb242-6" tabindex="-1"></a>  <span class="at">cor_squared    =</span> <span class="fu">cor</span>(x, y)<span class="sc">^</span><span class="dv">2</span>)</span></code></pre></div>
 <pre><code>#&gt;    r_squared from_summary  cor_squared 
 #&gt;       0.3133       0.3133       0.3133</code></pre>
 <p>So attendance accounts for about 31% of the variation in semester GPA. The other

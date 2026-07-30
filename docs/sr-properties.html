@@ -405,11 +405,15 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="sr-motivation.html"><a href="sr-motivation.html#the-price-of-the-old-question"><i class="fa fa-check"></i>The price of the old question</a></li>
 </ul></li>
 <li class="chapter" data-level="6.2" data-path="sr-prf.html"><a href="sr-prf.html"><i class="fa fa-check"></i><b>6.2</b> The population regression function</a></li>
-<li class="chapter" data-level="6.3" data-path="sr-model.html"><a href="sr-model.html"><i class="fa fa-check"></i><b>6.3</b> The model</a>
+<li class="chapter" data-level="6.3" data-path="sr-model.html"><a href="sr-model.html"><i class="fa fa-check"></i><b>6.3</b> From averages to individuals</a>
 <ul>
+<li class="chapter" data-level="" data-path="sr-model.html"><a href="sr-model.html#the-vocabulary"><i class="fa fa-check"></i>The vocabulary</a></li>
 <li class="chapter" data-level="" data-path="sr-model.html"><a href="sr-model.html#what-must-be-true-of-the-error-term"><i class="fa fa-check"></i>What must be true of the error term</a></li>
 </ul></li>
-<li class="chapter" data-level="6.4" data-path="sr-srf.html"><a href="sr-srf.html"><i class="fa fa-check"></i><b>6.4</b> From the population to a sample</a></li>
+<li class="chapter" data-level="6.4" data-path="sr-srf.html"><a href="sr-srf.html"><i class="fa fa-check"></i><b>6.4</b> From the population to a sample</a>
+<ul>
+<li class="chapter" data-level="" data-path="sr-srf.html"><a href="sr-srf.html#every-sample-gives-a-different-line"><i class="fa fa-check"></i>Every sample gives a different line</a></li>
+</ul></li>
 <li class="chapter" data-level="6.5" data-path="sr-ols.html"><a href="sr-ols.html"><i class="fa fa-check"></i><b>6.5</b> Choosing a line: ordinary least squares</a>
 <ul>
 <li class="chapter" data-level="" data-path="sr-ols.html"><a href="sr-ols.html#doing-it-by-hand-and-in-r"><i class="fa fa-check"></i>Doing it by hand and in R</a></li>
@@ -548,12 +552,12 @@ were estimated on the way, so the divisor is <span class="math inline">\(n - 2\)
 <p>The <span class="math inline">\(n - 2\)</span> is the same accounting as Section <a href="u3-variance.html#u3-variance">3.2</a>, where
 estimating one mean cost one degree of freedom. Here we estimated an intercept
 and a slope.</p>
-<div class="sourceCode" id="cb240"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb240-1"><a href="sr-properties.html#cb240-1" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fu">length</span>(y)</span>
-<span id="cb240-2"><a href="sr-properties.html#cb240-2" tabindex="-1"></a>sigma_hat <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">sum</span>(u_hat<span class="sc">^</span><span class="dv">2</span>) <span class="sc">/</span> (n <span class="sc">-</span> <span class="dv">2</span>))</span>
-<span id="cb240-3"><a href="sr-properties.html#cb240-3" tabindex="-1"></a>se_b1     <span class="ot">&lt;-</span> sigma_hat <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="fu">sum</span>((x <span class="sc">-</span> <span class="fu">mean</span>(x))<span class="sc">^</span><span class="dv">2</span>))</span>
-<span id="cb240-4"><a href="sr-properties.html#cb240-4" tabindex="-1"></a></span>
-<span id="cb240-5"><a href="sr-properties.html#cb240-5" tabindex="-1"></a><span class="fu">c</span>(<span class="at">sigma_hat =</span> sigma_hat, <span class="at">se_b1 =</span> se_b1,</span>
-<span id="cb240-6"><a href="sr-properties.html#cb240-6" tabindex="-1"></a>  <span class="at">se_from_lm =</span> <span class="fu">summary</span>(fit)<span class="sc">$</span>coefficients[<span class="dv">2</span>, <span class="dv">2</span>])</span></code></pre></div>
+<div class="sourceCode" id="cb244"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb244-1"><a href="sr-properties.html#cb244-1" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fu">length</span>(y)</span>
+<span id="cb244-2"><a href="sr-properties.html#cb244-2" tabindex="-1"></a>sigma_hat <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">sum</span>(u_hat<span class="sc">^</span><span class="dv">2</span>) <span class="sc">/</span> (n <span class="sc">-</span> <span class="dv">2</span>))</span>
+<span id="cb244-3"><a href="sr-properties.html#cb244-3" tabindex="-1"></a>se_b1     <span class="ot">&lt;-</span> sigma_hat <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="fu">sum</span>((x <span class="sc">-</span> <span class="fu">mean</span>(x))<span class="sc">^</span><span class="dv">2</span>))</span>
+<span id="cb244-4"><a href="sr-properties.html#cb244-4" tabindex="-1"></a></span>
+<span id="cb244-5"><a href="sr-properties.html#cb244-5" tabindex="-1"></a><span class="fu">c</span>(<span class="at">sigma_hat =</span> sigma_hat, <span class="at">se_b1 =</span> se_b1,</span>
+<span id="cb244-6"><a href="sr-properties.html#cb244-6" tabindex="-1"></a>  <span class="at">se_from_lm =</span> <span class="fu">summary</span>(fit)<span class="sc">$</span>coefficients[<span class="dv">2</span>, <span class="dv">2</span>])</span></code></pre></div>
 <pre><code>#&gt;  sigma_hat      se_b1 se_from_lm 
 #&gt;    1.52697    0.01074    0.01074</code></pre>
 </div>

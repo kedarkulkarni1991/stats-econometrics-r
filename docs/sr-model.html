@@ -4,13 +4,13 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>6.3 The model | Statistics and Econometrics with R</title>
+  <title>6.3 From averages to individuals | Statistics and Econometrics with R</title>
   <meta name="description" content="<p>A first course in statistics and econometrics for Indian students, built on
 the progression from question to intuition to rigour to computation to
 interpretation.</p>" />
   <meta name="generator" content="bookdown 0.47 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="6.3 The model | Statistics and Econometrics with R" />
+  <meta property="og:title" content="6.3 From averages to individuals | Statistics and Econometrics with R" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="<p>A first course in statistics and econometrics for Indian students, built on
@@ -19,7 +19,7 @@ interpretation.</p>" />
   <meta name="github-repo" content="kedarkulkarni1991/stats-econometrics-r" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="6.3 The model | Statistics and Econometrics with R" />
+  <meta name="twitter:title" content="6.3 From averages to individuals | Statistics and Econometrics with R" />
   
   <meta name="twitter:description" content="<p>A first course in statistics and econometrics for Indian students, built on
 the progression from question to intuition to rigour to computation to
@@ -405,11 +405,15 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="sr-motivation.html"><a href="sr-motivation.html#the-price-of-the-old-question"><i class="fa fa-check"></i>The price of the old question</a></li>
 </ul></li>
 <li class="chapter" data-level="6.2" data-path="sr-prf.html"><a href="sr-prf.html"><i class="fa fa-check"></i><b>6.2</b> The population regression function</a></li>
-<li class="chapter" data-level="6.3" data-path="sr-model.html"><a href="sr-model.html"><i class="fa fa-check"></i><b>6.3</b> The model</a>
+<li class="chapter" data-level="6.3" data-path="sr-model.html"><a href="sr-model.html"><i class="fa fa-check"></i><b>6.3</b> From averages to individuals</a>
 <ul>
+<li class="chapter" data-level="" data-path="sr-model.html"><a href="sr-model.html#the-vocabulary"><i class="fa fa-check"></i>The vocabulary</a></li>
 <li class="chapter" data-level="" data-path="sr-model.html"><a href="sr-model.html#what-must-be-true-of-the-error-term"><i class="fa fa-check"></i>What must be true of the error term</a></li>
 </ul></li>
-<li class="chapter" data-level="6.4" data-path="sr-srf.html"><a href="sr-srf.html"><i class="fa fa-check"></i><b>6.4</b> From the population to a sample</a></li>
+<li class="chapter" data-level="6.4" data-path="sr-srf.html"><a href="sr-srf.html"><i class="fa fa-check"></i><b>6.4</b> From the population to a sample</a>
+<ul>
+<li class="chapter" data-level="" data-path="sr-srf.html"><a href="sr-srf.html#every-sample-gives-a-different-line"><i class="fa fa-check"></i>Every sample gives a different line</a></li>
+</ul></li>
 <li class="chapter" data-level="6.5" data-path="sr-ols.html"><a href="sr-ols.html"><i class="fa fa-check"></i><b>6.5</b> Choosing a line: ordinary least squares</a>
 <ul>
 <li class="chapter" data-level="" data-path="sr-ols.html"><a href="sr-ols.html#doing-it-by-hand-and-in-r"><i class="fa fa-check"></i>Doing it by hand and in R</a></li>
@@ -463,32 +467,73 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 
             <section class="normal" id="section-">
 <div id="sr-model" class="section level2 hasAnchor" number="6.3">
-<h2><span class="header-section-number">6.3</span> The model<a href="sr-model.html#sr-model" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<h2><span class="header-section-number">6.3</span> From averages to individuals<a href="sr-model.html#sr-model" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <div class="question">
-<p>How do we write down “grades depend on attendance, but not only on attendance”?</p>
+<p>The PRF describes averages. Individual students are not averages. How do we
+write down the difference?</p>
 </div>
-<p>Economic theory says grades depend on attendance. It also says grades depend on
-effort, ability, teaching quality, health, and how many hours a student must
-work for pay. Only the first is in our dataset.</p>
-<p>The <strong>simple linear regression model</strong> handles this by dividing <span class="math inline">\(y\)</span> into a part
-explained by <span class="math inline">\(x\)</span> and a part that is not:</p>
-<p><span class="math display">\[y = \beta_0 + \beta_1 x + u\]</span></p>
+<p>The conditional expectation function tells us how the <em>average</em> value of <span class="math inline">\(y\)</span>
+changes with <span class="math inline">\(x\)</span>. It does not say that <span class="math inline">\(y = \beta_0 + \beta_1 x\)</span> for every member
+of the population, and the data make that obvious.</p>
+<p>Forty-nine students in our data attended exactly 25 classes.</p>
+<div class="sourceCode" id="cb232"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb232-1"><a href="sr-model.html#cb232-1" tabindex="-1"></a>at25 <span class="ot">&lt;-</span> students[students<span class="sc">$</span>attendance <span class="sc">==</span> <span class="dv">25</span>, ]</span>
+<span id="cb232-2"><a href="sr-model.html#cb232-2" tabindex="-1"></a></span>
+<span id="cb232-3"><a href="sr-model.html#cb232-3" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">n =</span> <span class="fu">nrow</span>(at25), <span class="at">conditional_mean =</span> <span class="fu">mean</span>(at25<span class="sc">$</span>sem_gpa),</span>
+<span id="cb232-4"><a href="sr-model.html#cb232-4" tabindex="-1"></a>        <span class="at">lowest =</span> <span class="fu">min</span>(at25<span class="sc">$</span>sem_gpa), <span class="at">highest =</span> <span class="fu">max</span>(at25<span class="sc">$</span>sem_gpa)), <span class="dv">3</span>)</span></code></pre></div>
+<pre><code>#&gt;                n conditional_mean           lowest          highest 
+#&gt;           49.000            6.098            1.575            9.075</code></pre>
+<p>Their average GPA was 6.10. One of them scored 1.58 and another 9.08. All three
+numbers describe students who attended the same 25 classes.</p>
+<p>So an individual’s grade is the conditional mean <em>plus</em> a departure from it. Give
+that departure a name.</p>
+<div class="keyidea">
+<p>For each individual <span class="math inline">\(i\)</span>,</p>
+<p><span class="math display">\[y_i = \underbrace{E(Y \mid X = x_i)}_{\text{systematic}} + \underbrace{u_i}_{\text{stochastic}}\]</span></p>
+<p>where <span class="math inline">\(u_i\)</span> is the <strong>stochastic disturbance</strong> or <strong>error term</strong> — the amount by
+which individual <span class="math inline">\(i\)</span> departs from the average for their value of <span class="math inline">\(x\)</span>.</p>
+<p>Substituting the linear conditional mean gives the <strong>simple linear regression
+model</strong>:</p>
+<p><span class="math display">\[y_i = \beta_0 + \beta_1 x_i + u_i\]</span></p>
+</div>
+<p>That equation is not a new assumption. It is the population regression function
+of Section <a href="sr-prf.html#sr-prf">6.2</a> with a name attached to the part it does not describe.
+The two students above become</p>
+<p><span class="math display">\[1.58 = \beta_0 + \beta_1(25) + u_1
+\qquad\qquad
+9.08 = \beta_0 + \beta_1(25) + u_2\]</span></p>
+<p>with a large negative <span class="math inline">\(u_1\)</span> and a large positive <span class="math inline">\(u_2\)</span>.</p>
+<div class="intuition">
+<p>Read the model as a division of <span class="math inline">\(y\)</span> into two parts.</p>
+<p>The <strong>systematic</strong> part, <span class="math inline">\(\beta_0 + \beta_1 x\)</span>, is what attendance accounts for.
+It is the same for everyone with the same attendance.</p>
+<p>The <strong>stochastic</strong> part, <span class="math inline">\(u\)</span>, is everything else: effort, ability, teaching
+quality, health, whether the student had a job that semester. It differs from
+person to person and it is not observed.</p>
+<p>The error term is not a mistake and not measurement noise. It is the rest of the
+world.</p>
+</div>
+<div id="the-vocabulary" class="section level3 unnumbered hasAnchor">
+<h3>The vocabulary<a href="sr-model.html#the-vocabulary" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <ul>
 <li><span class="math inline">\(y\)</span> is the <strong>dependent</strong> variable — semester GPA.</li>
-<li><span class="math inline">\(x\)</span> is the <strong>independent</strong> or explanatory variable — attendance.</li>
-<li><span class="math inline">\(u\)</span> is the <strong>error</strong> or disturbance term, holding everything else that affects
-<span class="math inline">\(y\)</span>. It is not a mistake; it is the rest of the world.</li>
-<li><span class="math inline">\(\beta_0\)</span> is the <strong>intercept</strong>, and is rarely of interest in itself.</li>
-<li><span class="math inline">\(\beta_1\)</span> is the <strong>slope</strong>, and is almost always what we care about. It says
-how much <span class="math inline">\(y\)</span> changes when <span class="math inline">\(x\)</span> rises by one unit.</li>
+<li><span class="math inline">\(x\)</span> is the <strong>independent</strong>, explanatory or control variable — attendance.</li>
+<li><span class="math inline">\(u\)</span> is the <strong>error</strong> or disturbance term, holding all factors other than <span class="math inline">\(x\)</span>
+that affect <span class="math inline">\(y\)</span>. Because the econometrician does not observe them, <span class="math inline">\(u\)</span> is
+sometimes called the unobserved variable.</li>
+<li><span class="math inline">\(\beta_0\)</span> is the <strong>intercept</strong> or constant term, and is rarely central to the
+analysis.</li>
+<li><span class="math inline">\(\beta_1\)</span> is the <strong>slope</strong>, and is almost always the parameter of interest. It
+gives the marginal effect of <span class="math inline">\(x\)</span> on <span class="math inline">\(y\)</span>:
+<span class="math inline">\(\partial y / \partial x = \beta_1\)</span>.</li>
 </ul>
 <p>For the grades example,</p>
 <p><span class="math display">\[\textit{GPA} = \beta_0 + \beta_1\,\textit{attendance} + u\]</span></p>
 <p>and <span class="math inline">\(\beta_1\)</span> is the change in GPA associated with attending one more class.</p>
+</div>
 <div id="what-must-be-true-of-the-error-term" class="section level3 unnumbered hasAnchor">
 <h3>What must be true of the error term<a href="sr-model.html#what-must-be-true-of-the-error-term" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>The model as written is empty until we say something about <span class="math inline">\(u\)</span>. Two assumptions
-do the work.</p>
+<p>The model is empty until we say something about <span class="math inline">\(u\)</span>. Two assumptions do the
+work.</p>
 <p><strong>The error has mean zero:</strong> <span class="math inline">\(E(u) = 0\)</span>.</p>
 <p>This costs nothing. If the unobserved factors had a non-zero average, we could
 absorb that average into the intercept and start again.</p>
@@ -506,25 +551,42 @@ y &amp;= \beta_0 + \beta_1 x + (e + c) \\[4pt]
 is what we want, assuming <span class="math inline">\(E(u) = 0\)</span> restricts nothing of importance.</p>
 </div>
 <p><strong>The error is unrelated to <span class="math inline">\(x\)</span>:</strong> <span class="math inline">\(E(u \mid x) = E(u) = 0\)</span>.</p>
-<p>This one is not free at all. It says that the average of the unobserved factors
-is the <em>same</em> at every value of <span class="math inline">\(x\)</span>.</p>
+<p>This one is not free at all. Since <span class="math inline">\(u\)</span> and <span class="math inline">\(x\)</span> are both random variables, we can
+ask what the average of <span class="math inline">\(u\)</span> is among individuals with a particular value of <span class="math inline">\(x\)</span>.
+The assumption says that average is the <em>same</em> at every value of <span class="math inline">\(x\)</span>, and equal
+to the overall average of zero. In that case <span class="math inline">\(u\)</span> is said to be <strong>mean
+independent</strong> of <span class="math inline">\(x\)</span>.</p>
+<p>Taken together, the two are the <strong>zero conditional mean assumption</strong>.</p>
 <div class="keyidea">
-<p>The <strong>zero conditional mean assumption</strong>, <span class="math inline">\(E(u \mid x) = 0\)</span>, is the assumption on
-which everything rests.</p>
-<p>For the grades example it says: students who attend more classes are, on
-average, no more and no less able, motivated, or well-taught than students who
-attend fewer.</p>
-<p>If that fails, <span class="math inline">\(\beta_1\)</span> does not measure the effect of attendance. It measures
-the effect of attendance plus whatever else differs between high and low
-attenders.</p>
+<p><span class="math display">\[E(u \mid x) = 0\]</span></p>
+<p>This is the assumption on which everything rests.</p>
+<p>For the grades example it says
+<span class="math inline">\(E(\textit{effort} \mid \textit{attendance} = \text{low}) =
+E(\textit{effort} \mid \textit{attendance} = \text{high}) = 0\)</span> — students who
+attend more classes are, on average, no more and no less able, motivated, or
+well-taught than students who attend fewer.</p>
+<p>If it fails, <span class="math inline">\(\beta_1\)</span> does not measure the effect of attendance. It measures the
+effect of attendance plus whatever else differs between high and low attenders.</p>
 </div>
 <p>Stated in that concrete form, the assumption is clearly doubtful here. Students
-who attend regularly are plausibly more motivated, and motivation raises grades
-on its own. We cannot check this, because effort is not in the dataset — that is
-what “unobserved” means.</p>
-<p>Section <a href="sr-causal.html#sr-causal">6.9</a> returns to what follows. For now we proceed, keeping in
-mind that we are estimating a conditional mean, and that whether it is an
-<em>effect</em> is a separate question.</p>
+who attend regularly are plausibly working harder in other ways too, and effort
+raises grades on its own. We cannot check it, because effort is not in the
+dataset — that is what “unobserved” means. When it fails we have <strong>omitted
+variable bias</strong>, and Section <a href="sr-causal.html#sr-causal">6.9</a> returns to it.</p>
+<div class="deeper">
+<p>There is a subtlety worth noticing, because it explains why different books
+present this assumption differently.</p>
+<p>If <span class="math inline">\(u_i\)</span> is <em>defined</em> as <span class="math inline">\(y_i - E(Y \mid X = x_i)\)</span> — the departure from the true
+conditional mean — then <span class="math inline">\(E(u \mid x) = 0\)</span> holds automatically. It is a
+consequence of the definition, not an assumption about the world.</p>
+<p>The content of the assumption enters in two places instead. First, we assumed
+the conditional mean is <em>linear</em>: if the true PRF curves and we fit a line, then
+<span class="math inline">\(u\)</span> defined as <span class="math inline">\(y - \beta_0 - \beta_1 x\)</span> will not average zero at every <span class="math inline">\(x\)</span>.
+Second, and more importantly, calling <span class="math inline">\(\beta_1\)</span> an <em>effect</em> requires that the
+conditional mean reflect what would happen if attendance were changed, rather
+than merely what is true of students who differ in attendance.</p>
+<p>The second is the causal question, and it is the one that matters in practice.</p>
+</div>
 </div>
 </div>
 <script>

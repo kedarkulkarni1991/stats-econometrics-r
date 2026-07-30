@@ -405,11 +405,15 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="sr-motivation.html"><a href="sr-motivation.html#the-price-of-the-old-question"><i class="fa fa-check"></i>The price of the old question</a></li>
 </ul></li>
 <li class="chapter" data-level="6.2" data-path="sr-prf.html"><a href="sr-prf.html"><i class="fa fa-check"></i><b>6.2</b> The population regression function</a></li>
-<li class="chapter" data-level="6.3" data-path="sr-model.html"><a href="sr-model.html"><i class="fa fa-check"></i><b>6.3</b> The model</a>
+<li class="chapter" data-level="6.3" data-path="sr-model.html"><a href="sr-model.html"><i class="fa fa-check"></i><b>6.3</b> From averages to individuals</a>
 <ul>
+<li class="chapter" data-level="" data-path="sr-model.html"><a href="sr-model.html#the-vocabulary"><i class="fa fa-check"></i>The vocabulary</a></li>
 <li class="chapter" data-level="" data-path="sr-model.html"><a href="sr-model.html#what-must-be-true-of-the-error-term"><i class="fa fa-check"></i>What must be true of the error term</a></li>
 </ul></li>
-<li class="chapter" data-level="6.4" data-path="sr-srf.html"><a href="sr-srf.html"><i class="fa fa-check"></i><b>6.4</b> From the population to a sample</a></li>
+<li class="chapter" data-level="6.4" data-path="sr-srf.html"><a href="sr-srf.html"><i class="fa fa-check"></i><b>6.4</b> From the population to a sample</a>
+<ul>
+<li class="chapter" data-level="" data-path="sr-srf.html"><a href="sr-srf.html#every-sample-gives-a-different-line"><i class="fa fa-check"></i>Every sample gives a different line</a></li>
+</ul></li>
 <li class="chapter" data-level="6.5" data-path="sr-ols.html"><a href="sr-ols.html"><i class="fa fa-check"></i><b>6.5</b> Choosing a line: ordinary least squares</a>
 <ul>
 <li class="chapter" data-level="" data-path="sr-ols.html"><a href="sr-ols.html#doing-it-by-hand-and-in-r"><i class="fa fa-check"></i>Doing it by hand and in R</a></li>
@@ -475,7 +479,7 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 value, over standard error:</p>
 <p><span class="math display">\[t = \frac{\hat{\beta}_1 - 0}{\mathrm{se}(\hat{\beta}_1)}\]</span></p>
 <p>compared against <span class="math inline">\(t\)</span> with <span class="math inline">\(n - 2\)</span> degrees of freedom.</p>
-<div class="sourceCode" id="cb242"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb242-1"><a href="sr-inference.html#cb242-1" tabindex="-1"></a><span class="fu">summary</span>(fit)<span class="sc">$</span>coefficients</span></code></pre></div>
+<div class="sourceCode" id="cb246"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb246-1"><a href="sr-inference.html#cb246-1" tabindex="-1"></a><span class="fu">summary</span>(fit)<span class="sc">$</span>coefficients</span></code></pre></div>
 <pre><code>#&gt;             Estimate Std. Error t value
 #&gt; (Intercept)    1.562    0.28692   5.444
 #&gt; attendance     0.189    0.01074  17.589
@@ -486,7 +490,7 @@ value, over standard error:</p>
 678 degrees of freedom and a <span class="math inline">\(p\)</span>-value indistinguishable from zero. We reject
 the claim that attendance is unrelated to GPA.</p>
 <p>The confidence interval is the more informative report:</p>
-<div class="sourceCode" id="cb244"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb244-1"><a href="sr-inference.html#cb244-1" tabindex="-1"></a><span class="fu">confint</span>(fit, <span class="at">level =</span> <span class="fl">0.95</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb248"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb248-1"><a href="sr-inference.html#cb248-1" tabindex="-1"></a><span class="fu">confint</span>(fit, <span class="at">level =</span> <span class="fl">0.95</span>)</span></code></pre></div>
 <pre><code>#&gt;              2.5 % 97.5 %
 #&gt; (Intercept) 0.9987  2.125
 #&gt; attendance  0.1679  0.210</code></pre>

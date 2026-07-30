@@ -405,11 +405,15 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="sr-motivation.html"><a href="sr-motivation.html#the-price-of-the-old-question"><i class="fa fa-check"></i>The price of the old question</a></li>
 </ul></li>
 <li class="chapter" data-level="6.2" data-path="sr-prf.html"><a href="sr-prf.html"><i class="fa fa-check"></i><b>6.2</b> The population regression function</a></li>
-<li class="chapter" data-level="6.3" data-path="sr-model.html"><a href="sr-model.html"><i class="fa fa-check"></i><b>6.3</b> The model</a>
+<li class="chapter" data-level="6.3" data-path="sr-model.html"><a href="sr-model.html"><i class="fa fa-check"></i><b>6.3</b> From averages to individuals</a>
 <ul>
+<li class="chapter" data-level="" data-path="sr-model.html"><a href="sr-model.html#the-vocabulary"><i class="fa fa-check"></i>The vocabulary</a></li>
 <li class="chapter" data-level="" data-path="sr-model.html"><a href="sr-model.html#what-must-be-true-of-the-error-term"><i class="fa fa-check"></i>What must be true of the error term</a></li>
 </ul></li>
-<li class="chapter" data-level="6.4" data-path="sr-srf.html"><a href="sr-srf.html"><i class="fa fa-check"></i><b>6.4</b> From the population to a sample</a></li>
+<li class="chapter" data-level="6.4" data-path="sr-srf.html"><a href="sr-srf.html"><i class="fa fa-check"></i><b>6.4</b> From the population to a sample</a>
+<ul>
+<li class="chapter" data-level="" data-path="sr-srf.html"><a href="sr-srf.html#every-sample-gives-a-different-line"><i class="fa fa-check"></i>Every sample gives a different line</a></li>
+</ul></li>
 <li class="chapter" data-level="6.5" data-path="sr-ols.html"><a href="sr-ols.html"><i class="fa fa-check"></i><b>6.5</b> Choosing a line: ordinary least squares</a>
 <ul>
 <li class="chapter" data-level="" data-path="sr-ols.html"><a href="sr-ols.html#doing-it-by-hand-and-in-r"><i class="fa fa-check"></i>Doing it by hand and in R</a></li>
@@ -467,12 +471,45 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <div class="question">
 <p>The PRF describes a population we cannot see. What do we actually have?</p>
 </div>
+<p>Everything so far has assumed the whole population was available. In practice it
+never is. We observe a sample of <span class="math inline">\(y\)</span> values with their corresponding <span class="math inline">\(x\)</span> values,
+and the goal is to estimate the population regression function from it.</p>
 <p>The parameters <span class="math inline">\(\beta_0\)</span> and <span class="math inline">\(\beta_1\)</span> belong to the population. They are fixed,
-unknown numbers — exactly like <span class="math inline">\(\mu\)</span> in Unit <a href="estimation.html#estimation">2</a> — and we have a
-sample.</p>
-<p>From the sample we compute estimates <span class="math inline">\(\hat{\beta}_0\)</span> and <span class="math inline">\(\hat{\beta}_1\)</span>, and
-these define the <strong>sample regression function</strong>:</p>
+unknown numbers — exactly like <span class="math inline">\(\mu\)</span> in Unit <a href="estimation.html#estimation">2</a>. From the sample
+we compute estimates <span class="math inline">\(\hat{\beta}_0\)</span> and <span class="math inline">\(\hat{\beta}_1\)</span>, and these define the
+<strong>sample regression function</strong>:</p>
 <p><span class="math display">\[\hat{y}_i = \hat{\beta}_0 + \hat{\beta}_1 x_i\]</span></p>
+<p>where <span class="math inline">\(\hat{y}\)</span> estimates <span class="math inline">\(E(Y \mid X = x)\)</span>, and <span class="math inline">\(\hat{\beta}_0\)</span> and
+<span class="math inline">\(\hat{\beta}_1\)</span> estimate <span class="math inline">\(\beta_0\)</span> and <span class="math inline">\(\beta_1\)</span>.</p>
+<div id="every-sample-gives-a-different-line" class="section level3 unnumbered hasAnchor">
+<h3>Every sample gives a different line<a href="sr-srf.html#every-sample-gives-a-different-line" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Suppose two sections of forty students each are surveyed, and a line is fitted to
+each. Which one is the population regression function?</p>
+<div class="sourceCode" id="cb234"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb234-1"><a href="sr-srf.html#cb234-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">12</span>)</span>
+<span id="cb234-2"><a href="sr-srf.html#cb234-2" tabindex="-1"></a>shuffle <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">nrow</span>(students))</span>
+<span id="cb234-3"><a href="sr-srf.html#cb234-3" tabindex="-1"></a></span>
+<span id="cb234-4"><a href="sr-srf.html#cb234-4" tabindex="-1"></a>section_a <span class="ot">&lt;-</span> students[shuffle[<span class="dv">1</span><span class="sc">:</span><span class="dv">40</span>], ]</span>
+<span id="cb234-5"><a href="sr-srf.html#cb234-5" tabindex="-1"></a>section_b <span class="ot">&lt;-</span> students[shuffle[<span class="dv">41</span><span class="sc">:</span><span class="dv">80</span>], ]</span>
+<span id="cb234-6"><a href="sr-srf.html#cb234-6" tabindex="-1"></a></span>
+<span id="cb234-7"><a href="sr-srf.html#cb234-7" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">section_a   =</span> <span class="fu">coef</span>(<span class="fu">lm</span>(sem_gpa <span class="sc">~</span> attendance, section_a))[<span class="dv">2</span>],</span>
+<span id="cb234-8"><a href="sr-srf.html#cb234-8" tabindex="-1"></a>        <span class="at">section_b   =</span> <span class="fu">coef</span>(<span class="fu">lm</span>(sem_gpa <span class="sc">~</span> attendance, section_b))[<span class="dv">2</span>],</span>
+<span id="cb234-9"><a href="sr-srf.html#cb234-9" tabindex="-1"></a>        <span class="at">whole_class =</span> <span class="fu">coef</span>(<span class="fu">lm</span>(sem_gpa <span class="sc">~</span> attendance, students))[<span class="dv">2</span>]), <span class="dv">4</span>)</span></code></pre></div>
+<pre><code>#&gt;   section_a.attendance   section_b.attendance whole_class.attendance 
+#&gt;                 0.2765                 0.1589                 0.1890</code></pre>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:sr-two-samples-plot"></span>
+<img src="stats-econometrics-r_files/figure-html/sr-two-samples-plot-1.png" alt="Two sections of forty students, each with its own fitted line, against the line fitted to all 680. Neither section's line is the population regression function, and from a single section there would be no way to tell how far off it was." width="90%"  />
+<p class="caption">
+Figure 6.2: Two sections of forty students, each with its own fitted line, against the line fitted to all 680. Neither section’s line is the population regression function, and from a single section there would be no way to tell how far off it was.
+</p>
+</div>
+<p>There is no way to tell. Section A’s slope is 0.277 and Section B’s is 0.159 —
+one is nearly twice the other, and both come from the same class. A third section
+would give a third answer.</p>
+<p>This is the situation of Unit <a href="estimation.html#estimation">2</a> in a new costume. The estimate
+varies from sample to sample, and our task is to understand how much and why.
+Notice too that the two sections of forty scatter far more widely around the
+full-sample line than the halves of a large sample would — which is the
+<span class="math inline">\(\sqrt{n}\)</span> lesson of Unit <a href="estimation.html#estimation">2</a> arriving in a new form.</p>
 <div class="keyidea">
 <table>
 <colgroup>
@@ -481,8 +518,8 @@ these define the <strong>sample regression function</strong>:</p>
 </colgroup>
 <thead>
 <tr class="header">
-<th align="left">Population</th>
-<th align="left">Sample</th>
+<th align="left">Population (PRF)</th>
+<th align="left">Sample (SRF)</th>
 </tr>
 </thead>
 <tbody>
@@ -491,27 +528,33 @@ these define the <strong>sample regression function</strong>:</p>
 <td align="left"><span class="math inline">\(y_i = \hat{\beta}_0 + \hat{\beta}_1 x_i + \hat{u}_i\)</span></td>
 </tr>
 <tr class="even">
-<td align="left"><span class="math inline">\(E(y \mid x) = \beta_0 + \beta_1 x\)</span> (the PRF)</td>
-<td align="left"><span class="math inline">\(\hat{y}_i = \hat{\beta}_0 + \hat{\beta}_1 x_i\)</span> (the SRF)</td>
+<td align="left"><span class="math inline">\(y = E(Y \mid X = x) + u\)</span></td>
+<td align="left"><span class="math inline">\(y_i = \hat{y}_i + \hat{u}_i\)</span></td>
+</tr>
+<tr class="odd">
+<td align="left"><span class="math inline">\(\beta_0\)</span> is the intercept</td>
+<td align="left"><span class="math inline">\(\hat{\beta}_0\)</span> estimates <span class="math inline">\(\beta_0\)</span></td>
+</tr>
+<tr class="even">
+<td align="left"><span class="math inline">\(\beta_1\)</span> is the slope</td>
+<td align="left"><span class="math inline">\(\hat{\beta}_1\)</span> estimates <span class="math inline">\(\beta_1\)</span></td>
 </tr>
 <tr class="odd">
 <td align="left"><span class="math inline">\(u\)</span> is the <strong>error</strong>, and is unobservable</td>
-<td align="left"><span class="math inline">\(\hat{u}_i\)</span> is the <strong>residual</strong>, and is computed</td>
-</tr>
-<tr class="even">
-<td align="left"><span class="math inline">\(\beta_1\)</span> is a parameter</td>
-<td align="left"><span class="math inline">\(\hat{\beta}_1\)</span> is an estimator, with a sampling distribution</td>
+<td align="left"><span class="math inline">\(\hat{u}\)</span> is the <strong>residual</strong>, and is computed</td>
 </tr>
 </tbody>
 </table>
-<p>The distinction between <span class="math inline">\(u\)</span> and <span class="math inline">\(\hat{u}\)</span> matters. The error is the deviation
-from the true line, which nobody sees. The residual is the deviation from our
-fitted line, which we can print.</p>
+<p>The distinction between <span class="math inline">\(u\)</span> and <span class="math inline">\(\hat{u}\)</span> is the one to hold onto. The error is
+the deviation from the true line, which nobody sees. The residual is the
+deviation from our fitted line, which we can print.</p>
 </div>
-<p>Every sample gives a different line. So <span class="math inline">\(\hat{\beta}_1\)</span> is a random variable
-with a sampling distribution, and every question from Units
-<a href="estimation.html#estimation">2</a>–<a href="one-sample.html#one-sample">4</a> applies to it: is it unbiased, what is its
-standard error, and how do we test a claim about it.</p>
+<p>Because every sample gives a different line, <span class="math inline">\(\hat{\beta}_1\)</span> is a random
+variable with a sampling distribution — and every question from Units
+<a href="estimation.html#estimation">2</a> to <a href="one-sample.html#one-sample">4</a> applies to it. Is it unbiased? What is its
+standard error? How do we test a claim about it?</p>
+<p>Before any of that, though, we need to decide <em>which</em> line to fit.</p>
+</div>
 </div>
 <script>
 // Solutions are written as plain fenced divs in the source, so the PDF edition
