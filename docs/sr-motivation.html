@@ -4,13 +4,13 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>6.1 From two groups to a whole variable | Statistics and Econometrics with R</title>
+  <title>6.1 From comparing groups to modelling relationships | Statistics and Econometrics with R</title>
   <meta name="description" content="<p>A first course in statistics and econometrics for Indian students, built on
 the progression from question to intuition to rigour to computation to
 interpretation.</p>" />
   <meta name="generator" content="bookdown 0.47 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="6.1 From two groups to a whole variable | Statistics and Econometrics with R" />
+  <meta property="og:title" content="6.1 From comparing groups to modelling relationships | Statistics and Econometrics with R" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="<p>A first course in statistics and econometrics for Indian students, built on
@@ -19,7 +19,7 @@ interpretation.</p>" />
   <meta name="github-repo" content="kedarkulkarni1991/stats-econometrics-r" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="6.1 From two groups to a whole variable | Statistics and Econometrics with R" />
+  <meta name="twitter:title" content="6.1 From comparing groups to modelling relationships | Statistics and Econometrics with R" />
   
   <meta name="twitter:description" content="<p>A first course in statistics and econometrics for Indian students, built on
 the progression from question to intuition to rigour to computation to
@@ -398,7 +398,12 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="6" data-path="simple-regression.html"><a href="simple-regression.html"><i class="fa fa-check"></i><b>6</b> Simple Regression</a>
 <ul>
-<li class="chapter" data-level="6.1" data-path="sr-motivation.html"><a href="sr-motivation.html"><i class="fa fa-check"></i><b>6.1</b> From two groups to a whole variable</a></li>
+<li class="chapter" data-level="6.1" data-path="sr-motivation.html"><a href="sr-motivation.html"><i class="fa fa-check"></i><b>6.1</b> From comparing groups to modelling relationships</a>
+<ul>
+<li class="chapter" data-level="" data-path="sr-motivation.html"><a href="sr-motivation.html#the-experiment-we-cannot-run"><i class="fa fa-check"></i>The experiment we cannot run</a></li>
+<li class="chapter" data-level="" data-path="sr-motivation.html"><a href="sr-motivation.html#the-question-has-changed"><i class="fa fa-check"></i>The question has changed</a></li>
+<li class="chapter" data-level="" data-path="sr-motivation.html"><a href="sr-motivation.html#the-price-of-the-old-question"><i class="fa fa-check"></i>The price of the old question</a></li>
+</ul></li>
 <li class="chapter" data-level="6.2" data-path="sr-prf.html"><a href="sr-prf.html"><i class="fa fa-check"></i><b>6.2</b> The population regression function</a></li>
 <li class="chapter" data-level="6.3" data-path="sr-model.html"><a href="sr-model.html"><i class="fa fa-check"></i><b>6.3</b> The model</a>
 <ul>
@@ -458,18 +463,54 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 
             <section class="normal" id="section-">
 <div id="sr-motivation" class="section level2 hasAnchor" number="6.1">
-<h2><span class="header-section-number">6.1</span> From two groups to a whole variable<a href="sr-motivation.html#sr-motivation" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<h2><span class="header-section-number">6.1</span> From comparing groups to modelling relationships<a href="sr-motivation.html#sr-motivation" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <div class="question">
 <p>We can compare two groups. Why is that not enough?</p>
 </div>
 <p>Unit <a href="two-sample.html#two-sample">5</a> compared students above and below the median attendance.
-To do it, we took a variable recording how many classes each of 680 students
-attended — a number running from 2 to 32 — and replaced it with a label saying
-“high” or “low”.</p>
-<p>That is a considerable act of destruction. A student who attended 32 classes and
-one who attended 28 were treated as identical, while one who attended 28 and one
-who attended 27 were placed in opposite groups.</p>
-<p>We can measure what it cost.</p>
+Those who attended more had higher average grades, by more than sampling
+variation alone would explain.</p>
+<p>Knowing that two groups differ is only a beginning. It tells us nothing about
+how grades change <em>as</em> attendance changes, nothing about the relationship
+outside those two groups, and nothing about whether attendance is responsible
+for the difference.</p>
+<p>That last gap is the deepest, and it is worth seeing clearly.</p>
+<div id="the-experiment-we-cannot-run" class="section level3 unnumbered hasAnchor">
+<h3>The experiment we cannot run<a href="sr-motivation.html#the-experiment-we-cannot-run" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>What we would really like is a thought experiment. Take one student and observe
+them twice: once attending 20 classes and once attending 30, with everything
+else about them unchanged — the same ability, the same motivation, the same
+teacher, the same week. The difference in their grades would isolate the effect
+of attendance itself.</p>
+<p>That experiment is impossible. A student cannot attend both 20 and 30 classes.
+What we observe instead are <em>different</em> students who differ in many ways at
+once, and the whole difficulty of empirical economics lies in separating the
+effect of attendance from the effects of everything else that differs alongside
+it.</p>
+<div class="watchout">
+<p>Simple regression does not solve that problem. Section <a href="sr-causal.html#sr-causal">6.9</a> will be
+explicit that it does not, and a reader who finishes this unit believing
+otherwise has been badly served.</p>
+<p>What regression does is change the question we ask of the data, and build the
+machinery that later units extend towards the thought experiment above.</p>
+</div>
+</div>
+<div id="the-question-has-changed" class="section level3 unnumbered hasAnchor">
+<h3>The question has changed<a href="sr-motivation.html#the-question-has-changed" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Instead of asking whether students with high attendance differ from those with
+low attendance, we now ask whether grades tend to rise as attendance rises.</p>
+<p>Attendance stops being a group label and becomes a numerical variable whose
+entire range carries information. That is the conceptual step from a <span class="math inline">\(t\)</span>-test to
+a regression, and everything technical in this unit follows from it.</p>
+</div>
+<div id="the-price-of-the-old-question" class="section level3 unnumbered hasAnchor">
+<h3>The price of the old question<a href="sr-motivation.html#the-price-of-the-old-question" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>To compare two groups, Unit <a href="two-sample.html#two-sample">5</a> took a variable recording how many
+classes each of 680 students attended — a number running from 2 to 32 — and
+replaced it with a label saying “high” or “low”. A student who attended 32
+classes and one who attended 28 were treated as identical, while one who
+attended 28 and one who attended 27 were placed in opposite groups.</p>
+<p>We can quantify the price of that simplification.</p>
 <div class="sourceCode" id="cb228"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb228-1"><a href="sr-motivation.html#cb228-1" tabindex="-1"></a>students <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/attendance-grades.csv&quot;</span>)</span>
 <span id="cb228-2"><a href="sr-motivation.html#cb228-2" tabindex="-1"></a>students<span class="sc">$</span>high <span class="ot">&lt;-</span> students<span class="sc">$</span>attendance <span class="sc">&gt;=</span> <span class="fu">median</span>(students<span class="sc">$</span>attendance)</span>
 <span id="cb228-3"><a href="sr-motivation.html#cb228-3" tabindex="-1"></a></span>
@@ -477,19 +518,23 @@ who attended 27 were placed in opposite groups.</p>
 <span id="cb228-5"><a href="sr-motivation.html#cb228-5" tabindex="-1"></a>  <span class="at">regression_t =</span> <span class="fu">summary</span>(<span class="fu">lm</span>(sem_gpa <span class="sc">~</span> attendance, <span class="at">data =</span> students))<span class="sc">$</span>coefficients[<span class="dv">2</span>, <span class="dv">3</span>])</span></code></pre></div>
 <pre><code>#&gt;    split_t.t regression_t 
 #&gt;        11.80        17.59</code></pre>
-<p>The same data, the same outcome, the same question. Splitting attendance in two
-gives a <span class="math inline">\(t\)</span> statistic of 11.8; using the whole variable gives 17.6. The
-relationship was always there — the median split simply could not see all of it.</p>
+<p>The same data, the same outcome, and essentially the same question. Splitting
+attendance into two groups produces a <span class="math inline">\(t\)</span> statistic of 11.8; using the full
+attendance variable produces one of 17.6. The relationship was always present —
+the median split simply discarded much of the evidence for it.</p>
 <div class="keyidea">
-<p>Regression differs from a two-sample comparison in three ways, and each is an
-improvement.</p>
-<p>It uses the <strong>whole</strong> of the explanatory variable rather than a binary
-simplification of it.</p>
-<p>It reports a <strong>slope</strong> — how much <span class="math inline">\(y\)</span> changes per unit of <span class="math inline">\(x\)</span> — rather than a
-difference between two averages, which is more informative and in more useful
-units.</p>
-<p>It can hold <strong>other variables fixed</strong>, which is what the next unit builds and
-what the causal problem requires.</p>
+<p>Regression improves on a two-sample comparison in two ways.</p>
+<ul>
+<li>It uses the <strong>full</strong> explanatory variable rather than reducing it to two
+groups.</li>
+<li>It estimates a <strong>slope</strong> — how much <span class="math inline">\(y\)</span> changes for a one-unit increase in
+<span class="math inline">\(x\)</span> — instead of merely comparing two averages.</li>
+</ul>
+</div>
+<p>Later we extend this framework to several explanatory variables at once, which
+lets us compare observations while holding other measured characteristics
+fixed. That is a step closer to the thought experiment we would like to
+perform, though as we shall see it never gets all the way there.</p>
 </div>
 </div>
 <script>

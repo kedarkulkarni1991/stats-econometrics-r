@@ -23,22 +23,64 @@ The result is the central tool of **econometrics** — the field concerned with
 measuring economic relationships from data — though the tool itself is used
 across the social sciences and beyond.
 
-## From two groups to a whole variable {#sr-motivation}
+## From comparing groups to modelling relationships {#sr-motivation}
 
 ::: {.question}
 We can compare two groups. Why is that not enough?
 :::
 
 Unit \@ref(two-sample) compared students above and below the median attendance.
-To do it, we took a variable recording how many classes each of 680 students
-attended — a number running from 2 to 32 — and replaced it with a label saying
-"high" or "low".
+Those who attended more had higher average grades, by more than sampling
+variation alone would explain.
 
-That is a considerable act of destruction. A student who attended 32 classes and
-one who attended 28 were treated as identical, while one who attended 28 and one
-who attended 27 were placed in opposite groups.
+Knowing that two groups differ is only a beginning. It tells us nothing about
+how grades change *as* attendance changes, nothing about the relationship
+outside those two groups, and nothing about whether attendance is responsible
+for the difference.
 
-We can measure what it cost.
+That last gap is the deepest, and it is worth seeing clearly.
+
+### The experiment we cannot run {-}
+
+What we would really like is a thought experiment. Take one student and observe
+them twice: once attending 20 classes and once attending 30, with everything
+else about them unchanged — the same ability, the same motivation, the same
+teacher, the same week. The difference in their grades would isolate the effect
+of attendance itself.
+
+That experiment is impossible. A student cannot attend both 20 and 30 classes.
+What we observe instead are *different* students who differ in many ways at
+once, and the whole difficulty of empirical economics lies in separating the
+effect of attendance from the effects of everything else that differs alongside
+it.
+
+::: {.watchout}
+Simple regression does not solve that problem. Section \@ref(sr-causal) will be
+explicit that it does not, and a reader who finishes this unit believing
+otherwise has been badly served.
+
+What regression does is change the question we ask of the data, and build the
+machinery that later units extend towards the thought experiment above.
+:::
+
+### The question has changed {-}
+
+Instead of asking whether students with high attendance differ from those with
+low attendance, we now ask whether grades tend to rise as attendance rises.
+
+Attendance stops being a group label and becomes a numerical variable whose
+entire range carries information. That is the conceptual step from a $t$-test to
+a regression, and everything technical in this unit follows from it.
+
+### The price of the old question {-}
+
+To compare two groups, Unit \@ref(two-sample) took a variable recording how many
+classes each of 680 students attended — a number running from 2 to 32 — and
+replaced it with a label saying "high" or "low". A student who attended 32
+classes and one who attended 28 were treated as identical, while one who
+attended 28 and one who attended 27 were placed in opposite groups.
+
+We can quantify the price of that simplification.
 
 ```{r sr-waste}
 students <- read.csv("data/attendance-grades.csv")
@@ -48,24 +90,24 @@ c(split_t      = abs(t.test(sem_gpa ~ high, data = students)$statistic),
   regression_t = summary(lm(sem_gpa ~ attendance, data = students))$coefficients[2, 3])
 ```
 
-The same data, the same outcome, the same question. Splitting attendance in two
-gives a $t$ statistic of 11.8; using the whole variable gives 17.6. The
-relationship was always there — the median split simply could not see all of it.
+The same data, the same outcome, and essentially the same question. Splitting
+attendance into two groups produces a $t$ statistic of 11.8; using the full
+attendance variable produces one of 17.6. The relationship was always present —
+the median split simply discarded much of the evidence for it.
 
 ::: {.keyidea}
-Regression differs from a two-sample comparison in three ways, and each is an
-improvement.
+Regression improves on a two-sample comparison in two ways.
 
-It uses the **whole** of the explanatory variable rather than a binary
-simplification of it.
-
-It reports a **slope** — how much $y$ changes per unit of $x$ — rather than a
-difference between two averages, which is more informative and in more useful
-units.
-
-It can hold **other variables fixed**, which is what the next unit builds and
-what the causal problem requires.
+- It uses the **full** explanatory variable rather than reducing it to two
+  groups.
+- It estimates a **slope** — how much $y$ changes for a one-unit increase in
+  $x$ — instead of merely comparing two averages.
 :::
+
+Later we extend this framework to several explanatory variables at once, which
+lets us compare observations while holding other measured characteristics
+fixed. That is a step closer to the thought experiment we would like to
+perform, though as we shall see it never gets all the way there.
 
 ## The population regression function {#sr-prf}
 
