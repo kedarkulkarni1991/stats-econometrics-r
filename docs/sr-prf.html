@@ -404,7 +404,10 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="sr-motivation.html"><a href="sr-motivation.html#the-question-has-changed"><i class="fa fa-check"></i>The question has changed</a></li>
 <li class="chapter" data-level="" data-path="sr-motivation.html"><a href="sr-motivation.html#the-price-of-the-old-question"><i class="fa fa-check"></i>The price of the old question</a></li>
 </ul></li>
-<li class="chapter" data-level="6.2" data-path="sr-prf.html"><a href="sr-prf.html"><i class="fa fa-check"></i><b>6.2</b> The population regression function</a></li>
+<li class="chapter" data-level="6.2" data-path="sr-prf.html"><a href="sr-prf.html"><i class="fa fa-check"></i><b>6.2</b> The population regression function</a>
+<ul>
+<li class="chapter" data-level="" data-path="sr-prf.html"><a href="sr-prf.html#the-modelling-choice"><i class="fa fa-check"></i>The modelling choice</a></li>
+</ul></li>
 <li class="chapter" data-level="6.3" data-path="sr-model.html"><a href="sr-model.html"><i class="fa fa-check"></i><b>6.3</b> The model</a>
 <ul>
 <li class="chapter" data-level="" data-path="sr-model.html"><a href="sr-model.html#what-must-be-true-of-the-error-term"><i class="fa fa-check"></i>What must be true of the error term</a></li>
@@ -465,13 +468,30 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <div id="sr-prf" class="section level2 hasAnchor" number="6.2">
 <h2><span class="header-section-number">6.2</span> The population regression function<a href="sr-prf.html#sr-prf" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <div class="question">
-<p>What is the thing we are trying to estimate?</p>
+<p>What exactly is regression trying to estimate?</p>
 </div>
-<p>Before fitting anything, it is worth being clear about what a regression is
-looking for. It is not looking for a line through a cloud of points. It is
-looking for the way the <em>average</em> of <span class="math inline">\(y\)</span> moves with <span class="math inline">\(x\)</span>.</p>
-<p>Group the students by attendance and compute the average semester GPA within
-each group.</p>
+<p>The previous section argued that regression asks a different question from a
+two-sample comparison. The natural next question is what, precisely, it is
+trying to find.</p>
+<p>It is tempting to think that regression is trying to draw a line through a cloud
+of points. That is not quite right.</p>
+<p>Suppose we look at every student in the population who attended exactly 25
+classes. They did not all receive the same semester GPA. Some performed
+exceptionally well, others poorly, and many lay somewhere in between. Attendance
+alone clearly does not determine grades.</p>
+<p>Now imagine computing the average GPA of all students who attended 25 classes.
+Then repeat the exercise for those who attended 26 classes, then 27, then 28,
+and so on.</p>
+<p>Those averages answer a different question:</p>
+<blockquote>
+<p>Among students with this level of attendance, what is the average GPA?</p>
+</blockquote>
+<p>That average is written <span class="math inline">\(E(Y \mid X = x)\)</span> and is called the <strong>conditional mean</strong>
+of <span class="math inline">\(Y\)</span> given <span class="math inline">\(X = x\)</span>.</p>
+<p>Notice what has happened. We have set aside the individual variation and kept
+only the centre of each conditional distribution.</p>
+<p>The table below approximates these conditional means by grouping attendance into
+bands.</p>
 <div class="sourceCode" id="cb230"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb230-1"><a href="sr-prf.html#cb230-1" tabindex="-1"></a>students<span class="sc">$</span>band <span class="ot">&lt;-</span> <span class="fu">cut</span>(students<span class="sc">$</span>attendance,</span>
 <span id="cb230-2"><a href="sr-prf.html#cb230-2" tabindex="-1"></a>                     <span class="at">breaks =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">20</span>, <span class="dv">24</span>, <span class="dv">27</span>, <span class="dv">30</span>, <span class="dv">33</span>),</span>
 <span id="cb230-3"><a href="sr-prf.html#cb230-3" tabindex="-1"></a>                     <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;2–20&quot;</span>, <span class="st">&quot;21–24&quot;</span>, <span class="st">&quot;25–27&quot;</span>, <span class="st">&quot;28–30&quot;</span>, <span class="st">&quot;31–32&quot;</span>))</span>
@@ -484,38 +504,58 @@ each group.</p>
 #&gt; 3 25–27    155.00             6.30
 #&gt; 4 28–30    209.00             6.98
 #&gt; 5 31–32    137.00             7.67</code></pre>
-<p>Two things stand out, and both matter.</p>
-<p><strong>Within each band, grades vary enormously.</strong> Students who attended the same
-number of classes did not get the same grade. Attendance plainly does not
-determine grades.</p>
-<p><strong>Across bands, the averages rise steadily</strong> — from 4.38 to 7.67. The
-<em>conditional mean</em> of GPA increases with attendance, even though individual
-grades scatter widely around it.</p>
-<p>That second pattern is what regression is about.</p>
+<p>Two features stand out.</p>
+<p><strong>There is substantial variation within every band.</strong> Students attending the
+same number of classes still earn very different grades. Attendance is not a
+predictor of any individual’s GPA.</p>
+<p><strong>The average GPA rises steadily across bands</strong> — from 4.38 to 7.67. Individual
+outcomes are noisy, but the <em>centre</em> of the distribution shifts upwards as
+attendance increases.</p>
+<p>This second pattern is the object of regression.</p>
+<p>If we computed the conditional mean at every possible attendance level and
+joined those points together, we would obtain a curve showing how average GPA
+changes with attendance throughout the population.</p>
 <div class="keyidea">
-<p><span class="math inline">\(E(y \mid x)\)</span> — the average of <span class="math inline">\(y\)</span> among all members of the population with a
-given value of <span class="math inline">\(x\)</span> — is called the <strong>conditional mean</strong> of <span class="math inline">\(y\)</span> given <span class="math inline">\(x\)</span>.</p>
-<p>Traced out across all values of <span class="math inline">\(x\)</span>, it forms the <strong>population regression
-function</strong> (PRF).</p>
-<p>Regression estimates the conditional mean. It does not claim to predict
-individuals, and the scatter around the line is not a defect in the method: it
-is the part of <span class="math inline">\(y\)</span> that <span class="math inline">\(x\)</span> does not account for.</p>
+<p>That curve is the <strong>population regression function</strong>:</p>
+<p><span class="math display">\[\text{PRF} \;=\; E(Y \mid X = x)\]</span></p>
+<p>The PRF is not a line. It is whatever relationship the population happens to
+contain — it may be linear, curved, flat over some ranges, or thoroughly
+nonlinear.</p>
+<p>Regression <em>begins</em> by asking how the conditional mean behaves. It does not
+assume a straight line.</p>
 </div>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:sr-prf-plot"></span>
-<img src="stats-econometrics-r_files/figure-html/sr-prf-plot-1.png" alt="Semester GPA against attendance for 680 students. The points scatter widely at every level of attendance. The band averages, in orange, rise steadily -- and it is those averages that a regression line estimates." width="90%"  />
+<img src="stats-econometrics-r_files/figure-html/sr-prf-plot-1.png" alt="Semester GPA against attendance for 680 students. The points scatter widely at every level of attendance. The band averages, in orange, approximate the conditional means -- and it is those, not the individual points, that regression estimates." width="90%"  />
 <p class="caption">
-Figure 6.1: Semester GPA against attendance for 680 students. The points scatter widely at every level of attendance. The band averages, in orange, rise steadily – and it is those averages that a regression line estimates.
+Figure 6.1: Semester GPA against attendance for 680 students. The points scatter widely at every level of attendance. The band averages, in orange, approximate the conditional means – and it is those, not the individual points, that regression estimates.
 </p>
 </div>
-<p>Notice that the orange points rise but not in a perfectly straight line. The
-first band sits well below the others, and the second and third are almost
-level. Nothing forced the conditional mean to be linear, and here it is not
-exactly so.</p>
-<p>This matters for what we are about to do. A <em>linear</em> regression describes the
-conditional mean with a straight line, which is an approximation to the pattern
-above rather than a description of it. That approximation is a modelling choice,
-and one worth examining rather than assuming — Section <a href="sr-algebra.html#sr-algebra">6.6</a> returns
-to how well it does.</p>
+<p>The figure makes the point about linearity concrete. The orange points rise, but
+not along a straight line: the lowest band sits well below the others, and the
+second and third are almost level. Whatever the population’s conditional mean
+function looks like, it is not exactly a line.</p>
+<div id="the-modelling-choice" class="section level3 unnumbered hasAnchor">
+<h3>The modelling choice<a href="sr-prf.html#the-modelling-choice" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Only <em>after</em> defining the PRF do we make a choice about its shape.</p>
+<p>In this unit we approximate the PRF with a straight line,</p>
+<p><span class="math display">\[E(Y \mid X = x) = \beta_0 + \beta_1 x\]</span></p>
+<p>because linear relationships are simple to estimate, easy to interpret, and
+often a useful first approximation to the truth.</p>
+<div class="watchout">
+<p>That is an approximation, not a discovery. Whether it is a reasonable one is an
+empirical question rather than a mathematical one, and Section
+<a href="sr-algebra.html#sr-algebra">6.6</a> returns to how well it does here.</p>
+<p>A great deal of bad empirical work consists of fitting a line to a relationship
+that is not linear and reporting the slope as though it described the whole
+range.</p>
+</div>
+<p>So we now have a target: the conditional mean, which we have chosen to describe
+with two numbers, <span class="math inline">\(\beta_0\)</span> and <span class="math inline">\(\beta_1\)</span>.</p>
+<p>Two things still stand between us and an estimate. The PRF describes <em>averages</em>,
+and individual students depart from those averages — we need notation for the
+departure. And the PRF belongs to a population we cannot observe, while we hold
+a sample. The next two sections deal with these in turn.</p>
+</div>
 </div>
 <script>
 // Solutions are written as plain fenced divs in the source, so the PDF edition

@@ -115,15 +115,37 @@ shall see — it does not eliminate the problem entirely.
 ## The population regression function {#sr-prf}
 
 ::: {.question}
-What is the thing we are trying to estimate?
+What exactly is regression trying to estimate?
 :::
 
-Before fitting anything, it is worth being clear about what a regression is
-looking for. It is not looking for a line through a cloud of points. It is
-looking for the way the *average* of $y$ moves with $x$.
+The previous section argued that regression asks a different question from a
+two-sample comparison. The natural next question is what, precisely, it is
+trying to find.
 
-Group the students by attendance and compute the average semester GPA within
-each group.
+It is tempting to think that regression is trying to draw a line through a cloud
+of points. That is not quite right.
+
+Suppose we look at every student in the population who attended exactly 25
+classes. They did not all receive the same semester GPA. Some performed
+exceptionally well, others poorly, and many lay somewhere in between. Attendance
+alone clearly does not determine grades.
+
+Now imagine computing the average GPA of all students who attended 25 classes.
+Then repeat the exercise for those who attended 26 classes, then 27, then 28,
+and so on.
+
+Those averages answer a different question:
+
+> Among students with this level of attendance, what is the average GPA?
+
+That average is written $E(Y \mid X = x)$ and is called the **conditional mean**
+of $Y$ given $X = x$.
+
+Notice what has happened. We have set aside the individual variation and kept
+only the centre of each conditional distribution.
+
+The table below approximates these conditional means by grouping attendance into
+bands.
 
 ```{r sr-condmeans}
 students$band <- cut(students$attendance,
@@ -134,31 +156,36 @@ aggregate(sem_gpa ~ band, data = students,
           function(x) round(c(n = length(x), mean_gpa = mean(x)), 2))
 ```
 
-Two things stand out, and both matter.
+Two features stand out.
 
-**Within each band, grades vary enormously.** Students who attended the same
-number of classes did not get the same grade. Attendance plainly does not
-determine grades.
+**There is substantial variation within every band.** Students attending the
+same number of classes still earn very different grades. Attendance is not a
+predictor of any individual's GPA.
 
-**Across bands, the averages rise steadily** — from 4.38 to 7.67. The
-*conditional mean* of GPA increases with attendance, even though individual
-grades scatter widely around it.
+**The average GPA rises steadily across bands** — from 4.38 to 7.67. Individual
+outcomes are noisy, but the *centre* of the distribution shifts upwards as
+attendance increases.
 
-That second pattern is what regression is about.
+This second pattern is the object of regression.
+
+If we computed the conditional mean at every possible attendance level and
+joined those points together, we would obtain a curve showing how average GPA
+changes with attendance throughout the population.
 
 ::: {.keyidea}
-$E(y \mid x)$ — the average of $y$ among all members of the population with a
-given value of $x$ — is called the **conditional mean** of $y$ given $x$.
+That curve is the **population regression function**:
 
-Traced out across all values of $x$, it forms the **population regression
-function** (PRF).
+$$\text{PRF} \;=\; E(Y \mid X = x)$$
 
-Regression estimates the conditional mean. It does not claim to predict
-individuals, and the scatter around the line is not a defect in the method: it
-is the part of $y$ that $x$ does not account for.
+The PRF is not a line. It is whatever relationship the population happens to
+contain — it may be linear, curved, flat over some ranges, or thoroughly
+nonlinear.
+
+Regression *begins* by asking how the conditional mean behaves. It does not
+assume a straight line.
 :::
 
-```{r sr-prf-plot, echo = FALSE, fig.height = 3.8, fig.cap = "Semester GPA against attendance for 680 students. The points scatter widely at every level of attendance. The band averages, in orange, rise steadily -- and it is those averages that a regression line estimates."}
+```{r sr-prf-plot, echo = FALSE, fig.height = 3.8, fig.cap = "Semester GPA against attendance for 680 students. The points scatter widely at every level of attendance. The band averages, in orange, approximate the conditional means -- and it is those, not the individual points, that regression estimates."}
 band_means <- aggregate(cbind(sem_gpa, attendance) ~ band, data = students, mean)
 
 ggplot(students, aes(attendance, sem_gpa)) +
@@ -171,16 +198,39 @@ ggplot(students, aes(attendance, sem_gpa)) +
   theme_book()
 ```
 
-Notice that the orange points rise but not in a perfectly straight line. The
-first band sits well below the others, and the second and third are almost
-level. Nothing forced the conditional mean to be linear, and here it is not
-exactly so.
+The figure makes the point about linearity concrete. The orange points rise, but
+not along a straight line: the lowest band sits well below the others, and the
+second and third are almost level. Whatever the population's conditional mean
+function looks like, it is not exactly a line.
 
-This matters for what we are about to do. A *linear* regression describes the
-conditional mean with a straight line, which is an approximation to the pattern
-above rather than a description of it. That approximation is a modelling choice,
-and one worth examining rather than assuming — Section \@ref(sr-algebra) returns
-to how well it does.
+### The modelling choice {-}
+
+Only *after* defining the PRF do we make a choice about its shape.
+
+In this unit we approximate the PRF with a straight line,
+
+$$E(Y \mid X = x) = \beta_0 + \beta_1 x$$
+
+because linear relationships are simple to estimate, easy to interpret, and
+often a useful first approximation to the truth.
+
+::: {.watchout}
+That is an approximation, not a discovery. Whether it is a reasonable one is an
+empirical question rather than a mathematical one, and Section
+\@ref(sr-algebra) returns to how well it does here.
+
+A great deal of bad empirical work consists of fitting a line to a relationship
+that is not linear and reporting the slope as though it described the whole
+range.
+:::
+
+So we now have a target: the conditional mean, which we have chosen to describe
+with two numbers, $\beta_0$ and $\beta_1$.
+
+Two things still stand between us and an estimate. The PRF describes *averages*,
+and individual students depart from those averages — we need notation for the
+departure. And the PRF belongs to a population we cannot observe, while we hold
+a sample. The next two sections deal with these in turn.
 
 ## The model {#sr-model}
 
