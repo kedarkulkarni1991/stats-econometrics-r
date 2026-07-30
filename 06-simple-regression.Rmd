@@ -15,8 +15,39 @@ and qualitative predictions are hard to act on. Regression lets us estimate *how
 much* one variable moves with another, express it in units someone can use, and
 attach a measure of uncertainty to the answer.
 
-In this unit we build it out of ideas we already have: variation, sampling and
-statistical inference. Nothing genuinely new is required. What changes is the
+Almost every empirical question in economics has this shape. How do wages change
+with education? How does consumption change with income? How does crop yield
+change with rainfall? How does a student's GPA change with attendance?
+
+Answering such questions turns out to be surprisingly difficult, and three
+problems arise immediately.
+
+**Other things matter.** Attendance is not the only determinant of GPA, and
+education is not the only determinant of wages. The relationship is never exact,
+so we need a way of describing a pattern that holds on average while individuals
+depart from it.
+
+**We do not know the functional form.** The relationship between two variables
+might be a straight line, or a curve, or something that rises and then flattens.
+Economic theory rarely specifies which.
+
+**An observed relationship need not be causal.** Even if attendance and grades
+move together, attendance may not be responsible for the difference.
+
+::: {.keyidea}
+The rest of this unit develops a model for studying relationships between
+variables. Along the way it answers four questions.
+
+1. What relationship are we trying to describe?
+2. Why do individuals not lie on that relationship?
+3. Under what conditions can we interpret it causally?
+4. How do we estimate it from a sample?
+
+Each section that follows answers one of them.
+:::
+
+We build all of it from ideas we already have — variation, sampling and
+statistical inference. Nothing genuinely new is required; what changes is the
 object of study, from a mean or a difference of means to a relationship.
 
 The result is the central tool of **econometrics** — the field concerned with
@@ -279,52 +310,88 @@ that departure a name.
 ::: {.keyidea}
 For each individual $i$,
 
-$$y_i = \underbrace{E(Y \mid X = x_i)}_{\text{systematic}} + \underbrace{u_i}_{\text{stochastic}}$$
+$$y_i = E(Y \mid X = x_i) + u_i$$
 
-where $u_i$ is the **stochastic disturbance** or **error term** — the amount by
+where $u_i$ is the **error term** or **stochastic disturbance** — the amount by
 which individual $i$ departs from the average for their value of $x$.
 
-Substituting the linear conditional mean gives the **simple linear regression
-model**:
+Substituting the linear conditional mean from Section \@ref(sr-prf) gives the
+**simple linear regression model**:
 
 $$y_i = \beta_0 + \beta_1 x_i + u_i$$
 :::
 
 That equation is not a new assumption. It is the population regression function
-of Section \@ref(sr-prf) with a name attached to the part it does not describe.
+with a name attached to the part it does not describe.
+
 The two students above become
 
 $$1.58 = \beta_0 + \beta_1(25) + u_1
 \qquad\qquad
 9.08 = \beta_0 + \beta_1(25) + u_2$$
 
-with a large negative $u_1$ and a large positive $u_2$.
+with a large negative $u_1$ and a large positive $u_2$. Both students attended
+the same twenty-five classes, so the first two terms are identical for each of
+them; everything that distinguishes them sits in $u$.
 
-::: {.intuition}
-Read the model as a division of $y$ into two parts.
+We now have a model. Before asking how to estimate it, we should be clear about
+what that last term contains.
 
-The **systematic** part, $\beta_0 + \beta_1 x$, is what attendance accounts for.
-It is the same for everyone with the same attendance.
+## The error term {#sr-error}
 
-The **stochastic** part, $u$, is everything else: effort, ability, teaching
-quality, health, whether the student had a job that semester. It differs from
-person to person and it is not observed.
-
-The error term is not a mistake and not measurement noise. It is the rest of the
-world.
+::: {.question}
+What is $u$?
 :::
+
+Students meet the word "error" and assume something has gone wrong. Nothing has.
+
+For the grades example, $u$ contains everything other than attendance that
+affects a student's GPA:
+
+- how hard they worked outside class,
+- how well prepared they were when the course began,
+- the quality of teaching they happened to receive,
+- whether they were ill during the examinations,
+- whether they held a job that semester,
+- how much they happened to like the subject,
+- and luck on the day.
+
+None of these is a mistake, and none of them is measurement noise. They are real
+influences on real outcomes that our model does not include — because they are
+not in the dataset, and in some cases could not be.
+
+::: {.keyidea}
+**The error term is not a mistake and not measurement noise. It is the rest of
+the world.**
+:::
+
+That is why $u$ is sometimes called the **unobserved** variable, and why
+econometricians spend so much of their time worrying about it. It is the part of
+the story we did not measure.
+
+### Systematic and stochastic {-}
+
+The model divides $y$ into two parts, and it is worth naming them.
+
+$$y_i = \underbrace{\beta_0 + \beta_1 x_i}_{\text{systematic}} + \underbrace{u_i}_{\text{stochastic}}$$
+
+The **systematic** or deterministic part, $\beta_0 + \beta_1 x$, is what
+attendance accounts for. It is identical for every student with the same
+attendance.
+
+The **stochastic** part, $u$, is everything else. It differs from person to
+person and is not observed.
 
 ### The vocabulary {-}
 
 - $y$ is the **dependent** variable — semester GPA.
-- $x$ is the **independent**, explanatory or control variable — attendance.
-- $u$ is the **error** or disturbance term, holding all factors other than $x$
-  that affect $y$. Because the econometrician does not observe them, $u$ is
-  sometimes called the unobserved variable.
+- $x$ is the **independent** variable, also called the explanatory or control
+  variable — attendance.
+- $u$ is the **error** or disturbance term.
 - $\beta_0$ is the **intercept** or constant term, and is rarely central to the
   analysis.
 - $\beta_1$ is the **slope**, and is almost always the parameter of interest. It
-  gives the marginal effect of $x$ on $y$:
+  gives the change in $y$ associated with a one-unit change in $x$:
   $\partial y / \partial x = \beta_1$.
 
 For the grades example,
@@ -333,12 +400,27 @@ $$\textit{GPA} = \beta_0 + \beta_1\,\textit{attendance} + u$$
 
 and $\beta_1$ is the change in GPA associated with attending one more class.
 
-### What must be true of the error term {-}
+Notice the phrase *associated with*. Whether $\beta_1$ is the change attendance
+would *cause* is a separate question, and it is the subject of the next section.
 
-The model is empty until we say something about $u$. Two assumptions do the
-work.
+## When does β₁ measure an effect? {#sr-assumptions}
 
-**The error has mean zero:** $E(u) = 0$.
+::: {.question}
+We have a model and a slope. What has to be true for that slope to mean what we
+want it to mean?
+:::
+
+The model so far is a decomposition. It says $y$ can be split into a part that
+moves with $x$ and a part that does not, which is true of any two variables
+whatever and therefore not yet useful.
+
+To read $\beta_1$ as the effect of $x$ on $y$, we need an assumption about how
+$u$ and $x$ are related. Two assumptions are usually stated; only the second has
+any content.
+
+### The error averages zero {-}
+
+$$E(u) = 0$$
 
 This costs nothing. If the unobserved factors had a non-zero average, we could
 absorb that average into the intercept and start again.
@@ -359,54 +441,53 @@ with $E(e) = 0$. The intercept has changed and the slope has not. Since $\beta_1
 is what we want, assuming $E(u) = 0$ restricts nothing of importance.
 :::
 
-**The error is unrelated to $x$:** $E(u \mid x) = E(u) = 0$.
+### The error is unrelated to x {-}
 
-This one is not free at all. Since $u$ and $x$ are both random variables, we can
-ask what the average of $u$ is among individuals with a particular value of $x$.
-The assumption says that average is the *same* at every value of $x$, and equal
-to the overall average of zero. In that case $u$ is said to be **mean
-independent** of $x$.
+Since $u$ and $x$ are both random variables, we can ask what the average of $u$
+is among individuals with a particular value of $x$. The assumption is that this
+average is the *same* at every value of $x$, and equal to the overall average of
+zero:
 
-Taken together, the two are the **zero conditional mean assumption**.
+$$E(u \mid x) = E(u) = 0$$
+
+In that case $u$ is said to be **mean independent** of $x$. Taken together with
+$E(u) = 0$, this is the **zero conditional mean assumption**.
 
 ::: {.keyidea}
 $$E(u \mid x) = 0$$
 
-This is the assumption on which everything rests.
+This is the assumption on which everything rests, and the only way to judge it is
+to state it in the language of the problem.
 
 For the grades example it says
-$E(\textit{effort} \mid \textit{attendance} = \text{low}) =
-E(\textit{effort} \mid \textit{attendance} = \text{high}) = 0$ — students who
-attend more classes are, on average, no more and no less able, motivated, or
-well-taught than students who attend fewer.
 
-If it fails, $\beta_1$ does not measure the effect of attendance. It measures the
-effect of attendance plus whatever else differs between high and low attenders.
+$$E(\textit{effort} \mid \textit{attendance} = \text{low})
+= E(\textit{effort} \mid \textit{attendance} = \text{high}) = 0$$
+
+— that students who attend more classes are, on average, no more and no less
+able, motivated, or well-taught than students who attend fewer.
 :::
 
-Stated in that concrete form, the assumption is clearly doubtful here. Students
-who attend regularly are plausibly working harder in other ways too, and effort
-raises grades on its own. We cannot check it, because effort is not in the
-dataset — that is what "unobserved" means. When it fails we have **omitted
-variable bias**, and Section \@ref(sr-causal) returns to it.
+Stated that concretely, the assumption is clearly doubtful here. Students who
+attend regularly are plausibly working harder in other ways too, and effort
+raises grades on its own.
 
-::: {.deeper}
-There is a subtlety worth noticing, because it explains why different books
-present this assumption differently.
+We cannot check it. Effort is not in the dataset, which is precisely what
+"unobserved" means. There is no diagnostic, no test, and no amount of additional
+data that settles it — only an argument about how the data came to look the way
+it does.
 
-If $u_i$ is *defined* as $y_i - E(Y \mid X = x_i)$ — the departure from the true
-conditional mean — then $E(u \mid x) = 0$ holds automatically. It is a
-consequence of the definition, not an assumption about the world.
+::: {.watchout}
+When $E(u \mid x) \neq 0$, $\beta_1$ does not measure the effect of $x$. It
+measures the effect of $x$ plus the influence of whatever else differs between
+high and low values of $x$.
 
-The content of the assumption enters in two places instead. First, we assumed
-the conditional mean is *linear*: if the true PRF curves and we fit a line, then
-$u$ defined as $y - \beta_0 - \beta_1 x$ will not average zero at every $x$.
-Second, and more importantly, calling $\beta_1$ an *effect* requires that the
-conditional mean reflect what would happen if attendance were changed, rather
-than merely what is true of students who differ in attendance.
-
-The second is the causal question, and it is the one that matters in practice.
+This is **omitted variable bias**. Section \@ref(sr-causal) returns to it once we
+have the algebra to show exactly how large it is and in which direction it runs.
 :::
+
+With the model written down and its assumptions stated, we can turn to the
+practical question: how do we estimate $\beta_0$ and $\beta_1$ from data?
 
 ## From the population to a sample {#sr-srf}
 
@@ -922,7 +1003,7 @@ considerable precision, that students who attend more classes have higher
 average GPAs. That is a fact about the population.
 
 The claim that attending more classes *raises* a student's GPA is a different
-claim, and it requires SLR4: $E(u \mid x) = 0$. Section \@ref(sr-model) put that
+claim, and it requires SLR4: $E(u \mid x) = 0$. Section \@ref(sr-assumptions) put that
 assumption in concrete terms — students who attend more must be no more
 motivated or able, on average, than students who attend less.
 
