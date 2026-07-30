@@ -15,6 +15,7 @@ rmd_files:
   - "04-hypothesis-testing-one-sample.Rmd"
   - "05-two-sample.Rmd"
   - "06-simple-regression.Rmd"
+  - "07-ols.Rmd"
 
 language:
   ui:

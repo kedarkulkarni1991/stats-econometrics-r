@@ -4,13 +4,13 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>4.6 The same test, viewed as an interval | Statistics and Econometrics with R</title>
+  <title>Unit 7 Ordinary Least Squares | Statistics and Econometrics with R</title>
   <meta name="description" content="<p>A first course in statistics and econometrics for Indian students, built on
 the progression from question to intuition to rigour to computation to
 interpretation.</p>" />
   <meta name="generator" content="bookdown 0.47 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="4.6 The same test, viewed as an interval | Statistics and Econometrics with R" />
+  <meta property="og:title" content="Unit 7 Ordinary Least Squares | Statistics and Econometrics with R" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="<p>A first course in statistics and econometrics for Indian students, built on
@@ -19,7 +19,7 @@ interpretation.</p>" />
   <meta name="github-repo" content="kedarkulkarni1991/stats-econometrics-r" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="4.6 The same test, viewed as an interval | Statistics and Econometrics with R" />
+  <meta name="twitter:title" content="Unit 7 Ordinary Least Squares | Statistics and Econometrics with R" />
   
   <meta name="twitter:description" content="<p>A first course in statistics and econometrics for Indian students, built on
 the progression from question to intuition to rigour to computation to
@@ -35,8 +35,8 @@ interpretation.</p>" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="os-worked.html"/>
-<link rel="next" href="os-ttest.html"/>
+<link rel="prev" href="sr-looking-ahead.html"/>
+<link rel="next" href="ols-derive.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -489,114 +489,24 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="os-ci" class="section level2 hasAnchor" number="4.6">
-<h2><span class="header-section-number">4.6</span> The same test, viewed as an interval<a href="os-ci.html#os-ci" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<div class="question">
-<p>Unit <a href="interval-estimation.html#interval-estimation">3</a> built confidence intervals; this unit builds
-tests. Are they two methods, or one?</p>
-</div>
-<p>We now have two procedures that use the same sample, the same standard error
-and the same critical value. It would be strange if they were unrelated, and
-they are not.</p>
-<p>Start by computing the interval for our students, exactly as in the previous
-unit.</p>
-<div class="sourceCode" id="cb123"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb123-1"><a href="os-ci.html#cb123-1" tabindex="-1"></a>xbar <span class="sc">+</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>) <span class="sc">*</span> <span class="fu">qnorm</span>(<span class="fl">0.975</span>) <span class="sc">*</span> (<span class="dv">8</span> <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="dv">36</span>))</span></code></pre></div>
-<pre><code>#&gt; [1] 165.4 170.6</code></pre>
-<p>The 95% interval is <span class="math inline">\([165.39,\ 170.61]\)</span>. The claimed value of 165 lies
-<strong>outside</strong> it — the same verdict the test reached, and not a coincidence.</p>
-<p>The reason is visible in the algebra. We fail to reject <span class="math inline">\(H_0\)</span> when the test
-statistic is small enough, that is when</p>
-<p><span class="math display">\[\left|\frac{\bar{x} - \mu_0}{\sigma/\sqrt{n}}\right| \le z_{\alpha/2}\]</span></p>
-<p>Multiplying through by <span class="math inline">\(\sigma/\sqrt{n}\)</span> and rearranging for <span class="math inline">\(\mu_0\)</span> gives</p>
-<p><span class="math display">\[\bar{x} - z_{\alpha/2}\frac{\sigma}{\sqrt{n}}
-\;\le\; \mu_0 \;\leq\;
-\bar{x} + z_{\alpha/2}\frac{\sigma}{\sqrt{n}}\]</span></p>
-<p>which is the confidence interval.</p>
+<div id="ols" class="section level1 hasAnchor" number="7">
+<h1><span class="header-section-number">Unit 7</span> Ordinary Least Squares<a href="ols.html#ols" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>The previous unit ended one step short of an answer. We had the target — the
+population regression function — a model for how individuals depart from it, and
+a criterion for choosing between candidate lines: minimise the sum of squared
+residuals.</p>
+<p>This unit carries that out. It derives the two estimators, establishes what they
+guarantee and what they do not, works out how precise they are, and tests claims
+about them.</p>
 <div class="keyidea">
-<p>A confidence interval and a hypothesis test are the same inequality, solved for
-different unknowns.</p>
-<p>The test fixes <span class="math inline">\(\mu_0\)</span> and asks which sample means are acceptable. The interval
-fixes <span class="math inline">\(\bar{x}\)</span> and asks which values of <span class="math inline">\(\mu_0\)</span> are acceptable.</p>
-</div>
-<div id="testing-every-possible-claim-at-once" class="section level3 unnumbered hasAnchor">
-<h3>Testing every possible claim at once<a href="os-ci.html#testing-every-possible-claim-at-once" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>That equivalence can be checked rather than taken on trust. Rather than testing
-the single claim <span class="math inline">\(\mu_0 = 165\)</span>, test every value on a fine grid and collect the
-ones that survive.</p>
-<div class="sourceCode" id="cb125"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb125-1"><a href="os-ci.html#cb125-1" tabindex="-1"></a>se  <span class="ot">&lt;-</span> <span class="dv">8</span> <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="dv">36</span>)</span>
-<span id="cb125-2"><a href="os-ci.html#cb125-2" tabindex="-1"></a>grid <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">160</span>, <span class="dv">176</span>, <span class="at">by =</span> <span class="fl">0.001</span>)</span>
-<span id="cb125-3"><a href="os-ci.html#cb125-3" tabindex="-1"></a></span>
-<span id="cb125-4"><a href="os-ci.html#cb125-4" tabindex="-1"></a>not_rejected <span class="ot">&lt;-</span> grid[<span class="fu">abs</span>(xbar <span class="sc">-</span> grid) <span class="sc">/</span> se <span class="sc">&lt;=</span> <span class="fu">qnorm</span>(<span class="fl">0.975</span>)]</span>
-<span id="cb125-5"><a href="os-ci.html#cb125-5" tabindex="-1"></a></span>
-<span id="cb125-6"><a href="os-ci.html#cb125-6" tabindex="-1"></a>surviving <span class="ot">&lt;-</span> <span class="fu">range</span>(not_rejected)</span>
-<span id="cb125-7"><a href="os-ci.html#cb125-7" tabindex="-1"></a>interval  <span class="ot">&lt;-</span> xbar <span class="sc">+</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>) <span class="sc">*</span> <span class="fu">qnorm</span>(<span class="fl">0.975</span>) <span class="sc">*</span> se</span>
-<span id="cb125-8"><a href="os-ci.html#cb125-8" tabindex="-1"></a></span>
-<span id="cb125-9"><a href="os-ci.html#cb125-9" tabindex="-1"></a><span class="fu">rbind</span>(<span class="at">claims_that_survive_the_test =</span> surviving,</span>
-<span id="cb125-10"><a href="os-ci.html#cb125-10" tabindex="-1"></a>      <span class="at">confidence_interval          =</span> interval,</span>
-<span id="cb125-11"><a href="os-ci.html#cb125-11" tabindex="-1"></a>      <span class="at">difference                   =</span> surviving <span class="sc">-</span> interval)</span></code></pre></div>
-<pre><code>#&gt;                                     [,1]        [,2]
-#&gt; claims_that_survive_the_test 165.3870000 170.6130000
-#&gt; confidence_interval          165.3867147 170.6132853
-#&gt; difference                     0.0002853  -0.0002853</code></pre>
-<p>The two agree to within a thousandth of a centimetre, which is the spacing of
-the grid — test a finer grid and the discrepancy shrinks with it. The set of
-claims a test would not reject <em>is</em> the confidence interval. Nothing was
-assumed to make this happen; it follows from the two being one inequality
-solved for different unknowns.</p>
-<div class="figure" style="text-align: center"><span style="display:block;" id="fig:os-ci-pvalue-plot"></span>
-<img src="stats-econometrics-r_files/figure-html/os-ci-pvalue-plot-1.png" alt="The p-value for every possible claimed value of mu. Claims above the 0.05 line survive the test, and the range of surviving claims is exactly the 95% confidence interval." width="90%"  />
-<p class="caption">
-Figure 4.3: The p-value for every possible claimed value of mu. Claims above the 0.05 line survive the test, and the range of surviving claims is exactly the 95% confidence interval.
-</p>
-</div>
-<p>The curve reaches its maximum at <span class="math inline">\(\mu_0 = \bar{x} = 168\)</span>, and it is worth being
-clear about why the <span class="math inline">\(p\)</span>-value is exactly 1 there.</p>
-<p>A <span class="math inline">\(p\)</span>-value asks how often a sample would fall at least as far from the claim as
-ours did. If the claim <em>is</em> our sample mean, then our sample sits at distance
-zero from it — and every conceivable sample is at least that far away. The
-proportion is therefore 1. A claim that matches the data exactly leaves nothing
-to explain.</p>
-<p>As the claimed mean moves away from the observed mean in either direction, the
-sample becomes increasingly surprising under that claim, and the <span class="math inline">\(p\)</span>-value
-falls steadily — crossing 0.05 precisely at the two endpoints of the
-interval.</p>
-<div class="keyidea">
-<p>A <span class="math inline">\((1-\alpha)\)</span> confidence interval is exactly the set of values <span class="math inline">\(\mu_0\)</span> that a
-two-tailed test at level <span class="math inline">\(\alpha\)</span> would <strong>fail</strong> to reject.</p>
-<p>Test and interval are one object viewed from two sides. If the interval misses
-the claimed value, the test rejects it. Always.</p>
-</div>
-</div>
-<div id="so-why-keep-both" class="section level3 unnumbered hasAnchor">
-<h3>So why keep both?<a href="os-ci.html#so-why-keep-both" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>Because they carry different information, and the figure above shows what each
-one throws away.</p>
-<p>A confidence interval answers infinitely many tests at once, and reports the
-answer in the units of the problem. Handed <span class="math inline">\([165.39,\ 170.61]\)</span>, a reader can
-evaluate any claim about average height — 165, 166, 172 — without recomputing
-anything. A test answers one question, chosen in advance.</p>
-<p>This is why confidence intervals are generally preferred in scientific papers.
-A single interval communicates the estimate, its uncertainty, and the outcome
-of every two-sided hypothesis test at that significance level, all at once.</p>
-<p>A test, however, reports <em>how strongly</em>. Both 165 and 160 fall outside our
-interval, and the interval says the same thing about each: not plausible. The
-<span class="math inline">\(p\)</span>-values do not agree — 0.024 for 165, and effectively zero for 160. One
-claim is marginally implausible; the other is not remotely survivable.</p>
-<p>Put precisely: the interval tells us <strong>which claims remain plausible</strong>, and the
-<span class="math inline">\(p\)</span>-value tells us <strong>how strongly the data disagree with one particular
-claim</strong>.</p>
-<div class="intuition">
-<p>Report the interval. It contains the test, states its answer in the units the
-reader cares about, and does not tempt anyone into treating a single threshold
-as a verdict.</p>
-<p>Report the <span class="math inline">\(p\)</span>-value alongside it when one specific claim is genuinely at
-issue, since that is where the interval is silent about degree.</p>
-</div>
-<p>Everything Section <a href="u3-misreadings.html#u3-misreadings">3.8</a> said about reading a confidence
-interval applies unchanged here. In particular, the 95% still describes the
-procedure and not this interval, and an interval that excludes a claimed value
-has not proved the claim false — it has reported that the data are unlikely
-under it.</p>
+<p>The unit answers five questions.</p>
+<ol style="list-style-type: decimal">
+<li>Which line minimises the sum of squared residuals?</li>
+<li>What does that line guarantee, and what does it merely appear to guarantee?</li>
+<li>How much of the variation in <span class="math inline">\(y\)</span> has it accounted for?</li>
+<li>Is <span class="math inline">\(\hat{\beta}_1\)</span> centred on <span class="math inline">\(\beta_1\)</span>, and how much does it vary?</li>
+<li>Is the slope we found distinguishable from zero?</li>
+</ol>
 </div>
 </div>
 <script>
@@ -620,8 +530,8 @@ document.addEventListener("DOMContentLoaded", function () {
           </div>
         </div>
       </div>
-<a href="os-worked.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="os-ttest.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="sr-looking-ahead.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="ols-derive.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -652,7 +562,7 @@ gitbook.start({
     "size": 2
   },
   "edit": {
-    "link": "https://github.com/kedarkulkarni1991/stats-econometrics-r/edit/main/04-hypothesis-testing-one-sample.Rmd",
+    "link": "https://github.com/kedarkulkarni1991/stats-econometrics-r/edit/main/07-ols.Rmd",
     "text": "Edit"
   },
   "history": {

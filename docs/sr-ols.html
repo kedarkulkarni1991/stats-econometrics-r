@@ -36,7 +36,7 @@ interpretation.</p>" />
   
   
 <link rel="prev" href="sr-srf.html"/>
-<link rel="next" href="sr-algebra.html"/>
+<link rel="next" href="sr-summary.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -396,7 +396,7 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="5.10" data-path="ts-looking-ahead.html"><a href="ts-looking-ahead.html"><i class="fa fa-check"></i><b>5.10</b> Looking ahead</a></li>
 </ul></li>
-<li class="chapter" data-level="6" data-path="simple-regression.html"><a href="simple-regression.html"><i class="fa fa-check"></i><b>6</b> Simple Regression</a>
+<li class="chapter" data-level="6" data-path="simple-regression.html"><a href="simple-regression.html"><i class="fa fa-check"></i><b>6</b> The Simple Regression Model</a>
 <ul>
 <li class="chapter" data-level="6.1" data-path="sr-motivation.html"><a href="sr-motivation.html"><i class="fa fa-check"></i><b>6.1</b> From comparing groups to modelling relationships</a>
 <ul>
@@ -420,36 +420,53 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li class="chapter" data-level="" data-path="sr-srf.html"><a href="sr-srf.html#every-sample-gives-a-different-line"><i class="fa fa-check"></i>Every sample gives a different line</a></li>
 </ul></li>
-<li class="chapter" data-level="6.7" data-path="sr-ols.html"><a href="sr-ols.html"><i class="fa fa-check"></i><b>6.7</b> Choosing a line: ordinary least squares</a>
-<ul>
-<li class="chapter" data-level="" data-path="sr-ols.html"><a href="sr-ols.html#doing-it-by-hand-and-in-r"><i class="fa fa-check"></i>Doing it by hand and in R</a></li>
-</ul></li>
-<li class="chapter" data-level="6.8" data-path="sr-algebra.html"><a href="sr-algebra.html"><i class="fa fa-check"></i><b>6.8</b> What the fitted line guarantees</a>
-<ul>
-<li class="chapter" data-level="" data-path="sr-algebra.html"><a href="sr-algebra.html#how-much-does-the-line-explain"><i class="fa fa-check"></i>How much does the line explain?</a></li>
-</ul></li>
-<li class="chapter" data-level="6.9" data-path="sr-properties.html"><a href="sr-properties.html"><i class="fa fa-check"></i><b>6.9</b> How good is the estimate?</a>
-<ul>
-<li class="chapter" data-level="" data-path="sr-properties.html"><a href="sr-properties.html#unbiasedness"><i class="fa fa-check"></i>Unbiasedness</a></li>
-<li class="chapter" data-level="" data-path="sr-properties.html"><a href="sr-properties.html#the-variance-of-the-slope"><i class="fa fa-check"></i>The variance of the slope</a></li>
-</ul></li>
-<li class="chapter" data-level="6.10" data-path="sr-inference.html"><a href="sr-inference.html"><i class="fa fa-check"></i><b>6.10</b> Inference about the slope</a></li>
-<li class="chapter" data-level="6.11" data-path="sr-causal.html"><a href="sr-causal.html"><i class="fa fa-check"></i><b>6.11</b> What regression does not fix</a></li>
-<li class="chapter" data-level="6.12" data-path="sr-summary.html"><a href="sr-summary.html"><i class="fa fa-check"></i><b>6.12</b> Summary</a></li>
-<li class="chapter" data-level="6.13" data-path="sr-practice.html"><a href="sr-practice.html"><i class="fa fa-check"></i><b>6.13</b> Practice problems</a>
+<li class="chapter" data-level="6.7" data-path="sr-ols.html"><a href="sr-ols.html"><i class="fa fa-check"></i><b>6.7</b> Choosing a line: ordinary least squares</a></li>
+<li class="chapter" data-level="6.8" data-path="sr-summary.html"><a href="sr-summary.html"><i class="fa fa-check"></i><b>6.8</b> Summary</a></li>
+<li class="chapter" data-level="6.9" data-path="sr-practice.html"><a href="sr-practice.html"><i class="fa fa-check"></i><b>6.9</b> Practice problems</a>
 <ul>
 <li class="chapter" data-level="" data-path="sr-practice.html"><a href="sr-practice.html#concept-checks-4"><i class="fa fa-check"></i>Concept checks</a></li>
 <li class="chapter" data-level="" data-path="sr-practice.html"><a href="sr-practice.html#explain-4"><i class="fa fa-check"></i>Explain</a></li>
-<li class="chapter" data-level="" data-path="sr-practice.html"><a href="sr-practice.html#numerical-problems-4"><i class="fa fa-check"></i>Numerical problems</a></li>
-<li class="chapter" data-level="" data-path="sr-practice.html"><a href="sr-practice.html#r-exercises-4"><i class="fa fa-check"></i>R exercises</a></li>
+<li class="chapter" data-level="" data-path="sr-practice.html"><a href="sr-practice.html#numerical-and-conceptual"><i class="fa fa-check"></i>Numerical and conceptual</a></li>
 </ul></li>
-<li class="chapter" data-level="6.14" data-path="sr-question-bank.html"><a href="sr-question-bank.html"><i class="fa fa-check"></i><b>6.14</b> Question bank</a>
+<li class="chapter" data-level="6.10" data-path="sr-question-bank.html"><a href="sr-question-bank.html"><i class="fa fa-check"></i><b>6.10</b> Question bank</a>
 <ul>
 <li class="chapter" data-level="" data-path="sr-question-bank.html"><a href="sr-question-bank.html#multiple-choice-5"><i class="fa fa-check"></i>Multiple choice</a></li>
 <li class="chapter" data-level="" data-path="sr-question-bank.html"><a href="sr-question-bank.html#short-reasoning-5"><i class="fa fa-check"></i>Short reasoning</a></li>
 <li class="chapter" data-level="" data-path="sr-question-bank.html"><a href="sr-question-bank.html#numerical-5"><i class="fa fa-check"></i>Numerical</a></li>
 </ul></li>
-<li class="chapter" data-level="6.15" data-path="sr-looking-ahead.html"><a href="sr-looking-ahead.html"><i class="fa fa-check"></i><b>6.15</b> Looking ahead</a></li>
+<li class="chapter" data-level="6.11" data-path="sr-looking-ahead.html"><a href="sr-looking-ahead.html"><i class="fa fa-check"></i><b>6.11</b> Looking ahead</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="ols.html"><a href="ols.html"><i class="fa fa-check"></i><b>7</b> Ordinary Least Squares</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="ols-derive.html"><a href="ols-derive.html"><i class="fa fa-check"></i><b>7.1</b> Deriving the estimators</a>
+<ul>
+<li class="chapter" data-level="" data-path="ols-derive.html"><a href="ols-derive.html#doing-it-by-hand-and-in-r"><i class="fa fa-check"></i>Doing it by hand and in R</a></li>
+</ul></li>
+<li class="chapter" data-level="7.2" data-path="ols-fit.html"><a href="ols-fit.html"><i class="fa fa-check"></i><b>7.2</b> What the fitted line guarantees</a>
+<ul>
+<li class="chapter" data-level="" data-path="ols-fit.html"><a href="ols-fit.html#how-much-does-the-line-explain"><i class="fa fa-check"></i>How much does the line explain?</a></li>
+</ul></li>
+<li class="chapter" data-level="7.3" data-path="ols-properties.html"><a href="ols-properties.html"><i class="fa fa-check"></i><b>7.3</b> How good is the estimate?</a>
+<ul>
+<li class="chapter" data-level="" data-path="ols-properties.html"><a href="ols-properties.html#unbiasedness"><i class="fa fa-check"></i>Unbiasedness</a></li>
+<li class="chapter" data-level="" data-path="ols-properties.html"><a href="ols-properties.html#the-variance-of-the-slope"><i class="fa fa-check"></i>The variance of the slope</a></li>
+</ul></li>
+<li class="chapter" data-level="7.4" data-path="ols-inference.html"><a href="ols-inference.html"><i class="fa fa-check"></i><b>7.4</b> Inference about the slope</a></li>
+<li class="chapter" data-level="7.5" data-path="ols-causal.html"><a href="ols-causal.html"><i class="fa fa-check"></i><b>7.5</b> What regression does not fix</a></li>
+<li class="chapter" data-level="7.6" data-path="ols-summary.html"><a href="ols-summary.html"><i class="fa fa-check"></i><b>7.6</b> Summary</a></li>
+<li class="chapter" data-level="7.7" data-path="ols-practice.html"><a href="ols-practice.html"><i class="fa fa-check"></i><b>7.7</b> Practice problems</a>
+<ul>
+<li class="chapter" data-level="" data-path="ols-practice.html"><a href="ols-practice.html#numerical-problems-4"><i class="fa fa-check"></i>Numerical problems</a></li>
+<li class="chapter" data-level="" data-path="ols-practice.html"><a href="ols-practice.html#concept-checks-5"><i class="fa fa-check"></i>Concept checks</a></li>
+<li class="chapter" data-level="" data-path="ols-practice.html"><a href="ols-practice.html#r-exercises-4"><i class="fa fa-check"></i>R exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="7.8" data-path="ols-question-bank.html"><a href="ols-question-bank.html"><i class="fa fa-check"></i><b>7.8</b> Question bank</a>
+<ul>
+<li class="chapter" data-level="" data-path="ols-question-bank.html"><a href="ols-question-bank.html#multiple-choice-6"><i class="fa fa-check"></i>Multiple choice</a></li>
+<li class="chapter" data-level="" data-path="ols-question-bank.html"><a href="ols-question-bank.html#short-reasoning-6"><i class="fa fa-check"></i>Short reasoning</a></li>
+<li class="chapter" data-level="" data-path="ols-question-bank.html"><a href="ols-question-bank.html#numerical-6"><i class="fa fa-check"></i>Numerical</a></li>
+</ul></li>
+<li class="chapter" data-level="7.9" data-path="ols-looking-ahead.html"><a href="ols-looking-ahead.html"><i class="fa fa-check"></i><b>7.9</b> Looking ahead</a></li>
 </ul></li>
 <li class="divider"></li>
 <li class="toc-after">Kedar Kulkarni · Azim Premji University<br>
@@ -496,93 +513,13 @@ first, so that they cannot cancel and large misses count for more than small
 ones. We choose <span class="math inline">\(\hat{\beta}_0\)</span> and <span class="math inline">\(\hat{\beta}_1\)</span> to minimise</p>
 <p><span class="math display">\[L = \sum_{i=1}^{n} \hat{u}_i^2 = \sum_{i=1}^{n}\left(y_i - \hat{\beta}_0 - \hat{\beta}_1 x_i\right)^2\]</span></p>
 <p>This is the <strong>method of ordinary least squares</strong>, or OLS.</p>
-<div class="theory">
-<p>Minimising <span class="math inline">\(L\)</span> means setting both partial derivatives to zero.</p>
-<p><strong>With respect to the intercept:</strong></p>
-<p><span class="math display">\[
-\begin{aligned}
-\frac{\partial L}{\partial \hat{\beta}_0}
-&amp;= \sum_{i=1}^{n} -2\left(y_i - \hat{\beta}_0 - \hat{\beta}_1 x_i\right) = 0 \\[4pt]
-0 &amp;= \sum_{i=1}^{n} y_i - n\hat{\beta}_0 - \hat{\beta}_1\sum_{i=1}^{n} x_i
-   &amp;&amp; \text{divide by } -2 \text{ and expand} \\[4pt]
-0 &amp;= n\bar{y} - n\hat{\beta}_0 - \hat{\beta}_1 n\bar{x}
-   &amp;&amp; \text{since } \textstyle\sum x_i = n\bar{x} \\[4pt]
-\hat{\beta}_0 &amp;= \bar{y} - \hat{\beta}_1\bar{x}
-   &amp;&amp; \text{divide by } n \text{ and rearrange}
-\end{aligned}
-\]</span></p>
-<p><strong>With respect to the slope:</strong></p>
-<p><span class="math display">\[
-\begin{aligned}
-\frac{\partial L}{\partial \hat{\beta}_1}
-&amp;= \sum_{i=1}^{n} -2x_i\left(y_i - \hat{\beta}_0 - \hat{\beta}_1 x_i\right) = 0 \\[4pt]
-0 &amp;= \sum x_i y_i - \hat{\beta}_0\sum x_i - \hat{\beta}_1 \sum x_i^2 \\[4pt]
-0 &amp;= \sum x_i y_i - \left(\bar{y} - \hat{\beta}_1\bar{x}\right)n\bar{x} - \hat{\beta}_1\sum x_i^2
-   &amp;&amp; \text{substitute } \hat{\beta}_0 \\[4pt]
-0 &amp;= \sum x_i y_i - n\bar{x}\bar{y} - \hat{\beta}_1\left(\sum x_i^2 - n\bar{x}^2\right) \\[4pt]
-\hat{\beta}_1 &amp;= \frac{\sum x_i y_i - n\bar{x}\bar{y}}{\sum x_i^2 - n\bar{x}^2}
-\end{aligned}
-\]</span></p>
-<p>Both parts of that fraction can be written more meaningfully. Expanding the
-numerator,</p>
-<p><span class="math display">\[
-\begin{aligned}
-\sum (x_i - \bar{x})(y_i - \bar{y})
-&amp;= \sum x_i y_i - \bar{y}\sum x_i - \bar{x}\sum y_i + n\bar{x}\bar{y} \\[4pt]
-&amp;= \sum x_i y_i - n\bar{x}\bar{y}
-\end{aligned}
-\]</span></p>
-<p>and the denominator,</p>
-<p><span class="math display">\[\sum (x_i - \bar{x})^2 = \sum x_i^2 - 2\bar{x}\sum x_i + n\bar{x}^2
-= \sum x_i^2 - n\bar{x}^2\]</span></p>
-<p>so that</p>
-<p><span class="math display">\[\hat{\beta}_1 = \frac{\sum_{i=1}^{n}(x_i - \bar{x})(y_i - \bar{y})}{\sum_{i=1}^{n}(x_i - \bar{x})^2}\]</span></p>
-</div>
+<p>We now have a criterion. Finding the line that satisfies it is a matter of
+calculus, and it is where the next unit begins.</p>
 <div class="keyidea">
-<p>The OLS estimators are</p>
-<p><span class="math display">\[\hat{\beta}_1 = \frac{\sum(x_i - \bar{x})(y_i - \bar{y})}{\sum(x_i - \bar{x})^2}
-\qquad\qquad
-\hat{\beta}_0 = \bar{y} - \hat{\beta}_1\bar{x}\]</span></p>
-<p>The slope is the <strong>sample covariance of <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> divided by the sample
-variance of <span class="math inline">\(x\)</span></strong>. It answers: when <span class="math inline">\(x\)</span> is above its mean, is <span class="math inline">\(y\)</span> also above
-its mean, and by how much per unit?</p>
-</div>
-<div class="intuition">
-<p>That reading explains several things at once.</p>
-<p>If <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> move together, the numerator is positive and so is the slope. If
-they move oppositely, it is negative. If they are unrelated, the products cancel
-and the slope is near zero.</p>
-<p>And the denominator explains why <span class="math inline">\(x\)</span> must vary. If every student attended the
-same number of classes, <span class="math inline">\(\sum(x_i - \bar{x})^2 = 0\)</span> and the slope is undefined —
-there is no way to learn how GPA responds to attendance from data in which
-attendance never changes. This is the same requirement as Section
-<a href="u1-randomness.html#u1-randomness">1.1</a>: no variation, nothing to learn.</p>
-</div>
-<div id="doing-it-by-hand-and-in-r" class="section level3 unnumbered hasAnchor">
-<h3>Doing it by hand and in R<a href="sr-ols.html#doing-it-by-hand-and-in-r" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<div class="sourceCode" id="cb236"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb236-1"><a href="sr-ols.html#cb236-1" tabindex="-1"></a>x <span class="ot">&lt;-</span> students<span class="sc">$</span>attendance</span>
-<span id="cb236-2"><a href="sr-ols.html#cb236-2" tabindex="-1"></a>y <span class="ot">&lt;-</span> students<span class="sc">$</span>sem_gpa</span>
-<span id="cb236-3"><a href="sr-ols.html#cb236-3" tabindex="-1"></a></span>
-<span id="cb236-4"><a href="sr-ols.html#cb236-4" tabindex="-1"></a>b1 <span class="ot">&lt;-</span> <span class="fu">sum</span>((x <span class="sc">-</span> <span class="fu">mean</span>(x)) <span class="sc">*</span> (y <span class="sc">-</span> <span class="fu">mean</span>(y))) <span class="sc">/</span> <span class="fu">sum</span>((x <span class="sc">-</span> <span class="fu">mean</span>(x))<span class="sc">^</span><span class="dv">2</span>)</span>
-<span id="cb236-5"><a href="sr-ols.html#cb236-5" tabindex="-1"></a>b0 <span class="ot">&lt;-</span> <span class="fu">mean</span>(y) <span class="sc">-</span> b1 <span class="sc">*</span> <span class="fu">mean</span>(x)</span>
-<span id="cb236-6"><a href="sr-ols.html#cb236-6" tabindex="-1"></a></span>
-<span id="cb236-7"><a href="sr-ols.html#cb236-7" tabindex="-1"></a><span class="fu">c</span>(<span class="at">b0 =</span> b0, <span class="at">b1 =</span> b1)</span></code></pre></div>
-<pre><code>#&gt;    b0    b1 
-#&gt; 1.562 0.189</code></pre>
-<div class="sourceCode" id="cb238"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb238-1"><a href="sr-ols.html#cb238-1" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">lm</span>(sem_gpa <span class="sc">~</span> attendance, <span class="at">data =</span> students)</span>
-<span id="cb238-2"><a href="sr-ols.html#cb238-2" tabindex="-1"></a><span class="fu">coef</span>(fit)</span></code></pre></div>
-<pre><code>#&gt; (Intercept)  attendance 
-#&gt;       1.562       0.189</code></pre>
-<p>Identical. <code>lm()</code> solves the same two equations.</p>
-<p>So <span class="math inline">\(\hat{\beta}_1 = 0.189\)</span>: each additional class attended is associated with
-about 0.19 of a GPA point. Ten more classes, roughly 1.9 points — which on a
-ten-point scale is a great deal.</p>
-<div class="figure" style="text-align: center"><span style="display:block;" id="fig:sr-fit-plot"></span>
-<img src="stats-econometrics-r_files/figure-html/sr-fit-plot-1.png" alt="The fitted line, with the vertical distances it misses by shown for a handful of students. Ordinary least squares chooses the line making the sum of those squared distances as small as possible." width="90%"  />
-<p class="caption">
-Figure 6.3: The fitted line, with the vertical distances it misses by shown for a handful of students. Ordinary least squares chooses the line making the sum of those squared distances as small as possible.
-</p>
-</div>
+<p>Regression chooses the line making the sum of <em>squared</em> vertical distances from
+the points to the line as small as possible.</p>
+<p>Squaring does two things. It stops positive and negative misses from cancelling,
+and it makes one large miss count for more than several small ones.</p>
 </div>
 </div>
 <script>
@@ -607,7 +544,7 @@ document.addEventListener("DOMContentLoaded", function () {
         </div>
       </div>
 <a href="sr-srf.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="sr-algebra.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="sr-summary.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

@@ -4,13 +4,13 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>4.6 The same test, viewed as an interval | Statistics and Econometrics with R</title>
+  <title>7.7 Practice problems | Statistics and Econometrics with R</title>
   <meta name="description" content="<p>A first course in statistics and econometrics for Indian students, built on
 the progression from question to intuition to rigour to computation to
 interpretation.</p>" />
   <meta name="generator" content="bookdown 0.47 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="4.6 The same test, viewed as an interval | Statistics and Econometrics with R" />
+  <meta property="og:title" content="7.7 Practice problems | Statistics and Econometrics with R" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="<p>A first course in statistics and econometrics for Indian students, built on
@@ -19,7 +19,7 @@ interpretation.</p>" />
   <meta name="github-repo" content="kedarkulkarni1991/stats-econometrics-r" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="4.6 The same test, viewed as an interval | Statistics and Econometrics with R" />
+  <meta name="twitter:title" content="7.7 Practice problems | Statistics and Econometrics with R" />
   
   <meta name="twitter:description" content="<p>A first course in statistics and econometrics for Indian students, built on
 the progression from question to intuition to rigour to computation to
@@ -35,8 +35,8 @@ interpretation.</p>" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="os-worked.html"/>
-<link rel="next" href="os-ttest.html"/>
+<link rel="prev" href="ols-summary.html"/>
+<link rel="next" href="ols-question-bank.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -489,114 +489,328 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="os-ci" class="section level2 hasAnchor" number="4.6">
-<h2><span class="header-section-number">4.6</span> The same test, viewed as an interval<a href="os-ci.html#os-ci" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<div class="question">
-<p>Unit <a href="interval-estimation.html#interval-estimation">3</a> built confidence intervals; this unit builds
-tests. Are they two methods, or one?</p>
+<div id="ols-practice" class="section level2 hasAnchor" number="7.7">
+<h2><span class="header-section-number">7.7</span> Practice problems<a href="ols-practice.html#ols-practice" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="yourturn">
+<p>Work each one before opening the solution. The
+<a href="ols-question-bank.html#ols-question-bank">question bank</a> that follows has no answers.</p>
 </div>
-<p>We now have two procedures that use the same sample, the same standard error
-and the same critical value. It would be strange if they were unrelated, and
-they are not.</p>
-<p>Start by computing the interval for our students, exactly as in the previous
-unit.</p>
-<div class="sourceCode" id="cb123"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb123-1"><a href="os-ci.html#cb123-1" tabindex="-1"></a>xbar <span class="sc">+</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>) <span class="sc">*</span> <span class="fu">qnorm</span>(<span class="fl">0.975</span>) <span class="sc">*</span> (<span class="dv">8</span> <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="dv">36</span>))</span></code></pre></div>
-<pre><code>#&gt; [1] 165.4 170.6</code></pre>
-<p>The 95% interval is <span class="math inline">\([165.39,\ 170.61]\)</span>. The claimed value of 165 lies
-<strong>outside</strong> it — the same verdict the test reached, and not a coincidence.</p>
-<p>The reason is visible in the algebra. We fail to reject <span class="math inline">\(H_0\)</span> when the test
-statistic is small enough, that is when</p>
-<p><span class="math display">\[\left|\frac{\bar{x} - \mu_0}{\sigma/\sqrt{n}}\right| \le z_{\alpha/2}\]</span></p>
-<p>Multiplying through by <span class="math inline">\(\sigma/\sqrt{n}\)</span> and rearranging for <span class="math inline">\(\mu_0\)</span> gives</p>
-<p><span class="math display">\[\bar{x} - z_{\alpha/2}\frac{\sigma}{\sqrt{n}}
-\;\le\; \mu_0 \;\leq\;
-\bar{x} + z_{\alpha/2}\frac{\sigma}{\sqrt{n}}\]</span></p>
-<p>which is the confidence interval.</p>
-<div class="keyidea">
-<p>A confidence interval and a hypothesis test are the same inequality, solved for
-different unknowns.</p>
-<p>The test fixes <span class="math inline">\(\mu_0\)</span> and asks which sample means are acceptable. The interval
-fixes <span class="math inline">\(\bar{x}\)</span> and asks which values of <span class="math inline">\(\mu_0\)</span> are acceptable.</p>
+<div id="numerical-problems-4" class="section level3 unnumbered hasAnchor">
+<h3>Numerical problems<a href="ols-practice.html#numerical-problems-4" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p><strong>7.1</strong> For five plots, fertiliser applied (<span class="math inline">\(x\)</span>, kg) and yield (<span class="math inline">\(y\)</span>, quintals):</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left"><span class="math inline">\(x\)</span></th>
+<th align="left">2</th>
+<th align="left">4</th>
+<th align="left">6</th>
+<th align="left">8</th>
+<th align="left">10</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><span class="math inline">\(y\)</span></td>
+<td align="left">4</td>
+<td align="left">7</td>
+<td align="left">8</td>
+<td align="left">12</td>
+<td align="left">14</td>
+</tr>
+</tbody>
+</table>
+<ol style="list-style-type: lower-roman">
+<li>Compute <span class="math inline">\(\bar{x}\)</span>, <span class="math inline">\(\bar{y}\)</span>, <span class="math inline">\(\hat{\beta}_1\)</span> and <span class="math inline">\(\hat{\beta}_0\)</span>.</li>
+<li>Write the fitted line and interpret the slope.</li>
+<li>Compute the fitted values and residuals, and verify they sum to zero.</li>
+<li>Compute <span class="math inline">\(R^2\)</span>.</li>
+</ol>
+<div class="answer">
+<p><strong>(i)</strong> <span class="math inline">\(\bar{x} = 6\)</span>, <span class="math inline">\(\bar{y} = 9\)</span>.</p>
+<table style="width:100%;">
+<colgroup>
+<col width="16%" />
+<col width="16%" />
+<col width="16%" />
+<col width="16%" />
+<col width="16%" />
+<col width="16%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="right"><span class="math inline">\(x_i\)</span></th>
+<th align="right"><span class="math inline">\(y_i\)</span></th>
+<th align="right"><span class="math inline">\(x_i - \bar{x}\)</span></th>
+<th align="right"><span class="math inline">\(y_i - \bar{y}\)</span></th>
+<th align="right">product</th>
+<th align="right"><span class="math inline">\((x_i-\bar{x})^2\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">2</td>
+<td align="right">4</td>
+<td align="right"><span class="math inline">\(-4\)</span></td>
+<td align="right"><span class="math inline">\(-5\)</span></td>
+<td align="right">20</td>
+<td align="right">16</td>
+</tr>
+<tr class="even">
+<td align="right">4</td>
+<td align="right">7</td>
+<td align="right"><span class="math inline">\(-2\)</span></td>
+<td align="right"><span class="math inline">\(-2\)</span></td>
+<td align="right">4</td>
+<td align="right">4</td>
+</tr>
+<tr class="odd">
+<td align="right">6</td>
+<td align="right">8</td>
+<td align="right">0</td>
+<td align="right"><span class="math inline">\(-1\)</span></td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="right">8</td>
+<td align="right">12</td>
+<td align="right">2</td>
+<td align="right">3</td>
+<td align="right">6</td>
+<td align="right">4</td>
+</tr>
+<tr class="odd">
+<td align="right">10</td>
+<td align="right">14</td>
+<td align="right">4</td>
+<td align="right">5</td>
+<td align="right">20</td>
+<td align="right">16</td>
+</tr>
+<tr class="even">
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"><strong>50</strong></td>
+<td align="right"><strong>40</strong></td>
+</tr>
+</tbody>
+</table>
+<p><span class="math display">\[\hat{\beta}_1 = \frac{50}{40} = 1.25
+\qquad
+\hat{\beta}_0 = 9 - 1.25(6) = 1.5\]</span></p>
+<p><strong>(ii)</strong> <span class="math inline">\(\hat{y} = 1.5 + 1.25x\)</span>. Each additional kilogram of fertiliser is
+associated with 1.25 more quintals of yield.</p>
+<p><strong>(iii)</strong> Fitted values: <span class="math inline">\(4.0, 6.5, 9.0, 11.5, 14.0\)</span>. Residuals:
+<span class="math inline">\(0, 0.5, -1, 0.5, 0\)</span>, which sum to zero as they must.</p>
+<p><strong>(iv)</strong> <span class="math inline">\(\text{SSR} = 0 + 0.25 + 1 + 0.25 + 0 = 1.5\)</span> and
+<span class="math inline">\(\text{SST} = 25 + 4 + 1 + 9 + 25 = 64\)</span>, so</p>
+<p><span class="math display">\[R^2 = 1 - \frac{1.5}{64} = 0.977\]</span></p>
+<p>An unusually tight fit, because these are made-up numbers. Real data rarely
+behaves so well.</p>
 </div>
-<div id="testing-every-possible-claim-at-once" class="section level3 unnumbered hasAnchor">
-<h3>Testing every possible claim at once<a href="os-ci.html#testing-every-possible-claim-at-once" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>That equivalence can be checked rather than taken on trust. Rather than testing
-the single claim <span class="math inline">\(\mu_0 = 165\)</span>, test every value on a fine grid and collect the
-ones that survive.</p>
-<div class="sourceCode" id="cb125"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb125-1"><a href="os-ci.html#cb125-1" tabindex="-1"></a>se  <span class="ot">&lt;-</span> <span class="dv">8</span> <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="dv">36</span>)</span>
-<span id="cb125-2"><a href="os-ci.html#cb125-2" tabindex="-1"></a>grid <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">160</span>, <span class="dv">176</span>, <span class="at">by =</span> <span class="fl">0.001</span>)</span>
-<span id="cb125-3"><a href="os-ci.html#cb125-3" tabindex="-1"></a></span>
-<span id="cb125-4"><a href="os-ci.html#cb125-4" tabindex="-1"></a>not_rejected <span class="ot">&lt;-</span> grid[<span class="fu">abs</span>(xbar <span class="sc">-</span> grid) <span class="sc">/</span> se <span class="sc">&lt;=</span> <span class="fu">qnorm</span>(<span class="fl">0.975</span>)]</span>
-<span id="cb125-5"><a href="os-ci.html#cb125-5" tabindex="-1"></a></span>
-<span id="cb125-6"><a href="os-ci.html#cb125-6" tabindex="-1"></a>surviving <span class="ot">&lt;-</span> <span class="fu">range</span>(not_rejected)</span>
-<span id="cb125-7"><a href="os-ci.html#cb125-7" tabindex="-1"></a>interval  <span class="ot">&lt;-</span> xbar <span class="sc">+</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>) <span class="sc">*</span> <span class="fu">qnorm</span>(<span class="fl">0.975</span>) <span class="sc">*</span> se</span>
-<span id="cb125-8"><a href="os-ci.html#cb125-8" tabindex="-1"></a></span>
-<span id="cb125-9"><a href="os-ci.html#cb125-9" tabindex="-1"></a><span class="fu">rbind</span>(<span class="at">claims_that_survive_the_test =</span> surviving,</span>
-<span id="cb125-10"><a href="os-ci.html#cb125-10" tabindex="-1"></a>      <span class="at">confidence_interval          =</span> interval,</span>
-<span id="cb125-11"><a href="os-ci.html#cb125-11" tabindex="-1"></a>      <span class="at">difference                   =</span> surviving <span class="sc">-</span> interval)</span></code></pre></div>
-<pre><code>#&gt;                                     [,1]        [,2]
-#&gt; claims_that_survive_the_test 165.3870000 170.6130000
-#&gt; confidence_interval          165.3867147 170.6132853
-#&gt; difference                     0.0002853  -0.0002853</code></pre>
-<p>The two agree to within a thousandth of a centimetre, which is the spacing of
-the grid — test a finer grid and the discrepancy shrinks with it. The set of
-claims a test would not reject <em>is</em> the confidence interval. Nothing was
-assumed to make this happen; it follows from the two being one inequality
-solved for different unknowns.</p>
-<div class="figure" style="text-align: center"><span style="display:block;" id="fig:os-ci-pvalue-plot"></span>
-<img src="stats-econometrics-r_files/figure-html/os-ci-pvalue-plot-1.png" alt="The p-value for every possible claimed value of mu. Claims above the 0.05 line survive the test, and the range of surviving claims is exactly the 95% confidence interval." width="90%"  />
+<p><strong>7.2</strong> Using the previous question’s results:</p>
+<ol style="list-style-type: lower-roman">
+<li>Compute <span class="math inline">\(\hat{\sigma}^2\)</span> and <span class="math inline">\(\hat{\sigma}\)</span>.</li>
+<li>Compute <span class="math inline">\(\mathrm{se}(\hat{\beta}_1)\)</span>.</li>
+<li>Test <span class="math inline">\(H_0: \beta_1 = 0\)</span> at the 5% level.</li>
+<li>Construct a 95% confidence interval for <span class="math inline">\(\beta_1\)</span>.</li>
+</ol>
+<div class="answer">
+<p><strong>(i)</strong> With <span class="math inline">\(n = 5\)</span> and two parameters estimated,</p>
+<p><span class="math display">\[\hat{\sigma}^2 = \frac{\text{SSR}}{n-2} = \frac{1.5}{3} = 0.5
+\qquad \hat{\sigma} = 0.707\]</span></p>
+<p><strong>(ii)</strong> <span class="math inline">\(\mathrm{se}(\hat{\beta}_1) = \dfrac{0.707}{\sqrt{40}} = 0.1118\)</span>.</p>
+<p><strong>(iii)</strong> <span class="math inline">\(t = 1.25/0.1118 = 11.18\)</span> on <span class="math inline">\(n - 2 = 3\)</span> degrees of freedom. The
+critical value is <span class="math inline">\(t_{0.025,\,3} = 3.182\)</span>, and <span class="math inline">\(11.18 &gt; 3.182\)</span>, so we reject
+<span class="math inline">\(H_0\)</span>.</p>
+<p><strong>(iv)</strong> <span class="math inline">\(1.25 \pm 3.182(0.1118) = [0.894,\ 1.606]\)</span>.</p>
+<p>Note how wide that interval is despite the excellent fit — three degrees of
+freedom buy very little. The critical value of 3.182 rather than 1.96 is doing
+most of the damage.</p>
+</div>
+<p><strong>7.3</strong> A regression of household expenditure on income in a sample of 200
+gives <span class="math inline">\(\hat{\beta}_1 = 0.62\)</span> with <span class="math inline">\(\mathrm{se}(\hat{\beta}_1) = 0.05\)</span>.</p>
+<ol style="list-style-type: lower-roman">
+<li>Test <span class="math inline">\(H_0: \beta_1 = 0\)</span>.</li>
+<li>Test <span class="math inline">\(H_0: \beta_1 = 1\)</span>, and explain why an economist might care about that
+hypothesis specifically.</li>
+<li>Construct a 95% interval and interpret it.</li>
+</ol>
+<div class="answer">
+<p><strong>(i)</strong> <span class="math inline">\(t = 0.62/0.05 = 12.4\)</span> on 198 degrees of freedom. Reject overwhelmingly.</p>
+<p><strong>(ii)</strong> <span class="math inline">\(t = (0.62 - 1)/0.05 = -7.6\)</span>, which also rejects.</p>
+<p>An economist cares because <span class="math inline">\(\beta_1\)</span> is the marginal propensity to consume, and
+<span class="math inline">\(\beta_1 = 1\)</span> would mean households spend every additional rupee of income. The
+test says they do not: expenditure rises by about 62 paise per additional rupee,
+and the remainder is saved.</p>
+<p>This is worth noticing as a matter of method. The interesting null hypothesis is
+not always zero. Testing against a value that theory suggests is often far more
+informative.</p>
+<p><strong>(iii)</strong> <span class="math inline">\(0.62 \pm 1.96(0.05) = [0.522,\ 0.718]\)</span>. The interval excludes both 0
+and 1, so the data are consistent with a marginal propensity to consume of
+roughly two-thirds and with neither extreme.</p>
+</div>
+</div>
+<div id="concept-checks-5" class="section level3 unnumbered hasAnchor">
+<h3>Concept checks<a href="ols-practice.html#concept-checks-5" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p><strong>7.4</strong> What goes wrong if every observation has the same value of <span class="math inline">\(x\)</span>?</p>
+<div class="answer">
+<p>The slope is undefined. Its denominator is <span class="math inline">\(\sum(x_i - \bar{x})^2\)</span>, which is
+zero when every <span class="math inline">\(x_i\)</span> equals <span class="math inline">\(\bar{x}\)</span>, and the estimate would require dividing
+by zero.</p>
+<p>The statistical content is more interesting than the algebra. If attendance
+never varies, the data contain no information about how GPA responds to
+attendance — there is nothing to compare. This is assumption SLR3, and it is the
+same point as Section <a href="u1-randomness.html#u1-randomness">1.1</a>: where nothing varies, nothing can be
+learned.</p>
+</div>
+<p><strong>7.5</strong> A regression reports <span class="math inline">\(R^2 = 0.04\)</span> and a slope significant at the 1%
+level. Is that a contradiction?</p>
+<div class="answer">
+<p>No. They measure different things.</p>
+<p><span class="math inline">\(R^2\)</span> says the regression accounts for 4% of the variation in <span class="math inline">\(y\)</span> — the points
+scatter widely around the line. The <span class="math inline">\(p\)</span>-value says the slope is distinguishable
+from zero, which depends on the standard error and therefore on the sample size.</p>
+<p>With a large sample, a real but small relationship produces exactly this
+pattern: a reliably estimated slope explaining little of the variation. Both
+statements are true and neither is more important; they answer “how much does
+<span class="math inline">\(x\)</span> account for?” and “is there a relationship at all?”</p>
+</div>
+<p><strong>7.6</strong> Explain why <span class="math inline">\(\mathrm{Var}(\hat{\beta}_1)\)</span> falls as the spread of <span class="math inline">\(x\)</span>
+increases, and what this implies for research design.</p>
+<div class="answer">
+<p>The formula is <span class="math inline">\(\mathrm{Var}(\hat{\beta}_1) = \sigma^2/\sum(x_i - \bar{x})^2\)</span>,
+so spread in <span class="math inline">\(x\)</span> appears in the denominator and larger spread means a smaller
+variance.</p>
+<p>The intuition is that a slope is a rate of change, and rates of change are
+measured by observing change. If every student attended between 27 and 29
+classes, we would be trying to infer the effect of attendance from almost no
+variation in attendance, and small errors in <span class="math inline">\(y\)</span> would translate into wild
+swings in the fitted slope. Observing attendance from 5 to 30 pins the line down.</p>
+<p>For design, this says that variation in the explanatory variable is valuable and
+should be sought rather than avoided. A study of the effect of class size that
+only observes classes of 39 to 41 students will struggle no matter how many
+schools it covers. It also explains why the median split did worse than the
+regression: collapsing attendance to two categories discards most of its spread.</p>
+</div>
+</div>
+<div id="r-exercises-4" class="section level3 unnumbered hasAnchor">
+<h3>R exercises<a href="ols-practice.html#r-exercises-4" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p><strong>7.7</strong> Using <code>data/car-mileage.csv</code>, regress fuel efficiency on weight. Report
+the slope with its interval, interpret it in the units of the data, and plot the
+fit.</p>
+<div class="answer">
+<div class="sourceCode" id="cb250"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb250-1"><a href="ols-practice.html#cb250-1" tabindex="-1"></a>cars <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/car-mileage.csv&quot;</span>)</span>
+<span id="cb250-2"><a href="ols-practice.html#cb250-2" tabindex="-1"></a></span>
+<span id="cb250-3"><a href="ols-practice.html#cb250-3" tabindex="-1"></a>fit_cars <span class="ot">&lt;-</span> <span class="fu">lm</span>(mileage_kmpl <span class="sc">~</span> weight_kg, <span class="at">data =</span> cars)</span>
+<span id="cb250-4"><a href="ols-practice.html#cb250-4" tabindex="-1"></a><span class="fu">summary</span>(fit_cars)<span class="sc">$</span>coefficients</span></code></pre></div>
+<pre><code>#&gt;              Estimate Std. Error t value
+#&gt; (Intercept) 39.440284  1.6140031   24.44
+#&gt; weight_kg   -0.006009  0.0005179  -11.60
+#&gt;                                              Pr(&gt;|t|)
+#&gt; (Intercept) 0.000000000000000000000000000000000001385
+#&gt; weight_kg   0.000000000000000003798485936567012204243</code></pre>
+<div class="sourceCode" id="cb252"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb252-1"><a href="ols-practice.html#cb252-1" tabindex="-1"></a><span class="fu">confint</span>(fit_cars)[<span class="st">&quot;weight_kg&quot;</span>, ]</span></code></pre></div>
+<pre><code>#&gt;     2.5 %    97.5 % 
+#&gt; -0.007041 -0.004976</code></pre>
+<div class="sourceCode" id="cb254"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb254-1"><a href="ols-practice.html#cb254-1" tabindex="-1"></a><span class="fu">ggplot</span>(cars, <span class="fu">aes</span>(weight_kg, mileage_kmpl)) <span class="sc">+</span></span>
+<span id="cb254-2"><a href="ols-practice.html#cb254-2" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">colour =</span> book_palette<span class="sc">$</span>ink, <span class="at">alpha =</span> <span class="fl">0.6</span>) <span class="sc">+</span></span>
+<span id="cb254-3"><a href="ols-practice.html#cb254-3" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">&quot;lm&quot;</span>, <span class="at">se =</span> <span class="cn">TRUE</span>, <span class="at">colour =</span> book_palette<span class="sc">$</span>accent,</span>
+<span id="cb254-4"><a href="ols-practice.html#cb254-4" tabindex="-1"></a>              <span class="at">fill =</span> book_palette<span class="sc">$</span>fill) <span class="sc">+</span></span>
+<span id="cb254-5"><a href="ols-practice.html#cb254-5" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Weight (kg)&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Fuel efficiency (km per litre)&quot;</span>) <span class="sc">+</span></span>
+<span id="cb254-6"><a href="ols-practice.html#cb254-6" tabindex="-1"></a>  <span class="fu">theme_book</span>()</span></code></pre></div>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:sr-ex-cars"></span>
+<img src="stats-econometrics-r_files/figure-html/sr-ex-cars-1.png" alt="Fuel efficiency against weight for 74 cars, with the fitted line." width="90%"  />
 <p class="caption">
-Figure 4.3: The p-value for every possible claimed value of mu. Claims above the 0.05 line survive the test, and the range of surviving claims is exactly the 95% confidence interval.
+Figure 7.2: Fuel efficiency against weight for 74 cars, with the fitted line.
 </p>
 </div>
-<p>The curve reaches its maximum at <span class="math inline">\(\mu_0 = \bar{x} = 168\)</span>, and it is worth being
-clear about why the <span class="math inline">\(p\)</span>-value is exactly 1 there.</p>
-<p>A <span class="math inline">\(p\)</span>-value asks how often a sample would fall at least as far from the claim as
-ours did. If the claim <em>is</em> our sample mean, then our sample sits at distance
-zero from it — and every conceivable sample is at least that far away. The
-proportion is therefore 1. A claim that matches the data exactly leaves nothing
-to explain.</p>
-<p>As the claimed mean moves away from the observed mean in either direction, the
-sample becomes increasingly surprising under that claim, and the <span class="math inline">\(p\)</span>-value
-falls steadily — crossing 0.05 precisely at the two endpoints of the
-interval.</p>
-<div class="keyidea">
-<p>A <span class="math inline">\((1-\alpha)\)</span> confidence interval is exactly the set of values <span class="math inline">\(\mu_0\)</span> that a
-two-tailed test at level <span class="math inline">\(\alpha\)</span> would <strong>fail</strong> to reject.</p>
-<p>Test and interval are one object viewed from two sides. If the interval misses
-the claimed value, the test rejects it. Always.</p>
+<p>The slope is <span class="math inline">\(-0.00601\)</span> km per litre per kilogram, which is awkward to read at
+that scale. Multiply by 100: each additional 100 kg costs about 0.6 km per
+litre, with an interval of roughly 0.50 to 0.70.</p>
+<p><span class="math inline">\(R^2\)</span> is 0.65, much higher than the attendance regression, because weight is a
+genuinely dominant determinant of fuel consumption in a way that attendance is
+not of grades.</p>
 </div>
+<p><strong>7.8</strong> Verify the algebra. For the car regression, check that the residuals
+sum to zero, that they are uncorrelated with weight, and that the line passes
+through the point of means.</p>
+<div class="answer">
+<div class="sourceCode" id="cb255"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb255-1"><a href="ols-practice.html#cb255-1" tabindex="-1"></a>u <span class="ot">&lt;-</span> <span class="fu">residuals</span>(fit_cars)</span>
+<span id="cb255-2"><a href="ols-practice.html#cb255-2" tabindex="-1"></a>w <span class="ot">&lt;-</span> cars<span class="sc">$</span>weight_kg</span>
+<span id="cb255-3"><a href="ols-practice.html#cb255-3" tabindex="-1"></a></span>
+<span id="cb255-4"><a href="ols-practice.html#cb255-4" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">sum_u        =</span> <span class="fu">sum</span>(u),</span>
+<span id="cb255-5"><a href="ols-practice.html#cb255-5" tabindex="-1"></a>        <span class="at">sum_w_u      =</span> <span class="fu">sum</span>(w <span class="sc">*</span> u),</span>
+<span id="cb255-6"><a href="ols-practice.html#cb255-6" tabindex="-1"></a>        <span class="at">cor_w_u      =</span> <span class="fu">cor</span>(w, u),</span>
+<span id="cb255-7"><a href="ols-practice.html#cb255-7" tabindex="-1"></a>        <span class="at">fitted_at_wbar =</span> <span class="fu">coef</span>(fit_cars)[<span class="dv">1</span>] <span class="sc">+</span> <span class="fu">coef</span>(fit_cars)[<span class="dv">2</span>] <span class="sc">*</span> <span class="fu">mean</span>(w),</span>
+<span id="cb255-8"><a href="ols-practice.html#cb255-8" tabindex="-1"></a>        <span class="at">mean_mileage   =</span> <span class="fu">mean</span>(cars<span class="sc">$</span>mileage_kmpl)), <span class="dv">6</span>)</span></code></pre></div>
+<pre><code>#&gt;                      sum_u                    sum_w_u 
+#&gt;                        0.0                        0.0 
+#&gt;                    cor_w_u fitted_at_wbar.(Intercept) 
+#&gt;                        0.0                       21.3 
+#&gt;               mean_mileage 
+#&gt;                       21.3</code></pre>
+<p>All three hold. The first two are zero to within floating-point error, and the
+last two agree exactly.</p>
+<p>None of this is evidence that the model is correct. These identities are forced
+by the two equations OLS solves, and they would hold just as exactly if we
+regressed mileage on something absurd.</p>
 </div>
-<div id="so-why-keep-both" class="section level3 unnumbered hasAnchor">
-<h3>So why keep both?<a href="os-ci.html#so-why-keep-both" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>Because they carry different information, and the figure above shows what each
-one throws away.</p>
-<p>A confidence interval answers infinitely many tests at once, and reports the
-answer in the units of the problem. Handed <span class="math inline">\([165.39,\ 170.61]\)</span>, a reader can
-evaluate any claim about average height — 165, 166, 172 — without recomputing
-anything. A test answers one question, chosen in advance.</p>
-<p>This is why confidence intervals are generally preferred in scientific papers.
-A single interval communicates the estimate, its uncertainty, and the outcome
-of every two-sided hypothesis test at that significance level, all at once.</p>
-<p>A test, however, reports <em>how strongly</em>. Both 165 and 160 fall outside our
-interval, and the interval says the same thing about each: not plausible. The
-<span class="math inline">\(p\)</span>-values do not agree — 0.024 for 165, and effectively zero for 160. One
-claim is marginally implausible; the other is not remotely survivable.</p>
-<p>Put precisely: the interval tells us <strong>which claims remain plausible</strong>, and the
-<span class="math inline">\(p\)</span>-value tells us <strong>how strongly the data disagree with one particular
-claim</strong>.</p>
-<div class="intuition">
-<p>Report the interval. It contains the test, states its answer in the units the
-reader cares about, and does not tempt anyone into treating a single threshold
-as a verdict.</p>
-<p>Report the <span class="math inline">\(p\)</span>-value alongside it when one specific claim is genuinely at
-issue, since that is where the interval is silent about degree.</p>
+<p><strong>7.9</strong> Demonstrate that OLS is unbiased, and that spread in <span class="math inline">\(x\)</span> buys
+precision. Simulate from a known model with <span class="math inline">\(\beta_1 = 2\)</span>, using <span class="math inline">\(x\)</span> spread
+widely in one case and narrowly in the other.</p>
+<div class="answer">
+<div class="sourceCode" id="cb257"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb257-1"><a href="ols-practice.html#cb257-1" tabindex="-1"></a>simulate_slope <span class="ot">&lt;-</span> <span class="cf">function</span>(x_sd, <span class="at">reps =</span> <span class="dv">3000</span>) {</span>
+<span id="cb257-2"><a href="ols-practice.html#cb257-2" tabindex="-1"></a>  b1 <span class="ot">&lt;-</span> <span class="fu">replicate</span>(reps, {</span>
+<span id="cb257-3"><a href="ols-practice.html#cb257-3" tabindex="-1"></a>    x <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">50</span>, <span class="at">mean =</span> <span class="dv">20</span>, <span class="at">sd =</span> x_sd)</span>
+<span id="cb257-4"><a href="ols-practice.html#cb257-4" tabindex="-1"></a>    y <span class="ot">&lt;-</span> <span class="dv">5</span> <span class="sc">+</span> <span class="dv">2</span> <span class="sc">*</span> x <span class="sc">+</span> <span class="fu">rnorm</span>(<span class="dv">50</span>, <span class="at">sd =</span> <span class="dv">3</span>)          <span class="co"># truth: beta_1 = 2</span></span>
+<span id="cb257-5"><a href="ols-practice.html#cb257-5" tabindex="-1"></a>    <span class="fu">coef</span>(<span class="fu">lm</span>(y <span class="sc">~</span> x))[<span class="dv">2</span>]</span>
+<span id="cb257-6"><a href="ols-practice.html#cb257-6" tabindex="-1"></a>  })</span>
+<span id="cb257-7"><a href="ols-practice.html#cb257-7" tabindex="-1"></a>  <span class="fu">c</span>(<span class="at">x_sd =</span> x_sd, <span class="at">mean_b1 =</span> <span class="fu">mean</span>(b1), <span class="at">sd_b1 =</span> <span class="fu">sd</span>(b1))</span>
+<span id="cb257-8"><a href="ols-practice.html#cb257-8" tabindex="-1"></a>}</span>
+<span id="cb257-9"><a href="ols-practice.html#cb257-9" tabindex="-1"></a></span>
+<span id="cb257-10"><a href="ols-practice.html#cb257-10" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">11</span>)</span>
+<span id="cb257-11"><a href="ols-practice.html#cb257-11" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">t</span>(<span class="fu">sapply</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">5</span>), simulate_slope)), <span class="dv">4</span>)</span></code></pre></div>
+<pre><code>#&gt;      x_sd mean_b1  sd_b1
+#&gt; [1,]    1   1.996 0.4384
+#&gt; [2,]    5   1.999 0.0875</code></pre>
+<p>Both rows are centred on 2, so OLS is unbiased at either spread — that is what
+SLR1–SLR4 deliver, and the spread of <span class="math inline">\(x\)</span> has nothing to do with it.</p>
+<p>What the spread changes is precision. With <span class="math inline">\(x\)</span> five times as spread out, the
+standard deviation of <span class="math inline">\(\hat{\beta}_1\)</span> falls by roughly a factor of five, exactly
+as <span class="math inline">\(\sigma^2/\sum(x_i - \bar{x})^2\)</span> predicts.</p>
 </div>
-<p>Everything Section <a href="u3-misreadings.html#u3-misreadings">3.8</a> said about reading a confidence
-interval applies unchanged here. In particular, the 95% still describes the
-procedure and not this interval, and an interval that excludes a claimed value
-has not proved the claim false — it has reported that the data are unlikely
-under it.</p>
+<p><strong>7.10</strong> Show what omitted variable bias looks like. Simulate data where <span class="math inline">\(y\)</span>
+depends on both <span class="math inline">\(x\)</span> and a variable <span class="math inline">\(z\)</span> that is correlated with <span class="math inline">\(x\)</span>, then
+estimate a regression that omits <span class="math inline">\(z\)</span>.</p>
+<div class="answer">
+<div class="sourceCode" id="cb259"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb259-1"><a href="ols-practice.html#cb259-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2</span>)</span>
+<span id="cb259-2"><a href="ols-practice.html#cb259-2" tabindex="-1"></a></span>
+<span id="cb259-3"><a href="ols-practice.html#cb259-3" tabindex="-1"></a>biased <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">3000</span>, {</span>
+<span id="cb259-4"><a href="ols-practice.html#cb259-4" tabindex="-1"></a>  z <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">200</span>)                       <span class="co"># unobserved: motivation, say</span></span>
+<span id="cb259-5"><a href="ols-practice.html#cb259-5" tabindex="-1"></a>  x <span class="ot">&lt;-</span> <span class="dv">10</span> <span class="sc">+</span> <span class="dv">2</span> <span class="sc">*</span> z <span class="sc">+</span> <span class="fu">rnorm</span>(<span class="dv">200</span>)          <span class="co"># x is correlated with z</span></span>
+<span id="cb259-6"><a href="ols-practice.html#cb259-6" tabindex="-1"></a>  y <span class="ot">&lt;-</span> <span class="dv">5</span> <span class="sc">+</span> <span class="dv">1</span> <span class="sc">*</span> x <span class="sc">+</span> <span class="dv">3</span> <span class="sc">*</span> z <span class="sc">+</span> <span class="fu">rnorm</span>(<span class="dv">200</span>)   <span class="co"># truth: the effect of x is 1</span></span>
+<span id="cb259-7"><a href="ols-practice.html#cb259-7" tabindex="-1"></a>  <span class="fu">c</span>(<span class="at">omitting_z  =</span> <span class="fu">coef</span>(<span class="fu">lm</span>(y <span class="sc">~</span> x))[<span class="dv">2</span>],</span>
+<span id="cb259-8"><a href="ols-practice.html#cb259-8" tabindex="-1"></a>    <span class="at">including_z =</span> <span class="fu">coef</span>(<span class="fu">lm</span>(y <span class="sc">~</span> x <span class="sc">+</span> z))[<span class="dv">2</span>])</span>
+<span id="cb259-9"><a href="ols-practice.html#cb259-9" tabindex="-1"></a>})</span>
+<span id="cb259-10"><a href="ols-practice.html#cb259-10" tabindex="-1"></a></span>
+<span id="cb259-11"><a href="ols-practice.html#cb259-11" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">rowMeans</span>(biased), <span class="dv">4</span>)</span></code></pre></div>
+<pre><code>#&gt;  omitting_z.x including_z.x 
+#&gt;        2.1997        0.9996</code></pre>
+<p>The true effect of <span class="math inline">\(x\)</span> on <span class="math inline">\(y\)</span> is 1. Omitting <span class="math inline">\(z\)</span> returns about 2.2 — more than
+double.</p>
+<p>The reason is exactly the term in the unbiasedness derivation. With <span class="math inline">\(z\)</span> left
+out, it sits inside the error, and since <span class="math inline">\(z\)</span> is correlated with <span class="math inline">\(x\)</span> the errors
+are correlated with <span class="math inline">\(x\)</span> too, so <span class="math inline">\(E(u \mid x) \neq 0\)</span> and the bias does not
+vanish. Including <span class="math inline">\(z\)</span> recovers 1.</p>
+<p>Note that the biased regression is not badly behaved in any visible way. Its
+residuals still sum to zero, its standard errors are still computed correctly,
+and its <span class="math inline">\(p\)</span>-value is still tiny. It is confidently wrong, and nothing in the
+output says so.</p>
+</div>
 </div>
 </div>
 <script>
@@ -620,8 +834,8 @@ document.addEventListener("DOMContentLoaded", function () {
           </div>
         </div>
       </div>
-<a href="os-worked.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="os-ttest.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="ols-summary.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="ols-question-bank.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -652,7 +866,7 @@ gitbook.start({
     "size": 2
   },
   "edit": {
-    "link": "https://github.com/kedarkulkarni1991/stats-econometrics-r/edit/main/04-hypothesis-testing-one-sample.Rmd",
+    "link": "https://github.com/kedarkulkarni1991/stats-econometrics-r/edit/main/07-ols.Rmd",
     "text": "Edit"
   },
   "history": {
