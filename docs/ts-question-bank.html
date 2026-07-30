@@ -383,12 +383,16 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="ts-practice.html"><a href="ts-practice.html#explain-3"><i class="fa fa-check"></i>Explain</a></li>
 <li class="chapter" data-level="" data-path="ts-practice.html"><a href="ts-practice.html#numerical-problems-3"><i class="fa fa-check"></i>Numerical problems</a></li>
 <li class="chapter" data-level="" data-path="ts-practice.html"><a href="ts-practice.html#r-exercises-3"><i class="fa fa-check"></i>R exercises</a></li>
+<li class="chapter" data-level="" data-path="ts-practice.html"><a href="ts-practice.html#paired-designs"><i class="fa fa-check"></i>Paired designs</a></li>
 </ul></li>
 <li class="chapter" data-level="5.9" data-path="ts-question-bank.html"><a href="ts-question-bank.html"><i class="fa fa-check"></i><b>5.9</b> Question bank</a>
 <ul>
 <li class="chapter" data-level="" data-path="ts-question-bank.html"><a href="ts-question-bank.html#multiple-choice-4"><i class="fa fa-check"></i>Multiple choice</a></li>
 <li class="chapter" data-level="" data-path="ts-question-bank.html"><a href="ts-question-bank.html#short-reasoning-4"><i class="fa fa-check"></i>Short reasoning</a></li>
 <li class="chapter" data-level="" data-path="ts-question-bank.html"><a href="ts-question-bank.html#numerical-4"><i class="fa fa-check"></i>Numerical</a></li>
+<li class="chapter" data-level="" data-path="ts-question-bank.html"><a href="ts-question-bank.html#paired-designs-1"><i class="fa fa-check"></i>Paired designs</a></li>
+<li class="chapter" data-level="" data-path="ts-question-bank.html"><a href="ts-question-bank.html#paired-reasoning"><i class="fa fa-check"></i>Paired reasoning</a></li>
+<li class="chapter" data-level="" data-path="ts-question-bank.html"><a href="ts-question-bank.html#paired-numerical"><i class="fa fa-check"></i>Paired numerical</a></li>
 </ul></li>
 <li class="chapter" data-level="5.10" data-path="ts-looking-ahead.html"><a href="ts-looking-ahead.html"><i class="fa fa-check"></i><b>5.10</b> Looking ahead</a></li>
 </ul></li>
@@ -527,6 +531,148 @@ quantity here rather than the standard deviations of the two rounds.</li>
 cumulative GPA between students above and below the median attendance. Report
 the interval, then write a short paragraph stating precisely what your result
 establishes and what it does not.</p>
+</div>
+<div id="paired-designs-1" class="section level3 unnumbered hasAnchor">
+<h3>Paired designs<a href="ts-question-bank.html#paired-designs-1" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p><strong>QB 5.18</strong> A paired <span class="math inline">\(t\)</span>-test on 15 pairs has how many degrees of freedom?</p>
+<ol style="list-style-type: lower-alpha">
+<li>13</li>
+<li>14</li>
+<li>28</li>
+<li>30</li>
+</ol>
+<p><strong>QB 5.19</strong> The paired <span class="math inline">\(t\)</span>-test is equivalent to</p>
+<ol style="list-style-type: lower-alpha">
+<li>a two-sample <span class="math inline">\(t\)</span>-test with <code>var.equal = TRUE</code></li>
+<li>a one-sample <span class="math inline">\(t\)</span>-test on the differences</li>
+<li>Welch’s test with adjusted degrees of freedom</li>
+<li>a <span class="math inline">\(Z\)</span>-test on the difference of means</li>
+</ol>
+<p><strong>QB 5.20</strong> Pairing gives the largest gain in precision when</p>
+<ol style="list-style-type: lower-alpha">
+<li>the two sample sizes are equal</li>
+<li>the two columns are strongly correlated</li>
+<li>the two columns are independent</li>
+<li>the sample is large</li>
+</ol>
+<p><strong>QB 5.21</strong> Which analysis is appropriate? <em>(match each design to a test)</em></p>
+<ol style="list-style-type: lower-roman">
+<li>Yields on 20 plots under seed A and on 20 <em>different</em> plots under seed B</li>
+<li>Yields on the same 20 plots in two consecutive seasons, one seed each</li>
+<li>Blood pressure of 40 patients, half given a drug and half a placebo</li>
+<li>Blood pressure of 40 patients, each measured before and after a drug</li>
+</ol>
+<ol style="list-style-type: lower-alpha">
+<li>Two-sample <span class="math inline">\(t\)</span>-test</li>
+<li>Paired <span class="math inline">\(t\)</span>-test</li>
+</ol>
+<p><strong>QB 5.22</strong> A researcher analyses genuinely paired data as two independent
+samples. The most likely consequence is</p>
+<ol style="list-style-type: lower-alpha">
+<li>a <span class="math inline">\(p\)</span>-value that is too small</li>
+<li>a <span class="math inline">\(p\)</span>-value that is too large</li>
+<li>a confidence interval that is too narrow</li>
+<li>no change, since the sample means are the same either way</li>
+</ol>
+</div>
+<div id="paired-reasoning" class="section level3 unnumbered hasAnchor">
+<h3>Paired reasoning<a href="ts-question-bank.html#paired-reasoning" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p><strong>QB 5.23</strong> Explain why the paired test uses the standard deviation of the
+differences rather than the standard deviations of the two columns, and what
+this achieves.</p>
+<p><strong>QB 5.24</strong> A colleague argues that pairing should always be used because it is
+“more powerful”. Under what circumstances is that claim false, and what is the
+cost of pairing when the two columns are unrelated?</p>
+<p><strong>QB 5.25</strong> A study reports before-and-after measurements on the same 12
+villages and finds a significant improvement. A critic replies that there was
+no comparison group, so nothing has been shown. Explain what the paired test
+does establish here and what the critic is right about.</p>
+</div>
+<div id="paired-numerical" class="section level3 unnumbered hasAnchor">
+<h3>Paired numerical<a href="ts-question-bank.html#paired-numerical" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p><strong>QB 5.26</strong> Nine households report monthly food expenditure, in rupees, before
+and after a ration card reform.</p>
+<table>
+<thead>
+<tr class="header">
+<th align="right">Household</th>
+<th align="right">Before</th>
+<th align="right">After</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">1</td>
+<td align="right">4200</td>
+<td align="right">4050</td>
+</tr>
+<tr class="even">
+<td align="right">2</td>
+<td align="right">3800</td>
+<td align="right">3750</td>
+</tr>
+<tr class="odd">
+<td align="right">3</td>
+<td align="right">5100</td>
+<td align="right">4800</td>
+</tr>
+<tr class="even">
+<td align="right">4</td>
+<td align="right">4600</td>
+<td align="right">4500</td>
+</tr>
+<tr class="odd">
+<td align="right">5</td>
+<td align="right">3900</td>
+<td align="right">3700</td>
+</tr>
+<tr class="even">
+<td align="right">6</td>
+<td align="right">4400</td>
+<td align="right">4250</td>
+</tr>
+<tr class="odd">
+<td align="right">7</td>
+<td align="right">5000</td>
+<td align="right">4650</td>
+</tr>
+<tr class="even">
+<td align="right">8</td>
+<td align="right">4100</td>
+<td align="right">4050</td>
+</tr>
+<tr class="odd">
+<td align="right">9</td>
+<td align="right">4700</td>
+<td align="right">4400</td>
+</tr>
+</tbody>
+</table>
+<ol style="list-style-type: lower-roman">
+<li>Compute the differences, <span class="math inline">\(\bar{d}\)</span> and <span class="math inline">\(s_d\)</span>.</li>
+<li>Test at the 5% level whether expenditure changed.</li>
+<li>Construct a 95% confidence interval for the mean change.</li>
+<li>State one reason the change should not be attributed to the reform.</li>
+</ol>
+<p><strong>QB 5.27</strong> A paired study on <span class="math inline">\(n = 16\)</span> pairs gives <span class="math inline">\(\bar{d} = 3.5\)</span> and
+<span class="math inline">\(s_d = 6.4\)</span>.</p>
+<ol style="list-style-type: lower-roman">
+<li>Compute the test statistic and its degrees of freedom.</li>
+<li>Test at the 5% and 1% levels.</li>
+<li>How large would <span class="math inline">\(n\)</span> have to be for the same <span class="math inline">\(\bar{d}\)</span> and <span class="math inline">\(s_d\)</span> to reject
+at the 1% level?</li>
+</ol>
+<p><strong>QB 5.28</strong> Two analyses of the same twelve paired observations report
+<span class="math inline">\(s_d = 2.1\)</span> and, from the two columns separately, <span class="math inline">\(s_x = 9.4\)</span> and <span class="math inline">\(s_y = 9.1\)</span>.</p>
+<ol style="list-style-type: lower-roman">
+<li>Compute the standard error the paired test would use.</li>
+<li>Compute the standard error an unpaired test would use.</li>
+<li>Explain the ratio between them in terms of what pairing removes.</li>
+</ol>
+<p><strong>QB 5.29</strong> Using <code>data/student-survey-sleep.csv</code>, write R code that
+deliberately performs a paired test on two variables that are <em>not</em> paired in
+any meaningful sense. Report what R does, and explain why the output is
+meaningless even though no error is raised.</p>
 </div>
 </div>
 <script>

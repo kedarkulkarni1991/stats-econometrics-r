@@ -383,12 +383,16 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="ts-practice.html"><a href="ts-practice.html#explain-3"><i class="fa fa-check"></i>Explain</a></li>
 <li class="chapter" data-level="" data-path="ts-practice.html"><a href="ts-practice.html#numerical-problems-3"><i class="fa fa-check"></i>Numerical problems</a></li>
 <li class="chapter" data-level="" data-path="ts-practice.html"><a href="ts-practice.html#r-exercises-3"><i class="fa fa-check"></i>R exercises</a></li>
+<li class="chapter" data-level="" data-path="ts-practice.html"><a href="ts-practice.html#paired-designs"><i class="fa fa-check"></i>Paired designs</a></li>
 </ul></li>
 <li class="chapter" data-level="5.9" data-path="ts-question-bank.html"><a href="ts-question-bank.html"><i class="fa fa-check"></i><b>5.9</b> Question bank</a>
 <ul>
 <li class="chapter" data-level="" data-path="ts-question-bank.html"><a href="ts-question-bank.html#multiple-choice-4"><i class="fa fa-check"></i>Multiple choice</a></li>
 <li class="chapter" data-level="" data-path="ts-question-bank.html"><a href="ts-question-bank.html#short-reasoning-4"><i class="fa fa-check"></i>Short reasoning</a></li>
 <li class="chapter" data-level="" data-path="ts-question-bank.html"><a href="ts-question-bank.html#numerical-4"><i class="fa fa-check"></i>Numerical</a></li>
+<li class="chapter" data-level="" data-path="ts-question-bank.html"><a href="ts-question-bank.html#paired-designs-1"><i class="fa fa-check"></i>Paired designs</a></li>
+<li class="chapter" data-level="" data-path="ts-question-bank.html"><a href="ts-question-bank.html#paired-reasoning"><i class="fa fa-check"></i>Paired reasoning</a></li>
+<li class="chapter" data-level="" data-path="ts-question-bank.html"><a href="ts-question-bank.html#paired-numerical"><i class="fa fa-check"></i>Paired numerical</a></li>
 </ul></li>
 <li class="chapter" data-level="5.10" data-path="ts-looking-ahead.html"><a href="ts-looking-ahead.html"><i class="fa fa-check"></i><b>5.10</b> Looking ahead</a></li>
 </ul></li>
@@ -696,6 +700,264 @@ standard deviation of about 2.6 years.</p>
 the huge between-couple variation and sees nothing. The paired test removes that
 variation — it is common to both columns and cancels on subtraction — and
 measures the gap against what is left.</p>
+</div>
+</div>
+<div id="paired-designs" class="section level3 unnumbered hasAnchor">
+<h3>Paired designs<a href="ts-practice.html#paired-designs" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p><strong>5.16</strong> A paired test on <span class="math inline">\(n\)</span> pairs has <span class="math inline">\(n - 1\)</span> degrees of freedom, not
+<span class="math inline">\(2n - 2\)</span>. Why, when there are <span class="math inline">\(2n\)</span> numbers in the dataset?</p>
+<div class="answer">
+<p>Because the analysis is not performed on the <span class="math inline">\(2n\)</span> numbers. It is performed on
+the <span class="math inline">\(n\)</span> differences.</p>
+<p>Taking differences reduces <span class="math inline">\(2n\)</span> observations to <span class="math inline">\(n\)</span>, one per pair. From those
+<span class="math inline">\(n\)</span> we estimate one quantity, <span class="math inline">\(\bar{d}\)</span>, before we can measure their spread, so
+one degree of freedom is spent and <span class="math inline">\(n - 1\)</span> remain — exactly as in the one-sample
+case of Section <a href="u3-variance.html#u3-variance">3.2</a>.</p>
+<p>The <span class="math inline">\(2n - 2\)</span> of the pooled two-sample test is right for a design in which the
+<span class="math inline">\(2n\)</span> observations really are <span class="math inline">\(2n\)</span> independent pieces of information. In a paired
+design they are not: knowing one member of a pair tells you a great deal about
+the other.</p>
+</div>
+<p><strong>5.17</strong> What feature of the data determines whether pairing was worth doing?</p>
+<div class="answer">
+<p>The correlation between the two columns.</p>
+<p>Pairing removes whatever is common to both members of a pair. If the two
+measurements are strongly related — the same household in two rounds, the same
+plot in two seasons — then a great deal is common, differencing removes it, and
+the standard error falls sharply.</p>
+<p>If the two columns happen to be unrelated, there is nothing common to remove.
+Differencing then leaves the variability essentially unchanged, and the paired
+test performs about as well as the unpaired one, losing only the few degrees of
+freedom.</p>
+<p>So pairing rarely costs much and can gain a great deal. What determines which
+happens is not a choice; it is a property of the design.</p>
+</div>
+<p><strong>5.18</strong> A researcher measures productivity at the same 30 firms before and
+after a policy change, then runs a two-sample <span class="math inline">\(t\)</span>-test. Describe what will
+happen to the <span class="math inline">\(p\)</span>-value and why.</p>
+<div class="answer">
+<p>It will be too large — often dramatically so — and the researcher will
+under-report a real effect.</p>
+<p>Firms differ enormously among themselves in productivity: a large firm and a
+small one may differ by a factor of ten, while the policy might move any single
+firm by a few per cent. In a two-sample test that between-firm variation is
+counted as noise, and it swamps the change being looked for.</p>
+<p>The pairing is exactly what removes it. Each firm’s before-measurement acts as
+its own comparison, so the firm’s general productivity level cancels and only
+its change remains. Writing <span class="math inline">\(x_i = \mu + \alpha_i + \delta_i\)</span> and
+<span class="math inline">\(y_i = \mu + \alpha_i + \varepsilon_i\)</span>, the large firm effect <span class="math inline">\(\alpha_i\)</span> appears
+in both and disappears on subtraction.</p>
+<p>The error is conservative rather than anti-conservative, which is why it often
+goes unnoticed: the researcher simply concludes there is no effect.</p>
+</div>
+<p><strong>5.19</strong> A new irrigation technique is trialled on eight plots. Yields in
+quintals per hectare before and after are</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Plot</th>
+<th align="left">1</th>
+<th align="left">2</th>
+<th align="left">3</th>
+<th align="left">4</th>
+<th align="left">5</th>
+<th align="left">6</th>
+<th align="left">7</th>
+<th align="left">8</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Before</td>
+<td align="left">32</td>
+<td align="left">28</td>
+<td align="left">35</td>
+<td align="left">30</td>
+<td align="left">33</td>
+<td align="left">29</td>
+<td align="left">31</td>
+<td align="left">34</td>
+</tr>
+<tr class="even">
+<td align="left">After</td>
+<td align="left">35</td>
+<td align="left">33</td>
+<td align="left">37</td>
+<td align="left">36</td>
+<td align="left">37</td>
+<td align="left">30</td>
+<td align="left">36</td>
+<td align="left">40</td>
+</tr>
+</tbody>
+</table>
+<ol style="list-style-type: lower-roman">
+<li>Explain why this is a paired design.</li>
+<li>Compute the differences, <span class="math inline">\(\bar{d}\)</span> and <span class="math inline">\(s_d\)</span>.</li>
+<li>Test at the 5% level whether the technique changed yields.</li>
+<li>Construct a 95% confidence interval for the mean change.</li>
+</ol>
+<div class="answer">
+<p><strong>(i)</strong> Each plot is measured twice. The two columns are not eight plots and
+eight other plots; they are the same eight plots under two conditions, so every
+observation in one column has a natural partner in the other. Plots differ in
+soil, slope and drainage, and those differences are present identically in both
+rounds.</p>
+<p><strong>(ii)</strong> Differences (after <span class="math inline">\(-\)</span> before): <span class="math inline">\(3, 5, 2, 6, 4, 1, 5, 6\)</span>.</p>
+<p><span class="math display">\[\bar{d} = \frac{32}{8} = 4.0\]</span></p>
+<p>Deviations from 4: <span class="math inline">\(-1, 1, -2, 2, 0, -3, 1, 2\)</span>, whose squares sum to 24, so</p>
+<p><span class="math display">\[s_d^2 = \frac{24}{7} = 3.4286 \qquad s_d = 1.852\]</span></p>
+<p>and the standard error is <span class="math inline">\(1.852/\sqrt{8} = 0.655\)</span>.</p>
+<p><strong>(iii)</strong></p>
+<p><span class="math display">\[t = \frac{4.0}{0.655} = 6.11\]</span></p>
+<p>with <span class="math inline">\(df = 7\)</span>. The critical value is <span class="math inline">\(t_{0.025,\,7} = 2.365\)</span>, and
+<span class="math inline">\(6.11 &gt; 2.365\)</span>, so we reject <span class="math inline">\(H_0: \mu_d = 0\)</span>. The <span class="math inline">\(p\)</span>-value is 0.0005.</p>
+<p><strong>(iv)</strong> <span class="math inline">\(4.0 \pm 2.365(0.655) = [2.45,\ 5.55]\)</span> quintals per hectare.</p>
+<p>Note the interval is in the units of the problem and excludes zero, agreeing
+with the test. Note also that the estimated gain of 4 quintals per hectare is
+large in agronomic terms as well as statistically detectable — the two
+questions are separate, and here both answers happen to be favourable.</p>
+</div>
+<p><strong>5.20</strong> Seven workers are timed on a task, in minutes, before and after
+training.</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Worker</th>
+<th align="left">1</th>
+<th align="left">2</th>
+<th align="left">3</th>
+<th align="left">4</th>
+<th align="left">5</th>
+<th align="left">6</th>
+<th align="left">7</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Before</td>
+<td align="left">14</td>
+<td align="left">12</td>
+<td align="left">15</td>
+<td align="left">13</td>
+<td align="left">16</td>
+<td align="left">11</td>
+<td align="left">14</td>
+</tr>
+<tr class="even">
+<td align="left">After</td>
+<td align="left">11</td>
+<td align="left">10</td>
+<td align="left">13</td>
+<td align="left">12</td>
+<td align="left">13</td>
+<td align="left">11</td>
+<td align="left">12</td>
+</tr>
+</tbody>
+</table>
+<ol style="list-style-type: lower-roman">
+<li>State the hypotheses for a test that training <em>reduced</em> completion time.</li>
+<li>Compute the test statistic and its degrees of freedom.</li>
+<li>Test at the 5% level.</li>
+<li>Construct the appropriate one-sided 95% bound and interpret it.</li>
+</ol>
+<div class="answer">
+<p><strong>(i)</strong> Working with <span class="math inline">\(d_i = \text{before}_i - \text{after}_i\)</span>, so that a
+reduction in time gives a positive difference:</p>
+<p><span class="math display">\[H_0 : \mu_d \leq 0 \qquad H_A : \mu_d &gt; 0\]</span></p>
+<p>The equality lives in <span class="math inline">\(H_0\)</span>, as always, and the claim we want evidence <em>for</em>
+sits in <span class="math inline">\(H_A\)</span>.</p>
+<p><strong>(ii)</strong> Differences: <span class="math inline">\(3, 2, 2, 1, 3, 0, 2\)</span>. So <span class="math inline">\(\bar{d} = 13/7 = 1.857\)</span> and
+<span class="math inline">\(s_d = 1.069\)</span>, giving a standard error of <span class="math inline">\(1.069/\sqrt{7} = 0.404\)</span> and</p>
+<p><span class="math display">\[t = \frac{1.857}{0.404} = 4.60\]</span></p>
+<p>with <span class="math inline">\(df = 6\)</span>.</p>
+<p><strong>(iii)</strong> Right-tailed at 5%, so the critical value is <span class="math inline">\(t_{0.05,\,6} = 1.943\)</span> —
+not 2.447. Since <span class="math inline">\(4.60 &gt; 1.943\)</span> we reject <span class="math inline">\(H_0\)</span>; the one-sided <span class="math inline">\(p\)</span>-value is
+0.0019.</p>
+<p><strong>(iv)</strong> A one-sided lower bound spends all of <span class="math inline">\(\alpha\)</span> in one tail:</p>
+<p><span class="math display">\[\bar{d} - t_{0.05,\,6}\,\frac{s_d}{\sqrt{n}} = 1.857 - 1.943(0.404) = 1.07\]</span></p>
+<p>so the interval is <span class="math inline">\([1.07,\ \infty)\)</span>. With 95% confidence, training reduced
+completion time by at least 1.07 minutes. We have deliberately given up any
+statement about how large the reduction might be, because the question only
+asked whether there was one.</p>
+</div>
+<p><strong>5.21</strong> Using <code>marriage-ages.csv</code>, verify by direct computation that
+<code>paired = TRUE</code> does nothing more than take differences. Then run the one-sided
+test of whether partner 1 is older.</p>
+<div class="answer">
+<div class="sourceCode" id="cb222"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb222-1"><a href="ts-practice.html#cb222-1" tabindex="-1"></a>couples <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/marriage-ages.csv&quot;</span>)</span>
+<span id="cb222-2"><a href="ts-practice.html#cb222-2" tabindex="-1"></a>d <span class="ot">&lt;-</span> couples<span class="sc">$</span>partner1 <span class="sc">-</span> couples<span class="sc">$</span>partner2</span>
+<span id="cb222-3"><a href="ts-practice.html#cb222-3" tabindex="-1"></a></span>
+<span id="cb222-4"><a href="ts-practice.html#cb222-4" tabindex="-1"></a><span class="co"># Three routes to the same number</span></span>
+<span id="cb222-5"><a href="ts-practice.html#cb222-5" tabindex="-1"></a><span class="fu">c</span>(<span class="at">by_hand   =</span> <span class="fu">mean</span>(d) <span class="sc">/</span> (<span class="fu">sd</span>(d) <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="fu">length</span>(d))),</span>
+<span id="cb222-6"><a href="ts-practice.html#cb222-6" tabindex="-1"></a>  <span class="at">one_sample =</span> <span class="fu">t.test</span>(d, <span class="at">mu =</span> <span class="dv">0</span>)<span class="sc">$</span>statistic,</span>
+<span id="cb222-7"><a href="ts-practice.html#cb222-7" tabindex="-1"></a>  <span class="at">paired     =</span> <span class="fu">t.test</span>(couples<span class="sc">$</span>partner1, couples<span class="sc">$</span>partner2, <span class="at">paired =</span> <span class="cn">TRUE</span>)<span class="sc">$</span>statistic)</span></code></pre></div>
+<pre><code>#&gt;      by_hand one_sample.t     paired.t 
+#&gt;            3            3            3</code></pre>
+<p>Identical, as they must be: <code>paired = TRUE</code> subtracts the columns and calls the
+one-sample routine.</p>
+<div class="sourceCode" id="cb224"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb224-1"><a href="ts-practice.html#cb224-1" tabindex="-1"></a><span class="fu">t.test</span>(couples<span class="sc">$</span>partner1, couples<span class="sc">$</span>partner2,</span>
+<span id="cb224-2"><a href="ts-practice.html#cb224-2" tabindex="-1"></a>       <span class="at">paired =</span> <span class="cn">TRUE</span>, <span class="at">alternative =</span> <span class="st">&quot;greater&quot;</span>)</span></code></pre></div>
+<pre><code>#&gt; 
+#&gt;  Paired t-test
+#&gt; 
+#&gt; data:  couples$partner1 and couples$partner2
+#&gt; t = 3, df = 9, p-value = 0.007
+#&gt; alternative hypothesis: true mean difference is greater than 0
+#&gt; 95 percent confidence interval:
+#&gt;  0.9724    Inf
+#&gt; sample estimates:
+#&gt; mean difference 
+#&gt;             2.5</code></pre>
+<p>The one-sided <span class="math inline">\(p\)</span>-value is half the two-sided one, 0.0075 against 0.015, and the
+interval is now a lower bound: partner 1 is older by at least 1.02 years.</p>
+<p>The one-sided test is defensible here only because the direction was decided
+before looking — we asked whether partner 1 is older, not whether the two
+differ. Choosing the direction after seeing that eight of ten differences were
+positive would not be a test at all.</p>
+</div>
+<p><strong>5.22</strong> Show that the benefit of pairing depends on the correlation between the
+two columns. Simulate pairs of measurements with correlation 0, 0.5 and 0.9, a
+true difference of 4, and <span class="math inline">\(n = 10\)</span>, and compare how often each test rejects.</p>
+<div class="answer">
+<div class="sourceCode" id="cb226"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb226-1"><a href="ts-practice.html#cb226-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">7</span>)</span>
+<span id="cb226-2"><a href="ts-practice.html#cb226-2" tabindex="-1"></a></span>
+<span id="cb226-3"><a href="ts-practice.html#cb226-3" tabindex="-1"></a>power_at <span class="ot">&lt;-</span> <span class="cf">function</span>(rho, <span class="at">reps =</span> <span class="dv">4000</span>) {</span>
+<span id="cb226-4"><a href="ts-practice.html#cb226-4" tabindex="-1"></a>  out <span class="ot">&lt;-</span> <span class="fu">replicate</span>(reps, {</span>
+<span id="cb226-5"><a href="ts-practice.html#cb226-5" tabindex="-1"></a>    a <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">10</span>)</span>
+<span id="cb226-6"><a href="ts-practice.html#cb226-6" tabindex="-1"></a>    b <span class="ot">&lt;-</span> rho <span class="sc">*</span> a <span class="sc">+</span> <span class="fu">sqrt</span>(<span class="dv">1</span> <span class="sc">-</span> rho<span class="sc">^</span><span class="dv">2</span>) <span class="sc">*</span> <span class="fu">rnorm</span>(<span class="dv">10</span>)</span>
+<span id="cb226-7"><a href="ts-practice.html#cb226-7" tabindex="-1"></a>    x <span class="ot">&lt;-</span> <span class="dv">50</span> <span class="sc">+</span> <span class="dv">10</span> <span class="sc">*</span> a</span>
+<span id="cb226-8"><a href="ts-practice.html#cb226-8" tabindex="-1"></a>    y <span class="ot">&lt;-</span> <span class="dv">50</span> <span class="sc">+</span> <span class="dv">10</span> <span class="sc">*</span> b <span class="sc">+</span> <span class="dv">4</span>                       <span class="co"># true difference is 4</span></span>
+<span id="cb226-9"><a href="ts-practice.html#cb226-9" tabindex="-1"></a>    <span class="fu">c</span>(<span class="at">paired   =</span> <span class="fu">t.test</span>(x, y, <span class="at">paired =</span> <span class="cn">TRUE</span>)<span class="sc">$</span>p.value <span class="sc">&lt;</span> <span class="fl">0.05</span>,</span>
+<span id="cb226-10"><a href="ts-practice.html#cb226-10" tabindex="-1"></a>      <span class="at">unpaired =</span> <span class="fu">t.test</span>(x, y)<span class="sc">$</span>p.value           <span class="sc">&lt;</span> <span class="fl">0.05</span>,</span>
+<span id="cb226-11"><a href="ts-practice.html#cb226-11" tabindex="-1"></a>      <span class="at">se_paired   =</span> <span class="fu">sd</span>(x <span class="sc">-</span> y) <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="dv">10</span>),</span>
+<span id="cb226-12"><a href="ts-practice.html#cb226-12" tabindex="-1"></a>      <span class="at">se_unpaired =</span> <span class="fu">sqrt</span>(<span class="fu">var</span>(x)<span class="sc">/</span><span class="dv">10</span> <span class="sc">+</span> <span class="fu">var</span>(y)<span class="sc">/</span><span class="dv">10</span>))</span>
+<span id="cb226-13"><a href="ts-practice.html#cb226-13" tabindex="-1"></a>  })</span>
+<span id="cb226-14"><a href="ts-practice.html#cb226-14" tabindex="-1"></a>  <span class="fu">c</span>(<span class="at">rho =</span> rho, <span class="fu">rowMeans</span>(out))</span>
+<span id="cb226-15"><a href="ts-practice.html#cb226-15" tabindex="-1"></a>}</span>
+<span id="cb226-16"><a href="ts-practice.html#cb226-16" tabindex="-1"></a></span>
+<span id="cb226-17"><a href="ts-practice.html#cb226-17" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">t</span>(<span class="fu">sapply</span>(<span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.5</span>, <span class="fl">0.9</span>), power_at)), <span class="dv">3</span>)</span></code></pre></div>
+<pre><code>#&gt;      rho paired unpaired se_paired se_unpaired
+#&gt; [1,] 0.0  0.125    0.126     4.348       4.408
+#&gt; [2,] 0.5  0.212    0.073     3.069       4.402
+#&gt; [3,] 0.9  0.717    0.014     1.374       4.389</code></pre>
+<p>Read the two standard error columns first, because they explain everything else.
+The paired standard error falls from about 4.35 to 1.37 as the correlation
+rises. The unpaired standard error sits near 4.40 throughout — it is computed
+from the two columns separately and so cannot notice that they are related at
+all.</p>
+<p>The rejection rates follow. At <span class="math inline">\(\rho = 0\)</span> the two tests are equivalent, and the
+paired one is marginally worse because it has 9 degrees of freedom against 18.
+At <span class="math inline">\(\rho = 0.9\)</span> the paired test rejects about 72% of the time and the unpaired
+test almost never does.</p>
+<p>That last figure deserves a moment. The unpaired test does not merely fail to
+improve as the correlation rises; it gets <em>worse</em>. With strongly correlated
+columns the observed difference is tightly concentrated near its true value of
+4, while the standard error the unpaired test uses stays at 4.4 — so its
+statistic sits reliably near <span class="math inline">\(4/4.4 \approx 0.9\)</span> and almost never strays past
+the critical value. Ignoring a strong pairing produces a test that is
+consistently, confidently unable to see anything.</p>
 </div>
 </div>
 </div>

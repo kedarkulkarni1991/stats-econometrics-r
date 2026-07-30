@@ -1122,6 +1122,234 @@ variation — it is common to both columns and cancels on subtraction — and
 measures the gap against what is left.
 :::
 
+### Paired designs {-}
+
+**5.16** A paired test on $n$ pairs has $n - 1$ degrees of freedom, not
+$2n - 2$. Why, when there are $2n$ numbers in the dataset?
+
+::: {.answer}
+Because the analysis is not performed on the $2n$ numbers. It is performed on
+the $n$ differences.
+
+Taking differences reduces $2n$ observations to $n$, one per pair. From those
+$n$ we estimate one quantity, $\bar{d}$, before we can measure their spread, so
+one degree of freedom is spent and $n - 1$ remain — exactly as in the one-sample
+case of Section \@ref(u3-variance).
+
+The $2n - 2$ of the pooled two-sample test is right for a design in which the
+$2n$ observations really are $2n$ independent pieces of information. In a paired
+design they are not: knowing one member of a pair tells you a great deal about
+the other.
+:::
+
+**5.17** What feature of the data determines whether pairing was worth doing?
+
+::: {.answer}
+The correlation between the two columns.
+
+Pairing removes whatever is common to both members of a pair. If the two
+measurements are strongly related — the same household in two rounds, the same
+plot in two seasons — then a great deal is common, differencing removes it, and
+the standard error falls sharply.
+
+If the two columns happen to be unrelated, there is nothing common to remove.
+Differencing then leaves the variability essentially unchanged, and the paired
+test performs about as well as the unpaired one, losing only the few degrees of
+freedom.
+
+So pairing rarely costs much and can gain a great deal. What determines which
+happens is not a choice; it is a property of the design.
+:::
+
+**5.18** A researcher measures productivity at the same 30 firms before and
+after a policy change, then runs a two-sample $t$-test. Describe what will
+happen to the $p$-value and why.
+
+::: {.answer}
+It will be too large — often dramatically so — and the researcher will
+under-report a real effect.
+
+Firms differ enormously among themselves in productivity: a large firm and a
+small one may differ by a factor of ten, while the policy might move any single
+firm by a few per cent. In a two-sample test that between-firm variation is
+counted as noise, and it swamps the change being looked for.
+
+The pairing is exactly what removes it. Each firm's before-measurement acts as
+its own comparison, so the firm's general productivity level cancels and only
+its change remains. Writing $x_i = \mu + \alpha_i + \delta_i$ and
+$y_i = \mu + \alpha_i + \varepsilon_i$, the large firm effect $\alpha_i$ appears
+in both and disappears on subtraction.
+
+The error is conservative rather than anti-conservative, which is why it often
+goes unnoticed: the researcher simply concludes there is no effect.
+:::
+
+**5.19** A new irrigation technique is trialled on eight plots. Yields in
+quintals per hectare before and after are
+
+| Plot | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 |
+|:--|:--|:--|:--|:--|:--|:--|:--|:--|
+| Before | 32 | 28 | 35 | 30 | 33 | 29 | 31 | 34 |
+| After | 35 | 33 | 37 | 36 | 37 | 30 | 36 | 40 |
+
+i. Explain why this is a paired design.
+ii. Compute the differences, $\bar{d}$ and $s_d$.
+iii. Test at the 5% level whether the technique changed yields.
+iv. Construct a 95% confidence interval for the mean change.
+
+::: {.answer}
+**(i)** Each plot is measured twice. The two columns are not eight plots and
+eight other plots; they are the same eight plots under two conditions, so every
+observation in one column has a natural partner in the other. Plots differ in
+soil, slope and drainage, and those differences are present identically in both
+rounds.
+
+**(ii)** Differences (after $-$ before): $3, 5, 2, 6, 4, 1, 5, 6$.
+
+$$\bar{d} = \frac{32}{8} = 4.0$$
+
+Deviations from 4: $-1, 1, -2, 2, 0, -3, 1, 2$, whose squares sum to 24, so
+
+$$s_d^2 = \frac{24}{7} = 3.4286 \qquad s_d = 1.852$$
+
+and the standard error is $1.852/\sqrt{8} = 0.655$.
+
+**(iii)**
+
+$$t = \frac{4.0}{0.655} = 6.11$$
+
+with $df = 7$. The critical value is $t_{0.025,\,7} = 2.365$, and
+$6.11 > 2.365$, so we reject $H_0: \mu_d = 0$. The $p$-value is 0.0005.
+
+**(iv)** $4.0 \pm 2.365(0.655) = [2.45,\ 5.55]$ quintals per hectare.
+
+Note the interval is in the units of the problem and excludes zero, agreeing
+with the test. Note also that the estimated gain of 4 quintals per hectare is
+large in agronomic terms as well as statistically detectable — the two
+questions are separate, and here both answers happen to be favourable.
+:::
+
+**5.20** Seven workers are timed on a task, in minutes, before and after
+training.
+
+| Worker | 1 | 2 | 3 | 4 | 5 | 6 | 7 |
+|:--|:--|:--|:--|:--|:--|:--|:--|
+| Before | 14 | 12 | 15 | 13 | 16 | 11 | 14 |
+| After | 11 | 10 | 13 | 12 | 13 | 11 | 12 |
+
+i. State the hypotheses for a test that training *reduced* completion time.
+ii. Compute the test statistic and its degrees of freedom.
+iii. Test at the 5% level.
+iv. Construct the appropriate one-sided 95% bound and interpret it.
+
+::: {.answer}
+**(i)** Working with $d_i = \text{before}_i - \text{after}_i$, so that a
+reduction in time gives a positive difference:
+
+$$H_0 : \mu_d \leq 0 \qquad H_A : \mu_d > 0$$
+
+The equality lives in $H_0$, as always, and the claim we want evidence *for*
+sits in $H_A$.
+
+**(ii)** Differences: $3, 2, 2, 1, 3, 0, 2$. So $\bar{d} = 13/7 = 1.857$ and
+$s_d = 1.069$, giving a standard error of $1.069/\sqrt{7} = 0.404$ and
+
+$$t = \frac{1.857}{0.404} = 4.60$$
+
+with $df = 6$.
+
+**(iii)** Right-tailed at 5%, so the critical value is $t_{0.05,\,6} = 1.943$ —
+not 2.447. Since $4.60 > 1.943$ we reject $H_0$; the one-sided $p$-value is
+0.0019.
+
+**(iv)** A one-sided lower bound spends all of $\alpha$ in one tail:
+
+$$\bar{d} - t_{0.05,\,6}\,\frac{s_d}{\sqrt{n}} = 1.857 - 1.943(0.404) = 1.07$$
+
+so the interval is $[1.07,\ \infty)$. With 95% confidence, training reduced
+completion time by at least 1.07 minutes. We have deliberately given up any
+statement about how large the reduction might be, because the question only
+asked whether there was one.
+:::
+
+**5.21** Using `marriage-ages.csv`, verify by direct computation that
+`paired = TRUE` does nothing more than take differences. Then run the one-sided
+test of whether partner 1 is older.
+
+::: {.answer}
+```{r ts-ex-paired-equiv}
+couples <- read.csv("data/marriage-ages.csv")
+d <- couples$partner1 - couples$partner2
+
+# Three routes to the same number
+c(by_hand   = mean(d) / (sd(d) / sqrt(length(d))),
+  one_sample = t.test(d, mu = 0)$statistic,
+  paired     = t.test(couples$partner1, couples$partner2, paired = TRUE)$statistic)
+```
+
+Identical, as they must be: `paired = TRUE` subtracts the columns and calls the
+one-sample routine.
+
+```{r ts-ex-paired-onesided}
+t.test(couples$partner1, couples$partner2,
+       paired = TRUE, alternative = "greater")
+```
+
+The one-sided $p$-value is half the two-sided one, 0.0075 against 0.015, and the
+interval is now a lower bound: partner 1 is older by at least 1.02 years.
+
+The one-sided test is defensible here only because the direction was decided
+before looking — we asked whether partner 1 is older, not whether the two
+differ. Choosing the direction after seeing that eight of ten differences were
+positive would not be a test at all.
+:::
+
+**5.22** Show that the benefit of pairing depends on the correlation between the
+two columns. Simulate pairs of measurements with correlation 0, 0.5 and 0.9, a
+true difference of 4, and $n = 10$, and compare how often each test rejects.
+
+::: {.answer}
+```{r ts-ex-paired-power}
+set.seed(7)
+
+power_at <- function(rho, reps = 4000) {
+  out <- replicate(reps, {
+    a <- rnorm(10)
+    b <- rho * a + sqrt(1 - rho^2) * rnorm(10)
+    x <- 50 + 10 * a
+    y <- 50 + 10 * b + 4                       # true difference is 4
+    c(paired   = t.test(x, y, paired = TRUE)$p.value < 0.05,
+      unpaired = t.test(x, y)$p.value           < 0.05,
+      se_paired   = sd(x - y) / sqrt(10),
+      se_unpaired = sqrt(var(x)/10 + var(y)/10))
+  })
+  c(rho = rho, rowMeans(out))
+}
+
+round(t(sapply(c(0, 0.5, 0.9), power_at)), 3)
+```
+
+Read the two standard error columns first, because they explain everything else.
+The paired standard error falls from about 4.35 to 1.37 as the correlation
+rises. The unpaired standard error sits near 4.40 throughout — it is computed
+from the two columns separately and so cannot notice that they are related at
+all.
+
+The rejection rates follow. At $\rho = 0$ the two tests are equivalent, and the
+paired one is marginally worse because it has 9 degrees of freedom against 18.
+At $\rho = 0.9$ the paired test rejects about 72% of the time and the unpaired
+test almost never does.
+
+That last figure deserves a moment. The unpaired test does not merely fail to
+improve as the correlation rises; it gets *worse*. With strongly correlated
+columns the observed difference is tightly concentrated near its true value of
+4, while the standard error the unpaired test uses stays at 4.4 — so its
+statistic sits reliably near $4/4.4 \approx 0.9$ and almost never strays past
+the critical value. Ignoring a strong pairing produces a test that is
+consistently, confidently unable to see anything.
+:::
+
+
 ## Question bank {#ts-question-bank}
 
 ::: {.watchout}
@@ -1241,6 +1469,105 @@ iv. Explain why the standard deviation of the *differences* is the right
 cumulative GPA between students above and below the median attendance. Report
 the interval, then write a short paragraph stating precisely what your result
 establishes and what it does not.
+
+### Paired designs {-}
+
+**QB 5.18** A paired $t$-test on 15 pairs has how many degrees of freedom?
+
+a. 13
+b. 14
+c. 28
+d. 30
+
+**QB 5.19** The paired $t$-test is equivalent to
+
+a. a two-sample $t$-test with `var.equal = TRUE`
+b. a one-sample $t$-test on the differences
+c. Welch's test with adjusted degrees of freedom
+d. a $Z$-test on the difference of means
+
+**QB 5.20** Pairing gives the largest gain in precision when
+
+a. the two sample sizes are equal
+b. the two columns are strongly correlated
+c. the two columns are independent
+d. the sample is large
+
+**QB 5.21** Which analysis is appropriate? *(match each design to a test)*
+
+i. Yields on 20 plots under seed A and on 20 *different* plots under seed B
+ii. Yields on the same 20 plots in two consecutive seasons, one seed each
+iii. Blood pressure of 40 patients, half given a drug and half a placebo
+iv. Blood pressure of 40 patients, each measured before and after a drug
+
+a. Two-sample $t$-test
+b. Paired $t$-test
+
+**QB 5.22** A researcher analyses genuinely paired data as two independent
+samples. The most likely consequence is
+
+a. a $p$-value that is too small
+b. a $p$-value that is too large
+c. a confidence interval that is too narrow
+d. no change, since the sample means are the same either way
+
+### Paired reasoning {-}
+
+**QB 5.23** Explain why the paired test uses the standard deviation of the
+differences rather than the standard deviations of the two columns, and what
+this achieves.
+
+**QB 5.24** A colleague argues that pairing should always be used because it is
+"more powerful". Under what circumstances is that claim false, and what is the
+cost of pairing when the two columns are unrelated?
+
+**QB 5.25** A study reports before-and-after measurements on the same 12
+villages and finds a significant improvement. A critic replies that there was
+no comparison group, so nothing has been shown. Explain what the paired test
+does establish here and what the critic is right about.
+
+### Paired numerical {-}
+
+**QB 5.26** Nine households report monthly food expenditure, in rupees, before
+and after a ration card reform.
+
+| Household | Before | After |
+|--:|--:|--:|
+| 1 | 4200 | 4050 |
+| 2 | 3800 | 3750 |
+| 3 | 5100 | 4800 |
+| 4 | 4600 | 4500 |
+| 5 | 3900 | 3700 |
+| 6 | 4400 | 4250 |
+| 7 | 5000 | 4650 |
+| 8 | 4100 | 4050 |
+| 9 | 4700 | 4400 |
+
+i. Compute the differences, $\bar{d}$ and $s_d$.
+ii. Test at the 5% level whether expenditure changed.
+iii. Construct a 95% confidence interval for the mean change.
+iv. State one reason the change should not be attributed to the reform.
+
+**QB 5.27** A paired study on $n = 16$ pairs gives $\bar{d} = 3.5$ and
+$s_d = 6.4$.
+
+i. Compute the test statistic and its degrees of freedom.
+ii. Test at the 5% and 1% levels.
+iii. How large would $n$ have to be for the same $\bar{d}$ and $s_d$ to reject
+     at the 1% level?
+
+**QB 5.28** Two analyses of the same twelve paired observations report
+$s_d = 2.1$ and, from the two columns separately, $s_x = 9.4$ and $s_y = 9.1$.
+
+i. Compute the standard error the paired test would use.
+ii. Compute the standard error an unpaired test would use.
+iii. Explain the ratio between them in terms of what pairing removes.
+
+**QB 5.29** Using `data/student-survey-sleep.csv`, write R code that
+deliberately performs a paired test on two variables that are *not* paired in
+any meaningful sense. Report what R does, and explain why the output is
+meaningless even though no error is raised.
+
 
 ## Looking ahead {#ts-looking-ahead}
 
