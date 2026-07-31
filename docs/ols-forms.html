@@ -444,7 +444,9 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="7.2" data-path="ols-fit.html"><a href="ols-fit.html"><i class="fa fa-check"></i><b>7.2</b> What the fitted line guarantees</a>
 <ul>
-<li class="chapter" data-level="" data-path="ols-fit.html"><a href="ols-fit.html#how-much-does-the-line-explain"><i class="fa fa-check"></i>How much does the line explain?</a></li>
+<li class="chapter" data-level="" data-path="ols-fit.html"><a href="ols-fit.html#how-much-of-the-variation-has-the-line-accounted-for"><i class="fa fa-check"></i>How much of the variation has the line accounted for?</a></li>
+<li class="chapter" data-level="" data-path="ols-fit.html"><a href="ols-fit.html#from-one-observation-to-all-of-them"><i class="fa fa-check"></i>From one observation to all of them</a></li>
+<li class="chapter" data-level="" data-path="ols-fit.html"><a href="ols-fit.html#the-coefficient-of-determination"><i class="fa fa-check"></i>The coefficient of determination</a></li>
 </ul></li>
 <li class="chapter" data-level="7.3" data-path="ols-properties.html"><a href="ols-properties.html"><i class="fa fa-check"></i><b>7.3</b> How good is the estimate?</a>
 <ul>
@@ -587,15 +589,15 @@ the variable. Multiplying by 100 turns it into a percentage.</p>
 </div>
 <div id="fuel-efficiency-in-elasticity-form" class="section level3 unnumbered hasAnchor">
 <h3>Fuel efficiency, in elasticity form<a href="ols-forms.html#fuel-efficiency-in-elasticity-form" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<div class="sourceCode" id="cb260"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb260-1"><a href="ols-forms.html#cb260-1" tabindex="-1"></a>cars <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/car-mileage.csv&quot;</span>)</span>
-<span id="cb260-2"><a href="ols-forms.html#cb260-2" tabindex="-1"></a></span>
-<span id="cb260-3"><a href="ols-forms.html#cb260-3" tabindex="-1"></a>level_level <span class="ot">&lt;-</span> <span class="fu">lm</span>(mileage_kmpl <span class="sc">~</span> weight_kg, <span class="at">data =</span> cars)</span>
-<span id="cb260-4"><a href="ols-forms.html#cb260-4" tabindex="-1"></a>log_log     <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="fu">log</span>(mileage_kmpl) <span class="sc">~</span> <span class="fu">log</span>(weight_kg), <span class="at">data =</span> cars)</span>
-<span id="cb260-5"><a href="ols-forms.html#cb260-5" tabindex="-1"></a></span>
-<span id="cb260-6"><a href="ols-forms.html#cb260-6" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">rbind</span>(<span class="at">level_level =</span> <span class="fu">c</span>(<span class="at">slope =</span> <span class="fu">coef</span>(level_level)[<span class="dv">2</span>],</span>
-<span id="cb260-7"><a href="ols-forms.html#cb260-7" tabindex="-1"></a>                            <span class="at">r_squared =</span> <span class="fu">summary</span>(level_level)<span class="sc">$</span>r.squared),</span>
-<span id="cb260-8"><a href="ols-forms.html#cb260-8" tabindex="-1"></a>            <span class="at">log_log     =</span> <span class="fu">c</span>(<span class="at">slope =</span> <span class="fu">coef</span>(log_log)[<span class="dv">2</span>],</span>
-<span id="cb260-9"><a href="ols-forms.html#cb260-9" tabindex="-1"></a>                            <span class="at">r_squared =</span> <span class="fu">summary</span>(log_log)<span class="sc">$</span>r.squared)), <span class="dv">4</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb262"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb262-1"><a href="ols-forms.html#cb262-1" tabindex="-1"></a>cars <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/car-mileage.csv&quot;</span>)</span>
+<span id="cb262-2"><a href="ols-forms.html#cb262-2" tabindex="-1"></a></span>
+<span id="cb262-3"><a href="ols-forms.html#cb262-3" tabindex="-1"></a>level_level <span class="ot">&lt;-</span> <span class="fu">lm</span>(mileage_kmpl <span class="sc">~</span> weight_kg, <span class="at">data =</span> cars)</span>
+<span id="cb262-4"><a href="ols-forms.html#cb262-4" tabindex="-1"></a>log_log     <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="fu">log</span>(mileage_kmpl) <span class="sc">~</span> <span class="fu">log</span>(weight_kg), <span class="at">data =</span> cars)</span>
+<span id="cb262-5"><a href="ols-forms.html#cb262-5" tabindex="-1"></a></span>
+<span id="cb262-6"><a href="ols-forms.html#cb262-6" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">rbind</span>(<span class="at">level_level =</span> <span class="fu">c</span>(<span class="at">slope =</span> <span class="fu">coef</span>(level_level)[<span class="dv">2</span>],</span>
+<span id="cb262-7"><a href="ols-forms.html#cb262-7" tabindex="-1"></a>                            <span class="at">r_squared =</span> <span class="fu">summary</span>(level_level)<span class="sc">$</span>r.squared),</span>
+<span id="cb262-8"><a href="ols-forms.html#cb262-8" tabindex="-1"></a>            <span class="at">log_log     =</span> <span class="fu">c</span>(<span class="at">slope =</span> <span class="fu">coef</span>(log_log)[<span class="dv">2</span>],</span>
+<span id="cb262-9"><a href="ols-forms.html#cb262-9" tabindex="-1"></a>                            <span class="at">r_squared =</span> <span class="fu">summary</span>(log_log)<span class="sc">$</span>r.squared)), <span class="dv">4</span>)</span></code></pre></div>
 <pre><code>#&gt;             slope.weight_kg r_squared
 #&gt; level_level         -0.0060    0.6515
 #&gt; log_log             -0.8252    0.7136</code></pre>
@@ -610,7 +612,7 @@ better than the constant absolute penalty the level–level model imposed.</p>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:ols-forms-plot"></span>
 <img src="stats-econometrics-r_files/figure-html/ols-forms-plot-1.png" alt="The same 74 cars in levels and in logarithms. Both look broadly linear; the logarithmic version is a little tighter around the line, which is the improvement in R-squared from 0.65 to 0.71. The gain here is real but modest -- the case for the log form rests mainly on interpretation." width="90%"  />
 <p class="caption">
-Figure 7.3: The same 74 cars in levels and in logarithms. Both look broadly linear; the logarithmic version is a little tighter around the line, which is the improvement in R-squared from 0.65 to 0.71. The gain here is real but modest – the case for the log form rests mainly on interpretation.
+Figure 7.4: The same 74 cars in levels and in logarithms. Both look broadly linear; the logarithmic version is a little tighter around the line, which is the improvement in R-squared from 0.65 to 0.71. The gain here is real but modest – the case for the log form rests mainly on interpretation.
 </p>
 </div>
 <div class="watchout">
@@ -627,10 +629,10 @@ variance is non-constant.</p>
 <h3>The return to schooling<a href="ols-forms.html#the-return-to-schooling" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>The log–level form is the workhorse of labour economics, because wages are
 naturally discussed in percentages.</p>
-<div class="sourceCode" id="cb262"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb262-1"><a href="ols-forms.html#cb262-1" tabindex="-1"></a>wages <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/wages-india-synthetic.csv&quot;</span>)</span>
-<span id="cb262-2"><a href="ols-forms.html#cb262-2" tabindex="-1"></a></span>
-<span id="cb262-3"><a href="ols-forms.html#cb262-3" tabindex="-1"></a>fit_w <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="fu">log</span>(annual_earnings) <span class="sc">~</span> education, <span class="at">data =</span> wages)</span>
-<span id="cb262-4"><a href="ols-forms.html#cb262-4" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">coef</span>(<span class="fu">summary</span>(fit_w)), <span class="dv">5</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb264"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb264-1"><a href="ols-forms.html#cb264-1" tabindex="-1"></a>wages <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/wages-india-synthetic.csv&quot;</span>)</span>
+<span id="cb264-2"><a href="ols-forms.html#cb264-2" tabindex="-1"></a></span>
+<span id="cb264-3"><a href="ols-forms.html#cb264-3" tabindex="-1"></a>fit_w <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="fu">log</span>(annual_earnings) <span class="sc">~</span> education, <span class="at">data =</span> wages)</span>
+<span id="cb264-4"><a href="ols-forms.html#cb264-4" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">coef</span>(<span class="fu">summary</span>(fit_w)), <span class="dv">5</span>)</span></code></pre></div>
 <pre><code>#&gt;             Estimate Std. Error t value Pr(&gt;|t|)
 #&gt; (Intercept)  9.56930    0.01260  759.26        0
 #&gt; education    0.09416    0.00167   56.52        0</code></pre>
@@ -672,7 +674,7 @@ findings that will not replicate.</p>
 <p>Earnings data routinely contain zeros — people who did not work. Taking logs
 silently deletes them, and since those are rarely a random subset of the sample,
 the remaining regression answers a different question from the one asked.</p>
-<div class="sourceCode" id="cb264"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb264-1"><a href="ols-forms.html#cb264-1" tabindex="-1"></a><span class="fu">sum</span>(wages<span class="sc">$</span>annual_earnings <span class="sc">&lt;=</span> <span class="dv">0</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb266"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb266-1"><a href="ols-forms.html#cb266-1" tabindex="-1"></a><span class="fu">sum</span>(wages<span class="sc">$</span>annual_earnings <span class="sc">&lt;=</span> <span class="dv">0</span>)</span></code></pre></div>
 <pre><code>#&gt; [1] 0</code></pre>
 <p>There are none here, which is a property of this simulated dataset rather than of
 earnings data in general. With real data, check before transforming and say what

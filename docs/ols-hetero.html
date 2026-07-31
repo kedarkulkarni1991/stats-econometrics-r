@@ -444,7 +444,9 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="7.2" data-path="ols-fit.html"><a href="ols-fit.html"><i class="fa fa-check"></i><b>7.2</b> What the fitted line guarantees</a>
 <ul>
-<li class="chapter" data-level="" data-path="ols-fit.html"><a href="ols-fit.html#how-much-does-the-line-explain"><i class="fa fa-check"></i>How much does the line explain?</a></li>
+<li class="chapter" data-level="" data-path="ols-fit.html"><a href="ols-fit.html#how-much-of-the-variation-has-the-line-accounted-for"><i class="fa fa-check"></i>How much of the variation has the line accounted for?</a></li>
+<li class="chapter" data-level="" data-path="ols-fit.html"><a href="ols-fit.html#from-one-observation-to-all-of-them"><i class="fa fa-check"></i>From one observation to all of them</a></li>
+<li class="chapter" data-level="" data-path="ols-fit.html"><a href="ols-fit.html#the-coefficient-of-determination"><i class="fa fa-check"></i>The coefficient of determination</a></li>
 </ul></li>
 <li class="chapter" data-level="7.3" data-path="ols-properties.html"><a href="ols-properties.html"><i class="fa fa-check"></i><b>7.3</b> How good is the estimate?</a>
 <ul>
@@ -530,14 +532,14 @@ economic data it is the normal case rather than the exception.</p>
 <h3>Seeing it<a href="ols-hetero.html#seeing-it" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Regress annual earnings on years of education for the 20,000 wage earners, and
 look at how the residuals are spread.</p>
-<div class="sourceCode" id="cb246"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb246-1"><a href="ols-hetero.html#cb246-1" tabindex="-1"></a>wages <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/wages-india-synthetic.csv&quot;</span>)</span>
-<span id="cb246-2"><a href="ols-hetero.html#cb246-2" tabindex="-1"></a>fit_w <span class="ot">&lt;-</span> <span class="fu">lm</span>(annual_earnings <span class="sc">~</span> education, <span class="at">data =</span> wages)</span>
-<span id="cb246-3"><a href="ols-hetero.html#cb246-3" tabindex="-1"></a></span>
-<span id="cb246-4"><a href="ols-hetero.html#cb246-4" tabindex="-1"></a>u_w <span class="ot">&lt;-</span> <span class="fu">residuals</span>(fit_w)</span>
-<span id="cb246-5"><a href="ols-hetero.html#cb246-5" tabindex="-1"></a>f_w <span class="ot">&lt;-</span> <span class="fu">fitted</span>(fit_w)</span>
-<span id="cb246-6"><a href="ols-hetero.html#cb246-6" tabindex="-1"></a></span>
-<span id="cb246-7"><a href="ols-hetero.html#cb246-7" tabindex="-1"></a>quartile <span class="ot">&lt;-</span> <span class="fu">cut</span>(f_w, <span class="fu">quantile</span>(f_w, <span class="dv">0</span><span class="sc">:</span><span class="dv">4</span><span class="sc">/</span><span class="dv">4</span>), <span class="at">include.lowest =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb246-8"><a href="ols-hetero.html#cb246-8" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">tapply</span>(u_w, quartile, sd))</span></code></pre></div>
+<div class="sourceCode" id="cb248"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb248-1"><a href="ols-hetero.html#cb248-1" tabindex="-1"></a>wages <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/wages-india-synthetic.csv&quot;</span>)</span>
+<span id="cb248-2"><a href="ols-hetero.html#cb248-2" tabindex="-1"></a>fit_w <span class="ot">&lt;-</span> <span class="fu">lm</span>(annual_earnings <span class="sc">~</span> education, <span class="at">data =</span> wages)</span>
+<span id="cb248-3"><a href="ols-hetero.html#cb248-3" tabindex="-1"></a></span>
+<span id="cb248-4"><a href="ols-hetero.html#cb248-4" tabindex="-1"></a>u_w <span class="ot">&lt;-</span> <span class="fu">residuals</span>(fit_w)</span>
+<span id="cb248-5"><a href="ols-hetero.html#cb248-5" tabindex="-1"></a>f_w <span class="ot">&lt;-</span> <span class="fu">fitted</span>(fit_w)</span>
+<span id="cb248-6"><a href="ols-hetero.html#cb248-6" tabindex="-1"></a></span>
+<span id="cb248-7"><a href="ols-hetero.html#cb248-7" tabindex="-1"></a>quartile <span class="ot">&lt;-</span> <span class="fu">cut</span>(f_w, <span class="fu">quantile</span>(f_w, <span class="dv">0</span><span class="sc">:</span><span class="dv">4</span><span class="sc">/</span><span class="dv">4</span>), <span class="at">include.lowest =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb248-8"><a href="ols-hetero.html#cb248-8" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">tapply</span>(u_w, quartile, sd))</span></code></pre></div>
 <pre><code>#&gt; [2.34e+04,2.88e+04] (2.88e+04,5.04e+04] (5.04e+04,7.19e+04] (7.19e+04,1.04e+05] 
 #&gt;               42504               61998               93743              153304</code></pre>
 <p>The residuals in the top quarter of fitted values are more than three times as
@@ -545,7 +547,7 @@ spread out as those in the bottom quarter.</p>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:ols-het-plot"></span>
 <img src="stats-econometrics-r_files/figure-html/ols-het-plot-1.png" alt="Residuals from a regression of annual earnings on years of schooling, shown as a boxplot at each level of education. The boxes widen steadily to the right: errors are far more variable where schooling is high. Homoskedasticity would appear as boxes of constant height. A few extreme residuals lie above the range plotted." width="90%"  />
 <p class="caption">
-Figure 7.2: Residuals from a regression of annual earnings on years of schooling, shown as a boxplot at each level of education. The boxes widen steadily to the right: errors are far more variable where schooling is high. Homoskedasticity would appear as boxes of constant height. A few extreme residuals lie above the range plotted.
+Figure 7.3: Residuals from a regression of annual earnings on years of schooling, shown as a boxplot at each level of education. The boxes widen steadily to the right: errors are far more variable where schooling is high. Homoskedasticity would appear as boxes of constant height. A few extreme residuals lie above the range plotted.
 </p>
 </div>
 <div class="keyidea">
@@ -579,25 +581,25 @@ confidence intervals are all unreliable.</p>
 </div>
 <p>How wrong? We can find out, by simulating from a model where we know both the
 truth and the severity of the problem.</p>
-<div class="sourceCode" id="cb248"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb248-1"><a href="ols-hetero.html#cb248-1" tabindex="-1"></a>robust_se <span class="ot">&lt;-</span> <span class="cf">function</span>(m) {</span>
-<span id="cb248-2"><a href="ols-hetero.html#cb248-2" tabindex="-1"></a>  X <span class="ot">&lt;-</span> <span class="fu">model.matrix</span>(m); u <span class="ot">&lt;-</span> <span class="fu">residuals</span>(m)</span>
-<span id="cb248-3"><a href="ols-hetero.html#cb248-3" tabindex="-1"></a>  n <span class="ot">&lt;-</span> <span class="fu">nrow</span>(X); k <span class="ot">&lt;-</span> <span class="fu">ncol</span>(X)</span>
-<span id="cb248-4"><a href="ols-hetero.html#cb248-4" tabindex="-1"></a>  XtXi <span class="ot">&lt;-</span> <span class="fu">solve</span>(<span class="fu">crossprod</span>(X))</span>
-<span id="cb248-5"><a href="ols-hetero.html#cb248-5" tabindex="-1"></a>  V <span class="ot">&lt;-</span> XtXi <span class="sc">%*%</span> (<span class="fu">t</span>(X) <span class="sc">%*%</span> <span class="fu">diag</span>(u<span class="sc">^</span><span class="dv">2</span>) <span class="sc">%*%</span> X) <span class="sc">%*%</span> XtXi <span class="sc">*</span> n <span class="sc">/</span> (n <span class="sc">-</span> k)</span>
-<span id="cb248-6"><a href="ols-hetero.html#cb248-6" tabindex="-1"></a>  <span class="fu">sqrt</span>(<span class="fu">diag</span>(V))[<span class="dv">2</span>]</span>
-<span id="cb248-7"><a href="ols-hetero.html#cb248-7" tabindex="-1"></a>}</span>
-<span id="cb248-8"><a href="ols-hetero.html#cb248-8" tabindex="-1"></a></span>
-<span id="cb248-9"><a href="ols-hetero.html#cb248-9" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">8</span>)</span>
-<span id="cb248-10"><a href="ols-hetero.html#cb248-10" tabindex="-1"></a>out <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">4000</span>, {</span>
-<span id="cb248-11"><a href="ols-hetero.html#cb248-11" tabindex="-1"></a>  x <span class="ot">&lt;-</span> <span class="fu">rexp</span>(<span class="dv">60</span>, <span class="at">rate =</span> <span class="dv">1</span><span class="sc">/</span><span class="dv">5</span>)              <span class="co"># skewed x, as economic data often is</span></span>
-<span id="cb248-12"><a href="ols-hetero.html#cb248-12" tabindex="-1"></a>  y <span class="ot">&lt;-</span> <span class="dv">2</span> <span class="sc">+</span> <span class="dv">1</span> <span class="sc">*</span> x <span class="sc">+</span> <span class="fu">rnorm</span>(<span class="dv">60</span>, <span class="at">sd =</span> x)     <span class="co"># sd of the error grows with x</span></span>
-<span id="cb248-13"><a href="ols-hetero.html#cb248-13" tabindex="-1"></a>  m <span class="ot">&lt;-</span> <span class="fu">lm</span>(y <span class="sc">~</span> x)</span>
-<span id="cb248-14"><a href="ols-hetero.html#cb248-14" tabindex="-1"></a>  <span class="fu">c</span>(<span class="at">b1 =</span> <span class="fu">coef</span>(m)[<span class="dv">2</span>], <span class="at">classical =</span> <span class="fu">coef</span>(<span class="fu">summary</span>(m))[<span class="dv">2</span>, <span class="dv">2</span>], <span class="at">robust =</span> <span class="fu">robust_se</span>(m))</span>
-<span id="cb248-15"><a href="ols-hetero.html#cb248-15" tabindex="-1"></a>})</span>
-<span id="cb248-16"><a href="ols-hetero.html#cb248-16" tabindex="-1"></a></span>
-<span id="cb248-17"><a href="ols-hetero.html#cb248-17" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">actual_sd_of_b1  =</span> <span class="fu">sd</span>(out[<span class="dv">1</span>, ]),</span>
-<span id="cb248-18"><a href="ols-hetero.html#cb248-18" tabindex="-1"></a>        <span class="at">avg_classical_se =</span> <span class="fu">mean</span>(out[<span class="dv">2</span>, ]),</span>
-<span id="cb248-19"><a href="ols-hetero.html#cb248-19" tabindex="-1"></a>        <span class="at">avg_robust_se    =</span> <span class="fu">mean</span>(out[<span class="dv">3</span>, ])), <span class="dv">4</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb250"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb250-1"><a href="ols-hetero.html#cb250-1" tabindex="-1"></a>robust_se <span class="ot">&lt;-</span> <span class="cf">function</span>(m) {</span>
+<span id="cb250-2"><a href="ols-hetero.html#cb250-2" tabindex="-1"></a>  X <span class="ot">&lt;-</span> <span class="fu">model.matrix</span>(m); u <span class="ot">&lt;-</span> <span class="fu">residuals</span>(m)</span>
+<span id="cb250-3"><a href="ols-hetero.html#cb250-3" tabindex="-1"></a>  n <span class="ot">&lt;-</span> <span class="fu">nrow</span>(X); k <span class="ot">&lt;-</span> <span class="fu">ncol</span>(X)</span>
+<span id="cb250-4"><a href="ols-hetero.html#cb250-4" tabindex="-1"></a>  XtXi <span class="ot">&lt;-</span> <span class="fu">solve</span>(<span class="fu">crossprod</span>(X))</span>
+<span id="cb250-5"><a href="ols-hetero.html#cb250-5" tabindex="-1"></a>  V <span class="ot">&lt;-</span> XtXi <span class="sc">%*%</span> (<span class="fu">t</span>(X) <span class="sc">%*%</span> <span class="fu">diag</span>(u<span class="sc">^</span><span class="dv">2</span>) <span class="sc">%*%</span> X) <span class="sc">%*%</span> XtXi <span class="sc">*</span> n <span class="sc">/</span> (n <span class="sc">-</span> k)</span>
+<span id="cb250-6"><a href="ols-hetero.html#cb250-6" tabindex="-1"></a>  <span class="fu">sqrt</span>(<span class="fu">diag</span>(V))[<span class="dv">2</span>]</span>
+<span id="cb250-7"><a href="ols-hetero.html#cb250-7" tabindex="-1"></a>}</span>
+<span id="cb250-8"><a href="ols-hetero.html#cb250-8" tabindex="-1"></a></span>
+<span id="cb250-9"><a href="ols-hetero.html#cb250-9" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">8</span>)</span>
+<span id="cb250-10"><a href="ols-hetero.html#cb250-10" tabindex="-1"></a>out <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">4000</span>, {</span>
+<span id="cb250-11"><a href="ols-hetero.html#cb250-11" tabindex="-1"></a>  x <span class="ot">&lt;-</span> <span class="fu">rexp</span>(<span class="dv">60</span>, <span class="at">rate =</span> <span class="dv">1</span><span class="sc">/</span><span class="dv">5</span>)              <span class="co"># skewed x, as economic data often is</span></span>
+<span id="cb250-12"><a href="ols-hetero.html#cb250-12" tabindex="-1"></a>  y <span class="ot">&lt;-</span> <span class="dv">2</span> <span class="sc">+</span> <span class="dv">1</span> <span class="sc">*</span> x <span class="sc">+</span> <span class="fu">rnorm</span>(<span class="dv">60</span>, <span class="at">sd =</span> x)     <span class="co"># sd of the error grows with x</span></span>
+<span id="cb250-13"><a href="ols-hetero.html#cb250-13" tabindex="-1"></a>  m <span class="ot">&lt;-</span> <span class="fu">lm</span>(y <span class="sc">~</span> x)</span>
+<span id="cb250-14"><a href="ols-hetero.html#cb250-14" tabindex="-1"></a>  <span class="fu">c</span>(<span class="at">b1 =</span> <span class="fu">coef</span>(m)[<span class="dv">2</span>], <span class="at">classical =</span> <span class="fu">coef</span>(<span class="fu">summary</span>(m))[<span class="dv">2</span>, <span class="dv">2</span>], <span class="at">robust =</span> <span class="fu">robust_se</span>(m))</span>
+<span id="cb250-15"><a href="ols-hetero.html#cb250-15" tabindex="-1"></a>})</span>
+<span id="cb250-16"><a href="ols-hetero.html#cb250-16" tabindex="-1"></a></span>
+<span id="cb250-17"><a href="ols-hetero.html#cb250-17" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">actual_sd_of_b1  =</span> <span class="fu">sd</span>(out[<span class="dv">1</span>, ]),</span>
+<span id="cb250-18"><a href="ols-hetero.html#cb250-18" tabindex="-1"></a>        <span class="at">avg_classical_se =</span> <span class="fu">mean</span>(out[<span class="dv">2</span>, ]),</span>
+<span id="cb250-19"><a href="ols-hetero.html#cb250-19" tabindex="-1"></a>        <span class="at">avg_robust_se    =</span> <span class="fu">mean</span>(out[<span class="dv">3</span>, ])), <span class="dv">4</span>)</span></code></pre></div>
 <pre><code>#&gt;  actual_sd_of_b1 avg_classical_se    avg_robust_se 
 #&gt;           0.4301           0.1764           0.3293</code></pre>
 <p>The true slope is 1, and across four thousand samples <span class="math inline">\(\hat{\beta}_1\)</span> has a
@@ -605,8 +607,8 @@ standard deviation of 0.43. That is the actual variability of the estimator.</p>
 <p>The classical standard error reports 0.18 — less than half of it. Software that
 prints 0.18 is claiming a precision the estimator does not have.</p>
 <p>The consequence for confidence intervals is severe.</p>
-<div class="sourceCode" id="cb250"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb250-1"><a href="ols-hetero.html#cb250-1" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">classical =</span> <span class="fu">mean</span>(<span class="fu">abs</span>(out[<span class="dv">1</span>, ] <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">&lt;</span> <span class="fu">qt</span>(<span class="fl">0.975</span>, <span class="dv">58</span>) <span class="sc">*</span> out[<span class="dv">2</span>, ]),</span>
-<span id="cb250-2"><a href="ols-hetero.html#cb250-2" tabindex="-1"></a>        <span class="at">robust    =</span> <span class="fu">mean</span>(<span class="fu">abs</span>(out[<span class="dv">1</span>, ] <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">&lt;</span> <span class="fu">qt</span>(<span class="fl">0.975</span>, <span class="dv">58</span>) <span class="sc">*</span> out[<span class="dv">3</span>, ])), <span class="dv">3</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb252"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb252-1"><a href="ols-hetero.html#cb252-1" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">classical =</span> <span class="fu">mean</span>(<span class="fu">abs</span>(out[<span class="dv">1</span>, ] <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">&lt;</span> <span class="fu">qt</span>(<span class="fl">0.975</span>, <span class="dv">58</span>) <span class="sc">*</span> out[<span class="dv">2</span>, ]),</span>
+<span id="cb252-2"><a href="ols-hetero.html#cb252-2" tabindex="-1"></a>        <span class="at">robust    =</span> <span class="fu">mean</span>(<span class="fu">abs</span>(out[<span class="dv">1</span>, ] <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">&lt;</span> <span class="fu">qt</span>(<span class="fl">0.975</span>, <span class="dv">58</span>) <span class="sc">*</span> out[<span class="dv">3</span>, ])), <span class="dv">3</span>)</span></code></pre></div>
 <pre><code>#&gt; classical    robust 
 #&gt;     0.588     0.851</code></pre>
 <p>An interval advertised as 95% contains the true slope 59% of the time.</p>
@@ -621,8 +623,8 @@ robust standard errors.</p>
 <p>In the simulation above they report 0.33 against a true 0.43, and lift coverage
 from 59% to 85%. A large improvement, and — worth noticing — not a complete
 repair at this sample size and this severity.</p>
-<div class="sourceCode" id="cb252"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb252-1"><a href="ols-hetero.html#cb252-1" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">classical_se =</span> <span class="fu">coef</span>(<span class="fu">summary</span>(fit_w))[<span class="dv">2</span>, <span class="dv">2</span>],</span>
-<span id="cb252-2"><a href="ols-hetero.html#cb252-2" tabindex="-1"></a>        <span class="at">robust_se    =</span> <span class="fu">robust_se</span>(fit_w)), <span class="dv">2</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb254"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb254-1"><a href="ols-hetero.html#cb254-1" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">classical_se =</span> <span class="fu">coef</span>(<span class="fu">summary</span>(fit_w))[<span class="dv">2</span>, <span class="dv">2</span>],</span>
+<span id="cb254-2"><a href="ols-hetero.html#cb254-2" tabindex="-1"></a>        <span class="at">robust_se    =</span> <span class="fu">robust_se</span>(fit_w)), <span class="dv">2</span>)</span></code></pre></div>
 <pre><code>#&gt;        classical_se robust_se.education 
 #&gt;               137.4               175.2</code></pre>
 <p>For the earnings regression the robust standard error is 175 against a classical
@@ -647,11 +649,11 @@ other response is to ask why it is there.</p>
 <p>Earnings are a highly skewed variable, and skewed variables often produce
 fan-shaped residuals simply because their upper tail is long. Taking logarithms
 compresses that tail.</p>
-<div class="sourceCode" id="cb254"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb254-1"><a href="ols-hetero.html#cb254-1" tabindex="-1"></a>fit_log <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="fu">log</span>(annual_earnings) <span class="sc">~</span> education, <span class="at">data =</span> wages)</span>
-<span id="cb254-2"><a href="ols-hetero.html#cb254-2" tabindex="-1"></a></span>
-<span id="cb254-3"><a href="ols-hetero.html#cb254-3" tabindex="-1"></a>q_log <span class="ot">&lt;-</span> <span class="fu">cut</span>(<span class="fu">fitted</span>(fit_log), <span class="fu">quantile</span>(<span class="fu">fitted</span>(fit_log), <span class="dv">0</span><span class="sc">:</span><span class="dv">4</span><span class="sc">/</span><span class="dv">4</span>),</span>
-<span id="cb254-4"><a href="ols-hetero.html#cb254-4" tabindex="-1"></a>             <span class="at">include.lowest =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb254-5"><a href="ols-hetero.html#cb254-5" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">tapply</span>(<span class="fu">residuals</span>(fit_log), q_log, sd), <span class="dv">4</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb256"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb256-1"><a href="ols-hetero.html#cb256-1" tabindex="-1"></a>fit_log <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="fu">log</span>(annual_earnings) <span class="sc">~</span> education, <span class="at">data =</span> wages)</span>
+<span id="cb256-2"><a href="ols-hetero.html#cb256-2" tabindex="-1"></a></span>
+<span id="cb256-3"><a href="ols-hetero.html#cb256-3" tabindex="-1"></a>q_log <span class="ot">&lt;-</span> <span class="fu">cut</span>(<span class="fu">fitted</span>(fit_log), <span class="fu">quantile</span>(<span class="fu">fitted</span>(fit_log), <span class="dv">0</span><span class="sc">:</span><span class="dv">4</span><span class="sc">/</span><span class="dv">4</span>),</span>
+<span id="cb256-4"><a href="ols-hetero.html#cb256-4" tabindex="-1"></a>             <span class="at">include.lowest =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb256-5"><a href="ols-hetero.html#cb256-5" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">tapply</span>(<span class="fu">residuals</span>(fit_log), q_log, sd), <span class="dv">4</span>)</span></code></pre></div>
 <pre><code>#&gt; [9.57,9.66]   (9.66,10]   (10,10.4]   (10.4,11] 
 #&gt;       1.166       1.169       1.181       1.166</code></pre>
 <p>The spread is now essentially identical across quartiles — a ratio of 1.01

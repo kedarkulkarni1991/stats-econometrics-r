@@ -204,40 +204,143 @@ $E(u \mid x) = 0$. The first is forced by the estimator; the second is an
 assumption about the world that no computation can verify.
 :::
 
-### How much does the line explain? {-}
+### How much of the variation has the line accounted for? {-}
 
-Decompose the variation in $y$. Each observation's distance from $\bar{y}$
-splits into a part the line accounts for and a part it does not:
+The fitted line runs through the data, but how much of what we see does it
+actually capture? Answering that begins with a single observation, and requires
+no algebra at all.
 
-$$\underbrace{\sum(y_i - \bar{y})^2}_{\text{SST}}
-= \underbrace{\sum(\hat{y}_i - \bar{y})^2}_{\text{SSE}}
-+ \underbrace{\sum \hat{u}_i^2}_{\text{SSR}}$$
+Take one student — number 554 in the data, who attended 9 classes and finished
+with a semester GPA of 0.8. The class average is 6.50, so this student sits a
+long way below it.
 
-with SST the total sum of squares, SSE the explained sum of squares, and SSR the
-residual sum of squares. The cross-term vanishes precisely because of property 2
-above.
+That gap can be split in two.
 
-::: {.keyidea}
-The **coefficient of determination** is the share of the variation in $y$ that
-the regression accounts for:
+Part of it is anticipated by the line. This student attended only 9 classes, and
+the line predicts a GPA of 3.26 for such a student — already well below average.
+The rest is not anticipated at all: the line said 3.26 and the student scored
+0.8.
 
-$$R^2 = \frac{\text{SSE}}{\text{SST}} = 1 - \frac{\text{SSR}}{\text{SST}}$$
+```{r ols-decomp-plot, echo = FALSE, fig.height = 4.4, fig.cap = "One student's distance from the class average, split in two. The green segment is the total gap between this student and the mean. The blue segment is the part the fitted line accounts for -- this student attended few classes, and the line predicts a low grade. The orange segment is what the line does not account for. The two pieces add exactly to the whole."}
+i     <- 554
+xi    <- students$attendance[i]
+yi    <- students$sem_gpa[i]
+yhat  <- fitted(fit)[i]
+ybar  <- mean(students$sem_gpa)
 
-It lies between 0 and 1. In a simple regression it is exactly the square of the
-correlation between $x$ and $y$.
-:::
-
-```{r sr-r2}
-sst <- sum((y - mean(y))^2)
-ssr <- sum(u_hat^2)
-
-c(r_squared      = 1 - ssr / sst,
-  from_summary   = summary(fit)$r.squared,
-  cor_squared    = cor(x, y)^2)
+ggplot(students, aes(attendance, sem_gpa)) +
+  geom_point(alpha = 0.12, colour = book_palette$ink, size = 1) +
+  geom_hline(yintercept = ybar, linetype = "dashed",
+             colour = "grey35", linewidth = 0.6) +
+  geom_abline(intercept = coef(fit)[1], slope = coef(fit)[2],
+              colour = "grey25", linewidth = 0.9) +
+  # total, offset to the left so all three are visible at once
+  annotate("segment", x = xi - 1.4, xend = xi - 1.4, y = ybar, yend = yi,
+           colour = "#2f855a", linewidth = 1.5) +
+  # accounted for by the line, then the residual, stacked at the observation
+  annotate("segment", x = xi, xend = xi, y = ybar, yend = yhat,
+           colour = book_palette$accent, linewidth = 1.8) +
+  annotate("segment", x = xi, xend = xi, y = yhat, yend = yi,
+           colour = book_palette$reject, linewidth = 1.8) +
+  geom_point(x = xi, y = yi, colour = book_palette$ink, size = 2.8) +
+  annotate("text", x = xi - 1.9, y = (ybar + yi)/2, hjust = 1, size = 3.3,
+           colour = "#2f855a", label = "total\n5.70") +
+  annotate("text", x = xi + 0.7, y = (ybar + yhat)/2, hjust = 0, size = 3.3,
+           colour = book_palette$accent, label = "accounted for\nby the line  3.24") +
+  annotate("text", x = xi + 0.7, y = (yhat + yi)/2, hjust = 0, size = 3.3,
+           colour = book_palette$reject, label = "residual\n2.46") +
+  annotate("text", x = 20, y = ybar + 0.42, hjust = 0.5, size = 3.2,
+           colour = "grey35", label = "class average") +
+  annotate("text", x = 30, y = 8.6, hjust = 1, size = 3.2,
+           colour = "grey25", label = "fitted line") +
+  labs(x = "Classes attended", y = "Semester GPA") +
+  theme_book()
 ```
 
+Read the three segments and the arithmetic is immediate:
+
+$$\underbrace{(y_i - \bar{y})}_{\text{total}}
+= \underbrace{(\hat{y}_i - \bar{y})}_{\text{accounted for}}
++ \underbrace{(y_i - \hat{y}_i)}_{\text{residual}}$$
+
+For this student, $-5.70 = -3.24 + (-2.46)$.
+
+::: {.keyidea}
+Every observation's distance from the mean splits into two parts: the part the
+fitted line accounts for, and the part it does not.
+
+$$\text{total} = \text{accounted for by the line} + \text{residual}$$
+
+That identity is not an approximation. Adding $\hat{y}_i$ and subtracting it
+again changes nothing, so it holds exactly, for every observation, in every
+dataset.
+:::
+
+### From one observation to all of them {-}
+
+Now do the same for all 680 students. Square each distance so that departures
+above and below the mean do not cancel — the same reason we squared residuals in
+Section \@ref(sr-ols) — and add:
+
+$$\sum(y_i - \bar{y})^2 = \sum(\hat{y}_i - \bar{y})^2 + \sum(y_i - \hat{y}_i)^2$$
+
+The cross-term that ought to appear when squaring a sum vanishes exactly, and it
+does so because of property 2 above: the residuals are uncorrelated with $x$, and
+therefore with $\hat{y}$, which is a linear function of $x$. That algebraic
+identity is what makes this decomposition work at all.
+
+Only now are the names worth having.
+
+::: {.keyidea}
+| Quantity | Name | What it measures |
+|:--|:--|:--|
+| $\sum(y_i - \bar{y})^2$ | **SST**, total sum of squares | All the variation in $y$ |
+| $\sum(\hat{y}_i - \bar{y})^2$ | **SSE**, explained sum of squares | The part the line accounts for |
+| $\sum \hat{u}_i^2$ | **SSR**, residual sum of squares | The part it does not |
+
+$$\text{SST} = \text{SSE} + \text{SSR}$$
+:::
+
+::: {.watchout}
+"Explained" is conventional and overstates the case. The line has *accounted
+for* that variation in an arithmetic sense; whether it has explained anything
+depends on whether the model is appropriate and the relationship causal.
+
+Nothing in SSE establishes that attendance produces grades. A regression of
+grades on shoe size would produce a perfectly respectable SSE in a sample of
+children, where both rise with age.
+:::
+
+### The coefficient of determination {-}
+
+Dividing through by SST turns the decomposition into shares.
+
+::: {.keyidea}
+$$R^2 = \frac{\text{SSE}}{\text{SST}} = 1 - \frac{\text{SSR}}{\text{SST}}$$
+
+$R^2$ is the proportion of the variation in $y$ accounted for by the regression.
+It lies between 0 and 1, and in a simple regression it is exactly the square of
+the correlation between $x$ and $y$.
+:::
+
+```{r ols-r2}
+sst <- sum((y - mean(y))^2)
+sse <- sum((fitted(fit) - mean(y))^2)
+ssr <- sum(u_hat^2)
+
+round(c(SST = sst, SSE = sse, SSR = ssr, SSE_plus_SSR = sse + ssr), 2)
+
+c(r_squared    = sse / sst,
+  one_minus    = 1 - ssr / sst,
+  from_summary = summary(fit)$r.squared,
+  cor_squared  = cor(x, y)^2)
+```
+
+SSE and SSR add to SST exactly, and all four routes to $R^2$ agree.
+
 So attendance accounts for about 31% of the variation in semester GPA. The other
-69% is everything else — ability, effort, subject, luck.
+69% is everything else — ability, effort, subject, luck — which is to say, the
+error term of Section \@ref(sr-error) measured as a share.
 
 ::: {.watchout}
 A low $R^2$ does not mean a regression is useless, and a high one does not mean
@@ -245,11 +348,11 @@ it is right.
 
 $R^2$ measures how tightly the points cluster around the line. It says nothing
 about whether $\beta_1$ is estimated accurately, and nothing whatever about
-whether the relationship is causal. A regression of grades on shoe size might
-achieve a respectable $R^2$ in a sample of children, where both rise with age.
+whether the relationship is causal.
 
 In economics, $R^2$ values of 0.1 or 0.2 are common and unremarkable. Human
-behaviour is not tidy.
+behaviour is not tidy, and a model that accounted for most of the variation in
+something like earnings would be more suspicious than impressive.
 :::
 
 ## How good is the estimate? {#ols-properties}
