@@ -355,20 +355,196 @@ behaviour is not tidy, and a model that accounted for most of the variation in
 something like earnings would be more suspicious than impressive.
 :::
 
-## How good is the estimate? {#ols-properties}
+## Every sample gives a different line {#ols-sampling}
 
 ::: {.question}
-$\hat{\beta}_1$ came from one sample. What would it do across many?
+We have one sample and one line. What would a different sample have given?
 :::
 
-We now ask about $\hat{\beta}_1$ exactly what Unit \@ref(estimation) asked about
-$\bar{X}$: is it centred on the truth, and how much does it vary?
+Section \@ref(sr-srf) showed two sections of thirty students producing slopes of
+0.300 and 0.162. That was a demonstration with two samples. Let us do it
+properly.
 
-The answers require assumptions, which are worth listing plainly.
+Draw forty students at random from the 680, fit a line, record the slope. Then
+do it again. And again, five hundred times.
+
+```{r ols-many-lines, fig.height = 4.2, fig.cap = "One hundred fitted lines, each from a different random sample of forty students, in grey. The line fitted to all 680 students is in orange. Every sample gives a different answer."}
+set.seed(1)
+
+draw_line <- function(n = 40) {
+  samp <- students[sample(nrow(students), n, replace = TRUE), ]
+  coef(lm(sem_gpa ~ attendance, data = samp))
+}
+
+many <- t(replicate(100, draw_line()))
+colnames(many) <- c("intercept", "slope")
+
+ggplot(students, aes(attendance, sem_gpa)) +
+  geom_point(alpha = 0.08, colour = book_palette$ink, size = 0.9) +
+  geom_abline(data = as.data.frame(many),
+              aes(intercept = intercept, slope = slope),
+              colour = "grey55", linewidth = 0.3, alpha = 0.6) +
+  geom_abline(intercept = coef(fit)[1], slope = coef(fit)[2],
+              colour = book_palette$reject, linewidth = 1.2) +
+  labs(x = "Classes attended", y = "Semester GPA") +
+  theme_book()
+```
+
+Every grey line came from the same population. None of them is the population
+regression function, and a researcher holding any one of them would have no way
+of knowing how far off it was.
 
 ::: {.keyidea}
-**The assumptions of simple regression.**
+This is the situation of Unit \@ref(estimation), with a slope in place of a mean.
 
+$\hat{\beta}_1$ is computed from a sample, so it is a **random variable**. It has
+a distribution across the samples that might have been drawn, and that
+distribution is what tells us how much to trust the one estimate we have.
+:::
+
+### Looking only at the slopes {-}
+
+Discard the lines and keep the numbers. Five hundred samples give five hundred
+slopes.
+
+```{r ols-slope-dist, fig.height = 3.4, fig.cap = "The sampling distribution of the slope: 5,000 slopes, each from a fresh sample of forty students. The orange line marks the slope from all 680 students. The distribution is centred on it and roughly symmetric."}
+set.seed(1)
+slopes <- replicate(5000, draw_line()["attendance"])
+
+ggplot(data.frame(slope = slopes), aes(slope)) +
+  geom_histogram(bins = 45, fill = book_palette$fill, colour = "white",
+                 linewidth = 0.2) +
+  geom_vline(xintercept = coef(fit)[2], colour = book_palette$reject,
+             linewidth = 1) +
+  labs(x = expression(hat(beta)[1]), y = "Number of samples") +
+  theme_book()
+```
+
+That histogram is the **sampling distribution of $\hat{\beta}_1$**, and it is the
+central object of this section. Two features of it matter.
+
+```{r ols-slope-summary}
+round(c(centre_of_distribution = mean(slopes),
+        spread_of_distribution = sd(slopes),
+        slope_from_all_680     = coef(fit)[2]), 4)
+```
+
+**It is centred on the right place.** The average of the five thousand slopes is
+0.190, against 0.189 from the full data. No individual sample got it exactly
+right, and the average of them did.
+
+**It has a spread**, and that spread is `r round(sd(slopes), 4)`.
+
+::: {.keyidea}
+The **standard error** of $\hat{\beta}_1$ is the standard deviation of its
+sampling distribution.
+
+That is the same definition as in Unit \@ref(estimation), where the standard
+error of $\bar{X}$ was the standard deviation of *its* sampling distribution. The
+estimator has changed; the idea has not.
+:::
+
+The parallel is worth setting out in full, because everything that follows in
+this unit is the second column of a table whose first column the reader already
+knows.
+
+Table: (\#tab:ols-parallel) Regression inference is the machinery of Units 2 to 4 applied to a different estimator.
+
+| Unit \@ref(estimation)–\@ref(one-sample) | This unit |
+|:--|:--|
+| One sample gives one $\bar{x}$ | One sample gives one $\hat{\beta}_1$ |
+| Repeat the sampling | Repeat the sampling |
+| Sampling distribution of $\bar{X}$ | Sampling distribution of $\hat{\beta}_1$ |
+| $E(\bar{X}) = \mu$ | $E(\hat{\beta}_1) = \beta_1$ |
+| $\mathrm{Var}(\bar{X}) = \sigma^2/n$ | $\mathrm{Var}(\hat{\beta}_1) = \;?$ |
+| $\mathrm{se}(\bar{X}) = \sigma/\sqrt{n}$ | $\mathrm{se}(\hat{\beta}_1) = \;?$ |
+| Confidence interval for $\mu$ | Confidence interval for $\beta_1$ |
+| $t$-test of $H_0: \mu = \mu_0$ | $t$-test of $H_0: \beta_1 = 0$ |
+
+Nothing in the right-hand column is a new idea. What remains is to fill in the
+two question marks.
+
+### What makes the distribution narrow? {-}
+
+Before deriving anything, we can find out by experiment. Three things plausibly
+matter: how many students we draw, how spread out their attendance is, and how
+noisy grades are around the line.
+
+Take the first two in turn.
+
+```{r ols-sd-by-n}
+set.seed(1)
+sd_at <- function(n) sd(replicate(2000, draw_line(n)["attendance"]))
+
+round(sapply(c(20, 40, 80, 160, 320), sd_at), 4)
+```
+
+Larger samples give a tighter distribution, and the pattern is familiar: each
+quadrupling of $n$ roughly halves the spread. That is the $\sqrt{n}$ rule of Unit
+\@ref(estimation), arriving again.
+
+Now hold the sample size fixed at forty and change the *range of attendance*
+instead. Restrict the pool to students who attended between 24 and 30 classes,
+so that $x$ varies far less.
+
+```{r ols-sd-by-spread}
+narrow <- students[students$attendance >= 24 & students$attendance <= 30, ]
+
+set.seed(2)
+sd_narrow <- sd(replicate(2000, {
+  samp <- narrow[sample(nrow(narrow), 40, replace = TRUE), ]
+  coef(lm(sem_gpa ~ attendance, data = samp))[2]
+}))
+
+round(c(sd_x_full    = sd(students$attendance),
+        sd_x_narrow  = sd(narrow$attendance),
+        sd_b1_full   = sd_at(40),
+        sd_b1_narrow = sd_narrow), 4)
+```
+
+This is the striking one. The sample size is identical. What changed is that
+attendance now varies by 1.9 classes instead of 5.5 — and the slope estimate
+became about two and a half times more variable.
+
+::: {.intuition}
+A slope is a rate of change, and rates of change are measured by observing
+change.
+
+Comparing students who attended 27 classes with students who attended 28 tells
+you very little about how attendance matters. Comparing those who attended 5 with
+those who attended 30 tells you a great deal. Spread in the explanatory variable
+is *information*, and a study that observes $x$ over a narrow range will estimate
+its effect poorly however many observations it collects.
+
+This is also why the median split of Section \@ref(sr-motivation) performed so
+badly. It discarded most of the spread in attendance.
+:::
+
+The third determinant, the noise in $y$ around the line, needs no simulation to
+believe: if grades were entirely determined by attendance, every sample would
+recover the same line exactly.
+
+::: {.keyidea}
+Three things make the sampling distribution of $\hat{\beta}_1$ narrow.
+
+1. A **large sample**.
+2. **Wide variation in $x$**.
+3. **Little noise** in $y$ around the line.
+
+We have found all three by experiment. The next two sections establish them
+algebraically, which requires being explicit about what we are assuming.
+:::
+
+## Why is OLS unbiased? {#ols-unbiased}
+
+::: {.question}
+The simulated slopes averaged 0.190 against a true 0.189. Was that luck?
+:::
+
+It was not, and showing why requires stating what we have been assuming. Four
+assumptions deliver it.
+
+::: {.keyidea}
 **SLR1 — linear in parameters.** The population model is
 $y = \beta_0 + \beta_1 x + u$.
 
@@ -379,14 +555,9 @@ population.
 
 **SLR4 — zero conditional mean.** $E(u \mid x) = 0$.
 
-**SLR5 — homoskedasticity.** $\mathrm{Var}(u \mid x) = \sigma^2$, the same at
-every value of $x$.
-
-The first four give unbiasedness. The fifth is needed only for the variance
-formula.
+These four give unbiasedness. Nothing about the *spread* of the errors is
+assumed yet.
 :::
-
-### Unbiasedness {-}
 
 ::: {.theory}
 Write the slope in deviation form and substitute the model. With
@@ -413,12 +584,36 @@ $$E(\hat{\beta}_1) = \beta_1 + \frac{\sum(x_i - \bar{x})E(u_i \mid x)}{\text{SST
 :::
 
 So OLS is unbiased: across repeated samples, $\hat{\beta}_1$ is centred on
-$\beta_1$. And the derivation shows exactly where that can fail. If the errors
-are systematically larger at larger $x$ — if high attenders are more able — then
-$E(u_i \mid x) \neq 0$, the second term does not vanish, and $\hat{\beta}_1$ is
-biased by precisely that amount.
+$\beta_1$. That is the first question mark in Table \@ref(tab:ols-parallel)
+filled in, and it is what the simulated histogram was showing.
 
-### The variance of the slope {-}
+The derivation also shows exactly where unbiasedness can fail. If the errors are
+systematically larger at larger $x$ — if high attenders are more able — then
+$E(u_i \mid x) \neq 0$, the second term does not vanish, and $\hat{\beta}_1$ is
+biased by precisely that amount. Section \@ref(ols-causal) returns to it.
+
+## The variance of the slope {#ols-variance}
+
+::: {.question}
+The simulation gave a spread of 0.0525. Where does that number come from?
+:::
+
+Unbiasedness says where the distribution sits. To say how wide it is we need one
+more assumption, and it is worth seeing why it is needed rather than meeting it
+in a list.
+
+The derivation below adds up the contributions of the individual errors. To add
+them we must know how variable each one is — and so far we have said nothing
+about that at all.
+
+::: {.keyidea}
+**SLR5 — homoskedasticity.** $\mathrm{Var}(u \mid x) = \sigma^2$, the same at
+every value of $x$.
+
+This is the assumption that lets a single number $\sigma^2$ stand in for the
+variability of every error. It is not needed for unbiasedness, and Section
+\@ref(ols-hetero) examines what happens when it fails.
+:::
 
 ::: {.theory}
 From the same expression, and treating the $x$'s as fixed,
@@ -439,19 +634,11 @@ $$
 ::: {.keyidea}
 $$\mathrm{Var}(\hat{\beta}_1) = \frac{\sigma^2}{\sum(x_i - \bar{x})^2}$$
 
-The slope is estimated more precisely when the errors are small (small
-$\sigma^2$) and when $x$ varies a lot (large $\text{SST}_x$).
-:::
+Read the formula against the simulation. The numerator is the noise in $y$;
+the denominator is the spread of $x$, which grows with both the range of $x$ and
+the number of observations.
 
-::: {.intuition}
-The second half is the useful insight. To learn how $y$ responds to $x$, you
-need to observe $x$ over a wide range.
-
-Comparing students who attended 27 classes with students who attended 28 tells
-you very little. Comparing those who attended 5 with those who attended 30 tells
-you a great deal. Spread in the explanatory variable is *information*, and this
-is why the median split of Section \@ref(sr-motivation) performed so much worse
-— it discarded most of the spread.
+All three findings of Section \@ref(ols-sampling) are in that one expression.
 :::
 
 Since $\sigma^2$ is unknown, it is estimated from the residuals. Two parameters
@@ -465,7 +652,7 @@ The $n - 2$ is the same accounting as Section \@ref(u3-variance), where
 estimating one mean cost one degree of freedom. Here we estimated an intercept
 and a slope.
 
-```{r sr-se-byhand}
+```{r ols-se-byhand}
 n <- length(y)
 sigma_hat <- sqrt(sum(u_hat^2) / (n - 2))
 se_b1     <- sigma_hat / sqrt(sum((x - mean(x))^2))
@@ -473,6 +660,52 @@ se_b1     <- sigma_hat / sqrt(sum((x - mean(x))^2))
 c(sigma_hat = sigma_hat, se_b1 = se_b1,
   se_from_lm = summary(fit)$coefficients[2, 2])
 ```
+
+### Does the formula match the simulation? {-}
+
+The formula claims to recover, from a single sample, the spread of a distribution
+we could otherwise see only by drawing thousands. It is worth checking that it
+does.
+
+Start where the assumptions hold exactly. Build a population that satisfies SLR1
+to SLR5 by construction — a genuinely linear relationship, errors of constant
+variance — and compare.
+
+```{r ols-formula-check}
+set.seed(4)
+x_fixed <- runif(40, 2, 32)                    # forty students, attendance 2 to 32
+
+check <- replicate(5000, {
+  y_sim <- 1.56 + 0.189 * x_fixed + rnorm(40, sd = 1.53)   # SLR1-SLR5 hold
+  m <- lm(y_sim ~ x_fixed)
+  c(slope = coef(m)[2], se = summary(m)$coefficients[2, 2])
+})
+
+round(c(simulated_sd    = sd(check["slope.x_fixed", ]),
+        average_formula = mean(check["se", ]),
+        exact_formula   = 1.53 / sqrt(sum((x_fixed - mean(x_fixed))^2))), 4)
+```
+
+The three agree to three decimal places. The formula, computed from one sample of
+forty, recovers the spread that five thousand samples reveal.
+
+That is the point of the entire apparatus. Nobody draws five thousand samples.
+The formula reconstructs the sampling distribution's width from the single sample
+we actually have.
+
+::: {.watchout}
+On the real attendance data the agreement is good rather than exact: the formula
+gives about 0.046, while resampling gives about 0.053.
+
+The gap is not an error in the formula. It is that the formula's assumptions hold
+only approximately here. Section \@ref(sr-prf) already showed the conditional
+mean of GPA is not exactly linear, and the error variance is not quite constant
+either.
+
+A formula is only as good as the assumptions underneath it, and real data
+satisfies them approximately at best. That is worth remembering whenever software
+prints a standard error to four decimal places.
+:::
 
 ## When the error variance is not constant {#ols-hetero}
 

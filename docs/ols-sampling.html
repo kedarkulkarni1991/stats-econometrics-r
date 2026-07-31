@@ -4,13 +4,13 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>6.10 Question bank | Statistics and Econometrics with R</title>
+  <title>7.3 Every sample gives a different line | Statistics and Econometrics with R</title>
   <meta name="description" content="<p>A first course in statistics and econometrics for Indian students, built on
 the progression from question to intuition to rigour to computation to
 interpretation.</p>" />
   <meta name="generator" content="bookdown 0.47 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="6.10 Question bank | Statistics and Econometrics with R" />
+  <meta property="og:title" content="7.3 Every sample gives a different line | Statistics and Econometrics with R" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="<p>A first course in statistics and econometrics for Indian students, built on
@@ -19,7 +19,7 @@ interpretation.</p>" />
   <meta name="github-repo" content="kedarkulkarni1991/stats-econometrics-r" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="6.10 Question bank | Statistics and Econometrics with R" />
+  <meta name="twitter:title" content="7.3 Every sample gives a different line | Statistics and Econometrics with R" />
   
   <meta name="twitter:description" content="<p>A first course in statistics and econometrics for Indian students, built on
 the progression from question to intuition to rigour to computation to
@@ -35,8 +35,8 @@ interpretation.</p>" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="sr-practice.html"/>
-<link rel="next" href="sr-looking-ahead.html"/>
+<link rel="prev" href="ols-fit.html"/>
+<link rel="next" href="ols-unbiased.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -510,92 +510,201 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="sr-question-bank" class="section level2 hasAnchor" number="6.10">
-<h2><span class="header-section-number">6.10</span> Question bank<a href="sr-question-bank.html#sr-question-bank" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<div class="watchout">
-<p><strong>No answers are given for this section, by design.</strong></p>
+<div id="ols-sampling" class="section level2 hasAnchor" number="7.3">
+<h2><span class="header-section-number">7.3</span> Every sample gives a different line<a href="ols-sampling.html#ols-sampling" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="question">
+<p>We have one sample and one line. What would a different sample have given?</p>
 </div>
-<div id="multiple-choice-5" class="section level3 unnumbered hasAnchor">
-<h3>Multiple choice<a href="sr-question-bank.html#multiple-choice-5" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p><strong>QB 6.1</strong> In the model <span class="math inline">\(y = \beta_0 + \beta_1 x + u\)</span>, the term <span class="math inline">\(u\)</span> represents</p>
-<ol style="list-style-type: lower-alpha">
-<li>measurement error in <span class="math inline">\(y\)</span></li>
-<li>all factors other than <span class="math inline">\(x\)</span> that affect <span class="math inline">\(y\)</span></li>
-<li>the residual from the fitted line</li>
-<li>the difference between <span class="math inline">\(\hat{\beta}_1\)</span> and <span class="math inline">\(\beta_1\)</span></li>
-</ol>
-<p><strong>QB 6.2</strong> The population regression function is</p>
-<ol style="list-style-type: lower-alpha">
-<li>the line fitted by ordinary least squares</li>
-<li>the conditional mean <span class="math inline">\(E(Y \mid X = x)\)</span></li>
-<li>the average of <span class="math inline">\(y\)</span> in the sample</li>
-<li>the line that minimises squared residuals</li>
-</ol>
-<p><strong>QB 6.3</strong> <span class="math inline">\(E(u \mid x) = 0\)</span> says that</p>
-<ol style="list-style-type: lower-alpha">
-<li>the residuals sum to zero</li>
-<li>the unobserved factors average zero at every value of <span class="math inline">\(x\)</span></li>
-<li><span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> are uncorrelated</li>
-<li>the model is linear</li>
-</ol>
-<p><strong>QB 6.4</strong> Which of the following are unobservable? <em>(select all that apply)</em></p>
-<ol style="list-style-type: lower-alpha">
-<li><span class="math inline">\(u_i\)</span></li>
-<li><span class="math inline">\(\hat{u}_i\)</span></li>
-<li><span class="math inline">\(\beta_1\)</span></li>
-<li><span class="math inline">\(\hat{\beta}_1\)</span></li>
-</ol>
-<p><strong>QB 6.5</strong> Minimising <span class="math inline">\(\sum \hat{u}_i\)</span> rather than <span class="math inline">\(\sum \hat{u}_i^2\)</span> fails
-because</p>
-<ol style="list-style-type: lower-alpha">
-<li>the sum is always negative</li>
-<li>positive and negative residuals cancel</li>
-<li>it cannot be differentiated</li>
-<li>it requires a larger sample</li>
-</ol>
-<p><strong>QB 6.6</strong> Treating the conditional expectation function as linear is</p>
-<ol style="list-style-type: lower-alpha">
-<li>implied by the definition of the PRF</li>
-<li>a modelling choice</li>
-<li>required for <span class="math inline">\(E(u) = 0\)</span></li>
-<li>a consequence of random sampling</li>
-</ol>
+<p>Section <a href="sr-srf.html#sr-srf">6.6</a> showed two sections of thirty students producing slopes of
+0.300 and 0.162. That was a demonstration with two samples. Let us do it
+properly.</p>
+<p>Draw forty students at random from the 680, fit a line, record the slope. Then
+do it again. And again, five hundred times.</p>
+<div class="sourceCode" id="cb246"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb246-1"><a href="ols-sampling.html#cb246-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb246-2"><a href="ols-sampling.html#cb246-2" tabindex="-1"></a></span>
+<span id="cb246-3"><a href="ols-sampling.html#cb246-3" tabindex="-1"></a>draw_line <span class="ot">&lt;-</span> <span class="cf">function</span>(<span class="at">n =</span> <span class="dv">40</span>) {</span>
+<span id="cb246-4"><a href="ols-sampling.html#cb246-4" tabindex="-1"></a>  samp <span class="ot">&lt;-</span> students[<span class="fu">sample</span>(<span class="fu">nrow</span>(students), n, <span class="at">replace =</span> <span class="cn">TRUE</span>), ]</span>
+<span id="cb246-5"><a href="ols-sampling.html#cb246-5" tabindex="-1"></a>  <span class="fu">coef</span>(<span class="fu">lm</span>(sem_gpa <span class="sc">~</span> attendance, <span class="at">data =</span> samp))</span>
+<span id="cb246-6"><a href="ols-sampling.html#cb246-6" tabindex="-1"></a>}</span>
+<span id="cb246-7"><a href="ols-sampling.html#cb246-7" tabindex="-1"></a></span>
+<span id="cb246-8"><a href="ols-sampling.html#cb246-8" tabindex="-1"></a>many <span class="ot">&lt;-</span> <span class="fu">t</span>(<span class="fu">replicate</span>(<span class="dv">100</span>, <span class="fu">draw_line</span>()))</span>
+<span id="cb246-9"><a href="ols-sampling.html#cb246-9" tabindex="-1"></a><span class="fu">colnames</span>(many) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;intercept&quot;</span>, <span class="st">&quot;slope&quot;</span>)</span>
+<span id="cb246-10"><a href="ols-sampling.html#cb246-10" tabindex="-1"></a></span>
+<span id="cb246-11"><a href="ols-sampling.html#cb246-11" tabindex="-1"></a><span class="fu">ggplot</span>(students, <span class="fu">aes</span>(attendance, sem_gpa)) <span class="sc">+</span></span>
+<span id="cb246-12"><a href="ols-sampling.html#cb246-12" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.08</span>, <span class="at">colour =</span> book_palette<span class="sc">$</span>ink, <span class="at">size =</span> <span class="fl">0.9</span>) <span class="sc">+</span></span>
+<span id="cb246-13"><a href="ols-sampling.html#cb246-13" tabindex="-1"></a>  <span class="fu">geom_abline</span>(<span class="at">data =</span> <span class="fu">as.data.frame</span>(many),</span>
+<span id="cb246-14"><a href="ols-sampling.html#cb246-14" tabindex="-1"></a>              <span class="fu">aes</span>(<span class="at">intercept =</span> intercept, <span class="at">slope =</span> slope),</span>
+<span id="cb246-15"><a href="ols-sampling.html#cb246-15" tabindex="-1"></a>              <span class="at">colour =</span> <span class="st">&quot;grey55&quot;</span>, <span class="at">linewidth =</span> <span class="fl">0.3</span>, <span class="at">alpha =</span> <span class="fl">0.6</span>) <span class="sc">+</span></span>
+<span id="cb246-16"><a href="ols-sampling.html#cb246-16" tabindex="-1"></a>  <span class="fu">geom_abline</span>(<span class="at">intercept =</span> <span class="fu">coef</span>(fit)[<span class="dv">1</span>], <span class="at">slope =</span> <span class="fu">coef</span>(fit)[<span class="dv">2</span>],</span>
+<span id="cb246-17"><a href="ols-sampling.html#cb246-17" tabindex="-1"></a>              <span class="at">colour =</span> book_palette<span class="sc">$</span>reject, <span class="at">linewidth =</span> <span class="fl">1.2</span>) <span class="sc">+</span></span>
+<span id="cb246-18"><a href="ols-sampling.html#cb246-18" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Classes attended&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Semester GPA&quot;</span>) <span class="sc">+</span></span>
+<span id="cb246-19"><a href="ols-sampling.html#cb246-19" tabindex="-1"></a>  <span class="fu">theme_book</span>()</span></code></pre></div>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:ols-many-lines"></span>
+<img src="stats-econometrics-r_files/figure-html/ols-many-lines-1.png" alt="One hundred fitted lines, each from a different random sample of forty students, in grey. The line fitted to all 680 students is in orange. Every sample gives a different answer." width="90%"  />
+<p class="caption">
+Figure 7.3: One hundred fitted lines, each from a different random sample of forty students, in grey. The line fitted to all 680 students is in orange. Every sample gives a different answer.
+</p>
 </div>
-<div id="short-reasoning-5" class="section level3 unnumbered hasAnchor">
-<h3>Short reasoning<a href="sr-question-bank.html#short-reasoning-5" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p><strong>QB 6.7</strong> Explain the difference between the population regression function and
-the sample regression function, and say which one changes when a new sample is
-drawn.</p>
-<p><strong>QB 6.8</strong> A colleague says the error term captures “measurement error in the
-data”. Explain what is wrong with that, and give three examples of what <span class="math inline">\(u\)</span>
-actually contains in a regression of wages on years of schooling.</p>
-<p><strong>QB 6.9</strong> Why is <span class="math inline">\(E(u) = 0\)</span> described as costing nothing, while
-<span class="math inline">\(E(u \mid x) = 0\)</span> is the assumption on which everything rests?</p>
-<p><strong>QB 6.10</strong> State the zero conditional mean assumption in words for a regression
-of crop yield on fertiliser use, and give one concrete reason it might fail.</p>
-<p><strong>QB 6.11</strong> A researcher regresses district crop yield on rainfall and finds a
-strong positive slope. Give two reasons the slope may not measure the effect of
-rainfall on yield.</p>
-<p><strong>QB 6.12</strong> Explain why the least squares criterion penalises one residual of 8
-more heavily than eight residuals of 1.</p>
+<p>Every grey line came from the same population. None of them is the population
+regression function, and a researcher holding any one of them would have no way
+of knowing how far off it was.</p>
+<div class="keyidea">
+<p>This is the situation of Unit <a href="estimation.html#estimation">2</a>, with a slope in place of a mean.</p>
+<p><span class="math inline">\(\hat{\beta}_1\)</span> is computed from a sample, so it is a <strong>random variable</strong>. It has
+a distribution across the samples that might have been drawn, and that
+distribution is what tells us how much to trust the one estimate we have.</p>
 </div>
-<div id="numerical-5" class="section level3 unnumbered hasAnchor">
-<h3>Numerical<a href="sr-question-bank.html#numerical-5" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p><strong>QB 6.13</strong> A population’s conditional means are <span class="math inline">\(E(Y \mid X = x) = 12 - 0.5x\)</span>.</p>
-<ol style="list-style-type: lower-roman">
-<li>State <span class="math inline">\(\beta_0\)</span> and <span class="math inline">\(\beta_1\)</span>.</li>
-<li>What is the average <span class="math inline">\(y\)</span> among individuals with <span class="math inline">\(x = 10\)</span>?</li>
-<li>An individual with <span class="math inline">\(x = 10\)</span> has <span class="math inline">\(y = 9\)</span>. Find <span class="math inline">\(u_i\)</span>.</li>
-<li>Interpret <span class="math inline">\(\beta_1\)</span> in words.</li>
+<div id="looking-only-at-the-slopes" class="section level3 unnumbered hasAnchor">
+<h3>Looking only at the slopes<a href="ols-sampling.html#looking-only-at-the-slopes" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Discard the lines and keep the numbers. Five hundred samples give five hundred
+slopes.</p>
+<div class="sourceCode" id="cb247"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb247-1"><a href="ols-sampling.html#cb247-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb247-2"><a href="ols-sampling.html#cb247-2" tabindex="-1"></a>slopes <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">5000</span>, <span class="fu">draw_line</span>()[<span class="st">&quot;attendance&quot;</span>])</span>
+<span id="cb247-3"><a href="ols-sampling.html#cb247-3" tabindex="-1"></a></span>
+<span id="cb247-4"><a href="ols-sampling.html#cb247-4" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">data.frame</span>(<span class="at">slope =</span> slopes), <span class="fu">aes</span>(slope)) <span class="sc">+</span></span>
+<span id="cb247-5"><a href="ols-sampling.html#cb247-5" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">bins =</span> <span class="dv">45</span>, <span class="at">fill =</span> book_palette<span class="sc">$</span>fill, <span class="at">colour =</span> <span class="st">&quot;white&quot;</span>,</span>
+<span id="cb247-6"><a href="ols-sampling.html#cb247-6" tabindex="-1"></a>                 <span class="at">linewidth =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
+<span id="cb247-7"><a href="ols-sampling.html#cb247-7" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="fu">coef</span>(fit)[<span class="dv">2</span>], <span class="at">colour =</span> book_palette<span class="sc">$</span>reject,</span>
+<span id="cb247-8"><a href="ols-sampling.html#cb247-8" tabindex="-1"></a>             <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb247-9"><a href="ols-sampling.html#cb247-9" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="fu">expression</span>(<span class="fu">hat</span>(beta)[<span class="dv">1</span>]), <span class="at">y =</span> <span class="st">&quot;Number of samples&quot;</span>) <span class="sc">+</span></span>
+<span id="cb247-10"><a href="ols-sampling.html#cb247-10" tabindex="-1"></a>  <span class="fu">theme_book</span>()</span></code></pre></div>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:ols-slope-dist"></span>
+<img src="stats-econometrics-r_files/figure-html/ols-slope-dist-1.png" alt="The sampling distribution of the slope: 5,000 slopes, each from a fresh sample of forty students. The orange line marks the slope from all 680 students. The distribution is centred on it and roughly symmetric." width="90%"  />
+<p class="caption">
+Figure 7.4: The sampling distribution of the slope: 5,000 slopes, each from a fresh sample of forty students. The orange line marks the slope from all 680 students. The distribution is centred on it and roughly symmetric.
+</p>
+</div>
+<p>That histogram is the <strong>sampling distribution of <span class="math inline">\(\hat{\beta}_1\)</span></strong>, and it is the
+central object of this section. Two features of it matter.</p>
+<div class="sourceCode" id="cb248"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb248-1"><a href="ols-sampling.html#cb248-1" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">centre_of_distribution =</span> <span class="fu">mean</span>(slopes),</span>
+<span id="cb248-2"><a href="ols-sampling.html#cb248-2" tabindex="-1"></a>        <span class="at">spread_of_distribution =</span> <span class="fu">sd</span>(slopes),</span>
+<span id="cb248-3"><a href="ols-sampling.html#cb248-3" tabindex="-1"></a>        <span class="at">slope_from_all_680     =</span> <span class="fu">coef</span>(fit)[<span class="dv">2</span>]), <span class="dv">4</span>)</span></code></pre></div>
+<pre><code>#&gt;        centre_of_distribution        spread_of_distribution 
+#&gt;                        0.1895                        0.0526 
+#&gt; slope_from_all_680.attendance 
+#&gt;                        0.1890</code></pre>
+<p><strong>It is centred on the right place.</strong> The average of the five thousand slopes is
+0.190, against 0.189 from the full data. No individual sample got it exactly
+right, and the average of them did.</p>
+<p><strong>It has a spread</strong>, and that spread is 0.0526.</p>
+<div class="keyidea">
+<p>The <strong>standard error</strong> of <span class="math inline">\(\hat{\beta}_1\)</span> is the standard deviation of its
+sampling distribution.</p>
+<p>That is the same definition as in Unit <a href="estimation.html#estimation">2</a>, where the standard
+error of <span class="math inline">\(\bar{X}\)</span> was the standard deviation of <em>its</em> sampling distribution. The
+estimator has changed; the idea has not.</p>
+</div>
+<p>The parallel is worth setting out in full, because everything that follows in
+this unit is the second column of a table whose first column the reader already
+knows.</p>
+<table>
+<caption><span id="tab:ols-parallel">Table 7.1: </span> Regression inference is the machinery of Units 2 to 4 applied to a different estimator.</caption>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">Unit <a href="estimation.html#estimation">2</a>–<a href="one-sample.html#one-sample">4</a></th>
+<th align="left">This unit</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">One sample gives one <span class="math inline">\(\bar{x}\)</span></td>
+<td align="left">One sample gives one <span class="math inline">\(\hat{\beta}_1\)</span></td>
+</tr>
+<tr class="even">
+<td align="left">Repeat the sampling</td>
+<td align="left">Repeat the sampling</td>
+</tr>
+<tr class="odd">
+<td align="left">Sampling distribution of <span class="math inline">\(\bar{X}\)</span></td>
+<td align="left">Sampling distribution of <span class="math inline">\(\hat{\beta}_1\)</span></td>
+</tr>
+<tr class="even">
+<td align="left"><span class="math inline">\(E(\bar{X}) = \mu\)</span></td>
+<td align="left"><span class="math inline">\(E(\hat{\beta}_1) = \beta_1\)</span></td>
+</tr>
+<tr class="odd">
+<td align="left"><span class="math inline">\(\mathrm{Var}(\bar{X}) = \sigma^2/n\)</span></td>
+<td align="left"><span class="math inline">\(\mathrm{Var}(\hat{\beta}_1) = \;?\)</span></td>
+</tr>
+<tr class="even">
+<td align="left"><span class="math inline">\(\mathrm{se}(\bar{X}) = \sigma/\sqrt{n}\)</span></td>
+<td align="left"><span class="math inline">\(\mathrm{se}(\hat{\beta}_1) = \;?\)</span></td>
+</tr>
+<tr class="odd">
+<td align="left">Confidence interval for <span class="math inline">\(\mu\)</span></td>
+<td align="left">Confidence interval for <span class="math inline">\(\beta_1\)</span></td>
+</tr>
+<tr class="even">
+<td align="left"><span class="math inline">\(t\)</span>-test of <span class="math inline">\(H_0: \mu = \mu_0\)</span></td>
+<td align="left"><span class="math inline">\(t\)</span>-test of <span class="math inline">\(H_0: \beta_1 = 0\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>Nothing in the right-hand column is a new idea. What remains is to fill in the
+two question marks.</p>
+</div>
+<div id="what-makes-the-distribution-narrow" class="section level3 unnumbered hasAnchor">
+<h3>What makes the distribution narrow?<a href="ols-sampling.html#what-makes-the-distribution-narrow" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Before deriving anything, we can find out by experiment. Three things plausibly
+matter: how many students we draw, how spread out their attendance is, and how
+noisy grades are around the line.</p>
+<p>Take the first two in turn.</p>
+<div class="sourceCode" id="cb250"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb250-1"><a href="ols-sampling.html#cb250-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb250-2"><a href="ols-sampling.html#cb250-2" tabindex="-1"></a>sd_at <span class="ot">&lt;-</span> <span class="cf">function</span>(n) <span class="fu">sd</span>(<span class="fu">replicate</span>(<span class="dv">2000</span>, <span class="fu">draw_line</span>(n)[<span class="st">&quot;attendance&quot;</span>]))</span>
+<span id="cb250-3"><a href="ols-sampling.html#cb250-3" tabindex="-1"></a></span>
+<span id="cb250-4"><a href="ols-sampling.html#cb250-4" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">sapply</span>(<span class="fu">c</span>(<span class="dv">20</span>, <span class="dv">40</span>, <span class="dv">80</span>, <span class="dv">160</span>, <span class="dv">320</span>), sd_at), <span class="dv">4</span>)</span></code></pre></div>
+<pre><code>#&gt; [1] 0.0796 0.0525 0.0363 0.0242 0.0179</code></pre>
+<p>Larger samples give a tighter distribution, and the pattern is familiar: each
+quadrupling of <span class="math inline">\(n\)</span> roughly halves the spread. That is the <span class="math inline">\(\sqrt{n}\)</span> rule of Unit
+<a href="estimation.html#estimation">2</a>, arriving again.</p>
+<p>Now hold the sample size fixed at forty and change the <em>range of attendance</em>
+instead. Restrict the pool to students who attended between 24 and 30 classes,
+so that <span class="math inline">\(x\)</span> varies far less.</p>
+<div class="sourceCode" id="cb252"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb252-1"><a href="ols-sampling.html#cb252-1" tabindex="-1"></a>narrow <span class="ot">&lt;-</span> students[students<span class="sc">$</span>attendance <span class="sc">&gt;=</span> <span class="dv">24</span> <span class="sc">&amp;</span> students<span class="sc">$</span>attendance <span class="sc">&lt;=</span> <span class="dv">30</span>, ]</span>
+<span id="cb252-2"><a href="ols-sampling.html#cb252-2" tabindex="-1"></a></span>
+<span id="cb252-3"><a href="ols-sampling.html#cb252-3" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2</span>)</span>
+<span id="cb252-4"><a href="ols-sampling.html#cb252-4" tabindex="-1"></a>sd_narrow <span class="ot">&lt;-</span> <span class="fu">sd</span>(<span class="fu">replicate</span>(<span class="dv">2000</span>, {</span>
+<span id="cb252-5"><a href="ols-sampling.html#cb252-5" tabindex="-1"></a>  samp <span class="ot">&lt;-</span> narrow[<span class="fu">sample</span>(<span class="fu">nrow</span>(narrow), <span class="dv">40</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>), ]</span>
+<span id="cb252-6"><a href="ols-sampling.html#cb252-6" tabindex="-1"></a>  <span class="fu">coef</span>(<span class="fu">lm</span>(sem_gpa <span class="sc">~</span> attendance, <span class="at">data =</span> samp))[<span class="dv">2</span>]</span>
+<span id="cb252-7"><a href="ols-sampling.html#cb252-7" tabindex="-1"></a>}))</span>
+<span id="cb252-8"><a href="ols-sampling.html#cb252-8" tabindex="-1"></a></span>
+<span id="cb252-9"><a href="ols-sampling.html#cb252-9" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">sd_x_full    =</span> <span class="fu">sd</span>(students<span class="sc">$</span>attendance),</span>
+<span id="cb252-10"><a href="ols-sampling.html#cb252-10" tabindex="-1"></a>        <span class="at">sd_x_narrow  =</span> <span class="fu">sd</span>(narrow<span class="sc">$</span>attendance),</span>
+<span id="cb252-11"><a href="ols-sampling.html#cb252-11" tabindex="-1"></a>        <span class="at">sd_b1_full   =</span> <span class="fu">sd_at</span>(<span class="dv">40</span>),</span>
+<span id="cb252-12"><a href="ols-sampling.html#cb252-12" tabindex="-1"></a>        <span class="at">sd_b1_narrow =</span> sd_narrow), <span class="dv">4</span>)</span></code></pre></div>
+<pre><code>#&gt;    sd_x_full  sd_x_narrow   sd_b1_full sd_b1_narrow 
+#&gt;       5.4550       1.8949       0.0525       0.1329</code></pre>
+<p>This is the striking one. The sample size is identical. What changed is that
+attendance now varies by 1.9 classes instead of 5.5 — and the slope estimate
+became about two and a half times more variable.</p>
+<div class="intuition">
+<p>A slope is a rate of change, and rates of change are measured by observing
+change.</p>
+<p>Comparing students who attended 27 classes with students who attended 28 tells
+you very little about how attendance matters. Comparing those who attended 5 with
+those who attended 30 tells you a great deal. Spread in the explanatory variable
+is <em>information</em>, and a study that observes <span class="math inline">\(x\)</span> over a narrow range will estimate
+its effect poorly however many observations it collects.</p>
+<p>This is also why the median split of Section <a href="sr-motivation.html#sr-motivation">6.1</a> performed so
+badly. It discarded most of the spread in attendance.</p>
+</div>
+<p>The third determinant, the noise in <span class="math inline">\(y\)</span> around the line, needs no simulation to
+believe: if grades were entirely determined by attendance, every sample would
+recover the same line exactly.</p>
+<div class="keyidea">
+<p>Three things make the sampling distribution of <span class="math inline">\(\hat{\beta}_1\)</span> narrow.</p>
+<ol style="list-style-type: decimal">
+<li>A <strong>large sample</strong>.</li>
+<li><strong>Wide variation in <span class="math inline">\(x\)</span></strong>.</li>
+<li><strong>Little noise</strong> in <span class="math inline">\(y\)</span> around the line.</li>
 </ol>
-<p><strong>QB 6.14</strong> Four individuals with <span class="math inline">\(x = 6\)</span> have <span class="math inline">\(y\)</span> values 14, 18, 11 and 21.</p>
-<ol style="list-style-type: lower-roman">
-<li>Estimate <span class="math inline">\(E(Y \mid X = 6)\)</span>.</li>
-<li>Compute the four implied values of <span class="math inline">\(u_i\)</span>.</li>
-<li>Verify that they sum to zero, and explain why that had to happen.</li>
-<li>Explain why this does <em>not</em> demonstrate that <span class="math inline">\(E(u \mid x) = 0\)</span> in the
-population.</li>
-</ol>
+<p>We have found all three by experiment. The next two sections establish them
+algebraically, which requires being explicit about what we are assuming.</p>
+</div>
 </div>
 </div>
 <script>
@@ -619,8 +728,8 @@ document.addEventListener("DOMContentLoaded", function () {
           </div>
         </div>
       </div>
-<a href="sr-practice.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="sr-looking-ahead.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="ols-fit.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="ols-unbiased.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -651,7 +760,7 @@ gitbook.start({
     "size": 2
   },
   "edit": {
-    "link": "https://github.com/kedarkulkarni1991/stats-econometrics-r/edit/main/06-simple-regression.Rmd",
+    "link": "https://github.com/kedarkulkarni1991/stats-econometrics-r/edit/main/07-ols.Rmd",
     "text": "Edit"
   },
   "history": {
