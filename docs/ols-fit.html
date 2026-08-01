@@ -330,16 +330,29 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="os-onetailed.html"><a href="os-onetailed.html#unknown-%CF%83-the-one-sided-t-test"><i class="fa fa-check"></i>Unknown σ: the one-sided t-test</a></li>
 <li class="chapter" data-level="" data-path="os-onetailed.html"><a href="os-onetailed.html#the-one-sided-interval-looks-backwards"><i class="fa fa-check"></i>The one-sided interval looks backwards</a></li>
 </ul></li>
-<li class="chapter" data-level="4.9" data-path="os-reference.html"><a href="os-reference.html"><i class="fa fa-check"></i><b>4.9</b> Reference tables</a></li>
-<li class="chapter" data-level="4.10" data-path="os-summary.html"><a href="os-summary.html"><i class="fa fa-check"></i><b>4.10</b> Summary</a></li>
-<li class="chapter" data-level="4.11" data-path="os-exercises.html"><a href="os-exercises.html"><i class="fa fa-check"></i><b>4.11</b> Practice problems</a></li>
-<li class="chapter" data-level="4.12" data-path="os-question-bank.html"><a href="os-question-bank.html"><i class="fa fa-check"></i><b>4.12</b> Question bank</a>
+<li class="chapter" data-level="4.9" data-path="os-errors.html"><a href="os-errors.html"><i class="fa fa-check"></i><b>4.9</b> Two ways to be wrong</a>
+<ul>
+<li class="chapter" data-level="" data-path="os-errors.html"><a href="os-errors.html#the-two-errors"><i class="fa fa-check"></i>The two errors</a></li>
+<li class="chapter" data-level="" data-path="os-errors.html"><a href="os-errors.html#the-umpires-call"><i class="fa fa-check"></i>The umpire’s call</a></li>
+<li class="chapter" data-level="" data-path="os-errors.html"><a href="os-errors.html#why-errors-happen-at-all"><i class="fa fa-check"></i>Why errors happen at all</a></li>
+<li class="chapter" data-level="" data-path="os-errors.html"><a href="os-errors.html#power"><i class="fa fa-check"></i>Power</a></li>
+<li class="chapter" data-level="" data-path="os-errors.html"><a href="os-errors.html#working-it-out"><i class="fa fa-check"></i>Working it out</a></li>
+<li class="chapter" data-level="" data-path="os-errors.html"><a href="os-errors.html#what-determines-power"><i class="fa fa-check"></i>What determines power</a></li>
+</ul></li>
+<li class="chapter" data-level="4.10" data-path="os-reference.html"><a href="os-reference.html"><i class="fa fa-check"></i><b>4.10</b> Reference tables</a></li>
+<li class="chapter" data-level="4.11" data-path="os-summary.html"><a href="os-summary.html"><i class="fa fa-check"></i><b>4.11</b> Summary</a></li>
+<li class="chapter" data-level="4.12" data-path="os-exercises.html"><a href="os-exercises.html"><i class="fa fa-check"></i><b>4.12</b> Practice problems</a>
+<ul>
+<li class="chapter" data-level="" data-path="os-exercises.html"><a href="os-exercises.html#type-i-and-type-ii-errors"><i class="fa fa-check"></i>Type I and Type II errors</a></li>
+</ul></li>
+<li class="chapter" data-level="4.13" data-path="os-question-bank.html"><a href="os-question-bank.html"><i class="fa fa-check"></i><b>4.13</b> Question bank</a>
 <ul>
 <li class="chapter" data-level="" data-path="os-question-bank.html"><a href="os-question-bank.html#multiple-choice-3"><i class="fa fa-check"></i>Multiple choice</a></li>
 <li class="chapter" data-level="" data-path="os-question-bank.html"><a href="os-question-bank.html#short-reasoning-3"><i class="fa fa-check"></i>Short reasoning</a></li>
 <li class="chapter" data-level="" data-path="os-question-bank.html"><a href="os-question-bank.html#numerical-3"><i class="fa fa-check"></i>Numerical</a></li>
+<li class="chapter" data-level="" data-path="os-question-bank.html"><a href="os-question-bank.html#errors-and-power"><i class="fa fa-check"></i>Errors and power</a></li>
 </ul></li>
-<li class="chapter" data-level="4.13" data-path="os-looking-ahead.html"><a href="os-looking-ahead.html"><i class="fa fa-check"></i><b>4.13</b> Looking ahead</a></li>
+<li class="chapter" data-level="4.14" data-path="os-looking-ahead.html"><a href="os-looking-ahead.html"><i class="fa fa-check"></i><b>4.14</b> Looking ahead</a></li>
 </ul></li>
 <li class="chapter" data-level="5" data-path="two-sample.html"><a href="two-sample.html"><i class="fa fa-check"></i><b>5</b> Hypothesis Testing: Two Samples</a>
 <ul>
@@ -535,12 +548,12 @@ already extracted all of that.</li>
 fitted line.</li>
 </ol>
 </div>
-<div class="sourceCode" id="cb240"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb240-1"><a href="ols-fit.html#cb240-1" tabindex="-1"></a>u_hat <span class="ot">&lt;-</span> <span class="fu">residuals</span>(fit)</span>
-<span id="cb240-2"><a href="ols-fit.html#cb240-2" tabindex="-1"></a></span>
-<span id="cb240-3"><a href="ols-fit.html#cb240-3" tabindex="-1"></a><span class="fu">c</span>(<span class="at">sum_residuals   =</span> <span class="fu">sum</span>(u_hat),</span>
-<span id="cb240-4"><a href="ols-fit.html#cb240-4" tabindex="-1"></a>  <span class="at">sum_x_times_u   =</span> <span class="fu">sum</span>(x <span class="sc">*</span> u_hat),</span>
-<span id="cb240-5"><a href="ols-fit.html#cb240-5" tabindex="-1"></a>  <span class="at">predicted_at_xbar =</span> <span class="fu">coef</span>(fit)[<span class="dv">1</span>] <span class="sc">+</span> <span class="fu">coef</span>(fit)[<span class="dv">2</span>] <span class="sc">*</span> <span class="fu">mean</span>(x),</span>
-<span id="cb240-6"><a href="ols-fit.html#cb240-6" tabindex="-1"></a>  <span class="at">mean_of_y         =</span> <span class="fu">mean</span>(y))</span></code></pre></div>
+<div class="sourceCode" id="cb245"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb245-1"><a href="ols-fit.html#cb245-1" tabindex="-1"></a>u_hat <span class="ot">&lt;-</span> <span class="fu">residuals</span>(fit)</span>
+<span id="cb245-2"><a href="ols-fit.html#cb245-2" tabindex="-1"></a></span>
+<span id="cb245-3"><a href="ols-fit.html#cb245-3" tabindex="-1"></a><span class="fu">c</span>(<span class="at">sum_residuals   =</span> <span class="fu">sum</span>(u_hat),</span>
+<span id="cb245-4"><a href="ols-fit.html#cb245-4" tabindex="-1"></a>  <span class="at">sum_x_times_u   =</span> <span class="fu">sum</span>(x <span class="sc">*</span> u_hat),</span>
+<span id="cb245-5"><a href="ols-fit.html#cb245-5" tabindex="-1"></a>  <span class="at">predicted_at_xbar =</span> <span class="fu">coef</span>(fit)[<span class="dv">1</span>] <span class="sc">+</span> <span class="fu">coef</span>(fit)[<span class="dv">2</span>] <span class="sc">*</span> <span class="fu">mean</span>(x),</span>
+<span id="cb245-6"><a href="ols-fit.html#cb245-6" tabindex="-1"></a>  <span class="at">mean_of_y         =</span> <span class="fu">mean</span>(y))</span></code></pre></div>
 <pre><code>#&gt;                 sum_residuals                 sum_x_times_u 
 #&gt;           -0.0000000000000111            0.0000000000009965 
 #&gt; predicted_at_xbar.(Intercept)                     mean_of_y 
@@ -649,17 +662,17 @@ children, where both rise with age.</p>
 It lies between 0 and 1, and in a simple regression it is exactly the square of
 the correlation between <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span>.</p>
 </div>
-<div class="sourceCode" id="cb242"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb242-1"><a href="ols-fit.html#cb242-1" tabindex="-1"></a>sst <span class="ot">&lt;-</span> <span class="fu">sum</span>((y <span class="sc">-</span> <span class="fu">mean</span>(y))<span class="sc">^</span><span class="dv">2</span>)</span>
-<span id="cb242-2"><a href="ols-fit.html#cb242-2" tabindex="-1"></a>sse <span class="ot">&lt;-</span> <span class="fu">sum</span>((<span class="fu">fitted</span>(fit) <span class="sc">-</span> <span class="fu">mean</span>(y))<span class="sc">^</span><span class="dv">2</span>)</span>
-<span id="cb242-3"><a href="ols-fit.html#cb242-3" tabindex="-1"></a>ssr <span class="ot">&lt;-</span> <span class="fu">sum</span>(u_hat<span class="sc">^</span><span class="dv">2</span>)</span>
-<span id="cb242-4"><a href="ols-fit.html#cb242-4" tabindex="-1"></a></span>
-<span id="cb242-5"><a href="ols-fit.html#cb242-5" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">SST =</span> sst, <span class="at">SSE =</span> sse, <span class="at">SSR =</span> ssr, <span class="at">SSE_plus_SSR =</span> sse <span class="sc">+</span> ssr), <span class="dv">2</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb247"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb247-1"><a href="ols-fit.html#cb247-1" tabindex="-1"></a>sst <span class="ot">&lt;-</span> <span class="fu">sum</span>((y <span class="sc">-</span> <span class="fu">mean</span>(y))<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb247-2"><a href="ols-fit.html#cb247-2" tabindex="-1"></a>sse <span class="ot">&lt;-</span> <span class="fu">sum</span>((<span class="fu">fitted</span>(fit) <span class="sc">-</span> <span class="fu">mean</span>(y))<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb247-3"><a href="ols-fit.html#cb247-3" tabindex="-1"></a>ssr <span class="ot">&lt;-</span> <span class="fu">sum</span>(u_hat<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb247-4"><a href="ols-fit.html#cb247-4" tabindex="-1"></a></span>
+<span id="cb247-5"><a href="ols-fit.html#cb247-5" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">SST =</span> sst, <span class="at">SSE =</span> sse, <span class="at">SSR =</span> ssr, <span class="at">SSE_plus_SSR =</span> sse <span class="sc">+</span> ssr), <span class="dv">2</span>)</span></code></pre></div>
 <pre><code>#&gt;          SST          SSE          SSR SSE_plus_SSR 
 #&gt;       2302.2        721.4       1580.9       2302.2</code></pre>
-<div class="sourceCode" id="cb244"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb244-1"><a href="ols-fit.html#cb244-1" tabindex="-1"></a><span class="fu">c</span>(<span class="at">r_squared    =</span> sse <span class="sc">/</span> sst,</span>
-<span id="cb244-2"><a href="ols-fit.html#cb244-2" tabindex="-1"></a>  <span class="at">one_minus    =</span> <span class="dv">1</span> <span class="sc">-</span> ssr <span class="sc">/</span> sst,</span>
-<span id="cb244-3"><a href="ols-fit.html#cb244-3" tabindex="-1"></a>  <span class="at">from_summary =</span> <span class="fu">summary</span>(fit)<span class="sc">$</span>r.squared,</span>
-<span id="cb244-4"><a href="ols-fit.html#cb244-4" tabindex="-1"></a>  <span class="at">cor_squared  =</span> <span class="fu">cor</span>(x, y)<span class="sc">^</span><span class="dv">2</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb249"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb249-1"><a href="ols-fit.html#cb249-1" tabindex="-1"></a><span class="fu">c</span>(<span class="at">r_squared    =</span> sse <span class="sc">/</span> sst,</span>
+<span id="cb249-2"><a href="ols-fit.html#cb249-2" tabindex="-1"></a>  <span class="at">one_minus    =</span> <span class="dv">1</span> <span class="sc">-</span> ssr <span class="sc">/</span> sst,</span>
+<span id="cb249-3"><a href="ols-fit.html#cb249-3" tabindex="-1"></a>  <span class="at">from_summary =</span> <span class="fu">summary</span>(fit)<span class="sc">$</span>r.squared,</span>
+<span id="cb249-4"><a href="ols-fit.html#cb249-4" tabindex="-1"></a>  <span class="at">cor_squared  =</span> <span class="fu">cor</span>(x, y)<span class="sc">^</span><span class="dv">2</span>)</span></code></pre></div>
 <pre><code>#&gt;    r_squared    one_minus from_summary  cor_squared 
 #&gt;       0.3133       0.3133       0.3133       0.3133</code></pre>
 <p>SSE and SSR add to SST exactly, and all four routes to <span class="math inline">\(R^2\)</span> agree.</p>

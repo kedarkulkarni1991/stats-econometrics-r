@@ -330,16 +330,29 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="os-onetailed.html"><a href="os-onetailed.html#unknown-%CF%83-the-one-sided-t-test"><i class="fa fa-check"></i>Unknown σ: the one-sided t-test</a></li>
 <li class="chapter" data-level="" data-path="os-onetailed.html"><a href="os-onetailed.html#the-one-sided-interval-looks-backwards"><i class="fa fa-check"></i>The one-sided interval looks backwards</a></li>
 </ul></li>
-<li class="chapter" data-level="4.9" data-path="os-reference.html"><a href="os-reference.html"><i class="fa fa-check"></i><b>4.9</b> Reference tables</a></li>
-<li class="chapter" data-level="4.10" data-path="os-summary.html"><a href="os-summary.html"><i class="fa fa-check"></i><b>4.10</b> Summary</a></li>
-<li class="chapter" data-level="4.11" data-path="os-exercises.html"><a href="os-exercises.html"><i class="fa fa-check"></i><b>4.11</b> Practice problems</a></li>
-<li class="chapter" data-level="4.12" data-path="os-question-bank.html"><a href="os-question-bank.html"><i class="fa fa-check"></i><b>4.12</b> Question bank</a>
+<li class="chapter" data-level="4.9" data-path="os-errors.html"><a href="os-errors.html"><i class="fa fa-check"></i><b>4.9</b> Two ways to be wrong</a>
+<ul>
+<li class="chapter" data-level="" data-path="os-errors.html"><a href="os-errors.html#the-two-errors"><i class="fa fa-check"></i>The two errors</a></li>
+<li class="chapter" data-level="" data-path="os-errors.html"><a href="os-errors.html#the-umpires-call"><i class="fa fa-check"></i>The umpire’s call</a></li>
+<li class="chapter" data-level="" data-path="os-errors.html"><a href="os-errors.html#why-errors-happen-at-all"><i class="fa fa-check"></i>Why errors happen at all</a></li>
+<li class="chapter" data-level="" data-path="os-errors.html"><a href="os-errors.html#power"><i class="fa fa-check"></i>Power</a></li>
+<li class="chapter" data-level="" data-path="os-errors.html"><a href="os-errors.html#working-it-out"><i class="fa fa-check"></i>Working it out</a></li>
+<li class="chapter" data-level="" data-path="os-errors.html"><a href="os-errors.html#what-determines-power"><i class="fa fa-check"></i>What determines power</a></li>
+</ul></li>
+<li class="chapter" data-level="4.10" data-path="os-reference.html"><a href="os-reference.html"><i class="fa fa-check"></i><b>4.10</b> Reference tables</a></li>
+<li class="chapter" data-level="4.11" data-path="os-summary.html"><a href="os-summary.html"><i class="fa fa-check"></i><b>4.11</b> Summary</a></li>
+<li class="chapter" data-level="4.12" data-path="os-exercises.html"><a href="os-exercises.html"><i class="fa fa-check"></i><b>4.12</b> Practice problems</a>
+<ul>
+<li class="chapter" data-level="" data-path="os-exercises.html"><a href="os-exercises.html#type-i-and-type-ii-errors"><i class="fa fa-check"></i>Type I and Type II errors</a></li>
+</ul></li>
+<li class="chapter" data-level="4.13" data-path="os-question-bank.html"><a href="os-question-bank.html"><i class="fa fa-check"></i><b>4.13</b> Question bank</a>
 <ul>
 <li class="chapter" data-level="" data-path="os-question-bank.html"><a href="os-question-bank.html#multiple-choice-3"><i class="fa fa-check"></i>Multiple choice</a></li>
 <li class="chapter" data-level="" data-path="os-question-bank.html"><a href="os-question-bank.html#short-reasoning-3"><i class="fa fa-check"></i>Short reasoning</a></li>
 <li class="chapter" data-level="" data-path="os-question-bank.html"><a href="os-question-bank.html#numerical-3"><i class="fa fa-check"></i>Numerical</a></li>
+<li class="chapter" data-level="" data-path="os-question-bank.html"><a href="os-question-bank.html#errors-and-power"><i class="fa fa-check"></i>Errors and power</a></li>
 </ul></li>
-<li class="chapter" data-level="4.13" data-path="os-looking-ahead.html"><a href="os-looking-ahead.html"><i class="fa fa-check"></i><b>4.13</b> Looking ahead</a></li>
+<li class="chapter" data-level="4.14" data-path="os-looking-ahead.html"><a href="os-looking-ahead.html"><i class="fa fa-check"></i><b>4.14</b> Looking ahead</a></li>
 </ul></li>
 <li class="chapter" data-level="5" data-path="two-sample.html"><a href="two-sample.html"><i class="fa fa-check"></i><b>5</b> Hypothesis Testing: Two Samples</a>
 <ul>
@@ -549,12 +562,12 @@ Section <a href="u3-variance.html#u3-variance">3.2</a>, where estimating one mea
 <p><span class="math display">\[\hat{\sigma}^2 = \frac{\sum \hat{u}_i^2}{n - 2}
 \qquad\qquad
 \mathrm{se}(\hat{\beta}_1) = \frac{\hat{\sigma}}{\sqrt{\sum(x_i - \bar{x})^2}}\]</span></p>
-<div class="sourceCode" id="cb254"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb254-1"><a href="ols-variance.html#cb254-1" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fu">length</span>(y)</span>
-<span id="cb254-2"><a href="ols-variance.html#cb254-2" tabindex="-1"></a>sigma_hat <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">sum</span>(u_hat<span class="sc">^</span><span class="dv">2</span>) <span class="sc">/</span> (n <span class="sc">-</span> <span class="dv">2</span>))</span>
-<span id="cb254-3"><a href="ols-variance.html#cb254-3" tabindex="-1"></a>se_b1     <span class="ot">&lt;-</span> sigma_hat <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="fu">sum</span>((x <span class="sc">-</span> <span class="fu">mean</span>(x))<span class="sc">^</span><span class="dv">2</span>))</span>
-<span id="cb254-4"><a href="ols-variance.html#cb254-4" tabindex="-1"></a></span>
-<span id="cb254-5"><a href="ols-variance.html#cb254-5" tabindex="-1"></a><span class="fu">c</span>(<span class="at">sigma_hat =</span> sigma_hat, <span class="at">se_b1 =</span> se_b1,</span>
-<span id="cb254-6"><a href="ols-variance.html#cb254-6" tabindex="-1"></a>  <span class="at">se_from_lm =</span> <span class="fu">summary</span>(fit)<span class="sc">$</span>coefficients[<span class="dv">2</span>, <span class="dv">2</span>])</span></code></pre></div>
+<div class="sourceCode" id="cb259"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb259-1"><a href="ols-variance.html#cb259-1" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fu">length</span>(y)</span>
+<span id="cb259-2"><a href="ols-variance.html#cb259-2" tabindex="-1"></a>sigma_hat <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">sum</span>(u_hat<span class="sc">^</span><span class="dv">2</span>) <span class="sc">/</span> (n <span class="sc">-</span> <span class="dv">2</span>))</span>
+<span id="cb259-3"><a href="ols-variance.html#cb259-3" tabindex="-1"></a>se_b1     <span class="ot">&lt;-</span> sigma_hat <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="fu">sum</span>((x <span class="sc">-</span> <span class="fu">mean</span>(x))<span class="sc">^</span><span class="dv">2</span>))</span>
+<span id="cb259-4"><a href="ols-variance.html#cb259-4" tabindex="-1"></a></span>
+<span id="cb259-5"><a href="ols-variance.html#cb259-5" tabindex="-1"></a><span class="fu">c</span>(<span class="at">sigma_hat =</span> sigma_hat, <span class="at">se_b1 =</span> se_b1,</span>
+<span id="cb259-6"><a href="ols-variance.html#cb259-6" tabindex="-1"></a>  <span class="at">se_from_lm =</span> <span class="fu">summary</span>(fit)<span class="sc">$</span>coefficients[<span class="dv">2</span>, <span class="dv">2</span>])</span></code></pre></div>
 <pre><code>#&gt;  sigma_hat      se_b1 se_from_lm 
 #&gt;    1.52697    0.01074    0.01074</code></pre>
 </div>
@@ -565,18 +578,18 @@ checked rather than believed.</p>
 <p>Build a population where the assumptions hold exactly — a genuinely linear
 relationship, errors of constant variance — then draw from it repeatedly and
 compare what the formula says against what the samples actually do.</p>
-<div class="sourceCode" id="cb256"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb256-1"><a href="ols-variance.html#cb256-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">4</span>)</span>
-<span id="cb256-2"><a href="ols-variance.html#cb256-2" tabindex="-1"></a>x_fixed <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="dv">40</span>, <span class="dv">2</span>, <span class="dv">32</span>)                    <span class="co"># forty students, attendance 2 to 32</span></span>
-<span id="cb256-3"><a href="ols-variance.html#cb256-3" tabindex="-1"></a></span>
-<span id="cb256-4"><a href="ols-variance.html#cb256-4" tabindex="-1"></a>check <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">5000</span>, {</span>
-<span id="cb256-5"><a href="ols-variance.html#cb256-5" tabindex="-1"></a>  y_sim <span class="ot">&lt;-</span> <span class="fl">1.56</span> <span class="sc">+</span> <span class="fl">0.189</span> <span class="sc">*</span> x_fixed <span class="sc">+</span> <span class="fu">rnorm</span>(<span class="dv">40</span>, <span class="at">sd =</span> <span class="fl">1.53</span>)</span>
-<span id="cb256-6"><a href="ols-variance.html#cb256-6" tabindex="-1"></a>  m <span class="ot">&lt;-</span> <span class="fu">lm</span>(y_sim <span class="sc">~</span> x_fixed)</span>
-<span id="cb256-7"><a href="ols-variance.html#cb256-7" tabindex="-1"></a>  <span class="fu">c</span>(<span class="at">slope =</span> <span class="fu">coef</span>(m)[<span class="dv">2</span>], <span class="at">se =</span> <span class="fu">summary</span>(m)<span class="sc">$</span>coefficients[<span class="dv">2</span>, <span class="dv">2</span>])</span>
-<span id="cb256-8"><a href="ols-variance.html#cb256-8" tabindex="-1"></a>})</span>
-<span id="cb256-9"><a href="ols-variance.html#cb256-9" tabindex="-1"></a></span>
-<span id="cb256-10"><a href="ols-variance.html#cb256-10" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">simulated_sd    =</span> <span class="fu">sd</span>(check[<span class="st">&quot;slope.x_fixed&quot;</span>, ]),</span>
-<span id="cb256-11"><a href="ols-variance.html#cb256-11" tabindex="-1"></a>        <span class="at">average_formula =</span> <span class="fu">mean</span>(check[<span class="st">&quot;se&quot;</span>, ]),</span>
-<span id="cb256-12"><a href="ols-variance.html#cb256-12" tabindex="-1"></a>        <span class="at">exact_formula   =</span> <span class="fl">1.53</span> <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="fu">sum</span>((x_fixed <span class="sc">-</span> <span class="fu">mean</span>(x_fixed))<span class="sc">^</span><span class="dv">2</span>))), <span class="dv">4</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb261"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb261-1"><a href="ols-variance.html#cb261-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">4</span>)</span>
+<span id="cb261-2"><a href="ols-variance.html#cb261-2" tabindex="-1"></a>x_fixed <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="dv">40</span>, <span class="dv">2</span>, <span class="dv">32</span>)                    <span class="co"># forty students, attendance 2 to 32</span></span>
+<span id="cb261-3"><a href="ols-variance.html#cb261-3" tabindex="-1"></a></span>
+<span id="cb261-4"><a href="ols-variance.html#cb261-4" tabindex="-1"></a>check <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">5000</span>, {</span>
+<span id="cb261-5"><a href="ols-variance.html#cb261-5" tabindex="-1"></a>  y_sim <span class="ot">&lt;-</span> <span class="fl">1.56</span> <span class="sc">+</span> <span class="fl">0.189</span> <span class="sc">*</span> x_fixed <span class="sc">+</span> <span class="fu">rnorm</span>(<span class="dv">40</span>, <span class="at">sd =</span> <span class="fl">1.53</span>)</span>
+<span id="cb261-6"><a href="ols-variance.html#cb261-6" tabindex="-1"></a>  m <span class="ot">&lt;-</span> <span class="fu">lm</span>(y_sim <span class="sc">~</span> x_fixed)</span>
+<span id="cb261-7"><a href="ols-variance.html#cb261-7" tabindex="-1"></a>  <span class="fu">c</span>(<span class="at">slope =</span> <span class="fu">coef</span>(m)[<span class="dv">2</span>], <span class="at">se =</span> <span class="fu">summary</span>(m)<span class="sc">$</span>coefficients[<span class="dv">2</span>, <span class="dv">2</span>])</span>
+<span id="cb261-8"><a href="ols-variance.html#cb261-8" tabindex="-1"></a>})</span>
+<span id="cb261-9"><a href="ols-variance.html#cb261-9" tabindex="-1"></a></span>
+<span id="cb261-10"><a href="ols-variance.html#cb261-10" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">simulated_sd    =</span> <span class="fu">sd</span>(check[<span class="st">&quot;slope.x_fixed&quot;</span>, ]),</span>
+<span id="cb261-11"><a href="ols-variance.html#cb261-11" tabindex="-1"></a>        <span class="at">average_formula =</span> <span class="fu">mean</span>(check[<span class="st">&quot;se&quot;</span>, ]),</span>
+<span id="cb261-12"><a href="ols-variance.html#cb261-12" tabindex="-1"></a>        <span class="at">exact_formula   =</span> <span class="fl">1.53</span> <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="fu">sum</span>((x_fixed <span class="sc">-</span> <span class="fu">mean</span>(x_fixed))<span class="sc">^</span><span class="dv">2</span>))), <span class="dv">4</span>)</span></code></pre></div>
 <pre><code>#&gt;    simulated_sd average_formula   exact_formula 
 #&gt;          0.0287          0.0286          0.0287</code></pre>
 <p>The three agree to three decimal places. The formula, computed from one sample of

@@ -14,3 +14,6 @@ ols-het-see
 ols-het-plot	book_palette	theme_book	u_w	wages
 ols-het-coverage	out
 ols-het-robust	fit_w	robust_se
+os-power-plot	book_palette	theme_book	x
+os-power-calc	
+os-power-table	

@@ -330,16 +330,29 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="os-onetailed.html"><a href="os-onetailed.html#unknown-%CF%83-the-one-sided-t-test"><i class="fa fa-check"></i>Unknown σ: the one-sided t-test</a></li>
 <li class="chapter" data-level="" data-path="os-onetailed.html"><a href="os-onetailed.html#the-one-sided-interval-looks-backwards"><i class="fa fa-check"></i>The one-sided interval looks backwards</a></li>
 </ul></li>
-<li class="chapter" data-level="4.9" data-path="os-reference.html"><a href="os-reference.html"><i class="fa fa-check"></i><b>4.9</b> Reference tables</a></li>
-<li class="chapter" data-level="4.10" data-path="os-summary.html"><a href="os-summary.html"><i class="fa fa-check"></i><b>4.10</b> Summary</a></li>
-<li class="chapter" data-level="4.11" data-path="os-exercises.html"><a href="os-exercises.html"><i class="fa fa-check"></i><b>4.11</b> Practice problems</a></li>
-<li class="chapter" data-level="4.12" data-path="os-question-bank.html"><a href="os-question-bank.html"><i class="fa fa-check"></i><b>4.12</b> Question bank</a>
+<li class="chapter" data-level="4.9" data-path="os-errors.html"><a href="os-errors.html"><i class="fa fa-check"></i><b>4.9</b> Two ways to be wrong</a>
+<ul>
+<li class="chapter" data-level="" data-path="os-errors.html"><a href="os-errors.html#the-two-errors"><i class="fa fa-check"></i>The two errors</a></li>
+<li class="chapter" data-level="" data-path="os-errors.html"><a href="os-errors.html#the-umpires-call"><i class="fa fa-check"></i>The umpire’s call</a></li>
+<li class="chapter" data-level="" data-path="os-errors.html"><a href="os-errors.html#why-errors-happen-at-all"><i class="fa fa-check"></i>Why errors happen at all</a></li>
+<li class="chapter" data-level="" data-path="os-errors.html"><a href="os-errors.html#power"><i class="fa fa-check"></i>Power</a></li>
+<li class="chapter" data-level="" data-path="os-errors.html"><a href="os-errors.html#working-it-out"><i class="fa fa-check"></i>Working it out</a></li>
+<li class="chapter" data-level="" data-path="os-errors.html"><a href="os-errors.html#what-determines-power"><i class="fa fa-check"></i>What determines power</a></li>
+</ul></li>
+<li class="chapter" data-level="4.10" data-path="os-reference.html"><a href="os-reference.html"><i class="fa fa-check"></i><b>4.10</b> Reference tables</a></li>
+<li class="chapter" data-level="4.11" data-path="os-summary.html"><a href="os-summary.html"><i class="fa fa-check"></i><b>4.11</b> Summary</a></li>
+<li class="chapter" data-level="4.12" data-path="os-exercises.html"><a href="os-exercises.html"><i class="fa fa-check"></i><b>4.12</b> Practice problems</a>
+<ul>
+<li class="chapter" data-level="" data-path="os-exercises.html"><a href="os-exercises.html#type-i-and-type-ii-errors"><i class="fa fa-check"></i>Type I and Type II errors</a></li>
+</ul></li>
+<li class="chapter" data-level="4.13" data-path="os-question-bank.html"><a href="os-question-bank.html"><i class="fa fa-check"></i><b>4.13</b> Question bank</a>
 <ul>
 <li class="chapter" data-level="" data-path="os-question-bank.html"><a href="os-question-bank.html#multiple-choice-3"><i class="fa fa-check"></i>Multiple choice</a></li>
 <li class="chapter" data-level="" data-path="os-question-bank.html"><a href="os-question-bank.html#short-reasoning-3"><i class="fa fa-check"></i>Short reasoning</a></li>
 <li class="chapter" data-level="" data-path="os-question-bank.html"><a href="os-question-bank.html#numerical-3"><i class="fa fa-check"></i>Numerical</a></li>
+<li class="chapter" data-level="" data-path="os-question-bank.html"><a href="os-question-bank.html#errors-and-power"><i class="fa fa-check"></i>Errors and power</a></li>
 </ul></li>
-<li class="chapter" data-level="4.13" data-path="os-looking-ahead.html"><a href="os-looking-ahead.html"><i class="fa fa-check"></i><b>4.13</b> Looking ahead</a></li>
+<li class="chapter" data-level="4.14" data-path="os-looking-ahead.html"><a href="os-looking-ahead.html"><i class="fa fa-check"></i><b>4.14</b> Looking ahead</a></li>
 </ul></li>
 <li class="chapter" data-level="5" data-path="two-sample.html"><a href="two-sample.html"><i class="fa fa-check"></i><b>5</b> Hypothesis Testing: Two Samples</a>
 <ul>
@@ -534,15 +547,15 @@ their corresponding <span class="math inline">\(x\)</span> values.</p>
 <h3>Two sections, two lines<a href="sr-srf.html#two-sections-two-lines" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Suppose two sections of thirty students each are surveyed, and a line is fitted to
 each. Which one is the population regression function?</p>
-<div class="sourceCode" id="cb234"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb234-1"><a href="sr-srf.html#cb234-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">12</span>)</span>
-<span id="cb234-2"><a href="sr-srf.html#cb234-2" tabindex="-1"></a>shuffle <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">nrow</span>(students))</span>
-<span id="cb234-3"><a href="sr-srf.html#cb234-3" tabindex="-1"></a></span>
-<span id="cb234-4"><a href="sr-srf.html#cb234-4" tabindex="-1"></a>section_a <span class="ot">&lt;-</span> students[shuffle[<span class="dv">1</span><span class="sc">:</span><span class="dv">30</span>], ]</span>
-<span id="cb234-5"><a href="sr-srf.html#cb234-5" tabindex="-1"></a>section_b <span class="ot">&lt;-</span> students[shuffle[<span class="dv">31</span><span class="sc">:</span><span class="dv">60</span>], ]</span>
-<span id="cb234-6"><a href="sr-srf.html#cb234-6" tabindex="-1"></a></span>
-<span id="cb234-7"><a href="sr-srf.html#cb234-7" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">section_a   =</span> <span class="fu">coef</span>(<span class="fu">lm</span>(sem_gpa <span class="sc">~</span> attendance, section_a))[<span class="dv">2</span>],</span>
-<span id="cb234-8"><a href="sr-srf.html#cb234-8" tabindex="-1"></a>        <span class="at">section_b   =</span> <span class="fu">coef</span>(<span class="fu">lm</span>(sem_gpa <span class="sc">~</span> attendance, section_b))[<span class="dv">2</span>],</span>
-<span id="cb234-9"><a href="sr-srf.html#cb234-9" tabindex="-1"></a>        <span class="at">whole_class =</span> <span class="fu">coef</span>(<span class="fu">lm</span>(sem_gpa <span class="sc">~</span> attendance, students))[<span class="dv">2</span>]), <span class="dv">4</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb239"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb239-1"><a href="sr-srf.html#cb239-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">12</span>)</span>
+<span id="cb239-2"><a href="sr-srf.html#cb239-2" tabindex="-1"></a>shuffle <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">nrow</span>(students))</span>
+<span id="cb239-3"><a href="sr-srf.html#cb239-3" tabindex="-1"></a></span>
+<span id="cb239-4"><a href="sr-srf.html#cb239-4" tabindex="-1"></a>section_a <span class="ot">&lt;-</span> students[shuffle[<span class="dv">1</span><span class="sc">:</span><span class="dv">30</span>], ]</span>
+<span id="cb239-5"><a href="sr-srf.html#cb239-5" tabindex="-1"></a>section_b <span class="ot">&lt;-</span> students[shuffle[<span class="dv">31</span><span class="sc">:</span><span class="dv">60</span>], ]</span>
+<span id="cb239-6"><a href="sr-srf.html#cb239-6" tabindex="-1"></a></span>
+<span id="cb239-7"><a href="sr-srf.html#cb239-7" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">section_a   =</span> <span class="fu">coef</span>(<span class="fu">lm</span>(sem_gpa <span class="sc">~</span> attendance, section_a))[<span class="dv">2</span>],</span>
+<span id="cb239-8"><a href="sr-srf.html#cb239-8" tabindex="-1"></a>        <span class="at">section_b   =</span> <span class="fu">coef</span>(<span class="fu">lm</span>(sem_gpa <span class="sc">~</span> attendance, section_b))[<span class="dv">2</span>],</span>
+<span id="cb239-9"><a href="sr-srf.html#cb239-9" tabindex="-1"></a>        <span class="at">whole_class =</span> <span class="fu">coef</span>(<span class="fu">lm</span>(sem_gpa <span class="sc">~</span> attendance, students))[<span class="dv">2</span>]), <span class="dv">4</span>)</span></code></pre></div>
 <pre><code>#&gt;   section_a.attendance   section_b.attendance whole_class.attendance 
 #&gt;                 0.3004                 0.1621                 0.1890</code></pre>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:sr-two-samples-plot"></span>

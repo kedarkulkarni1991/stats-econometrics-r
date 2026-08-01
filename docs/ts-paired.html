@@ -330,16 +330,29 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="os-onetailed.html"><a href="os-onetailed.html#unknown-%CF%83-the-one-sided-t-test"><i class="fa fa-check"></i>Unknown σ: the one-sided t-test</a></li>
 <li class="chapter" data-level="" data-path="os-onetailed.html"><a href="os-onetailed.html#the-one-sided-interval-looks-backwards"><i class="fa fa-check"></i>The one-sided interval looks backwards</a></li>
 </ul></li>
-<li class="chapter" data-level="4.9" data-path="os-reference.html"><a href="os-reference.html"><i class="fa fa-check"></i><b>4.9</b> Reference tables</a></li>
-<li class="chapter" data-level="4.10" data-path="os-summary.html"><a href="os-summary.html"><i class="fa fa-check"></i><b>4.10</b> Summary</a></li>
-<li class="chapter" data-level="4.11" data-path="os-exercises.html"><a href="os-exercises.html"><i class="fa fa-check"></i><b>4.11</b> Practice problems</a></li>
-<li class="chapter" data-level="4.12" data-path="os-question-bank.html"><a href="os-question-bank.html"><i class="fa fa-check"></i><b>4.12</b> Question bank</a>
+<li class="chapter" data-level="4.9" data-path="os-errors.html"><a href="os-errors.html"><i class="fa fa-check"></i><b>4.9</b> Two ways to be wrong</a>
+<ul>
+<li class="chapter" data-level="" data-path="os-errors.html"><a href="os-errors.html#the-two-errors"><i class="fa fa-check"></i>The two errors</a></li>
+<li class="chapter" data-level="" data-path="os-errors.html"><a href="os-errors.html#the-umpires-call"><i class="fa fa-check"></i>The umpire’s call</a></li>
+<li class="chapter" data-level="" data-path="os-errors.html"><a href="os-errors.html#why-errors-happen-at-all"><i class="fa fa-check"></i>Why errors happen at all</a></li>
+<li class="chapter" data-level="" data-path="os-errors.html"><a href="os-errors.html#power"><i class="fa fa-check"></i>Power</a></li>
+<li class="chapter" data-level="" data-path="os-errors.html"><a href="os-errors.html#working-it-out"><i class="fa fa-check"></i>Working it out</a></li>
+<li class="chapter" data-level="" data-path="os-errors.html"><a href="os-errors.html#what-determines-power"><i class="fa fa-check"></i>What determines power</a></li>
+</ul></li>
+<li class="chapter" data-level="4.10" data-path="os-reference.html"><a href="os-reference.html"><i class="fa fa-check"></i><b>4.10</b> Reference tables</a></li>
+<li class="chapter" data-level="4.11" data-path="os-summary.html"><a href="os-summary.html"><i class="fa fa-check"></i><b>4.11</b> Summary</a></li>
+<li class="chapter" data-level="4.12" data-path="os-exercises.html"><a href="os-exercises.html"><i class="fa fa-check"></i><b>4.12</b> Practice problems</a>
+<ul>
+<li class="chapter" data-level="" data-path="os-exercises.html"><a href="os-exercises.html#type-i-and-type-ii-errors"><i class="fa fa-check"></i>Type I and Type II errors</a></li>
+</ul></li>
+<li class="chapter" data-level="4.13" data-path="os-question-bank.html"><a href="os-question-bank.html"><i class="fa fa-check"></i><b>4.13</b> Question bank</a>
 <ul>
 <li class="chapter" data-level="" data-path="os-question-bank.html"><a href="os-question-bank.html#multiple-choice-3"><i class="fa fa-check"></i>Multiple choice</a></li>
 <li class="chapter" data-level="" data-path="os-question-bank.html"><a href="os-question-bank.html#short-reasoning-3"><i class="fa fa-check"></i>Short reasoning</a></li>
 <li class="chapter" data-level="" data-path="os-question-bank.html"><a href="os-question-bank.html#numerical-3"><i class="fa fa-check"></i>Numerical</a></li>
+<li class="chapter" data-level="" data-path="os-question-bank.html"><a href="os-question-bank.html#errors-and-power"><i class="fa fa-check"></i>Errors and power</a></li>
 </ul></li>
-<li class="chapter" data-level="4.13" data-path="os-looking-ahead.html"><a href="os-looking-ahead.html"><i class="fa fa-check"></i><b>4.13</b> Looking ahead</a></li>
+<li class="chapter" data-level="4.14" data-path="os-looking-ahead.html"><a href="os-looking-ahead.html"><i class="fa fa-check"></i><b>4.14</b> Looking ahead</a></li>
 </ul></li>
 <li class="chapter" data-level="5" data-path="two-sample.html"><a href="two-sample.html"><i class="fa fa-check"></i><b>5</b> Hypothesis Testing: Two Samples</a>
 <ul>
@@ -521,8 +534,8 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <p>Ten couples. Two columns of ages. Is that two samples?</p>
 </div>
 <p>Suppose we record the ages of both partners in ten married couples.</p>
-<div class="sourceCode" id="cb186"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb186-1"><a href="ts-paired.html#cb186-1" tabindex="-1"></a>couples <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/marriage-ages.csv&quot;</span>)</span>
-<span id="cb186-2"><a href="ts-paired.html#cb186-2" tabindex="-1"></a>couples</span></code></pre></div>
+<div class="sourceCode" id="cb191"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb191-1"><a href="ts-paired.html#cb191-1" tabindex="-1"></a>couples <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/marriage-ages.csv&quot;</span>)</span>
+<span id="cb191-2"><a href="ts-paired.html#cb191-2" tabindex="-1"></a>couples</span></code></pre></div>
 <pre><code>#&gt;    partner1 partner2
 #&gt; 1        36       35
 #&gt; 2        72       67
@@ -538,7 +551,7 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <p>At first glance this looks like a two-sample problem. There are two columns.
 There are ten observations in each. So why not perform the test we have just
 learned?</p>
-<div class="sourceCode" id="cb188"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb188-1"><a href="ts-paired.html#cb188-1" tabindex="-1"></a><span class="fu">t.test</span>(couples<span class="sc">$</span>partner1, couples<span class="sc">$</span>partner2)</span></code></pre></div>
+<div class="sourceCode" id="cb193"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb193-1"><a href="ts-paired.html#cb193-1" tabindex="-1"></a><span class="fu">t.test</span>(couples<span class="sc">$</span>partner1, couples<span class="sc">$</span>partner2)</span></code></pre></div>
 <pre><code>#&gt; 
 #&gt;  Welch Two Sample t-test
 #&gt; 
@@ -634,8 +647,8 @@ measures.</p>
 <h3>Removing what we do not care about<a href="ts-paired.html#removing-what-we-do-not-care-about" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Instead of comparing all the partner 1s with all the partner 2s, compare each
 person with <em>their own</em> partner. Compute the difference for every couple.</p>
-<div class="sourceCode" id="cb190"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb190-1"><a href="ts-paired.html#cb190-1" tabindex="-1"></a>d <span class="ot">&lt;-</span> couples<span class="sc">$</span>partner1 <span class="sc">-</span> couples<span class="sc">$</span>partner2</span>
-<span id="cb190-2"><a href="ts-paired.html#cb190-2" tabindex="-1"></a>d</span></code></pre></div>
+<div class="sourceCode" id="cb195"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb195-1"><a href="ts-paired.html#cb195-1" tabindex="-1"></a>d <span class="ot">&lt;-</span> couples<span class="sc">$</span>partner1 <span class="sc">-</span> couples<span class="sc">$</span>partner2</span>
+<span id="cb195-2"><a href="ts-paired.html#cb195-2" tabindex="-1"></a>d</span></code></pre></div>
 <pre><code>#&gt;  [1] 1 5 4 1 1 4 0 8 1 0</code></pre>
 <p>Now something worth pausing on has happened. The ages of the couples have
 disappeared completely.</p>
@@ -679,7 +692,7 @@ unchanged.</p>
 <p>and the sample standard deviation of the differences is the ordinary one from
 Section <a href="u3-variance.html#u3-variance">3.2</a>, applied to the <span class="math inline">\(d_i\)</span>:</p>
 <p><span class="math display">\[s_d = \sqrt{\frac{\sum_{i=1}^{n}(d_i - \bar{d})^2}{n-1}}\]</span></p>
-<div class="sourceCode" id="cb192"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb192-1"><a href="ts-paired.html#cb192-1" tabindex="-1"></a><span class="fu">c</span>(<span class="at">n =</span> <span class="fu">length</span>(d), <span class="at">d_bar =</span> <span class="fu">mean</span>(d), <span class="at">s_d =</span> <span class="fu">sd</span>(d), <span class="at">se =</span> <span class="fu">sd</span>(d) <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="fu">length</span>(d)))</span></code></pre></div>
+<div class="sourceCode" id="cb197"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb197-1"><a href="ts-paired.html#cb197-1" tabindex="-1"></a><span class="fu">c</span>(<span class="at">n =</span> <span class="fu">length</span>(d), <span class="at">d_bar =</span> <span class="fu">mean</span>(d), <span class="at">s_d =</span> <span class="fu">sd</span>(d), <span class="at">se =</span> <span class="fu">sd</span>(d) <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="fu">length</span>(d)))</span></code></pre></div>
 <pre><code>#&gt;       n   d_bar     s_d      se 
 #&gt; 10.0000  2.5000  2.6352  0.8333</code></pre>
 <p>So <span class="math inline">\(\bar{d} = 2.5\)</span> years and <span class="math inline">\(s_d = 2.635\)</span> years.</p>
@@ -692,12 +705,12 @@ Section <a href="u3-variance.html#u3-variance">3.2</a>, applied to the <span cla
 <span class="math inline">\(d\)</span> in place of <span class="math inline">\(x\)</span>. Substituting,</p>
 <p><span class="math display">\[t = \frac{2.5}{2.635/\sqrt{10}} = \frac{2.5}{0.833} = 3.00\]</span></p>
 <p>and under <span class="math inline">\(H_0\)</span> this follows <span class="math inline">\(t_{n-1}\)</span>, so with <span class="math inline">\(n = 10\)</span> we have <span class="math inline">\(df = 9\)</span>.</p>
-<div class="sourceCode" id="cb194"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb194-1"><a href="ts-paired.html#cb194-1" tabindex="-1"></a>t_calc <span class="ot">&lt;-</span> <span class="fu">mean</span>(d) <span class="sc">/</span> (<span class="fu">sd</span>(d) <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="fu">length</span>(d)))</span>
-<span id="cb194-2"><a href="ts-paired.html#cb194-2" tabindex="-1"></a></span>
-<span id="cb194-3"><a href="ts-paired.html#cb194-3" tabindex="-1"></a><span class="fu">c</span>(<span class="at">t_calc  =</span> t_calc,</span>
-<span id="cb194-4"><a href="ts-paired.html#cb194-4" tabindex="-1"></a>  <span class="at">df      =</span> <span class="fu">length</span>(d) <span class="sc">-</span> <span class="dv">1</span>,</span>
-<span id="cb194-5"><a href="ts-paired.html#cb194-5" tabindex="-1"></a>  <span class="at">t_crit  =</span> <span class="fu">qt</span>(<span class="fl">0.975</span>, <span class="at">df =</span> <span class="fu">length</span>(d) <span class="sc">-</span> <span class="dv">1</span>),</span>
-<span id="cb194-6"><a href="ts-paired.html#cb194-6" tabindex="-1"></a>  <span class="at">p_value =</span> <span class="dv">2</span> <span class="sc">*</span> <span class="fu">pt</span>(<span class="sc">-</span><span class="fu">abs</span>(t_calc), <span class="at">df =</span> <span class="fu">length</span>(d) <span class="sc">-</span> <span class="dv">1</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb199"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb199-1"><a href="ts-paired.html#cb199-1" tabindex="-1"></a>t_calc <span class="ot">&lt;-</span> <span class="fu">mean</span>(d) <span class="sc">/</span> (<span class="fu">sd</span>(d) <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="fu">length</span>(d)))</span>
+<span id="cb199-2"><a href="ts-paired.html#cb199-2" tabindex="-1"></a></span>
+<span id="cb199-3"><a href="ts-paired.html#cb199-3" tabindex="-1"></a><span class="fu">c</span>(<span class="at">t_calc  =</span> t_calc,</span>
+<span id="cb199-4"><a href="ts-paired.html#cb199-4" tabindex="-1"></a>  <span class="at">df      =</span> <span class="fu">length</span>(d) <span class="sc">-</span> <span class="dv">1</span>,</span>
+<span id="cb199-5"><a href="ts-paired.html#cb199-5" tabindex="-1"></a>  <span class="at">t_crit  =</span> <span class="fu">qt</span>(<span class="fl">0.975</span>, <span class="at">df =</span> <span class="fu">length</span>(d) <span class="sc">-</span> <span class="dv">1</span>),</span>
+<span id="cb199-6"><a href="ts-paired.html#cb199-6" tabindex="-1"></a>  <span class="at">p_value =</span> <span class="dv">2</span> <span class="sc">*</span> <span class="fu">pt</span>(<span class="sc">-</span><span class="fu">abs</span>(t_calc), <span class="at">df =</span> <span class="fu">length</span>(d) <span class="sc">-</span> <span class="dv">1</span>))</span></code></pre></div>
 <pre><code>#&gt;  t_calc      df  t_crit p_value 
 #&gt; 3.00000 9.00000 2.26216 0.01496</code></pre>
 <p>Since <span class="math inline">\(3.00 &gt; 2.262\)</span>, we reject <span class="math inline">\(H_0\)</span> at the 5% level. The two-sided <span class="math inline">\(p\)</span>-value
@@ -707,7 +720,7 @@ is 0.015.</p>
 <h3>Confidence interval<a href="ts-paired.html#confidence-interval" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>A 95% interval for the mean difference is</p>
 <p><span class="math display">\[\bar{d} \pm t_{\alpha/2,\,n-1}\,\frac{s_d}{\sqrt{n}}\]</span></p>
-<div class="sourceCode" id="cb196"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb196-1"><a href="ts-paired.html#cb196-1" tabindex="-1"></a><span class="fu">mean</span>(d) <span class="sc">+</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>) <span class="sc">*</span> <span class="fu">qt</span>(<span class="fl">0.975</span>, <span class="at">df =</span> <span class="dv">9</span>) <span class="sc">*</span> <span class="fu">sd</span>(d) <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="dv">10</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb201"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb201-1"><a href="ts-paired.html#cb201-1" tabindex="-1"></a><span class="fu">mean</span>(d) <span class="sc">+</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>) <span class="sc">*</span> <span class="fu">qt</span>(<span class="fl">0.975</span>, <span class="at">df =</span> <span class="dv">9</span>) <span class="sc">*</span> <span class="fu">sd</span>(d) <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="dv">10</span>)</span></code></pre></div>
 <pre><code>#&gt; [1] 0.6149 4.3851</code></pre>
 <p>Partner 1 is between about 0.6 and 4.4 years older, on average. The interval
 excludes zero, agreeing with the test as always.</p>
@@ -716,7 +729,7 @@ excludes zero, agreeing with the test as always.</p>
 <h3>Doing it in R<a href="ts-paired.html#doing-it-in-r" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Everything above can be had two ways. Either compute the differences yourself
 and run a one-sample test,</p>
-<div class="sourceCode" id="cb198"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb198-1"><a href="ts-paired.html#cb198-1" tabindex="-1"></a><span class="fu">t.test</span>(d, <span class="at">mu =</span> <span class="dv">0</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb203"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb203-1"><a href="ts-paired.html#cb203-1" tabindex="-1"></a><span class="fu">t.test</span>(d, <span class="at">mu =</span> <span class="dv">0</span>)</span></code></pre></div>
 <pre><code>#&gt; 
 #&gt;  One Sample t-test
 #&gt; 
@@ -729,7 +742,7 @@ and run a one-sample test,</p>
 #&gt; mean of x 
 #&gt;       2.5</code></pre>
 <p>or let R take the differences for you:</p>
-<div class="sourceCode" id="cb200"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb200-1"><a href="ts-paired.html#cb200-1" tabindex="-1"></a><span class="fu">t.test</span>(couples<span class="sc">$</span>partner1, couples<span class="sc">$</span>partner2, <span class="at">paired =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb205"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb205-1"><a href="ts-paired.html#cb205-1" tabindex="-1"></a><span class="fu">t.test</span>(couples<span class="sc">$</span>partner1, couples<span class="sc">$</span>partner2, <span class="at">paired =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 <pre><code>#&gt; 
 #&gt;  Paired t-test
 #&gt; 
@@ -795,9 +808,9 @@ smaller quantity more cleverly; it is measuring the same quantity against a much
 smaller standard error.</p>
 </div>
 <p>The standard deviations make the point numerically:</p>
-<div class="sourceCode" id="cb202"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb202-1"><a href="ts-paired.html#cb202-1" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">sd_partner1 =</span> <span class="fu">sd</span>(couples<span class="sc">$</span>partner1),</span>
-<span id="cb202-2"><a href="ts-paired.html#cb202-2" tabindex="-1"></a>        <span class="at">sd_partner2 =</span> <span class="fu">sd</span>(couples<span class="sc">$</span>partner2),</span>
-<span id="cb202-3"><a href="ts-paired.html#cb202-3" tabindex="-1"></a>        <span class="at">sd_of_diffs =</span> <span class="fu">sd</span>(d)), <span class="dv">3</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb207"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb207-1"><a href="ts-paired.html#cb207-1" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">sd_partner1 =</span> <span class="fu">sd</span>(couples<span class="sc">$</span>partner1),</span>
+<span id="cb207-2"><a href="ts-paired.html#cb207-2" tabindex="-1"></a>        <span class="at">sd_partner2 =</span> <span class="fu">sd</span>(couples<span class="sc">$</span>partner2),</span>
+<span id="cb207-3"><a href="ts-paired.html#cb207-3" tabindex="-1"></a>        <span class="at">sd_of_diffs =</span> <span class="fu">sd</span>(d)), <span class="dv">3</span>)</span></code></pre></div>
 <pre><code>#&gt; sd_partner1 sd_partner2 sd_of_diffs 
 #&gt;      11.156      10.174       2.635</code></pre>
 <p>Each column varies by about eleven years. The differences vary by 2.6. The

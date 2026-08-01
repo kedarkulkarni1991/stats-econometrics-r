@@ -330,16 +330,29 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="os-onetailed.html"><a href="os-onetailed.html#unknown-%CF%83-the-one-sided-t-test"><i class="fa fa-check"></i>Unknown σ: the one-sided t-test</a></li>
 <li class="chapter" data-level="" data-path="os-onetailed.html"><a href="os-onetailed.html#the-one-sided-interval-looks-backwards"><i class="fa fa-check"></i>The one-sided interval looks backwards</a></li>
 </ul></li>
-<li class="chapter" data-level="4.9" data-path="os-reference.html"><a href="os-reference.html"><i class="fa fa-check"></i><b>4.9</b> Reference tables</a></li>
-<li class="chapter" data-level="4.10" data-path="os-summary.html"><a href="os-summary.html"><i class="fa fa-check"></i><b>4.10</b> Summary</a></li>
-<li class="chapter" data-level="4.11" data-path="os-exercises.html"><a href="os-exercises.html"><i class="fa fa-check"></i><b>4.11</b> Practice problems</a></li>
-<li class="chapter" data-level="4.12" data-path="os-question-bank.html"><a href="os-question-bank.html"><i class="fa fa-check"></i><b>4.12</b> Question bank</a>
+<li class="chapter" data-level="4.9" data-path="os-errors.html"><a href="os-errors.html"><i class="fa fa-check"></i><b>4.9</b> Two ways to be wrong</a>
+<ul>
+<li class="chapter" data-level="" data-path="os-errors.html"><a href="os-errors.html#the-two-errors"><i class="fa fa-check"></i>The two errors</a></li>
+<li class="chapter" data-level="" data-path="os-errors.html"><a href="os-errors.html#the-umpires-call"><i class="fa fa-check"></i>The umpire’s call</a></li>
+<li class="chapter" data-level="" data-path="os-errors.html"><a href="os-errors.html#why-errors-happen-at-all"><i class="fa fa-check"></i>Why errors happen at all</a></li>
+<li class="chapter" data-level="" data-path="os-errors.html"><a href="os-errors.html#power"><i class="fa fa-check"></i>Power</a></li>
+<li class="chapter" data-level="" data-path="os-errors.html"><a href="os-errors.html#working-it-out"><i class="fa fa-check"></i>Working it out</a></li>
+<li class="chapter" data-level="" data-path="os-errors.html"><a href="os-errors.html#what-determines-power"><i class="fa fa-check"></i>What determines power</a></li>
+</ul></li>
+<li class="chapter" data-level="4.10" data-path="os-reference.html"><a href="os-reference.html"><i class="fa fa-check"></i><b>4.10</b> Reference tables</a></li>
+<li class="chapter" data-level="4.11" data-path="os-summary.html"><a href="os-summary.html"><i class="fa fa-check"></i><b>4.11</b> Summary</a></li>
+<li class="chapter" data-level="4.12" data-path="os-exercises.html"><a href="os-exercises.html"><i class="fa fa-check"></i><b>4.12</b> Practice problems</a>
+<ul>
+<li class="chapter" data-level="" data-path="os-exercises.html"><a href="os-exercises.html#type-i-and-type-ii-errors"><i class="fa fa-check"></i>Type I and Type II errors</a></li>
+</ul></li>
+<li class="chapter" data-level="4.13" data-path="os-question-bank.html"><a href="os-question-bank.html"><i class="fa fa-check"></i><b>4.13</b> Question bank</a>
 <ul>
 <li class="chapter" data-level="" data-path="os-question-bank.html"><a href="os-question-bank.html#multiple-choice-3"><i class="fa fa-check"></i>Multiple choice</a></li>
 <li class="chapter" data-level="" data-path="os-question-bank.html"><a href="os-question-bank.html#short-reasoning-3"><i class="fa fa-check"></i>Short reasoning</a></li>
 <li class="chapter" data-level="" data-path="os-question-bank.html"><a href="os-question-bank.html#numerical-3"><i class="fa fa-check"></i>Numerical</a></li>
+<li class="chapter" data-level="" data-path="os-question-bank.html"><a href="os-question-bank.html#errors-and-power"><i class="fa fa-check"></i>Errors and power</a></li>
 </ul></li>
-<li class="chapter" data-level="4.13" data-path="os-looking-ahead.html"><a href="os-looking-ahead.html"><i class="fa fa-check"></i><b>4.13</b> Looking ahead</a></li>
+<li class="chapter" data-level="4.14" data-path="os-looking-ahead.html"><a href="os-looking-ahead.html"><i class="fa fa-check"></i><b>4.14</b> Looking ahead</a></li>
 </ul></li>
 <li class="chapter" data-level="5" data-path="two-sample.html"><a href="two-sample.html"><i class="fa fa-check"></i><b>5</b> Hypothesis Testing: Two Samples</a>
 <ul>
@@ -554,16 +567,16 @@ variety. The conventional plots average 45.2 kg per hectare and the HYV plots
 <span class="math inline">\(\sigma_x = 0.8\)</span> for conventional and <span class="math inline">\(\sigma_y = 1.0\)</span> for HYV.</p>
 <p>Are these data consistent, at the 5% level, with the two varieties yielding the
 same on average?</p>
-<div class="sourceCode" id="cb176"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb176-1"><a href="ts-known.html#cb176-1" tabindex="-1"></a>xbar <span class="ot">&lt;-</span> <span class="fl">45.2</span>; sx <span class="ot">&lt;-</span> <span class="fl">0.8</span>; n <span class="ot">&lt;-</span> <span class="dv">12</span>      <span class="co"># conventional</span></span>
-<span id="cb176-2"><a href="ts-known.html#cb176-2" tabindex="-1"></a>ybar <span class="ot">&lt;-</span> <span class="fl">48.6</span>; sy <span class="ot">&lt;-</span> <span class="fl">1.0</span>; m <span class="ot">&lt;-</span> <span class="dv">14</span>      <span class="co"># high-yielding</span></span>
-<span id="cb176-3"><a href="ts-known.html#cb176-3" tabindex="-1"></a></span>
-<span id="cb176-4"><a href="ts-known.html#cb176-4" tabindex="-1"></a>se_diff <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(sx<span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> n <span class="sc">+</span> sy<span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> m)</span>
-<span id="cb176-5"><a href="ts-known.html#cb176-5" tabindex="-1"></a>z_calc  <span class="ot">&lt;-</span> (xbar <span class="sc">-</span> ybar) <span class="sc">/</span> se_diff</span>
-<span id="cb176-6"><a href="ts-known.html#cb176-6" tabindex="-1"></a></span>
-<span id="cb176-7"><a href="ts-known.html#cb176-7" tabindex="-1"></a><span class="fu">c</span>(<span class="at">difference =</span> xbar <span class="sc">-</span> ybar,</span>
-<span id="cb176-8"><a href="ts-known.html#cb176-8" tabindex="-1"></a>  <span class="at">se         =</span> se_diff,</span>
-<span id="cb176-9"><a href="ts-known.html#cb176-9" tabindex="-1"></a>  <span class="at">z_calc     =</span> z_calc,</span>
-<span id="cb176-10"><a href="ts-known.html#cb176-10" tabindex="-1"></a>  <span class="at">p_value    =</span> <span class="dv">2</span> <span class="sc">*</span> <span class="fu">pnorm</span>(<span class="sc">-</span><span class="fu">abs</span>(z_calc)))</span></code></pre></div>
+<div class="sourceCode" id="cb181"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb181-1"><a href="ts-known.html#cb181-1" tabindex="-1"></a>xbar <span class="ot">&lt;-</span> <span class="fl">45.2</span>; sx <span class="ot">&lt;-</span> <span class="fl">0.8</span>; n <span class="ot">&lt;-</span> <span class="dv">12</span>      <span class="co"># conventional</span></span>
+<span id="cb181-2"><a href="ts-known.html#cb181-2" tabindex="-1"></a>ybar <span class="ot">&lt;-</span> <span class="fl">48.6</span>; sy <span class="ot">&lt;-</span> <span class="fl">1.0</span>; m <span class="ot">&lt;-</span> <span class="dv">14</span>      <span class="co"># high-yielding</span></span>
+<span id="cb181-3"><a href="ts-known.html#cb181-3" tabindex="-1"></a></span>
+<span id="cb181-4"><a href="ts-known.html#cb181-4" tabindex="-1"></a>se_diff <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(sx<span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> n <span class="sc">+</span> sy<span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> m)</span>
+<span id="cb181-5"><a href="ts-known.html#cb181-5" tabindex="-1"></a>z_calc  <span class="ot">&lt;-</span> (xbar <span class="sc">-</span> ybar) <span class="sc">/</span> se_diff</span>
+<span id="cb181-6"><a href="ts-known.html#cb181-6" tabindex="-1"></a></span>
+<span id="cb181-7"><a href="ts-known.html#cb181-7" tabindex="-1"></a><span class="fu">c</span>(<span class="at">difference =</span> xbar <span class="sc">-</span> ybar,</span>
+<span id="cb181-8"><a href="ts-known.html#cb181-8" tabindex="-1"></a>  <span class="at">se         =</span> se_diff,</span>
+<span id="cb181-9"><a href="ts-known.html#cb181-9" tabindex="-1"></a>  <span class="at">z_calc     =</span> z_calc,</span>
+<span id="cb181-10"><a href="ts-known.html#cb181-10" tabindex="-1"></a>  <span class="at">p_value    =</span> <span class="dv">2</span> <span class="sc">*</span> <span class="fu">pnorm</span>(<span class="sc">-</span><span class="fu">abs</span>(z_calc)))</span></code></pre></div>
 <pre><code>#&gt;                   difference                           se 
 #&gt; -3.3999999999999985789145285  0.3532165125838608865649348 
 #&gt;                       z_calc                      p_value 
@@ -573,7 +586,7 @@ conventional threshold. We reject the claim that the two varieties yield the
 same.</p>
 <p>The interval says how much the varieties differ, which is the more useful
 statement:</p>
-<div class="sourceCode" id="cb178"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb178-1"><a href="ts-known.html#cb178-1" tabindex="-1"></a>(xbar <span class="sc">-</span> ybar) <span class="sc">+</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>) <span class="sc">*</span> <span class="fu">qnorm</span>(<span class="fl">0.975</span>) <span class="sc">*</span> se_diff</span></code></pre></div>
+<div class="sourceCode" id="cb183"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb183-1"><a href="ts-known.html#cb183-1" tabindex="-1"></a>(xbar <span class="sc">-</span> ybar) <span class="sc">+</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>) <span class="sc">*</span> <span class="fu">qnorm</span>(<span class="fl">0.975</span>) <span class="sc">*</span> se_diff</span></code></pre></div>
 <pre><code>#&gt; [1] -4.092 -2.708</code></pre>
 <p>The HYV seed yields between 2.7 and 4.1 kg per hectare more than the
 conventional variety, with 95% confidence. Note that the interval lies entirely

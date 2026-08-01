@@ -330,16 +330,29 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="os-onetailed.html"><a href="os-onetailed.html#unknown-%CF%83-the-one-sided-t-test"><i class="fa fa-check"></i>Unknown σ: the one-sided t-test</a></li>
 <li class="chapter" data-level="" data-path="os-onetailed.html"><a href="os-onetailed.html#the-one-sided-interval-looks-backwards"><i class="fa fa-check"></i>The one-sided interval looks backwards</a></li>
 </ul></li>
-<li class="chapter" data-level="4.9" data-path="os-reference.html"><a href="os-reference.html"><i class="fa fa-check"></i><b>4.9</b> Reference tables</a></li>
-<li class="chapter" data-level="4.10" data-path="os-summary.html"><a href="os-summary.html"><i class="fa fa-check"></i><b>4.10</b> Summary</a></li>
-<li class="chapter" data-level="4.11" data-path="os-exercises.html"><a href="os-exercises.html"><i class="fa fa-check"></i><b>4.11</b> Practice problems</a></li>
-<li class="chapter" data-level="4.12" data-path="os-question-bank.html"><a href="os-question-bank.html"><i class="fa fa-check"></i><b>4.12</b> Question bank</a>
+<li class="chapter" data-level="4.9" data-path="os-errors.html"><a href="os-errors.html"><i class="fa fa-check"></i><b>4.9</b> Two ways to be wrong</a>
+<ul>
+<li class="chapter" data-level="" data-path="os-errors.html"><a href="os-errors.html#the-two-errors"><i class="fa fa-check"></i>The two errors</a></li>
+<li class="chapter" data-level="" data-path="os-errors.html"><a href="os-errors.html#the-umpires-call"><i class="fa fa-check"></i>The umpire’s call</a></li>
+<li class="chapter" data-level="" data-path="os-errors.html"><a href="os-errors.html#why-errors-happen-at-all"><i class="fa fa-check"></i>Why errors happen at all</a></li>
+<li class="chapter" data-level="" data-path="os-errors.html"><a href="os-errors.html#power"><i class="fa fa-check"></i>Power</a></li>
+<li class="chapter" data-level="" data-path="os-errors.html"><a href="os-errors.html#working-it-out"><i class="fa fa-check"></i>Working it out</a></li>
+<li class="chapter" data-level="" data-path="os-errors.html"><a href="os-errors.html#what-determines-power"><i class="fa fa-check"></i>What determines power</a></li>
+</ul></li>
+<li class="chapter" data-level="4.10" data-path="os-reference.html"><a href="os-reference.html"><i class="fa fa-check"></i><b>4.10</b> Reference tables</a></li>
+<li class="chapter" data-level="4.11" data-path="os-summary.html"><a href="os-summary.html"><i class="fa fa-check"></i><b>4.11</b> Summary</a></li>
+<li class="chapter" data-level="4.12" data-path="os-exercises.html"><a href="os-exercises.html"><i class="fa fa-check"></i><b>4.12</b> Practice problems</a>
+<ul>
+<li class="chapter" data-level="" data-path="os-exercises.html"><a href="os-exercises.html#type-i-and-type-ii-errors"><i class="fa fa-check"></i>Type I and Type II errors</a></li>
+</ul></li>
+<li class="chapter" data-level="4.13" data-path="os-question-bank.html"><a href="os-question-bank.html"><i class="fa fa-check"></i><b>4.13</b> Question bank</a>
 <ul>
 <li class="chapter" data-level="" data-path="os-question-bank.html"><a href="os-question-bank.html#multiple-choice-3"><i class="fa fa-check"></i>Multiple choice</a></li>
 <li class="chapter" data-level="" data-path="os-question-bank.html"><a href="os-question-bank.html#short-reasoning-3"><i class="fa fa-check"></i>Short reasoning</a></li>
 <li class="chapter" data-level="" data-path="os-question-bank.html"><a href="os-question-bank.html#numerical-3"><i class="fa fa-check"></i>Numerical</a></li>
+<li class="chapter" data-level="" data-path="os-question-bank.html"><a href="os-question-bank.html#errors-and-power"><i class="fa fa-check"></i>Errors and power</a></li>
 </ul></li>
-<li class="chapter" data-level="4.13" data-path="os-looking-ahead.html"><a href="os-looking-ahead.html"><i class="fa fa-check"></i><b>4.13</b> Looking ahead</a></li>
+<li class="chapter" data-level="4.14" data-path="os-looking-ahead.html"><a href="os-looking-ahead.html"><i class="fa fa-check"></i><b>4.14</b> Looking ahead</a></li>
 </ul></li>
 <li class="chapter" data-level="5" data-path="two-sample.html"><a href="two-sample.html"><i class="fa fa-check"></i><b>5</b> Hypothesis Testing: Two Samples</a>
 <ul>
@@ -525,25 +538,25 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 properly.</p>
 <p>Draw forty students at random from the 680, fit a line, record the slope. Then
 do it again. And again, five hundred times.</p>
-<div class="sourceCode" id="cb246"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb246-1"><a href="ols-sampling.html#cb246-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
-<span id="cb246-2"><a href="ols-sampling.html#cb246-2" tabindex="-1"></a></span>
-<span id="cb246-3"><a href="ols-sampling.html#cb246-3" tabindex="-1"></a>draw_line <span class="ot">&lt;-</span> <span class="cf">function</span>(<span class="at">n =</span> <span class="dv">40</span>) {</span>
-<span id="cb246-4"><a href="ols-sampling.html#cb246-4" tabindex="-1"></a>  samp <span class="ot">&lt;-</span> students[<span class="fu">sample</span>(<span class="fu">nrow</span>(students), n, <span class="at">replace =</span> <span class="cn">TRUE</span>), ]</span>
-<span id="cb246-5"><a href="ols-sampling.html#cb246-5" tabindex="-1"></a>  <span class="fu">coef</span>(<span class="fu">lm</span>(sem_gpa <span class="sc">~</span> attendance, <span class="at">data =</span> samp))</span>
-<span id="cb246-6"><a href="ols-sampling.html#cb246-6" tabindex="-1"></a>}</span>
-<span id="cb246-7"><a href="ols-sampling.html#cb246-7" tabindex="-1"></a></span>
-<span id="cb246-8"><a href="ols-sampling.html#cb246-8" tabindex="-1"></a>many <span class="ot">&lt;-</span> <span class="fu">t</span>(<span class="fu">replicate</span>(<span class="dv">100</span>, <span class="fu">draw_line</span>()))</span>
-<span id="cb246-9"><a href="ols-sampling.html#cb246-9" tabindex="-1"></a><span class="fu">colnames</span>(many) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;intercept&quot;</span>, <span class="st">&quot;slope&quot;</span>)</span>
-<span id="cb246-10"><a href="ols-sampling.html#cb246-10" tabindex="-1"></a></span>
-<span id="cb246-11"><a href="ols-sampling.html#cb246-11" tabindex="-1"></a><span class="fu">ggplot</span>(students, <span class="fu">aes</span>(attendance, sem_gpa)) <span class="sc">+</span></span>
-<span id="cb246-12"><a href="ols-sampling.html#cb246-12" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.08</span>, <span class="at">colour =</span> book_palette<span class="sc">$</span>ink, <span class="at">size =</span> <span class="fl">0.9</span>) <span class="sc">+</span></span>
-<span id="cb246-13"><a href="ols-sampling.html#cb246-13" tabindex="-1"></a>  <span class="fu">geom_abline</span>(<span class="at">data =</span> <span class="fu">as.data.frame</span>(many),</span>
-<span id="cb246-14"><a href="ols-sampling.html#cb246-14" tabindex="-1"></a>              <span class="fu">aes</span>(<span class="at">intercept =</span> intercept, <span class="at">slope =</span> slope),</span>
-<span id="cb246-15"><a href="ols-sampling.html#cb246-15" tabindex="-1"></a>              <span class="at">colour =</span> <span class="st">&quot;grey55&quot;</span>, <span class="at">linewidth =</span> <span class="fl">0.3</span>, <span class="at">alpha =</span> <span class="fl">0.6</span>) <span class="sc">+</span></span>
-<span id="cb246-16"><a href="ols-sampling.html#cb246-16" tabindex="-1"></a>  <span class="fu">geom_abline</span>(<span class="at">intercept =</span> <span class="fu">coef</span>(fit)[<span class="dv">1</span>], <span class="at">slope =</span> <span class="fu">coef</span>(fit)[<span class="dv">2</span>],</span>
-<span id="cb246-17"><a href="ols-sampling.html#cb246-17" tabindex="-1"></a>              <span class="at">colour =</span> book_palette<span class="sc">$</span>reject, <span class="at">linewidth =</span> <span class="fl">1.2</span>) <span class="sc">+</span></span>
-<span id="cb246-18"><a href="ols-sampling.html#cb246-18" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Classes attended&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Semester GPA&quot;</span>) <span class="sc">+</span></span>
-<span id="cb246-19"><a href="ols-sampling.html#cb246-19" tabindex="-1"></a>  <span class="fu">theme_book</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb251"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb251-1"><a href="ols-sampling.html#cb251-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb251-2"><a href="ols-sampling.html#cb251-2" tabindex="-1"></a></span>
+<span id="cb251-3"><a href="ols-sampling.html#cb251-3" tabindex="-1"></a>draw_line <span class="ot">&lt;-</span> <span class="cf">function</span>(<span class="at">n =</span> <span class="dv">40</span>) {</span>
+<span id="cb251-4"><a href="ols-sampling.html#cb251-4" tabindex="-1"></a>  samp <span class="ot">&lt;-</span> students[<span class="fu">sample</span>(<span class="fu">nrow</span>(students), n, <span class="at">replace =</span> <span class="cn">TRUE</span>), ]</span>
+<span id="cb251-5"><a href="ols-sampling.html#cb251-5" tabindex="-1"></a>  <span class="fu">coef</span>(<span class="fu">lm</span>(sem_gpa <span class="sc">~</span> attendance, <span class="at">data =</span> samp))</span>
+<span id="cb251-6"><a href="ols-sampling.html#cb251-6" tabindex="-1"></a>}</span>
+<span id="cb251-7"><a href="ols-sampling.html#cb251-7" tabindex="-1"></a></span>
+<span id="cb251-8"><a href="ols-sampling.html#cb251-8" tabindex="-1"></a>many <span class="ot">&lt;-</span> <span class="fu">t</span>(<span class="fu">replicate</span>(<span class="dv">100</span>, <span class="fu">draw_line</span>()))</span>
+<span id="cb251-9"><a href="ols-sampling.html#cb251-9" tabindex="-1"></a><span class="fu">colnames</span>(many) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;intercept&quot;</span>, <span class="st">&quot;slope&quot;</span>)</span>
+<span id="cb251-10"><a href="ols-sampling.html#cb251-10" tabindex="-1"></a></span>
+<span id="cb251-11"><a href="ols-sampling.html#cb251-11" tabindex="-1"></a><span class="fu">ggplot</span>(students, <span class="fu">aes</span>(attendance, sem_gpa)) <span class="sc">+</span></span>
+<span id="cb251-12"><a href="ols-sampling.html#cb251-12" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.08</span>, <span class="at">colour =</span> book_palette<span class="sc">$</span>ink, <span class="at">size =</span> <span class="fl">0.9</span>) <span class="sc">+</span></span>
+<span id="cb251-13"><a href="ols-sampling.html#cb251-13" tabindex="-1"></a>  <span class="fu">geom_abline</span>(<span class="at">data =</span> <span class="fu">as.data.frame</span>(many),</span>
+<span id="cb251-14"><a href="ols-sampling.html#cb251-14" tabindex="-1"></a>              <span class="fu">aes</span>(<span class="at">intercept =</span> intercept, <span class="at">slope =</span> slope),</span>
+<span id="cb251-15"><a href="ols-sampling.html#cb251-15" tabindex="-1"></a>              <span class="at">colour =</span> <span class="st">&quot;grey55&quot;</span>, <span class="at">linewidth =</span> <span class="fl">0.3</span>, <span class="at">alpha =</span> <span class="fl">0.6</span>) <span class="sc">+</span></span>
+<span id="cb251-16"><a href="ols-sampling.html#cb251-16" tabindex="-1"></a>  <span class="fu">geom_abline</span>(<span class="at">intercept =</span> <span class="fu">coef</span>(fit)[<span class="dv">1</span>], <span class="at">slope =</span> <span class="fu">coef</span>(fit)[<span class="dv">2</span>],</span>
+<span id="cb251-17"><a href="ols-sampling.html#cb251-17" tabindex="-1"></a>              <span class="at">colour =</span> book_palette<span class="sc">$</span>reject, <span class="at">linewidth =</span> <span class="fl">1.2</span>) <span class="sc">+</span></span>
+<span id="cb251-18"><a href="ols-sampling.html#cb251-18" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Classes attended&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Semester GPA&quot;</span>) <span class="sc">+</span></span>
+<span id="cb251-19"><a href="ols-sampling.html#cb251-19" tabindex="-1"></a>  <span class="fu">theme_book</span>()</span></code></pre></div>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:ols-many-lines"></span>
 <img src="stats-econometrics-r_files/figure-html/ols-many-lines-1.png" alt="One hundred fitted lines, each from a different random sample of forty students, in grey. The line fitted to all 680 students is in orange. Every sample gives a different answer." width="90%"  />
 <p class="caption">
@@ -563,16 +576,16 @@ distribution is what tells us how much to trust the one estimate we have.</p>
 <h3>Looking only at the slopes<a href="ols-sampling.html#looking-only-at-the-slopes" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Discard the lines and keep the numbers. Five hundred samples give five hundred
 slopes.</p>
-<div class="sourceCode" id="cb247"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb247-1"><a href="ols-sampling.html#cb247-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
-<span id="cb247-2"><a href="ols-sampling.html#cb247-2" tabindex="-1"></a>slopes <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">5000</span>, <span class="fu">draw_line</span>()[<span class="st">&quot;attendance&quot;</span>])</span>
-<span id="cb247-3"><a href="ols-sampling.html#cb247-3" tabindex="-1"></a></span>
-<span id="cb247-4"><a href="ols-sampling.html#cb247-4" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">data.frame</span>(<span class="at">slope =</span> slopes), <span class="fu">aes</span>(slope)) <span class="sc">+</span></span>
-<span id="cb247-5"><a href="ols-sampling.html#cb247-5" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">bins =</span> <span class="dv">45</span>, <span class="at">fill =</span> book_palette<span class="sc">$</span>fill, <span class="at">colour =</span> <span class="st">&quot;white&quot;</span>,</span>
-<span id="cb247-6"><a href="ols-sampling.html#cb247-6" tabindex="-1"></a>                 <span class="at">linewidth =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
-<span id="cb247-7"><a href="ols-sampling.html#cb247-7" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="fu">coef</span>(fit)[<span class="dv">2</span>], <span class="at">colour =</span> book_palette<span class="sc">$</span>reject,</span>
-<span id="cb247-8"><a href="ols-sampling.html#cb247-8" tabindex="-1"></a>             <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
-<span id="cb247-9"><a href="ols-sampling.html#cb247-9" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="fu">expression</span>(<span class="fu">hat</span>(beta)[<span class="dv">1</span>]), <span class="at">y =</span> <span class="st">&quot;Number of samples&quot;</span>) <span class="sc">+</span></span>
-<span id="cb247-10"><a href="ols-sampling.html#cb247-10" tabindex="-1"></a>  <span class="fu">theme_book</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb252"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb252-1"><a href="ols-sampling.html#cb252-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb252-2"><a href="ols-sampling.html#cb252-2" tabindex="-1"></a>slopes <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">5000</span>, <span class="fu">draw_line</span>()[<span class="st">&quot;attendance&quot;</span>])</span>
+<span id="cb252-3"><a href="ols-sampling.html#cb252-3" tabindex="-1"></a></span>
+<span id="cb252-4"><a href="ols-sampling.html#cb252-4" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">data.frame</span>(<span class="at">slope =</span> slopes), <span class="fu">aes</span>(slope)) <span class="sc">+</span></span>
+<span id="cb252-5"><a href="ols-sampling.html#cb252-5" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">bins =</span> <span class="dv">45</span>, <span class="at">fill =</span> book_palette<span class="sc">$</span>fill, <span class="at">colour =</span> <span class="st">&quot;white&quot;</span>,</span>
+<span id="cb252-6"><a href="ols-sampling.html#cb252-6" tabindex="-1"></a>                 <span class="at">linewidth =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
+<span id="cb252-7"><a href="ols-sampling.html#cb252-7" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="fu">coef</span>(fit)[<span class="dv">2</span>], <span class="at">colour =</span> book_palette<span class="sc">$</span>reject,</span>
+<span id="cb252-8"><a href="ols-sampling.html#cb252-8" tabindex="-1"></a>             <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb252-9"><a href="ols-sampling.html#cb252-9" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="fu">expression</span>(<span class="fu">hat</span>(beta)[<span class="dv">1</span>]), <span class="at">y =</span> <span class="st">&quot;Number of samples&quot;</span>) <span class="sc">+</span></span>
+<span id="cb252-10"><a href="ols-sampling.html#cb252-10" tabindex="-1"></a>  <span class="fu">theme_book</span>()</span></code></pre></div>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:ols-slope-dist"></span>
 <img src="stats-econometrics-r_files/figure-html/ols-slope-dist-1.png" alt="The sampling distribution of the slope: 5,000 slopes, each from a fresh sample of forty students. The orange line marks the slope from all 680 students. The distribution is centred on it and roughly symmetric." width="90%"  />
 <p class="caption">
@@ -581,9 +594,9 @@ Figure 7.4: The sampling distribution of the slope: 5,000 slopes, each from a fr
 </div>
 <p>That histogram is the <strong>sampling distribution of <span class="math inline">\(\hat{\beta}_1\)</span></strong>, and it is the
 central object of this section. Two features of it matter.</p>
-<div class="sourceCode" id="cb248"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb248-1"><a href="ols-sampling.html#cb248-1" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">centre_of_distribution =</span> <span class="fu">mean</span>(slopes),</span>
-<span id="cb248-2"><a href="ols-sampling.html#cb248-2" tabindex="-1"></a>        <span class="at">spread_of_distribution =</span> <span class="fu">sd</span>(slopes),</span>
-<span id="cb248-3"><a href="ols-sampling.html#cb248-3" tabindex="-1"></a>        <span class="at">slope_from_all_680     =</span> <span class="fu">coef</span>(fit)[<span class="dv">2</span>]), <span class="dv">4</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb253"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb253-1"><a href="ols-sampling.html#cb253-1" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">centre_of_distribution =</span> <span class="fu">mean</span>(slopes),</span>
+<span id="cb253-2"><a href="ols-sampling.html#cb253-2" tabindex="-1"></a>        <span class="at">spread_of_distribution =</span> <span class="fu">sd</span>(slopes),</span>
+<span id="cb253-3"><a href="ols-sampling.html#cb253-3" tabindex="-1"></a>        <span class="at">slope_from_all_680     =</span> <span class="fu">coef</span>(fit)[<span class="dv">2</span>]), <span class="dv">4</span>)</span></code></pre></div>
 <pre><code>#&gt;        centre_of_distribution        spread_of_distribution 
 #&gt;                        0.1895                        0.0526 
 #&gt; slope_from_all_680.attendance 
@@ -658,10 +671,10 @@ two question marks.</p>
 matter: how many students we draw, how spread out their attendance is, and how
 noisy grades are around the line.</p>
 <p>Take the first two in turn.</p>
-<div class="sourceCode" id="cb250"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb250-1"><a href="ols-sampling.html#cb250-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
-<span id="cb250-2"><a href="ols-sampling.html#cb250-2" tabindex="-1"></a>sd_at <span class="ot">&lt;-</span> <span class="cf">function</span>(n) <span class="fu">sd</span>(<span class="fu">replicate</span>(<span class="dv">2000</span>, <span class="fu">draw_line</span>(n)[<span class="st">&quot;attendance&quot;</span>]))</span>
-<span id="cb250-3"><a href="ols-sampling.html#cb250-3" tabindex="-1"></a></span>
-<span id="cb250-4"><a href="ols-sampling.html#cb250-4" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">sapply</span>(<span class="fu">c</span>(<span class="dv">20</span>, <span class="dv">40</span>, <span class="dv">80</span>, <span class="dv">160</span>, <span class="dv">320</span>), sd_at), <span class="dv">4</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb255"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb255-1"><a href="ols-sampling.html#cb255-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb255-2"><a href="ols-sampling.html#cb255-2" tabindex="-1"></a>sd_at <span class="ot">&lt;-</span> <span class="cf">function</span>(n) <span class="fu">sd</span>(<span class="fu">replicate</span>(<span class="dv">2000</span>, <span class="fu">draw_line</span>(n)[<span class="st">&quot;attendance&quot;</span>]))</span>
+<span id="cb255-3"><a href="ols-sampling.html#cb255-3" tabindex="-1"></a></span>
+<span id="cb255-4"><a href="ols-sampling.html#cb255-4" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">sapply</span>(<span class="fu">c</span>(<span class="dv">20</span>, <span class="dv">40</span>, <span class="dv">80</span>, <span class="dv">160</span>, <span class="dv">320</span>), sd_at), <span class="dv">4</span>)</span></code></pre></div>
 <pre><code>#&gt; [1] 0.0796 0.0525 0.0363 0.0242 0.0179</code></pre>
 <p>Larger samples give a tighter distribution, and the pattern is familiar: each
 quadrupling of <span class="math inline">\(n\)</span> roughly halves the spread. That is the <span class="math inline">\(\sqrt{n}\)</span> rule of Unit
@@ -669,18 +682,18 @@ quadrupling of <span class="math inline">\(n\)</span> roughly halves the spread.
 <p>Now hold the sample size fixed at forty and change the <em>range of attendance</em>
 instead. Restrict the pool to students who attended between 24 and 30 classes,
 so that <span class="math inline">\(x\)</span> varies far less.</p>
-<div class="sourceCode" id="cb252"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb252-1"><a href="ols-sampling.html#cb252-1" tabindex="-1"></a>narrow <span class="ot">&lt;-</span> students[students<span class="sc">$</span>attendance <span class="sc">&gt;=</span> <span class="dv">24</span> <span class="sc">&amp;</span> students<span class="sc">$</span>attendance <span class="sc">&lt;=</span> <span class="dv">30</span>, ]</span>
-<span id="cb252-2"><a href="ols-sampling.html#cb252-2" tabindex="-1"></a></span>
-<span id="cb252-3"><a href="ols-sampling.html#cb252-3" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2</span>)</span>
-<span id="cb252-4"><a href="ols-sampling.html#cb252-4" tabindex="-1"></a>sd_narrow <span class="ot">&lt;-</span> <span class="fu">sd</span>(<span class="fu">replicate</span>(<span class="dv">2000</span>, {</span>
-<span id="cb252-5"><a href="ols-sampling.html#cb252-5" tabindex="-1"></a>  samp <span class="ot">&lt;-</span> narrow[<span class="fu">sample</span>(<span class="fu">nrow</span>(narrow), <span class="dv">40</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>), ]</span>
-<span id="cb252-6"><a href="ols-sampling.html#cb252-6" tabindex="-1"></a>  <span class="fu">coef</span>(<span class="fu">lm</span>(sem_gpa <span class="sc">~</span> attendance, <span class="at">data =</span> samp))[<span class="dv">2</span>]</span>
-<span id="cb252-7"><a href="ols-sampling.html#cb252-7" tabindex="-1"></a>}))</span>
-<span id="cb252-8"><a href="ols-sampling.html#cb252-8" tabindex="-1"></a></span>
-<span id="cb252-9"><a href="ols-sampling.html#cb252-9" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">sd_x_full    =</span> <span class="fu">sd</span>(students<span class="sc">$</span>attendance),</span>
-<span id="cb252-10"><a href="ols-sampling.html#cb252-10" tabindex="-1"></a>        <span class="at">sd_x_narrow  =</span> <span class="fu">sd</span>(narrow<span class="sc">$</span>attendance),</span>
-<span id="cb252-11"><a href="ols-sampling.html#cb252-11" tabindex="-1"></a>        <span class="at">sd_b1_full   =</span> <span class="fu">sd_at</span>(<span class="dv">40</span>),</span>
-<span id="cb252-12"><a href="ols-sampling.html#cb252-12" tabindex="-1"></a>        <span class="at">sd_b1_narrow =</span> sd_narrow), <span class="dv">4</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb257"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb257-1"><a href="ols-sampling.html#cb257-1" tabindex="-1"></a>narrow <span class="ot">&lt;-</span> students[students<span class="sc">$</span>attendance <span class="sc">&gt;=</span> <span class="dv">24</span> <span class="sc">&amp;</span> students<span class="sc">$</span>attendance <span class="sc">&lt;=</span> <span class="dv">30</span>, ]</span>
+<span id="cb257-2"><a href="ols-sampling.html#cb257-2" tabindex="-1"></a></span>
+<span id="cb257-3"><a href="ols-sampling.html#cb257-3" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2</span>)</span>
+<span id="cb257-4"><a href="ols-sampling.html#cb257-4" tabindex="-1"></a>sd_narrow <span class="ot">&lt;-</span> <span class="fu">sd</span>(<span class="fu">replicate</span>(<span class="dv">2000</span>, {</span>
+<span id="cb257-5"><a href="ols-sampling.html#cb257-5" tabindex="-1"></a>  samp <span class="ot">&lt;-</span> narrow[<span class="fu">sample</span>(<span class="fu">nrow</span>(narrow), <span class="dv">40</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>), ]</span>
+<span id="cb257-6"><a href="ols-sampling.html#cb257-6" tabindex="-1"></a>  <span class="fu">coef</span>(<span class="fu">lm</span>(sem_gpa <span class="sc">~</span> attendance, <span class="at">data =</span> samp))[<span class="dv">2</span>]</span>
+<span id="cb257-7"><a href="ols-sampling.html#cb257-7" tabindex="-1"></a>}))</span>
+<span id="cb257-8"><a href="ols-sampling.html#cb257-8" tabindex="-1"></a></span>
+<span id="cb257-9"><a href="ols-sampling.html#cb257-9" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">sd_x_full    =</span> <span class="fu">sd</span>(students<span class="sc">$</span>attendance),</span>
+<span id="cb257-10"><a href="ols-sampling.html#cb257-10" tabindex="-1"></a>        <span class="at">sd_x_narrow  =</span> <span class="fu">sd</span>(narrow<span class="sc">$</span>attendance),</span>
+<span id="cb257-11"><a href="ols-sampling.html#cb257-11" tabindex="-1"></a>        <span class="at">sd_b1_full   =</span> <span class="fu">sd_at</span>(<span class="dv">40</span>),</span>
+<span id="cb257-12"><a href="ols-sampling.html#cb257-12" tabindex="-1"></a>        <span class="at">sd_b1_narrow =</span> sd_narrow), <span class="dv">4</span>)</span></code></pre></div>
 <pre><code>#&gt;    sd_x_full  sd_x_narrow   sd_b1_full sd_b1_narrow 
 #&gt;       5.4550       1.8949       0.0525       0.1329</code></pre>
 <p>This is the striking one. The sample size is identical. What changed is that

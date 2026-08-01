@@ -14,3 +14,6 @@ ols-het-see	f_w	fit_w	quartile	u_w	wages
 ols-het-plot	res_df
 ols-het-coverage	
 ols-het-robust	
+os-power-plot	crit	d0	d1	xg
+os-power-calc	crit	delta	se
+os-power-table	power_at

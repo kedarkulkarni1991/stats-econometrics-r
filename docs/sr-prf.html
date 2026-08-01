@@ -330,16 +330,29 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="os-onetailed.html"><a href="os-onetailed.html#unknown-%CF%83-the-one-sided-t-test"><i class="fa fa-check"></i>Unknown σ: the one-sided t-test</a></li>
 <li class="chapter" data-level="" data-path="os-onetailed.html"><a href="os-onetailed.html#the-one-sided-interval-looks-backwards"><i class="fa fa-check"></i>The one-sided interval looks backwards</a></li>
 </ul></li>
-<li class="chapter" data-level="4.9" data-path="os-reference.html"><a href="os-reference.html"><i class="fa fa-check"></i><b>4.9</b> Reference tables</a></li>
-<li class="chapter" data-level="4.10" data-path="os-summary.html"><a href="os-summary.html"><i class="fa fa-check"></i><b>4.10</b> Summary</a></li>
-<li class="chapter" data-level="4.11" data-path="os-exercises.html"><a href="os-exercises.html"><i class="fa fa-check"></i><b>4.11</b> Practice problems</a></li>
-<li class="chapter" data-level="4.12" data-path="os-question-bank.html"><a href="os-question-bank.html"><i class="fa fa-check"></i><b>4.12</b> Question bank</a>
+<li class="chapter" data-level="4.9" data-path="os-errors.html"><a href="os-errors.html"><i class="fa fa-check"></i><b>4.9</b> Two ways to be wrong</a>
+<ul>
+<li class="chapter" data-level="" data-path="os-errors.html"><a href="os-errors.html#the-two-errors"><i class="fa fa-check"></i>The two errors</a></li>
+<li class="chapter" data-level="" data-path="os-errors.html"><a href="os-errors.html#the-umpires-call"><i class="fa fa-check"></i>The umpire’s call</a></li>
+<li class="chapter" data-level="" data-path="os-errors.html"><a href="os-errors.html#why-errors-happen-at-all"><i class="fa fa-check"></i>Why errors happen at all</a></li>
+<li class="chapter" data-level="" data-path="os-errors.html"><a href="os-errors.html#power"><i class="fa fa-check"></i>Power</a></li>
+<li class="chapter" data-level="" data-path="os-errors.html"><a href="os-errors.html#working-it-out"><i class="fa fa-check"></i>Working it out</a></li>
+<li class="chapter" data-level="" data-path="os-errors.html"><a href="os-errors.html#what-determines-power"><i class="fa fa-check"></i>What determines power</a></li>
+</ul></li>
+<li class="chapter" data-level="4.10" data-path="os-reference.html"><a href="os-reference.html"><i class="fa fa-check"></i><b>4.10</b> Reference tables</a></li>
+<li class="chapter" data-level="4.11" data-path="os-summary.html"><a href="os-summary.html"><i class="fa fa-check"></i><b>4.11</b> Summary</a></li>
+<li class="chapter" data-level="4.12" data-path="os-exercises.html"><a href="os-exercises.html"><i class="fa fa-check"></i><b>4.12</b> Practice problems</a>
+<ul>
+<li class="chapter" data-level="" data-path="os-exercises.html"><a href="os-exercises.html#type-i-and-type-ii-errors"><i class="fa fa-check"></i>Type I and Type II errors</a></li>
+</ul></li>
+<li class="chapter" data-level="4.13" data-path="os-question-bank.html"><a href="os-question-bank.html"><i class="fa fa-check"></i><b>4.13</b> Question bank</a>
 <ul>
 <li class="chapter" data-level="" data-path="os-question-bank.html"><a href="os-question-bank.html#multiple-choice-3"><i class="fa fa-check"></i>Multiple choice</a></li>
 <li class="chapter" data-level="" data-path="os-question-bank.html"><a href="os-question-bank.html#short-reasoning-3"><i class="fa fa-check"></i>Short reasoning</a></li>
 <li class="chapter" data-level="" data-path="os-question-bank.html"><a href="os-question-bank.html#numerical-3"><i class="fa fa-check"></i>Numerical</a></li>
+<li class="chapter" data-level="" data-path="os-question-bank.html"><a href="os-question-bank.html#errors-and-power"><i class="fa fa-check"></i>Errors and power</a></li>
 </ul></li>
-<li class="chapter" data-level="4.13" data-path="os-looking-ahead.html"><a href="os-looking-ahead.html"><i class="fa fa-check"></i><b>4.13</b> Looking ahead</a></li>
+<li class="chapter" data-level="4.14" data-path="os-looking-ahead.html"><a href="os-looking-ahead.html"><i class="fa fa-check"></i><b>4.14</b> Looking ahead</a></li>
 </ul></li>
 <li class="chapter" data-level="5" data-path="two-sample.html"><a href="two-sample.html"><i class="fa fa-check"></i><b>5</b> Hypothesis Testing: Two Samples</a>
 <ul>
@@ -529,10 +542,10 @@ through a cloud of points. That is not quite right.</p>
 expect.</p>
 <p>Forty-nine students in our data attended exactly 25 classes. They did not
 receive the same semester GPA.</p>
-<div class="sourceCode" id="cb230"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb230-1"><a href="sr-prf.html#cb230-1" tabindex="-1"></a>at25 <span class="ot">&lt;-</span> students[students<span class="sc">$</span>attendance <span class="sc">==</span> <span class="dv">25</span>, ]</span>
-<span id="cb230-2"><a href="sr-prf.html#cb230-2" tabindex="-1"></a></span>
-<span id="cb230-3"><a href="sr-prf.html#cb230-3" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">n =</span> <span class="fu">nrow</span>(at25), <span class="at">average_gpa =</span> <span class="fu">mean</span>(at25<span class="sc">$</span>sem_gpa),</span>
-<span id="cb230-4"><a href="sr-prf.html#cb230-4" tabindex="-1"></a>        <span class="at">lowest =</span> <span class="fu">min</span>(at25<span class="sc">$</span>sem_gpa), <span class="at">highest =</span> <span class="fu">max</span>(at25<span class="sc">$</span>sem_gpa)), <span class="dv">3</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb235"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb235-1"><a href="sr-prf.html#cb235-1" tabindex="-1"></a>at25 <span class="ot">&lt;-</span> students[students<span class="sc">$</span>attendance <span class="sc">==</span> <span class="dv">25</span>, ]</span>
+<span id="cb235-2"><a href="sr-prf.html#cb235-2" tabindex="-1"></a></span>
+<span id="cb235-3"><a href="sr-prf.html#cb235-3" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">n =</span> <span class="fu">nrow</span>(at25), <span class="at">average_gpa =</span> <span class="fu">mean</span>(at25<span class="sc">$</span>sem_gpa),</span>
+<span id="cb235-4"><a href="sr-prf.html#cb235-4" tabindex="-1"></a>        <span class="at">lowest =</span> <span class="fu">min</span>(at25<span class="sc">$</span>sem_gpa), <span class="at">highest =</span> <span class="fu">max</span>(at25<span class="sc">$</span>sem_gpa)), <span class="dv">3</span>)</span></code></pre></div>
 <pre><code>#&gt;           n average_gpa      lowest     highest 
 #&gt;      49.000       6.098       1.575       9.075</code></pre>
 <p>One scored 1.58 and another 9.08, and forty-seven others lay in between — all of
@@ -554,12 +567,12 @@ conditional on a particular attendance level. We write the conditional mean as</
 whose <span class="math inline">\(X\)</span> equals <span class="math inline">\(x\)</span>.”</p>
 <p>The table below approximates these conditional means by grouping attendance into
 bands.</p>
-<div class="sourceCode" id="cb232"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb232-1"><a href="sr-prf.html#cb232-1" tabindex="-1"></a>students<span class="sc">$</span>band <span class="ot">&lt;-</span> <span class="fu">cut</span>(students<span class="sc">$</span>attendance,</span>
-<span id="cb232-2"><a href="sr-prf.html#cb232-2" tabindex="-1"></a>                     <span class="at">breaks =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">20</span>, <span class="dv">24</span>, <span class="dv">27</span>, <span class="dv">30</span>, <span class="dv">33</span>),</span>
-<span id="cb232-3"><a href="sr-prf.html#cb232-3" tabindex="-1"></a>                     <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;2–20&quot;</span>, <span class="st">&quot;21–24&quot;</span>, <span class="st">&quot;25–27&quot;</span>, <span class="st">&quot;28–30&quot;</span>, <span class="st">&quot;31–32&quot;</span>))</span>
-<span id="cb232-4"><a href="sr-prf.html#cb232-4" tabindex="-1"></a></span>
-<span id="cb232-5"><a href="sr-prf.html#cb232-5" tabindex="-1"></a><span class="fu">aggregate</span>(sem_gpa <span class="sc">~</span> band, <span class="at">data =</span> students,</span>
-<span id="cb232-6"><a href="sr-prf.html#cb232-6" tabindex="-1"></a>          <span class="cf">function</span>(x) <span class="fu">round</span>(<span class="fu">c</span>(<span class="at">n =</span> <span class="fu">length</span>(x), <span class="at">mean_gpa =</span> <span class="fu">mean</span>(x)), <span class="dv">2</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb237"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb237-1"><a href="sr-prf.html#cb237-1" tabindex="-1"></a>students<span class="sc">$</span>band <span class="ot">&lt;-</span> <span class="fu">cut</span>(students<span class="sc">$</span>attendance,</span>
+<span id="cb237-2"><a href="sr-prf.html#cb237-2" tabindex="-1"></a>                     <span class="at">breaks =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">20</span>, <span class="dv">24</span>, <span class="dv">27</span>, <span class="dv">30</span>, <span class="dv">33</span>),</span>
+<span id="cb237-3"><a href="sr-prf.html#cb237-3" tabindex="-1"></a>                     <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;2–20&quot;</span>, <span class="st">&quot;21–24&quot;</span>, <span class="st">&quot;25–27&quot;</span>, <span class="st">&quot;28–30&quot;</span>, <span class="st">&quot;31–32&quot;</span>))</span>
+<span id="cb237-4"><a href="sr-prf.html#cb237-4" tabindex="-1"></a></span>
+<span id="cb237-5"><a href="sr-prf.html#cb237-5" tabindex="-1"></a><span class="fu">aggregate</span>(sem_gpa <span class="sc">~</span> band, <span class="at">data =</span> students,</span>
+<span id="cb237-6"><a href="sr-prf.html#cb237-6" tabindex="-1"></a>          <span class="cf">function</span>(x) <span class="fu">round</span>(<span class="fu">c</span>(<span class="at">n =</span> <span class="fu">length</span>(x), <span class="at">mean_gpa =</span> <span class="fu">mean</span>(x)), <span class="dv">2</span>))</span></code></pre></div>
 <pre><code>#&gt;    band sem_gpa.n sem_gpa.mean_gpa
 #&gt; 1  2–20     94.00             4.38
 #&gt; 2 21–24     85.00             6.18

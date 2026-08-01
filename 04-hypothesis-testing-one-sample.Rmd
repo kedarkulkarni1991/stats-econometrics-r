@@ -1072,6 +1072,251 @@ small. So the values of $\mu$ it rules out are the ones that are too *large*
 relative to what we saw. That leaves an upper bound.
 :::
 
+## Two ways to be wrong {#os-errors}
+
+::: {.question}
+We have spent this unit controlling one kind of mistake. What about the other?
+:::
+
+Every test so far has been built around $\alpha$, the risk of rejecting a claim
+that happens to be true. We chose it in advance, usually 0.05, and everything
+followed.
+
+But rejecting a true claim is only one way to get the answer wrong. We could also
+fail to reject a false one — conclude that a drug does nothing when it works,
+that a programme has no effect when it does.
+
+That second error has had no name and no symbol so far. It gets both now, and it
+turns out to matter at least as much as the first.
+
+### The two errors {-}
+
+::: {.keyidea}
+A **Type I error** is rejecting $H_0$ when $H_0$ is true. A false alarm.
+
+$$\alpha = P(\text{reject } H_0 \mid H_0 \text{ true})$$
+
+A **Type II error** is failing to reject $H_0$ when $H_A$ is true. A missed
+detection.
+
+$$\beta = P(\text{fail to reject } H_0 \mid H_A \text{ true})$$
+:::
+
+Think of a smoke alarm.
+
+Sometimes there is no fire, and the alarm goes off anyway — a false alarm, and a
+Type I error. Setting $\alpha = 0.05$ says we will tolerate this about five times
+in a hundred when nothing is wrong.
+
+Sometimes there *is* a fire and the alarm stays silent. That is a Type II error,
+and it is the one that burns the house down.
+
+Table: (\#tab:os-errors-table) The four possible outcomes of a hypothesis test.
+
+| | **Fail to reject $H_0$** | **Reject $H_0$** |
+|:--|:--|:--|
+| **$H_0$ is true** | Correct | **Type I error** ($\alpha$) |
+| **$H_A$ is true** | **Type II error** ($\beta$) | Correct |
+
+Two cells are mistakes, and they are not the same mistake. A test cannot make
+both at once — which of them is even possible depends on a fact about the world
+that we do not know.
+
+### The umpire's call {-}
+
+Cricket's Decision Review System is a hypothesis test, and a well-designed one.
+
+$$H_0 : \text{the on-field umpire was right}
+\qquad
+H_A : \text{the on-field umpire was wrong}$$
+
+A Type I error overturns a correct decision. A Type II error lets a wrong
+decision stand.
+
+::: {.intuition}
+The system's "umpire's call" rule — where marginal ball-tracking evidence leaves
+the original decision standing — is exactly a choice to keep $\alpha$ small.
+
+Overturning requires clear evidence, not a coin-flip's worth. The designers
+decided that wrongly overturning a correct umpire is a worse error than
+occasionally failing to correct a wrong one, and they built that judgement into
+the threshold.
+
+Every choice of $\alpha$ is a judgement of the same kind, whether or not it is
+made deliberately.
+:::
+
+### Why errors happen at all {-}
+
+Both errors have the same root cause: the sampling distribution under $H_0$ and
+the sampling distribution under $H_A$ overlap.
+
+If a sample mean lands in the region where the two overlap, it is consistent with
+either explanation, and no procedure can tell them apart with certainty.
+
+```{r os-power-plot, echo = FALSE, fig.height = 3.8, cache = TRUE, fig.cap = "Two sampling distributions: the left curve holds if the null is true, the right one if the true mean is 2. The vertical line is the critical value, 1.645. Alpha is the sliver of the null distribution beyond it -- rejecting when the null is true. Beta is the much larger part of the alternative distribution below it -- failing to reject when the alternative is true. Power is what remains."}
+xg <- seq(-3.5, 5.5, length.out = 800)
+crit <- qnorm(0.95)
+
+d0 <- data.frame(x = xg, y = dnorm(xg, 0, 1))
+d1 <- data.frame(x = xg, y = dnorm(xg, 2, 1))
+
+ggplot() +
+  geom_area(data = subset(d1, x <= crit), aes(x, y),
+            fill = book_palette$reject, alpha = 0.45) +
+  geom_area(data = subset(d0, x >= crit), aes(x, y),
+            fill = "#2f855a", alpha = 0.55) +
+  geom_line(data = d0, aes(x, y), colour = "grey25", linewidth = 0.8) +
+  geom_line(data = d1, aes(x, y), colour = book_palette$accent, linewidth = 0.8) +
+  geom_vline(xintercept = crit, linewidth = 0.6, colour = "grey15") +
+  annotate("text", x = -0.9, y = 0.30, label = "H[0]~true", parse = TRUE,
+           colour = "grey25", size = 3.4) +
+  annotate("text", x = 3.4, y = 0.30, label = "mu==2", parse = TRUE,
+           colour = book_palette$accent, size = 3.4) +
+  annotate("text", x = 2.45, y = 0.022, label = "alpha", parse = TRUE,
+           colour = "#2f855a", size = 4) +
+  annotate("text", x = 0.95, y = 0.055, label = "beta", parse = TRUE,
+           colour = book_palette$reject, size = 4) +
+  annotate("text", x = crit, y = 0.43, label = "critical value", size = 3.2,
+           colour = "grey15", hjust = -0.08) +
+  labs(x = "Sample mean (standard errors from the null)", y = NULL) +
+  theme_book() +
+  theme(axis.text.y = element_blank(), panel.grid.minor = element_blank())
+```
+
+Notice the shape of the trade-off. Moving the critical value to the right shrinks
+the green area and enlarges the red one: fewer false alarms, more missed
+detections. Moving it left does the reverse.
+
+::: {.watchout}
+**$\alpha$ and $\beta$ cannot both be made small by choosing a threshold.**
+
+The threshold only slides the boundary between them. Reducing $\alpha$ from 0.05
+to 0.01 buys fewer false alarms at the direct cost of more missed real effects.
+
+The only way to reduce both at once is to separate the two distributions — which
+means a larger sample, a bigger effect, or less noise. That is a matter of study
+design, not of choosing a number.
+:::
+
+### Power {-}
+
+::: {.keyidea}
+The **power** of a test is the probability of detecting an effect that is really
+there:
+
+$$\text{Power} = 1 - \beta = P(\text{reject } H_0 \mid H_A \text{ true})$$
+
+$\alpha$ is chosen. Power is a *consequence* — of the sample size, the size of
+the effect, and the noise in the data.
+:::
+
+Unlike $\alpha$, power cannot be stated without saying *how large* the effect is.
+A test that easily detects a large effect may be hopeless against a small one, so
+"the power of this test" is always shorthand for "the power against an effect of
+this particular size."
+
+### Working it out {-}
+
+A new drug is believed to lower blood pressure. We test
+
+$$H_0 : \mu \leq 0 \qquad H_A : \mu > 0$$
+
+where $\mu$ is the average reduction. Suppose $\sigma = 4$, the trial has
+$n = 16$ patients, and we work at $\alpha = 0.05$.
+
+**Step 1 — the rejection rule.** One-sided at 5%, so the critical value is
+$z_{0.05} = 1.645$, and we reject when $Z > 1.645$.
+
+**Step 2 — suppose the drug works.** Say the true average reduction is
+$\mu_1 = 2$ points. The standard error is
+
+$$\mathrm{se} = \frac{\sigma}{\sqrt{n}} = \frac{4}{\sqrt{16}} = 1$$
+
+**Step 3 — where the statistic now sits.** Under $H_0$ the statistic
+$Z = \bar{X}/\mathrm{se}$ is centred on zero. If the truth is $\mu_1 = 2$, it is
+centred instead on
+
+$$\delta = \frac{\mu_1 - \mu_0}{\mathrm{se}} = \frac{2 - 0}{1} = 2$$
+
+**Step 4 — the probability of missing it.** We fail to reject when
+$Z \leq 1.645$. Under the alternative, $Z$ is centred on 2, so
+
+$$\beta = P(Z \leq 1.645 \mid \mu = 2) = P(Z - 2 \leq -0.355) = \Phi(-0.355)$$
+
+```{r os-power-calc, cache = TRUE}
+se    <- 4 / sqrt(16)
+delta <- (2 - 0) / se
+crit  <- qnorm(0.95)
+
+c(critical_value = crit,
+  shift          = delta,
+  beta           = pnorm(crit - delta),
+  power          = 1 - pnorm(crit - delta))
+```
+
+So $\beta = 0.36$ and the power is **0.64**.
+
+Read that carefully. The drug genuinely works — it lowers blood pressure by two
+points on average — and this trial has a better than one-in-three chance of
+failing to notice.
+
+::: {.watchout}
+A trial like this is **underpowered**. If it returns "no significant effect",
+that tells us very little: we already knew the study would miss a real
+two-point effect about 36% of the time.
+
+This is the sharpest version of a point made in Section \@ref(os-pvalue). Failing
+to reject $H_0$ is not evidence that $H_0$ is true, and when power is low it is
+barely evidence of anything at all.
+:::
+
+### What determines power {-}
+
+Four things, and it is worth seeing which of them are under our control.
+
+```{r os-power-table, cache = TRUE}
+power_at <- function(n, effect = 2, sigma = 4, alpha = 0.05) {
+  se <- sigma / sqrt(n)
+  round(1 - pnorm(qnorm(1 - alpha) - effect / se), 3)
+}
+
+data.frame(n            = c(16, 25, 50, 100, 200),
+           power_vs_2   = sapply(c(16, 25, 50, 100, 200), power_at),
+           power_vs_1   = sapply(c(16, 25, 50, 100, 200), power_at, effect = 1))
+```
+
+::: {.keyidea}
+Power rises when
+
+- the **effect is larger** — big effects are easy to find;
+- the **sample is larger** — the two distributions pull apart;
+- the **noise is smaller** — the distributions are narrower;
+- **$\alpha$ is larger** — a lower bar to clear, at the cost of more false
+  alarms.
+
+The first is a fact about the world. The last is a choice with a price. Only the
+middle two are improvements in the ordinary sense.
+:::
+
+The table shows the practical consequence. Against a two-point effect this trial
+needs about fifty patients for respectable power. Against a one-point effect,
+even two hundred patients leave it detecting the effect barely two-thirds of the
+time.
+
+::: {.intuition}
+This is why power should be computed *before* a study, not after.
+
+Deciding how many patients to recruit means asking: what is the smallest effect
+worth detecting, and how many observations does it take to have a fair chance of
+detecting it? A study that cannot answer its question is not worth running, and
+that can be known in advance.
+
+Computing power after a null result is a different and largely futile exercise.
+The honest statement is the one the design already implied.
+:::
+
+
 ## Reference tables {#os-reference}
 
 Table: (\#tab:os-ref-z) Every one-sample test of a mean in this unit. Use `z.test()` when $\sigma$ is known and `t.test()` when it is not; the argument below selects the direction. There are only two procedures, each run three ways.
@@ -1113,7 +1358,14 @@ Table: (\#tab:os-ref-crit) Standard normal critical values. Every figure below i
 5. A $p$-value is $P(\text{data} \mid H_0)$, never $P(H_0 \mid \text{data})$.
 6. The equals sign always lives in $H_0$. "Can you reject the claim?" puts the
    claim in $H_0$; "is there evidence supporting the claim?" puts it in $H_A$.
-7. `qnorm()` and `qt()` replace every printed table you own.
+7. A **Type I error** rejects a true null, with probability $\alpha$. A **Type
+   II error** fails to reject a false one, with probability $\beta$. Lowering
+   one raises the other; only better data lowers both.
+8. **Power** $= 1 - \beta$ is the chance of detecting an effect that is really
+   there. It is not chosen but inherited — from the sample size, the size of the
+   effect and the noise. A trial with 64% power misses a real effect more than
+   once in three.
+9. `qnorm()` and `qt()` replace every printed table you own.
 :::
 
 
@@ -1286,6 +1538,130 @@ against $H_0$ — but the statement is about how surprising the data are, not
 about how probable the hypothesis is.
 :::
 
+### Type I and Type II errors {-}
+
+**4.15** A district administration tests whether a new teaching programme raised
+average test scores. State, in the language of the problem, what a Type I error
+and a Type II error would be, and say which you would consider more serious.
+
+::: {.answer}
+A **Type I error** is concluding the programme raised scores when it did not.
+The district would scale up an ineffective programme, spending money and
+teaching time that could have gone elsewhere, and would believe a problem had
+been solved when it had not.
+
+A **Type II error** is concluding the programme did not work when it did. A
+genuinely effective intervention would be abandoned.
+
+Which is worse is not a statistical question. If the programme is cheap and the
+alternative is doing nothing, a missed effect is the costlier error and a larger
+$\alpha$ might be defensible. If scaling up is expensive and irreversible, the
+false alarm is worse.
+
+The point is that $\alpha$ encodes such a judgement whether or not anyone makes
+it deliberately. Choosing 0.05 out of habit is still choosing.
+:::
+
+**4.16** Explain why setting $\alpha = 0.001$ does not make a test "more
+accurate".
+
+::: {.answer}
+It makes the test less likely to raise a false alarm and *more* likely to miss a
+real effect. Lowering $\alpha$ moves the critical value further out, which
+shrinks the rejection region — and the rejection region is where real effects get
+detected too.
+
+Accuracy in any useful sense involves both errors. Reducing one by moving the
+threshold always increases the other, because the threshold is the boundary
+between them.
+
+Both fall together only when the two sampling distributions move apart, which
+requires a larger sample, a bigger effect or less noise. That is a matter of
+design, not of choosing a smaller number.
+:::
+
+**4.17** A trial with $\sigma = 4$ and $n = 16$ tests $H_0: \mu \leq 0$ against
+$H_A: \mu > 0$ at $\alpha = 0.05$. The true effect is $\mu_1 = 2$.
+
+i. Compute the critical value and the standard error.
+ii. Compute $\beta$ and the power.
+iii. Recompute the power at $\alpha = 0.01$.
+iv. What does the comparison show?
+
+::: {.answer}
+**(i)** One-sided at 5%: $z_{0.05} = 1.645$. Standard error
+$= 4/\sqrt{16} = 1$.
+
+**(ii)** Under the alternative the statistic is centred on
+$\delta = (2-0)/1 = 2$, so
+
+$$\beta = P(Z \leq 1.645 - 2) = \Phi(-0.355) = 0.361$$
+
+and the power is $1 - 0.361 = 0.639$.
+
+**(iii)** At $\alpha = 0.01$ the critical value is $z_{0.01} = 2.326$, so
+$\beta = \Phi(2.326 - 2) = \Phi(0.326) = 0.628$ and the power falls to **0.372**.
+
+**(iv)** Tightening $\alpha$ from 5% to 1% cut the chance of detecting a real
+two-point effect from 64% to 37%. The stricter test is not the better test; it
+has simply traded one error for the other. Nothing about the drug changed.
+:::
+
+**4.18** How large must the trial in the previous question be to detect a
+two-point effect with 80% power?
+
+::: {.answer}
+Power of 80% means $\beta = 0.20$, and the critical value must sit $z_{0.20}$
+below the alternative's centre. Since $z_{0.20} = 0.842$, we need
+
+$$\delta = z_{\alpha} + z_{\beta} = 1.645 + 0.842 = 2.487$$
+
+With $\delta = (\mu_1 - \mu_0)\sqrt{n}/\sigma$,
+
+$$\sqrt{n} = \frac{2.487 \times 4}{2} = 4.97
+\qquad\Longrightarrow\qquad
+n = 24.7$$
+
+so 25 patients. Checking against the table in Section \@ref(os-errors), $n = 25$
+gives power 0.804.
+
+Note the shape of this calculation: it is done *before* the trial, and it
+requires naming the smallest effect worth detecting. That is a judgement about
+medicine, not statistics, and it has to be made either way.
+:::
+
+**4.19** Plot the power of the trial in question 4.17 against sample size, for
+true effects of one point and two points.
+
+::: {.answer}
+```{r os-ex-power, fig.height = 3.4, fig.cap = "Power against sample size for two effect sizes. Small effects need far more data."}
+power_at <- function(n, effect, sigma = 4, alpha = 0.05) {
+  1 - pnorm(qnorm(1 - alpha) - effect / (sigma / sqrt(n)))
+}
+
+grid <- expand.grid(n = seq(5, 250, by = 5), effect = c(1, 2))
+grid$power <- power_at(grid$n, grid$effect)
+grid$effect <- factor(grid$effect, labels = c("1 point", "2 points"))
+
+ggplot(grid, aes(n, power, colour = effect)) +
+  geom_hline(yintercept = 0.8, linetype = "dashed", colour = "grey45") +
+  geom_line(linewidth = 0.9) +
+  scale_colour_manual(values = c(book_palette$reject, book_palette$accent),
+                      name = "True effect") +
+  labs(x = "Sample size", y = "Power") +
+  theme_book() +
+  theme(legend.position = "top")
+```
+
+Both curves rise towards 1, and the dashed line marks the conventional 80%
+target. Detecting a two-point effect takes about 25 patients; detecting a
+one-point effect takes about 100.
+
+Halving the effect roughly quadruples the sample needed, which is the $\sqrt{n}$
+rule appearing once more: precision improves with the square root of the sample,
+so detecting an effect half the size requires four times the data.
+:::
+
 ## Question bank {#os-question-bank}
 
 ::: {.watchout}
@@ -1395,6 +1771,74 @@ c. Would your conclusion change at the 95% level? Explain *why* before you
 
 *Part (c) is the one that separates understanding from arithmetic.*
 
+
+### Errors and power {-}
+
+**QB 4.18** A Type II error is
+
+a. rejecting a true null hypothesis
+b. failing to reject a false null hypothesis
+c. choosing the wrong significance level
+d. computing the $p$-value incorrectly
+
+**QB 4.19** Reducing $\alpha$ from 0.05 to 0.01, holding everything else fixed,
+
+a. reduces both error probabilities
+b. reduces Type I error and increases Type II error
+c. increases Type I error and reduces Type II error
+d. leaves power unchanged
+
+**QB 4.20** The power of a test is
+
+a. $\alpha$
+b. $1 - \alpha$
+c. $\beta$
+d. $1 - \beta$
+
+**QB 4.21** Power increases when *(select all that apply)*
+
+a. the sample size grows
+b. the true effect is larger
+c. the population standard deviation is larger
+d. $\alpha$ is made smaller
+
+**QB 4.22** A study reports "no significant effect" and had 30% power against
+the effect it was looking for. The most accurate conclusion is
+
+a. there is no effect
+b. the effect is small
+c. the study was unlikely to detect the effect even if it existed
+d. the null hypothesis has been confirmed
+
+**QB 4.23** In the Decision Review System, "umpire's call" on a marginal
+ball-tracking decision reflects a choice to
+
+a. keep $\alpha$ small
+b. keep $\beta$ small
+c. maximise power
+d. eliminate both errors
+
+**QB 4.24** Explain why power cannot be stated for a test without also stating
+an effect size, whereas $\alpha$ can.
+
+**QB 4.25** A colleague computes the power of a study after it has returned a
+null result, using the effect size the study itself estimated. Explain what is
+wrong with this.
+
+**QB 4.26** A quality inspector tests whether a machine's mean fill weight has
+drifted from 500 g. With $\sigma = 8$ g, $n = 25$ and $\alpha = 0.05$ two-sided:
+
+i. State the critical values.
+ii. Compute the power against a true mean of 503 g.
+iii. Compute the power against a true mean of 505 g.
+iv. How large a sample would give 90% power against a 3 g drift?
+
+**QB 4.27** Two studies test the same hypothesis. Study A has 40 observations,
+Study B has 400. Both report $p = 0.04$.
+
+i. Which provides stronger evidence that the effect is *large*?
+ii. Which had more power against a given effect size?
+iii. Explain why these two questions have different answers.
 
 ## Looking ahead {#os-looking-ahead}
 

@@ -330,16 +330,29 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="os-onetailed.html"><a href="os-onetailed.html#unknown-%CF%83-the-one-sided-t-test"><i class="fa fa-check"></i>Unknown σ: the one-sided t-test</a></li>
 <li class="chapter" data-level="" data-path="os-onetailed.html"><a href="os-onetailed.html#the-one-sided-interval-looks-backwards"><i class="fa fa-check"></i>The one-sided interval looks backwards</a></li>
 </ul></li>
-<li class="chapter" data-level="4.9" data-path="os-reference.html"><a href="os-reference.html"><i class="fa fa-check"></i><b>4.9</b> Reference tables</a></li>
-<li class="chapter" data-level="4.10" data-path="os-summary.html"><a href="os-summary.html"><i class="fa fa-check"></i><b>4.10</b> Summary</a></li>
-<li class="chapter" data-level="4.11" data-path="os-exercises.html"><a href="os-exercises.html"><i class="fa fa-check"></i><b>4.11</b> Practice problems</a></li>
-<li class="chapter" data-level="4.12" data-path="os-question-bank.html"><a href="os-question-bank.html"><i class="fa fa-check"></i><b>4.12</b> Question bank</a>
+<li class="chapter" data-level="4.9" data-path="os-errors.html"><a href="os-errors.html"><i class="fa fa-check"></i><b>4.9</b> Two ways to be wrong</a>
+<ul>
+<li class="chapter" data-level="" data-path="os-errors.html"><a href="os-errors.html#the-two-errors"><i class="fa fa-check"></i>The two errors</a></li>
+<li class="chapter" data-level="" data-path="os-errors.html"><a href="os-errors.html#the-umpires-call"><i class="fa fa-check"></i>The umpire’s call</a></li>
+<li class="chapter" data-level="" data-path="os-errors.html"><a href="os-errors.html#why-errors-happen-at-all"><i class="fa fa-check"></i>Why errors happen at all</a></li>
+<li class="chapter" data-level="" data-path="os-errors.html"><a href="os-errors.html#power"><i class="fa fa-check"></i>Power</a></li>
+<li class="chapter" data-level="" data-path="os-errors.html"><a href="os-errors.html#working-it-out"><i class="fa fa-check"></i>Working it out</a></li>
+<li class="chapter" data-level="" data-path="os-errors.html"><a href="os-errors.html#what-determines-power"><i class="fa fa-check"></i>What determines power</a></li>
+</ul></li>
+<li class="chapter" data-level="4.10" data-path="os-reference.html"><a href="os-reference.html"><i class="fa fa-check"></i><b>4.10</b> Reference tables</a></li>
+<li class="chapter" data-level="4.11" data-path="os-summary.html"><a href="os-summary.html"><i class="fa fa-check"></i><b>4.11</b> Summary</a></li>
+<li class="chapter" data-level="4.12" data-path="os-exercises.html"><a href="os-exercises.html"><i class="fa fa-check"></i><b>4.12</b> Practice problems</a>
+<ul>
+<li class="chapter" data-level="" data-path="os-exercises.html"><a href="os-exercises.html#type-i-and-type-ii-errors"><i class="fa fa-check"></i>Type I and Type II errors</a></li>
+</ul></li>
+<li class="chapter" data-level="4.13" data-path="os-question-bank.html"><a href="os-question-bank.html"><i class="fa fa-check"></i><b>4.13</b> Question bank</a>
 <ul>
 <li class="chapter" data-level="" data-path="os-question-bank.html"><a href="os-question-bank.html#multiple-choice-3"><i class="fa fa-check"></i>Multiple choice</a></li>
 <li class="chapter" data-level="" data-path="os-question-bank.html"><a href="os-question-bank.html#short-reasoning-3"><i class="fa fa-check"></i>Short reasoning</a></li>
 <li class="chapter" data-level="" data-path="os-question-bank.html"><a href="os-question-bank.html#numerical-3"><i class="fa fa-check"></i>Numerical</a></li>
+<li class="chapter" data-level="" data-path="os-question-bank.html"><a href="os-question-bank.html#errors-and-power"><i class="fa fa-check"></i>Errors and power</a></li>
 </ul></li>
-<li class="chapter" data-level="4.13" data-path="os-looking-ahead.html"><a href="os-looking-ahead.html"><i class="fa fa-check"></i><b>4.13</b> Looking ahead</a></li>
+<li class="chapter" data-level="4.14" data-path="os-looking-ahead.html"><a href="os-looking-ahead.html"><i class="fa fa-check"></i><b>4.14</b> Looking ahead</a></li>
 </ul></li>
 <li class="chapter" data-level="5" data-path="two-sample.html"><a href="two-sample.html"><i class="fa fa-check"></i><b>5</b> Hypothesis Testing: Two Samples</a>
 <ul>
@@ -599,15 +612,15 @@ the variable. Multiplying by 100 turns it into a percentage.</p>
 </div>
 <div id="fuel-efficiency-in-elasticity-form" class="section level3 unnumbered hasAnchor">
 <h3>Fuel efficiency, in elasticity form<a href="ols-forms.html#fuel-efficiency-in-elasticity-form" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<div class="sourceCode" id="cb270"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb270-1"><a href="ols-forms.html#cb270-1" tabindex="-1"></a>cars <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/car-mileage.csv&quot;</span>)</span>
-<span id="cb270-2"><a href="ols-forms.html#cb270-2" tabindex="-1"></a></span>
-<span id="cb270-3"><a href="ols-forms.html#cb270-3" tabindex="-1"></a>level_level <span class="ot">&lt;-</span> <span class="fu">lm</span>(mileage_kmpl <span class="sc">~</span> weight_kg, <span class="at">data =</span> cars)</span>
-<span id="cb270-4"><a href="ols-forms.html#cb270-4" tabindex="-1"></a>log_log     <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="fu">log</span>(mileage_kmpl) <span class="sc">~</span> <span class="fu">log</span>(weight_kg), <span class="at">data =</span> cars)</span>
-<span id="cb270-5"><a href="ols-forms.html#cb270-5" tabindex="-1"></a></span>
-<span id="cb270-6"><a href="ols-forms.html#cb270-6" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">rbind</span>(<span class="at">level_level =</span> <span class="fu">c</span>(<span class="at">slope =</span> <span class="fu">coef</span>(level_level)[<span class="dv">2</span>],</span>
-<span id="cb270-7"><a href="ols-forms.html#cb270-7" tabindex="-1"></a>                            <span class="at">r_squared =</span> <span class="fu">summary</span>(level_level)<span class="sc">$</span>r.squared),</span>
-<span id="cb270-8"><a href="ols-forms.html#cb270-8" tabindex="-1"></a>            <span class="at">log_log     =</span> <span class="fu">c</span>(<span class="at">slope =</span> <span class="fu">coef</span>(log_log)[<span class="dv">2</span>],</span>
-<span id="cb270-9"><a href="ols-forms.html#cb270-9" tabindex="-1"></a>                            <span class="at">r_squared =</span> <span class="fu">summary</span>(log_log)<span class="sc">$</span>r.squared)), <span class="dv">4</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb275"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb275-1"><a href="ols-forms.html#cb275-1" tabindex="-1"></a>cars <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/car-mileage.csv&quot;</span>)</span>
+<span id="cb275-2"><a href="ols-forms.html#cb275-2" tabindex="-1"></a></span>
+<span id="cb275-3"><a href="ols-forms.html#cb275-3" tabindex="-1"></a>level_level <span class="ot">&lt;-</span> <span class="fu">lm</span>(mileage_kmpl <span class="sc">~</span> weight_kg, <span class="at">data =</span> cars)</span>
+<span id="cb275-4"><a href="ols-forms.html#cb275-4" tabindex="-1"></a>log_log     <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="fu">log</span>(mileage_kmpl) <span class="sc">~</span> <span class="fu">log</span>(weight_kg), <span class="at">data =</span> cars)</span>
+<span id="cb275-5"><a href="ols-forms.html#cb275-5" tabindex="-1"></a></span>
+<span id="cb275-6"><a href="ols-forms.html#cb275-6" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">rbind</span>(<span class="at">level_level =</span> <span class="fu">c</span>(<span class="at">slope =</span> <span class="fu">coef</span>(level_level)[<span class="dv">2</span>],</span>
+<span id="cb275-7"><a href="ols-forms.html#cb275-7" tabindex="-1"></a>                            <span class="at">r_squared =</span> <span class="fu">summary</span>(level_level)<span class="sc">$</span>r.squared),</span>
+<span id="cb275-8"><a href="ols-forms.html#cb275-8" tabindex="-1"></a>            <span class="at">log_log     =</span> <span class="fu">c</span>(<span class="at">slope =</span> <span class="fu">coef</span>(log_log)[<span class="dv">2</span>],</span>
+<span id="cb275-9"><a href="ols-forms.html#cb275-9" tabindex="-1"></a>                            <span class="at">r_squared =</span> <span class="fu">summary</span>(log_log)<span class="sc">$</span>r.squared)), <span class="dv">4</span>)</span></code></pre></div>
 <pre><code>#&gt;             slope.weight_kg r_squared
 #&gt; level_level         -0.0060    0.6515
 #&gt; log_log             -0.8252    0.7136</code></pre>
@@ -639,10 +652,10 @@ variance is non-constant.</p>
 <h3>The return to schooling<a href="ols-forms.html#the-return-to-schooling" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>The log–level form is the workhorse of labour economics, because wages are
 naturally discussed in percentages.</p>
-<div class="sourceCode" id="cb272"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb272-1"><a href="ols-forms.html#cb272-1" tabindex="-1"></a>wages <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/wages-india-synthetic.csv&quot;</span>)</span>
-<span id="cb272-2"><a href="ols-forms.html#cb272-2" tabindex="-1"></a></span>
-<span id="cb272-3"><a href="ols-forms.html#cb272-3" tabindex="-1"></a>fit_w <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="fu">log</span>(annual_earnings) <span class="sc">~</span> education, <span class="at">data =</span> wages)</span>
-<span id="cb272-4"><a href="ols-forms.html#cb272-4" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">coef</span>(<span class="fu">summary</span>(fit_w)), <span class="dv">5</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb277"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb277-1"><a href="ols-forms.html#cb277-1" tabindex="-1"></a>wages <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/wages-india-synthetic.csv&quot;</span>)</span>
+<span id="cb277-2"><a href="ols-forms.html#cb277-2" tabindex="-1"></a></span>
+<span id="cb277-3"><a href="ols-forms.html#cb277-3" tabindex="-1"></a>fit_w <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="fu">log</span>(annual_earnings) <span class="sc">~</span> education, <span class="at">data =</span> wages)</span>
+<span id="cb277-4"><a href="ols-forms.html#cb277-4" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">coef</span>(<span class="fu">summary</span>(fit_w)), <span class="dv">5</span>)</span></code></pre></div>
 <pre><code>#&gt;             Estimate Std. Error t value Pr(&gt;|t|)
 #&gt; (Intercept)  9.56930    0.01260  759.26        0
 #&gt; education    0.09416    0.00167   56.52        0</code></pre>
@@ -669,11 +682,11 @@ other response is to ask why it is there.</p>
 <p>Earnings are a highly skewed variable, and skewed variables often produce
 fan-shaped residuals simply because their upper tail is long. Taking logarithms
 compresses that tail.</p>
-<div class="sourceCode" id="cb274"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb274-1"><a href="ols-forms.html#cb274-1" tabindex="-1"></a>fit_log <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="fu">log</span>(annual_earnings) <span class="sc">~</span> education, <span class="at">data =</span> wages)</span>
-<span id="cb274-2"><a href="ols-forms.html#cb274-2" tabindex="-1"></a></span>
-<span id="cb274-3"><a href="ols-forms.html#cb274-3" tabindex="-1"></a>q_log <span class="ot">&lt;-</span> <span class="fu">cut</span>(<span class="fu">fitted</span>(fit_log), <span class="fu">quantile</span>(<span class="fu">fitted</span>(fit_log), <span class="dv">0</span><span class="sc">:</span><span class="dv">4</span><span class="sc">/</span><span class="dv">4</span>),</span>
-<span id="cb274-4"><a href="ols-forms.html#cb274-4" tabindex="-1"></a>             <span class="at">include.lowest =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb274-5"><a href="ols-forms.html#cb274-5" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">tapply</span>(<span class="fu">residuals</span>(fit_log), q_log, sd), <span class="dv">4</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb279"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb279-1"><a href="ols-forms.html#cb279-1" tabindex="-1"></a>fit_log <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="fu">log</span>(annual_earnings) <span class="sc">~</span> education, <span class="at">data =</span> wages)</span>
+<span id="cb279-2"><a href="ols-forms.html#cb279-2" tabindex="-1"></a></span>
+<span id="cb279-3"><a href="ols-forms.html#cb279-3" tabindex="-1"></a>q_log <span class="ot">&lt;-</span> <span class="fu">cut</span>(<span class="fu">fitted</span>(fit_log), <span class="fu">quantile</span>(<span class="fu">fitted</span>(fit_log), <span class="dv">0</span><span class="sc">:</span><span class="dv">4</span><span class="sc">/</span><span class="dv">4</span>),</span>
+<span id="cb279-4"><a href="ols-forms.html#cb279-4" tabindex="-1"></a>             <span class="at">include.lowest =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb279-5"><a href="ols-forms.html#cb279-5" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">tapply</span>(<span class="fu">residuals</span>(fit_log), q_log, sd), <span class="dv">4</span>)</span></code></pre></div>
 <pre><code>#&gt; [9.57,9.66]   (9.66,10]   (10,10.4]   (10.4,11] 
 #&gt;       1.166       1.169       1.181       1.166</code></pre>
 <p>The spread is now essentially identical across quartiles — a ratio of 1.01
@@ -709,7 +722,7 @@ findings that will not replicate.</p>
 <p>Earnings data routinely contain zeros — people who did not work. Taking logs
 silently deletes them, and since those are rarely a random subset of the sample,
 the remaining regression answers a different question from the one asked.</p>
-<div class="sourceCode" id="cb276"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb276-1"><a href="ols-forms.html#cb276-1" tabindex="-1"></a><span class="fu">sum</span>(wages<span class="sc">$</span>annual_earnings <span class="sc">&lt;=</span> <span class="dv">0</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb281"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb281-1"><a href="ols-forms.html#cb281-1" tabindex="-1"></a><span class="fu">sum</span>(wages<span class="sc">$</span>annual_earnings <span class="sc">&lt;=</span> <span class="dv">0</span>)</span></code></pre></div>
 <pre><code>#&gt; [1] 0</code></pre>
 <p>There are none here, which is a property of this simulated dataset rather than of
 earnings data in general. With real data, check before transforming and say what

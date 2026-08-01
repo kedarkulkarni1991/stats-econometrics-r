@@ -330,16 +330,29 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="os-onetailed.html"><a href="os-onetailed.html#unknown-%CF%83-the-one-sided-t-test"><i class="fa fa-check"></i>Unknown σ: the one-sided t-test</a></li>
 <li class="chapter" data-level="" data-path="os-onetailed.html"><a href="os-onetailed.html#the-one-sided-interval-looks-backwards"><i class="fa fa-check"></i>The one-sided interval looks backwards</a></li>
 </ul></li>
-<li class="chapter" data-level="4.9" data-path="os-reference.html"><a href="os-reference.html"><i class="fa fa-check"></i><b>4.9</b> Reference tables</a></li>
-<li class="chapter" data-level="4.10" data-path="os-summary.html"><a href="os-summary.html"><i class="fa fa-check"></i><b>4.10</b> Summary</a></li>
-<li class="chapter" data-level="4.11" data-path="os-exercises.html"><a href="os-exercises.html"><i class="fa fa-check"></i><b>4.11</b> Practice problems</a></li>
-<li class="chapter" data-level="4.12" data-path="os-question-bank.html"><a href="os-question-bank.html"><i class="fa fa-check"></i><b>4.12</b> Question bank</a>
+<li class="chapter" data-level="4.9" data-path="os-errors.html"><a href="os-errors.html"><i class="fa fa-check"></i><b>4.9</b> Two ways to be wrong</a>
+<ul>
+<li class="chapter" data-level="" data-path="os-errors.html"><a href="os-errors.html#the-two-errors"><i class="fa fa-check"></i>The two errors</a></li>
+<li class="chapter" data-level="" data-path="os-errors.html"><a href="os-errors.html#the-umpires-call"><i class="fa fa-check"></i>The umpire’s call</a></li>
+<li class="chapter" data-level="" data-path="os-errors.html"><a href="os-errors.html#why-errors-happen-at-all"><i class="fa fa-check"></i>Why errors happen at all</a></li>
+<li class="chapter" data-level="" data-path="os-errors.html"><a href="os-errors.html#power"><i class="fa fa-check"></i>Power</a></li>
+<li class="chapter" data-level="" data-path="os-errors.html"><a href="os-errors.html#working-it-out"><i class="fa fa-check"></i>Working it out</a></li>
+<li class="chapter" data-level="" data-path="os-errors.html"><a href="os-errors.html#what-determines-power"><i class="fa fa-check"></i>What determines power</a></li>
+</ul></li>
+<li class="chapter" data-level="4.10" data-path="os-reference.html"><a href="os-reference.html"><i class="fa fa-check"></i><b>4.10</b> Reference tables</a></li>
+<li class="chapter" data-level="4.11" data-path="os-summary.html"><a href="os-summary.html"><i class="fa fa-check"></i><b>4.11</b> Summary</a></li>
+<li class="chapter" data-level="4.12" data-path="os-exercises.html"><a href="os-exercises.html"><i class="fa fa-check"></i><b>4.12</b> Practice problems</a>
+<ul>
+<li class="chapter" data-level="" data-path="os-exercises.html"><a href="os-exercises.html#type-i-and-type-ii-errors"><i class="fa fa-check"></i>Type I and Type II errors</a></li>
+</ul></li>
+<li class="chapter" data-level="4.13" data-path="os-question-bank.html"><a href="os-question-bank.html"><i class="fa fa-check"></i><b>4.13</b> Question bank</a>
 <ul>
 <li class="chapter" data-level="" data-path="os-question-bank.html"><a href="os-question-bank.html#multiple-choice-3"><i class="fa fa-check"></i>Multiple choice</a></li>
 <li class="chapter" data-level="" data-path="os-question-bank.html"><a href="os-question-bank.html#short-reasoning-3"><i class="fa fa-check"></i>Short reasoning</a></li>
 <li class="chapter" data-level="" data-path="os-question-bank.html"><a href="os-question-bank.html#numerical-3"><i class="fa fa-check"></i>Numerical</a></li>
+<li class="chapter" data-level="" data-path="os-question-bank.html"><a href="os-question-bank.html#errors-and-power"><i class="fa fa-check"></i>Errors and power</a></li>
 </ul></li>
-<li class="chapter" data-level="4.13" data-path="os-looking-ahead.html"><a href="os-looking-ahead.html"><i class="fa fa-check"></i><b>4.13</b> Looking ahead</a></li>
+<li class="chapter" data-level="4.14" data-path="os-looking-ahead.html"><a href="os-looking-ahead.html"><i class="fa fa-check"></i><b>4.14</b> Looking ahead</a></li>
 </ul></li>
 <li class="chapter" data-level="5" data-path="two-sample.html"><a href="two-sample.html"><i class="fa fa-check"></i><b>5</b> Hypothesis Testing: Two Samples</a>
 <ul>
@@ -574,16 +587,16 @@ verify equal variances, only fail to reject the claim that they are equal.</p>
 <div id="do-north-and-south-indian-students-differ-in-height" class="section level3 unnumbered hasAnchor">
 <h3>Do North and South Indian students differ in height?<a href="ts-unknown.html#do-north-and-south-indian-students-differ-in-height" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p><code>student-survey-height.csv</code> records 100 students, each classified by region.</p>
-<div class="sourceCode" id="cb180"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb180-1"><a href="ts-unknown.html#cb180-1" tabindex="-1"></a>heights <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/student-survey-height.csv&quot;</span>)</span>
-<span id="cb180-2"><a href="ts-unknown.html#cb180-2" tabindex="-1"></a></span>
-<span id="cb180-3"><a href="ts-unknown.html#cb180-3" tabindex="-1"></a><span class="fu">aggregate</span>(height <span class="sc">~</span> region, <span class="at">data =</span> heights,</span>
-<span id="cb180-4"><a href="ts-unknown.html#cb180-4" tabindex="-1"></a>          <span class="cf">function</span>(x) <span class="fu">round</span>(<span class="fu">c</span>(<span class="at">n =</span> <span class="fu">length</span>(x), <span class="at">mean =</span> <span class="fu">mean</span>(x), <span class="at">sd =</span> <span class="fu">sd</span>(x)), <span class="dv">2</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb185"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb185-1"><a href="ts-unknown.html#cb185-1" tabindex="-1"></a>heights <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/student-survey-height.csv&quot;</span>)</span>
+<span id="cb185-2"><a href="ts-unknown.html#cb185-2" tabindex="-1"></a></span>
+<span id="cb185-3"><a href="ts-unknown.html#cb185-3" tabindex="-1"></a><span class="fu">aggregate</span>(height <span class="sc">~</span> region, <span class="at">data =</span> heights,</span>
+<span id="cb185-4"><a href="ts-unknown.html#cb185-4" tabindex="-1"></a>          <span class="cf">function</span>(x) <span class="fu">round</span>(<span class="fu">c</span>(<span class="at">n =</span> <span class="fu">length</span>(x), <span class="at">mean =</span> <span class="fu">mean</span>(x), <span class="at">sd =</span> <span class="fu">sd</span>(x)), <span class="dv">2</span>))</span></code></pre></div>
 <pre><code>#&gt;         region height.n height.mean height.sd
 #&gt; 1 North Indian    57.00      165.16      7.29
 #&gt; 2 South Indian    43.00      163.67      9.85</code></pre>
 <p>The two sample means differ by about 1.5 cm, and the two sample standard
 deviations are not equal — 7.3 against 9.9. That is a case for Welch.</p>
-<div class="sourceCode" id="cb182"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb182-1"><a href="ts-unknown.html#cb182-1" tabindex="-1"></a><span class="fu">t.test</span>(height <span class="sc">~</span> region, <span class="at">data =</span> heights)</span></code></pre></div>
+<div class="sourceCode" id="cb187"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb187-1"><a href="ts-unknown.html#cb187-1" tabindex="-1"></a><span class="fu">t.test</span>(height <span class="sc">~</span> region, <span class="at">data =</span> heights)</span></code></pre></div>
 <pre><code>#&gt; 
 #&gt;  Welch Two Sample t-test
 #&gt; 
@@ -603,8 +616,8 @@ sizes and this much variation within each group, differences of that size turn
 up constantly when the populations are identical.</p>
 <div class="deeper">
 <p>Compare the degrees of freedom the two approaches give here.</p>
-<div class="sourceCode" id="cb184"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb184-1"><a href="ts-unknown.html#cb184-1" tabindex="-1"></a><span class="fu">c</span>(<span class="at">welch  =</span> <span class="fu">t.test</span>(height <span class="sc">~</span> region, <span class="at">data =</span> heights)<span class="sc">$</span>parameter,</span>
-<span id="cb184-2"><a href="ts-unknown.html#cb184-2" tabindex="-1"></a>  <span class="at">pooled =</span> <span class="fu">t.test</span>(height <span class="sc">~</span> region, <span class="at">data =</span> heights, <span class="at">var.equal =</span> <span class="cn">TRUE</span>)<span class="sc">$</span>parameter)</span></code></pre></div>
+<div class="sourceCode" id="cb189"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb189-1"><a href="ts-unknown.html#cb189-1" tabindex="-1"></a><span class="fu">c</span>(<span class="at">welch  =</span> <span class="fu">t.test</span>(height <span class="sc">~</span> region, <span class="at">data =</span> heights)<span class="sc">$</span>parameter,</span>
+<span id="cb189-2"><a href="ts-unknown.html#cb189-2" tabindex="-1"></a>  <span class="at">pooled =</span> <span class="fu">t.test</span>(height <span class="sc">~</span> region, <span class="at">data =</span> heights, <span class="at">var.equal =</span> <span class="cn">TRUE</span>)<span class="sc">$</span>parameter)</span></code></pre></div>
 <pre><code>#&gt;  welch.df pooled.df 
 #&gt;     74.36     98.00</code></pre>
 <p>Pooling claims 98 degrees of freedom; Welch allows only 74.4. The difference is
