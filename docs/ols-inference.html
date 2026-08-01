@@ -463,11 +463,11 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="7.6" data-path="ols-hetero.html"><a href="ols-hetero.html"><i class="fa fa-check"></i><b>7.6</b> When the error variance is not constant</a>
 <ul>
-<li class="chapter" data-level="" data-path="ols-hetero.html"><a href="ols-hetero.html#the-gap-we-already-saw"><i class="fa fa-check"></i>The gap we already saw</a></li>
-<li class="chapter" data-level="" data-path="ols-hetero.html"><a href="ols-hetero.html#seeing-it"><i class="fa fa-check"></i>Seeing it</a></li>
-<li class="chapter" data-level="" data-path="ols-hetero.html"><a href="ols-hetero.html#what-breaks-and-what-does-not"><i class="fa fa-check"></i>What breaks, and what does not</a></li>
+<li class="chapter" data-level="" data-path="ols-hetero.html"><a href="ols-hetero.html#what-it-looks-like"><i class="fa fa-check"></i>What it looks like</a></li>
+<li class="chapter" data-level="" data-path="ols-hetero.html"><a href="ols-hetero.html#does-heteroskedasticity-matter"><i class="fa fa-check"></i>Does heteroskedasticity matter?</a></li>
+<li class="chapter" data-level="" data-path="ols-hetero.html"><a href="ols-hetero.html#how-wrong"><i class="fa fa-check"></i>How wrong?</a></li>
 <li class="chapter" data-level="" data-path="ols-hetero.html"><a href="ols-hetero.html#robust-standard-errors"><i class="fa fa-check"></i>Robust standard errors</a></li>
-<li class="chapter" data-level="" data-path="ols-hetero.html"><a href="ols-hetero.html#sometimes-the-variable-is-the-problem"><i class="fa fa-check"></i>Sometimes the variable is the problem</a></li>
+<li class="chapter" data-level="" data-path="ols-hetero.html"><a href="ols-hetero.html#the-wider-lesson"><i class="fa fa-check"></i>The wider lesson</a></li>
 </ul></li>
 <li class="chapter" data-level="7.7" data-path="ols-inference.html"><a href="ols-inference.html"><i class="fa fa-check"></i><b>7.7</b> Inference about the slope</a></li>
 <li class="chapter" data-level="7.8" data-path="ols-forms.html"><a href="ols-forms.html"><i class="fa fa-check"></i><b>7.8</b> Functional forms</a>
@@ -475,6 +475,7 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="ols-forms.html"><a href="ols-forms.html#the-four-forms"><i class="fa fa-check"></i>The four forms</a></li>
 <li class="chapter" data-level="" data-path="ols-forms.html"><a href="ols-forms.html#fuel-efficiency-in-elasticity-form"><i class="fa fa-check"></i>Fuel efficiency, in elasticity form</a></li>
 <li class="chapter" data-level="" data-path="ols-forms.html"><a href="ols-forms.html#the-return-to-schooling"><i class="fa fa-check"></i>The return to schooling</a></li>
+<li class="chapter" data-level="" data-path="ols-forms.html"><a href="ols-forms.html#when-the-variable-is-the-problem-not-the-variance"><i class="fa fa-check"></i>When the variable is the problem, not the variance</a></li>
 <li class="chapter" data-level="" data-path="ols-forms.html"><a href="ols-forms.html#choosing-a-form"><i class="fa fa-check"></i>Choosing a form</a></li>
 </ul></li>
 <li class="chapter" data-level="7.9" data-path="ols-causal.html"><a href="ols-causal.html"><i class="fa fa-check"></i><b>7.9</b> What regression does not fix</a></li>
@@ -527,7 +528,7 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 value, over standard error:</p>
 <p><span class="math display">\[t = \frac{\hat{\beta}_1 - 0}{\mathrm{se}(\hat{\beta}_1)}\]</span></p>
 <p>compared against <span class="math inline">\(t\)</span> with <span class="math inline">\(n - 2\)</span> degrees of freedom.</p>
-<div class="sourceCode" id="cb268"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb268-1"><a href="ols-inference.html#cb268-1" tabindex="-1"></a><span class="fu">summary</span>(fit)<span class="sc">$</span>coefficients</span></code></pre></div>
+<div class="sourceCode" id="cb266"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb266-1"><a href="ols-inference.html#cb266-1" tabindex="-1"></a><span class="fu">summary</span>(fit)<span class="sc">$</span>coefficients</span></code></pre></div>
 <pre><code>#&gt;             Estimate Std. Error t value
 #&gt; (Intercept)    1.562    0.28692   5.444
 #&gt; attendance     0.189    0.01074  17.589
@@ -538,7 +539,7 @@ value, over standard error:</p>
 678 degrees of freedom and a <span class="math inline">\(p\)</span>-value indistinguishable from zero. We reject
 the claim that attendance is unrelated to GPA.</p>
 <p>The confidence interval is the more informative report:</p>
-<div class="sourceCode" id="cb270"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb270-1"><a href="ols-inference.html#cb270-1" tabindex="-1"></a><span class="fu">confint</span>(fit, <span class="at">level =</span> <span class="fl">0.95</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb268"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb268-1"><a href="ols-inference.html#cb268-1" tabindex="-1"></a><span class="fu">confint</span>(fit, <span class="at">level =</span> <span class="fl">0.95</span>)</span></code></pre></div>
 <pre><code>#&gt;              2.5 % 97.5 %
 #&gt; (Intercept) 0.9987  2.125
 #&gt; attendance  0.1679  0.210</code></pre>

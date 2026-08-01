@@ -9,3 +9,8 @@ sr-ex-unbiased	simulate_slope
 sr-ex-ovb	biased	x	y	z
 ols-se-byhand	n	se_b1	sigma_hat
 ols-spread-plot	b0	b1	nn	sg	sp	xn	xw	yn	yw
+ols-het-shapes	shapes	xg
+ols-het-see	f_w	fit_w	quartile	u_w	wages
+ols-het-plot	res_df
+ols-het-coverage	
+ols-het-robust	

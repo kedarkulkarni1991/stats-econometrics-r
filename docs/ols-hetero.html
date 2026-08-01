@@ -463,11 +463,11 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="7.6" data-path="ols-hetero.html"><a href="ols-hetero.html"><i class="fa fa-check"></i><b>7.6</b> When the error variance is not constant</a>
 <ul>
-<li class="chapter" data-level="" data-path="ols-hetero.html"><a href="ols-hetero.html#the-gap-we-already-saw"><i class="fa fa-check"></i>The gap we already saw</a></li>
-<li class="chapter" data-level="" data-path="ols-hetero.html"><a href="ols-hetero.html#seeing-it"><i class="fa fa-check"></i>Seeing it</a></li>
-<li class="chapter" data-level="" data-path="ols-hetero.html"><a href="ols-hetero.html#what-breaks-and-what-does-not"><i class="fa fa-check"></i>What breaks, and what does not</a></li>
+<li class="chapter" data-level="" data-path="ols-hetero.html"><a href="ols-hetero.html#what-it-looks-like"><i class="fa fa-check"></i>What it looks like</a></li>
+<li class="chapter" data-level="" data-path="ols-hetero.html"><a href="ols-hetero.html#does-heteroskedasticity-matter"><i class="fa fa-check"></i>Does heteroskedasticity matter?</a></li>
+<li class="chapter" data-level="" data-path="ols-hetero.html"><a href="ols-hetero.html#how-wrong"><i class="fa fa-check"></i>How wrong?</a></li>
 <li class="chapter" data-level="" data-path="ols-hetero.html"><a href="ols-hetero.html#robust-standard-errors"><i class="fa fa-check"></i>Robust standard errors</a></li>
-<li class="chapter" data-level="" data-path="ols-hetero.html"><a href="ols-hetero.html#sometimes-the-variable-is-the-problem"><i class="fa fa-check"></i>Sometimes the variable is the problem</a></li>
+<li class="chapter" data-level="" data-path="ols-hetero.html"><a href="ols-hetero.html#the-wider-lesson"><i class="fa fa-check"></i>The wider lesson</a></li>
 </ul></li>
 <li class="chapter" data-level="7.7" data-path="ols-inference.html"><a href="ols-inference.html"><i class="fa fa-check"></i><b>7.7</b> Inference about the slope</a></li>
 <li class="chapter" data-level="7.8" data-path="ols-forms.html"><a href="ols-forms.html"><i class="fa fa-check"></i><b>7.8</b> Functional forms</a>
@@ -475,6 +475,7 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="ols-forms.html"><a href="ols-forms.html#the-four-forms"><i class="fa fa-check"></i>The four forms</a></li>
 <li class="chapter" data-level="" data-path="ols-forms.html"><a href="ols-forms.html#fuel-efficiency-in-elasticity-form"><i class="fa fa-check"></i>Fuel efficiency, in elasticity form</a></li>
 <li class="chapter" data-level="" data-path="ols-forms.html"><a href="ols-forms.html#the-return-to-schooling"><i class="fa fa-check"></i>The return to schooling</a></li>
+<li class="chapter" data-level="" data-path="ols-forms.html"><a href="ols-forms.html#when-the-variable-is-the-problem-not-the-variance"><i class="fa fa-check"></i>When the variable is the problem, not the variance</a></li>
 <li class="chapter" data-level="" data-path="ols-forms.html"><a href="ols-forms.html#choosing-a-form"><i class="fa fa-check"></i>Choosing a form</a></li>
 </ul></li>
 <li class="chapter" data-level="7.9" data-path="ols-causal.html"><a href="ols-causal.html"><i class="fa fa-check"></i><b>7.9</b> What regression does not fix</a></li>
@@ -517,12 +518,12 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <div id="ols-hetero" class="section level2 hasAnchor" number="7.6">
 <h2><span class="header-section-number">7.6</span> When the error variance is not constant<a href="ols-hetero.html#ols-hetero" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <div class="question">
-<p>SLR5 assumed the errors have the same variance at every value of <span class="math inline">\(x\)</span>. Why would
-they?</p>
+<p>The standard error formula rested on one new assumption. Is it true?</p>
 </div>
-<p>The variance formula of the previous section rested on <strong>homoskedasticity</strong>:</p>
+<p>The previous section derived a formula for the standard error, and that
+derivation needed SLR5: the errors have the same variance at every value of <span class="math inline">\(x\)</span>.</p>
 <p><span class="math display">\[\mathrm{Var}(u \mid x) = \sigma^2 \quad \text{for every } x\]</span></p>
-<p>Read that as a claim about the world. It says the unobserved factors are just as
+<p>Read as a claim about the world, that says the unobserved factors are just as
 spread out among students who attended 5 classes as among those who attended 30,
 and just as spread out among poor households as among rich ones.</p>
 <p>Often they are not.</p>
@@ -537,23 +538,19 @@ of outcomes, because what happens after school depends on far more than school.<
 <p>So the spread of the errors grows with <span class="math inline">\(x\)</span>. This is <strong>heteroskedasticity</strong>, and in
 economic data it is the normal case rather than the exception.</p>
 </div>
-<div id="the-gap-we-already-saw" class="section level3 unnumbered hasAnchor">
-<h3>The gap we already saw<a href="ols-hetero.html#the-gap-we-already-saw" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>Section <a href="ols-variance.html#ols-variance">7.5</a> checked the standard error formula against a
-simulation and found it exact — on data built so that every assumption held.</p>
-<p>On the real attendance data the agreement is good rather than exact. The formula
-gives a standard error of about 0.046 for a sample of forty, while resampling
-gives about 0.053.</p>
-<p>That gap is the subject of this section. The formula’s assumptions hold only
-approximately in real data: Section <a href="sr-prf.html#sr-prf">6.2</a> already showed the conditional
-mean of GPA is not exactly linear, and the error variance is not quite constant
-either. A formula is only as good as the assumptions underneath it, which is
-worth remembering whenever software prints a standard error to four decimals.</p>
+<div id="what-it-looks-like" class="section level3 unnumbered hasAnchor">
+<h3>What it looks like<a href="ols-hetero.html#what-it-looks-like" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>The diagnostic is a <strong>residual plot</strong>: the residuals against the fitted values.
+Homoskedasticity appears as a band of roughly constant width, heteroskedasticity
+as a fan.</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:ols-het-shapes"></span>
+<img src="stats-econometrics-r_files/figure-html/ols-het-shapes-1.png" alt="Residual plots from two simulated datasets. On the left the error variance is constant and the band has an even width. On the right it grows with x, and the band fans out. This is the shape to look for." width="90%"  />
+<p class="caption">
+Figure 7.6: Residual plots from two simulated datasets. On the left the error variance is constant and the band has an even width. On the right it grows with x, and the band fans out. This is the shape to look for.
+</p>
 </div>
-<div id="seeing-it" class="section level3 unnumbered hasAnchor">
-<h3>Seeing it<a href="ols-hetero.html#seeing-it" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>Regress annual earnings on years of education for the 20,000 wage earners, and
-look at how the residuals are spread.</p>
+<p>Now the real thing. Regress annual earnings on years of education for the 20,000
+wage earners and look at how the residuals are spread.</p>
 <div class="sourceCode" id="cb258"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb258-1"><a href="ols-hetero.html#cb258-1" tabindex="-1"></a>wages <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/wages-india-synthetic.csv&quot;</span>)</span>
 <span id="cb258-2"><a href="ols-hetero.html#cb258-2" tabindex="-1"></a>fit_w <span class="ot">&lt;-</span> <span class="fu">lm</span>(annual_earnings <span class="sc">~</span> education, <span class="at">data =</span> wages)</span>
 <span id="cb258-3"><a href="ols-hetero.html#cb258-3" tabindex="-1"></a></span>
@@ -567,42 +564,47 @@ look at how the residuals are spread.</p>
 <p>The residuals in the top quarter of fitted values are more than three times as
 spread out as those in the bottom quarter.</p>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:ols-het-plot"></span>
-<img src="stats-econometrics-r_files/figure-html/ols-het-plot-1.png" alt="Residuals from a regression of annual earnings on years of schooling, shown as a boxplot at each level of education. The boxes widen steadily to the right: errors are far more variable where schooling is high. Homoskedasticity would appear as boxes of constant height. A few extreme residuals lie above the range plotted." width="90%"  />
+<img src="stats-econometrics-r_files/figure-html/ols-het-plot-1.png" alt="Residuals from a regression of annual earnings on years of schooling, shown as a boxplot at each level of education. The boxes widen steadily to the right. A few extreme residuals lie above the range plotted." width="90%"  />
 <p class="caption">
-Figure 7.6: Residuals from a regression of annual earnings on years of schooling, shown as a boxplot at each level of education. The boxes widen steadily to the right: errors are far more variable where schooling is high. Homoskedasticity would appear as boxes of constant height. A few extreme residuals lie above the range plotted.
+Figure 7.7: Residuals from a regression of annual earnings on years of schooling, shown as a boxplot at each level of education. The boxes widen steadily to the right. A few extreme residuals lie above the range plotted.
 </p>
 </div>
-<div class="keyidea">
-<p>The <strong>residual plot</strong> — residuals against fitted values — is the standard
-diagnostic.</p>
-<p>Homoskedasticity appears as a band of roughly constant width. Heteroskedasticity
-appears as a fan, widening or narrowing across the plot.</p>
-<p>Look at it every time. It costs one line of code and catches a great deal.</p>
-</div>
 <p>Education takes only whole-number values, so a plain scatter of residuals against
-fitted values collapses into a series of vertical stripes. Drawing a box at each
-level of education shows the same thing more legibly.</p>
-<p>Formal tests exist — the Breusch–Pagan and White tests both regress squared
-residuals on the explanatory variables and ask whether anything is there. They
-are useful, but a plot usually settles the matter faster and tells you the shape
-of the problem rather than merely its presence.</p>
+fitted values collapses into vertical stripes. A box at each level of education
+shows the same thing more legibly, and the widening is unmistakable.</p>
+<div class="deeper">
+<p>Formal tests exist. The Breusch–Pagan and White tests both regress squared
+residuals on the explanatory variables and ask whether anything is there.</p>
+<p>They are worth knowing about, and they are not what this book recommends
+reaching for first. A plot settles the matter faster and tells you the <em>shape</em> of
+the problem rather than merely announcing its presence — and, as the next section
+shows, a fan-shaped residual plot sometimes means the functional form is wrong
+rather than the variance non-constant. A test statistic cannot tell you which.</p>
 </div>
-<div id="what-breaks-and-what-does-not" class="section level3 unnumbered hasAnchor">
-<h3>What breaks, and what does not<a href="ols-hetero.html#what-breaks-and-what-does-not" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>This is the part worth being careful about, because heteroskedasticity is often
-described as though it invalidated everything.</p>
+</div>
+<div id="does-heteroskedasticity-matter" class="section level3 unnumbered hasAnchor">
+<h3>Does heteroskedasticity matter?<a href="ols-hetero.html#does-heteroskedasticity-matter" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Here is the surprise.</p>
 <div class="keyidea">
-<p><strong>Unbiasedness survives.</strong> The proof of <span class="math inline">\(E(\hat{\beta}_1) = \beta_1\)</span> used SLR1 to
-SLR4 and never mentioned SLR5. The estimate is still centred on the truth.</p>
-<p><strong>The variance formula fails.</strong> <span class="math inline">\(\mathrm{Var}(\hat{\beta}_1) = \sigma^2/\text{SST}_x\)</span>
-was derived by replacing every <span class="math inline">\(\mathrm{Var}(u_i)\)</span> with a common <span class="math inline">\(\sigma^2\)</span>. If
-there is no common <span class="math inline">\(\sigma^2\)</span>, that step is invalid.</p>
-<p>So the estimate is fine and the <em>reported precision of the estimate</em> is wrong —
-which means the standard errors, the <span class="math inline">\(t\)</span> statistics, the <span class="math inline">\(p\)</span>-values and the
-confidence intervals are all unreliable.</p>
+<p><strong>The fitted line is unaffected.</strong></p>
+<p>The proof that <span class="math inline">\(E(\hat{\beta}_1) = \beta_1\)</span> used SLR1 to SLR4 and never mentioned
+SLR5. The estimate is still centred on the truth, and heteroskedasticity
+introduces no bias whatever.</p>
+<p><strong>The standard error is wrong.</strong></p>
+<p><span class="math inline">\(\mathrm{Var}(\hat{\beta}_1) = \sigma^2/\text{SST}_x\)</span> was obtained by replacing
+every <span class="math inline">\(\mathrm{Var}(u_i)\)</span> with a common <span class="math inline">\(\sigma^2\)</span>. If no common <span class="math inline">\(\sigma^2\)</span>
+exists, that step is invalid — and with it the standard errors, the <span class="math inline">\(t\)</span>
+statistics, the <span class="math inline">\(p\)</span>-values and the confidence intervals.</p>
 </div>
-<p>How wrong? We can find out, by simulating from a model where we know both the
-truth and the severity of the problem.</p>
+<p>So the coefficient is fine and the <em>reported uncertainty around it</em> is not. That
+is why this matters: not because the arithmetic of the line changes, but because
+everything we say about how much to trust the line is computed from a formula
+that no longer applies.</p>
+</div>
+<div id="how-wrong" class="section level3 unnumbered hasAnchor">
+<h3>How wrong?<a href="ols-hetero.html#how-wrong" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>We can measure it, by simulating from a model where we know both the truth and
+the severity of the problem.</p>
 <div class="sourceCode" id="cb260"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb260-1"><a href="ols-hetero.html#cb260-1" tabindex="-1"></a>robust_se <span class="ot">&lt;-</span> <span class="cf">function</span>(m) {</span>
 <span id="cb260-2"><a href="ols-hetero.html#cb260-2" tabindex="-1"></a>  X <span class="ot">&lt;-</span> <span class="fu">model.matrix</span>(m); u <span class="ot">&lt;-</span> <span class="fu">residuals</span>(m)</span>
 <span id="cb260-3"><a href="ols-hetero.html#cb260-3" tabindex="-1"></a>  n <span class="ot">&lt;-</span> <span class="fu">nrow</span>(X); k <span class="ot">&lt;-</span> <span class="fu">ncol</span>(X)</span>
@@ -624,27 +626,36 @@ truth and the severity of the problem.</p>
 <span id="cb260-19"><a href="ols-hetero.html#cb260-19" tabindex="-1"></a>        <span class="at">avg_robust_se    =</span> <span class="fu">mean</span>(out[<span class="dv">3</span>, ])), <span class="dv">4</span>)</span></code></pre></div>
 <pre><code>#&gt;  actual_sd_of_b1 avg_classical_se    avg_robust_se 
 #&gt;           0.4301           0.1764           0.3293</code></pre>
-<p>The true slope is 1, and across four thousand samples <span class="math inline">\(\hat{\beta}_1\)</span> has a
-standard deviation of 0.43. That is the actual variability of the estimator.</p>
-<p>The classical standard error reports 0.18 — less than half of it. Software that
-prints 0.18 is claiming a precision the estimator does not have.</p>
-<p>The consequence for confidence intervals is severe.</p>
+<p>The true slope is 1. Across four thousand samples <span class="math inline">\(\hat{\beta}_1\)</span> has a standard
+deviation of 0.43 — that is the actual variability of the estimator, the thing a
+standard error is supposed to report.</p>
+<p>The classical standard error reports 0.18. Software printing 0.18 is claiming a
+precision the estimator does not have, by a factor of more than two.</p>
 <div class="sourceCode" id="cb262"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb262-1"><a href="ols-hetero.html#cb262-1" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">classical =</span> <span class="fu">mean</span>(<span class="fu">abs</span>(out[<span class="dv">1</span>, ] <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">&lt;</span> <span class="fu">qt</span>(<span class="fl">0.975</span>, <span class="dv">58</span>) <span class="sc">*</span> out[<span class="dv">2</span>, ]),</span>
 <span id="cb262-2"><a href="ols-hetero.html#cb262-2" tabindex="-1"></a>        <span class="at">robust    =</span> <span class="fu">mean</span>(<span class="fu">abs</span>(out[<span class="dv">1</span>, ] <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">&lt;</span> <span class="fu">qt</span>(<span class="fl">0.975</span>, <span class="dv">58</span>) <span class="sc">*</span> out[<span class="dv">3</span>, ])), <span class="dv">3</span>)</span></code></pre></div>
 <pre><code>#&gt; classical    robust 
 #&gt;     0.588     0.851</code></pre>
-<p>An interval advertised as 95% contains the true slope 59% of the time.</p>
+<p>This is the finding that matters, and it is worth stating slowly.</p>
+<p>A confidence interval advertised as 95% should contain the true slope in roughly
+95 of every 100 repeated samples. Here it succeeds <strong>59</strong> times.</p>
+<p>The problem is not the estimator. <span class="math inline">\(\hat{\beta}_1\)</span> is unbiased and behaving
+exactly as it should. The problem is that we underestimated its variability, and
+so drew an interval far too narrow around a perfectly good estimate.</p>
 </div>
 <div id="robust-standard-errors" class="section level3 unnumbered hasAnchor">
 <h3>Robust standard errors<a href="ols-hetero.html#robust-standard-errors" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>The fix does not touch <span class="math inline">\(\hat{\beta}_1\)</span>, which needs no fixing. It replaces the
-formula for its variance with one that does not assume a common <span class="math inline">\(\sigma^2\)</span>,
+<p>The repair does not touch <span class="math inline">\(\hat{\beta}_1\)</span>, which needs no repairing. It replaces
+the formula for the variance with one that does not assume a common <span class="math inline">\(\sigma^2\)</span>,
 using each observation’s own squared residual in place of a single estimate.</p>
-<p>These are called <strong>heteroskedasticity-robust standard errors</strong>, or often just
-robust standard errors.</p>
-<p>In the simulation above they report 0.33 against a true 0.43, and lift coverage
-from 59% to 85%. A large improvement, and — worth noticing — not a complete
-repair at this sample size and this severity.</p>
+<div class="keyidea">
+<p><strong>Heteroskedasticity-robust standard errors leave the fitted line unchanged.</strong>
+They alter only how the uncertainty around it is calculated.</p>
+<p>The coefficients you report are identical either way. What changes is the second
+column of the output, and everything computed from it.</p>
+</div>
+<p>In the simulation they report 0.33 against a true 0.43, and lift coverage from
+59% to 85%. A large improvement, and visibly not a complete repair at this sample
+size and this severity.</p>
 <div class="sourceCode" id="cb264"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb264-1"><a href="ols-hetero.html#cb264-1" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">classical_se =</span> <span class="fu">coef</span>(<span class="fu">summary</span>(fit_w))[<span class="dv">2</span>, <span class="dv">2</span>],</span>
 <span id="cb264-2"><a href="ols-hetero.html#cb264-2" tabindex="-1"></a>        <span class="at">robust_se    =</span> <span class="fu">robust_se</span>(fit_w)), <span class="dv">2</span>)</span></code></pre></div>
 <pre><code>#&gt;        classical_se robust_se.education 
@@ -655,44 +666,38 @@ those two numbers was resting on an assumption the residual plot had already
 refused.</p>
 <div class="watchout">
 <p>Three things robust standard errors do not do.</p>
-<p>They do not fix bias. There was none to fix; heteroskedasticity does not bias
-<span class="math inline">\(\hat{\beta}_1\)</span>.</p>
+<p>They do not fix bias. There was none to fix.</p>
 <p>They do not fix a wrong functional form. A fan-shaped residual plot sometimes
 means the relationship is not linear rather than that the variance is
-non-constant, and robust standard errors would paper over that.</p>
-<p>They do not work miracles in small samples, as the simulation shows. They are an
-improvement, not a guarantee.</p>
+non-constant, and robust standard errors would paper over that. Section
+<a href="ols-forms.html#ols-forms">7.8</a> takes this up.</p>
+<p>They do not work miracles in small samples, as the simulation shows.</p>
 </div>
-</div>
-<div id="sometimes-the-variable-is-the-problem" class="section level3 unnumbered hasAnchor">
-<h3>Sometimes the variable is the problem<a href="ols-hetero.html#sometimes-the-variable-is-the-problem" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>Robust standard errors accept the heteroskedasticity and correct for it. The
-other response is to ask why it is there.</p>
-<p>Earnings are a highly skewed variable, and skewed variables often produce
-fan-shaped residuals simply because their upper tail is long. Taking logarithms
-compresses that tail.</p>
-<div class="sourceCode" id="cb266"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb266-1"><a href="ols-hetero.html#cb266-1" tabindex="-1"></a>fit_log <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="fu">log</span>(annual_earnings) <span class="sc">~</span> education, <span class="at">data =</span> wages)</span>
-<span id="cb266-2"><a href="ols-hetero.html#cb266-2" tabindex="-1"></a></span>
-<span id="cb266-3"><a href="ols-hetero.html#cb266-3" tabindex="-1"></a>q_log <span class="ot">&lt;-</span> <span class="fu">cut</span>(<span class="fu">fitted</span>(fit_log), <span class="fu">quantile</span>(<span class="fu">fitted</span>(fit_log), <span class="dv">0</span><span class="sc">:</span><span class="dv">4</span><span class="sc">/</span><span class="dv">4</span>),</span>
-<span id="cb266-4"><a href="ols-hetero.html#cb266-4" tabindex="-1"></a>             <span class="at">include.lowest =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb266-5"><a href="ols-hetero.html#cb266-5" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">tapply</span>(<span class="fu">residuals</span>(fit_log), q_log, sd), <span class="dv">4</span>)</span></code></pre></div>
-<pre><code>#&gt; [9.57,9.66]   (9.66,10]   (10,10.4]   (10.4,11] 
-#&gt;       1.166       1.169       1.181       1.166</code></pre>
-<p>The spread is now essentially identical across quartiles — a ratio of 1.01
-against 3.61 in levels. The heteroskedasticity was not a deep feature of the
-world; it was a consequence of measuring earnings in rupees rather than in
-proportional terms.</p>
-<p>Section <a href="ols-forms.html#ols-forms">7.8</a> takes up what the log form means for interpretation.
-For now, note that a residual plot which fans out is sometimes telling you about
-the variance and sometimes telling you that the variable wants transforming.</p>
 <div class="intuition">
 <p>Modern practice is to report robust standard errors by default in
 cross-sectional work.</p>
-<p>The reasoning is the same asymmetric-risk argument as Welch’s test in Section
-<a href="ts-unknown.html#ts-unknown">5.4</a>. When the errors really are homoskedastic, robust standard
-errors cost very little. When they are not, classical standard errors mislead —
-and you can never establish homoskedasticity, only fail to reject it.</p>
+<p>This is exactly the logic of Section <a href="ts-unknown.html#ts-unknown">5.4</a>. Classical standard errors
+assume equal variances, as the pooled two-sample <span class="math inline">\(t\)</span>-test did; robust standard
+errors relax that assumption, as Welch’s test did. In both cases the relaxed
+version costs very little when the assumption holds and protects you when it does
+not — and in both cases the assumption can never be established, only left
+un-rejected.</p>
 </div>
+</div>
+<div id="the-wider-lesson" class="section level3 unnumbered hasAnchor">
+<h3>The wider lesson<a href="ols-hetero.html#the-wider-lesson" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Heteroskedasticity is a good example of a broader principle, and the principle is
+worth more than the topic.</p>
+<div class="keyidea">
+<p>Regression coefficients answer one question: what is the relationship?</p>
+<p>Standard errors answer another: how sure are we?</p>
+<p><strong>The first can be correct while the second is badly wrong.</strong></p>
+</div>
+<p>Students often assume that if a regression is right, everything about it is
+right. This section is the first place where that fails cleanly — the line is
+unbiased, the residuals sum to zero, <span class="math inline">\(R^2\)</span> is computed correctly, and the
+confidence interval still misses the truth two times in five.</p>
+<p>Estimation and inference are separate problems, and they can fail separately.</p>
 </div>
 </div>
 <script>

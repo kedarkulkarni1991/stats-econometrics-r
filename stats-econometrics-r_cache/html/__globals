@@ -9,3 +9,8 @@ sr-ex-unbiased
 sr-ex-ovb	
 ols-se-byhand	fit	u_hat	x	y
 ols-spread-plot	book_palette	theme_book	x	y
+ols-het-shapes	book_palette	theme_book
+ols-het-see	
+ols-het-plot	book_palette	theme_book	u_w	wages
+ols-het-coverage	out
+ols-het-robust	fit_w	robust_se

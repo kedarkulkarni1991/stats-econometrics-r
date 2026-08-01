@@ -463,11 +463,11 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="7.6" data-path="ols-hetero.html"><a href="ols-hetero.html"><i class="fa fa-check"></i><b>7.6</b> When the error variance is not constant</a>
 <ul>
-<li class="chapter" data-level="" data-path="ols-hetero.html"><a href="ols-hetero.html#the-gap-we-already-saw"><i class="fa fa-check"></i>The gap we already saw</a></li>
-<li class="chapter" data-level="" data-path="ols-hetero.html"><a href="ols-hetero.html#seeing-it"><i class="fa fa-check"></i>Seeing it</a></li>
-<li class="chapter" data-level="" data-path="ols-hetero.html"><a href="ols-hetero.html#what-breaks-and-what-does-not"><i class="fa fa-check"></i>What breaks, and what does not</a></li>
+<li class="chapter" data-level="" data-path="ols-hetero.html"><a href="ols-hetero.html#what-it-looks-like"><i class="fa fa-check"></i>What it looks like</a></li>
+<li class="chapter" data-level="" data-path="ols-hetero.html"><a href="ols-hetero.html#does-heteroskedasticity-matter"><i class="fa fa-check"></i>Does heteroskedasticity matter?</a></li>
+<li class="chapter" data-level="" data-path="ols-hetero.html"><a href="ols-hetero.html#how-wrong"><i class="fa fa-check"></i>How wrong?</a></li>
 <li class="chapter" data-level="" data-path="ols-hetero.html"><a href="ols-hetero.html#robust-standard-errors"><i class="fa fa-check"></i>Robust standard errors</a></li>
-<li class="chapter" data-level="" data-path="ols-hetero.html"><a href="ols-hetero.html#sometimes-the-variable-is-the-problem"><i class="fa fa-check"></i>Sometimes the variable is the problem</a></li>
+<li class="chapter" data-level="" data-path="ols-hetero.html"><a href="ols-hetero.html#the-wider-lesson"><i class="fa fa-check"></i>The wider lesson</a></li>
 </ul></li>
 <li class="chapter" data-level="7.7" data-path="ols-inference.html"><a href="ols-inference.html"><i class="fa fa-check"></i><b>7.7</b> Inference about the slope</a></li>
 <li class="chapter" data-level="7.8" data-path="ols-forms.html"><a href="ols-forms.html"><i class="fa fa-check"></i><b>7.8</b> Functional forms</a>
@@ -475,6 +475,7 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="ols-forms.html"><a href="ols-forms.html#the-four-forms"><i class="fa fa-check"></i>The four forms</a></li>
 <li class="chapter" data-level="" data-path="ols-forms.html"><a href="ols-forms.html#fuel-efficiency-in-elasticity-form"><i class="fa fa-check"></i>Fuel efficiency, in elasticity form</a></li>
 <li class="chapter" data-level="" data-path="ols-forms.html"><a href="ols-forms.html#the-return-to-schooling"><i class="fa fa-check"></i>The return to schooling</a></li>
+<li class="chapter" data-level="" data-path="ols-forms.html"><a href="ols-forms.html#when-the-variable-is-the-problem-not-the-variance"><i class="fa fa-check"></i>When the variable is the problem, not the variance</a></li>
 <li class="chapter" data-level="" data-path="ols-forms.html"><a href="ols-forms.html#choosing-a-form"><i class="fa fa-check"></i>Choosing a form</a></li>
 </ul></li>
 <li class="chapter" data-level="7.9" data-path="ols-causal.html"><a href="ols-causal.html"><i class="fa fa-check"></i><b>7.9</b> What regression does not fix</a></li>
@@ -586,6 +587,19 @@ standard deviation of the sampling distribution we simulated in Section
 <a href="ols-sampling.html#ols-sampling">7.3</a>.</p>
 <p>That sentence connects the whole unit. The histogram is the thing; the standard
 error is our estimate of how wide it is, computed without ever drawing it.</p>
+</div>
+<div class="deeper">
+<p>Notice the words <em>where the assumptions hold exactly</em>. They were doing work.</p>
+<p>Repeat the comparison on the real attendance data and the agreement is good
+rather than perfect: the formula gives about 0.046 for a sample of forty, while
+resampling gives about 0.053.</p>
+<p>The formula is not wrong. Its assumptions are only approximately true here —
+Section <a href="sr-prf.html#sr-prf">6.2</a> already showed the conditional mean of GPA is not exactly
+linear — and a formula inherits whatever inexactness its assumptions carry.</p>
+<p>Which assumption is chiefly responsible in this particular dataset is not obvious
+and we shall not pretend otherwise. The general point stands regardless, and is
+worth holding on to whenever software prints a standard error to four decimal
+places: the number is only as good as the model behind it.</p>
 </div>
 </div>
 <div id="why-the-denominator-matters" class="section level3 unnumbered hasAnchor">

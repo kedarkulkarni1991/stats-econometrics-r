@@ -718,6 +718,23 @@ That sentence connects the whole unit. The histogram is the thing; the standard
 error is our estimate of how wide it is, computed without ever drawing it.
 :::
 
+::: {.deeper}
+Notice the words *where the assumptions hold exactly*. They were doing work.
+
+Repeat the comparison on the real attendance data and the agreement is good
+rather than perfect: the formula gives about 0.046 for a sample of forty, while
+resampling gives about 0.053.
+
+The formula is not wrong. Its assumptions are only approximately true here —
+Section \@ref(sr-prf) already showed the conditional mean of GPA is not exactly
+linear — and a formula inherits whatever inexactness its assumptions carry.
+
+Which assumption is chiefly responsible in this particular dataset is not obvious
+and we shall not pretend otherwise. The general point stands regardless, and is
+worth holding on to whenever software prints a standard error to four decimal
+places: the number is only as good as the model behind it.
+:::
+
 ### Why the denominator matters {-}
 
 Most readers remember that larger samples give smaller standard errors. Far fewer
@@ -848,15 +865,15 @@ filled in.
 ## When the error variance is not constant {#ols-hetero}
 
 ::: {.question}
-SLR5 assumed the errors have the same variance at every value of $x$. Why would
-they?
+The standard error formula rested on one new assumption. Is it true?
 :::
 
-The variance formula of the previous section rested on **homoskedasticity**:
+The previous section derived a formula for the standard error, and that
+derivation needed SLR5: the errors have the same variance at every value of $x$.
 
 $$\mathrm{Var}(u \mid x) = \sigma^2 \quad \text{for every } x$$
 
-Read that as a claim about the world. It says the unobserved factors are just as
+Read as a claim about the world, that says the unobserved factors are just as
 spread out among students who attended 5 classes as among those who attended 30,
 and just as spread out among poor households as among rich ones.
 
@@ -877,27 +894,35 @@ So the spread of the errors grows with $x$. This is **heteroskedasticity**, and 
 economic data it is the normal case rather than the exception.
 :::
 
-### The gap we already saw {-}
+### What it looks like {-}
 
-Section \@ref(ols-variance) checked the standard error formula against a
-simulation and found it exact — on data built so that every assumption held.
+The diagnostic is a **residual plot**: the residuals against the fitted values.
+Homoskedasticity appears as a band of roughly constant width, heteroskedasticity
+as a fan.
 
-On the real attendance data the agreement is good rather than exact. The formula
-gives a standard error of about 0.046 for a sample of forty, while resampling
-gives about 0.053.
+```{r ols-het-shapes, echo = FALSE, fig.height = 3.2, cache = TRUE, fig.cap = "Residual plots from two simulated datasets. On the left the error variance is constant and the band has an even width. On the right it grows with x, and the band fans out. This is the shape to look for."}
+set.seed(15)
+xg <- runif(300, 1, 20)
 
-That gap is the subject of this section. The formula's assumptions hold only
-approximately in real data: Section \@ref(sr-prf) already showed the conditional
-mean of GPA is not exactly linear, and the error variance is not quite constant
-either. A formula is only as good as the assumptions underneath it, which is
-worth remembering whenever software prints a standard error to four decimals.
+shapes <- rbind(
+  data.frame(fitted = xg, resid = rnorm(300, sd = 3),
+             panel = "Constant variance"),
+  data.frame(fitted = xg, resid = rnorm(300, sd = 0.35 * xg),
+             panel = "Variance grows with x")
+)
 
-### Seeing it {-}
+ggplot(shapes, aes(fitted, resid)) +
+  geom_hline(yintercept = 0, colour = book_palette$reject, linewidth = 0.5) +
+  geom_point(alpha = 0.35, colour = book_palette$ink, size = 1) +
+  facet_wrap(~ panel) +
+  labs(x = "Fitted value", y = "Residual") +
+  theme_book()
+```
 
-Regress annual earnings on years of education for the 20,000 wage earners, and
-look at how the residuals are spread.
+Now the real thing. Regress annual earnings on years of education for the 20,000
+wage earners and look at how the residuals are spread.
 
-```{r ols-het-see}
+```{r ols-het-see, cache = TRUE}
 wages <- read.csv("data/wages-india-synthetic.csv")
 fit_w <- lm(annual_earnings ~ education, data = wages)
 
@@ -911,7 +936,7 @@ round(tapply(u_w, quartile, sd))
 The residuals in the top quarter of fitted values are more than three times as
 spread out as those in the bottom quarter.
 
-```{r ols-het-plot, echo = FALSE, fig.height = 3.6, fig.cap = "Residuals from a regression of annual earnings on years of schooling, shown as a boxplot at each level of education. The boxes widen steadily to the right: errors are far more variable where schooling is high. Homoskedasticity would appear as boxes of constant height. A few extreme residuals lie above the range plotted."}
+```{r ols-het-plot, echo = FALSE, fig.height = 3.6, cache = TRUE, fig.cap = "Residuals from a regression of annual earnings on years of schooling, shown as a boxplot at each level of education. The boxes widen steadily to the right. A few extreme residuals lie above the range plotted."}
 res_df <- data.frame(education = wages$education, resid = u_w)
 
 ggplot(res_df, aes(factor(education), resid)) +
@@ -925,45 +950,49 @@ ggplot(res_df, aes(factor(education), resid)) +
   theme_book()
 ```
 
-::: {.keyidea}
-The **residual plot** — residuals against fitted values — is the standard
-diagnostic.
-
-Homoskedasticity appears as a band of roughly constant width. Heteroskedasticity
-appears as a fan, widening or narrowing across the plot.
-
-Look at it every time. It costs one line of code and catches a great deal.
-:::
-
 Education takes only whole-number values, so a plain scatter of residuals against
-fitted values collapses into a series of vertical stripes. Drawing a box at each
-level of education shows the same thing more legibly.
+fitted values collapses into vertical stripes. A box at each level of education
+shows the same thing more legibly, and the widening is unmistakable.
 
-Formal tests exist — the Breusch–Pagan and White tests both regress squared
-residuals on the explanatory variables and ask whether anything is there. They
-are useful, but a plot usually settles the matter faster and tells you the shape
-of the problem rather than merely its presence.
+::: {.deeper}
+Formal tests exist. The Breusch–Pagan and White tests both regress squared
+residuals on the explanatory variables and ask whether anything is there.
 
-### What breaks, and what does not {-}
-
-This is the part worth being careful about, because heteroskedasticity is often
-described as though it invalidated everything.
-
-::: {.keyidea}
-**Unbiasedness survives.** The proof of $E(\hat{\beta}_1) = \beta_1$ used SLR1 to
-SLR4 and never mentioned SLR5. The estimate is still centred on the truth.
-
-**The variance formula fails.** $\mathrm{Var}(\hat{\beta}_1) = \sigma^2/\text{SST}_x$
-was derived by replacing every $\mathrm{Var}(u_i)$ with a common $\sigma^2$. If
-there is no common $\sigma^2$, that step is invalid.
-
-So the estimate is fine and the *reported precision of the estimate* is wrong —
-which means the standard errors, the $t$ statistics, the $p$-values and the
-confidence intervals are all unreliable.
+They are worth knowing about, and they are not what this book recommends
+reaching for first. A plot settles the matter faster and tells you the *shape* of
+the problem rather than merely announcing its presence — and, as the next section
+shows, a fan-shaped residual plot sometimes means the functional form is wrong
+rather than the variance non-constant. A test statistic cannot tell you which.
 :::
 
-How wrong? We can find out, by simulating from a model where we know both the
-truth and the severity of the problem.
+### Does heteroskedasticity matter? {-}
+
+Here is the surprise.
+
+::: {.keyidea}
+**The fitted line is unaffected.**
+
+The proof that $E(\hat{\beta}_1) = \beta_1$ used SLR1 to SLR4 and never mentioned
+SLR5. The estimate is still centred on the truth, and heteroskedasticity
+introduces no bias whatever.
+
+**The standard error is wrong.**
+
+$\mathrm{Var}(\hat{\beta}_1) = \sigma^2/\text{SST}_x$ was obtained by replacing
+every $\mathrm{Var}(u_i)$ with a common $\sigma^2$. If no common $\sigma^2$
+exists, that step is invalid — and with it the standard errors, the $t$
+statistics, the $p$-values and the confidence intervals.
+:::
+
+So the coefficient is fine and the *reported uncertainty around it* is not. That
+is why this matters: not because the arithmetic of the line changes, but because
+everything we say about how much to trust the line is computed from a formula
+that no longer applies.
+
+### How wrong? {-}
+
+We can measure it, by simulating from a model where we know both the truth and
+the severity of the problem.
 
 ```{r ols-het-sim, cache = TRUE}
 robust_se <- function(m) {
@@ -987,35 +1016,46 @@ round(c(actual_sd_of_b1  = sd(out[1, ]),
         avg_robust_se    = mean(out[3, ])), 4)
 ```
 
-The true slope is 1, and across four thousand samples $\hat{\beta}_1$ has a
-standard deviation of 0.43. That is the actual variability of the estimator.
+The true slope is 1. Across four thousand samples $\hat{\beta}_1$ has a standard
+deviation of 0.43 — that is the actual variability of the estimator, the thing a
+standard error is supposed to report.
 
-The classical standard error reports 0.18 — less than half of it. Software that
-prints 0.18 is claiming a precision the estimator does not have.
+The classical standard error reports 0.18. Software printing 0.18 is claiming a
+precision the estimator does not have, by a factor of more than two.
 
-The consequence for confidence intervals is severe.
-
-```{r ols-het-coverage}
+```{r ols-het-coverage, cache = TRUE}
 round(c(classical = mean(abs(out[1, ] - 1) < qt(0.975, 58) * out[2, ]),
         robust    = mean(abs(out[1, ] - 1) < qt(0.975, 58) * out[3, ])), 3)
 ```
 
-An interval advertised as 95% contains the true slope 59% of the time.
+This is the finding that matters, and it is worth stating slowly.
+
+A confidence interval advertised as 95% should contain the true slope in roughly
+95 of every 100 repeated samples. Here it succeeds **59** times.
+
+The problem is not the estimator. $\hat{\beta}_1$ is unbiased and behaving
+exactly as it should. The problem is that we underestimated its variability, and
+so drew an interval far too narrow around a perfectly good estimate.
 
 ### Robust standard errors {-}
 
-The fix does not touch $\hat{\beta}_1$, which needs no fixing. It replaces the
-formula for its variance with one that does not assume a common $\sigma^2$,
+The repair does not touch $\hat{\beta}_1$, which needs no repairing. It replaces
+the formula for the variance with one that does not assume a common $\sigma^2$,
 using each observation's own squared residual in place of a single estimate.
 
-These are called **heteroskedasticity-robust standard errors**, or often just
-robust standard errors.
+::: {.keyidea}
+**Heteroskedasticity-robust standard errors leave the fitted line unchanged.**
+They alter only how the uncertainty around it is calculated.
 
-In the simulation above they report 0.33 against a true 0.43, and lift coverage
-from 59% to 85%. A large improvement, and — worth noticing — not a complete
-repair at this sample size and this severity.
+The coefficients you report are identical either way. What changes is the second
+column of the output, and everything computed from it.
+:::
 
-```{r ols-het-robust}
+In the simulation they report 0.33 against a true 0.43, and lift coverage from
+59% to 85%. A large improvement, and visibly not a complete repair at this sample
+size and this severity.
+
+```{r ols-het-robust, cache = TRUE}
 round(c(classical_se = coef(summary(fit_w))[2, 2],
         robust_se    = robust_se(fit_w)), 2)
 ```
@@ -1028,52 +1068,47 @@ refused.
 ::: {.watchout}
 Three things robust standard errors do not do.
 
-They do not fix bias. There was none to fix; heteroskedasticity does not bias
-$\hat{\beta}_1$.
+They do not fix bias. There was none to fix.
 
 They do not fix a wrong functional form. A fan-shaped residual plot sometimes
 means the relationship is not linear rather than that the variance is
-non-constant, and robust standard errors would paper over that.
+non-constant, and robust standard errors would paper over that. Section
+\@ref(ols-forms) takes this up.
 
-They do not work miracles in small samples, as the simulation shows. They are an
-improvement, not a guarantee.
+They do not work miracles in small samples, as the simulation shows.
 :::
-
-### Sometimes the variable is the problem {-}
-
-Robust standard errors accept the heteroskedasticity and correct for it. The
-other response is to ask why it is there.
-
-Earnings are a highly skewed variable, and skewed variables often produce
-fan-shaped residuals simply because their upper tail is long. Taking logarithms
-compresses that tail.
-
-```{r ols-het-logs}
-fit_log <- lm(log(annual_earnings) ~ education, data = wages)
-
-q_log <- cut(fitted(fit_log), quantile(fitted(fit_log), 0:4/4),
-             include.lowest = TRUE)
-round(tapply(residuals(fit_log), q_log, sd), 4)
-```
-
-The spread is now essentially identical across quartiles — a ratio of 1.01
-against 3.61 in levels. The heteroskedasticity was not a deep feature of the
-world; it was a consequence of measuring earnings in rupees rather than in
-proportional terms.
-
-Section \@ref(ols-forms) takes up what the log form means for interpretation.
-For now, note that a residual plot which fans out is sometimes telling you about
-the variance and sometimes telling you that the variable wants transforming.
 
 ::: {.intuition}
 Modern practice is to report robust standard errors by default in
 cross-sectional work.
 
-The reasoning is the same asymmetric-risk argument as Welch's test in Section
-\@ref(ts-unknown). When the errors really are homoskedastic, robust standard
-errors cost very little. When they are not, classical standard errors mislead —
-and you can never establish homoskedasticity, only fail to reject it.
+This is exactly the logic of Section \@ref(ts-unknown). Classical standard errors
+assume equal variances, as the pooled two-sample $t$-test did; robust standard
+errors relax that assumption, as Welch's test did. In both cases the relaxed
+version costs very little when the assumption holds and protects you when it does
+not — and in both cases the assumption can never be established, only left
+un-rejected.
 :::
+
+### The wider lesson {-}
+
+Heteroskedasticity is a good example of a broader principle, and the principle is
+worth more than the topic.
+
+::: {.keyidea}
+Regression coefficients answer one question: what is the relationship?
+
+Standard errors answer another: how sure are we?
+
+**The first can be correct while the second is badly wrong.**
+:::
+
+Students often assume that if a regression is right, everything about it is
+right. This section is the first place where that fails cleanly — the line is
+unbiased, the residuals sum to zero, $R^2$ is computed correctly, and the
+confidence interval still misses the truth two times in five.
+
+Estimation and inference are separate problems, and they can fail separately.
 
 ## Inference about the slope {#ols-inference}
 
@@ -1277,6 +1312,37 @@ $100(e^{0.0942} - 1) = `r round(100*(exp(0.0942)-1), 2)`$%, which is close
 enough. For a coefficient of 0.7 the approximation says 70% and the truth is
 $`r round(100*(exp(0.7)-1), 0)`$%. Above about 0.2, use the exact expression.
 :::
+
+### When the variable is the problem, not the variance {-}
+
+Robust standard errors accept the heteroskedasticity and correct for it. The
+other response is to ask why it is there.
+
+Earnings are a highly skewed variable, and skewed variables often produce
+fan-shaped residuals simply because their upper tail is long. Taking logarithms
+compresses that tail.
+
+```{r ols-het-logs}
+fit_log <- lm(log(annual_earnings) ~ education, data = wages)
+
+q_log <- cut(fitted(fit_log), quantile(fitted(fit_log), 0:4/4),
+             include.lowest = TRUE)
+round(tapply(residuals(fit_log), q_log, sd), 4)
+```
+
+The spread is now essentially identical across quartiles — a ratio of 1.01
+against 3.61 in levels. The heteroskedasticity was not a deep feature of the
+world; it was a consequence of measuring earnings in rupees rather than in
+proportional terms.
+
+This is the second thing a fan-shaped residual plot can be telling you. Section
+\@ref(ols-hetero) treated it as a fact about the variance to be corrected with
+robust standard errors. Sometimes it is instead a fact about the *scale* of the
+variable, and changing the scale removes it entirely.
+
+Robust standard errors would have accepted the heteroskedasticity and widened the
+intervals around it. Taking logs asks why it was there.
+
 
 ### Choosing a form {-}
 

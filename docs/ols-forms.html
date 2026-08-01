@@ -463,11 +463,11 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="7.6" data-path="ols-hetero.html"><a href="ols-hetero.html"><i class="fa fa-check"></i><b>7.6</b> When the error variance is not constant</a>
 <ul>
-<li class="chapter" data-level="" data-path="ols-hetero.html"><a href="ols-hetero.html#the-gap-we-already-saw"><i class="fa fa-check"></i>The gap we already saw</a></li>
-<li class="chapter" data-level="" data-path="ols-hetero.html"><a href="ols-hetero.html#seeing-it"><i class="fa fa-check"></i>Seeing it</a></li>
-<li class="chapter" data-level="" data-path="ols-hetero.html"><a href="ols-hetero.html#what-breaks-and-what-does-not"><i class="fa fa-check"></i>What breaks, and what does not</a></li>
+<li class="chapter" data-level="" data-path="ols-hetero.html"><a href="ols-hetero.html#what-it-looks-like"><i class="fa fa-check"></i>What it looks like</a></li>
+<li class="chapter" data-level="" data-path="ols-hetero.html"><a href="ols-hetero.html#does-heteroskedasticity-matter"><i class="fa fa-check"></i>Does heteroskedasticity matter?</a></li>
+<li class="chapter" data-level="" data-path="ols-hetero.html"><a href="ols-hetero.html#how-wrong"><i class="fa fa-check"></i>How wrong?</a></li>
 <li class="chapter" data-level="" data-path="ols-hetero.html"><a href="ols-hetero.html#robust-standard-errors"><i class="fa fa-check"></i>Robust standard errors</a></li>
-<li class="chapter" data-level="" data-path="ols-hetero.html"><a href="ols-hetero.html#sometimes-the-variable-is-the-problem"><i class="fa fa-check"></i>Sometimes the variable is the problem</a></li>
+<li class="chapter" data-level="" data-path="ols-hetero.html"><a href="ols-hetero.html#the-wider-lesson"><i class="fa fa-check"></i>The wider lesson</a></li>
 </ul></li>
 <li class="chapter" data-level="7.7" data-path="ols-inference.html"><a href="ols-inference.html"><i class="fa fa-check"></i><b>7.7</b> Inference about the slope</a></li>
 <li class="chapter" data-level="7.8" data-path="ols-forms.html"><a href="ols-forms.html"><i class="fa fa-check"></i><b>7.8</b> Functional forms</a>
@@ -475,6 +475,7 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="ols-forms.html"><a href="ols-forms.html#the-four-forms"><i class="fa fa-check"></i>The four forms</a></li>
 <li class="chapter" data-level="" data-path="ols-forms.html"><a href="ols-forms.html#fuel-efficiency-in-elasticity-form"><i class="fa fa-check"></i>Fuel efficiency, in elasticity form</a></li>
 <li class="chapter" data-level="" data-path="ols-forms.html"><a href="ols-forms.html#the-return-to-schooling"><i class="fa fa-check"></i>The return to schooling</a></li>
+<li class="chapter" data-level="" data-path="ols-forms.html"><a href="ols-forms.html#when-the-variable-is-the-problem-not-the-variance"><i class="fa fa-check"></i>When the variable is the problem, not the variance</a></li>
 <li class="chapter" data-level="" data-path="ols-forms.html"><a href="ols-forms.html#choosing-a-form"><i class="fa fa-check"></i>Choosing a form</a></li>
 </ul></li>
 <li class="chapter" data-level="7.9" data-path="ols-causal.html"><a href="ols-causal.html"><i class="fa fa-check"></i><b>7.9</b> What regression does not fix</a></li>
@@ -598,15 +599,15 @@ the variable. Multiplying by 100 turns it into a percentage.</p>
 </div>
 <div id="fuel-efficiency-in-elasticity-form" class="section level3 unnumbered hasAnchor">
 <h3>Fuel efficiency, in elasticity form<a href="ols-forms.html#fuel-efficiency-in-elasticity-form" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<div class="sourceCode" id="cb272"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb272-1"><a href="ols-forms.html#cb272-1" tabindex="-1"></a>cars <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/car-mileage.csv&quot;</span>)</span>
-<span id="cb272-2"><a href="ols-forms.html#cb272-2" tabindex="-1"></a></span>
-<span id="cb272-3"><a href="ols-forms.html#cb272-3" tabindex="-1"></a>level_level <span class="ot">&lt;-</span> <span class="fu">lm</span>(mileage_kmpl <span class="sc">~</span> weight_kg, <span class="at">data =</span> cars)</span>
-<span id="cb272-4"><a href="ols-forms.html#cb272-4" tabindex="-1"></a>log_log     <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="fu">log</span>(mileage_kmpl) <span class="sc">~</span> <span class="fu">log</span>(weight_kg), <span class="at">data =</span> cars)</span>
-<span id="cb272-5"><a href="ols-forms.html#cb272-5" tabindex="-1"></a></span>
-<span id="cb272-6"><a href="ols-forms.html#cb272-6" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">rbind</span>(<span class="at">level_level =</span> <span class="fu">c</span>(<span class="at">slope =</span> <span class="fu">coef</span>(level_level)[<span class="dv">2</span>],</span>
-<span id="cb272-7"><a href="ols-forms.html#cb272-7" tabindex="-1"></a>                            <span class="at">r_squared =</span> <span class="fu">summary</span>(level_level)<span class="sc">$</span>r.squared),</span>
-<span id="cb272-8"><a href="ols-forms.html#cb272-8" tabindex="-1"></a>            <span class="at">log_log     =</span> <span class="fu">c</span>(<span class="at">slope =</span> <span class="fu">coef</span>(log_log)[<span class="dv">2</span>],</span>
-<span id="cb272-9"><a href="ols-forms.html#cb272-9" tabindex="-1"></a>                            <span class="at">r_squared =</span> <span class="fu">summary</span>(log_log)<span class="sc">$</span>r.squared)), <span class="dv">4</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb270"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb270-1"><a href="ols-forms.html#cb270-1" tabindex="-1"></a>cars <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/car-mileage.csv&quot;</span>)</span>
+<span id="cb270-2"><a href="ols-forms.html#cb270-2" tabindex="-1"></a></span>
+<span id="cb270-3"><a href="ols-forms.html#cb270-3" tabindex="-1"></a>level_level <span class="ot">&lt;-</span> <span class="fu">lm</span>(mileage_kmpl <span class="sc">~</span> weight_kg, <span class="at">data =</span> cars)</span>
+<span id="cb270-4"><a href="ols-forms.html#cb270-4" tabindex="-1"></a>log_log     <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="fu">log</span>(mileage_kmpl) <span class="sc">~</span> <span class="fu">log</span>(weight_kg), <span class="at">data =</span> cars)</span>
+<span id="cb270-5"><a href="ols-forms.html#cb270-5" tabindex="-1"></a></span>
+<span id="cb270-6"><a href="ols-forms.html#cb270-6" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">rbind</span>(<span class="at">level_level =</span> <span class="fu">c</span>(<span class="at">slope =</span> <span class="fu">coef</span>(level_level)[<span class="dv">2</span>],</span>
+<span id="cb270-7"><a href="ols-forms.html#cb270-7" tabindex="-1"></a>                            <span class="at">r_squared =</span> <span class="fu">summary</span>(level_level)<span class="sc">$</span>r.squared),</span>
+<span id="cb270-8"><a href="ols-forms.html#cb270-8" tabindex="-1"></a>            <span class="at">log_log     =</span> <span class="fu">c</span>(<span class="at">slope =</span> <span class="fu">coef</span>(log_log)[<span class="dv">2</span>],</span>
+<span id="cb270-9"><a href="ols-forms.html#cb270-9" tabindex="-1"></a>                            <span class="at">r_squared =</span> <span class="fu">summary</span>(log_log)<span class="sc">$</span>r.squared)), <span class="dv">4</span>)</span></code></pre></div>
 <pre><code>#&gt;             slope.weight_kg r_squared
 #&gt; level_level         -0.0060    0.6515
 #&gt; log_log             -0.8252    0.7136</code></pre>
@@ -621,7 +622,7 @@ better than the constant absolute penalty the level–level model imposed.</p>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:ols-forms-plot"></span>
 <img src="stats-econometrics-r_files/figure-html/ols-forms-plot-1.png" alt="The same 74 cars in levels and in logarithms. Both look broadly linear; the logarithmic version is a little tighter around the line, which is the improvement in R-squared from 0.65 to 0.71. The gain here is real but modest -- the case for the log form rests mainly on interpretation." width="90%"  />
 <p class="caption">
-Figure 7.7: The same 74 cars in levels and in logarithms. Both look broadly linear; the logarithmic version is a little tighter around the line, which is the improvement in R-squared from 0.65 to 0.71. The gain here is real but modest – the case for the log form rests mainly on interpretation.
+Figure 7.8: The same 74 cars in levels and in logarithms. Both look broadly linear; the logarithmic version is a little tighter around the line, which is the improvement in R-squared from 0.65 to 0.71. The gain here is real but modest – the case for the log form rests mainly on interpretation.
 </p>
 </div>
 <div class="watchout">
@@ -638,10 +639,10 @@ variance is non-constant.</p>
 <h3>The return to schooling<a href="ols-forms.html#the-return-to-schooling" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>The log–level form is the workhorse of labour economics, because wages are
 naturally discussed in percentages.</p>
-<div class="sourceCode" id="cb274"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb274-1"><a href="ols-forms.html#cb274-1" tabindex="-1"></a>wages <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/wages-india-synthetic.csv&quot;</span>)</span>
-<span id="cb274-2"><a href="ols-forms.html#cb274-2" tabindex="-1"></a></span>
-<span id="cb274-3"><a href="ols-forms.html#cb274-3" tabindex="-1"></a>fit_w <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="fu">log</span>(annual_earnings) <span class="sc">~</span> education, <span class="at">data =</span> wages)</span>
-<span id="cb274-4"><a href="ols-forms.html#cb274-4" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">coef</span>(<span class="fu">summary</span>(fit_w)), <span class="dv">5</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb272"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb272-1"><a href="ols-forms.html#cb272-1" tabindex="-1"></a>wages <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/wages-india-synthetic.csv&quot;</span>)</span>
+<span id="cb272-2"><a href="ols-forms.html#cb272-2" tabindex="-1"></a></span>
+<span id="cb272-3"><a href="ols-forms.html#cb272-3" tabindex="-1"></a>fit_w <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="fu">log</span>(annual_earnings) <span class="sc">~</span> education, <span class="at">data =</span> wages)</span>
+<span id="cb272-4"><a href="ols-forms.html#cb272-4" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">coef</span>(<span class="fu">summary</span>(fit_w)), <span class="dv">5</span>)</span></code></pre></div>
 <pre><code>#&gt;             Estimate Std. Error t value Pr(&gt;|t|)
 #&gt; (Intercept)  9.56930    0.01260  759.26        0
 #&gt; education    0.09416    0.00167   56.52        0</code></pre>
@@ -660,6 +661,31 @@ For a coefficient of 0.0942 the exact figure is
 enough. For a coefficient of 0.7 the approximation says 70% and the truth is
 <span class="math inline">\(101\)</span>%. Above about 0.2, use the exact expression.</p>
 </div>
+</div>
+<div id="when-the-variable-is-the-problem-not-the-variance" class="section level3 unnumbered hasAnchor">
+<h3>When the variable is the problem, not the variance<a href="ols-forms.html#when-the-variable-is-the-problem-not-the-variance" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Robust standard errors accept the heteroskedasticity and correct for it. The
+other response is to ask why it is there.</p>
+<p>Earnings are a highly skewed variable, and skewed variables often produce
+fan-shaped residuals simply because their upper tail is long. Taking logarithms
+compresses that tail.</p>
+<div class="sourceCode" id="cb274"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb274-1"><a href="ols-forms.html#cb274-1" tabindex="-1"></a>fit_log <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="fu">log</span>(annual_earnings) <span class="sc">~</span> education, <span class="at">data =</span> wages)</span>
+<span id="cb274-2"><a href="ols-forms.html#cb274-2" tabindex="-1"></a></span>
+<span id="cb274-3"><a href="ols-forms.html#cb274-3" tabindex="-1"></a>q_log <span class="ot">&lt;-</span> <span class="fu">cut</span>(<span class="fu">fitted</span>(fit_log), <span class="fu">quantile</span>(<span class="fu">fitted</span>(fit_log), <span class="dv">0</span><span class="sc">:</span><span class="dv">4</span><span class="sc">/</span><span class="dv">4</span>),</span>
+<span id="cb274-4"><a href="ols-forms.html#cb274-4" tabindex="-1"></a>             <span class="at">include.lowest =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb274-5"><a href="ols-forms.html#cb274-5" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">tapply</span>(<span class="fu">residuals</span>(fit_log), q_log, sd), <span class="dv">4</span>)</span></code></pre></div>
+<pre><code>#&gt; [9.57,9.66]   (9.66,10]   (10,10.4]   (10.4,11] 
+#&gt;       1.166       1.169       1.181       1.166</code></pre>
+<p>The spread is now essentially identical across quartiles — a ratio of 1.01
+against 3.61 in levels. The heteroskedasticity was not a deep feature of the
+world; it was a consequence of measuring earnings in rupees rather than in
+proportional terms.</p>
+<p>This is the second thing a fan-shaped residual plot can be telling you. Section
+<a href="ols-hetero.html#ols-hetero">7.6</a> treated it as a fact about the variance to be corrected with
+robust standard errors. Sometimes it is instead a fact about the <em>scale</em> of the
+variable, and changing the scale removes it entirely.</p>
+<p>Robust standard errors would have accepted the heteroskedasticity and widened the
+intervals around it. Taking logs asks why it was there.</p>
 </div>
 <div id="choosing-a-form" class="section level3 unnumbered hasAnchor">
 <h3>Choosing a form<a href="ols-forms.html#choosing-a-form" class="anchor-section" aria-label="Anchor link to header"></a></h3>
