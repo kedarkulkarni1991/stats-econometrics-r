@@ -418,7 +418,7 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="6.6" data-path="sr-srf.html"><a href="sr-srf.html"><i class="fa fa-check"></i><b>6.6</b> From the population to a sample</a>
 <ul>
-<li class="chapter" data-level="" data-path="sr-srf.html"><a href="sr-srf.html#every-sample-gives-a-different-line"><i class="fa fa-check"></i>Every sample gives a different line</a></li>
+<li class="chapter" data-level="" data-path="sr-srf.html"><a href="sr-srf.html#two-sections-two-lines"><i class="fa fa-check"></i>Two sections, two lines</a></li>
 </ul></li>
 <li class="chapter" data-level="6.7" data-path="sr-ols.html"><a href="sr-ols.html"><i class="fa fa-check"></i><b>6.7</b> Which line should we fit?</a></li>
 <li class="chapter" data-level="6.8" data-path="sr-summary.html"><a href="sr-summary.html"><i class="fa fa-check"></i><b>6.8</b> Summary</a></li>
@@ -453,8 +453,8 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="ols-sampling.html"><a href="ols-sampling.html#looking-only-at-the-slopes"><i class="fa fa-check"></i>Looking only at the slopes</a></li>
 <li class="chapter" data-level="" data-path="ols-sampling.html"><a href="ols-sampling.html#what-makes-the-distribution-narrow"><i class="fa fa-check"></i>What makes the distribution narrow?</a></li>
 </ul></li>
-<li class="chapter" data-level="7.4" data-path="ols-unbiased.html"><a href="ols-unbiased.html"><i class="fa fa-check"></i><b>7.4</b> Why is OLS unbiased?</a></li>
-<li class="chapter" data-level="7.5" data-path="ols-variance.html"><a href="ols-variance.html"><i class="fa fa-check"></i><b>7.5</b> The variance of the slope</a>
+<li class="chapter" data-level="7.4" data-path="ols-unbiased.html"><a href="ols-unbiased.html"><i class="fa fa-check"></i><b>7.4</b> Why does OLS get the right answer on average?</a></li>
+<li class="chapter" data-level="7.5" data-path="ols-variance.html"><a href="ols-variance.html"><i class="fa fa-check"></i><b>7.5</b> How precise is OLS?</a>
 <ul>
 <li class="chapter" data-level="" data-path="ols-variance.html"><a href="ols-variance.html#does-the-formula-match-the-simulation"><i class="fa fa-check"></i>Does the formula match the simulation?</a></li>
 </ul></li>
@@ -525,8 +525,8 @@ their corresponding <span class="math inline">\(x\)</span> values.</p>
 <p><span class="math display">\[\hat{y}_i = \hat{\beta}_0 + \hat{\beta}_1 x_i\]</span></p>
 <p>where <span class="math inline">\(\hat{y}\)</span> estimates <span class="math inline">\(E(Y \mid X = x)\)</span>, and <span class="math inline">\(\hat{\beta}_0\)</span> and
 <span class="math inline">\(\hat{\beta}_1\)</span> estimate <span class="math inline">\(\beta_0\)</span> and <span class="math inline">\(\beta_1\)</span>.</p>
-<div id="every-sample-gives-a-different-line" class="section level3 unnumbered hasAnchor">
-<h3>Every sample gives a different line<a href="sr-srf.html#every-sample-gives-a-different-line" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="two-sections-two-lines" class="section level3 unnumbered hasAnchor">
+<h3>Two sections, two lines<a href="sr-srf.html#two-sections-two-lines" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Suppose two sections of thirty students each are surveyed, and a line is fitted to
 each. Which one is the population regression function?</p>
 <div class="sourceCode" id="cb234"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb234-1"><a href="sr-srf.html#cb234-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">12</span>)</span>

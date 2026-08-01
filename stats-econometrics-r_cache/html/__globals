@@ -1,0 +1,9 @@
+ts-ex-paired-power	
+ols-many-lines	book_palette	fit	students	theme_book
+ols-slope-dist	book_palette	draw_line	fit	theme_book
+ols-sd-by-n	draw_line
+ols-sd-by-spread	sd_at	students
+ols-formula-check	
+ols-het-sim	
+sr-ex-unbiased	
+sr-ex-ovb	

@@ -1309,7 +1309,7 @@ two columns. Simulate pairs of measurements with correlation 0, 0.5 and 0.9, a
 true difference of 4, and $n = 10$, and compare how often each test rejects.
 
 ::: {.answer}
-```{r ts-ex-paired-power}
+```{r ts-ex-paired-power, cache = TRUE}
 set.seed(7)
 
 power_at <- function(rho, reps = 4000) {

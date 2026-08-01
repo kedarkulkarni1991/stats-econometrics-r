@@ -4,13 +4,13 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>7.4 Why is OLS unbiased? | Statistics and Econometrics with R</title>
+  <title>7.4 Why does OLS get the right answer on average? | Statistics and Econometrics with R</title>
   <meta name="description" content="<p>A first course in statistics and econometrics for Indian students, built on
 the progression from question to intuition to rigour to computation to
 interpretation.</p>" />
   <meta name="generator" content="bookdown 0.47 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="7.4 Why is OLS unbiased? | Statistics and Econometrics with R" />
+  <meta property="og:title" content="7.4 Why does OLS get the right answer on average? | Statistics and Econometrics with R" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="<p>A first course in statistics and econometrics for Indian students, built on
@@ -19,7 +19,7 @@ interpretation.</p>" />
   <meta name="github-repo" content="kedarkulkarni1991/stats-econometrics-r" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="7.4 Why is OLS unbiased? | Statistics and Econometrics with R" />
+  <meta name="twitter:title" content="7.4 Why does OLS get the right answer on average? | Statistics and Econometrics with R" />
   
   <meta name="twitter:description" content="<p>A first course in statistics and econometrics for Indian students, built on
 the progression from question to intuition to rigour to computation to
@@ -418,7 +418,7 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="6.6" data-path="sr-srf.html"><a href="sr-srf.html"><i class="fa fa-check"></i><b>6.6</b> From the population to a sample</a>
 <ul>
-<li class="chapter" data-level="" data-path="sr-srf.html"><a href="sr-srf.html#every-sample-gives-a-different-line"><i class="fa fa-check"></i>Every sample gives a different line</a></li>
+<li class="chapter" data-level="" data-path="sr-srf.html"><a href="sr-srf.html#two-sections-two-lines"><i class="fa fa-check"></i>Two sections, two lines</a></li>
 </ul></li>
 <li class="chapter" data-level="6.7" data-path="sr-ols.html"><a href="sr-ols.html"><i class="fa fa-check"></i><b>6.7</b> Which line should we fit?</a></li>
 <li class="chapter" data-level="6.8" data-path="sr-summary.html"><a href="sr-summary.html"><i class="fa fa-check"></i><b>6.8</b> Summary</a></li>
@@ -453,8 +453,8 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="ols-sampling.html"><a href="ols-sampling.html#looking-only-at-the-slopes"><i class="fa fa-check"></i>Looking only at the slopes</a></li>
 <li class="chapter" data-level="" data-path="ols-sampling.html"><a href="ols-sampling.html#what-makes-the-distribution-narrow"><i class="fa fa-check"></i>What makes the distribution narrow?</a></li>
 </ul></li>
-<li class="chapter" data-level="7.4" data-path="ols-unbiased.html"><a href="ols-unbiased.html"><i class="fa fa-check"></i><b>7.4</b> Why is OLS unbiased?</a></li>
-<li class="chapter" data-level="7.5" data-path="ols-variance.html"><a href="ols-variance.html"><i class="fa fa-check"></i><b>7.5</b> The variance of the slope</a>
+<li class="chapter" data-level="7.4" data-path="ols-unbiased.html"><a href="ols-unbiased.html"><i class="fa fa-check"></i><b>7.4</b> Why does OLS get the right answer on average?</a></li>
+<li class="chapter" data-level="7.5" data-path="ols-variance.html"><a href="ols-variance.html"><i class="fa fa-check"></i><b>7.5</b> How precise is OLS?</a>
 <ul>
 <li class="chapter" data-level="" data-path="ols-variance.html"><a href="ols-variance.html#does-the-formula-match-the-simulation"><i class="fa fa-check"></i>Does the formula match the simulation?</a></li>
 </ul></li>
@@ -511,21 +511,25 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 
             <section class="normal" id="section-">
 <div id="ols-unbiased" class="section level2 hasAnchor" number="7.4">
-<h2><span class="header-section-number">7.4</span> Why is OLS unbiased?<a href="ols-unbiased.html#ols-unbiased" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<h2><span class="header-section-number">7.4</span> Why does OLS get the right answer on average?<a href="ols-unbiased.html#ols-unbiased" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <div class="question">
-<p>The simulated slopes averaged 0.190 against a true 0.189. Was that luck?</p>
+<p>The histogram was centred on the truth. Was that luck?</p>
 </div>
-<p>It was not, and showing why requires stating what we have been assuming. Four
-assumptions deliver it.</p>
+<p>The histogram in Figure <a href="ols-sampling.html#fig:ols-slope-dist">7.4</a> had two striking features.</p>
+<p>First, the slopes varied from sample to sample — sometimes a good deal.</p>
+<p>Second, they fluctuated <em>around</em> the full-sample value rather than sitting
+systematically above or below it. The average of five thousand slopes was 0.190
+against 0.189 from all 680 students.</p>
+<p>Was that simply good fortune with this population, or does OLS always behave
+this way?</p>
+<p>Showing that it always does requires the first four assumptions of the simple
+linear regression model.</p>
 <div class="keyidea">
-<p><strong>SLR1 — linear in parameters.</strong> The population model is
-<span class="math inline">\(y = \beta_0 + \beta_1 x + u\)</span>.</p>
-<p><strong>SLR2 — random sampling.</strong> The <span class="math inline">\(n\)</span> observations are a random sample from that
-population.</p>
-<p><strong>SLR3 — variation in <span class="math inline">\(x\)</span>.</strong> The <span class="math inline">\(x_i\)</span> are not all equal.</p>
-<p><strong>SLR4 — zero conditional mean.</strong> <span class="math inline">\(E(u \mid x) = 0\)</span>.</p>
-<p>These four give unbiasedness. Nothing about the <em>spread</em> of the errors is
-assumed yet.</p>
+<p><strong>SLR1</strong> The population model is <span class="math inline">\(y = \beta_0 + \beta_1 x + u\)</span>.
+<strong>SLR2</strong> The observations are a random sample from that population.
+<strong>SLR3</strong> The <span class="math inline">\(x_i\)</span> are not all equal.
+<strong>SLR4</strong> <span class="math inline">\(E(u \mid x) = 0\)</span>.</p>
+<p>Nothing about the <em>spread</em> of the errors is assumed yet.</p>
 </div>
 <div class="theory">
 <p>Write the slope in deviation form and substitute the model. With
@@ -541,18 +545,39 @@ assumed yet.</p>
 \]</span></p>
 <p>because <span class="math inline">\(\sum(x_i - \bar{x}) = 0\)</span> kills the <span class="math inline">\(\beta_0\)</span> term and
 <span class="math inline">\(\sum(x_i - \bar{x})x_i = \text{SST}_x\)</span> leaves <span class="math inline">\(\beta_1\)</span>.</p>
-<p>That last line is worth reading carefully. <strong>The estimate equals the truth plus
-a term built entirely from the errors.</strong> Taking expectations conditional on the
-<span class="math inline">\(x\)</span>’s, and using SLR4 to set <span class="math inline">\(E(u_i \mid x) = 0\)</span>,</p>
-<p><span class="math display">\[E(\hat{\beta}_1) = \beta_1 + \frac{\sum(x_i - \bar{x})E(u_i \mid x)}{\text{SST}_x} = \beta_1\]</span></p>
 </div>
-<p>So OLS is unbiased: across repeated samples, <span class="math inline">\(\hat{\beta}_1\)</span> is centred on
-<span class="math inline">\(\beta_1\)</span>. That is the first question mark in Table <a href="ols-sampling.html#tab:ols-parallel">7.1</a>
-filled in, and it is what the simulated histogram was showing.</p>
-<p>The derivation also shows exactly where unbiasedness can fail. If the errors are
-systematically larger at larger <span class="math inline">\(x\)</span> — if high attenders are more able — then
-<span class="math inline">\(E(u_i \mid x) \neq 0\)</span>, the second term does not vanish, and <span class="math inline">\(\hat{\beta}_1\)</span> is
-biased by precisely that amount. Section <a href="ols-causal.html#ols-causal">7.9</a> returns to it.</p>
+<p>That last line deserves to be pulled out and looked at on its own.</p>
+<div class="keyidea">
+<p><span class="math display">\[\hat{\beta}_1 \;=\; \underbrace{\beta_1}_{\text{truth}}
+\;+\; \underbrace{\frac{\sum(x_i - \bar{x})u_i}{\text{SST}_x}}_{\text{sampling error}}\]</span></p>
+<p><strong>Estimate = truth + sampling error.</strong></p>
+</div>
+<p>The equation separates two quite different things.</p>
+<p>The first term, <span class="math inline">\(\beta_1\)</span>, is the quantity we are trying to estimate. It is a
+fixed feature of the population and it is identical in every sample.</p>
+<p>The second term is the price of observing only one sample. It depends entirely
+on the unobserved errors <span class="math inline">\(u_i\)</span> — on which particular students happened to be
+drawn and how far each of them sat from the line. It is different in every
+sample, and it is the whole reason the grey lines in Figure
+<a href="ols-sampling.html#fig:ols-many-lines">7.3</a> fan out.</p>
+<p>So the question of whether OLS is centred correctly comes down to one thing: does
+that second term average out to zero?</p>
+<p>Taking expectations conditional on the <span class="math inline">\(x\)</span>’s, and using SLR4 to set
+<span class="math inline">\(E(u_i \mid x) = 0\)</span>,</p>
+<p><span class="math display">\[E(\hat{\beta}_1) = \beta_1 + \frac{\sum(x_i - \bar{x})E(u_i \mid x)}{\text{SST}_x} = \beta_1\]</span></p>
+<p>It does. Across repeated samples <span class="math inline">\(\hat{\beta}_1\)</span> is centred on <span class="math inline">\(\beta_1\)</span>, which
+is the first question mark in Table <a href="ols-sampling.html#tab:ols-parallel">7.1</a> filled in, and what
+the histogram was showing.</p>
+<div class="intuition">
+<p>The proof is worth having for a second reason. It shows that unbiasedness hangs
+on exactly one place — the second term — and on exactly one condition, that the
+average error does not change with <span class="math inline">\(x\)</span>.</p>
+<p>If students who attend more classes also happen to be more motivated, then the
+errors are systematically larger at larger <span class="math inline">\(x\)</span>. The second term no longer
+vanishes, and the estimator is biased by precisely its expectation.</p>
+<p>That single term is why omitted variables matter, and Section
+<a href="ols-causal.html#ols-causal">7.9</a> returns to it with this equation in hand.</p>
+</div>
 </div>
 <script>
 // Solutions are written as plain fenced divs in the source, so the PDF edition

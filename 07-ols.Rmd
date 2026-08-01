@@ -368,7 +368,7 @@ properly.
 Draw forty students at random from the 680, fit a line, record the slope. Then
 do it again. And again, five hundred times.
 
-```{r ols-many-lines, fig.height = 4.2, fig.cap = "One hundred fitted lines, each from a different random sample of forty students, in grey. The line fitted to all 680 students is in orange. Every sample gives a different answer."}
+```{r ols-many-lines, cache = TRUE, fig.height = 4.2, fig.cap = "One hundred fitted lines, each from a different random sample of forty students, in grey. The line fitted to all 680 students is in orange. Every sample gives a different answer."}
 set.seed(1)
 
 draw_line <- function(n = 40) {
@@ -407,7 +407,7 @@ distribution is what tells us how much to trust the one estimate we have.
 Discard the lines and keep the numbers. Five hundred samples give five hundred
 slopes.
 
-```{r ols-slope-dist, fig.height = 3.4, fig.cap = "The sampling distribution of the slope: 5,000 slopes, each from a fresh sample of forty students. The orange line marks the slope from all 680 students. The distribution is centred on it and roughly symmetric."}
+```{r ols-slope-dist, cache = TRUE, fig.height = 3.4, fig.cap = "The sampling distribution of the slope: 5,000 slopes, each from a fresh sample of forty students. The orange line marks the slope from all 680 students. The distribution is centred on it and roughly symmetric."}
 set.seed(1)
 slopes <- replicate(5000, draw_line()["attendance"])
 
@@ -472,7 +472,7 @@ noisy grades are around the line.
 
 Take the first two in turn.
 
-```{r ols-sd-by-n}
+```{r ols-sd-by-n, cache = TRUE}
 set.seed(1)
 sd_at <- function(n) sd(replicate(2000, draw_line(n)["attendance"]))
 
@@ -487,7 +487,7 @@ Now hold the sample size fixed at forty and change the *range of attendance*
 instead. Restrict the pool to students who attended between 24 and 30 classes,
 so that $x$ varies far less.
 
-```{r ols-sd-by-spread}
+```{r ols-sd-by-spread, cache = TRUE}
 narrow <- students[students$attendance >= 24 & students$attendance <= 30, ]
 
 set.seed(2)
@@ -535,28 +535,33 @@ We have found all three by experiment. The next two sections establish them
 algebraically, which requires being explicit about what we are assuming.
 :::
 
-## Why is OLS unbiased? {#ols-unbiased}
+## Why does OLS get the right answer on average? {#ols-unbiased}
 
 ::: {.question}
-The simulated slopes averaged 0.190 against a true 0.189. Was that luck?
+The histogram was centred on the truth. Was that luck?
 :::
 
-It was not, and showing why requires stating what we have been assuming. Four
-assumptions deliver it.
+The histogram in Figure \@ref(fig:ols-slope-dist) had two striking features.
+
+First, the slopes varied from sample to sample — sometimes a good deal.
+
+Second, they fluctuated *around* the full-sample value rather than sitting
+systematically above or below it. The average of five thousand slopes was 0.190
+against 0.189 from all 680 students.
+
+Was that simply good fortune with this population, or does OLS always behave
+this way?
+
+Showing that it always does requires the first four assumptions of the simple
+linear regression model.
 
 ::: {.keyidea}
-**SLR1 — linear in parameters.** The population model is
-$y = \beta_0 + \beta_1 x + u$.
+**SLR1** The population model is $y = \beta_0 + \beta_1 x + u$.
+**SLR2** The observations are a random sample from that population.
+**SLR3** The $x_i$ are not all equal.
+**SLR4** $E(u \mid x) = 0$.
 
-**SLR2 — random sampling.** The $n$ observations are a random sample from that
-population.
-
-**SLR3 — variation in $x$.** The $x_i$ are not all equal.
-
-**SLR4 — zero conditional mean.** $E(u \mid x) = 0$.
-
-These four give unbiasedness. Nothing about the *spread* of the errors is
-assumed yet.
+Nothing about the *spread* of the errors is assumed yet.
 :::
 
 ::: {.theory}
@@ -575,27 +580,57 @@ $$
 
 because $\sum(x_i - \bar{x}) = 0$ kills the $\beta_0$ term and
 $\sum(x_i - \bar{x})x_i = \text{SST}_x$ leaves $\beta_1$.
-
-That last line is worth reading carefully. **The estimate equals the truth plus
-a term built entirely from the errors.** Taking expectations conditional on the
-$x$'s, and using SLR4 to set $E(u_i \mid x) = 0$,
-
-$$E(\hat{\beta}_1) = \beta_1 + \frac{\sum(x_i - \bar{x})E(u_i \mid x)}{\text{SST}_x} = \beta_1$$
 :::
 
-So OLS is unbiased: across repeated samples, $\hat{\beta}_1$ is centred on
-$\beta_1$. That is the first question mark in Table \@ref(tab:ols-parallel)
-filled in, and it is what the simulated histogram was showing.
+That last line deserves to be pulled out and looked at on its own.
 
-The derivation also shows exactly where unbiasedness can fail. If the errors are
-systematically larger at larger $x$ — if high attenders are more able — then
-$E(u_i \mid x) \neq 0$, the second term does not vanish, and $\hat{\beta}_1$ is
-biased by precisely that amount. Section \@ref(ols-causal) returns to it.
+::: {.keyidea}
+$$\hat{\beta}_1 \;=\; \underbrace{\beta_1}_{\text{truth}}
+\;+\; \underbrace{\frac{\sum(x_i - \bar{x})u_i}{\text{SST}_x}}_{\text{sampling error}}$$
 
-## The variance of the slope {#ols-variance}
+**Estimate = truth + sampling error.**
+:::
+
+The equation separates two quite different things.
+
+The first term, $\beta_1$, is the quantity we are trying to estimate. It is a
+fixed feature of the population and it is identical in every sample.
+
+The second term is the price of observing only one sample. It depends entirely
+on the unobserved errors $u_i$ — on which particular students happened to be
+drawn and how far each of them sat from the line. It is different in every
+sample, and it is the whole reason the grey lines in Figure
+\@ref(fig:ols-many-lines) fan out.
+
+So the question of whether OLS is centred correctly comes down to one thing: does
+that second term average out to zero?
+
+Taking expectations conditional on the $x$'s, and using SLR4 to set
+$E(u_i \mid x) = 0$,
+
+$$E(\hat{\beta}_1) = \beta_1 + \frac{\sum(x_i - \bar{x})E(u_i \mid x)}{\text{SST}_x} = \beta_1$$
+
+It does. Across repeated samples $\hat{\beta}_1$ is centred on $\beta_1$, which
+is the first question mark in Table \@ref(tab:ols-parallel) filled in, and what
+the histogram was showing.
+
+::: {.intuition}
+The proof is worth having for a second reason. It shows that unbiasedness hangs
+on exactly one place — the second term — and on exactly one condition, that the
+average error does not change with $x$.
+
+If students who attend more classes also happen to be more motivated, then the
+errors are systematically larger at larger $x$. The second term no longer
+vanishes, and the estimator is biased by precisely its expectation.
+
+That single term is why omitted variables matter, and Section
+\@ref(ols-causal) returns to it with this equation in hand.
+:::
+
+## How precise is OLS? {#ols-variance}
 
 ::: {.question}
-The simulation gave a spread of 0.0525. Where does that number come from?
+The histogram had a width as well as a centre. Where does that width come from?
 :::
 
 Unbiasedness says where the distribution sits. To say how wide it is we need one
@@ -671,7 +706,7 @@ Start where the assumptions hold exactly. Build a population that satisfies SLR1
 to SLR5 by construction — a genuinely linear relationship, errors of constant
 variance — and compare.
 
-```{r ols-formula-check}
+```{r ols-formula-check, cache = TRUE}
 set.seed(4)
 x_fixed <- runif(40, 2, 32)                    # forty students, attendance 2 to 32
 
@@ -812,7 +847,7 @@ confidence intervals are all unreliable.
 How wrong? We can find out, by simulating from a model where we know both the
 truth and the severity of the problem.
 
-```{r ols-het-sim}
+```{r ols-het-sim, cache = TRUE}
 robust_se <- function(m) {
   X <- model.matrix(m); u <- residuals(m)
   n <- nrow(X); k <- ncol(X)
@@ -1472,7 +1507,7 @@ precision. Simulate from a known model with $\beta_1 = 2$, using $x$ spread
 widely in one case and narrowly in the other.
 
 ::: {.answer}
-```{r sr-ex-unbiased}
+```{r sr-ex-unbiased, cache = TRUE}
 simulate_slope <- function(x_sd, reps = 3000) {
   b1 <- replicate(reps, {
     x <- rnorm(50, mean = 20, sd = x_sd)
@@ -1499,7 +1534,7 @@ depends on both $x$ and a variable $z$ that is correlated with $x$, then
 estimate a regression that omits $z$.
 
 ::: {.answer}
-```{r sr-ex-ovb}
+```{r sr-ex-ovb, cache = TRUE}
 set.seed(2)
 
 biased <- replicate(3000, {

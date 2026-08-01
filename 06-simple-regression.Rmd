@@ -524,7 +524,7 @@ $$\hat{y}_i = \hat{\beta}_0 + \hat{\beta}_1 x_i$$
 where $\hat{y}$ estimates $E(Y \mid X = x)$, and $\hat{\beta}_0$ and
 $\hat{\beta}_1$ estimate $\beta_0$ and $\beta_1$.
 
-### Every sample gives a different line {-}
+### Two sections, two lines {-}
 
 Suppose two sections of thirty students each are surveyed, and a line is fitted to
 each. Which one is the population regression function?

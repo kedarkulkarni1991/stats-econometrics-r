@@ -1,0 +1,9 @@
+ts-ex-paired-power	power_at
+ols-many-lines	draw_line	many
+ols-slope-dist	slopes
+ols-sd-by-n	sd_at
+ols-sd-by-spread	narrow	sd_narrow
+ols-formula-check	check	m	x_fixed
+ols-het-sim	m	out	robust_se	x	y
+sr-ex-unbiased	simulate_slope
+sr-ex-ovb	biased	x	y	z

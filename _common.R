@@ -1,6 +1,10 @@
 ## Shared setup sourced by every chapter -------------------------------------
 
+# Several simulations fit tens of thousands of models; caching keeps a rebuild
+# to seconds rather than minutes. autodep invalidates a cache when anything it
+# depends on changes, so results cannot go stale silently.
 knitr::opts_chunk$set(
+  autodep = TRUE,
   # Figures inside callout boxes cannot float -- LaTeX raises "Not in outer par
   # mode" -- so every figure is pinned where it is written.
   fig.pos   = "H",
