@@ -630,64 +630,50 @@ That single term is why omitted variables matter, and Section
 ## How precise is OLS? {#ols-variance}
 
 ::: {.question}
-The histogram had a width as well as a centre. Where does that width come from?
+The histogram had a width as well as a centre. Can we know that width from one
+sample?
 :::
 
-Unbiasedness says where the distribution sits. To say how wide it is we need one
-more assumption, and it is worth seeing why it is needed rather than meeting it
-in a list.
+The sampling distribution in Section \@ref(ols-sampling) had a standard deviation
+of `r round(sd(slopes), 4)`. That number is exactly what we want: it says how far
+a slope from a single sample of forty is liable to fall from the truth.
 
-The derivation below adds up the contributions of the individual errors. To add
-them we must know how variable each one is — and so far we have said nothing
-about that at all.
+But look at how we obtained it. We drew five thousand samples.
+
+Nobody does that. A survey is run once, at considerable expense, and yields one
+sample and one slope. The standard deviation of the distribution those samples
+came from is not something we can watch.
 
 ::: {.keyidea}
-**SLR5 — homoskedasticity.** $\mathrm{Var}(u \mid x) = \sigma^2$, the same at
-every value of $x$.
+So the question is this. Can we recover, from a *single* sample, the spread of a
+distribution we could otherwise see only by drawing thousands?
 
-This is the assumption that lets a single number $\sigma^2$ stand in for the
-variability of every error. It is not needed for unbiasedness, and Section
-\@ref(ols-hetero) examines what happens when it fails.
+Remarkably, yes.
 :::
 
-::: {.theory}
-From the same expression, and treating the $x$'s as fixed,
+### The formula {-}
 
-$$
-\begin{aligned}
-\mathrm{Var}(\hat{\beta}_1)
-&= \mathrm{Var}\!\left(\frac{\sum(x_i - \bar{x})u_i}{\text{SST}_x}\right) \\[4pt]
-&= \frac{1}{\text{SST}_x^2}\sum(x_i - \bar{x})^2\,\mathrm{Var}(u_i)
-   && \text{independence} \\[4pt]
-&= \frac{\sigma^2 \,\text{SST}_x}{\text{SST}_x^2}
-   && \text{homoskedasticity, SLR5} \\[4pt]
-&= \frac{\sigma^2}{\text{SST}_x}
-\end{aligned}
-$$
-:::
+The width of the sampling distribution turns out to depend on two things, and
+both are things we can measure.
 
-::: {.keyidea}
 $$\mathrm{Var}(\hat{\beta}_1) = \frac{\sigma^2}{\sum(x_i - \bar{x})^2}$$
 
-Read the formula against the simulation. The numerator is the noise in $y$;
-the denominator is the spread of $x$, which grows with both the range of $x$ and
-the number of observations.
+The **numerator** is the noise: how far individual observations scatter around
+the line. Noisier relationships are harder to pin down.
 
-All three findings of Section \@ref(ols-sampling) are in that one expression.
-:::
+The **denominator** is the total variation in $x$ — the same sum of squares we
+met in Section \@ref(ols-fit), computed on the explanatory variable rather than
+the outcome. It measures how much the data actually tell us about $x$.
 
 Since $\sigma^2$ is unknown, it is estimated from the residuals. Two parameters
-were estimated on the way, so the divisor is $n - 2$:
+were estimated on the way, so the divisor is $n-2$ — the same accounting as
+Section \@ref(u3-variance), where estimating one mean cost one degree of freedom:
 
 $$\hat{\sigma}^2 = \frac{\sum \hat{u}_i^2}{n - 2}
 \qquad\qquad
 \mathrm{se}(\hat{\beta}_1) = \frac{\hat{\sigma}}{\sqrt{\sum(x_i - \bar{x})^2}}$$
 
-The $n - 2$ is the same accounting as Section \@ref(u3-variance), where
-estimating one mean cost one degree of freedom. Here we estimated an intercept
-and a slope.
-
-```{r ols-se-byhand}
+```{r ols-se-byhand, cache = TRUE}
 n <- length(y)
 sigma_hat <- sqrt(sum(u_hat^2) / (n - 2))
 se_b1     <- sigma_hat / sqrt(sum((x - mean(x))^2))
@@ -696,22 +682,21 @@ c(sigma_hat = sigma_hat, se_b1 = se_b1,
   se_from_lm = summary(fit)$coefficients[2, 2])
 ```
 
-### Does the formula match the simulation? {-}
+### Does it work? {-}
 
-The formula claims to recover, from a single sample, the spread of a distribution
-we could otherwise see only by drawing thousands. It is worth checking that it
-does.
+A formula claiming to reconstruct a distribution we never observe deserves to be
+checked rather than believed.
 
-Start where the assumptions hold exactly. Build a population that satisfies SLR1
-to SLR5 by construction — a genuinely linear relationship, errors of constant
-variance — and compare.
+Build a population where the assumptions hold exactly — a genuinely linear
+relationship, errors of constant variance — then draw from it repeatedly and
+compare what the formula says against what the samples actually do.
 
 ```{r ols-formula-check, cache = TRUE}
 set.seed(4)
 x_fixed <- runif(40, 2, 32)                    # forty students, attendance 2 to 32
 
 check <- replicate(5000, {
-  y_sim <- 1.56 + 0.189 * x_fixed + rnorm(40, sd = 1.53)   # SLR1-SLR5 hold
+  y_sim <- 1.56 + 0.189 * x_fixed + rnorm(40, sd = 1.53)
   m <- lm(y_sim ~ x_fixed)
   c(slope = coef(m)[2], se = summary(m)$coefficients[2, 2])
 })
@@ -724,23 +709,141 @@ round(c(simulated_sd    = sd(check["slope.x_fixed", ]),
 The three agree to three decimal places. The formula, computed from one sample of
 forty, recovers the spread that five thousand samples reveal.
 
-That is the point of the entire apparatus. Nobody draws five thousand samples.
-The formula reconstructs the sampling distribution's width from the single sample
-we actually have.
+::: {.keyidea}
+In other words: the standard error printed by `lm()` is an estimate of the
+standard deviation of the sampling distribution we simulated in Section
+\@ref(ols-sampling).
 
-::: {.watchout}
-On the real attendance data the agreement is good rather than exact: the formula
-gives about 0.046, while resampling gives about 0.053.
-
-The gap is not an error in the formula. It is that the formula's assumptions hold
-only approximately here. Section \@ref(sr-prf) already showed the conditional
-mean of GPA is not exactly linear, and the error variance is not quite constant
-either.
-
-A formula is only as good as the assumptions underneath it, and real data
-satisfies them approximately at best. That is worth remembering whenever software
-prints a standard error to four decimal places.
+That sentence connects the whole unit. The histogram is the thing; the standard
+error is our estimate of how wide it is, computed without ever drawing it.
 :::
+
+### Why the denominator matters {-}
+
+Most readers remember that larger samples give smaller standard errors. Far fewer
+remember the other half, which is at least as important.
+
+Look at the denominator again and ask what happens in extreme cases.
+
+**What if every student attended exactly 25 classes?** Then $x_i = \bar{x}$ for
+everyone, $\sum(x_i - \bar{x})^2 = 0$, and the variance is undefined. There is no
+slope to estimate — we have observed grades at one attendance level and nothing
+about any other. This is assumption SLR3, arriving as a consequence rather than a
+stipulation.
+
+**What if attendance varies only between 24 and 26?** The denominator is small
+and the standard error is large. We are trying to infer a rate of change from
+almost no change.
+
+**What if attendance ranges from 2 to 32?** The denominator is large and the
+slope is pinned down tightly.
+
+The following figure makes the point with two datasets built from the *same* true
+line and the *same* error variance. Only the spread of $x$ differs.
+
+```{r ols-spread-plot, echo = FALSE, fig.height = 3.6, cache = TRUE, fig.cap = "Two samples of forty from the same model: the same true slope of 0.189, the same noise, and the same sample size. Only the range of attendance differs. On the left the line is pinned down; on the right, where attendance varies by two classes rather than thirty, the same data are consistent with wildly different slopes."}
+set.seed(6)
+b0 <- 1.56; b1 <- 0.189; sg <- 1.53; nn <- 40
+
+xw <- seq(2, 32, length.out = nn);  yw <- b0 + b1*xw + rnorm(nn, sd = sg)
+xn <- seq(24, 26, length.out = nn); yn <- b0 + b1*xn + rnorm(nn, sd = sg)
+
+sp <- rbind(
+  data.frame(x = xw, y = yw, panel = "Attendance 2 to 32   (se = 0.031)"),
+  data.frame(x = xn, y = yn, panel = "Attendance 24 to 26   (se = 0.329)")
+)
+sp$panel <- factor(sp$panel, levels = unique(sp$panel))
+
+ggplot(sp, aes(x, y)) +
+  geom_point(alpha = 0.65, colour = book_palette$ink, size = 1.5) +
+  geom_smooth(method = "lm", se = TRUE, colour = book_palette$accent,
+              fill = book_palette$fill, linewidth = 0.9) +
+  geom_abline(intercept = b0, slope = b1, colour = book_palette$reject,
+              linetype = "dashed", linewidth = 0.7) +
+  facet_wrap(~ panel, scales = "free_x") +
+  labs(x = "Classes attended", y = "Semester GPA") +
+  theme_book()
+```
+
+The dashed orange line is the truth in both panels, and it is the same line.
+
+On the left the fitted line sits almost on top of it: an estimated slope of 0.178
+against a true 0.189. On the right the fitted slope is 0.360 — nearly twice the
+truth — and the shaded band around it is so wide as to be useless.
+
+Note that the two panels have different horizontal scales, so compare the fitted
+lines to the dashed one within each panel rather than by eye across them.
+
+Nothing about the relationship changed. Only the range over which we observed
+it.
+
+::: {.intuition}
+A slope is a rate of change, and rates of change are measured by observing
+change.
+
+Comparing students who attended 24 classes with students who attended 26 tells
+you very little about how attendance matters. Comparing those who attended 5 with
+those who attended 30 tells you a great deal.
+
+Spread in the explanatory variable is *information*. A study that observes $x$
+over a narrow range will estimate its effect poorly however many observations it
+collects — which is also why the median split of Section \@ref(sr-motivation)
+did so badly.
+:::
+
+### Where the formula comes from {-}
+
+Having seen that the formula works and what its parts mean, we can derive it.
+
+One further assumption is needed, and it is worth seeing why. The derivation adds
+up the contributions of the individual errors, and to add them we must know how
+variable each one is. So far we have said nothing about that at all.
+
+::: {.keyidea}
+**SLR5 — homoskedasticity.** $\mathrm{Var}(u \mid x) = \sigma^2$, the same at
+every value of $x$.
+
+This is what allows a single number $\sigma^2$ to stand in for the variability of
+every error. It played no part in unbiasedness, and Section \@ref(ols-hetero)
+examines what happens when it fails.
+:::
+
+::: {.theory}
+Start from the expression that gave unbiasedness, and treat the $x$'s as fixed:
+
+$$
+\begin{aligned}
+\mathrm{Var}(\hat{\beta}_1)
+&= \mathrm{Var}\!\left(\beta_1 + \frac{\sum(x_i - \bar{x})u_i}{\text{SST}_x}\right) \\[4pt]
+&= \mathrm{Var}\!\left(\frac{\sum(x_i - \bar{x})u_i}{\text{SST}_x}\right)
+   && \beta_1 \text{ is a constant} \\[4pt]
+&= \frac{1}{\text{SST}_x^2}\sum(x_i - \bar{x})^2\,\mathrm{Var}(u_i)
+   && \text{independence} \\[4pt]
+&= \frac{\sigma^2 \,\text{SST}_x}{\text{SST}_x^2}
+   && \text{homoskedasticity, SLR5} \\[4pt]
+&= \frac{\sigma^2}{\text{SST}_x}
+\end{aligned}
+$$
+:::
+
+::: {.keyidea}
+**Why is the slope estimated more precisely?**
+
+The standard error becomes smaller when
+
+- the relationship is **less noisy** — small $\sigma$;
+- the sample is **larger** — more terms in $\sum(x_i - \bar{x})^2$;
+- the explanatory variable **varies over a wider range** — bigger terms in that
+  same sum.
+
+The last two both enter through the denominator, which is why $n$ and the spread
+of $x$ are not really two separate considerations. What matters is the total
+variation in $x$, and either more observations or a wider range will increase it.
+:::
+
+Those are the three findings of Section \@ref(ols-sampling), now derived rather
+than observed. The second question mark in Table \@ref(tab:ols-parallel) is
+filled in.
 
 ## When the error variance is not constant {#ols-hetero}
 
@@ -773,6 +876,21 @@ of outcomes, because what happens after school depends on far more than school.
 So the spread of the errors grows with $x$. This is **heteroskedasticity**, and in
 economic data it is the normal case rather than the exception.
 :::
+
+### The gap we already saw {-}
+
+Section \@ref(ols-variance) checked the standard error formula against a
+simulation and found it exact — on data built so that every assumption held.
+
+On the real attendance data the agreement is good rather than exact. The formula
+gives a standard error of about 0.046 for a sample of forty, while resampling
+gives about 0.053.
+
+That gap is the subject of this section. The formula's assumptions hold only
+approximately in real data: Section \@ref(sr-prf) already showed the conditional
+mean of GPA is not exactly linear, and the error variance is not quite constant
+either. A formula is only as good as the assumptions underneath it, which is
+worth remembering whenever software prints a standard error to four decimals.
 
 ### Seeing it {-}
 

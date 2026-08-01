@@ -456,10 +456,14 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="7.4" data-path="ols-unbiased.html"><a href="ols-unbiased.html"><i class="fa fa-check"></i><b>7.4</b> Why does OLS get the right answer on average?</a></li>
 <li class="chapter" data-level="7.5" data-path="ols-variance.html"><a href="ols-variance.html"><i class="fa fa-check"></i><b>7.5</b> How precise is OLS?</a>
 <ul>
-<li class="chapter" data-level="" data-path="ols-variance.html"><a href="ols-variance.html#does-the-formula-match-the-simulation"><i class="fa fa-check"></i>Does the formula match the simulation?</a></li>
+<li class="chapter" data-level="" data-path="ols-variance.html"><a href="ols-variance.html#the-formula"><i class="fa fa-check"></i>The formula</a></li>
+<li class="chapter" data-level="" data-path="ols-variance.html"><a href="ols-variance.html#does-it-work"><i class="fa fa-check"></i>Does it work?</a></li>
+<li class="chapter" data-level="" data-path="ols-variance.html"><a href="ols-variance.html#why-the-denominator-matters"><i class="fa fa-check"></i>Why the denominator matters</a></li>
+<li class="chapter" data-level="" data-path="ols-variance.html"><a href="ols-variance.html#where-the-formula-comes-from"><i class="fa fa-check"></i>Where the formula comes from</a></li>
 </ul></li>
 <li class="chapter" data-level="7.6" data-path="ols-hetero.html"><a href="ols-hetero.html"><i class="fa fa-check"></i><b>7.6</b> When the error variance is not constant</a>
 <ul>
+<li class="chapter" data-level="" data-path="ols-hetero.html"><a href="ols-hetero.html#the-gap-we-already-saw"><i class="fa fa-check"></i>The gap we already saw</a></li>
 <li class="chapter" data-level="" data-path="ols-hetero.html"><a href="ols-hetero.html#seeing-it"><i class="fa fa-check"></i>Seeing it</a></li>
 <li class="chapter" data-level="" data-path="ols-hetero.html"><a href="ols-hetero.html#what-breaks-and-what-does-not"><i class="fa fa-check"></i>What breaks, and what does not</a></li>
 <li class="chapter" data-level="" data-path="ols-hetero.html"><a href="ols-hetero.html#robust-standard-errors"><i class="fa fa-check"></i>Robust standard errors</a></li>
@@ -533,6 +537,19 @@ of outcomes, because what happens after school depends on far more than school.<
 <p>So the spread of the errors grows with <span class="math inline">\(x\)</span>. This is <strong>heteroskedasticity</strong>, and in
 economic data it is the normal case rather than the exception.</p>
 </div>
+<div id="the-gap-we-already-saw" class="section level3 unnumbered hasAnchor">
+<h3>The gap we already saw<a href="ols-hetero.html#the-gap-we-already-saw" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Section <a href="ols-variance.html#ols-variance">7.5</a> checked the standard error formula against a
+simulation and found it exact — on data built so that every assumption held.</p>
+<p>On the real attendance data the agreement is good rather than exact. The formula
+gives a standard error of about 0.046 for a sample of forty, while resampling
+gives about 0.053.</p>
+<p>That gap is the subject of this section. The formula’s assumptions hold only
+approximately in real data: Section <a href="sr-prf.html#sr-prf">6.2</a> already showed the conditional
+mean of GPA is not exactly linear, and the error variance is not quite constant
+either. A formula is only as good as the assumptions underneath it, which is
+worth remembering whenever software prints a standard error to four decimals.</p>
+</div>
 <div id="seeing-it" class="section level3 unnumbered hasAnchor">
 <h3>Seeing it<a href="ols-hetero.html#seeing-it" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Regress annual earnings on years of education for the 20,000 wage earners, and
@@ -552,7 +569,7 @@ spread out as those in the bottom quarter.</p>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:ols-het-plot"></span>
 <img src="stats-econometrics-r_files/figure-html/ols-het-plot-1.png" alt="Residuals from a regression of annual earnings on years of schooling, shown as a boxplot at each level of education. The boxes widen steadily to the right: errors are far more variable where schooling is high. Homoskedasticity would appear as boxes of constant height. A few extreme residuals lie above the range plotted." width="90%"  />
 <p class="caption">
-Figure 7.5: Residuals from a regression of annual earnings on years of schooling, shown as a boxplot at each level of education. The boxes widen steadily to the right: errors are far more variable where schooling is high. Homoskedasticity would appear as boxes of constant height. A few extreme residuals lie above the range plotted.
+Figure 7.6: Residuals from a regression of annual earnings on years of schooling, shown as a boxplot at each level of education. The boxes widen steadily to the right: errors are far more variable where schooling is high. Homoskedasticity would appear as boxes of constant height. A few extreme residuals lie above the range plotted.
 </p>
 </div>
 <div class="keyidea">

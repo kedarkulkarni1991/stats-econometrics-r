@@ -7,3 +7,5 @@ ols-formula-check
 ols-het-sim	
 sr-ex-unbiased	
 sr-ex-ovb	
+ols-se-byhand	fit	u_hat	x	y
+ols-spread-plot	book_palette	theme_book	x	y
