@@ -5,6 +5,44 @@ source("_common.R")
 library(ggplot2)
 ```
 
+Every empirical study begins with a population and ends with a sample.
+
+We would like to know the average income of every household in a country, the
+average yield of every farm, or the average height of every adult. Measuring an
+entire population is almost never possible. Instead we observe a sample and use
+it to learn about the population it came from.
+
+That raises an immediate question.
+
+> If the population average is unknown, how should we estimate it from the
+> sample?
+
+Many answers are possible. We could use the sample mean. We could use the
+median. We could report the largest observation, or pick one household at random
+and use its income.
+
+Clearly some of these are better than others. This unit is about how we judge
+the difference.
+
+The sample mean turns out to have remarkable properties. Across repeated samples
+it gets the right answer on average. As the sample grows it becomes more
+precise. And its behaviour can be described mathematically, which lets us say
+how uncertain any particular estimate is.
+
+Those ideas extend far beyond the sample mean. Every estimator in this book —
+the sample proportion, a regression slope, a difference between two groups — is
+judged by exactly the same questions.
+
+::: {.keyidea}
+By the end of this unit you should be able to ask three things of any estimator.
+
+1. Does it get the right answer on average?
+2. How much does it vary from sample to sample?
+3. How does that variability change as the sample grows?
+:::
+
+The sample mean is simply our first estimator.
+
 ## The problem of estimation {#u2-problem}
 
 ::: {.question}
@@ -12,10 +50,8 @@ We want to know something about a population we cannot observe. What exactly
 are we going to do?
 :::
 
-The previous unit was about uncertainty. It established that repeated samples
-produce different averages, that those averages have a sampling distribution of
-their own, and that this distribution becomes increasingly concentrated as the
-sample grows. All of that described how a statistic *behaves*.
+The previous unit described how a statistic *behaves*: repeated samples produce
+different averages, and those averages have a distribution of their own.
 
 It did not tell us what to *do*.
 
