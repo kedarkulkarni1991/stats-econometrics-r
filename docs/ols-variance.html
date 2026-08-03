@@ -620,7 +620,7 @@ remember the other half, which is at least as important.</p>
 <p><strong>What if every student attended exactly 25 classes?</strong> Then <span class="math inline">\(x_i = \bar{x}\)</span> for
 everyone, <span class="math inline">\(\sum(x_i - \bar{x})^2 = 0\)</span>, and the variance is undefined. There is no
 slope to estimate — we have observed grades at one attendance level and nothing
-about any other. This is assumption SLR3, arriving as a consequence rather than a
+about any other. This is assumption CLRM3, arriving as a consequence rather than a
 stipulation.</p>
 <p><strong>What if attendance varies only between 24 and 26?</strong> The denominator is small
 and the standard error is large. We are trying to infer a rate of change from
@@ -662,7 +662,7 @@ did so badly.</p>
 up the contributions of the individual errors, and to add them we must know how
 variable each one is. So far we have said nothing about that at all.</p>
 <div class="keyidea">
-<p><strong>SLR5 — homoskedasticity.</strong> <span class="math inline">\(\mathrm{Var}(u \mid x) = \sigma^2\)</span>, the same at
+<p><strong>CLRM5 — homoskedasticity.</strong> <span class="math inline">\(\mathrm{Var}(u \mid x) = \sigma^2\)</span>, the same at
 every value of <span class="math inline">\(x\)</span>.</p>
 <p>This is what allows a single number <span class="math inline">\(\sigma^2\)</span> to stand in for the variability of
 every error. It played no part in unbiasedness, and Section <a href="ols-hetero.html#ols-hetero">7.6</a>
@@ -679,7 +679,7 @@ examines what happens when it fails.</p>
 &amp;= \frac{1}{\text{SST}_x^2}\sum(x_i - \bar{x})^2\,\mathrm{Var}(u_i)
    &amp;&amp; \text{independence} \\[4pt]
 &amp;= \frac{\sigma^2 \,\text{SST}_x}{\text{SST}_x^2}
-   &amp;&amp; \text{homoskedasticity, SLR5} \\[4pt]
+   &amp;&amp; \text{homoskedasticity, CLRM5} \\[4pt]
 &amp;= \frac{\sigma^2}{\text{SST}_x}
 \end{aligned}
 \]</span></p>

@@ -532,6 +532,35 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <p><span class="math inline">\(\hat{\beta}_1\)</span> is an estimator with a standard error, so everything in Unit
 <a href="one-sample.html#one-sample">4</a> applies without modification.</p>
+<p>One assumption is quietly added at this point, and it is the last of the six.</p>
+<div class="keyidea">
+<p><strong>CLRM6 — normality.</strong> The errors are normally distributed:
+<span class="math inline">\(u \sim N(0, \sigma^2)\)</span>, independently of <span class="math inline">\(x\)</span>.</p>
+<p>This is what makes the <span class="math inline">\(t\)</span> statistic below follow a <span class="math inline">\(t\)</span> distribution <em>exactly</em>,
+in any sample however small. CLRM1 to CLRM5 gave us an unbiased estimator and a
+correct standard error; CLRM6 gives us the distribution needed to turn them into
+a <span class="math inline">\(p\)</span>-value.</p>
+</div>
+<p>Unlike the others, this assumption is one to hold lightly.</p>
+<div class="deeper">
+<p><strong>Why normality matters less than it appears to.</strong></p>
+<p>Nothing established so far depends on it. Unbiasedness came from CLRM1 to CLRM4.
+The variance formula came from CLRM5. The estimator, the standard error and the
+interpretation are all untouched by the shape of the error distribution.</p>
+<p>Normality earns its keep only in small samples, where it makes the <span class="math inline">\(t\)</span>
+distribution exact rather than approximate. In larger samples the Central Limit
+Theorem of Section <a href="u1-clt.html#u1-clt">1.6</a> does the work instead: <span class="math inline">\(\hat{\beta}_1\)</span> is a
+weighted sum of the errors, and sums tend towards normality whatever they are
+summing. The <span class="math inline">\(t\)</span> statistic is then approximately correct regardless of how the
+errors are distributed.</p>
+<p>So the practical position is this. With a few dozen observations and visibly
+skewed errors, treat small <span class="math inline">\(p\)</span>-values with some caution. With a few hundred, the
+assumption is close to irrelevant.</p>
+<p>That is a far weaker requirement than CLRM4, which cannot be relaxed by
+collecting more data, and which no amount of sample size will repair. It is worth
+keeping the two firmly apart: normality is a convenience that large samples make
+unnecessary, while zero conditional mean is the assumption everything rests on.</p>
+</div>
 <p>The hypothesis of interest is almost always that <span class="math inline">\(x\)</span> has no effect at all:</p>
 <p><span class="math display">\[H_0 : \beta_1 = 0 \qquad H_A : \beta_1 \neq 0\]</span></p>
 <p>and the test statistic has the form it always has — estimate minus hypothesised

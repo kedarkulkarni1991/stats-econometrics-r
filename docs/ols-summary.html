@@ -545,10 +545,12 @@ variation in <span class="math inline">\(y\)</span> the regression accounts for.
 the squared correlation between <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span>.</li>
 <li><span class="math inline">\(R^2\)</span> measures fit, not correctness. Attendance accounts for 31% of the
 variation in semester GPA; values of 0.1 or 0.2 are unremarkable in economics.</li>
-<li>Under SLR1–SLR4, <span class="math inline">\(E(\hat{\beta}_1) = \beta_1\)</span>. The derivation runs through
+<li>The six standard assumptions are known collectively as the <strong>classical linear
+regression model</strong>. Under CLRM1–CLRM4, <span class="math inline">\(E(\hat{\beta}_1) = \beta_1\)</span>. The
+derivation runs through
 <span class="math inline">\(\hat{\beta}_1 = \beta_1 + \sum(x_i-\bar{x})u_i/\text{SST}_x\)</span>, which is the
 most useful line in the unit.</li>
-<li>Adding SLR5, <span class="math inline">\(\mathrm{Var}(\hat{\beta}_1) = \sigma^2/\sum(x_i-\bar{x})^2\)</span>. Small
+<li>Adding CLRM5, <span class="math inline">\(\mathrm{Var}(\hat{\beta}_1) = \sigma^2/\sum(x_i-\bar{x})^2\)</span>. Small
 errors and widely spread <span class="math inline">\(x\)</span> both buy precision, which is why spread in the
 explanatory variable is worth seeking out.</li>
 <li><span class="math inline">\(\hat{\sigma}^2 = \sum\hat{u}_i^2/(n-2)\)</span>, the divisor reflecting the two
@@ -557,6 +559,9 @@ parameters estimated on the way.</li>
 <span class="math inline">\(t = \hat{\beta}_1/\mathrm{se}(\hat{\beta}_1)\)</span> on <span class="math inline">\(n-2\)</span> degrees of freedom,
 exactly as in Unit <a href="one-sample.html#one-sample">4</a>. The interval is the more informative
 report.</li>
+<li><strong>CLRM6</strong>, normality of the errors, makes that <span class="math inline">\(t\)</span> distribution exact in small
+samples. It is the weakest of the six: the Central Limit Theorem makes it
+unnecessary in large ones, whereas no sample size repairs a failure of CLRM4.</li>
 <li>When <span class="math inline">\(E(u \mid x) \neq 0\)</span> the second term in the unbiasedness expression does
 not vanish. That is <strong>omitted variable bias</strong>, and nothing in the regression
 output reveals it.</li>

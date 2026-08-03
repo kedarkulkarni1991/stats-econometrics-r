@@ -554,16 +554,33 @@ against 0.189 from all 680 students.
 Was that simply good fortune with this population, or does OLS always behave
 this way?
 
-Showing that it always does requires the first four assumptions of the simple
-linear regression model.
+Showing that it always does requires assumptions, and this is a convenient place
+to name the set they belong to.
+
+Regression rests on a standard list, known collectively as the assumptions of
+the **classical linear regression model**, or **CLRM**. There are six. Four of
+them deliver unbiasedness, and they are the four we need here.
 
 ::: {.keyidea}
-**SLR1** The population model is $y = \beta_0 + \beta_1 x + u$.
-**SLR2** The observations are a random sample from that population.
-**SLR3** The $x_i$ are not all equal.
-**SLR4** $E(u \mid x) = 0$.
+**CLRM1 — linear in parameters.** The population model is
+$y = \beta_0 + \beta_1 x + u$.
 
-Nothing about the *spread* of the errors is assumed yet.
+**CLRM2 — random sampling.** The observations are a random sample from that
+population.
+
+**CLRM3 — variation in $x$.** The $x_i$ are not all equal.
+
+**CLRM4 — zero conditional mean.** $E(u \mid x) = 0$.
+
+Nothing about the *spread* of the errors is assumed yet, and nothing about their
+shape.
+:::
+
+::: {.deeper}
+Textbooks label these differently. Wooldridge calls them SLR1 to SLR6 in the
+simple regression case and MLR1 to MLR6 with several explanatory variables;
+Gujarati and others speak of the classical linear regression model. The
+assumptions are the same and only the labels move.
 :::
 
 ::: {.theory}
@@ -575,7 +592,7 @@ $$
 \hat{\beta}_1 &= \frac{\sum(x_i - \bar{x})y_i}{\text{SST}_x}
    && \text{since } \textstyle\sum(x_i-\bar{x})\bar{y} = 0 \\[4pt]
 &= \frac{\sum(x_i - \bar{x})(\beta_0 + \beta_1 x_i + u_i)}{\text{SST}_x}
-   && \text{substituting SLR1} \\[4pt]
+   && \text{substituting CLRM1} \\[4pt]
 &= \beta_1 + \frac{\sum(x_i - \bar{x})u_i}{\text{SST}_x}
 \end{aligned}
 $$
@@ -607,7 +624,7 @@ sample, and it is the whole reason the grey lines in Figure
 So the question of whether OLS is centred correctly comes down to one thing: does
 that second term average out to zero?
 
-Taking expectations conditional on the $x$'s, and using SLR4 to set
+Taking expectations conditional on the $x$'s, and using CLRM4 to set
 $E(u_i \mid x) = 0$,
 
 $$E(\hat{\beta}_1) = \beta_1 + \frac{\sum(x_i - \bar{x})E(u_i \mid x)}{\text{SST}_x} = \beta_1$$
@@ -747,7 +764,7 @@ Look at the denominator again and ask what happens in extreme cases.
 **What if every student attended exactly 25 classes?** Then $x_i = \bar{x}$ for
 everyone, $\sum(x_i - \bar{x})^2 = 0$, and the variance is undefined. There is no
 slope to estimate — we have observed grades at one attendance level and nothing
-about any other. This is assumption SLR3, arriving as a consequence rather than a
+about any other. This is assumption CLRM3, arriving as a consequence rather than a
 stipulation.
 
 **What if attendance varies only between 24 and 26?** The denominator is small
@@ -819,7 +836,7 @@ up the contributions of the individual errors, and to add them we must know how
 variable each one is. So far we have said nothing about that at all.
 
 ::: {.keyidea}
-**SLR5 — homoskedasticity.** $\mathrm{Var}(u \mid x) = \sigma^2$, the same at
+**CLRM5 — homoskedasticity.** $\mathrm{Var}(u \mid x) = \sigma^2$, the same at
 every value of $x$.
 
 This is what allows a single number $\sigma^2$ to stand in for the variability of
@@ -839,7 +856,7 @@ $$
 &= \frac{1}{\text{SST}_x^2}\sum(x_i - \bar{x})^2\,\mathrm{Var}(u_i)
    && \text{independence} \\[4pt]
 &= \frac{\sigma^2 \,\text{SST}_x}{\text{SST}_x^2}
-   && \text{homoskedasticity, SLR5} \\[4pt]
+   && \text{homoskedasticity, CLRM5} \\[4pt]
 &= \frac{\sigma^2}{\text{SST}_x}
 \end{aligned}
 $$
@@ -871,7 +888,7 @@ The standard error formula rested on one new assumption. Is it true?
 :::
 
 The previous section derived a formula for the standard error, and that
-derivation needed SLR5: the errors have the same variance at every value of $x$.
+derivation needed CLRM5: the errors have the same variance at every value of $x$.
 
 $$\mathrm{Var}(u \mid x) = \sigma^2 \quad \text{for every } x$$
 
@@ -974,8 +991,8 @@ Here is the surprise.
 ::: {.keyidea}
 **The fitted line is unaffected.**
 
-The proof that $E(\hat{\beta}_1) = \beta_1$ used SLR1 to SLR4 and never mentioned
-SLR5. The estimate is still centred on the truth, and heteroskedasticity
+The proof that $E(\hat{\beta}_1) = \beta_1$ used CLRM1 to CLRM4 and never mentioned
+CLRM5. The estimate is still centred on the truth, and heteroskedasticity
 introduces no bias whatever.
 
 **The standard error is wrong.**
@@ -1159,6 +1176,44 @@ Is the slope we found distinguishable from zero?
 $\hat{\beta}_1$ is an estimator with a standard error, so everything in Unit
 \@ref(one-sample) applies without modification.
 
+One assumption is quietly added at this point, and it is the last of the six.
+
+::: {.keyidea}
+**CLRM6 — normality.** The errors are normally distributed:
+$u \sim N(0, \sigma^2)$, independently of $x$.
+
+This is what makes the $t$ statistic below follow a $t$ distribution *exactly*,
+in any sample however small. CLRM1 to CLRM5 gave us an unbiased estimator and a
+correct standard error; CLRM6 gives us the distribution needed to turn them into
+a $p$-value.
+:::
+
+Unlike the others, this assumption is one to hold lightly.
+
+::: {.deeper}
+**Why normality matters less than it appears to.**
+
+Nothing established so far depends on it. Unbiasedness came from CLRM1 to CLRM4.
+The variance formula came from CLRM5. The estimator, the standard error and the
+interpretation are all untouched by the shape of the error distribution.
+
+Normality earns its keep only in small samples, where it makes the $t$
+distribution exact rather than approximate. In larger samples the Central Limit
+Theorem of Section \@ref(u1-clt) does the work instead: $\hat{\beta}_1$ is a
+weighted sum of the errors, and sums tend towards normality whatever they are
+summing. The $t$ statistic is then approximately correct regardless of how the
+errors are distributed.
+
+So the practical position is this. With a few dozen observations and visibly
+skewed errors, treat small $p$-values with some caution. With a few hundred, the
+assumption is close to irrelevant.
+
+That is a far weaker requirement than CLRM4, which cannot be relaxed by
+collecting more data, and which no amount of sample size will repair. It is worth
+keeping the two firmly apart: normality is a convenience that large samples make
+unnecessary, while zero conditional mean is the assumption everything rests on.
+:::
+
 The hypothesis of interest is almost always that $x$ has no effect at all:
 
 $$H_0 : \beta_1 = 0 \qquad H_A : \beta_1 \neq 0$$
@@ -1296,10 +1351,12 @@ needed. The second half of this book develops those strategies.
   the squared correlation between $x$ and $y$.
 - $R^2$ measures fit, not correctness. Attendance accounts for 31% of the
   variation in semester GPA; values of 0.1 or 0.2 are unremarkable in economics.
-- Under SLR1–SLR4, $E(\hat{\beta}_1) = \beta_1$. The derivation runs through
+- The six standard assumptions are known collectively as the **classical linear
+  regression model**. Under CLRM1–CLRM4, $E(\hat{\beta}_1) = \beta_1$. The
+  derivation runs through
   $\hat{\beta}_1 = \beta_1 + \sum(x_i-\bar{x})u_i/\text{SST}_x$, which is the
   most useful line in the unit.
-- Adding SLR5, $\mathrm{Var}(\hat{\beta}_1) = \sigma^2/\sum(x_i-\bar{x})^2$. Small
+- Adding CLRM5, $\mathrm{Var}(\hat{\beta}_1) = \sigma^2/\sum(x_i-\bar{x})^2$. Small
   errors and widely spread $x$ both buy precision, which is why spread in the
   explanatory variable is worth seeking out.
 - $\hat{\sigma}^2 = \sum\hat{u}_i^2/(n-2)$, the divisor reflecting the two
@@ -1308,6 +1365,9 @@ needed. The second half of this book develops those strategies.
   $t = \hat{\beta}_1/\mathrm{se}(\hat{\beta}_1)$ on $n-2$ degrees of freedom,
   exactly as in Unit \@ref(one-sample). The interval is the more informative
   report.
+- **CLRM6**, normality of the errors, makes that $t$ distribution exact in small
+  samples. It is the weakest of the six: the Central Limit Theorem makes it
+  unnecessary in large ones, whereas no sample size repairs a failure of CLRM4.
 - When $E(u \mid x) \neq 0$ the second term in the unbiasedness expression does
   not vanish. That is **omitted variable bias**, and nothing in the regression
   output reveals it.
@@ -1428,7 +1488,7 @@ by zero.
 
 The statistical content is more interesting than the algebra. If attendance
 never varies, the data contain no information about how GPA responds to
-attendance — there is nothing to compare. This is assumption SLR3, and it is the
+attendance — there is nothing to compare. This is assumption CLRM3, and it is the
 same point as Section \@ref(u1-randomness): where nothing varies, nothing can be
 learned.
 :::
@@ -1545,7 +1605,7 @@ round(t(sapply(c(1, 5), simulate_slope)), 4)
 ```
 
 Both rows are centred on 2, so OLS is unbiased at either spread — that is what
-SLR1–SLR4 deliver, and the spread of $x$ has nothing to do with it.
+CLRM1–CLRM4 deliver, and the spread of $x$ has nothing to do with it.
 
 What the spread changes is precision. With $x$ five times as spread out, the
 standard deviation of $\hat{\beta}_1$ falls by roughly a factor of five, exactly

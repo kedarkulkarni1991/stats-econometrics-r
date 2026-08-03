@@ -774,7 +774,7 @@ data and can be printed.
 
 The relationship mirrors $\mu$ against $\bar{x}$. Residuals are estimates of
 errors, and confusing the two leads to claims like "the errors are uncorrelated
-with $x$, so SLR4 holds" — which is wrong, because the *residuals* are
+with $x$, so CLRM4 holds" — which is wrong, because the *residuals* are
 uncorrelated with $x$ by construction, whatever the errors do.
 :::
 

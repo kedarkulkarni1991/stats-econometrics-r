@@ -531,7 +531,7 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <p>The standard error formula rested on one new assumption. Is it true?</p>
 </div>
 <p>The previous section derived a formula for the standard error, and that
-derivation needed SLR5: the errors have the same variance at every value of <span class="math inline">\(x\)</span>.</p>
+derivation needed CLRM5: the errors have the same variance at every value of <span class="math inline">\(x\)</span>.</p>
 <p><span class="math display">\[\mathrm{Var}(u \mid x) = \sigma^2 \quad \text{for every } x\]</span></p>
 <p>Read as a claim about the world, that says the unobserved factors are just as
 spread out among students who attended 5 classes as among those who attended 30,
@@ -597,8 +597,8 @@ rather than the variance non-constant. A test statistic cannot tell you which.</
 <p>Here is the surprise.</p>
 <div class="keyidea">
 <p><strong>The fitted line is unaffected.</strong></p>
-<p>The proof that <span class="math inline">\(E(\hat{\beta}_1) = \beta_1\)</span> used SLR1 to SLR4 and never mentioned
-SLR5. The estimate is still centred on the truth, and heteroskedasticity
+<p>The proof that <span class="math inline">\(E(\hat{\beta}_1) = \beta_1\)</span> used CLRM1 to CLRM4 and never mentioned
+CLRM5. The estimate is still centred on the truth, and heteroskedasticity
 introduces no bias whatever.</p>
 <p><strong>The standard error is wrong.</strong></p>
 <p><span class="math inline">\(\mathrm{Var}(\hat{\beta}_1) = \sigma^2/\text{SST}_x\)</span> was obtained by replacing

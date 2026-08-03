@@ -537,14 +537,26 @@ systematically above or below it. The average of five thousand slopes was 0.190
 against 0.189 from all 680 students.</p>
 <p>Was that simply good fortune with this population, or does OLS always behave
 this way?</p>
-<p>Showing that it always does requires the first four assumptions of the simple
-linear regression model.</p>
+<p>Showing that it always does requires assumptions, and this is a convenient place
+to name the set they belong to.</p>
+<p>Regression rests on a standard list, known collectively as the assumptions of
+the <strong>classical linear regression model</strong>, or <strong>CLRM</strong>. There are six. Four of
+them deliver unbiasedness, and they are the four we need here.</p>
 <div class="keyidea">
-<p><strong>SLR1</strong> The population model is <span class="math inline">\(y = \beta_0 + \beta_1 x + u\)</span>.
-<strong>SLR2</strong> The observations are a random sample from that population.
-<strong>SLR3</strong> The <span class="math inline">\(x_i\)</span> are not all equal.
-<strong>SLR4</strong> <span class="math inline">\(E(u \mid x) = 0\)</span>.</p>
-<p>Nothing about the <em>spread</em> of the errors is assumed yet.</p>
+<p><strong>CLRM1 — linear in parameters.</strong> The population model is
+<span class="math inline">\(y = \beta_0 + \beta_1 x + u\)</span>.</p>
+<p><strong>CLRM2 — random sampling.</strong> The observations are a random sample from that
+population.</p>
+<p><strong>CLRM3 — variation in <span class="math inline">\(x\)</span>.</strong> The <span class="math inline">\(x_i\)</span> are not all equal.</p>
+<p><strong>CLRM4 — zero conditional mean.</strong> <span class="math inline">\(E(u \mid x) = 0\)</span>.</p>
+<p>Nothing about the <em>spread</em> of the errors is assumed yet, and nothing about their
+shape.</p>
+</div>
+<div class="deeper">
+<p>Textbooks label these differently. Wooldridge calls them SLR1 to SLR6 in the
+simple regression case and MLR1 to MLR6 with several explanatory variables;
+Gujarati and others speak of the classical linear regression model. The
+assumptions are the same and only the labels move.</p>
 </div>
 <div class="theory">
 <p>Write the slope in deviation form and substitute the model. With
@@ -554,7 +566,7 @@ linear regression model.</p>
 \hat{\beta}_1 &amp;= \frac{\sum(x_i - \bar{x})y_i}{\text{SST}_x}
    &amp;&amp; \text{since } \textstyle\sum(x_i-\bar{x})\bar{y} = 0 \\[4pt]
 &amp;= \frac{\sum(x_i - \bar{x})(\beta_0 + \beta_1 x_i + u_i)}{\text{SST}_x}
-   &amp;&amp; \text{substituting SLR1} \\[4pt]
+   &amp;&amp; \text{substituting CLRM1} \\[4pt]
 &amp;= \beta_1 + \frac{\sum(x_i - \bar{x})u_i}{\text{SST}_x}
 \end{aligned}
 \]</span></p>
@@ -577,7 +589,7 @@ sample, and it is the whole reason the grey lines in Figure
 <a href="ols-sampling.html#fig:ols-many-lines">7.3</a> fan out.</p>
 <p>So the question of whether OLS is centred correctly comes down to one thing: does
 that second term average out to zero?</p>
-<p>Taking expectations conditional on the <span class="math inline">\(x\)</span>’s, and using SLR4 to set
+<p>Taking expectations conditional on the <span class="math inline">\(x\)</span>’s, and using CLRM4 to set
 <span class="math inline">\(E(u_i \mid x) = 0\)</span>,</p>
 <p><span class="math display">\[E(\hat{\beta}_1) = \beta_1 + \frac{\sum(x_i - \bar{x})E(u_i \mid x)}{\text{SST}_x} = \beta_1\]</span></p>
 <p>It does. Across repeated samples <span class="math inline">\(\hat{\beta}_1\)</span> is centred on <span class="math inline">\(\beta_1\)</span>, which
