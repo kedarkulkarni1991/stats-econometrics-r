@@ -1198,125 +1198,84 @@ attendance in the same dataset, the slope is 0.117 marks per class and equally
 "significant" — and 0.117 marks is nothing at all.
 :::
 
-## What does the slope actually mean? {#ols-causal}
+## Two students {#ols-causal}
 
 ::: {.question}
-We can fit a line, measure its uncertainty, and test its slope. What does that
-slope actually mean?
+The slope says grades rise with attendance. Does attending raise grades?
 :::
 
-We have reached the end of the mechanics.
-
-We know how to fit a regression line. We know how to measure its uncertainty. We
-know how to test whether its slope differs from zero.
-
-One question remains, and it is the one that matters.
-
-Throughout these two units we have been careful to describe the population
-regression function as
-
-$$E(Y \mid X = x)$$
-
-the average value of $Y$ among individuals with a particular value of $X$.
-
-That is an **association**. It tells us how average GPA differs across students
-with different attendance. It does not tell us what would happen if we made a
-student attend one more class.
-
-Those are different questions.
-
-### Two students {-}
-
-Imagine two students.
+Regression tells us how average outcomes differ across observations. It does
+not, by itself, tell us *why* they differ.
 
 Student A attends thirty classes. Student B attends twenty.
 
-Student A also happens to be more motivated, studies harder outside class, sleeps
-better, and enjoys the subject more.
+Student A also studies harder outside class, enjoys the subject more, and came
+into the course better prepared.
 
-If those differences affect grades — and they almost certainly do — then
-attendance is not the only thing separating the two students. The regression
-slope faithfully describes the difference between them. It cannot tell us how
-much of that difference attendance itself is responsible for.
+If Student A earns a higher GPA, how much of the difference is due to
+attendance?
 
-### Where the assumption enters {-}
+Regression has no difficulty describing the difference between these two
+students. The fitted line tells us that students attending more classes tend to
+earn higher grades on average, and it says so with a standard error and a
+confidence interval.
 
-This is what the zero conditional mean assumption was for:
+The harder question is whether attendance itself produced the difference.
+
+### What must be true {-}
+
+To read the slope as the effect of attendance, something more is required. The
+remaining influences on grades must not systematically differ across students
+with different attendance.
+
+That is the assumption we met in Section \@ref(sr-assumptions):
 
 $$E(u \mid X) = 0$$
 
-It says that once attendance is fixed, the remaining influences on grades do not
-systematically differ across students.
-
-Section \@ref(sr-assumptions) already argued that this is a strong assumption.
-For attendance and grades it is probably false. Students who attend regularly are
-also likely to work harder, be better organised, and care more about the course.
-Those influences belong in $u$, and if they move with attendance then
+For attendance and grades it is a demanding one. Students who attend regularly
+are also likely to be more motivated, better organised and more interested in
+the subject. Those differences belong in $u$. If they are related to attendance,
+then
 
 $$E(u \mid X) \neq 0$$
 
-and the slope combines two things:
+and the regression slope reflects both attendance and the omitted differences
+between students. This is **omitted variable bias**.
 
-- the effect of attendance itself;
-- the effect of every omitted factor that changes alongside attendance.
+Section \@ref(ols-unbiased) showed where it enters mathematically: in the part
+of the estimator that depends on the errors. When the errors are related to $x$,
+that term no longer averages away, and its expectation is the bias.
 
-This is **omitted variable bias**, and Section \@ref(ols-unbiased) showed exactly
-where it lives. We had
+### None of this appears in the output {-}
 
-$$\hat{\beta}_1 = \beta_1 + \frac{\sum(x_i - \bar{x})u_i}{\text{SST}_x}$$
+The coefficient may be estimated very precisely. The standard error may be
+small. The $p$-value may be close to zero. The residuals sum to zero, the
+algebra checks out, and every diagnostic in this unit passes.
 
-and when the errors move with $x$, that second term no longer averages away. Its
-expectation is the bias, and its sign is the sign of the relationship between $x$
-and whatever has been left out.
-
-### Nothing in the output will tell you {-}
-
-Now notice the uncomfortable part.
-
-The coefficient can be estimated with enormous precision. The standard error can
-be tiny. The $p$-value can be essentially zero. The confidence interval can be
-extremely narrow. The residuals sum to zero, the algebra checks out, and every
-diagnostic in this unit passes.
+Every calculation in the output may be correct.
 
 ::: {.keyidea}
-**Every piece of regression output can be mathematically correct while the
-interpretation is completely wrong.**
+What is wrong is not the computation but the interpretation.
 :::
-
-That sentence is the most important one in these two units. A small $p$-value is
-evidence against a null hypothesis about a conditional mean. It is not evidence
-that anything caused anything.
 
 Regression answers a statistical question:
 
 > How do average outcomes differ as $X$ changes?
 
-Turning that into the causal question,
+Causal inference asks a different one:
 
-> What would happen if we changed $X$?
+> What would happen if $X$ were changed?
 
-requires evidence that does not come from the regression itself.
+The first can be answered from the data alone. The second cannot.
 
-### Where that evidence comes from {-}
+### Where to go from here {-}
 
-The rest of this book is about where to find it.
+Multiple regression is the first attempt at the causal question, and it works by
+comparing observations that are similar in other *observed* respects. If
+motivation can be measured, students can be compared at the same level of it.
 
-The next unit begins with the simplest approach: measure the variables causing
-the trouble, and compare observations while holding them fixed. If motivation can
-be measured, it can be accounted for, and the comparison becomes one between
-students who are alike in that respect.
-
-::: {.intuition}
-Multiple regression is our first attempt to move from association towards
-causation. It succeeds only when we can observe the variables creating the bias.
-
-When we cannot — and motivation, ability and family circumstances are rarely in
-the dataset — we need a different strategy altogether. Natural experiments,
-instrumental variables, regression discontinuities and randomised trials are all
-ways of finding variation in $X$ that has nothing to do with the unobservables.
-
-The second half of this book is about those strategies.
-:::
+When the important differences cannot be observed, a different strategy is
+needed. The second half of this book develops those strategies.
 
 ## Summary {#ols-summary}
 

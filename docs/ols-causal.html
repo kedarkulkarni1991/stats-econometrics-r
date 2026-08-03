@@ -4,13 +4,13 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>7.8 What does the slope actually mean? | Statistics and Econometrics with R</title>
+  <title>7.8 Two students | Statistics and Econometrics with R</title>
   <meta name="description" content="<p>A first course in statistics and econometrics for Indian students, built on
 the progression from question to intuition to rigour to computation to
 interpretation.</p>" />
   <meta name="generator" content="bookdown 0.47 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="7.8 What does the slope actually mean? | Statistics and Econometrics with R" />
+  <meta property="og:title" content="7.8 Two students | Statistics and Econometrics with R" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="<p>A first course in statistics and econometrics for Indian students, built on
@@ -19,7 +19,7 @@ interpretation.</p>" />
   <meta name="github-repo" content="kedarkulkarni1991/stats-econometrics-r" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="7.8 What does the slope actually mean? | Statistics and Econometrics with R" />
+  <meta name="twitter:title" content="7.8 Two students | Statistics and Econometrics with R" />
   
   <meta name="twitter:description" content="<p>A first course in statistics and econometrics for Indian students, built on
 the progression from question to intuition to rigour to computation to
@@ -483,12 +483,11 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="ols-hetero.html"><a href="ols-hetero.html#the-wider-lesson"><i class="fa fa-check"></i>The wider lesson</a></li>
 </ul></li>
 <li class="chapter" data-level="7.7" data-path="ols-inference.html"><a href="ols-inference.html"><i class="fa fa-check"></i><b>7.7</b> Inference about the slope</a></li>
-<li class="chapter" data-level="7.8" data-path="ols-causal.html"><a href="ols-causal.html"><i class="fa fa-check"></i><b>7.8</b> What does the slope actually mean?</a>
+<li class="chapter" data-level="7.8" data-path="ols-causal.html"><a href="ols-causal.html"><i class="fa fa-check"></i><b>7.8</b> Two students</a>
 <ul>
-<li class="chapter" data-level="" data-path="ols-causal.html"><a href="ols-causal.html#two-students"><i class="fa fa-check"></i>Two students</a></li>
-<li class="chapter" data-level="" data-path="ols-causal.html"><a href="ols-causal.html#where-the-assumption-enters"><i class="fa fa-check"></i>Where the assumption enters</a></li>
-<li class="chapter" data-level="" data-path="ols-causal.html"><a href="ols-causal.html#nothing-in-the-output-will-tell-you"><i class="fa fa-check"></i>Nothing in the output will tell you</a></li>
-<li class="chapter" data-level="" data-path="ols-causal.html"><a href="ols-causal.html#where-that-evidence-comes-from"><i class="fa fa-check"></i>Where that evidence comes from</a></li>
+<li class="chapter" data-level="" data-path="ols-causal.html"><a href="ols-causal.html#what-must-be-true"><i class="fa fa-check"></i>What must be true</a></li>
+<li class="chapter" data-level="" data-path="ols-causal.html"><a href="ols-causal.html#none-of-this-appears-in-the-output"><i class="fa fa-check"></i>None of this appears in the output</a></li>
+<li class="chapter" data-level="" data-path="ols-causal.html"><a href="ols-causal.html#where-to-go-from-here"><i class="fa fa-check"></i>Where to go from here</a></li>
 </ul></li>
 <li class="chapter" data-level="7.9" data-path="ols-summary.html"><a href="ols-summary.html"><i class="fa fa-check"></i><b>7.9</b> Summary</a></li>
 <li class="chapter" data-level="7.10" data-path="ols-practice.html"><a href="ols-practice.html"><i class="fa fa-check"></i><b>7.10</b> Practice problems</a>
@@ -527,97 +526,66 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 
             <section class="normal" id="section-">
 <div id="ols-causal" class="section level2 hasAnchor" number="7.8">
-<h2><span class="header-section-number">7.8</span> What does the slope actually mean?<a href="ols-causal.html#ols-causal" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<h2><span class="header-section-number">7.8</span> Two students<a href="ols-causal.html#ols-causal" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <div class="question">
-<p>We can fit a line, measure its uncertainty, and test its slope. What does that
-slope actually mean?</p>
+<p>The slope says grades rise with attendance. Does attending raise grades?</p>
 </div>
-<p>We have reached the end of the mechanics.</p>
-<p>We know how to fit a regression line. We know how to measure its uncertainty. We
-know how to test whether its slope differs from zero.</p>
-<p>One question remains, and it is the one that matters.</p>
-<p>Throughout these two units we have been careful to describe the population
-regression function as</p>
-<p><span class="math display">\[E(Y \mid X = x)\]</span></p>
-<p>the average value of <span class="math inline">\(Y\)</span> among individuals with a particular value of <span class="math inline">\(X\)</span>.</p>
-<p>That is an <strong>association</strong>. It tells us how average GPA differs across students
-with different attendance. It does not tell us what would happen if we made a
-student attend one more class.</p>
-<p>Those are different questions.</p>
-<div id="two-students" class="section level3 unnumbered hasAnchor">
-<h3>Two students<a href="ols-causal.html#two-students" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>Imagine two students.</p>
+<p>Regression tells us how average outcomes differ across observations. It does
+not, by itself, tell us <em>why</em> they differ.</p>
 <p>Student A attends thirty classes. Student B attends twenty.</p>
-<p>Student A also happens to be more motivated, studies harder outside class, sleeps
-better, and enjoys the subject more.</p>
-<p>If those differences affect grades — and they almost certainly do — then
-attendance is not the only thing separating the two students. The regression
-slope faithfully describes the difference between them. It cannot tell us how
-much of that difference attendance itself is responsible for.</p>
-</div>
-<div id="where-the-assumption-enters" class="section level3 unnumbered hasAnchor">
-<h3>Where the assumption enters<a href="ols-causal.html#where-the-assumption-enters" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>This is what the zero conditional mean assumption was for:</p>
+<p>Student A also studies harder outside class, enjoys the subject more, and came
+into the course better prepared.</p>
+<p>If Student A earns a higher GPA, how much of the difference is due to
+attendance?</p>
+<p>Regression has no difficulty describing the difference between these two
+students. The fitted line tells us that students attending more classes tend to
+earn higher grades on average, and it says so with a standard error and a
+confidence interval.</p>
+<p>The harder question is whether attendance itself produced the difference.</p>
+<div id="what-must-be-true" class="section level3 unnumbered hasAnchor">
+<h3>What must be true<a href="ols-causal.html#what-must-be-true" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>To read the slope as the effect of attendance, something more is required. The
+remaining influences on grades must not systematically differ across students
+with different attendance.</p>
+<p>That is the assumption we met in Section <a href="sr-assumptions.html#sr-assumptions">6.5</a>:</p>
 <p><span class="math display">\[E(u \mid X) = 0\]</span></p>
-<p>It says that once attendance is fixed, the remaining influences on grades do not
-systematically differ across students.</p>
-<p>Section <a href="sr-assumptions.html#sr-assumptions">6.5</a> already argued that this is a strong assumption.
-For attendance and grades it is probably false. Students who attend regularly are
-also likely to work harder, be better organised, and care more about the course.
-Those influences belong in <span class="math inline">\(u\)</span>, and if they move with attendance then</p>
+<p>For attendance and grades it is a demanding one. Students who attend regularly
+are also likely to be more motivated, better organised and more interested in
+the subject. Those differences belong in <span class="math inline">\(u\)</span>. If they are related to attendance,
+then</p>
 <p><span class="math display">\[E(u \mid X) \neq 0\]</span></p>
-<p>and the slope combines two things:</p>
-<ul>
-<li>the effect of attendance itself;</li>
-<li>the effect of every omitted factor that changes alongside attendance.</li>
-</ul>
-<p>This is <strong>omitted variable bias</strong>, and Section <a href="ols-unbiased.html#ols-unbiased">7.4</a> showed exactly
-where it lives. We had</p>
-<p><span class="math display">\[\hat{\beta}_1 = \beta_1 + \frac{\sum(x_i - \bar{x})u_i}{\text{SST}_x}\]</span></p>
-<p>and when the errors move with <span class="math inline">\(x\)</span>, that second term no longer averages away. Its
-expectation is the bias, and its sign is the sign of the relationship between <span class="math inline">\(x\)</span>
-and whatever has been left out.</p>
+<p>and the regression slope reflects both attendance and the omitted differences
+between students. This is <strong>omitted variable bias</strong>.</p>
+<p>Section <a href="ols-unbiased.html#ols-unbiased">7.4</a> showed where it enters mathematically: in the part
+of the estimator that depends on the errors. When the errors are related to <span class="math inline">\(x\)</span>,
+that term no longer averages away, and its expectation is the bias.</p>
 </div>
-<div id="nothing-in-the-output-will-tell-you" class="section level3 unnumbered hasAnchor">
-<h3>Nothing in the output will tell you<a href="ols-causal.html#nothing-in-the-output-will-tell-you" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>Now notice the uncomfortable part.</p>
-<p>The coefficient can be estimated with enormous precision. The standard error can
-be tiny. The <span class="math inline">\(p\)</span>-value can be essentially zero. The confidence interval can be
-extremely narrow. The residuals sum to zero, the algebra checks out, and every
-diagnostic in this unit passes.</p>
+<div id="none-of-this-appears-in-the-output" class="section level3 unnumbered hasAnchor">
+<h3>None of this appears in the output<a href="ols-causal.html#none-of-this-appears-in-the-output" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>The coefficient may be estimated very precisely. The standard error may be
+small. The <span class="math inline">\(p\)</span>-value may be close to zero. The residuals sum to zero, the
+algebra checks out, and every diagnostic in this unit passes.</p>
+<p>Every calculation in the output may be correct.</p>
 <div class="keyidea">
-<p><strong>Every piece of regression output can be mathematically correct while the
-interpretation is completely wrong.</strong></p>
+<p>What is wrong is not the computation but the interpretation.</p>
 </div>
-<p>That sentence is the most important one in these two units. A small <span class="math inline">\(p\)</span>-value is
-evidence against a null hypothesis about a conditional mean. It is not evidence
-that anything caused anything.</p>
 <p>Regression answers a statistical question:</p>
 <blockquote>
 <p>How do average outcomes differ as <span class="math inline">\(X\)</span> changes?</p>
 </blockquote>
-<p>Turning that into the causal question,</p>
+<p>Causal inference asks a different one:</p>
 <blockquote>
-<p>What would happen if we changed <span class="math inline">\(X\)</span>?</p>
+<p>What would happen if <span class="math inline">\(X\)</span> were changed?</p>
 </blockquote>
-<p>requires evidence that does not come from the regression itself.</p>
+<p>The first can be answered from the data alone. The second cannot.</p>
 </div>
-<div id="where-that-evidence-comes-from" class="section level3 unnumbered hasAnchor">
-<h3>Where that evidence comes from<a href="ols-causal.html#where-that-evidence-comes-from" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>The rest of this book is about where to find it.</p>
-<p>The next unit begins with the simplest approach: measure the variables causing
-the trouble, and compare observations while holding them fixed. If motivation can
-be measured, it can be accounted for, and the comparison becomes one between
-students who are alike in that respect.</p>
-<div class="intuition">
-<p>Multiple regression is our first attempt to move from association towards
-causation. It succeeds only when we can observe the variables creating the bias.</p>
-<p>When we cannot — and motivation, ability and family circumstances are rarely in
-the dataset — we need a different strategy altogether. Natural experiments,
-instrumental variables, regression discontinuities and randomised trials are all
-ways of finding variation in <span class="math inline">\(X\)</span> that has nothing to do with the unobservables.</p>
-<p>The second half of this book is about those strategies.</p>
-</div>
+<div id="where-to-go-from-here" class="section level3 unnumbered hasAnchor">
+<h3>Where to go from here<a href="ols-causal.html#where-to-go-from-here" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Multiple regression is the first attempt at the causal question, and it works by
+comparing observations that are similar in other <em>observed</em> respects. If
+motivation can be measured, students can be compared at the same level of it.</p>
+<p>When the important differences cannot be observed, a different strategy is
+needed. The second half of this book develops those strategies.</p>
 </div>
 </div>
 <script>
