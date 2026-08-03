@@ -1,0 +1,246 @@
+# Functional Forms {#functional-forms}
+
+<!-- PARKED. Written for Unit 7 and lifted out on 2026-08-05: functional form
+     belongs later in the book, once multiple regression is in place and
+     interpretation has more to do. Not in _bookdown.yml.
+
+     Depends on: cars <- read.csv("data/car-mileage.csv") and
+     wages <- read.csv("data/wages-india-synthetic.csv"), plus the standard
+     _common.R setup. The log-transformation material at the end arrived here
+     from the heteroskedasticity section and is framed as the alternative
+     response to a fan-shaped residual plot.
+
+     QB 7.15 in Unit 7 asked for a log-log regression on india-production.csv
+     and was removed at the same time; it should return alongside this. -->
+
+```{r setup-ff, include = FALSE}
+source("_common.R")
+library(ggplot2)
+cars  <- read.csv("data/car-mileage.csv")
+wages <- read.csv("data/wages-india-synthetic.csv")
+```
+
+## Functional forms {#ols-forms}
+
+::: {.question}
+A slope of $-0.006$ km per litre per kilogram. Is that a lot?
+:::
+
+The regression of fuel efficiency on weight in Section \@ref(ols-practice)
+returned a slope of $-0.00601$. Nothing about that number tells you whether the
+effect is large, because it depends entirely on the units chosen. Measure weight
+in tonnes and the slope becomes $-6.01$. Measure efficiency in litres per
+hundred kilometres and the sign flips.
+
+Two problems follow, and one transformation solves both.
+
+**Units are arbitrary.** A coefficient in kilograms and one in tonnes describe
+the same relationship, but only one of them is easy to talk about. We would
+prefer a measure that does not change when someone changes their mind about units.
+
+**Straight lines are not always the right shape.** Section \@ref(sr-prf) showed
+that the conditional mean of GPA against attendance was not exactly linear, and
+took a line as an approximation. Sometimes a better approximation is available at
+no cost, by transforming a variable before fitting.
+
+Taking logarithms addresses both.
+
+### The four forms {-}
+
+Either variable may be entered in levels or in logarithms, giving four
+combinations. The interpretation of $\beta_1$ changes in each.
+
+Table: (\#tab:ols-forms) The four functional forms and what the slope means in each.
+
+| Model | Equation | Interpretation of $\beta_1$ |
+|:--|:--|:--|
+| Level–level | $y = \beta_0 + \beta_1 x + u$ | A one-unit rise in $x$ changes $y$ by $\beta_1$ **units** |
+| Log–level | $\ln y = \beta_0 + \beta_1 x + u$ | A one-unit rise in $x$ changes $y$ by $100\beta_1$ **per cent** |
+| Level–log | $y = \beta_0 + \beta_1 \ln x + u$ | A 1% rise in $x$ changes $y$ by $\beta_1/100$ **units** |
+| Log–log | $\ln y = \beta_0 + \beta_1 \ln x + u$ | A 1% rise in $x$ changes $y$ by $\beta_1$ **per cent** |
+
+The last is an **elasticity**, and it is unit-free: it does not matter whether
+weight is in kilograms or tonnes, or price in rupees or lakhs.
+
+::: {.theory}
+All four interpretations follow from one fact of calculus. For small changes,
+
+$$\Delta \ln y \;\approx\; \frac{\Delta y}{y}$$
+
+that is, a change in the logarithm is approximately a *proportional* change in
+the variable. Multiplying by 100 turns it into a percentage.
+
+**Log–level.** Differentiating $\ln y = \beta_0 + \beta_1 x$ with respect to $x$,
+
+$$\frac{1}{y}\frac{dy}{dx} = \beta_1
+\qquad\Longrightarrow\qquad
+\frac{dy/y}{dx} = \beta_1$$
+
+so a one-unit rise in $x$ raises $y$ by a proportion $\beta_1$, which is
+$100\beta_1$ per cent.
+
+**Level–log.** From $y = \beta_0 + \beta_1 \ln x$,
+
+$$dy = \beta_1 \, d(\ln x) = \beta_1 \frac{dx}{x}$$
+
+A 1% rise in $x$ means $dx/x = 0.01$, so $dy = 0.01\beta_1 = \beta_1/100$ units.
+
+**Log–log.** From $\ln y = \beta_0 + \beta_1 \ln x$,
+
+$$\frac{dy/y}{dx/x} = \beta_1$$
+
+which is the definition of an elasticity: the ratio of the proportional change in
+$y$ to the proportional change in $x$.
+:::
+
+### Fuel efficiency, in elasticity form {-}
+
+```{r ols-forms-cars}
+cars <- read.csv("data/car-mileage.csv")
+
+level_level <- lm(mileage_kmpl ~ weight_kg, data = cars)
+log_log     <- lm(log(mileage_kmpl) ~ log(weight_kg), data = cars)
+
+round(rbind(level_level = c(slope = coef(level_level)[2],
+                            r_squared = summary(level_level)$r.squared),
+            log_log     = c(slope = coef(log_log)[2],
+                            r_squared = summary(log_log)$r.squared)), 4)
+```
+
+The log–log slope is $-0.825$: **a car that is 1% heavier is about 0.83% less
+fuel-efficient.** That is a sentence anyone can evaluate, and it would be
+unchanged if weight were recorded in tonnes.
+
+The fit also improves, from $R^2 = 0.65$ to $0.71$. That is a modest gain rather
+than a dramatic one, and it is worth being clear that the case for the log form
+here rests mainly on interpretation rather than on fit. Still, the direction is
+not an accident: a constant *proportional* penalty for weight describes cars
+better than the constant absolute penalty the level–level model imposed.
+
+```{r ols-forms-plot, echo = FALSE, fig.height = 3.4, fig.cap = "The same 74 cars in levels and in logarithms. Both look broadly linear; the logarithmic version is a little tighter around the line, which is the improvement in R-squared from 0.65 to 0.71. The gain here is real but modest -- the case for the log form rests mainly on interpretation."}
+d1 <- data.frame(x = cars$weight_kg, y = cars$mileage_kmpl, panel = "Levels")
+d2 <- data.frame(x = log(cars$weight_kg), y = log(cars$mileage_kmpl),
+                 panel = "Logarithms")
+both <- rbind(d1, d2)
+
+ggplot(both, aes(x, y)) +
+  geom_point(alpha = 0.55, colour = book_palette$ink, size = 1.3) +
+  geom_smooth(method = "lm", se = FALSE, colour = book_palette$accent,
+              linewidth = 0.9) +
+  facet_wrap(~ panel, scales = "free") +
+  labs(x = NULL, y = NULL) +
+  theme_book()
+```
+
+::: {.watchout}
+This is where the warning about linearity belongs.
+
+A great deal of weak empirical work consists of fitting a straight line to a
+relationship that is not straight, and reporting the slope as though it described
+the whole range. The residual plot of Section \@ref(ols-hetero) catches this too:
+a curved band of residuals means the functional form is wrong, not that the
+variance is non-constant.
+
+Fitting a line is a choice. Check it.
+:::
+
+### The return to schooling {-}
+
+The log–level form is the workhorse of labour economics, because wages are
+naturally discussed in percentages.
+
+```{r ols-forms-wages}
+wages <- read.csv("data/wages-india-synthetic.csv")
+
+fit_w <- lm(log(annual_earnings) ~ education, data = wages)
+round(coef(summary(fit_w)), 5)
+```
+
+The slope of 0.0942 says that **one more year of schooling is associated with
+about 9.4% higher annual earnings.** Multiply by 100 and read as a percentage;
+that is the whole rule.
+
+::: {.watchout}
+Two cautions on that number.
+
+It is a simple regression, so it carries every confounder discussed in Section
+\@ref(ols-causal). People with more schooling differ in family background and
+much else, and the coefficient absorbs all of it. Adding controls in the next
+unit lowers it appreciably.
+
+And the percentage reading is an approximation that degrades for large changes.
+For a coefficient of 0.0942 the exact figure is
+$100(e^{0.0942} - 1) = `r round(100*(exp(0.0942)-1), 2)`$%, which is close
+enough. For a coefficient of 0.7 the approximation says 70% and the truth is
+$`r round(100*(exp(0.7)-1), 0)`$%. Above about 0.2, use the exact expression.
+:::
+
+### When the variable is the problem, not the variance {-}
+
+Robust standard errors accept the heteroskedasticity and correct for it. The
+other response is to ask why it is there.
+
+Earnings are a highly skewed variable, and skewed variables often produce
+fan-shaped residuals simply because their upper tail is long. Taking logarithms
+compresses that tail.
+
+```{r ols-het-logs}
+fit_log <- lm(log(annual_earnings) ~ education, data = wages)
+
+q_log <- cut(fitted(fit_log), quantile(fitted(fit_log), 0:4/4),
+             include.lowest = TRUE)
+round(tapply(residuals(fit_log), q_log, sd), 4)
+```
+
+The spread is now essentially identical across quartiles — a ratio of 1.01
+against 3.61 in levels. The heteroskedasticity was not a deep feature of the
+world; it was a consequence of measuring earnings in rupees rather than in
+proportional terms.
+
+This is the second thing a fan-shaped residual plot can be telling you. Section
+\@ref(ols-hetero) treated it as a fact about the variance to be corrected with
+robust standard errors. Sometimes it is instead a fact about the *scale* of the
+variable, and changing the scale removes it entirely.
+
+Robust standard errors would have accepted the heteroskedasticity and widened the
+intervals around it. Taking logs asks why it was there.
+
+
+### Choosing a form {-}
+
+::: {.keyidea}
+Three considerations, in order of importance.
+
+**What is the natural way to talk about the variable?** Wages, prices and GDP are
+discussed in percentages, so logs. Test scores, class attendance and family size
+are discussed in units, so levels.
+
+**Does the relationship look multiplicative?** If a proportional change in $x$
+plausibly produces a proportional change in $y$ — as with weight and fuel use —
+logs will fit better and mean more.
+
+**Does the scatter suggest it?** Skewed variables often straighten out in logs,
+and heteroskedasticity often shrinks at the same time, since logs compress the
+upper tail.
+
+What should *not* drive the choice is which version gives the larger $R^2$ or the
+smaller $p$-value. Trying transformations until something is significant produces
+findings that will not replicate.
+:::
+
+::: {.watchout}
+**Logarithms are undefined at zero and for negative numbers.**
+
+Earnings data routinely contain zeros — people who did not work. Taking logs
+silently deletes them, and since those are rarely a random subset of the sample,
+the remaining regression answers a different question from the one asked.
+
+```{r ols-forms-zero}
+sum(wages$annual_earnings <= 0)
+```
+
+There are none here, which is a property of this simulated dataset rather than of
+earnings data in general. With real data, check before transforming and say what
+you did.
+:::
+
