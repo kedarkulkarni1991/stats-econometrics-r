@@ -541,7 +541,7 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 value, over standard error:</p>
 <p><span class="math display">\[t = \frac{\hat{\beta}_1 - 0}{\mathrm{se}(\hat{\beta}_1)}\]</span></p>
 <p>compared against <span class="math inline">\(t\)</span> with <span class="math inline">\(n - 2\)</span> degrees of freedom.</p>
-<div class="sourceCode" id="cb271"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb271-1"><a href="ols-inference.html#cb271-1" tabindex="-1"></a><span class="fu">summary</span>(fit)<span class="sc">$</span>coefficients</span></code></pre></div>
+<div class="sourceCode" id="cb272"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb272-1"><a href="ols-inference.html#cb272-1" tabindex="-1"></a><span class="fu">summary</span>(fit)<span class="sc">$</span>coefficients</span></code></pre></div>
 <pre><code>#&gt;             Estimate Std. Error t value
 #&gt; (Intercept)    1.562    0.28692   5.444
 #&gt; attendance     0.189    0.01074  17.589
@@ -552,7 +552,7 @@ value, over standard error:</p>
 678 degrees of freedom and a <span class="math inline">\(p\)</span>-value indistinguishable from zero. We reject
 the claim that attendance is unrelated to GPA.</p>
 <p>The confidence interval is the more informative report:</p>
-<div class="sourceCode" id="cb273"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb273-1"><a href="ols-inference.html#cb273-1" tabindex="-1"></a><span class="fu">confint</span>(fit, <span class="at">level =</span> <span class="fl">0.95</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb274"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb274-1"><a href="ols-inference.html#cb274-1" tabindex="-1"></a><span class="fu">confint</span>(fit, <span class="at">level =</span> <span class="fl">0.95</span>)</span></code></pre></div>
 <pre><code>#&gt;              2.5 % 97.5 %
 #&gt; (Intercept) 0.9987  2.125
 #&gt; attendance  0.1679  0.210</code></pre>

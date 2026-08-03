@@ -262,7 +262,8 @@ Several chapters use additional R packages. These need to be installed only
 once, by running the following command in the RStudio console:
 
 ```{r install-pkgs, eval = FALSE}
-install.packages(c("tidyverse", "BSDA", "wooldridge", "AER", "stargazer"))
+install.packages(c("tidyverse", "BSDA", "wooldridge", "AER",
+                   "stargazer", "sandwich", "lmtest"))
 ```
 
 No other software is required, and everything used in this book is freely

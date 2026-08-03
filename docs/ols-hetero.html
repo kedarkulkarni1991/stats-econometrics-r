@@ -660,9 +660,12 @@ so drew an interval far too narrow around a perfectly good estimate.</p>
 <p>The repair does not touch <span class="math inline">\(\hat{\beta}_1\)</span>, which needs no repairing. It replaces
 the formula for the variance with one that does not assume a common <span class="math inline">\(\sigma^2\)</span>,
 using each observation’s own squared residual in place of a single estimate.</p>
+<p>These are called <strong>White heteroskedasticity-robust standard errors</strong>, after
+Halbert White’s influential work, and in ordinary conversation simply <strong>robust
+standard errors</strong>. All three names refer to the same idea.</p>
 <div class="keyidea">
-<p><strong>Heteroskedasticity-robust standard errors leave the fitted line unchanged.</strong>
-They alter only how the uncertainty around it is calculated.</p>
+<p><strong>Robust standard errors leave the fitted line unchanged.</strong> They alter only how
+the uncertainty around it is calculated.</p>
 <p>The coefficients you report are identical either way. What changes is the second
 column of the output, and everything computed from it.</p>
 </div>
@@ -677,6 +680,33 @@ size and this severity.</p>
 137 — a quarter larger again. Any conclusion resting on the difference between
 those two numbers was resting on an assumption the residual plot had already
 refused.</p>
+<div class="inr">
+<p>The calculation above is written out longhand so that nothing is hidden. In
+practice one reaches for a package.</p>
+<div class="sourceCode" id="cb271"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb271-1"><a href="ols-hetero.html#cb271-1" tabindex="-1"></a><span class="fu">library</span>(sandwich)   <span class="co"># variance estimators</span></span>
+<span id="cb271-2"><a href="ols-hetero.html#cb271-2" tabindex="-1"></a><span class="fu">library</span>(lmtest)     <span class="co"># tests that accept them</span></span>
+<span id="cb271-3"><a href="ols-hetero.html#cb271-3" tabindex="-1"></a></span>
+<span id="cb271-4"><a href="ols-hetero.html#cb271-4" tabindex="-1"></a><span class="fu">coeftest</span>(fit_w, <span class="at">vcov =</span> <span class="fu">vcovHC</span>(fit_w, <span class="at">type =</span> <span class="st">&quot;HC1&quot;</span>))</span></code></pre></div>
+<p>Stata users will recognise the same thing as <code>reg y x, vce(robust)</code>.</p>
+<p>The variants <code>HC0</code> through <code>HC3</code> differ only in how the variance is adjusted for
+finite samples. <code>HC1</code> is the most common default and matches Stata’s; for
+moderate and large samples the choice rarely matters.</p>
+</div>
+<div class="deeper">
+<p>White standard errors are the first member of a family, and it is worth knowing
+that the family exists.</p>
+<ul>
+<li><strong>White (heteroskedasticity-robust)</strong> standard errors relax the assumption of
+constant error variance.</li>
+<li><strong>Cluster-robust</strong> standard errors also allow errors to be correlated within
+groups — students within a school, households within a village.</li>
+<li><strong>HAC</strong> or <strong>Newey–West</strong> standard errors allow correlation across time.</li>
+</ul>
+<p>All three estimate the variance of the <em>same</em> OLS estimator in different
+circumstances. None of them changes the coefficients, and none of them is a
+different method of regression. They are different answers to the single question
+of how much the estimator would vary across repeated samples.</p>
+</div>
 <div class="watchout">
 <p>Three things robust standard errors do not do.</p>
 <p>They do not fix bias. There was none to fix.</p>
