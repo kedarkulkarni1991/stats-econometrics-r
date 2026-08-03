@@ -1,11 +1,43 @@
-# Point and Interval Estimation {#interval-estimation}
+# How Much Can One Sample Tell Us? {#interval-estimation}
 
 ```{r setup-03, include = FALSE}
 source("_common.R")
 library(ggplot2)
 ```
 
-## What can a single sample tell us? {#u3-single-sample}
+The previous unit established that the sample mean is a good estimator of the
+population mean. Across repeated samples it is centred on the truth, and larger
+samples produce more precise estimates.
+
+There is a practical problem with how we established it.
+
+Researchers do not observe repeated samples. A survey is conducted once,
+producing exactly one sample and one estimate. The sampling distribution that
+justified the sample mean is invisible from inside a single dataset.
+
+So the question of this unit is the one in its title.
+
+> How much can a single sample tell us about an unknown population?
+
+This unit develops the tools for answering it. We begin by separating an
+estimate from the uncertainty surrounding it — a distinction the previous unit
+made informally and this one makes precise. We then show how the standard error
+measures the precision of an estimate, and how a confidence interval turns that
+precision into a range of plausible values for the population parameter.
+
+::: {.keyidea}
+By the end of this unit you should be able to say not only *what* a sample
+suggests about a population, but *how confident* that suggestion deserves to be —
+and why an estimate reported without a measure of its uncertainty is an
+incomplete answer.
+:::
+
+The unit stops short of one thing. Evaluating a specific claim about a
+population — testing whether the average really is ₹20,000 — is the subject of
+Unit \@ref(one-sample). What we build here turns out to be most of the machinery
+that unit needs.
+
+## One sample, one number {#u3-single-sample}
 
 ::: {.question}
 We have one sample and one number. What are we entitled to say?

@@ -4,13 +4,13 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Unit 3 Point and Interval Estimation | Statistics and Econometrics with R</title>
+  <title>Unit 3 How Much Can One Sample Tell Us? | Statistics and Econometrics with R</title>
   <meta name="description" content="<p>A first course in statistics and econometrics for Indian students, built on
 the progression from question to intuition to rigour to computation to
 interpretation.</p>" />
   <meta name="generator" content="bookdown 0.47 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Unit 3 Point and Interval Estimation | Statistics and Econometrics with R" />
+  <meta property="og:title" content="Unit 3 How Much Can One Sample Tell Us? | Statistics and Econometrics with R" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="<p>A first course in statistics and econometrics for Indian students, built on
@@ -19,7 +19,7 @@ interpretation.</p>" />
   <meta name="github-repo" content="kedarkulkarni1991/stats-econometrics-r" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Unit 3 Point and Interval Estimation | Statistics and Econometrics with R" />
+  <meta name="twitter:title" content="Unit 3 How Much Can One Sample Tell Us? | Statistics and Econometrics with R" />
   
   <meta name="twitter:description" content="<p>A first course in statistics and econometrics for Indian students, built on
 the progression from question to intuition to rigour to computation to
@@ -233,9 +233,9 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="2.11" data-path="u2-looking-ahead.html"><a href="u2-looking-ahead.html"><i class="fa fa-check"></i><b>2.11</b> Looking ahead</a></li>
 </ul></li>
-<li class="chapter" data-level="3" data-path="interval-estimation.html"><a href="interval-estimation.html"><i class="fa fa-check"></i><b>3</b> Point and Interval Estimation</a>
+<li class="chapter" data-level="3" data-path="interval-estimation.html"><a href="interval-estimation.html"><i class="fa fa-check"></i><b>3</b> How Much Can One Sample Tell Us?</a>
 <ul>
-<li class="chapter" data-level="3.1" data-path="u3-single-sample.html"><a href="u3-single-sample.html"><i class="fa fa-check"></i><b>3.1</b> What can a single sample tell us?</a></li>
+<li class="chapter" data-level="3.1" data-path="u3-single-sample.html"><a href="u3-single-sample.html"><i class="fa fa-check"></i><b>3.1</b> One sample, one number</a></li>
 <li class="chapter" data-level="3.2" data-path="u3-variance.html"><a href="u3-variance.html"><i class="fa fa-check"></i><b>3.2</b> Estimating the standard error</a>
 <ul>
 <li class="chapter" data-level="" data-path="u3-variance.html"><a href="u3-variance.html#a-statistical-laboratory"><i class="fa fa-check"></i>A statistical laboratory</a></li>
@@ -526,7 +526,33 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 
             <section class="normal" id="section-">
 <div id="interval-estimation" class="section level1 hasAnchor" number="3">
-<h1><span class="header-section-number">Unit 3</span> Point and Interval Estimation<a href="interval-estimation.html#interval-estimation" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<h1><span class="header-section-number">Unit 3</span> How Much Can One Sample Tell Us?<a href="interval-estimation.html#interval-estimation" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>The previous unit established that the sample mean is a good estimator of the
+population mean. Across repeated samples it is centred on the truth, and larger
+samples produce more precise estimates.</p>
+<p>There is a practical problem with how we established it.</p>
+<p>Researchers do not observe repeated samples. A survey is conducted once,
+producing exactly one sample and one estimate. The sampling distribution that
+justified the sample mean is invisible from inside a single dataset.</p>
+<p>So the question of this unit is the one in its title.</p>
+<blockquote>
+<p>How much can a single sample tell us about an unknown population?</p>
+</blockquote>
+<p>This unit develops the tools for answering it. We begin by separating an
+estimate from the uncertainty surrounding it — a distinction the previous unit
+made informally and this one makes precise. We then show how the standard error
+measures the precision of an estimate, and how a confidence interval turns that
+precision into a range of plausible values for the population parameter.</p>
+<div class="keyidea">
+<p>By the end of this unit you should be able to say not only <em>what</em> a sample
+suggests about a population, but <em>how confident</em> that suggestion deserves to be —
+and why an estimate reported without a measure of its uncertainty is an
+incomplete answer.</p>
+</div>
+<p>The unit stops short of one thing. Evaluating a specific claim about a
+population — testing whether the average really is ₹20,000 — is the subject of
+Unit <a href="one-sample.html#one-sample">4</a>. What we build here turns out to be most of the machinery
+that unit needs.</p>
 </div>
 <script>
 // Solutions are written as plain fenced divs in the source, so the PDF edition
