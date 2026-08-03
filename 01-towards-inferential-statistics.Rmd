@@ -1431,26 +1431,37 @@ of a typical household". Give two separate objections to that description.
 because the sample is very large, the results must be reliable. Under what
 circumstances would this reasoning be wrong?
 
-**QB 1.10** Explain why the sampling distribution of the sample mean is
+**QB 1.10** The **gambler's fallacy** is the mistaken belief that chance events
+"balance out" in the short run.
+
+A batsman has scored 0 runs in each of his last five innings. A commentator says:
+
+> He is due for a big score today.
+
+Explain why this may be an example of the gambler's fallacy, and what the Law of
+Large Numbers does and does not say about it. Under what circumstances could the
+commentator's statement nevertheless be reasonable?
+
+**QB 1.11** Explain why the sampling distribution of the sample mean is
 narrower than the distribution of the individual observations, using the idea
 of offsetting variation rather than any formula.
 
 ### Numerical {-}
 
-**QB 1.11** The weights of rice bags filled by a machine have mean 25 kg and
+**QB 1.12** The weights of rice bags filled by a machine have mean 25 kg and
 standard deviation 0.6 kg. A quality inspector weighs 36 bags.
 
 (a) What is the expected value of the sample mean weight?
 (b) What is its standard deviation?
 (c) How many bags would need to be weighed to halve that standard deviation?
 
-**QB 1.12** Daily wages of agricultural labourers in a district have mean ₹350
+**QB 1.13** Daily wages of agricultural labourers in a district have mean ₹350
 and standard deviation ₹90. For a random sample of 100 labourers, approximate
 the probability that the sample mean wage
 
 (a) exceeds ₹360, (b) falls below ₹340, (c) lies between ₹340 and ₹360.
 
-**QB 1.13** A population is strongly right-skewed with mean 12 and standard
+**QB 1.14** A population is strongly right-skewed with mean 12 and standard
 deviation 15. A student proposes to use the normal approximation for the
 sampling distribution of the mean with a sample of 20 observations. Comment on
 whether this is advisable, and describe how you would check.
