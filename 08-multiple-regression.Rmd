@@ -7,27 +7,38 @@ library(ggplot2)
 
 Unit \@ref(ols) ended with two students. One attended thirty classes, the other
 twenty, and the first earned the higher grade. The difficulty was that the two
-students differed in more than attendance: one was better prepared, more
-motivated, more interested in the subject. The regression slope carried all of
-those differences inside it, and nothing in the output said so.
+students differed in many other ways as well. One may have been better prepared,
+more motivated, more interested in the subject, or simply worked harder outside
+class. The regression slope faithfully described the difference in their average
+grades, but it could not tell us how much of that difference was due to
+attendance itself.
 
-The obvious response is to measure some of those other differences and take them
-into account. That is what this unit does.
+A natural response is to measure some of those other differences and compare
+students who are alike in every observed respect except attendance.
 
-Very little new machinery is needed. The same least squares criterion, the same
-normal equations, the same $t$ statistics. What changes is the meaning of a
-coefficient — and it changes into something considerably more useful, and
-considerably easier to misread.
+That is the idea behind multiple regression.
 
-::: {.keyidea}
-This unit answers five questions.
+Conceptually, very little changes. We still model the conditional mean, fit the
+model by least squares, and measure uncertainty with standard errors, confidence
+intervals and hypothesis tests. The machinery is familiar.
 
-1. Why is one explanatory variable not enough?
-2. What does a coefficient mean once there are several?
-3. What does "holding constant" actually do to the data?
-4. How do we test claims about one coefficient, and about several at once?
-5. Does any of this deliver a causal answer?
-:::
+What changes is the interpretation.
+
+In a simple regression, the slope describes how average outcomes change as one
+variable changes. In a multiple regression, each coefficient describes how the
+outcome changes as one variable changes while the others are held fixed. That
+seemingly small change is what makes multiple regression one of the most useful
+tools in empirical economics.
+
+It is also where many misunderstandings begin.
+
+What does it really mean to "hold other things equal"? How does regression
+compare observations that are never exactly identical? When does controlling for
+additional variables reduce bias, and when can it make matters worse? Most
+importantly, does adding more variables bring us any closer to the causal
+comparison we wanted in Unit \@ref(ols)?
+
+Those are the questions this unit takes up.
 
 ## Why one variable is not enough {#mlr-motivation}
 

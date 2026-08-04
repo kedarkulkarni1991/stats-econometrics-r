@@ -586,25 +586,30 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <h1><span class="header-section-number">Unit 8</span> Multiple Regression: Holding Other Things Equal<a href="multiple-regression.html#multiple-regression" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <p>Unit <a href="ols.html#ols">7</a> ended with two students. One attended thirty classes, the other
 twenty, and the first earned the higher grade. The difficulty was that the two
-students differed in more than attendance: one was better prepared, more
-motivated, more interested in the subject. The regression slope carried all of
-those differences inside it, and nothing in the output said so.</p>
-<p>The obvious response is to measure some of those other differences and take them
-into account. That is what this unit does.</p>
-<p>Very little new machinery is needed. The same least squares criterion, the same
-normal equations, the same <span class="math inline">\(t\)</span> statistics. What changes is the meaning of a
-coefficient — and it changes into something considerably more useful, and
-considerably easier to misread.</p>
-<div class="keyidea">
-<p>This unit answers five questions.</p>
-<ol style="list-style-type: decimal">
-<li>Why is one explanatory variable not enough?</li>
-<li>What does a coefficient mean once there are several?</li>
-<li>What does “holding constant” actually do to the data?</li>
-<li>How do we test claims about one coefficient, and about several at once?</li>
-<li>Does any of this deliver a causal answer?</li>
-</ol>
-</div>
+students differed in many other ways as well. One may have been better prepared,
+more motivated, more interested in the subject, or simply worked harder outside
+class. The regression slope faithfully described the difference in their average
+grades, but it could not tell us how much of that difference was due to
+attendance itself.</p>
+<p>A natural response is to measure some of those other differences and compare
+students who are alike in every observed respect except attendance.</p>
+<p>That is the idea behind multiple regression.</p>
+<p>Conceptually, very little changes. We still model the conditional mean, fit the
+model by least squares, and measure uncertainty with standard errors, confidence
+intervals and hypothesis tests. The machinery is familiar.</p>
+<p>What changes is the interpretation.</p>
+<p>In a simple regression, the slope describes how average outcomes change as one
+variable changes. In a multiple regression, each coefficient describes how the
+outcome changes as one variable changes while the others are held fixed. That
+seemingly small change is what makes multiple regression one of the most useful
+tools in empirical economics.</p>
+<p>It is also where many misunderstandings begin.</p>
+<p>What does it really mean to “hold other things equal”? How does regression
+compare observations that are never exactly identical? When does controlling for
+additional variables reduce bias, and when can it make matters worse? Most
+importantly, does adding more variables bring us any closer to the causal
+comparison we wanted in Unit <a href="ols.html#ols">7</a>?</p>
+<p>Those are the questions this unit takes up.</p>
 </div>
 <script>
 // Solutions are written as plain fenced divs in the source, so the PDF edition
