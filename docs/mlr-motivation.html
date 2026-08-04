@@ -506,18 +506,16 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="8" data-path="multiple-regression.html"><a href="multiple-regression.html"><i class="fa fa-check"></i><b>8</b> Multiple Regression: Holding Other Things Equal</a>
 <ul>
-<li class="chapter" data-level="8.1" data-path="mlr-motivation.html"><a href="mlr-motivation.html"><i class="fa fa-check"></i><b>8.1</b> Why one variable is not enough</a>
+<li class="chapter" data-level="8.1" data-path="mlr-motivation.html"><a href="mlr-motivation.html"><i class="fa fa-check"></i><b>8.1</b> Why one variable is not enough</a></li>
+<li class="chapter" data-level="8.2" data-path="mlr-model.html"><a href="mlr-model.html"><i class="fa fa-check"></i><b>8.2</b> Holding other things equal</a>
 <ul>
-<li class="chapter" data-level="" data-path="mlr-motivation.html"><a href="mlr-motivation.html#what-the-slope-is-comparing"><i class="fa fa-check"></i>What the slope is comparing</a></li>
-<li class="chapter" data-level="" data-path="mlr-motivation.html"><a href="mlr-motivation.html#asking-a-narrower-question"><i class="fa fa-check"></i>Asking a narrower question</a></li>
+<li class="chapter" data-level="" data-path="mlr-model.html"><a href="mlr-model.html#a-different-comparison"><i class="fa fa-check"></i>A different comparison</a></li>
+<li class="chapter" data-level="" data-path="mlr-model.html"><a href="mlr-model.html#an-example"><i class="fa fa-check"></i>An example</a></li>
+<li class="chapter" data-level="" data-path="mlr-model.html"><a href="mlr-model.html#reading-the-other-coefficients"><i class="fa fa-check"></i>Reading the other coefficients</a></li>
+<li class="chapter" data-level="" data-path="mlr-model.html"><a href="mlr-model.html#another-example"><i class="fa fa-check"></i>Another example</a></li>
+<li class="chapter" data-level="" data-path="mlr-model.html"><a href="mlr-model.html#what-holding-fixed-does-not-mean"><i class="fa fa-check"></i>What “holding fixed” does not mean</a></li>
 </ul></li>
-<li class="chapter" data-level="8.2" data-path="mlr-model.html"><a href="mlr-model.html"><i class="fa fa-check"></i><b>8.2</b> The model and what a coefficient means</a>
-<ul>
-<li class="chapter" data-level="" data-path="mlr-model.html"><a href="mlr-model.html#the-partial-derivative"><i class="fa fa-check"></i>The partial derivative</a></li>
-<li class="chapter" data-level="" data-path="mlr-model.html"><a href="mlr-model.html#doing-it"><i class="fa fa-check"></i>Doing it</a></li>
-<li class="chapter" data-level="" data-path="mlr-model.html"><a href="mlr-model.html#a-second-example"><i class="fa fa-check"></i>A second example</a></li>
-</ul></li>
-<li class="chapter" data-level="8.3" data-path="mlr-fwl.html"><a href="mlr-fwl.html"><i class="fa fa-check"></i><b>8.3</b> What “holding constant” actually does</a>
+<li class="chapter" data-level="8.3" data-path="mlr-fwl.html"><a href="mlr-fwl.html"><i class="fa fa-check"></i><b>8.3</b> How the comparison is actually made</a>
 <ul>
 <li class="chapter" data-level="" data-path="mlr-fwl.html"><a href="mlr-fwl.html#watching-it-happen"><i class="fa fa-check"></i>Watching it happen</a></li>
 <li class="chapter" data-level="" data-path="mlr-fwl.html"><a href="mlr-fwl.html#two-consequences-worth-noticing"><i class="fa fa-check"></i>Two consequences worth noticing</a></li>
@@ -588,7 +586,7 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <p>The simple regression of grades on attendance was estimated precisely. What is
 missing?</p>
 </div>
-<p>Here is the regression Unit <a href="ols.html#ols">7</a> ended with.</p>
+<p>Unit <a href="ols.html#ols">7</a> ended with a simple regression of semester GPA on attendance.</p>
 <div class="sourceCode" id="cb287"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb287-1"><a href="mlr-motivation.html#cb287-1" tabindex="-1"></a>students <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/attendance-grades.csv&quot;</span>)</span>
 <span id="cb287-2"><a href="mlr-motivation.html#cb287-2" tabindex="-1"></a></span>
 <span id="cb287-3"><a href="mlr-motivation.html#cb287-3" tabindex="-1"></a>simple <span class="ot">&lt;-</span> <span class="fu">lm</span>(sem_gpa <span class="sc">~</span> attendance, <span class="at">data =</span> students)</span>
@@ -596,53 +594,53 @@ missing?</p>
 <pre><code>#&gt;             Estimate Std. Error t value Pr(&gt;|t|)
 #&gt; (Intercept)    1.562     0.2869   5.444        0
 #&gt; attendance     0.189     0.0107  17.589        0</code></pre>
-<p>A student who attends one more class has a semester GPA higher by 0.189 points
-on average. The standard error is small, the <span class="math inline">\(t\)</span> statistic is 17.6, and the
-<span class="math inline">\(p\)</span>-value is beyond the range at which anyone bothers to read further.</p>
-<p>Nothing about this output is wrong. The arithmetic is correct, the assumptions
-of Unit <a href="ols.html#ols">7</a> may well hold well enough for the standard error to be
-trusted, and the relationship is unmistakably there.</p>
-<p>The problem is elsewhere. The number 0.189 answers a question we did not ask.</p>
-<div id="what-the-slope-is-comparing" class="section level3 unnumbered hasAnchor">
-<h3>What the slope is comparing<a href="mlr-motivation.html#what-the-slope-is-comparing" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>The slope compares students who attended more classes with students who attended
-fewer. Those two groups differ in attendance. They also differ in everything else
-that comes bundled with attendance.</p>
-<p>Our data record two such things. Every student has a <strong>prior cumulative GPA</strong>,
-measuring how they performed before this semester began, and an <strong>admission
-score</strong> from the entrance examination.</p>
-<div class="sourceCode" id="cb289"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb289-1"><a href="mlr-motivation.html#cb289-1" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">cor</span>(students[, <span class="fu">c</span>(<span class="st">&quot;attendance&quot;</span>, <span class="st">&quot;sem_gpa&quot;</span>, <span class="st">&quot;cum_gpa&quot;</span>, <span class="st">&quot;admission_score&quot;</span>)]), <span class="dv">3</span>)</span></code></pre></div>
+<p>The estimate is clear. Students who attend one additional class earn, on
+average, a semester GPA that is 0.189 points higher. The standard error is
+small, the confidence interval is narrow, and there is overwhelming evidence
+that attendance and grades are associated.</p>
+<p>The question is whether this is the comparison we wanted to make.</p>
+<p>Suppose we compare two students. One attended thirty classes and the other
+twenty. Their attendance differs by ten classes, but that is unlikely to be the
+only difference between them. The student who attended more may also have
+entered the semester better prepared, have stronger study habits, or simply be
+more academically able.</p>
+<p>Our data contain measures of two such characteristics: each student’s cumulative
+GPA before the semester began, and their admission score.</p>
+<div class="sourceCode" id="cb289"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb289-1"><a href="mlr-motivation.html#cb289-1" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">cor</span>(students[, <span class="fu">c</span>(<span class="st">&quot;attendance&quot;</span>, <span class="st">&quot;sem_gpa&quot;</span>,</span>
+<span id="cb289-2"><a href="mlr-motivation.html#cb289-2" tabindex="-1"></a>                       <span class="st">&quot;cum_gpa&quot;</span>, <span class="st">&quot;admission_score&quot;</span>)]), <span class="dv">3</span>)</span></code></pre></div>
 <pre><code>#&gt;                 attendance sem_gpa cum_gpa admission_score
 #&gt; attendance           1.000   0.560   0.427          -0.156
 #&gt; sem_gpa              0.560   1.000   0.653           0.246
 #&gt; cum_gpa              0.427   0.653   1.000           0.354
 #&gt; admission_score     -0.156   0.246   0.354           1.000</code></pre>
-<p>Students who attend more also arrive with higher prior GPAs — the correlation is
-0.43 — and prior GPA is itself strongly related to this semester’s grade.</p>
-<p>So when we compare a student who attended thirty classes with one who attended
-twenty, we are not comparing two otherwise identical students. On average, the
-first also had a better academic record before the semester started. The
-difference in their grades reflects both.</p>
-<div class="watchout">
-<p>In a simple regression, every variable we fail to measure remains in <span class="math inline">\(u\)</span>, and
-every one of them that moves with <span class="math inline">\(x\)</span> contributes to the slope.</p>
-<p>The estimate is not measuring attendance. It is measuring attendance <em>together
-with whatever travels alongside it</em>.</p>
-</div>
-</div>
-<div id="asking-a-narrower-question" class="section level3 unnumbered hasAnchor">
-<h3>Asking a narrower question<a href="mlr-motivation.html#asking-a-narrower-question" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>The question worth asking is narrower than the one the simple regression
-answers.</p>
+<p>One number immediately stands out. Attendance and prior GPA have a correlation
+of 0.43. Students who attend more classes also tend to have performed better
+before this semester even began.</p>
+<p>Prior GPA, in turn, is strongly related to semester GPA.</p>
+<p>So when the simple regression compares students with different attendance, it is
+also comparing students with different academic histories. Part of the estimated
+relationship may reflect attendance, and part may simply reflect the fact that
+students who were already performing well continue to do so.</p>
+<p>This is exactly the problem discussed at the end of Unit <a href="ols.html#ols">7</a>. Variables
+that affect the outcome and move with attendance remain in the error term, and
+their influence becomes mixed with the coefficient on attendance.</p>
+<p>The comparison we really want is more specific.</p>
+<p>Instead of asking,</p>
 <blockquote>
-<p>Among students who arrived with the <em>same</em> prior GPA and the <em>same</em> admission
-score, how much higher is the semester grade of one who attends an extra class?</p>
+<p>Do students who attend more classes earn higher grades?</p>
 </blockquote>
-<p>This restricts the comparison. Instead of comparing all students to all students,
-it compares students who are alike in prior record and differ in attendance.</p>
-<p>Multiple regression is the tool that makes that comparison, and the rest of this
-unit is about what it does and what it cannot do.</p>
-</div>
+<p>we would like to ask,</p>
+<blockquote>
+<p>Among students with the same prior GPA and the same admission score, do those
+who attend more classes earn higher grades?</p>
+</blockquote>
+<p>That is a different comparison. We are no longer comparing every student with
+every other student. We are comparing students who are similar in their observed
+academic background and differ primarily in attendance.</p>
+<p>Simple regression assumes that every relevant difference between students is
+either unrelated to attendance or hidden inside the error term. Multiple
+regression takes the first step towards relaxing that assumption by bringing
+some of those differences into the model.</p>
 </div>
 <script>
 // Solutions are written as plain fenced divs in the source, so the PDF edition

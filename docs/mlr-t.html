@@ -506,18 +506,16 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="8" data-path="multiple-regression.html"><a href="multiple-regression.html"><i class="fa fa-check"></i><b>8</b> Multiple Regression: Holding Other Things Equal</a>
 <ul>
-<li class="chapter" data-level="8.1" data-path="mlr-motivation.html"><a href="mlr-motivation.html"><i class="fa fa-check"></i><b>8.1</b> Why one variable is not enough</a>
+<li class="chapter" data-level="8.1" data-path="mlr-motivation.html"><a href="mlr-motivation.html"><i class="fa fa-check"></i><b>8.1</b> Why one variable is not enough</a></li>
+<li class="chapter" data-level="8.2" data-path="mlr-model.html"><a href="mlr-model.html"><i class="fa fa-check"></i><b>8.2</b> Holding other things equal</a>
 <ul>
-<li class="chapter" data-level="" data-path="mlr-motivation.html"><a href="mlr-motivation.html#what-the-slope-is-comparing"><i class="fa fa-check"></i>What the slope is comparing</a></li>
-<li class="chapter" data-level="" data-path="mlr-motivation.html"><a href="mlr-motivation.html#asking-a-narrower-question"><i class="fa fa-check"></i>Asking a narrower question</a></li>
+<li class="chapter" data-level="" data-path="mlr-model.html"><a href="mlr-model.html#a-different-comparison"><i class="fa fa-check"></i>A different comparison</a></li>
+<li class="chapter" data-level="" data-path="mlr-model.html"><a href="mlr-model.html#an-example"><i class="fa fa-check"></i>An example</a></li>
+<li class="chapter" data-level="" data-path="mlr-model.html"><a href="mlr-model.html#reading-the-other-coefficients"><i class="fa fa-check"></i>Reading the other coefficients</a></li>
+<li class="chapter" data-level="" data-path="mlr-model.html"><a href="mlr-model.html#another-example"><i class="fa fa-check"></i>Another example</a></li>
+<li class="chapter" data-level="" data-path="mlr-model.html"><a href="mlr-model.html#what-holding-fixed-does-not-mean"><i class="fa fa-check"></i>What “holding fixed” does not mean</a></li>
 </ul></li>
-<li class="chapter" data-level="8.2" data-path="mlr-model.html"><a href="mlr-model.html"><i class="fa fa-check"></i><b>8.2</b> The model and what a coefficient means</a>
-<ul>
-<li class="chapter" data-level="" data-path="mlr-model.html"><a href="mlr-model.html#the-partial-derivative"><i class="fa fa-check"></i>The partial derivative</a></li>
-<li class="chapter" data-level="" data-path="mlr-model.html"><a href="mlr-model.html#doing-it"><i class="fa fa-check"></i>Doing it</a></li>
-<li class="chapter" data-level="" data-path="mlr-model.html"><a href="mlr-model.html#a-second-example"><i class="fa fa-check"></i>A second example</a></li>
-</ul></li>
-<li class="chapter" data-level="8.3" data-path="mlr-fwl.html"><a href="mlr-fwl.html"><i class="fa fa-check"></i><b>8.3</b> What “holding constant” actually does</a>
+<li class="chapter" data-level="8.3" data-path="mlr-fwl.html"><a href="mlr-fwl.html"><i class="fa fa-check"></i><b>8.3</b> How the comparison is actually made</a>
 <ul>
 <li class="chapter" data-level="" data-path="mlr-fwl.html"><a href="mlr-fwl.html#watching-it-happen"><i class="fa fa-check"></i>Watching it happen</a></li>
 <li class="chapter" data-level="" data-path="mlr-fwl.html"><a href="mlr-fwl.html#two-consequences-worth-noticing"><i class="fa fa-check"></i>Two consequences worth noticing</a></li>
@@ -594,13 +592,13 @@ population coefficient equals zero,</p>
 t = \frac{\hat{\beta}_j}{\mathrm{se}(\hat{\beta}_j)}
 \;\sim\; t_{\,n-k-1}\]</span></p>
 <p>and confidence intervals follow as before.</p>
-<div class="sourceCode" id="cb309"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb309-1"><a href="mlr-t.html#cb309-1" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">coef</span>(<span class="fu">summary</span>(full)), <span class="dv">4</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb307"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb307-1"><a href="mlr-t.html#cb307-1" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">coef</span>(<span class="fu">summary</span>(full)), <span class="dv">4</span>)</span></code></pre></div>
 <pre><code>#&gt;                 Estimate Std. Error t value Pr(&gt;|t|)
 #&gt; (Intercept)      -7.6603     1.2944  -5.918        0
 #&gt; attendance        0.1360     0.0104  13.040        0
 #&gt; cum_gpa           0.5748     0.0441  13.026        0
 #&gt; admission_score   0.0835     0.0158   5.299        0</code></pre>
-<div class="sourceCode" id="cb311"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb311-1"><a href="mlr-t.html#cb311-1" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">confint</span>(full), <span class="dv">4</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb309"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb309-1"><a href="mlr-t.html#cb309-1" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">confint</span>(full), <span class="dv">4</span>)</span></code></pre></div>
 <pre><code>#&gt;                    2.5 %  97.5 %
 #&gt; (Intercept)     -10.2019 -5.1188
 #&gt; attendance        0.1155  0.1565

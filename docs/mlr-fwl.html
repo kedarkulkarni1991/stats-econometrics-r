@@ -4,13 +4,13 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>8.3 What “holding constant” actually does | Statistics and Econometrics with R</title>
+  <title>8.3 How the comparison is actually made | Statistics and Econometrics with R</title>
   <meta name="description" content="<p>A first course in statistics and econometrics for Indian students, built on
 the progression from question to intuition to rigour to computation to
 interpretation.</p>" />
   <meta name="generator" content="bookdown 0.47 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="8.3 What “holding constant” actually does | Statistics and Econometrics with R" />
+  <meta property="og:title" content="8.3 How the comparison is actually made | Statistics and Econometrics with R" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="<p>A first course in statistics and econometrics for Indian students, built on
@@ -19,7 +19,7 @@ interpretation.</p>" />
   <meta name="github-repo" content="kedarkulkarni1991/stats-econometrics-r" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="8.3 What “holding constant” actually does | Statistics and Econometrics with R" />
+  <meta name="twitter:title" content="8.3 How the comparison is actually made | Statistics and Econometrics with R" />
   
   <meta name="twitter:description" content="<p>A first course in statistics and econometrics for Indian students, built on
 the progression from question to intuition to rigour to computation to
@@ -506,18 +506,16 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="8" data-path="multiple-regression.html"><a href="multiple-regression.html"><i class="fa fa-check"></i><b>8</b> Multiple Regression: Holding Other Things Equal</a>
 <ul>
-<li class="chapter" data-level="8.1" data-path="mlr-motivation.html"><a href="mlr-motivation.html"><i class="fa fa-check"></i><b>8.1</b> Why one variable is not enough</a>
+<li class="chapter" data-level="8.1" data-path="mlr-motivation.html"><a href="mlr-motivation.html"><i class="fa fa-check"></i><b>8.1</b> Why one variable is not enough</a></li>
+<li class="chapter" data-level="8.2" data-path="mlr-model.html"><a href="mlr-model.html"><i class="fa fa-check"></i><b>8.2</b> Holding other things equal</a>
 <ul>
-<li class="chapter" data-level="" data-path="mlr-motivation.html"><a href="mlr-motivation.html#what-the-slope-is-comparing"><i class="fa fa-check"></i>What the slope is comparing</a></li>
-<li class="chapter" data-level="" data-path="mlr-motivation.html"><a href="mlr-motivation.html#asking-a-narrower-question"><i class="fa fa-check"></i>Asking a narrower question</a></li>
+<li class="chapter" data-level="" data-path="mlr-model.html"><a href="mlr-model.html#a-different-comparison"><i class="fa fa-check"></i>A different comparison</a></li>
+<li class="chapter" data-level="" data-path="mlr-model.html"><a href="mlr-model.html#an-example"><i class="fa fa-check"></i>An example</a></li>
+<li class="chapter" data-level="" data-path="mlr-model.html"><a href="mlr-model.html#reading-the-other-coefficients"><i class="fa fa-check"></i>Reading the other coefficients</a></li>
+<li class="chapter" data-level="" data-path="mlr-model.html"><a href="mlr-model.html#another-example"><i class="fa fa-check"></i>Another example</a></li>
+<li class="chapter" data-level="" data-path="mlr-model.html"><a href="mlr-model.html#what-holding-fixed-does-not-mean"><i class="fa fa-check"></i>What “holding fixed” does not mean</a></li>
 </ul></li>
-<li class="chapter" data-level="8.2" data-path="mlr-model.html"><a href="mlr-model.html"><i class="fa fa-check"></i><b>8.2</b> The model and what a coefficient means</a>
-<ul>
-<li class="chapter" data-level="" data-path="mlr-model.html"><a href="mlr-model.html#the-partial-derivative"><i class="fa fa-check"></i>The partial derivative</a></li>
-<li class="chapter" data-level="" data-path="mlr-model.html"><a href="mlr-model.html#doing-it"><i class="fa fa-check"></i>Doing it</a></li>
-<li class="chapter" data-level="" data-path="mlr-model.html"><a href="mlr-model.html#a-second-example"><i class="fa fa-check"></i>A second example</a></li>
-</ul></li>
-<li class="chapter" data-level="8.3" data-path="mlr-fwl.html"><a href="mlr-fwl.html"><i class="fa fa-check"></i><b>8.3</b> What “holding constant” actually does</a>
+<li class="chapter" data-level="8.3" data-path="mlr-fwl.html"><a href="mlr-fwl.html"><i class="fa fa-check"></i><b>8.3</b> How the comparison is actually made</a>
 <ul>
 <li class="chapter" data-level="" data-path="mlr-fwl.html"><a href="mlr-fwl.html#watching-it-happen"><i class="fa fa-check"></i>Watching it happen</a></li>
 <li class="chapter" data-level="" data-path="mlr-fwl.html"><a href="mlr-fwl.html#two-consequences-worth-noticing"><i class="fa fa-check"></i>Two consequences worth noticing</a></li>
@@ -583,17 +581,20 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 
             <section class="normal" id="section-">
 <div id="mlr-fwl" class="section level2 hasAnchor" number="8.3">
-<h2><span class="header-section-number">8.3</span> What “holding constant” actually does<a href="mlr-fwl.html#mlr-fwl" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<h2><span class="header-section-number">8.3</span> How the comparison is actually made<a href="mlr-fwl.html#mlr-fwl" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <div class="question">
 <p>The interpretation says “holding <span class="math inline">\(x_2\)</span> fixed”. But every observation has its own
 <span class="math inline">\(x_2\)</span>, and nothing was held anywhere. What is the estimator really doing?</p>
 </div>
-<p>This is the question students most often leave a course without having answered.
-The phrase “holding constant” sounds like a description of an experiment, and it
-is not. It is a description of an algebraic operation, and the operation can be
+<p>The previous section said the comparison is statistical rather than
+experimental. That leaves a question unanswered: no two students in these data
+have exactly the same prior GPA and admission score, so which students is the
+coefficient actually comparing?</p>
+<p>The comparison is not made by finding matching students. It is made by an
+algebraic operation on the variables themselves, and the operation can be
 carried out in front of us.</p>
-<p>The answer is a result usually called the <strong>Frisch–Waugh–Lovell theorem</strong>, and
-it is easier to state as a recipe than as a theorem.</p>
+<p>It is a result usually called the <strong>Frisch–Waugh–Lovell theorem</strong>, and it is
+easier to state as a recipe than as a theorem.</p>
 <div class="keyidea">
 <p>To obtain <span class="math inline">\(\hat{\beta}_1\)</span> from the multiple regression of <span class="math inline">\(y\)</span> on <span class="math inline">\(x_1\)</span> and <span class="math inline">\(x_2\)</span>:</p>
 <ol style="list-style-type: decimal">
@@ -612,23 +613,23 @@ everything <span class="math inline">\(x_2\)</span> can account for has been rem
 <h3>Watching it happen<a href="mlr-fwl.html#watching-it-happen" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Take attendance, and remove from it everything that prior GPA and admission score
 can explain.</p>
-<div class="sourceCode" id="cb299"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb299-1"><a href="mlr-fwl.html#cb299-1" tabindex="-1"></a>step1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(attendance <span class="sc">~</span> cum_gpa <span class="sc">+</span> admission_score, <span class="at">data =</span> students)</span>
-<span id="cb299-2"><a href="mlr-fwl.html#cb299-2" tabindex="-1"></a>r1    <span class="ot">&lt;-</span> <span class="fu">residuals</span>(step1)</span>
-<span id="cb299-3"><a href="mlr-fwl.html#cb299-3" tabindex="-1"></a></span>
-<span id="cb299-4"><a href="mlr-fwl.html#cb299-4" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">r2_of_step1      =</span> <span class="fu">summary</span>(step1)<span class="sc">$</span>r.squared,</span>
-<span id="cb299-5"><a href="mlr-fwl.html#cb299-5" tabindex="-1"></a>        <span class="at">cor_with_cumgpa  =</span> <span class="fu">cor</span>(r1, students<span class="sc">$</span>cum_gpa),</span>
-<span id="cb299-6"><a href="mlr-fwl.html#cb299-6" tabindex="-1"></a>        <span class="at">cor_with_admscr  =</span> <span class="fu">cor</span>(r1, students<span class="sc">$</span>admission_score)), <span class="dv">4</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb297"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb297-1"><a href="mlr-fwl.html#cb297-1" tabindex="-1"></a>step1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(attendance <span class="sc">~</span> cum_gpa <span class="sc">+</span> admission_score, <span class="at">data =</span> students)</span>
+<span id="cb297-2"><a href="mlr-fwl.html#cb297-2" tabindex="-1"></a>r1    <span class="ot">&lt;-</span> <span class="fu">residuals</span>(step1)</span>
+<span id="cb297-3"><a href="mlr-fwl.html#cb297-3" tabindex="-1"></a></span>
+<span id="cb297-4"><a href="mlr-fwl.html#cb297-4" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">r2_of_step1      =</span> <span class="fu">summary</span>(step1)<span class="sc">$</span>r.squared,</span>
+<span id="cb297-5"><a href="mlr-fwl.html#cb297-5" tabindex="-1"></a>        <span class="at">cor_with_cumgpa  =</span> <span class="fu">cor</span>(r1, students<span class="sc">$</span>cum_gpa),</span>
+<span id="cb297-6"><a href="mlr-fwl.html#cb297-6" tabindex="-1"></a>        <span class="at">cor_with_admscr  =</span> <span class="fu">cor</span>(r1, students<span class="sc">$</span>admission_score)), <span class="dv">4</span>)</span></code></pre></div>
 <pre><code>#&gt;     r2_of_step1 cor_with_cumgpa cor_with_admscr 
 #&gt;          0.2906          0.0000          0.0000</code></pre>
 <p>Prior GPA and admission score together account for 29% of the variation in
 attendance. The residual carries the remaining 71%, and it is uncorrelated with
 both — to machine precision, because that is what least squares guarantees.</p>
 <p>Now regress semester GPA on that residual alone.</p>
-<div class="sourceCode" id="cb301"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb301-1"><a href="mlr-fwl.html#cb301-1" tabindex="-1"></a>step2 <span class="ot">&lt;-</span> <span class="fu">lm</span>(students<span class="sc">$</span>sem_gpa <span class="sc">~</span> r1)</span>
-<span id="cb301-2"><a href="mlr-fwl.html#cb301-2" tabindex="-1"></a></span>
-<span id="cb301-3"><a href="mlr-fwl.html#cb301-3" tabindex="-1"></a><span class="fu">noquote</span>(<span class="fu">format</span>(<span class="fu">c</span>(<span class="at">from_two_steps   =</span> <span class="fu">unname</span>(<span class="fu">coef</span>(step2)[<span class="dv">2</span>]),</span>
-<span id="cb301-4"><a href="mlr-fwl.html#cb301-4" tabindex="-1"></a>                 <span class="at">from_lm_directly =</span> <span class="fu">unname</span>(<span class="fu">coef</span>(full)[<span class="st">&quot;attendance&quot;</span>])),</span>
-<span id="cb301-5"><a href="mlr-fwl.html#cb301-5" tabindex="-1"></a>               <span class="at">digits =</span> <span class="dv">10</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb299"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb299-1"><a href="mlr-fwl.html#cb299-1" tabindex="-1"></a>step2 <span class="ot">&lt;-</span> <span class="fu">lm</span>(students<span class="sc">$</span>sem_gpa <span class="sc">~</span> r1)</span>
+<span id="cb299-2"><a href="mlr-fwl.html#cb299-2" tabindex="-1"></a></span>
+<span id="cb299-3"><a href="mlr-fwl.html#cb299-3" tabindex="-1"></a><span class="fu">noquote</span>(<span class="fu">format</span>(<span class="fu">c</span>(<span class="at">from_two_steps   =</span> <span class="fu">unname</span>(<span class="fu">coef</span>(step2)[<span class="dv">2</span>]),</span>
+<span id="cb299-4"><a href="mlr-fwl.html#cb299-4" tabindex="-1"></a>                 <span class="at">from_lm_directly =</span> <span class="fu">unname</span>(<span class="fu">coef</span>(full)[<span class="st">&quot;attendance&quot;</span>])),</span>
+<span id="cb299-5"><a href="mlr-fwl.html#cb299-5" tabindex="-1"></a>               <span class="at">digits =</span> <span class="dv">10</span>))</span></code></pre></div>
 <pre><code>#&gt;   from_two_steps from_lm_directly 
 #&gt;     0.1360121381     0.1360121381</code></pre>
 <p>The same number, to ten significant figures.</p>
@@ -645,10 +646,10 @@ asks what the leftover part is worth.</p>
 </div>
 <div id="two-consequences-worth-noticing" class="section level3 unnumbered hasAnchor">
 <h3>Two consequences worth noticing<a href="mlr-fwl.html#two-consequences-worth-noticing" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p><strong>The coefficient changes because the variation changes.</strong> The simple regression
+<p><strong>The comparison changed because the variation changed.</strong> The simple regression
 used all the variation in attendance. The multiple regression uses only the part
-orthogonal to the controls. Those are different questions asked of different
-variation, and there is no reason for them to give the same answer.</p>
+that prior record cannot account for. Those are different questions asked of
+different variation, and there is no reason for them to give the same answer.</p>
 <p><strong>Some of the variation is thrown away.</strong> The residual <span class="math inline">\(\hat{r}_1\)</span> has less
 spread than attendance itself. Section <a href="ols-variance.html#ols-variance">7.5</a> established that the
 precision of a slope depends on the spread of the explanatory variable, so
@@ -674,11 +675,11 @@ inverted,</p>
 <span class="math inline">\(\hat{\beta} = \beta + (X&#39;X)^{-1}X&#39;u\)</span>, and under homoskedasticity,</p>
 <p><span class="math display">\[\mathrm{Var}(\hat{\beta}) = \sigma^2 (X&#39;X)^{-1}\]</span></p>
 <p>We can check the formula directly.</p>
-<div class="sourceCode" id="cb303"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb303-1"><a href="mlr-fwl.html#cb303-1" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="fu">cbind</span>(<span class="dv">1</span>, students<span class="sc">$</span>attendance, students<span class="sc">$</span>cum_gpa, students<span class="sc">$</span>admission_score)</span>
-<span id="cb303-2"><a href="mlr-fwl.html#cb303-2" tabindex="-1"></a>y <span class="ot">&lt;-</span> students<span class="sc">$</span>sem_gpa</span>
-<span id="cb303-3"><a href="mlr-fwl.html#cb303-3" tabindex="-1"></a></span>
-<span id="cb303-4"><a href="mlr-fwl.html#cb303-4" tabindex="-1"></a>b_hat <span class="ot">&lt;-</span> <span class="fu">solve</span>(<span class="fu">t</span>(X) <span class="sc">%*%</span> X) <span class="sc">%*%</span> <span class="fu">t</span>(X) <span class="sc">%*%</span> y</span>
-<span id="cb303-5"><a href="mlr-fwl.html#cb303-5" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">drop</span>(b_hat), <span class="dv">5</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb301"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb301-1"><a href="mlr-fwl.html#cb301-1" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="fu">cbind</span>(<span class="dv">1</span>, students<span class="sc">$</span>attendance, students<span class="sc">$</span>cum_gpa, students<span class="sc">$</span>admission_score)</span>
+<span id="cb301-2"><a href="mlr-fwl.html#cb301-2" tabindex="-1"></a>y <span class="ot">&lt;-</span> students<span class="sc">$</span>sem_gpa</span>
+<span id="cb301-3"><a href="mlr-fwl.html#cb301-3" tabindex="-1"></a></span>
+<span id="cb301-4"><a href="mlr-fwl.html#cb301-4" tabindex="-1"></a>b_hat <span class="ot">&lt;-</span> <span class="fu">solve</span>(<span class="fu">t</span>(X) <span class="sc">%*%</span> X) <span class="sc">%*%</span> <span class="fu">t</span>(X) <span class="sc">%*%</span> y</span>
+<span id="cb301-5"><a href="mlr-fwl.html#cb301-5" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">drop</span>(b_hat), <span class="dv">5</span>)</span></code></pre></div>
 <pre><code>#&gt; [1] -7.6603  0.1360  0.5748  0.0835</code></pre>
 <p>The same four numbers <code>lm()</code> reported. Note where the requirement of Section
 <a href="mlr-assumptions.html#mlr-assumptions">8.4</a> appears: if any column of <span class="math inline">\(X\)</span> is an exact linear

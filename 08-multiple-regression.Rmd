@@ -47,7 +47,7 @@ The simple regression of grades on attendance was estimated precisely. What is
 missing?
 :::
 
-Here is the regression Unit \@ref(ols) ended with.
+Unit \@ref(ols) ended with a simple regression of semester GPA on attendance.
 
 ```{r mlr-simple}
 students <- read.csv("data/attendance-grades.csv")
@@ -56,148 +56,168 @@ simple <- lm(sem_gpa ~ attendance, data = students)
 round(coef(summary(simple)), 4)
 ```
 
-A student who attends one more class has a semester GPA higher by 0.189 points
-on average. The standard error is small, the $t$ statistic is 17.6, and the
-$p$-value is beyond the range at which anyone bothers to read further.
+The estimate is clear. Students who attend one additional class earn, on
+average, a semester GPA that is 0.189 points higher. The standard error is
+small, the confidence interval is narrow, and there is overwhelming evidence
+that attendance and grades are associated.
 
-Nothing about this output is wrong. The arithmetic is correct, the assumptions
-of Unit \@ref(ols) may well hold well enough for the standard error to be
-trusted, and the relationship is unmistakably there.
+The question is whether this is the comparison we wanted to make.
 
-The problem is elsewhere. The number 0.189 answers a question we did not ask.
+Suppose we compare two students. One attended thirty classes and the other
+twenty. Their attendance differs by ten classes, but that is unlikely to be the
+only difference between them. The student who attended more may also have
+entered the semester better prepared, have stronger study habits, or simply be
+more academically able.
 
-### What the slope is comparing {-}
-
-The slope compares students who attended more classes with students who attended
-fewer. Those two groups differ in attendance. They also differ in everything else
-that comes bundled with attendance.
-
-Our data record two such things. Every student has a **prior cumulative GPA**,
-measuring how they performed before this semester began, and an **admission
-score** from the entrance examination.
+Our data contain measures of two such characteristics: each student's cumulative
+GPA before the semester began, and their admission score.
 
 ```{r mlr-bundled}
-round(cor(students[, c("attendance", "sem_gpa", "cum_gpa", "admission_score")]), 3)
+round(cor(students[, c("attendance", "sem_gpa",
+                       "cum_gpa", "admission_score")]), 3)
 ```
 
-Students who attend more also arrive with higher prior GPAs — the correlation is
-0.43 — and prior GPA is itself strongly related to this semester's grade.
+One number immediately stands out. Attendance and prior GPA have a correlation
+of 0.43. Students who attend more classes also tend to have performed better
+before this semester even began.
 
-So when we compare a student who attended thirty classes with one who attended
-twenty, we are not comparing two otherwise identical students. On average, the
-first also had a better academic record before the semester started. The
-difference in their grades reflects both.
+Prior GPA, in turn, is strongly related to semester GPA.
 
-::: {.watchout}
-In a simple regression, every variable we fail to measure remains in $u$, and
-every one of them that moves with $x$ contributes to the slope.
+So when the simple regression compares students with different attendance, it is
+also comparing students with different academic histories. Part of the estimated
+relationship may reflect attendance, and part may simply reflect the fact that
+students who were already performing well continue to do so.
 
-The estimate is not measuring attendance. It is measuring attendance *together
-with whatever travels alongside it*.
-:::
+This is exactly the problem discussed at the end of Unit \@ref(ols). Variables
+that affect the outcome and move with attendance remain in the error term, and
+their influence becomes mixed with the coefficient on attendance.
 
-### Asking a narrower question {-}
+The comparison we really want is more specific.
 
-The question worth asking is narrower than the one the simple regression
-answers.
+Instead of asking,
 
-> Among students who arrived with the *same* prior GPA and the *same* admission
-> score, how much higher is the semester grade of one who attends an extra class?
+> Do students who attend more classes earn higher grades?
 
-This restricts the comparison. Instead of comparing all students to all students,
-it compares students who are alike in prior record and differ in attendance.
+we would like to ask,
 
-Multiple regression is the tool that makes that comparison, and the rest of this
-unit is about what it does and what it cannot do.
+> Among students with the same prior GPA and the same admission score, do those
+> who attend more classes earn higher grades?
 
-## The model and what a coefficient means {#mlr-model}
+That is a different comparison. We are no longer comparing every student with
+every other student. We are comparing students who are similar in their observed
+academic background and differ primarily in attendance.
+
+Simple regression assumes that every relevant difference between students is
+either unrelated to attendance or hidden inside the error term. Multiple
+regression takes the first step towards relaxing that assumption by bringing
+some of those differences into the model.
+
+## Holding other things equal {#mlr-model}
 
 ::: {.question}
 We add a second explanatory variable. What does $\beta_1$ now measure?
 :::
 
-The population model with two explanatory variables is
+The motivation for multiple regression was straightforward. We wanted to compare
+students who differed in attendance but were otherwise similar.
+
+To do that we introduce additional explanatory variables.
+
+With two explanatory variables, the population model is
 
 $$y = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + u$$
 
-and with $k$ of them,
+and with $k$ explanatory variables,
 
 $$y = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \cdots + \beta_k x_k + u$$
 
-Everything from Unit \@ref(simple-regression) carries over. There is still a
-population regression function that we do not observe, still an error term
-collecting everything left out, and still a sample from which we estimate.
+Nothing fundamental has changed. There is still a population regression function
+that we cannot observe, an error term containing everything left out of the
+model, and a sample from which we estimate the unknown coefficients.
 
-Take the conditional expectation of both sides. Under the zero conditional mean
-assumption, which Section \@ref(mlr-assumptions) restates,
+What has changed is the meaning of a coefficient.
 
-$$E[y \mid x_1, x_2] = \beta_0 + \beta_1 x_1 + \beta_2 x_2$$
+### A different comparison {-}
 
-The population regression function is now a **plane** rather than a line: for
-every pair $(x_1, x_2)$ it returns the average value of $y$ among all members of
-the population with those characteristics.
+In the simple regression of Unit \@ref(ols), the coefficient on attendance
+compared students who attended different numbers of classes.
 
-### The partial derivative {-}
+Now the comparison is narrower.
 
-Differentiate that expression with respect to each explanatory variable in turn.
+The coefficient on attendance compares students who attended different numbers
+of classes but who had the same values of the other explanatory variables.
 
-$$\frac{\partial E[y \mid x_1, x_2]}{\partial x_1} = \beta_1
-\qquad\qquad
-\frac{\partial E[y \mid x_1, x_2]}{\partial x_2} = \beta_2$$
+That is the meaning of holding other things equal.
 
-A partial derivative changes one argument and leaves the others where they are.
-That is the whole of the interpretation.
+Mathematically,
+
+$$\frac{\partial E(Y \mid X_1, X_2)}{\partial X_1} = \beta_1$$
+
+The notation looks new, but the idea is not. A partial derivative asks how the
+conditional mean changes when one explanatory variable changes while the others
+remain fixed.
 
 ::: {.keyidea}
-$\beta_1$ is the change in the average value of $y$ associated with a one-unit
-increase in $x_1$, **holding $x_2$ fixed**.
+$\beta_1$ is the change in the average value of $Y$ associated with a one-unit
+increase in $X_1$, holding all the other explanatory variables constant.
 
-This is the *ceteris paribus* interpretation, and it is the reason multiple
-regression exists. In a simple regression, $x_2$ was free to move whenever $x_1$
-moved, and the slope absorbed the consequence.
+This *ceteris paribus* interpretation is the entire reason for using multiple
+regression.
 :::
 
-### Doing it {-}
+### An example {-}
 
-In R, additional explanatory variables are added to the formula with `+`.
+Adding explanatory variables in R is as simple as separating them with `+`.
 
 ```{r mlr-fit}
-full <- lm(sem_gpa ~ attendance + cum_gpa + admission_score, data = students)
+full <- lm(sem_gpa ~ attendance + cum_gpa + admission_score,
+           data = students)
+
 round(coef(summary(full)), 4)
 ```
 
-Read the second row. Among students with the same prior cumulative GPA and the
-same admission score, one extra class attended is associated with a semester GPA
-higher by **0.136** points.
-
-Set that beside the simple regression.
+Compare the coefficient on attendance with the simple regression.
 
 ```{r mlr-compare}
 round(c(simple   = coef(simple)["attendance"],
         multiple = coef(full)["attendance"]), 4)
 ```
 
-The coefficient has fallen from 0.189 to 0.136, a drop of about 28%.
+The estimated association falls from 0.189 to 0.136.
+
+The interpretation has changed. In the simple regression, the comparison was
+between students who differed in attendance. In the multiple regression, the
+comparison is between students who have the same prior GPA and the same
+admission score, but who differ in attendance.
+
+Some of the relationship that the simple regression attributed to attendance is
+now explained by differences in students' previous academic performance. The
+coefficient on attendance therefore becomes smaller.
 
 ::: {.intuition}
-Roughly a quarter of what the simple regression attributed to attendance was
-never attendance at all. It was the prior academic record that students bring
-with them, arriving in the slope because it moves together with how often they
-turn up.
-
-Comparing students who are alike in prior record removes that part of the
-difference. What is left is a narrower and more honest comparison.
+Notice that nothing has happened to the data. The students are the same. Only
+the comparison has changed.
 :::
 
-The other two coefficients read the same way. Among students who attended the
-same number of classes and scored the same at admission, one point of prior
-cumulative GPA is associated with 0.575 points of semester GPA. Prior record
-matters, and it matters a great deal.
+### Reading the other coefficients {-}
 
-### A second example {-}
+Every coefficient is interpreted in exactly the same way.
 
-The same reading applies to earnings. This is a synthetic dataset of 20,000
-Indian wage earners, built to resemble the structure of household survey data.
+The coefficient on cumulative GPA says that among students with the same
+attendance and the same admission score, a one-point increase in prior GPA is
+associated with an increase of about 0.575 points in semester GPA.
+
+The coefficient on admission score compares students with the same attendance
+and the same prior GPA.
+
+Each coefficient asks what happens when one explanatory variable changes while
+all the others remain fixed.
+
+### Another example {-}
+
+The same interpretation applies outside education. This is a synthetic dataset
+of 20,000 Indian wage earners, built to resemble the structure of household
+survey data.
 
 ```{r mlr-wages}
 wages <- read.csv("data/wages-india-synthetic.csv")
@@ -205,55 +225,58 @@ wages <- read.csv("data/wages-india-synthetic.csv")
 wages$male  <- as.integer(wages$sex == "Male")
 wages$urban <- as.integer(wages$residence == "Urban")
 
-w_simple <- lm(annual_earnings ~ education, data = wages)
-w_full   <- lm(annual_earnings ~ education + age + male + urban, data = wages)
+w_full <- lm(annual_earnings ~ education + age + male + urban,
+             data = wages)
 
 round(coef(summary(w_full)), 1)
 ```
 
-The variables `male` and `urban` take only the values 0 and 1. A coefficient on
-such a variable is a difference between two groups rather than a rate of change —
-men earn ₹32,000 more per year than women who are otherwise comparable in
-education, age and residence. Unit 9 treats these variables properly; for now,
-read them as group differences.
+The coefficient on education is interpreted as the association between an
+additional year of schooling and annual earnings holding age, sex and place of
+residence constant.
 
-```{r mlr-wages-compare}
-round(c(simple   = coef(w_simple)["education"],
-        multiple = coef(w_full)["education"]), 1)
-```
+The variables `male` and `urban` take only the values 0 and 1, so their
+coefficients compare two groups rather than describing the effect of a one-unit
+increase. We return to indicator variables in the next unit.
 
-An extra year of schooling is associated with ₹5,386 of additional annual
-earnings when nothing else is accounted for, and ₹4,281 when age, sex and
-residence are held fixed. About a fifth of the apparent return to education was
-the fact that the educated in this population are disproportionately urban and
-male, and urban and male workers earn more for reasons that have nothing to do
-with their schooling.
+### What "holding fixed" does not mean {-}
+
+The phrase *holding other things fixed* often gives the wrong impression.
+
+Regression does not perform an experiment.
+
+Nobody took the same student, kept their prior GPA unchanged and forced them to
+attend one more class. Nor did anyone move a rural worker to an urban area while
+leaving everything else unchanged.
 
 ::: {.watchout}
-"Holding fixed" describes what the estimator does with the data. It does not
-describe an experiment anyone performed.
+The comparison is entirely statistical. The regression compares observations
+that already exist and are similar in the variables included in the model.
 
-Nobody took a rural woman and made her urban and male while keeping her
-education constant. The regression compares people who already differ in
-education among those who happen to be alike in the other measured
-characteristics. Whether that comparison answers a causal question is the subject
-of Section \@ref(mlr-causal).
+Whether that comparison is enough to recover a causal effect depends on whether
+the important differences between individuals have been measured.
 :::
 
-## What "holding constant" actually does {#mlr-fwl}
+That question returns in Section \@ref(mlr-causal).
+
+## How the comparison is actually made {#mlr-fwl}
 
 ::: {.question}
 The interpretation says "holding $x_2$ fixed". But every observation has its own
 $x_2$, and nothing was held anywhere. What is the estimator really doing?
 :::
 
-This is the question students most often leave a course without having answered.
-The phrase "holding constant" sounds like a description of an experiment, and it
-is not. It is a description of an algebraic operation, and the operation can be
+The previous section said the comparison is statistical rather than
+experimental. That leaves a question unanswered: no two students in these data
+have exactly the same prior GPA and admission score, so which students is the
+coefficient actually comparing?
+
+The comparison is not made by finding matching students. It is made by an
+algebraic operation on the variables themselves, and the operation can be
 carried out in front of us.
 
-The answer is a result usually called the **Frisch–Waugh–Lovell theorem**, and
-it is easier to state as a recipe than as a theorem.
+It is a result usually called the **Frisch–Waugh–Lovell theorem**, and it is
+easier to state as a recipe than as a theorem.
 
 ::: {.keyidea}
 To obtain $\hat{\beta}_1$ from the multiple regression of $y$ on $x_1$ and $x_2$:
@@ -317,10 +340,10 @@ asks what the leftover part is worth.
 
 ### Two consequences worth noticing {-}
 
-**The coefficient changes because the variation changes.** The simple regression
+**The comparison changed because the variation changed.** The simple regression
 used all the variation in attendance. The multiple regression uses only the part
-orthogonal to the controls. Those are different questions asked of different
-variation, and there is no reason for them to give the same answer.
+that prior record cannot account for. Those are different questions asked of
+different variation, and there is no reason for them to give the same answer.
 
 **Some of the variation is thrown away.** The residual $\hat{r}_1$ has less
 spread than attendance itself. Section \@ref(ols-variance) established that the

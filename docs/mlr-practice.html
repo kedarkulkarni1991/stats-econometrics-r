@@ -506,18 +506,16 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="8" data-path="multiple-regression.html"><a href="multiple-regression.html"><i class="fa fa-check"></i><b>8</b> Multiple Regression: Holding Other Things Equal</a>
 <ul>
-<li class="chapter" data-level="8.1" data-path="mlr-motivation.html"><a href="mlr-motivation.html"><i class="fa fa-check"></i><b>8.1</b> Why one variable is not enough</a>
+<li class="chapter" data-level="8.1" data-path="mlr-motivation.html"><a href="mlr-motivation.html"><i class="fa fa-check"></i><b>8.1</b> Why one variable is not enough</a></li>
+<li class="chapter" data-level="8.2" data-path="mlr-model.html"><a href="mlr-model.html"><i class="fa fa-check"></i><b>8.2</b> Holding other things equal</a>
 <ul>
-<li class="chapter" data-level="" data-path="mlr-motivation.html"><a href="mlr-motivation.html#what-the-slope-is-comparing"><i class="fa fa-check"></i>What the slope is comparing</a></li>
-<li class="chapter" data-level="" data-path="mlr-motivation.html"><a href="mlr-motivation.html#asking-a-narrower-question"><i class="fa fa-check"></i>Asking a narrower question</a></li>
+<li class="chapter" data-level="" data-path="mlr-model.html"><a href="mlr-model.html#a-different-comparison"><i class="fa fa-check"></i>A different comparison</a></li>
+<li class="chapter" data-level="" data-path="mlr-model.html"><a href="mlr-model.html#an-example"><i class="fa fa-check"></i>An example</a></li>
+<li class="chapter" data-level="" data-path="mlr-model.html"><a href="mlr-model.html#reading-the-other-coefficients"><i class="fa fa-check"></i>Reading the other coefficients</a></li>
+<li class="chapter" data-level="" data-path="mlr-model.html"><a href="mlr-model.html#another-example"><i class="fa fa-check"></i>Another example</a></li>
+<li class="chapter" data-level="" data-path="mlr-model.html"><a href="mlr-model.html#what-holding-fixed-does-not-mean"><i class="fa fa-check"></i>What “holding fixed” does not mean</a></li>
 </ul></li>
-<li class="chapter" data-level="8.2" data-path="mlr-model.html"><a href="mlr-model.html"><i class="fa fa-check"></i><b>8.2</b> The model and what a coefficient means</a>
-<ul>
-<li class="chapter" data-level="" data-path="mlr-model.html"><a href="mlr-model.html#the-partial-derivative"><i class="fa fa-check"></i>The partial derivative</a></li>
-<li class="chapter" data-level="" data-path="mlr-model.html"><a href="mlr-model.html#doing-it"><i class="fa fa-check"></i>Doing it</a></li>
-<li class="chapter" data-level="" data-path="mlr-model.html"><a href="mlr-model.html#a-second-example"><i class="fa fa-check"></i>A second example</a></li>
-</ul></li>
-<li class="chapter" data-level="8.3" data-path="mlr-fwl.html"><a href="mlr-fwl.html"><i class="fa fa-check"></i><b>8.3</b> What “holding constant” actually does</a>
+<li class="chapter" data-level="8.3" data-path="mlr-fwl.html"><a href="mlr-fwl.html"><i class="fa fa-check"></i><b>8.3</b> How the comparison is actually made</a>
 <ul>
 <li class="chapter" data-level="" data-path="mlr-fwl.html"><a href="mlr-fwl.html#watching-it-happen"><i class="fa fa-check"></i>Watching it happen</a></li>
 <li class="chapter" data-level="" data-path="mlr-fwl.html"><a href="mlr-fwl.html#two-consequences-worth-noticing"><i class="fa fa-check"></i>Two consequences worth noticing</a></li>
@@ -710,13 +708,13 @@ silent about which.</p>
 regressors, keep the residuals, regress <code>sem_gpa</code> on them, and compare the slope
 with the multiple regression coefficient.</p>
 <div class="answer">
-<div class="sourceCode" id="cb331"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb331-1"><a href="mlr-practice.html#cb331-1" tabindex="-1"></a>students <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/attendance-grades.csv&quot;</span>)</span>
-<span id="cb331-2"><a href="mlr-practice.html#cb331-2" tabindex="-1"></a>full <span class="ot">&lt;-</span> <span class="fu">lm</span>(sem_gpa <span class="sc">~</span> attendance <span class="sc">+</span> cum_gpa <span class="sc">+</span> admission_score, <span class="at">data =</span> students)</span>
-<span id="cb331-3"><a href="mlr-practice.html#cb331-3" tabindex="-1"></a></span>
-<span id="cb331-4"><a href="mlr-practice.html#cb331-4" tabindex="-1"></a>r <span class="ot">&lt;-</span> <span class="fu">residuals</span>(<span class="fu">lm</span>(cum_gpa <span class="sc">~</span> attendance <span class="sc">+</span> admission_score, <span class="at">data =</span> students))</span>
-<span id="cb331-5"><a href="mlr-practice.html#cb331-5" tabindex="-1"></a></span>
-<span id="cb331-6"><a href="mlr-practice.html#cb331-6" tabindex="-1"></a><span class="fu">c</span>(<span class="at">two_step =</span> <span class="fu">coef</span>(<span class="fu">lm</span>(students<span class="sc">$</span>sem_gpa <span class="sc">~</span> r))[<span class="dv">2</span>],</span>
-<span id="cb331-7"><a href="mlr-practice.html#cb331-7" tabindex="-1"></a>  <span class="at">direct   =</span> <span class="fu">coef</span>(full)[<span class="st">&quot;cum_gpa&quot;</span>])</span></code></pre></div>
+<div class="sourceCode" id="cb329"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb329-1"><a href="mlr-practice.html#cb329-1" tabindex="-1"></a>students <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/attendance-grades.csv&quot;</span>)</span>
+<span id="cb329-2"><a href="mlr-practice.html#cb329-2" tabindex="-1"></a>full <span class="ot">&lt;-</span> <span class="fu">lm</span>(sem_gpa <span class="sc">~</span> attendance <span class="sc">+</span> cum_gpa <span class="sc">+</span> admission_score, <span class="at">data =</span> students)</span>
+<span id="cb329-3"><a href="mlr-practice.html#cb329-3" tabindex="-1"></a></span>
+<span id="cb329-4"><a href="mlr-practice.html#cb329-4" tabindex="-1"></a>r <span class="ot">&lt;-</span> <span class="fu">residuals</span>(<span class="fu">lm</span>(cum_gpa <span class="sc">~</span> attendance <span class="sc">+</span> admission_score, <span class="at">data =</span> students))</span>
+<span id="cb329-5"><a href="mlr-practice.html#cb329-5" tabindex="-1"></a></span>
+<span id="cb329-6"><a href="mlr-practice.html#cb329-6" tabindex="-1"></a><span class="fu">c</span>(<span class="at">two_step =</span> <span class="fu">coef</span>(<span class="fu">lm</span>(students<span class="sc">$</span>sem_gpa <span class="sc">~</span> r))[<span class="dv">2</span>],</span>
+<span id="cb329-7"><a href="mlr-practice.html#cb329-7" tabindex="-1"></a>  <span class="at">direct   =</span> <span class="fu">coef</span>(full)[<span class="st">&quot;cum_gpa&quot;</span>])</span></code></pre></div>
 <p>The two agree to machine precision. The result holds for every coefficient, not
 just the one of interest — each is the slope from a regression on the part of its
 own variable that the others cannot explain.</p>
@@ -725,14 +723,14 @@ own variable that the others cannot explain.</p>
 jointly belong in a regression of annual earnings on education and age. Report
 the <span class="math inline">\(F\)</span> statistic, its degrees of freedom and your conclusion.</p>
 <div class="answer">
-<div class="sourceCode" id="cb332"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb332-1"><a href="mlr-practice.html#cb332-1" tabindex="-1"></a>wages <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/wages-india-synthetic.csv&quot;</span>)</span>
-<span id="cb332-2"><a href="mlr-practice.html#cb332-2" tabindex="-1"></a>wages<span class="sc">$</span>male  <span class="ot">&lt;-</span> <span class="fu">as.integer</span>(wages<span class="sc">$</span>sex <span class="sc">==</span> <span class="st">&quot;Male&quot;</span>)</span>
-<span id="cb332-3"><a href="mlr-practice.html#cb332-3" tabindex="-1"></a>wages<span class="sc">$</span>urban <span class="ot">&lt;-</span> <span class="fu">as.integer</span>(wages<span class="sc">$</span>residence <span class="sc">==</span> <span class="st">&quot;Urban&quot;</span>)</span>
-<span id="cb332-4"><a href="mlr-practice.html#cb332-4" tabindex="-1"></a></span>
-<span id="cb332-5"><a href="mlr-practice.html#cb332-5" tabindex="-1"></a>r  <span class="ot">&lt;-</span> <span class="fu">lm</span>(annual_earnings <span class="sc">~</span> education <span class="sc">+</span> age, <span class="at">data =</span> wages)</span>
-<span id="cb332-6"><a href="mlr-practice.html#cb332-6" tabindex="-1"></a>ur <span class="ot">&lt;-</span> <span class="fu">lm</span>(annual_earnings <span class="sc">~</span> education <span class="sc">+</span> age <span class="sc">+</span> male <span class="sc">+</span> urban, <span class="at">data =</span> wages)</span>
-<span id="cb332-7"><a href="mlr-practice.html#cb332-7" tabindex="-1"></a></span>
-<span id="cb332-8"><a href="mlr-practice.html#cb332-8" tabindex="-1"></a><span class="fu">anova</span>(r, ur)</span></code></pre></div>
+<div class="sourceCode" id="cb330"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb330-1"><a href="mlr-practice.html#cb330-1" tabindex="-1"></a>wages <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/wages-india-synthetic.csv&quot;</span>)</span>
+<span id="cb330-2"><a href="mlr-practice.html#cb330-2" tabindex="-1"></a>wages<span class="sc">$</span>male  <span class="ot">&lt;-</span> <span class="fu">as.integer</span>(wages<span class="sc">$</span>sex <span class="sc">==</span> <span class="st">&quot;Male&quot;</span>)</span>
+<span id="cb330-3"><a href="mlr-practice.html#cb330-3" tabindex="-1"></a>wages<span class="sc">$</span>urban <span class="ot">&lt;-</span> <span class="fu">as.integer</span>(wages<span class="sc">$</span>residence <span class="sc">==</span> <span class="st">&quot;Urban&quot;</span>)</span>
+<span id="cb330-4"><a href="mlr-practice.html#cb330-4" tabindex="-1"></a></span>
+<span id="cb330-5"><a href="mlr-practice.html#cb330-5" tabindex="-1"></a>r  <span class="ot">&lt;-</span> <span class="fu">lm</span>(annual_earnings <span class="sc">~</span> education <span class="sc">+</span> age, <span class="at">data =</span> wages)</span>
+<span id="cb330-6"><a href="mlr-practice.html#cb330-6" tabindex="-1"></a>ur <span class="ot">&lt;-</span> <span class="fu">lm</span>(annual_earnings <span class="sc">~</span> education <span class="sc">+</span> age <span class="sc">+</span> male <span class="sc">+</span> urban, <span class="at">data =</span> wages)</span>
+<span id="cb330-7"><a href="mlr-practice.html#cb330-7" tabindex="-1"></a></span>
+<span id="cb330-8"><a href="mlr-practice.html#cb330-8" tabindex="-1"></a><span class="fu">anova</span>(r, ur)</span></code></pre></div>
 <p><span class="math inline">\(F = 900.9\)</span> on 2 and 19,995 degrees of freedom, with a <span class="math inline">\(p\)</span>-value below any
 printable threshold. Sex and residence belong in the model.</p>
 <p>That they belong does not make the model causal. It says earnings differ
@@ -744,19 +742,19 @@ predicts. Generate <span class="math inline">\(x_2\)</span> correlated with <spa
 <span class="math inline">\(y = 1 + 2x_1 + 3x_2 + u\)</span>, estimate the short regression 2,000 times, and compare
 the average <span class="math inline">\(\hat{\alpha}_1\)</span> with <span class="math inline">\(\beta_1 + \beta_2\delta_1\)</span>.</p>
 <div class="answer">
-<div class="sourceCode" id="cb333"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb333-1"><a href="mlr-practice.html#cb333-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">20</span>)</span>
-<span id="cb333-2"><a href="mlr-practice.html#cb333-2" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">200</span></span>
-<span id="cb333-3"><a href="mlr-practice.html#cb333-3" tabindex="-1"></a></span>
-<span id="cb333-4"><a href="mlr-practice.html#cb333-4" tabindex="-1"></a>results <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">2000</span>, {</span>
-<span id="cb333-5"><a href="mlr-practice.html#cb333-5" tabindex="-1"></a>  x1 <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n)</span>
-<span id="cb333-6"><a href="mlr-practice.html#cb333-6" tabindex="-1"></a>  x2 <span class="ot">&lt;-</span> <span class="fl">0.5</span> <span class="sc">*</span> x1 <span class="sc">+</span> <span class="fu">rnorm</span>(n)              <span class="co"># delta_1 = 0.5 by construction</span></span>
-<span id="cb333-7"><a href="mlr-practice.html#cb333-7" tabindex="-1"></a>  y  <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">+</span> <span class="dv">2</span> <span class="sc">*</span> x1 <span class="sc">+</span> <span class="dv">3</span> <span class="sc">*</span> x2 <span class="sc">+</span> <span class="fu">rnorm</span>(n, <span class="at">sd =</span> <span class="dv">2</span>)</span>
-<span id="cb333-8"><a href="mlr-practice.html#cb333-8" tabindex="-1"></a>  <span class="fu">c</span>(<span class="at">short =</span> <span class="fu">coef</span>(<span class="fu">lm</span>(y <span class="sc">~</span> x1))[<span class="dv">2</span>], <span class="at">long =</span> <span class="fu">coef</span>(<span class="fu">lm</span>(y <span class="sc">~</span> x1 <span class="sc">+</span> x2))[<span class="dv">2</span>])</span>
-<span id="cb333-9"><a href="mlr-practice.html#cb333-9" tabindex="-1"></a>})</span>
-<span id="cb333-10"><a href="mlr-practice.html#cb333-10" tabindex="-1"></a></span>
-<span id="cb333-11"><a href="mlr-practice.html#cb333-11" tabindex="-1"></a><span class="fu">c</span>(<span class="at">mean_short =</span> <span class="fu">mean</span>(results[<span class="st">&quot;short.x1&quot;</span>, ]),</span>
-<span id="cb333-12"><a href="mlr-practice.html#cb333-12" tabindex="-1"></a>  <span class="at">predicted  =</span> <span class="dv">2</span> <span class="sc">+</span> <span class="dv">3</span> <span class="sc">*</span> <span class="fl">0.5</span>,</span>
-<span id="cb333-13"><a href="mlr-practice.html#cb333-13" tabindex="-1"></a>  <span class="at">mean_long  =</span> <span class="fu">mean</span>(results[<span class="st">&quot;long.x1&quot;</span>, ]))</span></code></pre></div>
+<div class="sourceCode" id="cb331"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb331-1"><a href="mlr-practice.html#cb331-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">20</span>)</span>
+<span id="cb331-2"><a href="mlr-practice.html#cb331-2" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">200</span></span>
+<span id="cb331-3"><a href="mlr-practice.html#cb331-3" tabindex="-1"></a></span>
+<span id="cb331-4"><a href="mlr-practice.html#cb331-4" tabindex="-1"></a>results <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">2000</span>, {</span>
+<span id="cb331-5"><a href="mlr-practice.html#cb331-5" tabindex="-1"></a>  x1 <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n)</span>
+<span id="cb331-6"><a href="mlr-practice.html#cb331-6" tabindex="-1"></a>  x2 <span class="ot">&lt;-</span> <span class="fl">0.5</span> <span class="sc">*</span> x1 <span class="sc">+</span> <span class="fu">rnorm</span>(n)              <span class="co"># delta_1 = 0.5 by construction</span></span>
+<span id="cb331-7"><a href="mlr-practice.html#cb331-7" tabindex="-1"></a>  y  <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">+</span> <span class="dv">2</span> <span class="sc">*</span> x1 <span class="sc">+</span> <span class="dv">3</span> <span class="sc">*</span> x2 <span class="sc">+</span> <span class="fu">rnorm</span>(n, <span class="at">sd =</span> <span class="dv">2</span>)</span>
+<span id="cb331-8"><a href="mlr-practice.html#cb331-8" tabindex="-1"></a>  <span class="fu">c</span>(<span class="at">short =</span> <span class="fu">coef</span>(<span class="fu">lm</span>(y <span class="sc">~</span> x1))[<span class="dv">2</span>], <span class="at">long =</span> <span class="fu">coef</span>(<span class="fu">lm</span>(y <span class="sc">~</span> x1 <span class="sc">+</span> x2))[<span class="dv">2</span>])</span>
+<span id="cb331-9"><a href="mlr-practice.html#cb331-9" tabindex="-1"></a>})</span>
+<span id="cb331-10"><a href="mlr-practice.html#cb331-10" tabindex="-1"></a></span>
+<span id="cb331-11"><a href="mlr-practice.html#cb331-11" tabindex="-1"></a><span class="fu">c</span>(<span class="at">mean_short =</span> <span class="fu">mean</span>(results[<span class="st">&quot;short.x1&quot;</span>, ]),</span>
+<span id="cb331-12"><a href="mlr-practice.html#cb331-12" tabindex="-1"></a>  <span class="at">predicted  =</span> <span class="dv">2</span> <span class="sc">+</span> <span class="dv">3</span> <span class="sc">*</span> <span class="fl">0.5</span>,</span>
+<span id="cb331-13"><a href="mlr-practice.html#cb331-13" tabindex="-1"></a>  <span class="at">mean_long  =</span> <span class="fu">mean</span>(results[<span class="st">&quot;long.x1&quot;</span>, ]))</span></code></pre></div>
 <p>The short regression averages about 3.5, matching
 <span class="math inline">\(\beta_1 + \beta_2\delta_1 = 2 + 3(0.5)\)</span>. The long regression averages about 2,
 the true value.</p>
@@ -767,15 +765,15 @@ where it is — bias is not sampling error, and no amount of data removes it.</p
 <code>attendance</code> alone, then add <code>cum_gpa</code>, then add a variable constructed to be
 almost identical to <code>attendance</code>. Compare the standard errors and explain.</p>
 <div class="answer">
-<div class="sourceCode" id="cb334"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb334-1"><a href="mlr-practice.html#cb334-1" tabindex="-1"></a>students <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/attendance-grades.csv&quot;</span>)</span>
-<span id="cb334-2"><a href="mlr-practice.html#cb334-2" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">5</span>)</span>
-<span id="cb334-3"><a href="mlr-practice.html#cb334-3" tabindex="-1"></a>students<span class="sc">$</span>attendance_copy <span class="ot">&lt;-</span> students<span class="sc">$</span>attendance <span class="sc">+</span> <span class="fu">rnorm</span>(<span class="fu">nrow</span>(students), <span class="at">sd =</span> <span class="fl">0.4</span>)</span>
-<span id="cb334-4"><a href="mlr-practice.html#cb334-4" tabindex="-1"></a></span>
-<span id="cb334-5"><a href="mlr-practice.html#cb334-5" tabindex="-1"></a>se <span class="ot">&lt;-</span> <span class="cf">function</span>(m) <span class="fu">round</span>(<span class="fu">coef</span>(<span class="fu">summary</span>(m))[<span class="st">&quot;attendance&quot;</span>, <span class="dv">2</span>], <span class="dv">4</span>)</span>
-<span id="cb334-6"><a href="mlr-practice.html#cb334-6" tabindex="-1"></a></span>
-<span id="cb334-7"><a href="mlr-practice.html#cb334-7" tabindex="-1"></a><span class="fu">c</span>(<span class="at">alone      =</span> <span class="fu">se</span>(<span class="fu">lm</span>(sem_gpa <span class="sc">~</span> attendance, <span class="at">data =</span> students)),</span>
-<span id="cb334-8"><a href="mlr-practice.html#cb334-8" tabindex="-1"></a>  <span class="at">plus_cum   =</span> <span class="fu">se</span>(<span class="fu">lm</span>(sem_gpa <span class="sc">~</span> attendance <span class="sc">+</span> cum_gpa, <span class="at">data =</span> students)),</span>
-<span id="cb334-9"><a href="mlr-practice.html#cb334-9" tabindex="-1"></a>  <span class="at">plus_copy  =</span> <span class="fu">se</span>(<span class="fu">lm</span>(sem_gpa <span class="sc">~</span> attendance <span class="sc">+</span> attendance_copy, <span class="at">data =</span> students)))</span></code></pre></div>
+<div class="sourceCode" id="cb332"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb332-1"><a href="mlr-practice.html#cb332-1" tabindex="-1"></a>students <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/attendance-grades.csv&quot;</span>)</span>
+<span id="cb332-2"><a href="mlr-practice.html#cb332-2" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">5</span>)</span>
+<span id="cb332-3"><a href="mlr-practice.html#cb332-3" tabindex="-1"></a>students<span class="sc">$</span>attendance_copy <span class="ot">&lt;-</span> students<span class="sc">$</span>attendance <span class="sc">+</span> <span class="fu">rnorm</span>(<span class="fu">nrow</span>(students), <span class="at">sd =</span> <span class="fl">0.4</span>)</span>
+<span id="cb332-4"><a href="mlr-practice.html#cb332-4" tabindex="-1"></a></span>
+<span id="cb332-5"><a href="mlr-practice.html#cb332-5" tabindex="-1"></a>se <span class="ot">&lt;-</span> <span class="cf">function</span>(m) <span class="fu">round</span>(<span class="fu">coef</span>(<span class="fu">summary</span>(m))[<span class="st">&quot;attendance&quot;</span>, <span class="dv">2</span>], <span class="dv">4</span>)</span>
+<span id="cb332-6"><a href="mlr-practice.html#cb332-6" tabindex="-1"></a></span>
+<span id="cb332-7"><a href="mlr-practice.html#cb332-7" tabindex="-1"></a><span class="fu">c</span>(<span class="at">alone      =</span> <span class="fu">se</span>(<span class="fu">lm</span>(sem_gpa <span class="sc">~</span> attendance, <span class="at">data =</span> students)),</span>
+<span id="cb332-8"><a href="mlr-practice.html#cb332-8" tabindex="-1"></a>  <span class="at">plus_cum   =</span> <span class="fu">se</span>(<span class="fu">lm</span>(sem_gpa <span class="sc">~</span> attendance <span class="sc">+</span> cum_gpa, <span class="at">data =</span> students)),</span>
+<span id="cb332-9"><a href="mlr-practice.html#cb332-9" tabindex="-1"></a>  <span class="at">plus_copy  =</span> <span class="fu">se</span>(<span class="fu">lm</span>(sem_gpa <span class="sc">~</span> attendance <span class="sc">+</span> attendance_copy, <span class="at">data =</span> students)))</span></code></pre></div>
 <p>Adding <code>cum_gpa</code> barely moves the standard error and removes a real source of
 bias. Adding the near-copy inflates it enormously while contributing no
 information at all: <span class="math inline">\(R_j^2\)</span> for attendance is now close to one, so <span class="math inline">\((1-R_j^2)\)</span> is

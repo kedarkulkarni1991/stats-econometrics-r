@@ -4,13 +4,13 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>8.2 The model and what a coefficient means | Statistics and Econometrics with R</title>
+  <title>8.2 Holding other things equal | Statistics and Econometrics with R</title>
   <meta name="description" content="<p>A first course in statistics and econometrics for Indian students, built on
 the progression from question to intuition to rigour to computation to
 interpretation.</p>" />
   <meta name="generator" content="bookdown 0.47 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="8.2 The model and what a coefficient means | Statistics and Econometrics with R" />
+  <meta property="og:title" content="8.2 Holding other things equal | Statistics and Econometrics with R" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="<p>A first course in statistics and econometrics for Indian students, built on
@@ -19,7 +19,7 @@ interpretation.</p>" />
   <meta name="github-repo" content="kedarkulkarni1991/stats-econometrics-r" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="8.2 The model and what a coefficient means | Statistics and Econometrics with R" />
+  <meta name="twitter:title" content="8.2 Holding other things equal | Statistics and Econometrics with R" />
   
   <meta name="twitter:description" content="<p>A first course in statistics and econometrics for Indian students, built on
 the progression from question to intuition to rigour to computation to
@@ -506,18 +506,16 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="8" data-path="multiple-regression.html"><a href="multiple-regression.html"><i class="fa fa-check"></i><b>8</b> Multiple Regression: Holding Other Things Equal</a>
 <ul>
-<li class="chapter" data-level="8.1" data-path="mlr-motivation.html"><a href="mlr-motivation.html"><i class="fa fa-check"></i><b>8.1</b> Why one variable is not enough</a>
+<li class="chapter" data-level="8.1" data-path="mlr-motivation.html"><a href="mlr-motivation.html"><i class="fa fa-check"></i><b>8.1</b> Why one variable is not enough</a></li>
+<li class="chapter" data-level="8.2" data-path="mlr-model.html"><a href="mlr-model.html"><i class="fa fa-check"></i><b>8.2</b> Holding other things equal</a>
 <ul>
-<li class="chapter" data-level="" data-path="mlr-motivation.html"><a href="mlr-motivation.html#what-the-slope-is-comparing"><i class="fa fa-check"></i>What the slope is comparing</a></li>
-<li class="chapter" data-level="" data-path="mlr-motivation.html"><a href="mlr-motivation.html#asking-a-narrower-question"><i class="fa fa-check"></i>Asking a narrower question</a></li>
+<li class="chapter" data-level="" data-path="mlr-model.html"><a href="mlr-model.html#a-different-comparison"><i class="fa fa-check"></i>A different comparison</a></li>
+<li class="chapter" data-level="" data-path="mlr-model.html"><a href="mlr-model.html#an-example"><i class="fa fa-check"></i>An example</a></li>
+<li class="chapter" data-level="" data-path="mlr-model.html"><a href="mlr-model.html#reading-the-other-coefficients"><i class="fa fa-check"></i>Reading the other coefficients</a></li>
+<li class="chapter" data-level="" data-path="mlr-model.html"><a href="mlr-model.html#another-example"><i class="fa fa-check"></i>Another example</a></li>
+<li class="chapter" data-level="" data-path="mlr-model.html"><a href="mlr-model.html#what-holding-fixed-does-not-mean"><i class="fa fa-check"></i>What “holding fixed” does not mean</a></li>
 </ul></li>
-<li class="chapter" data-level="8.2" data-path="mlr-model.html"><a href="mlr-model.html"><i class="fa fa-check"></i><b>8.2</b> The model and what a coefficient means</a>
-<ul>
-<li class="chapter" data-level="" data-path="mlr-model.html"><a href="mlr-model.html#the-partial-derivative"><i class="fa fa-check"></i>The partial derivative</a></li>
-<li class="chapter" data-level="" data-path="mlr-model.html"><a href="mlr-model.html#doing-it"><i class="fa fa-check"></i>Doing it</a></li>
-<li class="chapter" data-level="" data-path="mlr-model.html"><a href="mlr-model.html#a-second-example"><i class="fa fa-check"></i>A second example</a></li>
-</ul></li>
-<li class="chapter" data-level="8.3" data-path="mlr-fwl.html"><a href="mlr-fwl.html"><i class="fa fa-check"></i><b>8.3</b> What “holding constant” actually does</a>
+<li class="chapter" data-level="8.3" data-path="mlr-fwl.html"><a href="mlr-fwl.html"><i class="fa fa-check"></i><b>8.3</b> How the comparison is actually made</a>
 <ul>
 <li class="chapter" data-level="" data-path="mlr-fwl.html"><a href="mlr-fwl.html#watching-it-happen"><i class="fa fa-check"></i>Watching it happen</a></li>
 <li class="chapter" data-level="" data-path="mlr-fwl.html"><a href="mlr-fwl.html#two-consequences-worth-noticing"><i class="fa fa-check"></i>Two consequences worth noticing</a></li>
@@ -583,82 +581,94 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 
             <section class="normal" id="section-">
 <div id="mlr-model" class="section level2 hasAnchor" number="8.2">
-<h2><span class="header-section-number">8.2</span> The model and what a coefficient means<a href="mlr-model.html#mlr-model" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<h2><span class="header-section-number">8.2</span> Holding other things equal<a href="mlr-model.html#mlr-model" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <div class="question">
 <p>We add a second explanatory variable. What does <span class="math inline">\(\beta_1\)</span> now measure?</p>
 </div>
-<p>The population model with two explanatory variables is</p>
+<p>The motivation for multiple regression was straightforward. We wanted to compare
+students who differed in attendance but were otherwise similar.</p>
+<p>To do that we introduce additional explanatory variables.</p>
+<p>With two explanatory variables, the population model is</p>
 <p><span class="math display">\[y = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + u\]</span></p>
-<p>and with <span class="math inline">\(k\)</span> of them,</p>
+<p>and with <span class="math inline">\(k\)</span> explanatory variables,</p>
 <p><span class="math display">\[y = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \cdots + \beta_k x_k + u\]</span></p>
-<p>Everything from Unit <a href="simple-regression.html#simple-regression">6</a> carries over. There is still a
-population regression function that we do not observe, still an error term
-collecting everything left out, and still a sample from which we estimate.</p>
-<p>Take the conditional expectation of both sides. Under the zero conditional mean
-assumption, which Section <a href="mlr-assumptions.html#mlr-assumptions">8.4</a> restates,</p>
-<p><span class="math display">\[E[y \mid x_1, x_2] = \beta_0 + \beta_1 x_1 + \beta_2 x_2\]</span></p>
-<p>The population regression function is now a <strong>plane</strong> rather than a line: for
-every pair <span class="math inline">\((x_1, x_2)\)</span> it returns the average value of <span class="math inline">\(y\)</span> among all members of
-the population with those characteristics.</p>
-<div id="the-partial-derivative" class="section level3 unnumbered hasAnchor">
-<h3>The partial derivative<a href="mlr-model.html#the-partial-derivative" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>Differentiate that expression with respect to each explanatory variable in turn.</p>
-<p><span class="math display">\[\frac{\partial E[y \mid x_1, x_2]}{\partial x_1} = \beta_1
-\qquad\qquad
-\frac{\partial E[y \mid x_1, x_2]}{\partial x_2} = \beta_2\]</span></p>
-<p>A partial derivative changes one argument and leaves the others where they are.
-That is the whole of the interpretation.</p>
+<p>Nothing fundamental has changed. There is still a population regression function
+that we cannot observe, an error term containing everything left out of the
+model, and a sample from which we estimate the unknown coefficients.</p>
+<p>What has changed is the meaning of a coefficient.</p>
+<div id="a-different-comparison" class="section level3 unnumbered hasAnchor">
+<h3>A different comparison<a href="mlr-model.html#a-different-comparison" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>In the simple regression of Unit <a href="ols.html#ols">7</a>, the coefficient on attendance
+compared students who attended different numbers of classes.</p>
+<p>Now the comparison is narrower.</p>
+<p>The coefficient on attendance compares students who attended different numbers
+of classes but who had the same values of the other explanatory variables.</p>
+<p>That is the meaning of holding other things equal.</p>
+<p>Mathematically,</p>
+<p><span class="math display">\[\frac{\partial E(Y \mid X_1, X_2)}{\partial X_1} = \beta_1\]</span></p>
+<p>The notation looks new, but the idea is not. A partial derivative asks how the
+conditional mean changes when one explanatory variable changes while the others
+remain fixed.</p>
 <div class="keyidea">
-<p><span class="math inline">\(\beta_1\)</span> is the change in the average value of <span class="math inline">\(y\)</span> associated with a one-unit
-increase in <span class="math inline">\(x_1\)</span>, <strong>holding <span class="math inline">\(x_2\)</span> fixed</strong>.</p>
-<p>This is the <em>ceteris paribus</em> interpretation, and it is the reason multiple
-regression exists. In a simple regression, <span class="math inline">\(x_2\)</span> was free to move whenever <span class="math inline">\(x_1\)</span>
-moved, and the slope absorbed the consequence.</p>
+<p><span class="math inline">\(\beta_1\)</span> is the change in the average value of <span class="math inline">\(Y\)</span> associated with a one-unit
+increase in <span class="math inline">\(X_1\)</span>, holding all the other explanatory variables constant.</p>
+<p>This <em>ceteris paribus</em> interpretation is the entire reason for using multiple
+regression.</p>
 </div>
 </div>
-<div id="doing-it" class="section level3 unnumbered hasAnchor">
-<h3>Doing it<a href="mlr-model.html#doing-it" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>In R, additional explanatory variables are added to the formula with <code>+</code>.</p>
-<div class="sourceCode" id="cb291"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb291-1"><a href="mlr-model.html#cb291-1" tabindex="-1"></a>full <span class="ot">&lt;-</span> <span class="fu">lm</span>(sem_gpa <span class="sc">~</span> attendance <span class="sc">+</span> cum_gpa <span class="sc">+</span> admission_score, <span class="at">data =</span> students)</span>
-<span id="cb291-2"><a href="mlr-model.html#cb291-2" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">coef</span>(<span class="fu">summary</span>(full)), <span class="dv">4</span>)</span></code></pre></div>
+<div id="an-example" class="section level3 unnumbered hasAnchor">
+<h3>An example<a href="mlr-model.html#an-example" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Adding explanatory variables in R is as simple as separating them with <code>+</code>.</p>
+<div class="sourceCode" id="cb291"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb291-1"><a href="mlr-model.html#cb291-1" tabindex="-1"></a>full <span class="ot">&lt;-</span> <span class="fu">lm</span>(sem_gpa <span class="sc">~</span> attendance <span class="sc">+</span> cum_gpa <span class="sc">+</span> admission_score,</span>
+<span id="cb291-2"><a href="mlr-model.html#cb291-2" tabindex="-1"></a>           <span class="at">data =</span> students)</span>
+<span id="cb291-3"><a href="mlr-model.html#cb291-3" tabindex="-1"></a></span>
+<span id="cb291-4"><a href="mlr-model.html#cb291-4" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">coef</span>(<span class="fu">summary</span>(full)), <span class="dv">4</span>)</span></code></pre></div>
 <pre><code>#&gt;                 Estimate Std. Error t value Pr(&gt;|t|)
 #&gt; (Intercept)      -7.6603     1.2944  -5.918        0
 #&gt; attendance        0.1360     0.0104  13.040        0
 #&gt; cum_gpa           0.5748     0.0441  13.026        0
 #&gt; admission_score   0.0835     0.0158   5.299        0</code></pre>
-<p>Read the second row. Among students with the same prior cumulative GPA and the
-same admission score, one extra class attended is associated with a semester GPA
-higher by <strong>0.136</strong> points.</p>
-<p>Set that beside the simple regression.</p>
+<p>Compare the coefficient on attendance with the simple regression.</p>
 <div class="sourceCode" id="cb293"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb293-1"><a href="mlr-model.html#cb293-1" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">simple   =</span> <span class="fu">coef</span>(simple)[<span class="st">&quot;attendance&quot;</span>],</span>
 <span id="cb293-2"><a href="mlr-model.html#cb293-2" tabindex="-1"></a>        <span class="at">multiple =</span> <span class="fu">coef</span>(full)[<span class="st">&quot;attendance&quot;</span>]), <span class="dv">4</span>)</span></code></pre></div>
 <pre><code>#&gt;   simple.attendance multiple.attendance 
 #&gt;               0.189               0.136</code></pre>
-<p>The coefficient has fallen from 0.189 to 0.136, a drop of about 28%.</p>
+<p>The estimated association falls from 0.189 to 0.136.</p>
+<p>The interpretation has changed. In the simple regression, the comparison was
+between students who differed in attendance. In the multiple regression, the
+comparison is between students who have the same prior GPA and the same
+admission score, but who differ in attendance.</p>
+<p>Some of the relationship that the simple regression attributed to attendance is
+now explained by differences in students’ previous academic performance. The
+coefficient on attendance therefore becomes smaller.</p>
 <div class="intuition">
-<p>Roughly a quarter of what the simple regression attributed to attendance was
-never attendance at all. It was the prior academic record that students bring
-with them, arriving in the slope because it moves together with how often they
-turn up.</p>
-<p>Comparing students who are alike in prior record removes that part of the
-difference. What is left is a narrower and more honest comparison.</p>
+<p>Notice that nothing has happened to the data. The students are the same. Only
+the comparison has changed.</p>
 </div>
-<p>The other two coefficients read the same way. Among students who attended the
-same number of classes and scored the same at admission, one point of prior
-cumulative GPA is associated with 0.575 points of semester GPA. Prior record
-matters, and it matters a great deal.</p>
 </div>
-<div id="a-second-example" class="section level3 unnumbered hasAnchor">
-<h3>A second example<a href="mlr-model.html#a-second-example" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>The same reading applies to earnings. This is a synthetic dataset of 20,000
-Indian wage earners, built to resemble the structure of household survey data.</p>
+<div id="reading-the-other-coefficients" class="section level3 unnumbered hasAnchor">
+<h3>Reading the other coefficients<a href="mlr-model.html#reading-the-other-coefficients" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Every coefficient is interpreted in exactly the same way.</p>
+<p>The coefficient on cumulative GPA says that among students with the same
+attendance and the same admission score, a one-point increase in prior GPA is
+associated with an increase of about 0.575 points in semester GPA.</p>
+<p>The coefficient on admission score compares students with the same attendance
+and the same prior GPA.</p>
+<p>Each coefficient asks what happens when one explanatory variable changes while
+all the others remain fixed.</p>
+</div>
+<div id="another-example" class="section level3 unnumbered hasAnchor">
+<h3>Another example<a href="mlr-model.html#another-example" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>The same interpretation applies outside education. This is a synthetic dataset
+of 20,000 Indian wage earners, built to resemble the structure of household
+survey data.</p>
 <div class="sourceCode" id="cb295"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb295-1"><a href="mlr-model.html#cb295-1" tabindex="-1"></a>wages <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/wages-india-synthetic.csv&quot;</span>)</span>
 <span id="cb295-2"><a href="mlr-model.html#cb295-2" tabindex="-1"></a></span>
 <span id="cb295-3"><a href="mlr-model.html#cb295-3" tabindex="-1"></a>wages<span class="sc">$</span>male  <span class="ot">&lt;-</span> <span class="fu">as.integer</span>(wages<span class="sc">$</span>sex <span class="sc">==</span> <span class="st">&quot;Male&quot;</span>)</span>
 <span id="cb295-4"><a href="mlr-model.html#cb295-4" tabindex="-1"></a>wages<span class="sc">$</span>urban <span class="ot">&lt;-</span> <span class="fu">as.integer</span>(wages<span class="sc">$</span>residence <span class="sc">==</span> <span class="st">&quot;Urban&quot;</span>)</span>
 <span id="cb295-5"><a href="mlr-model.html#cb295-5" tabindex="-1"></a></span>
-<span id="cb295-6"><a href="mlr-model.html#cb295-6" tabindex="-1"></a>w_simple <span class="ot">&lt;-</span> <span class="fu">lm</span>(annual_earnings <span class="sc">~</span> education, <span class="at">data =</span> wages)</span>
-<span id="cb295-7"><a href="mlr-model.html#cb295-7" tabindex="-1"></a>w_full   <span class="ot">&lt;-</span> <span class="fu">lm</span>(annual_earnings <span class="sc">~</span> education <span class="sc">+</span> age <span class="sc">+</span> male <span class="sc">+</span> urban, <span class="at">data =</span> wages)</span>
+<span id="cb295-6"><a href="mlr-model.html#cb295-6" tabindex="-1"></a>w_full <span class="ot">&lt;-</span> <span class="fu">lm</span>(annual_earnings <span class="sc">~</span> education <span class="sc">+</span> age <span class="sc">+</span> male <span class="sc">+</span> urban,</span>
+<span id="cb295-7"><a href="mlr-model.html#cb295-7" tabindex="-1"></a>             <span class="at">data =</span> wages)</span>
 <span id="cb295-8"><a href="mlr-model.html#cb295-8" tabindex="-1"></a></span>
 <span id="cb295-9"><a href="mlr-model.html#cb295-9" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">coef</span>(<span class="fu">summary</span>(w_full)), <span class="dv">1</span>)</span></code></pre></div>
 <pre><code>#&gt;             Estimate Std. Error t value Pr(&gt;|t|)
@@ -667,30 +677,27 @@ Indian wage earners, built to resemble the structure of household survey data.</
 #&gt; age            559.8       57.4     9.8        0
 #&gt; male         31999.1     1442.8    22.2        0
 #&gt; urban        51287.4     1517.5    33.8        0</code></pre>
-<p>The variables <code>male</code> and <code>urban</code> take only the values 0 and 1. A coefficient on
-such a variable is a difference between two groups rather than a rate of change —
-men earn ₹32,000 more per year than women who are otherwise comparable in
-education, age and residence. Unit 9 treats these variables properly; for now,
-read them as group differences.</p>
-<div class="sourceCode" id="cb297"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb297-1"><a href="mlr-model.html#cb297-1" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">simple   =</span> <span class="fu">coef</span>(w_simple)[<span class="st">&quot;education&quot;</span>],</span>
-<span id="cb297-2"><a href="mlr-model.html#cb297-2" tabindex="-1"></a>        <span class="at">multiple =</span> <span class="fu">coef</span>(w_full)[<span class="st">&quot;education&quot;</span>]), <span class="dv">1</span>)</span></code></pre></div>
-<pre><code>#&gt;   simple.education multiple.education 
-#&gt;               5386               4281</code></pre>
-<p>An extra year of schooling is associated with ₹5,386 of additional annual
-earnings when nothing else is accounted for, and ₹4,281 when age, sex and
-residence are held fixed. About a fifth of the apparent return to education was
-the fact that the educated in this population are disproportionately urban and
-male, and urban and male workers earn more for reasons that have nothing to do
-with their schooling.</p>
-<div class="watchout">
-<p>“Holding fixed” describes what the estimator does with the data. It does not
-describe an experiment anyone performed.</p>
-<p>Nobody took a rural woman and made her urban and male while keeping her
-education constant. The regression compares people who already differ in
-education among those who happen to be alike in the other measured
-characteristics. Whether that comparison answers a causal question is the subject
-of Section <a href="mlr-causal.html#mlr-causal">8.7</a>.</p>
+<p>The coefficient on education is interpreted as the association between an
+additional year of schooling and annual earnings holding age, sex and place of
+residence constant.</p>
+<p>The variables <code>male</code> and <code>urban</code> take only the values 0 and 1, so their
+coefficients compare two groups rather than describing the effect of a one-unit
+increase. We return to indicator variables in the next unit.</p>
 </div>
+<div id="what-holding-fixed-does-not-mean" class="section level3 unnumbered hasAnchor">
+<h3>What “holding fixed” does not mean<a href="mlr-model.html#what-holding-fixed-does-not-mean" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>The phrase <em>holding other things fixed</em> often gives the wrong impression.</p>
+<p>Regression does not perform an experiment.</p>
+<p>Nobody took the same student, kept their prior GPA unchanged and forced them to
+attend one more class. Nor did anyone move a rural worker to an urban area while
+leaving everything else unchanged.</p>
+<div class="watchout">
+<p>The comparison is entirely statistical. The regression compares observations
+that already exist and are similar in the variables included in the model.</p>
+<p>Whether that comparison is enough to recover a causal effect depends on whether
+the important differences between individuals have been measured.</p>
+</div>
+<p>That question returns in Section <a href="mlr-causal.html#mlr-causal">8.7</a>.</p>
 </div>
 </div>
 <script>
