@@ -6,14 +6,14 @@ library(ggplot2)
 students <- read.csv("data/attendance-grades.csv")
 ```
 
-The previous unit ended one step short of an answer. We had the target — the
-population regression function — a model for how individuals depart from it, and
-a criterion for choosing between candidate lines: minimise the sum of squared
-residuals.
+The previous unit concluded without providing a complete answer. It identified
+the target, the population regression function, introduced a model for
+individual deviations, and established a criterion for selecting among candidate
+lines: minimising the sum of squared residuals.
 
-This unit carries that out. It derives the two estimators, establishes what they
-guarantee and what they do not, works out how precise they are, and tests claims
-about them.
+This unit implements these steps by deriving the two estimators, clarifying
+their guarantees and limitations, evaluating their precision, and testing
+related claims.
 
 ::: {.keyidea}
 The unit answers six questions.
