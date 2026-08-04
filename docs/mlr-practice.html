@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>8.9 Practice problems | Statistics and Econometrics with R</title>
+  <meta name="description" content="<p>A first course in statistics and econometrics for Indian students, built on
+the progression from question to intuition to rigour to computation to
+interpretation.</p>" />
+  <meta name="generator" content="bookdown 0.47 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="8.9 Practice problems | Statistics and Econometrics with R" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="<p>A first course in statistics and econometrics for Indian students, built on
+the progression from question to intuition to rigour to computation to
+interpretation.</p>" />
+  <meta name="github-repo" content="kedarkulkarni1991/stats-econometrics-r" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="8.9 Practice problems | Statistics and Econometrics with R" />
+  
+  <meta name="twitter:description" content="<p>A first course in statistics and econometrics for Indian students, built on
+the progression from question to intuition to rigour to computation to
+interpretation.</p>" />
+  
+
+<meta name="author" content="Kedar Kulkarni" />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="mlr-summary.html"/>
+<link rel="next" href="mlr-question-bank.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  background-color: #f8f8f8; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } /* Alert */
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #204a87; } /* Attribute */
+code span.bn { color: #0000cf; } /* BaseN */
+code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4e9a06; } /* Char */
+code span.cn { color: #8f5902; } /* Constant */
+code span.co { color: #8f5902; font-style: italic; } /* Comment */
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code span.dt { color: #204a87; } /* DataType */
+code span.dv { color: #0000cf; } /* DecVal */
+code span.er { color: #a40000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #0000cf; } /* Float */
+code span.fu { color: #204a87; font-weight: bold; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code span.ot { color: #8f5902; } /* Other */
+code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code span.sc { color: #ce5c00; font-weight: bold; } /* SpecialChar */
+code span.ss { color: #4e9a06; } /* SpecialString */
+code span.st { color: #4e9a06; } /* String */
+code span.va { color: #000000; } /* Variable */
+code span.vs { color: #4e9a06; } /* VerbatimString */
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="css/style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="toc-logo"><a href="./"><strong>Statistics &amp; Econometrics with R</strong></a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Welcome</a>
+<ul>
+<li class="chapter" data-level="" data-path="how-to-use-this-book.html"><a href="how-to-use-this-book.html"><i class="fa fa-check"></i>How to use this book</a>
+<ul>
+<li class="chapter" data-level="" data-path="how-to-use-this-book.html"><a href="how-to-use-this-book.html#read-the-book-in-order"><i class="fa fa-check"></i>Read the book in order</a></li>
+<li class="chapter" data-level="" data-path="how-to-use-this-book.html"><a href="how-to-use-this-book.html#work-through-the-mathematics"><i class="fa fa-check"></i>Work through the mathematics</a></li>
+<li class="chapter" data-level="" data-path="how-to-use-this-book.html"><a href="how-to-use-this-book.html#think-in-words-before-thinking-in-mathematics"><i class="fa fa-check"></i>Think in words before thinking in mathematics</a></li>
+<li class="chapter" data-level="" data-path="how-to-use-this-book.html"><a href="how-to-use-this-book.html#write-the-code-yourself"><i class="fa fa-check"></i>Write the code yourself</a></li>
+<li class="chapter" data-level="" data-path="how-to-use-this-book.html"><a href="how-to-use-this-book.html#think-before-calculating"><i class="fa fa-check"></i>Think before calculating</a></li>
+<li class="chapter" data-level="" data-path="how-to-use-this-book.html"><a href="how-to-use-this-book.html#attempt-the-exercises-first"><i class="fa fa-check"></i>Attempt the exercises first</a></li>
+<li class="chapter" data-level="" data-path="how-to-use-this-book.html"><a href="how-to-use-this-book.html#use-the-book-as-a-reference"><i class="fa fa-check"></i>Use the book as a reference</a></li>
+<li class="chapter" data-level="" data-path="how-to-use-this-book.html"><a href="how-to-use-this-book.html#learn-by-connecting-ideas"><i class="fa fa-check"></i>Learn by connecting ideas</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="a-note-on-the-data.html"><a href="a-note-on-the-data.html"><i class="fa fa-check"></i>A note on the data</a></li>
+<li class="chapter" data-level="" data-path="what-you-need.html"><a href="what-you-need.html"><i class="fa fa-check"></i>What you need</a></li>
+<li class="chapter" data-level="" data-path="mathematical-background.html"><a href="mathematical-background.html"><i class="fa fa-check"></i>Mathematical background</a></li>
+<li class="chapter" data-level="" data-path="licence-and-citation.html"><a href="licence-and-citation.html"><i class="fa fa-check"></i>Licence and citation</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="towards-inference.html"><a href="towards-inference.html"><i class="fa fa-check"></i><b>1</b> Towards Inferential Statistics</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="u1-randomness.html"><a href="u1-randomness.html"><i class="fa fa-check"></i><b>1.1</b> Randomness and variation</a></li>
+<li class="chapter" data-level="1.2" data-path="u1-describing.html"><a href="u1-describing.html"><i class="fa fa-check"></i><b>1.2</b> Describing variation</a></li>
+<li class="chapter" data-level="1.3" data-path="u1-not-enough.html"><a href="u1-not-enough.html"><i class="fa fa-check"></i><b>1.3</b> The limits of descriptive statistics</a></li>
+<li class="chapter" data-level="1.4" data-path="u1-frequentist.html"><a href="u1-frequentist.html"><i class="fa fa-check"></i><b>1.4</b> What if we repeated the survey?</a></li>
+<li class="chapter" data-level="1.5" data-path="u1-lln.html"><a href="u1-lln.html"><i class="fa fa-check"></i><b>1.5</b> Why do larger samples give more reliable answers?</a></li>
+<li class="chapter" data-level="1.6" data-path="u1-clt.html"><a href="u1-clt.html"><i class="fa fa-check"></i><b>1.6</b> The Central Limit Theorem</a>
+<ul>
+<li class="chapter" data-level="" data-path="u1-clt.html"><a href="u1-clt.html#a-simulation"><i class="fa fa-check"></i>A simulation</a></li>
+<li class="chapter" data-level="" data-path="u1-clt.html"><a href="u1-clt.html#an-intuition"><i class="fa fa-check"></i>An intuition</a></li>
+<li class="chapter" data-level="" data-path="u1-clt.html"><a href="u1-clt.html#how-large-is-large-enough"><i class="fa fa-check"></i>How large is “large enough”?</a></li>
+<li class="chapter" data-level="" data-path="u1-clt.html"><a href="u1-clt.html#why-this-matters"><i class="fa fa-check"></i>Why this matters</a></li>
+</ul></li>
+<li class="chapter" data-level="1.7" data-path="u1-random-variables.html"><a href="u1-random-variables.html"><i class="fa fa-check"></i><b>1.7</b> A language for randomness</a>
+<ul>
+<li class="chapter" data-level="" data-path="u1-random-variables.html"><a href="u1-random-variables.html#random-variables"><i class="fa fa-check"></i>Random variables</a></li>
+<li class="chapter" data-level="" data-path="u1-random-variables.html"><a href="u1-random-variables.html#realisations"><i class="fa fa-check"></i>Realisations</a></li>
+<li class="chapter" data-level="" data-path="u1-random-variables.html"><a href="u1-random-variables.html#the-long-run-average"><i class="fa fa-check"></i>The long-run average</a></li>
+<li class="chapter" data-level="" data-path="u1-random-variables.html"><a href="u1-random-variables.html#measuring-variation"><i class="fa fa-check"></i>Measuring variation</a></li>
+<li class="chapter" data-level="" data-path="u1-random-variables.html"><a href="u1-random-variables.html#parameters-and-statistics"><i class="fa fa-check"></i>Parameters and statistics</a></li>
+<li class="chapter" data-level="" data-path="u1-random-variables.html"><a href="u1-random-variables.html#a-summary-of-notation"><i class="fa fa-check"></i>A summary of notation</a></li>
+</ul></li>
+<li class="chapter" data-level="1.8" data-path="u1-what-goes-wrong.html"><a href="u1-what-goes-wrong.html"><i class="fa fa-check"></i><b>1.8</b> Before any mathematics can help</a></li>
+<li class="chapter" data-level="1.9" data-path="u1-summary.html"><a href="u1-summary.html"><i class="fa fa-check"></i><b>1.9</b> Summary</a></li>
+<li class="chapter" data-level="1.10" data-path="u1-practice.html"><a href="u1-practice.html"><i class="fa fa-check"></i><b>1.10</b> Practice problems</a>
+<ul>
+<li class="chapter" data-level="" data-path="u1-practice.html"><a href="u1-practice.html#concept-checks"><i class="fa fa-check"></i>Concept checks</a></li>
+<li class="chapter" data-level="" data-path="u1-practice.html"><a href="u1-practice.html#explain"><i class="fa fa-check"></i>Explain</a></li>
+<li class="chapter" data-level="" data-path="u1-practice.html"><a href="u1-practice.html#numerical-problems"><i class="fa fa-check"></i>Numerical problems</a></li>
+<li class="chapter" data-level="" data-path="u1-practice.html"><a href="u1-practice.html#r-exercises"><i class="fa fa-check"></i>R exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="1.11" data-path="u1-question-bank.html"><a href="u1-question-bank.html"><i class="fa fa-check"></i><b>1.11</b> Question bank</a>
+<ul>
+<li class="chapter" data-level="" data-path="u1-question-bank.html"><a href="u1-question-bank.html#multiple-choice"><i class="fa fa-check"></i>Multiple choice</a></li>
+<li class="chapter" data-level="" data-path="u1-question-bank.html"><a href="u1-question-bank.html#short-reasoning"><i class="fa fa-check"></i>Short reasoning</a></li>
+<li class="chapter" data-level="" data-path="u1-question-bank.html"><a href="u1-question-bank.html#numerical"><i class="fa fa-check"></i>Numerical</a></li>
+</ul></li>
+<li class="chapter" data-level="1.12" data-path="u1-looking-ahead.html"><a href="u1-looking-ahead.html"><i class="fa fa-check"></i><b>1.12</b> Looking ahead</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="estimation.html"><a href="estimation.html"><i class="fa fa-check"></i><b>2</b> Estimation: Why the Sample Mean?</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="u2-problem.html"><a href="u2-problem.html"><i class="fa fa-check"></i><b>2.1</b> The problem of estimation</a></li>
+<li class="chapter" data-level="2.2" data-path="u2-iid.html"><a href="u2-iid.html"><i class="fa fa-check"></i><b>2.2</b> When can a sample represent a population?</a></li>
+<li class="chapter" data-level="2.3" data-path="u2-known-truth.html"><a href="u2-known-truth.html"><i class="fa fa-check"></i><b>2.3</b> How can we judge an estimator?</a>
+<ul>
+<li class="chapter" data-level="" data-path="u2-known-truth.html"><a href="u2-known-truth.html#u2-lab-pop"><i class="fa fa-check"></i>The population</a></li>
+<li class="chapter" data-level="" data-path="u2-known-truth.html"><a href="u2-known-truth.html#u2-lab-one"><i class="fa fa-check"></i>One sample from it</a></li>
+<li class="chapter" data-level="" data-path="u2-known-truth.html"><a href="u2-known-truth.html#u2-lab-many"><i class="fa fa-check"></i>A thousand samples</a></li>
+</ul></li>
+<li class="chapter" data-level="2.4" data-path="u2-centred.html"><a href="u2-centred.html"><i class="fa fa-check"></i><b>2.4</b> Is the sample mean centred on the truth?</a></li>
+<li class="chapter" data-level="2.5" data-path="u2-precision.html"><a href="u2-precision.html"><i class="fa fa-check"></i><b>2.5</b> Why do larger samples fluctuate less?</a></li>
+<li class="chapter" data-level="2.6" data-path="u2-lln-explained.html"><a href="u2-lln-explained.html"><i class="fa fa-check"></i><b>2.6</b> Why does the sample mean become more reliable?</a></li>
+<li class="chapter" data-level="2.7" data-path="u2-cost.html"><a href="u2-cost.html"><i class="fa fa-check"></i><b>2.7</b> Why is precision expensive?</a></li>
+<li class="chapter" data-level="2.8" data-path="u2-summary.html"><a href="u2-summary.html"><i class="fa fa-check"></i><b>2.8</b> Summary</a></li>
+<li class="chapter" data-level="2.9" data-path="u2-practice.html"><a href="u2-practice.html"><i class="fa fa-check"></i><b>2.9</b> Practice problems</a>
+<ul>
+<li class="chapter" data-level="" data-path="u2-practice.html"><a href="u2-practice.html#concept-checks-1"><i class="fa fa-check"></i>Concept checks</a></li>
+<li class="chapter" data-level="" data-path="u2-practice.html"><a href="u2-practice.html#explain-1"><i class="fa fa-check"></i>Explain</a></li>
+<li class="chapter" data-level="" data-path="u2-practice.html"><a href="u2-practice.html#numerical-problems-1"><i class="fa fa-check"></i>Numerical problems</a></li>
+<li class="chapter" data-level="" data-path="u2-practice.html"><a href="u2-practice.html#r-exercises-1"><i class="fa fa-check"></i>R exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="2.10" data-path="u2-question-bank.html"><a href="u2-question-bank.html"><i class="fa fa-check"></i><b>2.10</b> Question bank</a>
+<ul>
+<li class="chapter" data-level="" data-path="u2-question-bank.html"><a href="u2-question-bank.html#multiple-choice-1"><i class="fa fa-check"></i>Multiple choice</a></li>
+<li class="chapter" data-level="" data-path="u2-question-bank.html"><a href="u2-question-bank.html#short-reasoning-1"><i class="fa fa-check"></i>Short reasoning</a></li>
+<li class="chapter" data-level="" data-path="u2-question-bank.html"><a href="u2-question-bank.html#numerical-1"><i class="fa fa-check"></i>Numerical</a></li>
+</ul></li>
+<li class="chapter" data-level="2.11" data-path="u2-looking-ahead.html"><a href="u2-looking-ahead.html"><i class="fa fa-check"></i><b>2.11</b> Looking ahead</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="interval-estimation.html"><a href="interval-estimation.html"><i class="fa fa-check"></i><b>3</b> How Much Can One Sample Tell Us?</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="u3-single-sample.html"><a href="u3-single-sample.html"><i class="fa fa-check"></i><b>3.1</b> One sample, one number</a></li>
+<li class="chapter" data-level="3.2" data-path="u3-variance.html"><a href="u3-variance.html"><i class="fa fa-check"></i><b>3.2</b> Estimating the standard error</a>
+<ul>
+<li class="chapter" data-level="" data-path="u3-variance.html"><a href="u3-variance.html#a-statistical-laboratory"><i class="fa fa-check"></i>A statistical laboratory</a></li>
+<li class="chapter" data-level="" data-path="u3-variance.html"><a href="u3-variance.html#why-dividing-by-n-fails"><i class="fa fa-check"></i>Why dividing by n fails</a></li>
+<li class="chapter" data-level="" data-path="u3-variance.html"><a href="u3-variance.html#why-the-correction-is-exactly-n-1"><i class="fa fa-check"></i>Why the correction is exactly n − 1</a></li>
+<li class="chapter" data-level="" data-path="u3-variance.html"><a href="u3-variance.html#when-the-population-mean-is-known"><i class="fa fa-check"></i>When the population mean is known</a></li>
+<li class="chapter" data-level="" data-path="u3-variance.html"><a href="u3-variance.html#back-to-the-standard-error"><i class="fa fa-check"></i>Back to the standard error</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="u3-proportion.html"><a href="u3-proportion.html"><i class="fa fa-check"></i><b>3.3</b> How do we estimate a proportion?</a>
+<ul>
+<li class="chapter" data-level="" data-path="u3-proportion.html"><a href="u3-proportion.html#how-much-does-a-sample-proportion-vary"><i class="fa fa-check"></i>How much does a sample proportion vary?</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="u3-ci.html"><a href="u3-ci.html"><i class="fa fa-check"></i><b>3.4</b> From a point estimate to an interval</a>
+<ul>
+<li class="chapter" data-level="" data-path="u3-ci.html"><a href="u3-ci.html#building-the-interval"><i class="fa fa-check"></i>Building the interval</a></li>
+<li class="chapter" data-level="" data-path="u3-ci.html"><a href="u3-ci.html#reversing-the-question"><i class="fa fa-check"></i>Reversing the question</a></li>
+<li class="chapter" data-level="" data-path="u3-ci.html"><a href="u3-ci.html#what-does-95-actually-refer-to"><i class="fa fa-check"></i>What does 95% actually refer to?</a></li>
+</ul></li>
+<li class="chapter" data-level="3.5" data-path="u3-t.html"><a href="u3-t.html"><i class="fa fa-check"></i><b>3.5</b> What changes when σ is unknown?</a>
+<ul>
+<li class="chapter" data-level="" data-path="u3-t.html"><a href="u3-t.html#why-does-the-interval-change"><i class="fa fa-check"></i>Why does the interval change?</a></li>
+<li class="chapter" data-level="" data-path="u3-t.html"><a href="u3-t.html#how-serious-is-the-problem"><i class="fa fa-check"></i>How serious is the problem?</a></li>
+<li class="chapter" data-level="" data-path="u3-t.html"><a href="u3-t.html#the-t-distribution"><i class="fa fa-check"></i>The <span class="math inline">\(t\)</span> distribution</a></li>
+<li class="chapter" data-level="" data-path="u3-t.html"><a href="u3-t.html#how-much-difference-does-it-make"><i class="fa fa-check"></i>How much difference does it make?</a></li>
+<li class="chapter" data-level="" data-path="u3-t.html"><a href="u3-t.html#one-final-point"><i class="fa fa-check"></i>One final point</a></li>
+</ul></li>
+<li class="chapter" data-level="3.6" data-path="u3-samplesize.html"><a href="u3-samplesize.html"><i class="fa fa-check"></i><b>3.6</b> How large a sample do we need?</a>
+<ul>
+<li class="chapter" data-level="" data-path="u3-samplesize.html"><a href="u3-samplesize.html#intervals-for-a-proportion"><i class="fa fa-check"></i>Intervals for a proportion</a></li>
+</ul></li>
+<li class="chapter" data-level="3.7" data-path="u3-onesided.html"><a href="u3-onesided.html"><i class="fa fa-check"></i><b>3.7</b> When only one direction matters</a></li>
+<li class="chapter" data-level="3.8" data-path="u3-misreadings.html"><a href="u3-misreadings.html"><i class="fa fa-check"></i><b>3.8</b> What a confidence interval does not mean</a>
+<ul>
+<li class="chapter" data-level="" data-path="u3-misreadings.html"><a href="u3-misreadings.html#statement-1-the-probability-the-mean-is-inside"><i class="fa fa-check"></i>Statement 1: the probability the mean is inside</a></li>
+<li class="chapter" data-level="" data-path="u3-misreadings.html"><a href="u3-misreadings.html#statement-2-the-spread-of-the-population"><i class="fa fa-check"></i>Statement 2: the spread of the population</a></li>
+<li class="chapter" data-level="" data-path="u3-misreadings.html"><a href="u3-misreadings.html#statement-3-two-intervals-that-overlap"><i class="fa fa-check"></i>Statement 3: two intervals that overlap</a></li>
+<li class="chapter" data-level="" data-path="u3-misreadings.html"><a href="u3-misreadings.html#statement-4-a-wider-interval"><i class="fa fa-check"></i>Statement 4: a wider interval</a></li>
+</ul></li>
+<li class="chapter" data-level="3.9" data-path="u3-summary.html"><a href="u3-summary.html"><i class="fa fa-check"></i><b>3.9</b> Summary</a></li>
+<li class="chapter" data-level="3.10" data-path="u3-practice.html"><a href="u3-practice.html"><i class="fa fa-check"></i><b>3.10</b> Practice problems</a>
+<ul>
+<li class="chapter" data-level="" data-path="u3-practice.html"><a href="u3-practice.html#concept-checks-2"><i class="fa fa-check"></i>Concept checks</a></li>
+<li class="chapter" data-level="" data-path="u3-practice.html"><a href="u3-practice.html#explain-2"><i class="fa fa-check"></i>Explain</a></li>
+<li class="chapter" data-level="" data-path="u3-practice.html"><a href="u3-practice.html#numerical-problems-2"><i class="fa fa-check"></i>Numerical problems</a></li>
+<li class="chapter" data-level="" data-path="u3-practice.html"><a href="u3-practice.html#r-exercises-2"><i class="fa fa-check"></i>R exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="3.11" data-path="u3-question-bank.html"><a href="u3-question-bank.html"><i class="fa fa-check"></i><b>3.11</b> Question bank</a>
+<ul>
+<li class="chapter" data-level="" data-path="u3-question-bank.html"><a href="u3-question-bank.html#multiple-choice-2"><i class="fa fa-check"></i>Multiple choice</a></li>
+<li class="chapter" data-level="" data-path="u3-question-bank.html"><a href="u3-question-bank.html#short-reasoning-2"><i class="fa fa-check"></i>Short reasoning</a></li>
+<li class="chapter" data-level="" data-path="u3-question-bank.html"><a href="u3-question-bank.html#numerical-2"><i class="fa fa-check"></i>Numerical</a></li>
+</ul></li>
+<li class="chapter" data-level="3.12" data-path="u3-looking-ahead.html"><a href="u3-looking-ahead.html"><i class="fa fa-check"></i><b>3.12</b> Looking ahead</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="one-sample.html"><a href="one-sample.html"><i class="fa fa-check"></i><b>4</b> Hypothesis Testing: One Sample</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="os-problem.html"><a href="os-problem.html"><i class="fa fa-check"></i><b>4.1</b> The problem, before any formulas</a></li>
+<li class="chapter" data-level="4.2" data-path="os-hypotheses.html"><a href="os-hypotheses.html"><i class="fa fa-check"></i><b>4.2</b> Naming the two hypotheses</a>
+<ul>
+<li class="chapter" data-level="" data-path="os-hypotheses.html"><a href="os-hypotheses.html#why-begin-by-assuming-the-claim-is-true"><i class="fa fa-check"></i>Why begin by assuming the claim is true?</a></li>
+<li class="chapter" data-level="4.2.1" data-path="os-hypotheses.html"><a href="os-hypotheses.html#os-which-hypothesis"><i class="fa fa-check"></i><b>4.2.1</b> Which hypothesis does the claim go in?</a></li>
+<li class="chapter" data-level="" data-path="os-hypotheses.html"><a href="os-hypotheses.html#where-the-equality-goes"><i class="fa fa-check"></i>Where the equality goes</a></li>
+<li class="chapter" data-level="" data-path="os-hypotheses.html"><a href="os-hypotheses.html#the-cat-report-worked-through"><i class="fa fa-check"></i>The CAT report, worked through</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="os-pvalue.html"><a href="os-pvalue.html"><i class="fa fa-check"></i><b>4.3</b> What a p-value actually says</a>
+<ul>
+<li class="chapter" data-level="" data-path="os-pvalue.html"><a href="os-pvalue.html#four-ways-to-read-it-backwards"><i class="fa fa-check"></i>Four ways to read it backwards</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="os-critical.html"><a href="os-critical.html"><i class="fa fa-check"></i><b>4.4</b> How far is too far?</a>
+<ul>
+<li class="chapter" data-level="" data-path="os-critical.html"><a href="os-critical.html#choosing-the-cutoff"><i class="fa fa-check"></i>Choosing the cutoff</a></li>
+<li class="chapter" data-level="" data-path="os-critical.html"><a href="os-critical.html#the-decision-rule"><i class="fa fa-check"></i>The decision rule</a></li>
+</ul></li>
+<li class="chapter" data-level="4.5" data-path="os-worked.html"><a href="os-worked.html"><i class="fa fa-check"></i><b>4.5</b> The worked example, both ways</a>
+<ul>
+<li class="chapter" data-level="" data-path="os-worked.html"><a href="os-worked.html#on-paper"><i class="fa fa-check"></i>On paper</a></li>
+<li class="chapter" data-level="" data-path="os-worked.html"><a href="os-worked.html#the-same-thing-in-r"><i class="fa fa-check"></i>The same thing in R</a></li>
+<li class="chapter" data-level="" data-path="os-worked.html"><a href="os-worked.html#letting-a-package-do-it"><i class="fa fa-check"></i>Letting a package do it</a></li>
+</ul></li>
+<li class="chapter" data-level="4.6" data-path="os-ci.html"><a href="os-ci.html"><i class="fa fa-check"></i><b>4.6</b> The same test, viewed as an interval</a>
+<ul>
+<li class="chapter" data-level="" data-path="os-ci.html"><a href="os-ci.html#testing-every-possible-claim-at-once"><i class="fa fa-check"></i>Testing every possible claim at once</a></li>
+<li class="chapter" data-level="" data-path="os-ci.html"><a href="os-ci.html#so-why-keep-both"><i class="fa fa-check"></i>So why keep both?</a></li>
+</ul></li>
+<li class="chapter" data-level="4.7" data-path="os-ttest.html"><a href="os-ttest.html"><i class="fa fa-check"></i><b>4.7</b> When σ is unknown: the t-test</a>
+<ul>
+<li class="chapter" data-level="" data-path="os-ttest.html"><a href="os-ttest.html#settling-the-question-with-the-actual-class"><i class="fa fa-check"></i>Settling the question with the actual class</a></li>
+<li class="chapter" data-level="" data-path="os-ttest.html"><a href="os-ttest.html#worked-example"><i class="fa fa-check"></i>Worked example</a></li>
+</ul></li>
+<li class="chapter" data-level="4.8" data-path="os-onetailed.html"><a href="os-onetailed.html"><i class="fa fa-check"></i><b>4.8</b> One-tailed tests</a>
+<ul>
+<li class="chapter" data-level="" data-path="os-onetailed.html"><a href="os-onetailed.html#unknown-%CF%83-the-one-sided-t-test"><i class="fa fa-check"></i>Unknown σ: the one-sided t-test</a></li>
+<li class="chapter" data-level="" data-path="os-onetailed.html"><a href="os-onetailed.html#the-one-sided-interval-looks-backwards"><i class="fa fa-check"></i>The one-sided interval looks backwards</a></li>
+</ul></li>
+<li class="chapter" data-level="4.9" data-path="os-errors.html"><a href="os-errors.html"><i class="fa fa-check"></i><b>4.9</b> Two ways to be wrong</a>
+<ul>
+<li class="chapter" data-level="" data-path="os-errors.html"><a href="os-errors.html#the-two-errors"><i class="fa fa-check"></i>The two errors</a></li>
+<li class="chapter" data-level="" data-path="os-errors.html"><a href="os-errors.html#the-umpires-call"><i class="fa fa-check"></i>The umpire’s call</a></li>
+<li class="chapter" data-level="" data-path="os-errors.html"><a href="os-errors.html#why-errors-happen-at-all"><i class="fa fa-check"></i>Why errors happen at all</a></li>
+<li class="chapter" data-level="" data-path="os-errors.html"><a href="os-errors.html#power"><i class="fa fa-check"></i>Power</a></li>
+<li class="chapter" data-level="" data-path="os-errors.html"><a href="os-errors.html#working-it-out"><i class="fa fa-check"></i>Working it out</a></li>
+<li class="chapter" data-level="" data-path="os-errors.html"><a href="os-errors.html#what-determines-power"><i class="fa fa-check"></i>What determines power</a></li>
+</ul></li>
+<li class="chapter" data-level="4.10" data-path="os-reference.html"><a href="os-reference.html"><i class="fa fa-check"></i><b>4.10</b> Reference tables</a></li>
+<li class="chapter" data-level="4.11" data-path="os-summary.html"><a href="os-summary.html"><i class="fa fa-check"></i><b>4.11</b> Summary</a></li>
+<li class="chapter" data-level="4.12" data-path="os-exercises.html"><a href="os-exercises.html"><i class="fa fa-check"></i><b>4.12</b> Practice problems</a>
+<ul>
+<li class="chapter" data-level="" data-path="os-exercises.html"><a href="os-exercises.html#type-i-and-type-ii-errors"><i class="fa fa-check"></i>Type I and Type II errors</a></li>
+</ul></li>
+<li class="chapter" data-level="4.13" data-path="os-question-bank.html"><a href="os-question-bank.html"><i class="fa fa-check"></i><b>4.13</b> Question bank</a>
+<ul>
+<li class="chapter" data-level="" data-path="os-question-bank.html"><a href="os-question-bank.html#multiple-choice-3"><i class="fa fa-check"></i>Multiple choice</a></li>
+<li class="chapter" data-level="" data-path="os-question-bank.html"><a href="os-question-bank.html#short-reasoning-3"><i class="fa fa-check"></i>Short reasoning</a></li>
+<li class="chapter" data-level="" data-path="os-question-bank.html"><a href="os-question-bank.html#numerical-3"><i class="fa fa-check"></i>Numerical</a></li>
+<li class="chapter" data-level="" data-path="os-question-bank.html"><a href="os-question-bank.html#errors-and-power"><i class="fa fa-check"></i>Errors and power</a></li>
+</ul></li>
+<li class="chapter" data-level="4.14" data-path="os-looking-ahead.html"><a href="os-looking-ahead.html"><i class="fa fa-check"></i><b>4.14</b> Looking ahead</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="two-sample.html"><a href="two-sample.html"><i class="fa fa-check"></i><b>5</b> Hypothesis Testing: Two Samples</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="ts-motivation.html"><a href="ts-motivation.html"><i class="fa fa-check"></i><b>5.1</b> Comparing two groups</a></li>
+<li class="chapter" data-level="5.2" data-path="ts-sampling.html"><a href="ts-sampling.html"><i class="fa fa-check"></i><b>5.2</b> What does a difference of means do across samples?</a></li>
+<li class="chapter" data-level="5.3" data-path="ts-known.html"><a href="ts-known.html"><i class="fa fa-check"></i><b>5.3</b> Testing the difference when σ is known</a>
+<ul>
+<li class="chapter" data-level="" data-path="ts-known.html"><a href="ts-known.html#conventional-against-high-yielding-wheat"><i class="fa fa-check"></i>Conventional against high-yielding wheat</a></li>
+</ul></li>
+<li class="chapter" data-level="5.4" data-path="ts-unknown.html"><a href="ts-unknown.html"><i class="fa fa-check"></i><b>5.4</b> When σ is unknown</a>
+<ul>
+<li class="chapter" data-level="" data-path="ts-unknown.html"><a href="ts-unknown.html#large-samples"><i class="fa fa-check"></i>Large samples</a></li>
+<li class="chapter" data-level="" data-path="ts-unknown.html"><a href="ts-unknown.html#equal-variances-the-pooled-estimator"><i class="fa fa-check"></i>Equal variances: the pooled estimator</a></li>
+<li class="chapter" data-level="" data-path="ts-unknown.html"><a href="ts-unknown.html#unequal-variances-welchs-test"><i class="fa fa-check"></i>Unequal variances: Welch’s test</a></li>
+<li class="chapter" data-level="" data-path="ts-unknown.html"><a href="ts-unknown.html#do-north-and-south-indian-students-differ-in-height"><i class="fa fa-check"></i>Do North and South Indian students differ in height?</a></li>
+</ul></li>
+<li class="chapter" data-level="5.5" data-path="ts-paired.html"><a href="ts-paired.html"><i class="fa fa-check"></i><b>5.5</b> When two samples are not really two samples</a>
+<ul>
+<li class="chapter" data-level="" data-path="ts-paired.html"><a href="ts-paired.html#something-is-wrong"><i class="fa fa-check"></i>Something is wrong</a></li>
+<li class="chapter" data-level="" data-path="ts-paired.html"><a href="ts-paired.html#what-the-two-sample-test-assumed"><i class="fa fa-check"></i>What the two-sample test assumed</a></li>
+<li class="chapter" data-level="" data-path="ts-paired.html"><a href="ts-paired.html#two-sources-of-variation"><i class="fa fa-check"></i>Two sources of variation</a></li>
+<li class="chapter" data-level="" data-path="ts-paired.html"><a href="ts-paired.html#removing-what-we-do-not-care-about"><i class="fa fa-check"></i>Removing what we do not care about</a></li>
+<li class="chapter" data-level="" data-path="ts-paired.html"><a href="ts-paired.html#the-statistical-model"><i class="fa fa-check"></i>The statistical model</a></li>
+<li class="chapter" data-level="" data-path="ts-paired.html"><a href="ts-paired.html#setting-up-the-hypotheses"><i class="fa fa-check"></i>Setting up the hypotheses</a></li>
+<li class="chapter" data-level="" data-path="ts-paired.html"><a href="ts-paired.html#estimating-the-mean-difference"><i class="fa fa-check"></i>Estimating the mean difference</a></li>
+<li class="chapter" data-level="" data-path="ts-paired.html"><a href="ts-paired.html#the-test-statistic"><i class="fa fa-check"></i>The test statistic</a></li>
+<li class="chapter" data-level="" data-path="ts-paired.html"><a href="ts-paired.html#confidence-interval"><i class="fa fa-check"></i>Confidence interval</a></li>
+<li class="chapter" data-level="" data-path="ts-paired.html"><a href="ts-paired.html#doing-it-in-r"><i class="fa fa-check"></i>Doing it in R</a></li>
+<li class="chapter" data-level="" data-path="ts-paired.html"><a href="ts-paired.html#why-did-the-answer-change-so-much"><i class="fa fa-check"></i>Why did the answer change so much?</a></li>
+<li class="chapter" data-level="" data-path="ts-paired.html"><a href="ts-paired.html#when-should-we-use-a-paired-test"><i class="fa fa-check"></i>When should we use a paired test?</a></li>
+</ul></li>
+<li class="chapter" data-level="5.6" data-path="ts-causal.html"><a href="ts-causal.html"><i class="fa fa-check"></i><b>5.6</b> A difference is not an effect</a>
+<ul>
+<li class="chapter" data-level="" data-path="ts-causal.html"><a href="ts-causal.html#the-difference-is-significant-and-trivial"><i class="fa fa-check"></i>The difference is significant and trivial</a></li>
+<li class="chapter" data-level="" data-path="ts-causal.html"><a href="ts-causal.html#the-groups-were-not-assigned"><i class="fa fa-check"></i>The groups were not assigned</a></li>
+</ul></li>
+<li class="chapter" data-level="5.7" data-path="ts-summary.html"><a href="ts-summary.html"><i class="fa fa-check"></i><b>5.7</b> Summary</a></li>
+<li class="chapter" data-level="5.8" data-path="ts-practice.html"><a href="ts-practice.html"><i class="fa fa-check"></i><b>5.8</b> Practice problems</a>
+<ul>
+<li class="chapter" data-level="" data-path="ts-practice.html"><a href="ts-practice.html#concept-checks-3"><i class="fa fa-check"></i>Concept checks</a></li>
+<li class="chapter" data-level="" data-path="ts-practice.html"><a href="ts-practice.html#explain-3"><i class="fa fa-check"></i>Explain</a></li>
+<li class="chapter" data-level="" data-path="ts-practice.html"><a href="ts-practice.html#numerical-problems-3"><i class="fa fa-check"></i>Numerical problems</a></li>
+<li class="chapter" data-level="" data-path="ts-practice.html"><a href="ts-practice.html#r-exercises-3"><i class="fa fa-check"></i>R exercises</a></li>
+<li class="chapter" data-level="" data-path="ts-practice.html"><a href="ts-practice.html#paired-designs"><i class="fa fa-check"></i>Paired designs</a></li>
+</ul></li>
+<li class="chapter" data-level="5.9" data-path="ts-question-bank.html"><a href="ts-question-bank.html"><i class="fa fa-check"></i><b>5.9</b> Question bank</a>
+<ul>
+<li class="chapter" data-level="" data-path="ts-question-bank.html"><a href="ts-question-bank.html#multiple-choice-4"><i class="fa fa-check"></i>Multiple choice</a></li>
+<li class="chapter" data-level="" data-path="ts-question-bank.html"><a href="ts-question-bank.html#short-reasoning-4"><i class="fa fa-check"></i>Short reasoning</a></li>
+<li class="chapter" data-level="" data-path="ts-question-bank.html"><a href="ts-question-bank.html#numerical-4"><i class="fa fa-check"></i>Numerical</a></li>
+<li class="chapter" data-level="" data-path="ts-question-bank.html"><a href="ts-question-bank.html#paired-designs-1"><i class="fa fa-check"></i>Paired designs</a></li>
+<li class="chapter" data-level="" data-path="ts-question-bank.html"><a href="ts-question-bank.html#paired-reasoning"><i class="fa fa-check"></i>Paired reasoning</a></li>
+<li class="chapter" data-level="" data-path="ts-question-bank.html"><a href="ts-question-bank.html#paired-numerical"><i class="fa fa-check"></i>Paired numerical</a></li>
+</ul></li>
+<li class="chapter" data-level="5.10" data-path="ts-looking-ahead.html"><a href="ts-looking-ahead.html"><i class="fa fa-check"></i><b>5.10</b> Looking ahead</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="simple-regression.html"><a href="simple-regression.html"><i class="fa fa-check"></i><b>6</b> The Simple Regression Model</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="sr-motivation.html"><a href="sr-motivation.html"><i class="fa fa-check"></i><b>6.1</b> From comparing groups to modelling relationships</a>
+<ul>
+<li class="chapter" data-level="" data-path="sr-motivation.html"><a href="sr-motivation.html#the-experiment-we-cannot-run"><i class="fa fa-check"></i>The experiment we cannot run</a></li>
+<li class="chapter" data-level="" data-path="sr-motivation.html"><a href="sr-motivation.html#the-question-has-changed"><i class="fa fa-check"></i>The question has changed</a></li>
+<li class="chapter" data-level="" data-path="sr-motivation.html"><a href="sr-motivation.html#the-price-of-the-old-question"><i class="fa fa-check"></i>The price of the old question</a></li>
+</ul></li>
+<li class="chapter" data-level="6.2" data-path="sr-prf.html"><a href="sr-prf.html"><i class="fa fa-check"></i><b>6.2</b> The population regression function</a></li>
+<li class="chapter" data-level="6.3" data-path="sr-model.html"><a href="sr-model.html"><i class="fa fa-check"></i><b>6.3</b> From averages to observations</a></li>
+<li class="chapter" data-level="6.4" data-path="sr-error.html"><a href="sr-error.html"><i class="fa fa-check"></i><b>6.4</b> The error term</a>
+<ul>
+<li class="chapter" data-level="" data-path="sr-error.html"><a href="sr-error.html#systematic-and-stochastic"><i class="fa fa-check"></i>Systematic and stochastic</a></li>
+<li class="chapter" data-level="" data-path="sr-error.html"><a href="sr-error.html#what-the-two-parameters-mean"><i class="fa fa-check"></i>What the two parameters mean</a></li>
+</ul></li>
+<li class="chapter" data-level="6.5" data-path="sr-assumptions.html"><a href="sr-assumptions.html"><i class="fa fa-check"></i><b>6.5</b> When does β₁ measure an effect?</a>
+<ul>
+<li class="chapter" data-level="" data-path="sr-assumptions.html"><a href="sr-assumptions.html#the-error-averages-zero"><i class="fa fa-check"></i>The error averages zero</a></li>
+<li class="chapter" data-level="" data-path="sr-assumptions.html"><a href="sr-assumptions.html#the-error-is-unrelated-to-x"><i class="fa fa-check"></i>The error is unrelated to x</a></li>
+</ul></li>
+<li class="chapter" data-level="6.6" data-path="sr-srf.html"><a href="sr-srf.html"><i class="fa fa-check"></i><b>6.6</b> From the population to a sample</a>
+<ul>
+<li class="chapter" data-level="" data-path="sr-srf.html"><a href="sr-srf.html#two-sections-two-lines"><i class="fa fa-check"></i>Two sections, two lines</a></li>
+</ul></li>
+<li class="chapter" data-level="6.7" data-path="sr-ols.html"><a href="sr-ols.html"><i class="fa fa-check"></i><b>6.7</b> Which line should we fit?</a></li>
+<li class="chapter" data-level="6.8" data-path="sr-summary.html"><a href="sr-summary.html"><i class="fa fa-check"></i><b>6.8</b> Summary</a></li>
+<li class="chapter" data-level="6.9" data-path="sr-practice.html"><a href="sr-practice.html"><i class="fa fa-check"></i><b>6.9</b> Practice problems</a>
+<ul>
+<li class="chapter" data-level="" data-path="sr-practice.html"><a href="sr-practice.html#concept-checks-4"><i class="fa fa-check"></i>Concept checks</a></li>
+<li class="chapter" data-level="" data-path="sr-practice.html"><a href="sr-practice.html#explain-4"><i class="fa fa-check"></i>Explain</a></li>
+<li class="chapter" data-level="" data-path="sr-practice.html"><a href="sr-practice.html#numerical-and-conceptual"><i class="fa fa-check"></i>Numerical and conceptual</a></li>
+</ul></li>
+<li class="chapter" data-level="6.10" data-path="sr-question-bank.html"><a href="sr-question-bank.html"><i class="fa fa-check"></i><b>6.10</b> Question bank</a>
+<ul>
+<li class="chapter" data-level="" data-path="sr-question-bank.html"><a href="sr-question-bank.html#multiple-choice-5"><i class="fa fa-check"></i>Multiple choice</a></li>
+<li class="chapter" data-level="" data-path="sr-question-bank.html"><a href="sr-question-bank.html#short-reasoning-5"><i class="fa fa-check"></i>Short reasoning</a></li>
+<li class="chapter" data-level="" data-path="sr-question-bank.html"><a href="sr-question-bank.html#numerical-5"><i class="fa fa-check"></i>Numerical</a></li>
+</ul></li>
+<li class="chapter" data-level="6.11" data-path="sr-looking-ahead.html"><a href="sr-looking-ahead.html"><i class="fa fa-check"></i><b>6.11</b> Looking ahead</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="ols.html"><a href="ols.html"><i class="fa fa-check"></i><b>7</b> Ordinary Least Squares</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="ols-derive.html"><a href="ols-derive.html"><i class="fa fa-check"></i><b>7.1</b> Deriving the estimators</a>
+<ul>
+<li class="chapter" data-level="" data-path="ols-derive.html"><a href="ols-derive.html#doing-it-by-hand-and-in-r"><i class="fa fa-check"></i>Doing it by hand and in R</a></li>
+</ul></li>
+<li class="chapter" data-level="7.2" data-path="ols-fit.html"><a href="ols-fit.html"><i class="fa fa-check"></i><b>7.2</b> What the fitted line guarantees</a>
+<ul>
+<li class="chapter" data-level="" data-path="ols-fit.html"><a href="ols-fit.html#how-much-of-the-variation-has-the-line-accounted-for"><i class="fa fa-check"></i>How much of the variation has the line accounted for?</a></li>
+<li class="chapter" data-level="" data-path="ols-fit.html"><a href="ols-fit.html#from-one-observation-to-all-of-them"><i class="fa fa-check"></i>From one observation to all of them</a></li>
+<li class="chapter" data-level="" data-path="ols-fit.html"><a href="ols-fit.html#the-coefficient-of-determination"><i class="fa fa-check"></i>The coefficient of determination</a></li>
+</ul></li>
+<li class="chapter" data-level="7.3" data-path="ols-sampling.html"><a href="ols-sampling.html"><i class="fa fa-check"></i><b>7.3</b> Every sample gives a different line</a>
+<ul>
+<li class="chapter" data-level="" data-path="ols-sampling.html"><a href="ols-sampling.html#looking-only-at-the-slopes"><i class="fa fa-check"></i>Looking only at the slopes</a></li>
+<li class="chapter" data-level="" data-path="ols-sampling.html"><a href="ols-sampling.html#what-makes-the-distribution-narrow"><i class="fa fa-check"></i>What makes the distribution narrow?</a></li>
+</ul></li>
+<li class="chapter" data-level="7.4" data-path="ols-unbiased.html"><a href="ols-unbiased.html"><i class="fa fa-check"></i><b>7.4</b> Why does OLS get the right answer on average?</a></li>
+<li class="chapter" data-level="7.5" data-path="ols-variance.html"><a href="ols-variance.html"><i class="fa fa-check"></i><b>7.5</b> How precise is OLS?</a>
+<ul>
+<li class="chapter" data-level="" data-path="ols-variance.html"><a href="ols-variance.html#the-formula"><i class="fa fa-check"></i>The formula</a></li>
+<li class="chapter" data-level="" data-path="ols-variance.html"><a href="ols-variance.html#does-it-work"><i class="fa fa-check"></i>Does it work?</a></li>
+<li class="chapter" data-level="" data-path="ols-variance.html"><a href="ols-variance.html#why-the-denominator-matters"><i class="fa fa-check"></i>Why the denominator matters</a></li>
+<li class="chapter" data-level="" data-path="ols-variance.html"><a href="ols-variance.html#where-the-formula-comes-from"><i class="fa fa-check"></i>Where the formula comes from</a></li>
+</ul></li>
+<li class="chapter" data-level="7.6" data-path="ols-hetero.html"><a href="ols-hetero.html"><i class="fa fa-check"></i><b>7.6</b> When the error variance is not constant</a>
+<ul>
+<li class="chapter" data-level="" data-path="ols-hetero.html"><a href="ols-hetero.html#what-it-looks-like"><i class="fa fa-check"></i>What it looks like</a></li>
+<li class="chapter" data-level="" data-path="ols-hetero.html"><a href="ols-hetero.html#does-heteroskedasticity-matter"><i class="fa fa-check"></i>Does heteroskedasticity matter?</a></li>
+<li class="chapter" data-level="" data-path="ols-hetero.html"><a href="ols-hetero.html#how-wrong"><i class="fa fa-check"></i>How wrong?</a></li>
+<li class="chapter" data-level="" data-path="ols-hetero.html"><a href="ols-hetero.html#robust-standard-errors"><i class="fa fa-check"></i>Robust standard errors</a></li>
+<li class="chapter" data-level="" data-path="ols-hetero.html"><a href="ols-hetero.html#the-wider-lesson"><i class="fa fa-check"></i>The wider lesson</a></li>
+</ul></li>
+<li class="chapter" data-level="7.7" data-path="ols-inference.html"><a href="ols-inference.html"><i class="fa fa-check"></i><b>7.7</b> Inference about the slope</a></li>
+<li class="chapter" data-level="7.8" data-path="ols-causal.html"><a href="ols-causal.html"><i class="fa fa-check"></i><b>7.8</b> Two students</a>
+<ul>
+<li class="chapter" data-level="" data-path="ols-causal.html"><a href="ols-causal.html#what-must-be-true"><i class="fa fa-check"></i>What must be true</a></li>
+<li class="chapter" data-level="" data-path="ols-causal.html"><a href="ols-causal.html#none-of-this-appears-in-the-output"><i class="fa fa-check"></i>None of this appears in the output</a></li>
+<li class="chapter" data-level="" data-path="ols-causal.html"><a href="ols-causal.html#where-to-go-from-here"><i class="fa fa-check"></i>Where to go from here</a></li>
+</ul></li>
+<li class="chapter" data-level="7.9" data-path="ols-summary.html"><a href="ols-summary.html"><i class="fa fa-check"></i><b>7.9</b> Summary</a></li>
+<li class="chapter" data-level="7.10" data-path="ols-practice.html"><a href="ols-practice.html"><i class="fa fa-check"></i><b>7.10</b> Practice problems</a>
+<ul>
+<li class="chapter" data-level="" data-path="ols-practice.html"><a href="ols-practice.html#numerical-problems-4"><i class="fa fa-check"></i>Numerical problems</a></li>
+<li class="chapter" data-level="" data-path="ols-practice.html"><a href="ols-practice.html#concept-checks-5"><i class="fa fa-check"></i>Concept checks</a></li>
+<li class="chapter" data-level="" data-path="ols-practice.html"><a href="ols-practice.html#r-exercises-4"><i class="fa fa-check"></i>R exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="7.11" data-path="ols-question-bank.html"><a href="ols-question-bank.html"><i class="fa fa-check"></i><b>7.11</b> Question bank</a>
+<ul>
+<li class="chapter" data-level="" data-path="ols-question-bank.html"><a href="ols-question-bank.html#multiple-choice-6"><i class="fa fa-check"></i>Multiple choice</a></li>
+<li class="chapter" data-level="" data-path="ols-question-bank.html"><a href="ols-question-bank.html#short-reasoning-6"><i class="fa fa-check"></i>Short reasoning</a></li>
+<li class="chapter" data-level="" data-path="ols-question-bank.html"><a href="ols-question-bank.html#numerical-6"><i class="fa fa-check"></i>Numerical</a></li>
+</ul></li>
+<li class="chapter" data-level="7.12" data-path="ols-looking-ahead.html"><a href="ols-looking-ahead.html"><i class="fa fa-check"></i><b>7.12</b> Looking ahead</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="multiple-regression.html"><a href="multiple-regression.html"><i class="fa fa-check"></i><b>8</b> Multiple Regression: Holding Other Things Equal</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="mlr-motivation.html"><a href="mlr-motivation.html"><i class="fa fa-check"></i><b>8.1</b> Why one variable is not enough</a>
+<ul>
+<li class="chapter" data-level="" data-path="mlr-motivation.html"><a href="mlr-motivation.html#what-the-slope-is-comparing"><i class="fa fa-check"></i>What the slope is comparing</a></li>
+<li class="chapter" data-level="" data-path="mlr-motivation.html"><a href="mlr-motivation.html#asking-a-narrower-question"><i class="fa fa-check"></i>Asking a narrower question</a></li>
+</ul></li>
+<li class="chapter" data-level="8.2" data-path="mlr-model.html"><a href="mlr-model.html"><i class="fa fa-check"></i><b>8.2</b> The model and what a coefficient means</a>
+<ul>
+<li class="chapter" data-level="" data-path="mlr-model.html"><a href="mlr-model.html#the-partial-derivative"><i class="fa fa-check"></i>The partial derivative</a></li>
+<li class="chapter" data-level="" data-path="mlr-model.html"><a href="mlr-model.html#doing-it"><i class="fa fa-check"></i>Doing it</a></li>
+<li class="chapter" data-level="" data-path="mlr-model.html"><a href="mlr-model.html#a-second-example"><i class="fa fa-check"></i>A second example</a></li>
+</ul></li>
+<li class="chapter" data-level="8.3" data-path="mlr-fwl.html"><a href="mlr-fwl.html"><i class="fa fa-check"></i><b>8.3</b> What “holding constant” actually does</a>
+<ul>
+<li class="chapter" data-level="" data-path="mlr-fwl.html"><a href="mlr-fwl.html#watching-it-happen"><i class="fa fa-check"></i>Watching it happen</a></li>
+<li class="chapter" data-level="" data-path="mlr-fwl.html"><a href="mlr-fwl.html#two-consequences-worth-noticing"><i class="fa fa-check"></i>Two consequences worth noticing</a></li>
+</ul></li>
+<li class="chapter" data-level="8.4" data-path="mlr-assumptions.html"><a href="mlr-assumptions.html"><i class="fa fa-check"></i><b>8.4</b> The assumptions</a>
+<ul>
+<li class="chapter" data-level="" data-path="mlr-assumptions.html"><a href="mlr-assumptions.html#zero-conditional-mean-now-harder-and-easier-at-once"><i class="fa fa-check"></i>Zero conditional mean, now harder and easier at once</a></li>
+<li class="chapter" data-level="" data-path="mlr-assumptions.html"><a href="mlr-assumptions.html#no-perfect-collinearity"><i class="fa fa-check"></i>No perfect collinearity</a></li>
+<li class="chapter" data-level="" data-path="mlr-assumptions.html"><a href="mlr-assumptions.html#the-cost-of-near-collinearity"><i class="fa fa-check"></i>The cost of near-collinearity</a></li>
+</ul></li>
+<li class="chapter" data-level="8.5" data-path="mlr-t.html"><a href="mlr-t.html"><i class="fa fa-check"></i><b>8.5</b> Testing one coefficient</a></li>
+<li class="chapter" data-level="8.6" data-path="mlr-f.html"><a href="mlr-f.html"><i class="fa fa-check"></i><b>8.6</b> Testing several coefficients at once</a>
+<ul>
+<li class="chapter" data-level="" data-path="mlr-f.html"><a href="mlr-f.html#why-separate-tests-fail"><i class="fa fa-check"></i>Why separate tests fail</a></li>
+<li class="chapter" data-level="" data-path="mlr-f.html"><a href="mlr-f.html#the-restricted-and-unrestricted-models"><i class="fa fa-check"></i>The restricted and unrestricted models</a></li>
+<li class="chapter" data-level="" data-path="mlr-f.html"><a href="mlr-f.html#building-the-statistic"><i class="fa fa-check"></i>Building the statistic</a></li>
+<li class="chapter" data-level="" data-path="mlr-f.html"><a href="mlr-f.html#why-an-f-distribution"><i class="fa fa-check"></i>Why an F distribution</a></li>
+<li class="chapter" data-level="" data-path="mlr-f.html"><a href="mlr-f.html#does-prior-record-belong-in-the-model"><i class="fa fa-check"></i>Does prior record belong in the model?</a></li>
+<li class="chapter" data-level="" data-path="mlr-f.html"><a href="mlr-f.html#the-f-statistic-r-prints-by-itself"><i class="fa fa-check"></i>The F statistic R prints by itself</a></li>
+<li class="chapter" data-level="" data-path="mlr-f.html"><a href="mlr-f.html#a-joint-test-that-does-not-reject"><i class="fa fa-check"></i>A joint test that does not reject</a></li>
+</ul></li>
+<li class="chapter" data-level="8.7" data-path="mlr-causal.html"><a href="mlr-causal.html"><i class="fa fa-check"></i><b>8.7</b> Does this give us causality?</a>
+<ul>
+<li class="chapter" data-level="" data-path="mlr-causal.html"><a href="mlr-causal.html#where-bias-comes-from"><i class="fa fa-check"></i>Where bias comes from</a></li>
+<li class="chapter" data-level="" data-path="mlr-causal.html"><a href="mlr-causal.html#checking-the-arithmetic"><i class="fa fa-check"></i>Checking the arithmetic</a></li>
+<li class="chapter" data-level="" data-path="mlr-causal.html"><a href="mlr-causal.html#what-the-controls-did-and-did-not-do"><i class="fa fa-check"></i>What the controls did and did not do</a></li>
+<li class="chapter" data-level="" data-path="mlr-causal.html"><a href="mlr-causal.html#the-other-three-ways-clrm4-fails"><i class="fa fa-check"></i>The other three ways CLRM4 fails</a></li>
+</ul></li>
+<li class="chapter" data-level="8.8" data-path="mlr-summary.html"><a href="mlr-summary.html"><i class="fa fa-check"></i><b>8.8</b> Summary</a></li>
+<li class="chapter" data-level="8.9" data-path="mlr-practice.html"><a href="mlr-practice.html"><i class="fa fa-check"></i><b>8.9</b> Practice problems</a>
+<ul>
+<li class="chapter" data-level="" data-path="mlr-practice.html"><a href="mlr-practice.html#numerical-problems-5"><i class="fa fa-check"></i>Numerical problems</a></li>
+<li class="chapter" data-level="" data-path="mlr-practice.html"><a href="mlr-practice.html#concept-checks-6"><i class="fa fa-check"></i>Concept checks</a></li>
+<li class="chapter" data-level="" data-path="mlr-practice.html"><a href="mlr-practice.html#r-exercises-5"><i class="fa fa-check"></i>R exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="8.10" data-path="mlr-question-bank.html"><a href="mlr-question-bank.html"><i class="fa fa-check"></i><b>8.10</b> Question bank</a>
+<ul>
+<li class="chapter" data-level="" data-path="mlr-question-bank.html"><a href="mlr-question-bank.html#multiple-choice-7"><i class="fa fa-check"></i>Multiple choice</a></li>
+<li class="chapter" data-level="" data-path="mlr-question-bank.html"><a href="mlr-question-bank.html#short-reasoning-7"><i class="fa fa-check"></i>Short reasoning</a></li>
+<li class="chapter" data-level="" data-path="mlr-question-bank.html"><a href="mlr-question-bank.html#numerical-7"><i class="fa fa-check"></i>Numerical</a></li>
+</ul></li>
+<li class="chapter" data-level="8.11" data-path="mlr-looking-ahead.html"><a href="mlr-looking-ahead.html"><i class="fa fa-check"></i><b>8.11</b> Looking ahead</a></li>
+</ul></li>
+<li class="divider"></li>
+<li class="toc-after">Kedar Kulkarni · Azim Premji University<br>
+<a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Statistics and Econometrics with R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="mlr-practice" class="section level2 hasAnchor" number="8.9">
+<h2><span class="header-section-number">8.9</span> Practice problems<a href="mlr-practice.html#mlr-practice" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="yourturn">
+<p>Work each one before opening the solution. The
+<a href="mlr-question-bank.html#mlr-question-bank">question bank</a> that follows has no answers.</p>
+</div>
+<div id="numerical-problems-5" class="section level3 unnumbered hasAnchor">
+<h3>Numerical problems<a href="mlr-practice.html#numerical-problems-5" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p><strong>8.1</strong> A researcher estimates the effect of fertiliser on rice yield across
+farms, first alone and then controlling for irrigation:</p>
+<p><span class="math display">\[\widehat{\text{yield}} = 12.4 + 0.85\,\text{fert}
+\qquad\qquad
+\widehat{\text{yield}} = 9.1 + 0.52\,\text{fert} + 6.3\,\text{irrig}\]</span></p>
+<p>where <code>irrig</code> is hectares under irrigation.</p>
+<ol style="list-style-type: lower-roman">
+<li>Interpret 0.52 precisely.</li>
+<li>Using the omitted variable bias formula, what must be the sign of the
+relationship between fertiliser use and irrigation?</li>
+<li>Compute the implied slope from a regression of irrigation on fertiliser.</li>
+</ol>
+<div class="answer">
+<p><strong>(i)</strong> Among farms with the same irrigated area, one additional unit of
+fertiliser is associated with 0.52 more quintals of yield on average.</p>
+<p><strong>(ii)</strong> The short regression gives 0.85 and the long one 0.52, so the bias is
+<span class="math inline">\(0.85 - 0.52 = +0.33\)</span>. Since <span class="math inline">\(\beta_2 = 6.3 &gt; 0\)</span>, the bias formula
+<span class="math inline">\(\beta_2\delta_1 = 0.33\)</span> requires <span class="math inline">\(\delta_1 &gt; 0\)</span>. Farms using more fertiliser
+also have more irrigation — plausible, since both are investments made by
+better-resourced farms.</p>
+<p><strong>(iii)</strong> <span class="math inline">\(\delta_1 = 0.33 / 6.3 = 0.052\)</span> hectares of irrigation per unit of
+fertiliser.</p>
+</div>
+<p><strong>8.2</strong> A regression of household consumption on income and household size gives
+<span class="math inline">\(R^2 = 0.68\)</span> with <span class="math inline">\(n = 240\)</span>.</p>
+<ol style="list-style-type: lower-roman">
+<li>State the null hypothesis of the overall <span class="math inline">\(F\)</span> test and compute the statistic.</li>
+<li>The 5% critical value with 2 and 237 degrees of freedom is 3.03. What do you
+conclude?</li>
+</ol>
+<div class="answer">
+<p><strong>(i)</strong> <span class="math inline">\(H_0: \beta_1 = \beta_2 = 0\)</span>; both slopes are zero. With <span class="math inline">\(k = 2\)</span> and
+<span class="math inline">\(n - k - 1 = 237\)</span>,</p>
+<p><span class="math display">\[F = \frac{0.68/2}{(1-0.68)/237} = \frac{0.34}{0.00135} = 251.8\]</span></p>
+<p><strong>(ii)</strong> <span class="math inline">\(251.8 \gg 3.03\)</span>, so we reject decisively. Income and household size
+together explain a substantial share of variation in consumption. As Section
+<a href="mlr-f.html#mlr-f">8.6</a> notes, this is a low bar and rejecting it establishes little beyond
+the model not being empty.</p>
+</div>
+<p><strong>8.3</strong> An unrestricted model with 5 explanatory variables and <span class="math inline">\(n = 90\)</span> has
+<span class="math inline">\(\text{SSR}_{ur} = 148\)</span>. Dropping three of them gives <span class="math inline">\(\text{SSR}_r = 176\)</span>.</p>
+<ol style="list-style-type: lower-roman">
+<li>Compute the <span class="math inline">\(F\)</span> statistic.</li>
+<li>With 3 and 84 degrees of freedom the 5% critical value is 2.71. Conclude.</li>
+<li>Why must <span class="math inline">\(\text{SSR}_r\)</span> exceed <span class="math inline">\(\text{SSR}_{ur}\)</span>?</li>
+</ol>
+<div class="answer">
+<p><strong>(i)</strong> <span class="math inline">\(q = 3\)</span>, <span class="math inline">\(n - k - 1 = 90 - 5 - 1 = 84\)</span>.</p>
+<p><span class="math display">\[F = \frac{(176 - 148)/3}{148/84} = \frac{9.333}{1.762} = 5.30\]</span></p>
+<p><strong>(ii)</strong> <span class="math inline">\(5.30 &gt; 2.71\)</span>: reject. At least one of the three dropped variables has a
+non-zero coefficient.</p>
+<p><strong>(iii)</strong> The unrestricted model can always reproduce the restricted one by
+setting those three coefficients to zero, and least squares chooses the values
+that minimise SSR. So the unrestricted SSR can never be larger.</p>
+</div>
+<p><strong>8.4</strong> In a wage regression, <span class="math inline">\(R_j^2\)</span> from regressing years of education on the
+other explanatory variables is 0.10 in one specification and 0.90 in another.
+Holding <span class="math inline">\(\sigma^2\)</span> and <span class="math inline">\(\sum(x_{ij}-\bar{x}_j)^2\)</span> fixed, by what factor does the
+standard error of the education coefficient differ between the two?</p>
+<div class="answer">
+<p>The variance is proportional to <span class="math inline">\(1/(1-R_j^2)\)</span>, so the standard error is
+proportional to <span class="math inline">\(1/\sqrt{1-R_j^2}\)</span>.</p>
+<p><span class="math display">\[\frac{\sqrt{1/(1-0.90)}}{\sqrt{1/(1-0.10)}} = \sqrt{\frac{0.90}{0.10}} = 3\]</span></p>
+<p>The standard error is three times larger in the second specification. The point
+estimate may be no better; the reported uncertainty is three times worse.</p>
+</div>
+</div>
+<div id="concept-checks-6" class="section level3 unnumbered hasAnchor">
+<h3>Concept checks<a href="mlr-practice.html#concept-checks-6" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p><strong>8.5</strong> A student says: “The coefficient on attendance fell from 0.189 to 0.136
+when I added controls, so the controls made the estimate worse.” Respond.</p>
+<div class="answer">
+<p>The two numbers answer different questions, so neither is a corrupted version of
+the other. 0.189 compares all students to all students; 0.136 compares students
+alike in prior record.</p>
+<p>If the goal is to describe how grades vary with attendance in the population,
+0.189 is the correct answer to that question. If the goal is to isolate what
+attendance contributes, 0.136 is closer, because one identified source of
+contamination has been removed.</p>
+<p>“Worse” presumes a target. The change is evidence that prior record was
+contributing to the simple slope — which is exactly what we suspected.</p>
+</div>
+<p><strong>8.6</strong> Explain why a variable that is strongly correlated with <span class="math inline">\(y\)</span> can be
+insignificant in a multiple regression.</p>
+<div class="answer">
+<p>By Section <a href="mlr-fwl.html#mlr-fwl">8.3</a>, the coefficient uses only the part of the variable that
+the other regressors cannot explain. If the variable is closely related to the
+other regressors, that remaining part is small, and a small amount of variation
+supports only an imprecise estimate.</p>
+<p>The variable may be strongly related to <span class="math inline">\(y\)</span> while contributing nothing the other
+variables have not already contributed. That is a statement about what the
+variable adds, not about whether it matters.</p>
+</div>
+<p><strong>8.7</strong> A regression includes both <code>attendance</code> and <code>classes_missed</code>, and R
+reports <code>NA</code> for the second. Explain what has happened and what should be done.</p>
+<div class="answer">
+<p>The two sum to 32 for every student, so one is an exact linear function of the
+other and CLRM7 fails. There is no observation for which attendance changes while
+classes missed does not, so the <em>ceteris paribus</em> comparison the coefficient
+refers to does not exist in the data. <span class="math inline">\(X&#39;X\)</span> is singular and cannot be inverted.</p>
+<p>R drops one variable and reports <code>NA</code> rather than failing. The remedy is to
+include only one of them: they carry identical information.</p>
+</div>
+<p><strong>8.8</strong> Two variables are individually insignificant at 5% but jointly
+significant at 1%. What should be concluded, and what should not?</p>
+<div class="answer">
+<p>Conclude that at least one of the two has a non-zero coefficient, and that the
+data cannot say which — a signature of strongly correlated regressors.</p>
+<p>Do not conclude that both are irrelevant, and do not drop both on the strength of
+the two <span class="math inline">\(t\)</span>-tests. Do not conclude that both matter either: the joint test is
+silent about which.</p>
+</div>
+</div>
+<div id="r-exercises-5" class="section level3 unnumbered hasAnchor">
+<h3>R exercises<a href="mlr-practice.html#r-exercises-5" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p><strong>8.9</strong> Using <code>attendance-grades.csv</code>, verify the Frisch–Waugh–Lovell result for
+<code>cum_gpa</code> rather than <code>attendance</code>: regress <code>cum_gpa</code> on the other two
+regressors, keep the residuals, regress <code>sem_gpa</code> on them, and compare the slope
+with the multiple regression coefficient.</p>
+<div class="answer">
+<div class="sourceCode" id="cb331"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb331-1"><a href="mlr-practice.html#cb331-1" tabindex="-1"></a>students <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/attendance-grades.csv&quot;</span>)</span>
+<span id="cb331-2"><a href="mlr-practice.html#cb331-2" tabindex="-1"></a>full <span class="ot">&lt;-</span> <span class="fu">lm</span>(sem_gpa <span class="sc">~</span> attendance <span class="sc">+</span> cum_gpa <span class="sc">+</span> admission_score, <span class="at">data =</span> students)</span>
+<span id="cb331-3"><a href="mlr-practice.html#cb331-3" tabindex="-1"></a></span>
+<span id="cb331-4"><a href="mlr-practice.html#cb331-4" tabindex="-1"></a>r <span class="ot">&lt;-</span> <span class="fu">residuals</span>(<span class="fu">lm</span>(cum_gpa <span class="sc">~</span> attendance <span class="sc">+</span> admission_score, <span class="at">data =</span> students))</span>
+<span id="cb331-5"><a href="mlr-practice.html#cb331-5" tabindex="-1"></a></span>
+<span id="cb331-6"><a href="mlr-practice.html#cb331-6" tabindex="-1"></a><span class="fu">c</span>(<span class="at">two_step =</span> <span class="fu">coef</span>(<span class="fu">lm</span>(students<span class="sc">$</span>sem_gpa <span class="sc">~</span> r))[<span class="dv">2</span>],</span>
+<span id="cb331-7"><a href="mlr-practice.html#cb331-7" tabindex="-1"></a>  <span class="at">direct   =</span> <span class="fu">coef</span>(full)[<span class="st">&quot;cum_gpa&quot;</span>])</span></code></pre></div>
+<p>The two agree to machine precision. The result holds for every coefficient, not
+just the one of interest — each is the slope from a regression on the part of its
+own variable that the others cannot explain.</p>
+</div>
+<p><strong>8.10</strong> Using <code>wages-india-synthetic.csv</code>, test whether sex and residence
+jointly belong in a regression of annual earnings on education and age. Report
+the <span class="math inline">\(F\)</span> statistic, its degrees of freedom and your conclusion.</p>
+<div class="answer">
+<div class="sourceCode" id="cb332"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb332-1"><a href="mlr-practice.html#cb332-1" tabindex="-1"></a>wages <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/wages-india-synthetic.csv&quot;</span>)</span>
+<span id="cb332-2"><a href="mlr-practice.html#cb332-2" tabindex="-1"></a>wages<span class="sc">$</span>male  <span class="ot">&lt;-</span> <span class="fu">as.integer</span>(wages<span class="sc">$</span>sex <span class="sc">==</span> <span class="st">&quot;Male&quot;</span>)</span>
+<span id="cb332-3"><a href="mlr-practice.html#cb332-3" tabindex="-1"></a>wages<span class="sc">$</span>urban <span class="ot">&lt;-</span> <span class="fu">as.integer</span>(wages<span class="sc">$</span>residence <span class="sc">==</span> <span class="st">&quot;Urban&quot;</span>)</span>
+<span id="cb332-4"><a href="mlr-practice.html#cb332-4" tabindex="-1"></a></span>
+<span id="cb332-5"><a href="mlr-practice.html#cb332-5" tabindex="-1"></a>r  <span class="ot">&lt;-</span> <span class="fu">lm</span>(annual_earnings <span class="sc">~</span> education <span class="sc">+</span> age, <span class="at">data =</span> wages)</span>
+<span id="cb332-6"><a href="mlr-practice.html#cb332-6" tabindex="-1"></a>ur <span class="ot">&lt;-</span> <span class="fu">lm</span>(annual_earnings <span class="sc">~</span> education <span class="sc">+</span> age <span class="sc">+</span> male <span class="sc">+</span> urban, <span class="at">data =</span> wages)</span>
+<span id="cb332-7"><a href="mlr-practice.html#cb332-7" tabindex="-1"></a></span>
+<span id="cb332-8"><a href="mlr-practice.html#cb332-8" tabindex="-1"></a><span class="fu">anova</span>(r, ur)</span></code></pre></div>
+<p><span class="math inline">\(F = 900.9\)</span> on 2 and 19,995 degrees of freedom, with a <span class="math inline">\(p\)</span>-value below any
+printable threshold. Sex and residence belong in the model.</p>
+<p>That they belong does not make the model causal. It says earnings differ
+systematically by sex and residence among people of the same education and age —
+a fact about the labour market, not an explanation of it.</p>
+</div>
+<p><strong>8.11</strong> Show by simulation that omitted variable bias behaves as the formula
+predicts. Generate <span class="math inline">\(x_2\)</span> correlated with <span class="math inline">\(x_1\)</span>, construct
+<span class="math inline">\(y = 1 + 2x_1 + 3x_2 + u\)</span>, estimate the short regression 2,000 times, and compare
+the average <span class="math inline">\(\hat{\alpha}_1\)</span> with <span class="math inline">\(\beta_1 + \beta_2\delta_1\)</span>.</p>
+<div class="answer">
+<div class="sourceCode" id="cb333"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb333-1"><a href="mlr-practice.html#cb333-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">20</span>)</span>
+<span id="cb333-2"><a href="mlr-practice.html#cb333-2" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">200</span></span>
+<span id="cb333-3"><a href="mlr-practice.html#cb333-3" tabindex="-1"></a></span>
+<span id="cb333-4"><a href="mlr-practice.html#cb333-4" tabindex="-1"></a>results <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">2000</span>, {</span>
+<span id="cb333-5"><a href="mlr-practice.html#cb333-5" tabindex="-1"></a>  x1 <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n)</span>
+<span id="cb333-6"><a href="mlr-practice.html#cb333-6" tabindex="-1"></a>  x2 <span class="ot">&lt;-</span> <span class="fl">0.5</span> <span class="sc">*</span> x1 <span class="sc">+</span> <span class="fu">rnorm</span>(n)              <span class="co"># delta_1 = 0.5 by construction</span></span>
+<span id="cb333-7"><a href="mlr-practice.html#cb333-7" tabindex="-1"></a>  y  <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">+</span> <span class="dv">2</span> <span class="sc">*</span> x1 <span class="sc">+</span> <span class="dv">3</span> <span class="sc">*</span> x2 <span class="sc">+</span> <span class="fu">rnorm</span>(n, <span class="at">sd =</span> <span class="dv">2</span>)</span>
+<span id="cb333-8"><a href="mlr-practice.html#cb333-8" tabindex="-1"></a>  <span class="fu">c</span>(<span class="at">short =</span> <span class="fu">coef</span>(<span class="fu">lm</span>(y <span class="sc">~</span> x1))[<span class="dv">2</span>], <span class="at">long =</span> <span class="fu">coef</span>(<span class="fu">lm</span>(y <span class="sc">~</span> x1 <span class="sc">+</span> x2))[<span class="dv">2</span>])</span>
+<span id="cb333-9"><a href="mlr-practice.html#cb333-9" tabindex="-1"></a>})</span>
+<span id="cb333-10"><a href="mlr-practice.html#cb333-10" tabindex="-1"></a></span>
+<span id="cb333-11"><a href="mlr-practice.html#cb333-11" tabindex="-1"></a><span class="fu">c</span>(<span class="at">mean_short =</span> <span class="fu">mean</span>(results[<span class="st">&quot;short.x1&quot;</span>, ]),</span>
+<span id="cb333-12"><a href="mlr-practice.html#cb333-12" tabindex="-1"></a>  <span class="at">predicted  =</span> <span class="dv">2</span> <span class="sc">+</span> <span class="dv">3</span> <span class="sc">*</span> <span class="fl">0.5</span>,</span>
+<span id="cb333-13"><a href="mlr-practice.html#cb333-13" tabindex="-1"></a>  <span class="at">mean_long  =</span> <span class="fu">mean</span>(results[<span class="st">&quot;long.x1&quot;</span>, ]))</span></code></pre></div>
+<p>The short regression averages about 3.5, matching
+<span class="math inline">\(\beta_1 + \beta_2\delta_1 = 2 + 3(0.5)\)</span>. The long regression averages about 2,
+the true value.</p>
+<p>The bias does not shrink with sample size. Increasing <span class="math inline">\(n\)</span> to 20,000 leaves it
+where it is — bias is not sampling error, and no amount of data removes it.</p>
+</div>
+<p><strong>8.12</strong> Investigate the cost of a redundant control. Regress <code>sem_gpa</code> on
+<code>attendance</code> alone, then add <code>cum_gpa</code>, then add a variable constructed to be
+almost identical to <code>attendance</code>. Compare the standard errors and explain.</p>
+<div class="answer">
+<div class="sourceCode" id="cb334"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb334-1"><a href="mlr-practice.html#cb334-1" tabindex="-1"></a>students <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/attendance-grades.csv&quot;</span>)</span>
+<span id="cb334-2"><a href="mlr-practice.html#cb334-2" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">5</span>)</span>
+<span id="cb334-3"><a href="mlr-practice.html#cb334-3" tabindex="-1"></a>students<span class="sc">$</span>attendance_copy <span class="ot">&lt;-</span> students<span class="sc">$</span>attendance <span class="sc">+</span> <span class="fu">rnorm</span>(<span class="fu">nrow</span>(students), <span class="at">sd =</span> <span class="fl">0.4</span>)</span>
+<span id="cb334-4"><a href="mlr-practice.html#cb334-4" tabindex="-1"></a></span>
+<span id="cb334-5"><a href="mlr-practice.html#cb334-5" tabindex="-1"></a>se <span class="ot">&lt;-</span> <span class="cf">function</span>(m) <span class="fu">round</span>(<span class="fu">coef</span>(<span class="fu">summary</span>(m))[<span class="st">&quot;attendance&quot;</span>, <span class="dv">2</span>], <span class="dv">4</span>)</span>
+<span id="cb334-6"><a href="mlr-practice.html#cb334-6" tabindex="-1"></a></span>
+<span id="cb334-7"><a href="mlr-practice.html#cb334-7" tabindex="-1"></a><span class="fu">c</span>(<span class="at">alone      =</span> <span class="fu">se</span>(<span class="fu">lm</span>(sem_gpa <span class="sc">~</span> attendance, <span class="at">data =</span> students)),</span>
+<span id="cb334-8"><a href="mlr-practice.html#cb334-8" tabindex="-1"></a>  <span class="at">plus_cum   =</span> <span class="fu">se</span>(<span class="fu">lm</span>(sem_gpa <span class="sc">~</span> attendance <span class="sc">+</span> cum_gpa, <span class="at">data =</span> students)),</span>
+<span id="cb334-9"><a href="mlr-practice.html#cb334-9" tabindex="-1"></a>  <span class="at">plus_copy  =</span> <span class="fu">se</span>(<span class="fu">lm</span>(sem_gpa <span class="sc">~</span> attendance <span class="sc">+</span> attendance_copy, <span class="at">data =</span> students)))</span></code></pre></div>
+<p>Adding <code>cum_gpa</code> barely moves the standard error and removes a real source of
+bias. Adding the near-copy inflates it enormously while contributing no
+information at all: <span class="math inline">\(R_j^2\)</span> for attendance is now close to one, so <span class="math inline">\((1-R_j^2)\)</span> is
+close to zero.</p>
+<p>This is the practical content of Section <a href="mlr-assumptions.html#mlr-assumptions">8.4</a>. Controls are not
+free, and a control that duplicates the variable of interest is all cost.</p>
+</div>
+</div>
+</div>
+<script>
+// Solutions are written as plain fenced divs in the source, so the PDF edition
+// can typeset them as boxes. On the web they should stay hidden until asked
+// for, so wrap each one in a <details> here.
+document.addEventListener("DOMContentLoaded", function () {
+  document.querySelectorAll("div.answer").forEach(function (div) {
+    var d = document.createElement("details");
+    d.className = "answer";
+    var s = document.createElement("summary");
+    s.textContent = "Show the solution";
+    d.appendChild(s);
+    while (div.firstChild) d.appendChild(div.firstChild);
+    div.parentNode.replaceChild(d, div);
+  });
+});
+</script>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="mlr-summary.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="mlr-question-bank.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+  "sharing": {
+    "github": true,
+    "facebook": false,
+    "twitter": false,
+    "linkedin": false,
+    "weibo": false,
+    "instapaper": false,
+    "vk": false,
+    "whatsapp": false,
+    "all": false
+  },
+  "fontsettings": {
+    "theme": "white",
+    "family": "sans",
+    "size": 2
+  },
+  "edit": {
+    "link": "https://github.com/kedarkulkarni1991/stats-econometrics-r/edit/main/08-multiple-regression.Rmd",
+    "text": "Edit"
+  },
+  "history": {
+    "link": null,
+    "text": null
+  },
+  "view": {
+    "link": null,
+    "text": null
+  },
+  "download": ["stats-econometrics-r.pdf"],
+  "search": {
+    "engine": "fuse",
+    "options": null
+  },
+  "toc": {
+    "collapse": "subsection",
+    "scroll_highlight": true
+  },
+  "toolbar": {
+    "position": "fixed"
+  },
+  "info": false
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

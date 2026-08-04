@@ -1,0 +1,1356 @@
+# Multiple Regression: Holding Other Things Equal {#multiple-regression}
+
+```{r setup-08, include = FALSE}
+source("_common.R")
+library(ggplot2)
+```
+
+Unit \@ref(ols) ended with two students. One attended thirty classes, the other
+twenty, and the first earned the higher grade. The difficulty was that the two
+students differed in more than attendance: one was better prepared, more
+motivated, more interested in the subject. The regression slope carried all of
+those differences inside it, and nothing in the output said so.
+
+The obvious response is to measure some of those other differences and take them
+into account. That is what this unit does.
+
+Very little new machinery is needed. The same least squares criterion, the same
+normal equations, the same $t$ statistics. What changes is the meaning of a
+coefficient — and it changes into something considerably more useful, and
+considerably easier to misread.
+
+::: {.keyidea}
+This unit answers five questions.
+
+1. Why is one explanatory variable not enough?
+2. What does a coefficient mean once there are several?
+3. What does "holding constant" actually do to the data?
+4. How do we test claims about one coefficient, and about several at once?
+5. Does any of this deliver a causal answer?
+:::
+
+## Why one variable is not enough {#mlr-motivation}
+
+::: {.question}
+The simple regression of grades on attendance was estimated precisely. What is
+missing?
+:::
+
+Here is the regression Unit \@ref(ols) ended with.
+
+```{r mlr-simple}
+students <- read.csv("data/attendance-grades.csv")
+
+simple <- lm(sem_gpa ~ attendance, data = students)
+round(coef(summary(simple)), 4)
+```
+
+A student who attends one more class has a semester GPA higher by 0.189 points
+on average. The standard error is small, the $t$ statistic is 17.6, and the
+$p$-value is beyond the range at which anyone bothers to read further.
+
+Nothing about this output is wrong. The arithmetic is correct, the assumptions
+of Unit \@ref(ols) may well hold well enough for the standard error to be
+trusted, and the relationship is unmistakably there.
+
+The problem is elsewhere. The number 0.189 answers a question we did not ask.
+
+### What the slope is comparing {-}
+
+The slope compares students who attended more classes with students who attended
+fewer. Those two groups differ in attendance. They also differ in everything else
+that comes bundled with attendance.
+
+Our data record two such things. Every student has a **prior cumulative GPA**,
+measuring how they performed before this semester began, and an **admission
+score** from the entrance examination.
+
+```{r mlr-bundled}
+round(cor(students[, c("attendance", "sem_gpa", "cum_gpa", "admission_score")]), 3)
+```
+
+Students who attend more also arrive with higher prior GPAs — the correlation is
+0.43 — and prior GPA is itself strongly related to this semester's grade.
+
+So when we compare a student who attended thirty classes with one who attended
+twenty, we are not comparing two otherwise identical students. On average, the
+first also had a better academic record before the semester started. The
+difference in their grades reflects both.
+
+::: {.watchout}
+In a simple regression, every variable we fail to measure remains in $u$, and
+every one of them that moves with $x$ contributes to the slope.
+
+The estimate is not measuring attendance. It is measuring attendance *together
+with whatever travels alongside it*.
+:::
+
+### Asking a narrower question {-}
+
+The question worth asking is narrower than the one the simple regression
+answers.
+
+> Among students who arrived with the *same* prior GPA and the *same* admission
+> score, how much higher is the semester grade of one who attends an extra class?
+
+This restricts the comparison. Instead of comparing all students to all students,
+it compares students who are alike in prior record and differ in attendance.
+
+Multiple regression is the tool that makes that comparison, and the rest of this
+unit is about what it does and what it cannot do.
+
+## The model and what a coefficient means {#mlr-model}
+
+::: {.question}
+We add a second explanatory variable. What does $\beta_1$ now measure?
+:::
+
+The population model with two explanatory variables is
+
+$$y = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + u$$
+
+and with $k$ of them,
+
+$$y = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \cdots + \beta_k x_k + u$$
+
+Everything from Unit \@ref(simple-regression) carries over. There is still a
+population regression function that we do not observe, still an error term
+collecting everything left out, and still a sample from which we estimate.
+
+Take the conditional expectation of both sides. Under the zero conditional mean
+assumption, which Section \@ref(mlr-assumptions) restates,
+
+$$E[y \mid x_1, x_2] = \beta_0 + \beta_1 x_1 + \beta_2 x_2$$
+
+The population regression function is now a **plane** rather than a line: for
+every pair $(x_1, x_2)$ it returns the average value of $y$ among all members of
+the population with those characteristics.
+
+### The partial derivative {-}
+
+Differentiate that expression with respect to each explanatory variable in turn.
+
+$$\frac{\partial E[y \mid x_1, x_2]}{\partial x_1} = \beta_1
+\qquad\qquad
+\frac{\partial E[y \mid x_1, x_2]}{\partial x_2} = \beta_2$$
+
+A partial derivative changes one argument and leaves the others where they are.
+That is the whole of the interpretation.
+
+::: {.keyidea}
+$\beta_1$ is the change in the average value of $y$ associated with a one-unit
+increase in $x_1$, **holding $x_2$ fixed**.
+
+This is the *ceteris paribus* interpretation, and it is the reason multiple
+regression exists. In a simple regression, $x_2$ was free to move whenever $x_1$
+moved, and the slope absorbed the consequence.
+:::
+
+### Doing it {-}
+
+In R, additional explanatory variables are added to the formula with `+`.
+
+```{r mlr-fit}
+full <- lm(sem_gpa ~ attendance + cum_gpa + admission_score, data = students)
+round(coef(summary(full)), 4)
+```
+
+Read the second row. Among students with the same prior cumulative GPA and the
+same admission score, one extra class attended is associated with a semester GPA
+higher by **0.136** points.
+
+Set that beside the simple regression.
+
+```{r mlr-compare}
+round(c(simple   = coef(simple)["attendance"],
+        multiple = coef(full)["attendance"]), 4)
+```
+
+The coefficient has fallen from 0.189 to 0.136, a drop of about 28%.
+
+::: {.intuition}
+Roughly a quarter of what the simple regression attributed to attendance was
+never attendance at all. It was the prior academic record that students bring
+with them, arriving in the slope because it moves together with how often they
+turn up.
+
+Comparing students who are alike in prior record removes that part of the
+difference. What is left is a narrower and more honest comparison.
+:::
+
+The other two coefficients read the same way. Among students who attended the
+same number of classes and scored the same at admission, one point of prior
+cumulative GPA is associated with 0.575 points of semester GPA. Prior record
+matters, and it matters a great deal.
+
+### A second example {-}
+
+The same reading applies to earnings. This is a synthetic dataset of 20,000
+Indian wage earners, built to resemble the structure of household survey data.
+
+```{r mlr-wages}
+wages <- read.csv("data/wages-india-synthetic.csv")
+
+wages$male  <- as.integer(wages$sex == "Male")
+wages$urban <- as.integer(wages$residence == "Urban")
+
+w_simple <- lm(annual_earnings ~ education, data = wages)
+w_full   <- lm(annual_earnings ~ education + age + male + urban, data = wages)
+
+round(coef(summary(w_full)), 1)
+```
+
+The variables `male` and `urban` take only the values 0 and 1. A coefficient on
+such a variable is a difference between two groups rather than a rate of change —
+men earn ₹32,000 more per year than women who are otherwise comparable in
+education, age and residence. Unit 9 treats these variables properly; for now,
+read them as group differences.
+
+```{r mlr-wages-compare}
+round(c(simple   = coef(w_simple)["education"],
+        multiple = coef(w_full)["education"]), 1)
+```
+
+An extra year of schooling is associated with ₹5,386 of additional annual
+earnings when nothing else is accounted for, and ₹4,281 when age, sex and
+residence are held fixed. About a fifth of the apparent return to education was
+the fact that the educated in this population are disproportionately urban and
+male, and urban and male workers earn more for reasons that have nothing to do
+with their schooling.
+
+::: {.watchout}
+"Holding fixed" describes what the estimator does with the data. It does not
+describe an experiment anyone performed.
+
+Nobody took a rural woman and made her urban and male while keeping her
+education constant. The regression compares people who already differ in
+education among those who happen to be alike in the other measured
+characteristics. Whether that comparison answers a causal question is the subject
+of Section \@ref(mlr-causal).
+:::
+
+## What "holding constant" actually does {#mlr-fwl}
+
+::: {.question}
+The interpretation says "holding $x_2$ fixed". But every observation has its own
+$x_2$, and nothing was held anywhere. What is the estimator really doing?
+:::
+
+This is the question students most often leave a course without having answered.
+The phrase "holding constant" sounds like a description of an experiment, and it
+is not. It is a description of an algebraic operation, and the operation can be
+carried out in front of us.
+
+The answer is a result usually called the **Frisch–Waugh–Lovell theorem**, and
+it is easier to state as a recipe than as a theorem.
+
+::: {.keyidea}
+To obtain $\hat{\beta}_1$ from the multiple regression of $y$ on $x_1$ and $x_2$:
+
+1. Regress $x_1$ on $x_2$, and keep the residuals $\hat{r}_1$.
+2. Regress $y$ on $\hat{r}_1$ alone.
+
+The slope from that second regression is exactly $\hat{\beta}_1$.
+:::
+
+The first step is where the work happens. Regressing $x_1$ on $x_2$ splits $x_1$
+into two parts: the part that can be predicted from $x_2$, and the part that
+cannot. The residual $\hat{r}_1$ is the second part — what remains of $x_1$ once
+everything $x_2$ can account for has been removed.
+
+By construction that residual is uncorrelated with $x_2$. Using it in place of
+$x_1$ means the variation we are exploiting no longer moves with $x_2$ at all.
+
+### Watching it happen {-}
+
+Take attendance, and remove from it everything that prior GPA and admission score
+can explain.
+
+```{r mlr-fwl-step1}
+step1 <- lm(attendance ~ cum_gpa + admission_score, data = students)
+r1    <- residuals(step1)
+
+round(c(r2_of_step1      = summary(step1)$r.squared,
+        cor_with_cumgpa  = cor(r1, students$cum_gpa),
+        cor_with_admscr  = cor(r1, students$admission_score)), 4)
+```
+
+Prior GPA and admission score together account for 29% of the variation in
+attendance. The residual carries the remaining 71%, and it is uncorrelated with
+both — to machine precision, because that is what least squares guarantees.
+
+Now regress semester GPA on that residual alone.
+
+```{r mlr-fwl-step2}
+step2 <- lm(students$sem_gpa ~ r1)
+
+noquote(format(c(from_two_steps   = unname(coef(step2)[2]),
+                 from_lm_directly = unname(coef(full)["attendance"])),
+               digits = 10))
+```
+
+The same number, to ten significant figures.
+
+::: {.intuition}
+This is what "holding prior record constant" means, stated concretely.
+
+Two students with the same prior GPA and the same admission score would be
+predicted to attend the same number of classes. If one of them attends more than
+that prediction and the other less, the difference between them is unrelated to
+prior record — it is attendance and nothing else.
+
+The multiple regression coefficient uses only those departures. It discards the
+part of attendance that could have been anticipated from the other variables, and
+asks what the leftover part is worth.
+:::
+
+### Two consequences worth noticing {-}
+
+**The coefficient changes because the variation changes.** The simple regression
+used all the variation in attendance. The multiple regression uses only the part
+orthogonal to the controls. Those are different questions asked of different
+variation, and there is no reason for them to give the same answer.
+
+**Some of the variation is thrown away.** The residual $\hat{r}_1$ has less
+spread than attendance itself. Section \@ref(ols-variance) established that the
+precision of a slope depends on the spread of the explanatory variable, so
+discarding variation must cost something. Section \@ref(mlr-assumptions) returns
+to the bill.
+
+::: {.deeper}
+**The general case, in matrix form.**
+
+With $k$ explanatory variables, writing out $k+1$ normal equations and solving
+them by hand is unpleasant. Matrix notation does the same work in three lines.
+
+Collect the observations into an $n \times 1$ vector $Y$ and an $n \times (k+1)$
+matrix $X$ whose first column is all ones and whose remaining columns are the
+explanatory variables. The model is
+
+$$Y = X\beta + u$$
+
+The sum of squared residuals is $(Y - X\beta)'(Y - X\beta)$. Differentiating with
+respect to $\beta$ and setting the result to zero,
+
+$$-2X'Y + 2X'X\beta = 0
+\qquad\Longrightarrow\qquad
+X'X\hat{\beta} = X'Y$$
+
+which is the whole system of normal equations in one line. Provided $X'X$ can be
+inverted,
+
+$$\hat{\beta} = (X'X)^{-1}X'Y$$
+
+The variance follows the same way. Substituting $Y = X\beta + u$ gives
+$\hat{\beta} = \beta + (X'X)^{-1}X'u$, and under homoskedasticity,
+
+$$\mathrm{Var}(\hat{\beta}) = \sigma^2 (X'X)^{-1}$$
+
+We can check the formula directly.
+
+```{r mlr-matrix}
+X <- cbind(1, students$attendance, students$cum_gpa, students$admission_score)
+y <- students$sem_gpa
+
+b_hat <- solve(t(X) %*% X) %*% t(X) %*% y
+round(drop(b_hat), 5)
+```
+
+The same four numbers `lm()` reported. Note where the requirement of Section
+\@ref(mlr-assumptions) appears: if any column of $X$ is an exact linear
+combination of the others, $X'X$ has no inverse and there is no $\hat{\beta}$ to
+compute.
+:::
+
+## The assumptions {#mlr-assumptions}
+
+::: {.question}
+Unit \@ref(ols) listed six assumptions. Which of them change?
+:::
+
+Almost none of them. The classical linear regression model of Section
+\@ref(ols-unbiased) carries over with the explanatory variable replaced by the
+whole set of explanatory variables, and one genuinely new requirement added.
+
+::: {.theory}
+**CLRM1 — linear in parameters.**
+$y = \beta_0 + \beta_1 x_1 + \cdots + \beta_k x_k + u$.
+
+**CLRM2 — random sampling.** The $n$ observations are a random sample from that
+population.
+
+**CLRM3 — variation in the explanatory variables.** No $x_j$ takes the same value
+for every observation.
+
+**CLRM4 — zero conditional mean.** $E(u \mid x_1, \ldots, x_k) = 0$.
+
+**CLRM5 — homoskedasticity.**
+$\mathrm{Var}(u \mid x_1, \ldots, x_k) = \sigma^2$.
+
+**CLRM6 — normality.** The errors are normally distributed. As before, this is
+needed only for exact small-sample inference.
+
+**CLRM7 — no perfect collinearity.** No explanatory variable is an exact linear
+combination of the others.
+:::
+
+Under CLRM1–CLRM4 the OLS estimators are unbiased: $E(\hat{\beta}_j) = \beta_j$
+for every $j$. The proof is the one from Section \@ref(ols-unbiased) written in
+matrix form, and nothing about it is new.
+
+Two of these deserve more than a restatement.
+
+### Zero conditional mean, now harder and easier at once {-}
+
+CLRM4 has become **harder** to state, because it must hold conditional on all of
+the explanatory variables at once. And it has become **easier** to satisfy,
+because $u$ now contains less. Prior GPA and admission score have moved out of the
+error term and into the model, so they can no longer cause it to fail.
+
+::: {.keyidea}
+This is the precise sense in which multiple regression is progress.
+
+It does not make the zero conditional mean assumption true. It moves specific,
+nameable threats out of $u$ and into the regression, where they are controlled
+rather than assumed away.
+
+Whatever remains in $u$ — motivation, ability, family circumstances — is exactly
+as dangerous as it was.
+:::
+
+### No perfect collinearity {-}
+
+The new assumption rules out an exact linear relationship among the explanatory
+variables. It is not a claim about the world but a requirement for the arithmetic
+to have an answer at all.
+
+Our data contain a violation, and it is instructive.
+
+```{r mlr-collinear-show}
+head(students$attendance + students$classes_missed)
+```
+
+The course had 32 classes, so attendance and classes missed always sum to 32.
+Knowing one is knowing the other. Ask R to use both.
+
+```{r mlr-collinear-fit}
+coef(lm(sem_gpa ~ attendance + classes_missed, data = students))
+```
+
+R returns `NA` for the second coefficient. It has not failed; it is reporting
+that the question has no answer.
+
+::: {.intuition}
+The coefficient on attendance is supposed to answer: what happens to the grade
+when attendance rises by one, holding classes missed fixed?
+
+Nothing happens, because nothing *can* happen. Attending one more class means
+missing one fewer. There is no student for whom one changed and the other did
+not, so the data contain no information about that comparison, and no amount of
+cleverness can extract it.
+:::
+
+### The cost of near-collinearity {-}
+
+Perfect collinearity is rare and announces itself immediately. The practically
+important case is the one just short of it: explanatory variables that are
+strongly but not exactly related.
+
+This is where the price of Section \@ref(mlr-fwl) is paid. The variance of a
+coefficient in a multiple regression is
+
+$$\mathrm{Var}(\hat{\beta}_j)
+= \frac{\sigma^2}{\sum_{i=1}^{n}(x_{ij} - \bar{x}_j)^2 \, (1 - R_j^2)}$$
+
+where $R_j^2$ is the $R^2$ from regressing $x_j$ on all the *other* explanatory
+variables. Compare it with the simple regression formula of Section
+\@ref(ols-variance): everything is the same except the extra factor $(1-R_j^2)$
+in the denominator.
+
+::: {.keyidea}
+$R_j^2$ is the share of $x_j$ that the other regressors can already explain — the
+share the partialling-out step of Section \@ref(mlr-fwl) removes.
+
+When $R_j^2$ is near zero, the control costs almost nothing. When it approaches
+one, $(1-R_j^2)$ approaches zero and the variance explodes.
+
+**Adding a control that is closely related to the variable of interest buys
+credibility with precision.**
+:::
+
+For attendance, $R_j^2$ was 0.29, so the denominator is multiplied by 0.71 — a
+modest price, and one worth paying. The estimate of $\sigma^2$ also changes, since
+$k+1$ parameters have now been estimated rather than two:
+
+$$\hat{\sigma}^2 = \frac{\sum_{i=1}^{n}\hat{u}_i^2}{n - k - 1}$$
+
+## Testing one coefficient {#mlr-t}
+
+::: {.question}
+Does the machinery of Unit \@ref(ols) still work?
+:::
+
+It does, unchanged apart from the degrees of freedom. To test whether a single
+population coefficient equals zero,
+
+$$H_0 : \beta_j = 0
+\qquad\qquad
+t = \frac{\hat{\beta}_j}{\mathrm{se}(\hat{\beta}_j)}
+\;\sim\; t_{\,n-k-1}$$
+
+and confidence intervals follow as before.
+
+```{r mlr-t-test}
+round(coef(summary(full)), 4)
+round(confint(full), 4)
+```
+
+Every coefficient is significant at any conventional level, and the interval for
+attendance runs from 0.116 to 0.157.
+
+::: {.watchout}
+The null tested is $\beta_j = 0$ **in the model as specified**.
+
+Rejecting it says attendance is related to grades among students alike in prior
+GPA and admission score. It says nothing about a model with different controls,
+where the coefficient, its standard error and its significance may all differ.
+
+A $t$ statistic is a statement about one column of one regression.
+:::
+
+## Testing several coefficients at once {#mlr-f}
+
+::: {.question}
+We can test one coefficient. Why not just do it repeatedly?
+:::
+
+Suppose we want to know whether prior record matters at all — whether prior GPA
+and admission score, taken together, belong in the model.
+
+$$H_0 : \beta_2 = 0 \;\text{ and }\; \beta_3 = 0$$
+
+The obvious approach is two $t$-tests. It does not work, and seeing why is more
+useful than the test that replaces it.
+
+### Why separate tests fail {-}
+
+Each $t$-test asks about one coefficient while the others stay in the model. The
+joint null asks about both coefficients simultaneously. These are different
+claims, and they can disagree.
+
+Here is a small constructed example where the disagreement is stark. Two
+explanatory variables both genuinely affect $y$, and they are highly correlated
+with each other.
+
+```{r mlr-f-why}
+set.seed(11)
+n  <- 60
+z  <- rnorm(n)
+x1 <- z + rnorm(n, sd = 0.25)
+x2 <- z + rnorm(n, sd = 0.25)
+y  <- 1 + 0.8 * x1 + 0.8 * x2 + rnorm(n, sd = 2)
+
+round(cor(x1, x2), 3)
+round(coef(summary(lm(y ~ x1 + x2))), 4)
+```
+
+Neither variable is close to significant. The $p$-values are 0.20 and 0.30, and a
+reader taking each test at face value would drop both.
+
+Now test them together.
+
+```{r mlr-f-why2}
+anova(lm(y ~ 1), lm(y ~ x1 + x2))
+```
+
+Jointly, they are overwhelmingly significant.
+
+::: {.intuition}
+There is no contradiction, and the resolution is Section \@ref(mlr-fwl).
+
+The $t$-test on $x_1$ uses only the part of $x_1$ that is unrelated to $x_2$.
+Since the two are correlated at 0.91, almost nothing is left, and that remainder
+tells us very little. The same is true of $x_2$.
+
+The data cannot say which of the two is responsible. They are perfectly clear
+that one of them is.
+
+Two individually insignificant coefficients therefore do not license dropping
+both. What can be said about them separately, and what can be said about them
+together, are different things.
+:::
+
+### The restricted and unrestricted models {-}
+
+The joint test compares two models.
+
+The **unrestricted** model is the one we believe might be appropriate:
+
+$$y = \beta_0 + \beta_1 x_1 + \cdots + \beta_k x_k + u$$
+
+The **restricted** model is what remains after imposing the null. If the null sets
+$q$ coefficients to zero, the restricted model simply omits those $q$ variables.
+
+Imposing a restriction can only make the fit worse: the unrestricted model was
+free to choose those coefficients and chose them to minimise the sum of squared
+residuals. So $\text{SSR}_r \geq \text{SSR}_{ur}$ always.
+
+::: {.keyidea}
+The question is therefore not *whether* the fit got worse, but **whether it got
+worse by more than dropping irrelevant variables would**.
+
+If the restricted variables truly have zero coefficients, the deterioration
+should be no larger than sampling noise would produce.
+:::
+
+### Building the statistic {-}
+
+Two quantities are needed, and both are sums of squared residuals.
+
+The **deterioration** is $\text{SSR}_r - \text{SSR}_{ur}$. Larger values are
+evidence against the null. But it must be judged relative to something, for two
+reasons: dropping more variables must be expected to hurt more, and the raw size
+depends on how noisy the data are.
+
+So divide the deterioration by $q$, the number of restrictions, and divide the
+remaining unexplained variation by its degrees of freedom, $n-k-1$. The ratio is
+
+$$F = \frac{\big(\text{SSR}_r - \text{SSR}_{ur}\big)\big/ q}
+{\text{SSR}_{ur}\big/(n-k-1)}$$
+
+::: {.keyidea}
+Read the two pieces separately.
+
+The numerator is **the variation the restricted variables account for, per
+restriction**.
+
+The denominator is **the variation nothing accounts for, per degree of freedom**
+— an estimate of $\sigma^2$.
+
+$F$ asks whether the variables we are testing explain more per variable than
+noise does. Under the null, they explain nothing systematic, so both pieces
+estimate the same thing and the ratio averages about one.
+:::
+
+An equivalent form uses $R^2$, which is often more convenient because the sums of
+squares depend on the units of $y$ and $R^2$ does not:
+
+$$F = \frac{\big(R^2_{ur} - R^2_{r}\big)\big/q}{\big(1 - R^2_{ur}\big)\big/(n-k-1)}$$
+
+### Why an F distribution {-}
+
+Every test in this book compares a statistic to the distribution it would follow
+if the null were true. So what distribution does this ratio follow?
+
+The reasoning is one we have used before. In Section \@ref(u3-variance) a sample
+variance built from normal errors, scaled appropriately, followed a chi-squared
+distribution with degrees of freedom equal to the number of independent squared
+deviations. That is exactly what both parts of $F$ are.
+
+::: {.theory}
+Under CLRM1–CLRM6, the numerator and denominator are each a sum of squared
+normal deviations, scaled by $\sigma^2$:
+
+$$\frac{\text{SSR}_r - \text{SSR}_{ur}}{\sigma^2} \sim \chi^2_q
+\qquad\qquad
+\frac{\text{SSR}_{ur}}{\sigma^2} \sim \chi^2_{\,n-k-1}$$
+
+They are independent, and dividing each by its degrees of freedom and taking the
+ratio gives, by definition, an **$F$ distribution** with $q$ and $n-k-1$ degrees
+of freedom.
+
+The unknown $\sigma^2$ appears in both and cancels — the same cancellation that
+made a $t$ statistic computable in Section \@ref(u3-t).
+:::
+
+That is the formal answer. The useful one is shorter: **an $F$ distribution is
+what the ratio of two independent variance estimates looks like when both are
+estimating the same thing.** Under the null they are, which is why $F$ averages
+about one and why large values are evidence against it.
+
+The distribution is skewed rather than symmetric, and heavily so when $q$ is
+small. Most of its mass sits below one — a ratio can fall no lower than zero but
+has no ceiling — which is why the average and the typical value are not the same
+number, and why the critical value of 3.12 lies so far out.
+
+Since only large values count as evidence, the test is **always one-tailed on the
+right**, whatever the alternative.
+
+We can watch this happen. Generate data in which two variables genuinely have no
+effect, compute $F$ thousands of times, and compare the results with the
+distribution the theory predicts.
+
+```{r mlr-f-dist, cache = TRUE}
+set.seed(3)
+xa <- rnorm(80); xb <- rnorm(80); xc <- rnorm(80)
+
+f_stats <- replicate(4000, {
+  yy <- 2 + 1.5 * xa + rnorm(80)                 # xb and xc have no effect
+  anova(lm(yy ~ xa), lm(yy ~ xa + xb + xc))$F[2]
+})
+
+round(rbind(simulated = quantile(f_stats, c(0.50, 0.90, 0.95, 0.99)),
+            theory    = qf(c(0.50, 0.90, 0.95, 0.99), df1 = 2, df2 = 76)), 3)
+```
+
+```{r mlr-f-dist-plot, echo = FALSE, fig.height = 3.4, cache = TRUE, fig.cap = "Four thousand F statistics computed from data in which the two tested variables have no effect whatever, against the F distribution with 2 and 76 degrees of freedom. The shaded region beyond the 5% critical value is where the test rejects -- and since the null is true here, every rejection in it is a Type I error."}
+crit <- qf(0.95, 2, 76)
+curve_df <- data.frame(x = seq(0, 8, length.out = 600))
+curve_df$y <- df(curve_df$x, 2, 76)
+
+ggplot() +
+  geom_histogram(aes(x = f_stats, y = after_stat(density)), bins = 70,
+                 fill = book_palette$fill, colour = "white", linewidth = 0.15) +
+  geom_area(data = subset(curve_df, x >= crit), aes(x, y),
+            fill = book_palette$reject, alpha = 0.5) +
+  geom_line(data = curve_df, aes(x, y), colour = book_palette$ink,
+            linewidth = 0.8) +
+  geom_vline(xintercept = crit, colour = book_palette$reject, linewidth = 0.6) +
+  annotate("text", x = crit, y = 0.55, label = "5% critical value",
+           hjust = -0.08, size = 3.2, colour = book_palette$reject) +
+  coord_cartesian(xlim = c(0, 8)) +
+  labs(x = "F statistic", y = NULL) +
+  theme_book() +
+  theme(axis.text.y = element_blank())
+```
+
+The simulated quantiles match the theoretical ones closely, and the test rejects
+a true null about 5% of the time, which is what a 5% test is supposed to do.
+
+### Does prior record belong in the model? {-}
+
+Back to the question that opened this section.
+
+```{r mlr-f-grades}
+restricted   <- lm(sem_gpa ~ attendance, data = students)
+unrestricted <- lm(sem_gpa ~ attendance + cum_gpa + admission_score,
+                   data = students)
+
+anova(restricted, unrestricted)
+```
+
+By hand, from the two sums of squared residuals:
+
+```{r mlr-f-byhand}
+ssr_r  <- sum(residuals(restricted)^2)
+ssr_ur <- sum(residuals(unrestricted)^2)
+q <- 2; n <- nrow(students); k <- 3
+
+f_stat <- ((ssr_r - ssr_ur) / q) / (ssr_ur / (n - k - 1))
+
+round(c(ssr_restricted = ssr_r, ssr_unrestricted = ssr_ur,
+        F = f_stat, critical_5pct = qf(0.95, q, n - k - 1),
+        p_value = 1 - pf(f_stat, q, n - k - 1)), 4)
+```
+
+$F = 168.8$ against a critical value of 3.01. Prior GPA and admission score
+belong in the model, jointly and emphatically.
+
+### The F statistic R prints by itself {-}
+
+Every regression summary ends with a line reporting an $F$ statistic. It is this
+same test applied to one particular null: that **all** the slope coefficients are
+zero at once.
+
+```{r mlr-f-overall}
+summary(full)$fstatistic
+```
+
+The restricted model in that comparison has no explanatory variables at all — it
+predicts $\bar{y}$ for everyone — so $R^2_r = 0$ and the formula reduces to
+
+$$F = \frac{R^2/k}{(1-R^2)/(n-k-1)}$$
+
+::: {.watchout}
+This is the least interesting test in the output.
+
+It asks whether the model explains anything whatever. With reasonable data and
+sensible variables it is almost always rejected, and rejecting it establishes
+very little. It is worth noticing chiefly when it *fails* to reject.
+:::
+
+### A joint test that does not reject {-}
+
+Not every set of variables earns its place. The data also record which year of
+the programme each student is in.
+
+```{r mlr-f-years}
+with_years <- lm(sem_gpa ~ attendance + cum_gpa + admission_score + year1 + year2,
+                 data = students)
+
+anova(unrestricted, with_years)
+```
+
+$F = 1.02$ with a $p$-value of 0.36. Once attendance and prior record are
+accounted for, year of study adds nothing detectable.
+
+::: {.watchout}
+Failing to reject is not proof that year of study is irrelevant, for the reason
+given in Section \@ref(os-errors): a test that does not reject may simply lack the
+power to detect a small effect.
+
+The honest statement is that these data provide no evidence that year of study
+matters once the other variables are held fixed.
+:::
+
+## Does this give us causality? {#mlr-causal}
+
+::: {.question}
+We have controlled for prior record. Is 0.136 the effect of attending class?
+:::
+
+Not necessarily, and the reason is worth setting out precisely rather than as a
+caution.
+
+### Where bias comes from {-}
+
+Suppose the true population model is
+
+$$y = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + u$$
+
+but we omit $x_2$ and estimate
+
+$$y = \alpha_0 + \alpha_1 x_1 + e$$
+
+What does $\hat{\alpha}_1$ estimate? Write the relationship between the two
+explanatory variables as a regression of its own,
+
+$$x_2 = \delta_0 + \delta_1 x_1 + \eta$$
+
+and substitute into the true model:
+
+::: {.theory}
+$$
+\begin{aligned}
+y &= \beta_0 + \beta_1 x_1 + \beta_2(\delta_0 + \delta_1 x_1 + \eta) + u \\[4pt]
+  &= (\beta_0 + \beta_2\delta_0) + (\beta_1 + \beta_2\delta_1)x_1
+     + (\beta_2\eta + u)
+\end{aligned}
+$$
+
+Matching this against $y = \alpha_0 + \alpha_1 x_1 + e$ gives
+
+$$\alpha_1 = \beta_1 + \beta_2\delta_1$$
+
+So the short regression estimates the true coefficient **plus a bias term**:
+
+$$\text{bias} = \beta_2 \delta_1
+= \big(\text{effect of } x_2 \text{ on } y\big)
+\times \big(\text{relationship between } x_2 \text{ and } x_1\big)$$
+:::
+
+This is **omitted variable bias**, and the formula says something immediately
+useful. The bias is a product of two things, so it vanishes if *either* is zero.
+An omitted variable is harmless unless it both affects $y$ and moves with $x_1$.
+
+::: {.keyidea}
+The sign of the bias is the product of the two signs.
+
+| $\beta_2$ | $\delta_1$ | Bias in $\hat{\alpha}_1$ |
+|:--|:--|:--|
+| $+$ | $+$ | Upward |
+| $+$ | $-$ | Downward |
+| $-$ | $+$ | Downward |
+| $-$ | $-$ | Upward |
+
+This can often be signed from knowledge of the subject even when the variable
+cannot be measured, which makes it possible to say which way an estimate is
+likely to be wrong.
+:::
+
+### Checking the arithmetic {-}
+
+The decomposition is exact in a sample, not merely a statement about
+expectations. We can verify it on the grades data.
+
+```{r mlr-ovb-check}
+long <- coef(unrestricted)
+
+d_cum <- coef(lm(cum_gpa ~ attendance, data = students))[2]
+d_adm <- coef(lm(admission_score ~ attendance, data = students))[2]
+
+round(c(short_regression = coef(restricted)["attendance"],
+        long_coefficient = long["attendance"],
+        bias_via_cum_gpa = long["cum_gpa"] * d_cum,
+        bias_via_adm     = long["admission_score"] * d_adm,
+        reassembled      = long["attendance"] +
+                           long["cum_gpa"] * d_cum +
+                           long["admission_score"] * d_adm), 6)
+```
+
+The simple regression coefficient reassembles exactly: 0.136 of attendance, plus
+0.062 arriving through prior GPA, less a small amount through admission score.
+The gap between 0.189 and 0.136 is not a mystery. It is a quantity we can name
+and compute.
+
+::: {.intuition}
+Prior GPA biased the simple regression *upward* because both signs were positive:
+better students attend more ($\delta_1 > 0$) and better students earn higher
+grades ($\beta_2 > 0$).
+
+Admission score worked the other way. Its coefficient is positive, but in these
+data students with higher admission scores attend slightly *fewer* classes, so
+its contribution is negative and small.
+:::
+
+### What the controls did and did not do {-}
+
+The controls removed the bias from prior GPA and admission score. They did
+nothing about anything else.
+
+::: {.watchout}
+Motivation is not in the model. Neither is interest in the subject, nor health,
+nor how far a student lives from campus, nor whether they hold a job.
+
+Every one of these plausibly affects grades, and every one plausibly moves with
+attendance. Each contributes its own $\beta_2\delta_1$ to the estimate, and the
+formula does not care that we cannot measure it.
+:::
+
+So 0.136 is a better estimate than 0.189 in a specific and limited sense: two
+named sources of bias have been removed. It is not the causal effect of
+attendance, and the regression output cannot tell us how far from it we are.
+
+::: {.keyidea}
+Multiple regression controls for what is **measured**. Omitted variable bias is
+caused by what is **not**.
+
+Adding controls narrows the gap between the estimate and the causal effect
+without ever closing it, and nothing in the output reports how much remains.
+:::
+
+### The other three ways CLRM4 fails {-}
+
+Omission is the most common threat, and it is not the only one. The zero
+conditional mean assumption also fails when:
+
+- **The functional form is wrong.** If earnings rise with experience and then
+  flatten, a model linear in experience is misspecified, and the misspecification
+  lands in $u$.
+- **Variables are measured with error.** A variable recorded imperfectly is not
+  the variable the model refers to, and the difference goes into the error term.
+- **$y$ and $x$ are determined together.** Regressing quantity on price estimates
+  neither the demand curve nor the supply curve, since the observed pairs are
+  where the two meet.
+
+Each has its own remedy, and this book returns to them.
+
+::: {.intuition}
+It is worth being clear about what has and has not changed since Unit
+\@ref(ols).
+
+Multiple regression is a real advance. It is the reason economists can report
+returns to education that are not simply the fact that educated people differ
+from uneducated ones in a dozen other ways.
+
+It is also not enough. The comparison it makes is between observations alike in
+the variables we happened to measure, and the variables we most want to hold
+fixed — ability, motivation, the quality of a school — are usually the ones no
+survey records.
+
+Closing that gap requires a different kind of idea, and the second half of this
+book is about where such ideas come from.
+:::
+
+## Summary {#mlr-summary}
+
+::: {.keyidea}
+- The **multiple regression model** is
+  $y = \beta_0 + \beta_1x_1 + \cdots + \beta_kx_k + u$. Taking conditional
+  expectations, $E[y \mid x_1,\ldots,x_k]$ is the population regression function,
+  now a plane rather than a line.
+- Each $\beta_j$ is a **partial derivative**: the change in average $y$ for a
+  one-unit rise in $x_j$, holding the other explanatory variables fixed. This is
+  the *ceteris paribus* interpretation, and it is why multiple regression exists.
+- "Holding fixed" is an operation on the data, not an experiment. By the
+  **Frisch–Waugh–Lovell** result, $\hat{\beta}_j$ can be obtained by regressing
+  $x_j$ on the other regressors, keeping the residuals, and regressing $y$ on
+  those residuals alone.
+- It follows that the coefficient uses only the variation in $x_j$ that the other
+  variables cannot explain. Controls remove variation, and removing variation
+  costs precision.
+- The assumptions are those of Unit \@ref(ols) with the conditioning extended to
+  all regressors, plus **CLRM7, no perfect collinearity**. A violation is not a
+  statistical problem but an arithmetic one: $X'X$ cannot be inverted, and R
+  returns `NA`.
+- $\mathrm{Var}(\hat{\beta}_j) = \sigma^2 / [\sum(x_{ij}-\bar{x}_j)^2(1-R_j^2)]$,
+  where $R_j^2$ comes from regressing $x_j$ on the other regressors. The larger
+  $R_j^2$, the more the control costs. Also
+  $\hat{\sigma}^2 = \sum \hat{u}_i^2/(n-k-1)$.
+- Testing a single coefficient is unchanged:
+  $t = \hat{\beta}_j/\mathrm{se}(\hat{\beta}_j)$ on $n-k-1$ degrees of freedom.
+- Testing several at once requires the **F test**, which compares a restricted
+  model against an unrestricted one:
+  $F = [(\text{SSR}_r - \text{SSR}_{ur})/q] \big/ [\text{SSR}_{ur}/(n-k-1)]$. It
+  is always a right-tailed test.
+- Separate $t$-tests are not a substitute. Correlated regressors can be
+  individually insignificant and jointly overwhelming, because each $t$-test uses
+  only the part of its variable that the others cannot explain.
+- $F$ is the ratio of two independent variance estimates, each divided by its
+  degrees of freedom. Under the null both estimate $\sigma^2$, so $F$ averages
+  about one. Its distribution is right-skewed, so most of the mass lies below
+  that average.
+- **Omitted variable bias** is $\beta_2\delta_1$ — the effect of the omitted
+  variable on $y$, times its relationship with the included one. It vanishes if
+  either factor is zero, and its sign is the product of their signs.
+- Controlling for measured variables removes their contribution to the bias and
+  nothing else. Multiple regression narrows the gap to a causal effect without
+  closing it, and reports nothing about what remains.
+:::
+
+## Practice problems {#mlr-practice}
+
+::: {.yourturn}
+Work each one before opening the solution. The
+[question bank](#mlr-question-bank) that follows has no answers.
+:::
+
+### Numerical problems {-}
+
+**8.1** A researcher estimates the effect of fertiliser on rice yield across
+farms, first alone and then controlling for irrigation:
+
+$$\widehat{\text{yield}} = 12.4 + 0.85\,\text{fert}
+\qquad\qquad
+\widehat{\text{yield}} = 9.1 + 0.52\,\text{fert} + 6.3\,\text{irrig}$$
+
+where `irrig` is hectares under irrigation.
+
+i. Interpret 0.52 precisely.
+ii. Using the omitted variable bias formula, what must be the sign of the
+    relationship between fertiliser use and irrigation?
+iii. Compute the implied slope from a regression of irrigation on fertiliser.
+
+::: {.answer}
+**(i)** Among farms with the same irrigated area, one additional unit of
+fertiliser is associated with 0.52 more quintals of yield on average.
+
+**(ii)** The short regression gives 0.85 and the long one 0.52, so the bias is
+$0.85 - 0.52 = +0.33$. Since $\beta_2 = 6.3 > 0$, the bias formula
+$\beta_2\delta_1 = 0.33$ requires $\delta_1 > 0$. Farms using more fertiliser
+also have more irrigation — plausible, since both are investments made by
+better-resourced farms.
+
+**(iii)** $\delta_1 = 0.33 / 6.3 = 0.052$ hectares of irrigation per unit of
+fertiliser.
+:::
+
+**8.2** A regression of household consumption on income and household size gives
+$R^2 = 0.68$ with $n = 240$.
+
+i. State the null hypothesis of the overall $F$ test and compute the statistic.
+ii. The 5% critical value with 2 and 237 degrees of freedom is 3.03. What do you
+    conclude?
+
+::: {.answer}
+**(i)** $H_0: \beta_1 = \beta_2 = 0$; both slopes are zero. With $k = 2$ and
+$n - k - 1 = 237$,
+
+$$F = \frac{0.68/2}{(1-0.68)/237} = \frac{0.34}{0.00135} = 251.8$$
+
+**(ii)** $251.8 \gg 3.03$, so we reject decisively. Income and household size
+together explain a substantial share of variation in consumption. As Section
+\@ref(mlr-f) notes, this is a low bar and rejecting it establishes little beyond
+the model not being empty.
+:::
+
+**8.3** An unrestricted model with 5 explanatory variables and $n = 90$ has
+$\text{SSR}_{ur} = 148$. Dropping three of them gives $\text{SSR}_r = 176$.
+
+i. Compute the $F$ statistic.
+ii. With 3 and 84 degrees of freedom the 5% critical value is 2.71. Conclude.
+iii. Why must $\text{SSR}_r$ exceed $\text{SSR}_{ur}$?
+
+::: {.answer}
+**(i)** $q = 3$, $n - k - 1 = 90 - 5 - 1 = 84$.
+
+$$F = \frac{(176 - 148)/3}{148/84} = \frac{9.333}{1.762} = 5.30$$
+
+**(ii)** $5.30 > 2.71$: reject. At least one of the three dropped variables has a
+non-zero coefficient.
+
+**(iii)** The unrestricted model can always reproduce the restricted one by
+setting those three coefficients to zero, and least squares chooses the values
+that minimise SSR. So the unrestricted SSR can never be larger.
+:::
+
+**8.4** In a wage regression, $R_j^2$ from regressing years of education on the
+other explanatory variables is 0.10 in one specification and 0.90 in another.
+Holding $\sigma^2$ and $\sum(x_{ij}-\bar{x}_j)^2$ fixed, by what factor does the
+standard error of the education coefficient differ between the two?
+
+::: {.answer}
+The variance is proportional to $1/(1-R_j^2)$, so the standard error is
+proportional to $1/\sqrt{1-R_j^2}$.
+
+$$\frac{\sqrt{1/(1-0.90)}}{\sqrt{1/(1-0.10)}} = \sqrt{\frac{0.90}{0.10}} = 3$$
+
+The standard error is three times larger in the second specification. The point
+estimate may be no better; the reported uncertainty is three times worse.
+:::
+
+### Concept checks {-}
+
+**8.5** A student says: "The coefficient on attendance fell from 0.189 to 0.136
+when I added controls, so the controls made the estimate worse." Respond.
+
+::: {.answer}
+The two numbers answer different questions, so neither is a corrupted version of
+the other. 0.189 compares all students to all students; 0.136 compares students
+alike in prior record.
+
+If the goal is to describe how grades vary with attendance in the population,
+0.189 is the correct answer to that question. If the goal is to isolate what
+attendance contributes, 0.136 is closer, because one identified source of
+contamination has been removed.
+
+"Worse" presumes a target. The change is evidence that prior record was
+contributing to the simple slope — which is exactly what we suspected.
+:::
+
+**8.6** Explain why a variable that is strongly correlated with $y$ can be
+insignificant in a multiple regression.
+
+::: {.answer}
+By Section \@ref(mlr-fwl), the coefficient uses only the part of the variable that
+the other regressors cannot explain. If the variable is closely related to the
+other regressors, that remaining part is small, and a small amount of variation
+supports only an imprecise estimate.
+
+The variable may be strongly related to $y$ while contributing nothing the other
+variables have not already contributed. That is a statement about what the
+variable adds, not about whether it matters.
+:::
+
+**8.7** A regression includes both `attendance` and `classes_missed`, and R
+reports `NA` for the second. Explain what has happened and what should be done.
+
+::: {.answer}
+The two sum to 32 for every student, so one is an exact linear function of the
+other and CLRM7 fails. There is no observation for which attendance changes while
+classes missed does not, so the *ceteris paribus* comparison the coefficient
+refers to does not exist in the data. $X'X$ is singular and cannot be inverted.
+
+R drops one variable and reports `NA` rather than failing. The remedy is to
+include only one of them: they carry identical information.
+:::
+
+**8.8** Two variables are individually insignificant at 5% but jointly
+significant at 1%. What should be concluded, and what should not?
+
+::: {.answer}
+Conclude that at least one of the two has a non-zero coefficient, and that the
+data cannot say which — a signature of strongly correlated regressors.
+
+Do not conclude that both are irrelevant, and do not drop both on the strength of
+the two $t$-tests. Do not conclude that both matter either: the joint test is
+silent about which.
+:::
+
+### R exercises {-}
+
+**8.9** Using `attendance-grades.csv`, verify the Frisch–Waugh–Lovell result for
+`cum_gpa` rather than `attendance`: regress `cum_gpa` on the other two
+regressors, keep the residuals, regress `sem_gpa` on them, and compare the slope
+with the multiple regression coefficient.
+
+::: {.answer}
+```{r mlr-ex-fwl, eval = FALSE}
+students <- read.csv("data/attendance-grades.csv")
+full <- lm(sem_gpa ~ attendance + cum_gpa + admission_score, data = students)
+
+r <- residuals(lm(cum_gpa ~ attendance + admission_score, data = students))
+
+c(two_step = coef(lm(students$sem_gpa ~ r))[2],
+  direct   = coef(full)["cum_gpa"])
+```
+
+The two agree to machine precision. The result holds for every coefficient, not
+just the one of interest — each is the slope from a regression on the part of its
+own variable that the others cannot explain.
+:::
+
+**8.10** Using `wages-india-synthetic.csv`, test whether sex and residence
+jointly belong in a regression of annual earnings on education and age. Report
+the $F$ statistic, its degrees of freedom and your conclusion.
+
+::: {.answer}
+```{r mlr-ex-f, eval = FALSE}
+wages <- read.csv("data/wages-india-synthetic.csv")
+wages$male  <- as.integer(wages$sex == "Male")
+wages$urban <- as.integer(wages$residence == "Urban")
+
+r  <- lm(annual_earnings ~ education + age, data = wages)
+ur <- lm(annual_earnings ~ education + age + male + urban, data = wages)
+
+anova(r, ur)
+```
+
+$F = 900.9$ on 2 and 19,995 degrees of freedom, with a $p$-value below any
+printable threshold. Sex and residence belong in the model.
+
+That they belong does not make the model causal. It says earnings differ
+systematically by sex and residence among people of the same education and age —
+a fact about the labour market, not an explanation of it.
+:::
+
+**8.11** Show by simulation that omitted variable bias behaves as the formula
+predicts. Generate $x_2$ correlated with $x_1$, construct
+$y = 1 + 2x_1 + 3x_2 + u$, estimate the short regression 2,000 times, and compare
+the average $\hat{\alpha}_1$ with $\beta_1 + \beta_2\delta_1$.
+
+::: {.answer}
+```{r mlr-ex-ovb, eval = FALSE}
+set.seed(20)
+n <- 200
+
+results <- replicate(2000, {
+  x1 <- rnorm(n)
+  x2 <- 0.5 * x1 + rnorm(n)              # delta_1 = 0.5 by construction
+  y  <- 1 + 2 * x1 + 3 * x2 + rnorm(n, sd = 2)
+  c(short = coef(lm(y ~ x1))[2], long = coef(lm(y ~ x1 + x2))[2])
+})
+
+c(mean_short = mean(results["short.x1", ]),
+  predicted  = 2 + 3 * 0.5,
+  mean_long  = mean(results["long.x1", ]))
+```
+
+The short regression averages about 3.5, matching
+$\beta_1 + \beta_2\delta_1 = 2 + 3(0.5)$. The long regression averages about 2,
+the true value.
+
+The bias does not shrink with sample size. Increasing $n$ to 20,000 leaves it
+where it is — bias is not sampling error, and no amount of data removes it.
+:::
+
+**8.12** Investigate the cost of a redundant control. Regress `sem_gpa` on
+`attendance` alone, then add `cum_gpa`, then add a variable constructed to be
+almost identical to `attendance`. Compare the standard errors and explain.
+
+::: {.answer}
+```{r mlr-ex-collin, eval = FALSE}
+students <- read.csv("data/attendance-grades.csv")
+set.seed(5)
+students$attendance_copy <- students$attendance + rnorm(nrow(students), sd = 0.4)
+
+se <- function(m) round(coef(summary(m))["attendance", 2], 4)
+
+c(alone      = se(lm(sem_gpa ~ attendance, data = students)),
+  plus_cum   = se(lm(sem_gpa ~ attendance + cum_gpa, data = students)),
+  plus_copy  = se(lm(sem_gpa ~ attendance + attendance_copy, data = students)))
+```
+
+Adding `cum_gpa` barely moves the standard error and removes a real source of
+bias. Adding the near-copy inflates it enormously while contributing no
+information at all: $R_j^2$ for attendance is now close to one, so $(1-R_j^2)$ is
+close to zero.
+
+This is the practical content of Section \@ref(mlr-assumptions). Controls are not
+free, and a control that duplicates the variable of interest is all cost.
+:::
+
+## Question bank {#mlr-question-bank}
+
+### Multiple choice {-}
+
+**QB 8.1** In the model $y = \beta_0 + \beta_1x_1 + \beta_2x_2 + u$, the
+coefficient $\beta_1$ measures
+
+a. the total change in $y$ when $x_1$ rises by one unit
+b. the change in average $y$ when $x_1$ rises by one unit, holding $x_2$ fixed
+c. the correlation between $x_1$ and $y$
+d. the share of variation in $y$ explained by $x_1$
+
+**QB 8.2** The degrees of freedom for a $t$-test on a single coefficient in a
+regression with $n = 150$ and four explanatory variables is
+
+a. 146 &nbsp;&nbsp; b. 145 &nbsp;&nbsp; c. 148 &nbsp;&nbsp; d. 149
+
+**QB 8.3** Perfect collinearity between two explanatory variables means
+
+a. the OLS estimates are biased
+b. the OLS estimates have large standard errors
+c. the OLS estimates cannot be computed at all
+d. the $R^2$ will be exactly one
+
+**QB 8.4** An omitted variable causes no bias if
+
+a. it is uncorrelated with the dependent variable
+b. it is uncorrelated with the included explanatory variables
+c. its coefficient is large
+d. the sample is large
+
+**QB 8.5** The $F$ test for exclusion restrictions is always
+
+a. two-tailed
+b. left-tailed
+c. right-tailed
+d. tailed according to the alternative hypothesis
+
+### Short reasoning {-}
+
+**QB 8.6** Explain, without using the phrase "holding constant", what the
+Frisch–Waugh–Lovell result says a multiple regression coefficient is computed
+from.
+
+**QB 8.7** A colleague argues that since adding controls always reduces
+precision, one should include as few as possible. Assess this.
+
+**QB 8.8** Why does the numerator of the $F$ statistic divide by $q$ and the
+denominator by $n-k-1$? What would go wrong if neither division were performed?
+
+**QB 8.9** In a study of the effect of an irrigation scheme on farm incomes, the
+researcher controls for landholding, soil quality and district. Name two
+variables likely still omitted, and use the bias formula to argue in which
+direction each would push the estimate.
+
+**QB 8.10** A regression of infant mortality on the number of doctors per
+thousand people across Indian districts returns a *positive* coefficient. Explain
+using the omitted variable bias formula, and suggest a control.
+
+**QB 8.11** The overall $F$ statistic in a regression is significant but no
+individual coefficient is. What does this suggest about the explanatory
+variables, and what would you do next?
+
+**QB 8.12** Explain why an omitted variable that strongly affects $y$ but is
+unrelated to the explanatory variable of interest costs precision but causes no
+bias.
+
+### Numerical {-}
+
+**QB 8.13** A researcher estimates $\widehat{\text{wage}} = 4200 + 380\,educ$ and
+then $\widehat{\text{wage}} = 3100 + 240\,educ + 95\,exper$. Compute the implied
+regression slope of experience on education, and comment on its sign.
+
+**QB 8.14** An unrestricted model with $n = 120$, $k = 6$ has $R^2_{ur} = 0.54$.
+Imposing four exclusion restrictions gives $R^2_r = 0.41$. Compute the $F$
+statistic and state its degrees of freedom.
+
+**QB 8.15** A regression with $n = 500$ and $k = 3$ reports
+$\sum \hat{u}_i^2 = 892$. Compute $\hat{\sigma}^2$ and $\hat{\sigma}$, and state
+why the divisor is not $n$.
+
+**QB 8.16** For a regression of yield on fertiliser, irrigation and labour, the
+$R^2$ from regressing fertiliser on the other two is 0.76. By what percentage is
+the standard error on fertiliser inflated relative to a hypothetical case in
+which fertiliser were uncorrelated with the other regressors?
+
+## Looking ahead {#mlr-looking-ahead}
+
+This unit took the assumptions and the variables as given. Both deserve
+questioning.
+
+The model has assumed throughout that a one-unit rise in $x$ has the same
+consequence wherever it occurs — that the tenth year of schooling is worth what
+the second was, and that the effect of experience never flattens. Economics
+rarely believes this. The next unit shows how logarithms, squares and interaction
+terms let a linear model describe relationships that are not linear at all, at no
+cost to any of the machinery developed here.
+
+The unit also treated the choice of controls as settled. It is not. Some
+variables belong in a regression, some are harmless, and some make the estimate
+worse than leaving them out — a possibility that surprises most readers, since
+the instinct is that controlling for more is always safer. Distinguishing good
+controls from bad ones is the second theme of the next unit, and it depends on
+exactly the bias formula derived here.

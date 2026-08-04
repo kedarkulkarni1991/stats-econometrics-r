@@ -17,3 +17,5 @@ ols-het-robust	fit_w	robust_se
 os-power-plot	book_palette	theme_book	x
 os-power-calc	
 os-power-table	
+mlr-f-dist	
+mlr-f-dist-plot	book_palette	df	f_stats	theme_book	x	y

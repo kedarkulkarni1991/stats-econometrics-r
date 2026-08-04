@@ -16,6 +16,7 @@ rmd_files:
   - "05-two-sample.Rmd"
   - "06-simple-regression.Rmd"
   - "07-ols.Rmd"
+  - "08-multiple-regression.Rmd"
 
 language:
   ui:
