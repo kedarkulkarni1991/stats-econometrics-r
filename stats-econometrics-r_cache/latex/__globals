@@ -26,3 +26,4 @@ ff-r2-noise
 ff-confounder	
 ff-mediator	n
 ff-collider	n
+ff-squares-plot	b	book_palette	k	prod	theme_book

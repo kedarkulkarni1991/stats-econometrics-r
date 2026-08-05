@@ -26,3 +26,4 @@ ff-r2-noise	augmented	base	junk	noise	students
 ff-confounder	confounder	n	x	y
 ff-mediator	mediator
 ff-collider	collider	u	x	y
+ff-squares-plot	me	turn

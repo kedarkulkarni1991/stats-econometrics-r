@@ -574,7 +574,13 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="9.3" data-path="ff-elasticity.html"><a href="ff-elasticity.html"><i class="fa fa-check"></i><b>9.3</b> Elasticities: weight and fuel efficiency</a></li>
 <li class="chapter" data-level="9.4" data-path="ff-schooling.html"><a href="ff-schooling.html"><i class="fa fa-check"></i><b>9.4</b> Percentages: the return to schooling</a></li>
 <li class="chapter" data-level="9.5" data-path="ff-hetero.html"><a href="ff-hetero.html"><i class="fa fa-check"></i><b>9.5</b> When logs remove what looked like heteroskedasticity</a></li>
-<li class="chapter" data-level="9.6" data-path="ff-choosing.html"><a href="ff-choosing.html"><i class="fa fa-check"></i><b>9.6</b> Choosing a form</a></li>
+<li class="chapter" data-level="9.6" data-path="ff-choosing.html"><a href="ff-choosing.html"><i class="fa fa-check"></i><b>9.6</b> Squares, and choosing a form</a>
+<ul>
+<li class="chapter" data-level="" data-path="ff-choosing.html"><a href="ff-choosing.html#adding-a-squared-term"><i class="fa fa-check"></i>Adding a squared term</a></li>
+<li class="chapter" data-level="" data-path="ff-choosing.html"><a href="ff-choosing.html#diminishing-returns-to-capital"><i class="fa fa-check"></i>Diminishing returns to capital</a></li>
+<li class="chapter" data-level="" data-path="ff-choosing.html"><a href="ff-choosing.html#choosing-a-form"><i class="fa fa-check"></i>Choosing a form</a></li>
+<li class="chapter" data-level="" data-path="ff-choosing.html"><a href="ff-choosing.html#the-problem-of-zeros"><i class="fa fa-check"></i>The problem of zeros</a></li>
+</ul></li>
 <li class="chapter" data-level="9.7" data-path="ff-irrelevant.html"><a href="ff-irrelevant.html"><i class="fa fa-check"></i><b>9.7</b> Does adding a variable ever cost anything?</a></li>
 <li class="chapter" data-level="9.8" data-path="ff-adjr2.html"><a href="ff-adjr2.html"><i class="fa fa-check"></i><b>9.8</b> R-squared always rises</a>
 <ul>
@@ -669,41 +675,52 @@ regressors</p>
 </div>
 <div id="short-reasoning-8" class="section level3 unnumbered hasAnchor">
 <h3>Short reasoning<a href="ff-question-bank.html#short-reasoning-8" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p><strong>QB 9.6</strong> A study of fertiliser and yield reports a level–level slope of 0.83.
+<p><strong>QB 9.6</strong> In the model <span class="math inline">\(y = \beta_0 + \beta_1 x + \beta_2 x^2 + u\)</span> with
+<span class="math inline">\(\beta_1 &gt; 0\)</span> and <span class="math inline">\(\beta_2 &lt; 0\)</span>, explain what <span class="math inline">\(\beta_1\)</span> measures and why
+quoting it as “the effect of <span class="math inline">\(x\)</span>” is wrong. Where would you have to evaluate the
+marginal effect for <span class="math inline">\(\beta_1\)</span> to be the right answer?</p>
+<p><strong>QB 9.7</strong> A researcher takes logs of household land holdings and reports that
+the sample fell from 4,200 to 3,100 observations. What happened, what does it
+imply about the population the results describe, and what would <span class="math inline">\(\ln(x+1)\)</span> have
+done instead?</p>
+<p><strong>QB 9.8</strong> Explain why the constant in <span class="math inline">\(\ln(x+1)\)</span> is not innocuous. If a
+colleague argues that adding 1 is standard practice and therefore safe, how
+would you respond?</p>
+<p><strong>QB 9.9</strong> A study of fertiliser and yield reports a level–level slope of 0.83.
 A colleague asks whether that is a large effect. Explain what further
 information is needed, and what functional form would have avoided the question.</p>
-<p><strong>QB 9.7</strong> Explain why <span class="math inline">\(R^2\)</span> is a reasonable thing to examine when forecasting
+<p><strong>QB 9.10</strong> Explain why <span class="math inline">\(R^2\)</span> is a reasonable thing to examine when forecasting
 next year’s electricity demand, but a poor guide when estimating the effect of a
 school meals programme on attendance.</p>
-<p><strong>QB 9.8</strong> A researcher studying the effect of a job training programme on
+<p><strong>QB 9.11</strong> A researcher studying the effect of a job training programme on
 earnings controls for whether the participant is currently employed. Which of
 the three cases in Section <a href="ff-controls.html#ff-controls">9.10</a> is this, and what will it do to
 the estimate?</p>
-<p><strong>QB 9.9</strong> Why can adjusted <span class="math inline">\(R^2\)</span> be negative? What does a negative value tell
+<p><strong>QB 9.12</strong> Why can adjusted <span class="math inline">\(R^2\)</span> be negative? What does a negative value tell
 you about the model?</p>
-<p><strong>QB 9.10</strong> In a regression of infant mortality on household income across
+<p><strong>QB 9.13</strong> In a regression of infant mortality on household income across
 districts, a researcher adds “number of hospitals per capita” as a control and
 the income coefficient shrinks by half. Give two different causal stories
 consistent with that result, one in which the control belongs and one in which
 it does not.</p>
-<p><strong>QB 9.11</strong> A dataset records earnings for people who are employed. Explain why
+<p><strong>QB 9.14</strong> A dataset records earnings for people who are employed. Explain why
 regressing earnings on education using only these observations is a version of
 the collider problem, and what it implies for interpreting the coefficient.</p>
-<p><strong>QB 9.12</strong> Explain why the choice between level–log and log–log cannot be made
+<p><strong>QB 9.15</strong> Explain why the choice between level–log and log–log cannot be made
 by comparing <span class="math inline">\(R^2\)</span>, but the choice between two different sets of controls in a
 log–log model could in principle be informed by it.</p>
 </div>
 <div id="numerical-8" class="section level3 unnumbered hasAnchor">
 <h3>Numerical<a href="ff-question-bank.html#numerical-8" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p><strong>QB 9.13</strong> A log–level regression of earnings on years of experience gives a
+<p><strong>QB 9.16</strong> A log–level regression of earnings on years of experience gives a
 coefficient of 0.026. Give both the approximate and exact percentage returns to
 one more year, and to ten more years.</p>
-<p><strong>QB 9.14</strong> A model with <span class="math inline">\(n = 150\)</span>, <span class="math inline">\(k = 4\)</span> has <span class="math inline">\(\text{SSR} = 240\)</span> and
+<p><strong>QB 9.17</strong> A model with <span class="math inline">\(n = 150\)</span>, <span class="math inline">\(k = 4\)</span> has <span class="math inline">\(\text{SSR} = 240\)</span> and
 <span class="math inline">\(\text{SST} = 600\)</span>. Compute <span class="math inline">\(R^2\)</span> and adjusted <span class="math inline">\(R^2\)</span>.</p>
-<p><strong>QB 9.15</strong> Two nested models on the same 300 observations have <span class="math inline">\(R^2\)</span> of 0.38
+<p><strong>QB 9.18</strong> Two nested models on the same 300 observations have <span class="math inline">\(R^2\)</span> of 0.38
 with 3 regressors and 0.41 with 7. Compute both adjusted <span class="math inline">\(R^2\)</span> values, and the
 <span class="math inline">\(F\)</span> statistic for the four added variables. Do the two criteria agree?</p>
-<p><strong>QB 9.16</strong> A demand equation estimated in log–log form gives a price elasticity
+<p><strong>QB 9.19</strong> A demand equation estimated in log–log form gives a price elasticity
 of <span class="math inline">\(-1.4\)</span> with a standard error of 0.15. Test whether demand is unit-elastic,
 and state what the sign and magnitude imply about total revenue when price
 rises.</p>

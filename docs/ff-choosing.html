@@ -4,13 +4,13 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>9.6 Choosing a form | Statistics and Econometrics with R</title>
+  <title>9.6 Squares, and choosing a form | Statistics and Econometrics with R</title>
   <meta name="description" content="<p>A first course in statistics and econometrics for Indian students, built on
 the progression from question to intuition to rigour to computation to
 interpretation.</p>" />
   <meta name="generator" content="bookdown 0.47 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="9.6 Choosing a form | Statistics and Econometrics with R" />
+  <meta property="og:title" content="9.6 Squares, and choosing a form | Statistics and Econometrics with R" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="<p>A first course in statistics and econometrics for Indian students, built on
@@ -19,7 +19,7 @@ interpretation.</p>" />
   <meta name="github-repo" content="kedarkulkarni1991/stats-econometrics-r" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="9.6 Choosing a form | Statistics and Econometrics with R" />
+  <meta name="twitter:title" content="9.6 Squares, and choosing a form | Statistics and Econometrics with R" />
   
   <meta name="twitter:description" content="<p>A first course in statistics and econometrics for Indian students, built on
 the progression from question to intuition to rigour to computation to
@@ -574,7 +574,13 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="9.3" data-path="ff-elasticity.html"><a href="ff-elasticity.html"><i class="fa fa-check"></i><b>9.3</b> Elasticities: weight and fuel efficiency</a></li>
 <li class="chapter" data-level="9.4" data-path="ff-schooling.html"><a href="ff-schooling.html"><i class="fa fa-check"></i><b>9.4</b> Percentages: the return to schooling</a></li>
 <li class="chapter" data-level="9.5" data-path="ff-hetero.html"><a href="ff-hetero.html"><i class="fa fa-check"></i><b>9.5</b> When logs remove what looked like heteroskedasticity</a></li>
-<li class="chapter" data-level="9.6" data-path="ff-choosing.html"><a href="ff-choosing.html"><i class="fa fa-check"></i><b>9.6</b> Choosing a form</a></li>
+<li class="chapter" data-level="9.6" data-path="ff-choosing.html"><a href="ff-choosing.html"><i class="fa fa-check"></i><b>9.6</b> Squares, and choosing a form</a>
+<ul>
+<li class="chapter" data-level="" data-path="ff-choosing.html"><a href="ff-choosing.html#adding-a-squared-term"><i class="fa fa-check"></i>Adding a squared term</a></li>
+<li class="chapter" data-level="" data-path="ff-choosing.html"><a href="ff-choosing.html#diminishing-returns-to-capital"><i class="fa fa-check"></i>Diminishing returns to capital</a></li>
+<li class="chapter" data-level="" data-path="ff-choosing.html"><a href="ff-choosing.html#choosing-a-form"><i class="fa fa-check"></i>Choosing a form</a></li>
+<li class="chapter" data-level="" data-path="ff-choosing.html"><a href="ff-choosing.html#the-problem-of-zeros"><i class="fa fa-check"></i>The problem of zeros</a></li>
+</ul></li>
 <li class="chapter" data-level="9.7" data-path="ff-irrelevant.html"><a href="ff-irrelevant.html"><i class="fa fa-check"></i><b>9.7</b> Does adding a variable ever cost anything?</a></li>
 <li class="chapter" data-level="9.8" data-path="ff-adjr2.html"><a href="ff-adjr2.html"><i class="fa fa-check"></i><b>9.8</b> R-squared always rises</a>
 <ul>
@@ -625,12 +631,103 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 
             <section class="normal" id="section-">
 <div id="ff-choosing" class="section level2 hasAnchor" number="9.6">
-<h2><span class="header-section-number">9.6</span> Choosing a form<a href="ff-choosing.html#ff-choosing" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<h2><span class="header-section-number">9.6</span> Squares, and choosing a form<a href="ff-choosing.html#ff-choosing" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <div class="question">
-<p>Four options and no test that settles it. How is the choice made?</p>
+<p>Logs impose one particular curve. What if the relationship rises and then
+flattens?</p>
 </div>
+<p>Logarithms bend a straight line, but they bend it in only one way: the effect of
+<span class="math inline">\(x\)</span> shrinks proportionally as <span class="math inline">\(x\)</span> grows, and it never changes sign.</p>
+<p>Many economic relationships have a different shape. Output rises with capital,
+but each additional machine adds less than the last. Earnings rise with
+experience, then flatten and eventually fall. These are relationships with
+<strong>diminishing returns</strong>, and a second kind of transformation captures them.</p>
+<div id="adding-a-squared-term" class="section level3 unnumbered hasAnchor">
+<h3>Adding a squared term<a href="ff-choosing.html#adding-a-squared-term" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Include the variable twice, once as itself and once squared:</p>
+<p><span class="math display">\[y = \beta_0 + \beta_1 x + \beta_2 x^2 + u\]</span></p>
+<p>This is still a <strong>linear regression</strong>. Nothing about the estimation changes,
+because linearity was always a requirement on the <em>parameters</em>, not on the
+variables. As far as OLS is concerned, <span class="math inline">\(x^2\)</span> is just another column.</p>
+<p>What changes is that the effect of <span class="math inline">\(x\)</span> is no longer a single number.</p>
+<div class="theory">
+<p>Differentiating with respect to <span class="math inline">\(x\)</span>,</p>
+<p><span class="math display">\[\frac{\partial y}{\partial x} = \beta_1 + 2\beta_2 x\]</span></p>
+<p>The marginal effect <strong>depends on where you are</strong>. If <span class="math inline">\(\beta_1 &gt; 0\)</span> and
+<span class="math inline">\(\beta_2 &lt; 0\)</span>, the effect is positive but shrinking — diminishing returns.</p>
+<p>Setting the derivative to zero gives the point at which the relationship turns:</p>
+<p><span class="math display">\[x^{*} = -\frac{\beta_1}{2\beta_2}\]</span></p>
+</div>
+<div class="watchout">
+<p><strong><span class="math inline">\(\beta_1\)</span> on its own is now meaningless.</strong></p>
+<p>It is the marginal effect at <span class="math inline">\(x = 0\)</span>, which is often a value no observation
+comes close to. Reporting it as “the effect of <span class="math inline">\(x\)</span>” is one of the most common
+errors in applied work.</p>
+<p>With a squared term in the model, the effect must be evaluated at particular
+values of <span class="math inline">\(x\)</span>, and those values should be stated.</p>
+</div>
+</div>
+<div id="diminishing-returns-to-capital" class="section level3 unnumbered hasAnchor">
+<h3>Diminishing returns to capital<a href="ff-choosing.html#diminishing-returns-to-capital" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>The <code>india-production.csv</code> data record output, labour and capital for the Indian
+economy over forty years. Economic theory has a firm prediction here: output per
+worker should rise with capital per worker, but at a decreasing rate.</p>
+<div class="sourceCode" id="cb347"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb347-1"><a href="ff-choosing.html#cb347-1" tabindex="-1"></a>prod <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/india-production.csv&quot;</span>)</span>
+<span id="cb347-2"><a href="ff-choosing.html#cb347-2" tabindex="-1"></a></span>
+<span id="cb347-3"><a href="ff-choosing.html#cb347-3" tabindex="-1"></a>linear <span class="ot">&lt;-</span> <span class="fu">lm</span>(ybyl <span class="sc">~</span> kbyl, <span class="at">data =</span> prod)</span>
+<span id="cb347-4"><a href="ff-choosing.html#cb347-4" tabindex="-1"></a>quad   <span class="ot">&lt;-</span> <span class="fu">lm</span>(ybyl <span class="sc">~</span> kbyl <span class="sc">+</span> <span class="fu">I</span>(kbyl<span class="sc">^</span><span class="dv">2</span>), <span class="at">data =</span> prod)</span>
+<span id="cb347-5"><a href="ff-choosing.html#cb347-5" tabindex="-1"></a></span>
+<span id="cb347-6"><a href="ff-choosing.html#cb347-6" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">coef</span>(<span class="fu">summary</span>(quad)), <span class="dv">6</span>)</span></code></pre></div>
+<pre><code>#&gt;              Estimate Std. Error t value Pr(&gt;|t|)
+#&gt; (Intercept)  0.130507   0.307408  0.4245 0.673630
+#&gt; kbyl         0.343602   0.015779 21.7757 0.000000
+#&gt; I(kbyl^2)   -0.000587   0.000159 -3.6994 0.000699</code></pre>
+<p>The squared term is negative and significant, which is diminishing returns
+appearing in the data rather than only in the theory.</p>
+<p>Note the syntax. <code>I(kbyl^2)</code> wraps the expression in <code>I()</code> so that R treats <code>^</code>
+as arithmetic rather than as formula notation.</p>
+<div class="sourceCode" id="cb349"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb349-1"><a href="ff-choosing.html#cb349-1" tabindex="-1"></a>b <span class="ot">&lt;-</span> <span class="fu">coef</span>(quad)</span>
+<span id="cb349-2"><a href="ff-choosing.html#cb349-2" tabindex="-1"></a></span>
+<span id="cb349-3"><a href="ff-choosing.html#cb349-3" tabindex="-1"></a>marginal <span class="ot">&lt;-</span> <span class="cf">function</span>(k) b[<span class="st">&quot;kbyl&quot;</span>] <span class="sc">+</span> <span class="dv">2</span> <span class="sc">*</span> b[<span class="st">&quot;I(kbyl^2)&quot;</span>] <span class="sc">*</span> k</span>
+<span id="cb349-4"><a href="ff-choosing.html#cb349-4" tabindex="-1"></a></span>
+<span id="cb349-5"><a href="ff-choosing.html#cb349-5" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">at_k_20 =</span> <span class="fu">marginal</span>(<span class="dv">20</span>), <span class="at">at_k_50 =</span> <span class="fu">marginal</span>(<span class="dv">50</span>), <span class="at">at_k_80 =</span> <span class="fu">marginal</span>(<span class="dv">80</span>),</span>
+<span id="cb349-6"><a href="ff-choosing.html#cb349-6" tabindex="-1"></a>        <span class="at">turning_point =</span> <span class="fu">unname</span>(<span class="sc">-</span>b[<span class="st">&quot;kbyl&quot;</span>] <span class="sc">/</span> (<span class="dv">2</span> <span class="sc">*</span> b[<span class="st">&quot;I(kbyl^2)&quot;</span>])),</span>
+<span id="cb349-7"><a href="ff-choosing.html#cb349-7" tabindex="-1"></a>        <span class="at">max_observed  =</span> <span class="fu">max</span>(prod<span class="sc">$</span>kbyl)), <span class="dv">4</span>)</span></code></pre></div>
+<pre><code>#&gt;  at_k_20.kbyl  at_k_50.kbyl  at_k_80.kbyl turning_point  max_observed 
+#&gt;        0.3201        0.2849        0.2497      292.8300       88.1205</code></pre>
+<p>At a capital–labour ratio of 20, one more unit of capital per worker raises
+output per worker by 0.32. At 80, the same addition is worth 0.25 — about a
+quarter less. That decline <em>is</em> the diminishing return.</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:ff-squares-plot"></span>
+<img src="stats-econometrics-r_files/figure-html/ff-squares-plot-1.png" alt="The marginal effect of capital per worker, from the fitted quadratic. It slopes downward -- each additional unit of capital is worth less than the last, which is what diminishing returns means. The shaded band is the range actually observed in the data. The marginal effect stays comfortably positive throughout it, reaching zero only at 292.8, more than three times the largest value ever recorded." width="90%"  />
+<p class="caption">
+Figure 9.2: The marginal effect of capital per worker, from the fitted quadratic. It slopes downward – each additional unit of capital is worth less than the last, which is what diminishing returns means. The shaded band is the range actually observed in the data. The marginal effect stays comfortably positive throughout it, reaching zero only at 292.8, more than three times the largest value ever recorded.
+</p>
+</div>
+<div class="watchout">
+<p><strong>Always locate the turning point before believing it.</strong></p>
+<p>Here it sits at 292.8, while the largest capital–labour ratio ever observed is
+88.1. The model therefore says returns are positive and diminishing across the
+entire range of the data, and never predicts that more capital reduces output.</p>
+<p>Had the turning point fallen <em>inside</em> the observed range, the model would be
+claiming a genuine reversal, and that claim would need defending. A quadratic is
+a flexible curve fitted to data, not a law. It will happily place a peak
+wherever the arithmetic puts one, including in places no economist would.</p>
+</div>
+<div class="intuition">
+<p>A squared term and a logarithm both produce a curve that flattens, and they are
+often near-substitutes in practice.</p>
+<p>The difference is what happens at the ends. A log rises without limit and never
+turns down. A quadratic must turn, since a parabola has a peak.</p>
+<p>If theory says the effect flattens but never reverses — as with output and
+capital — a log is the safer choice. If theory says the relationship genuinely
+peaks, as with age and earnings, the quadratic says so and the log cannot.</p>
+</div>
+</div>
+<div id="choosing-a-form" class="section level3 unnumbered hasAnchor">
+<h3>Choosing a form<a href="ff-choosing.html#choosing-a-form" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <div class="keyidea">
-<p>Three considerations, in order of importance.</p>
+<p>Four considerations, in order of importance.</p>
 <p><strong>What is the natural way to talk about the variable?</strong> Wages, prices and GDP
 are discussed in percentages, so logs. Test scores, class attendance and family
 size are discussed in units, so levels.</p>
@@ -639,21 +736,83 @@ plausibly produces a proportional change in <span class="math inline">\(y\)</spa
 logs will fit better and mean more.</p>
 <p><strong>Does the scatter suggest it?</strong> Skewed variables often straighten out in logs,
 and heteroskedasticity often shrinks at the same time.</p>
+<p><strong>Does the effect plausibly change as <span class="math inline">\(x\)</span> grows?</strong> If theory predicts
+diminishing returns or a peak, a squared term states that directly and can be
+tested with the <span class="math inline">\(t\)</span> statistic on <span class="math inline">\(\beta_2\)</span>.</p>
 </div>
 <p>What should <em>not</em> drive the choice is which version gives the larger <span class="math inline">\(R^2\)</span> or
 the smaller <span class="math inline">\(p\)</span>-value. Trying transformations until something is significant
 produces findings that will not replicate — and Section <a href="ff-r2-limits.html#ff-r2-limits">9.9</a>
 explains why <span class="math inline">\(R^2\)</span> is particularly unsuited to settling the question.</p>
+</div>
+<div id="the-problem-of-zeros" class="section level3 unnumbered hasAnchor">
+<h3>The problem of zeros<a href="ff-choosing.html#the-problem-of-zeros" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <div class="watchout">
 <p><strong>Logarithms are undefined at zero and for negative numbers.</strong></p>
-<p>Earnings data routinely contain zeros — people who did not work. Taking logs
-silently deletes them, and since those are rarely a random subset of the sample,
-the remaining regression answers a different question from the one asked.</p>
-<div class="sourceCode" id="cb347"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb347-1"><a href="ff-choosing.html#cb347-1" tabindex="-1"></a><span class="fu">sum</span>(wages<span class="sc">$</span>annual_earnings <span class="sc">&lt;=</span> <span class="dv">0</span>)</span></code></pre></div>
+<p>Earnings data routinely contain zeros — people who did not work. Land holdings
+contain zeros for the landless. Firm exports contain zeros for firms that sell
+only at home.</p>
+<p>Taking logs of such a variable does not fail loudly. R returns <code>-Inf</code>, <code>lm()</code>
+drops those rows, and the regression proceeds on a smaller sample without
+comment.</p>
+</div>
+<p>That silence is the danger. The observations lost are almost never a random
+subset — the landless differ from the landed in every way that matters — so the
+surviving regression answers a question about a different population from the
+one that was asked.</p>
+<div class="sourceCode" id="cb351"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb351-1"><a href="ff-choosing.html#cb351-1" tabindex="-1"></a><span class="fu">sum</span>(wages<span class="sc">$</span>annual_earnings <span class="sc">&lt;=</span> <span class="dv">0</span>)</span></code></pre></div>
 <pre><code>#&gt; [1] 0</code></pre>
 <p>There are none here, which is a property of this simulated dataset rather than
-of earnings data in general. With real data, check before transforming and say
-what you did.</p>
+of earnings data in general.</p>
+<div id="the-usual-patch" class="section level4 unnumbered hasAnchor">
+<h4>The usual patch<a href="ff-choosing.html#the-usual-patch" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>The common response is to add one before taking the logarithm:</p>
+<p><span class="math display">\[\ln(x + 1)\]</span></p>
+<p>This is defined at zero, since <span class="math inline">\(\ln(1) = 0\)</span>, and for values much larger than 1
+it is barely distinguishable from <span class="math inline">\(\ln x\)</span>. Every observation is kept and the
+coefficient still reads roughly as a percentage.</p>
+<div class="sourceCode" id="cb353"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb353-1"><a href="ff-choosing.html#cb353-1" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">10</span>, <span class="dv">100</span>, <span class="dv">10000</span>)</span>
+<span id="cb353-2"><a href="ff-choosing.html#cb353-2" tabindex="-1"></a></span>
+<span id="cb353-3"><a href="ff-choosing.html#cb353-3" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">rbind</span>(<span class="at">x       =</span> x,</span>
+<span id="cb353-4"><a href="ff-choosing.html#cb353-4" tabindex="-1"></a>            <span class="at">log_x   =</span> <span class="fu">suppressWarnings</span>(<span class="fu">log</span>(x)),</span>
+<span id="cb353-5"><a href="ff-choosing.html#cb353-5" tabindex="-1"></a>            <span class="at">log_x_1 =</span> <span class="fu">log1p</span>(x)), <span class="at">digits =</span> <span class="dv">6</span>)</span></code></pre></div>
+<pre><code>#&gt;         [,1]     [,2]     [,3]      [,4]        [,5]
+#&gt; x          0 1.000000 10.00000 100.00000 10000.00000
+#&gt; log_x   -Inf 0.000000  2.30259   4.60517     9.21034
+#&gt; log_x_1    0 0.693147  2.39790   4.61512     9.21044</code></pre>
+<p>At <span class="math inline">\(x = 10{,}000\)</span> the two agree until the fourth decimal place. At <span class="math inline">\(x = 0\)</span> one is
+undefined and the other is zero.</p>
+<p>Notice where they disagree. At <span class="math inline">\(x = 1\)</span> the gap is 0.69, and at <span class="math inline">\(x = 10\)</span> it is
+still 0.095. The transformation leaves large values essentially untouched and
+changes the small ones — which are exactly the observations it was introduced to
+rescue. R provides <code>log1p()</code> for this, which is more accurate than
+<code>log(x + 1)</code> when <span class="math inline">\(x\)</span> is very small.</p>
+<div class="watchout">
+<p><strong>The choice of 1 is arbitrary, and it is not innocent.</strong></p>
+<p>Nothing privileges 1 over 0.01 or 1,000. The number is not a property of the
+data; it is a decision by the analyst, and the estimated coefficient depends on
+which decision was taken. Adding a different constant gives a different answer,
+and the sensible-looking default is sensible only because earnings happen to be
+measured in units where 1 is small.</p>
+<p>This also means the coefficient is no longer quite an elasticity. Near zero,
+<span class="math inline">\(\ln(x+1)\)</span> and <span class="math inline">\(\ln x\)</span> behave completely differently, and it is precisely the
+zero observations that motivated the transformation in the first place.</p>
+</div>
+<p>Use <span class="math inline">\(\ln(x+1)\)</span> if you must, report that you did, and check whether the results
+survive a different constant. Better methods exist that handle zeros without
+inventing a constant at all, and this book returns to them once the necessary
+machinery is in place.</p>
+<div class="intuition">
+<p>The deeper point is that a zero is often not a small number. It is a different
+kind of outcome.</p>
+<p>A household earning nothing has not merely earned a very small amount; someone
+in it decided not to work, or could not find work. A firm exporting nothing
+faces a different decision from one exporting a little.</p>
+<p>Transformations try to squeeze both decisions onto one scale. Sometimes that is
+acceptable. Often the zeros are the interesting part of the problem, and the
+honest response is to model them rather than to transform them away.</p>
+</div>
+</div>
 </div>
 </div>
 <script>

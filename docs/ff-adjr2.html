@@ -574,7 +574,13 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="9.3" data-path="ff-elasticity.html"><a href="ff-elasticity.html"><i class="fa fa-check"></i><b>9.3</b> Elasticities: weight and fuel efficiency</a></li>
 <li class="chapter" data-level="9.4" data-path="ff-schooling.html"><a href="ff-schooling.html"><i class="fa fa-check"></i><b>9.4</b> Percentages: the return to schooling</a></li>
 <li class="chapter" data-level="9.5" data-path="ff-hetero.html"><a href="ff-hetero.html"><i class="fa fa-check"></i><b>9.5</b> When logs remove what looked like heteroskedasticity</a></li>
-<li class="chapter" data-level="9.6" data-path="ff-choosing.html"><a href="ff-choosing.html"><i class="fa fa-check"></i><b>9.6</b> Choosing a form</a></li>
+<li class="chapter" data-level="9.6" data-path="ff-choosing.html"><a href="ff-choosing.html"><i class="fa fa-check"></i><b>9.6</b> Squares, and choosing a form</a>
+<ul>
+<li class="chapter" data-level="" data-path="ff-choosing.html"><a href="ff-choosing.html#adding-a-squared-term"><i class="fa fa-check"></i>Adding a squared term</a></li>
+<li class="chapter" data-level="" data-path="ff-choosing.html"><a href="ff-choosing.html#diminishing-returns-to-capital"><i class="fa fa-check"></i>Diminishing returns to capital</a></li>
+<li class="chapter" data-level="" data-path="ff-choosing.html"><a href="ff-choosing.html#choosing-a-form"><i class="fa fa-check"></i>Choosing a form</a></li>
+<li class="chapter" data-level="" data-path="ff-choosing.html"><a href="ff-choosing.html#the-problem-of-zeros"><i class="fa fa-check"></i>The problem of zeros</a></li>
+</ul></li>
 <li class="chapter" data-level="9.7" data-path="ff-irrelevant.html"><a href="ff-irrelevant.html"><i class="fa fa-check"></i><b>9.7</b> Does adding a variable ever cost anything?</a></li>
 <li class="chapter" data-level="9.8" data-path="ff-adjr2.html"><a href="ff-adjr2.html"><i class="fa fa-check"></i><b>9.8</b> R-squared always rises</a>
 <ul>
@@ -632,20 +638,20 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <p>The suggestion is natural. <span class="math inline">\(R^2\)</span> measures how much of the variation the model
 accounts for, so a variable that improves the model should raise it.</p>
 <p>The difficulty is that <em>every</em> variable raises it.</p>
-<div class="sourceCode" id="cb351"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb351-1"><a href="ff-adjr2.html#cb351-1" tabindex="-1"></a>students <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/attendance-grades.csv&quot;</span>)</span>
-<span id="cb351-2"><a href="ff-adjr2.html#cb351-2" tabindex="-1"></a></span>
-<span id="cb351-3"><a href="ff-adjr2.html#cb351-3" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2</span>)</span>
-<span id="cb351-4"><a href="ff-adjr2.html#cb351-4" tabindex="-1"></a>noise <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">matrix</span>(<span class="fu">rnorm</span>(<span class="fu">nrow</span>(students) <span class="sc">*</span> <span class="dv">10</span>), <span class="at">ncol =</span> <span class="dv">10</span>))</span>
-<span id="cb351-5"><a href="ff-adjr2.html#cb351-5" tabindex="-1"></a>augmented <span class="ot">&lt;-</span> <span class="fu">cbind</span>(students, noise)</span>
-<span id="cb351-6"><a href="ff-adjr2.html#cb351-6" tabindex="-1"></a></span>
-<span id="cb351-7"><a href="ff-adjr2.html#cb351-7" tabindex="-1"></a>base <span class="ot">&lt;-</span> <span class="fu">lm</span>(sem_gpa <span class="sc">~</span> attendance <span class="sc">+</span> cum_gpa <span class="sc">+</span> admission_score, <span class="at">data =</span> students)</span>
-<span id="cb351-8"><a href="ff-adjr2.html#cb351-8" tabindex="-1"></a>junk <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="fu">reformulate</span>(<span class="fu">c</span>(<span class="st">&quot;attendance&quot;</span>, <span class="st">&quot;cum_gpa&quot;</span>, <span class="st">&quot;admission_score&quot;</span>,</span>
-<span id="cb351-9"><a href="ff-adjr2.html#cb351-9" tabindex="-1"></a>                         <span class="fu">names</span>(noise)), <span class="st">&quot;sem_gpa&quot;</span>), <span class="at">data =</span> augmented)</span>
-<span id="cb351-10"><a href="ff-adjr2.html#cb351-10" tabindex="-1"></a></span>
-<span id="cb351-11"><a href="ff-adjr2.html#cb351-11" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">r2_base        =</span> <span class="fu">summary</span>(base)<span class="sc">$</span>r.squared,</span>
-<span id="cb351-12"><a href="ff-adjr2.html#cb351-12" tabindex="-1"></a>        <span class="at">r2_plus_junk   =</span> <span class="fu">summary</span>(junk)<span class="sc">$</span>r.squared,</span>
-<span id="cb351-13"><a href="ff-adjr2.html#cb351-13" tabindex="-1"></a>        <span class="at">adj_base       =</span> <span class="fu">summary</span>(base)<span class="sc">$</span>adj.r.squared,</span>
-<span id="cb351-14"><a href="ff-adjr2.html#cb351-14" tabindex="-1"></a>        <span class="at">adj_plus_junk  =</span> <span class="fu">summary</span>(junk)<span class="sc">$</span>adj.r.squared), <span class="dv">4</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb357"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb357-1"><a href="ff-adjr2.html#cb357-1" tabindex="-1"></a>students <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/attendance-grades.csv&quot;</span>)</span>
+<span id="cb357-2"><a href="ff-adjr2.html#cb357-2" tabindex="-1"></a></span>
+<span id="cb357-3"><a href="ff-adjr2.html#cb357-3" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2</span>)</span>
+<span id="cb357-4"><a href="ff-adjr2.html#cb357-4" tabindex="-1"></a>noise <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">matrix</span>(<span class="fu">rnorm</span>(<span class="fu">nrow</span>(students) <span class="sc">*</span> <span class="dv">10</span>), <span class="at">ncol =</span> <span class="dv">10</span>))</span>
+<span id="cb357-5"><a href="ff-adjr2.html#cb357-5" tabindex="-1"></a>augmented <span class="ot">&lt;-</span> <span class="fu">cbind</span>(students, noise)</span>
+<span id="cb357-6"><a href="ff-adjr2.html#cb357-6" tabindex="-1"></a></span>
+<span id="cb357-7"><a href="ff-adjr2.html#cb357-7" tabindex="-1"></a>base <span class="ot">&lt;-</span> <span class="fu">lm</span>(sem_gpa <span class="sc">~</span> attendance <span class="sc">+</span> cum_gpa <span class="sc">+</span> admission_score, <span class="at">data =</span> students)</span>
+<span id="cb357-8"><a href="ff-adjr2.html#cb357-8" tabindex="-1"></a>junk <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="fu">reformulate</span>(<span class="fu">c</span>(<span class="st">&quot;attendance&quot;</span>, <span class="st">&quot;cum_gpa&quot;</span>, <span class="st">&quot;admission_score&quot;</span>,</span>
+<span id="cb357-9"><a href="ff-adjr2.html#cb357-9" tabindex="-1"></a>                         <span class="fu">names</span>(noise)), <span class="st">&quot;sem_gpa&quot;</span>), <span class="at">data =</span> augmented)</span>
+<span id="cb357-10"><a href="ff-adjr2.html#cb357-10" tabindex="-1"></a></span>
+<span id="cb357-11"><a href="ff-adjr2.html#cb357-11" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">r2_base        =</span> <span class="fu">summary</span>(base)<span class="sc">$</span>r.squared,</span>
+<span id="cb357-12"><a href="ff-adjr2.html#cb357-12" tabindex="-1"></a>        <span class="at">r2_plus_junk   =</span> <span class="fu">summary</span>(junk)<span class="sc">$</span>r.squared,</span>
+<span id="cb357-13"><a href="ff-adjr2.html#cb357-13" tabindex="-1"></a>        <span class="at">adj_base       =</span> <span class="fu">summary</span>(base)<span class="sc">$</span>adj.r.squared,</span>
+<span id="cb357-14"><a href="ff-adjr2.html#cb357-14" tabindex="-1"></a>        <span class="at">adj_plus_junk  =</span> <span class="fu">summary</span>(junk)<span class="sc">$</span>adj.r.squared), <span class="dv">4</span>)</span></code></pre></div>
 <pre><code>#&gt;       r2_base  r2_plus_junk      adj_base adj_plus_junk 
 #&gt;        0.5421        0.5464        0.5401        0.5375</code></pre>
 <p>The ten added variables are pure random noise, generated without reference to

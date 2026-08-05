@@ -574,7 +574,13 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="9.3" data-path="ff-elasticity.html"><a href="ff-elasticity.html"><i class="fa fa-check"></i><b>9.3</b> Elasticities: weight and fuel efficiency</a></li>
 <li class="chapter" data-level="9.4" data-path="ff-schooling.html"><a href="ff-schooling.html"><i class="fa fa-check"></i><b>9.4</b> Percentages: the return to schooling</a></li>
 <li class="chapter" data-level="9.5" data-path="ff-hetero.html"><a href="ff-hetero.html"><i class="fa fa-check"></i><b>9.5</b> When logs remove what looked like heteroskedasticity</a></li>
-<li class="chapter" data-level="9.6" data-path="ff-choosing.html"><a href="ff-choosing.html"><i class="fa fa-check"></i><b>9.6</b> Choosing a form</a></li>
+<li class="chapter" data-level="9.6" data-path="ff-choosing.html"><a href="ff-choosing.html"><i class="fa fa-check"></i><b>9.6</b> Squares, and choosing a form</a>
+<ul>
+<li class="chapter" data-level="" data-path="ff-choosing.html"><a href="ff-choosing.html#adding-a-squared-term"><i class="fa fa-check"></i>Adding a squared term</a></li>
+<li class="chapter" data-level="" data-path="ff-choosing.html"><a href="ff-choosing.html#diminishing-returns-to-capital"><i class="fa fa-check"></i>Diminishing returns to capital</a></li>
+<li class="chapter" data-level="" data-path="ff-choosing.html"><a href="ff-choosing.html#choosing-a-form"><i class="fa fa-check"></i>Choosing a form</a></li>
+<li class="chapter" data-level="" data-path="ff-choosing.html"><a href="ff-choosing.html#the-problem-of-zeros"><i class="fa fa-check"></i>The problem of zeros</a></li>
+</ul></li>
 <li class="chapter" data-level="9.7" data-path="ff-irrelevant.html"><a href="ff-irrelevant.html"><i class="fa fa-check"></i><b>9.7</b> Does adding a variable ever cost anything?</a></li>
 <li class="chapter" data-level="9.8" data-path="ff-adjr2.html"><a href="ff-adjr2.html"><i class="fa fa-check"></i><b>9.8</b> R-squared always rises</a>
 <ul>
@@ -643,23 +649,23 @@ as zero on average and leaves the other coefficients centred on the truth.</p>
 </div>
 <p>So the cost is not bias. It is precision, and how much precision depends
 entirely on one thing.</p>
-<div class="sourceCode" id="cb349"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb349-1"><a href="ff-irrelevant.html#cb349-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">7</span>)</span>
-<span id="cb349-2"><a href="ff-irrelevant.html#cb349-2" tabindex="-1"></a></span>
-<span id="cb349-3"><a href="ff-irrelevant.html#cb349-3" tabindex="-1"></a>out <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">3000</span>, {</span>
-<span id="cb349-4"><a href="ff-irrelevant.html#cb349-4" tabindex="-1"></a>  x1  <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">100</span>)</span>
-<span id="cb349-5"><a href="ff-irrelevant.html#cb349-5" tabindex="-1"></a>  irr_alone <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">100</span>)                                   <span class="co"># unrelated to x1</span></span>
-<span id="cb349-6"><a href="ff-irrelevant.html#cb349-6" tabindex="-1"></a>  irr_close <span class="ot">&lt;-</span> <span class="fl">0.9</span> <span class="sc">*</span> x1 <span class="sc">+</span> <span class="fu">sqrt</span>(<span class="dv">1</span> <span class="sc">-</span> <span class="fl">0.81</span>) <span class="sc">*</span> <span class="fu">rnorm</span>(<span class="dv">100</span>)       <span class="co"># correlated 0.9 with x1</span></span>
-<span id="cb349-7"><a href="ff-irrelevant.html#cb349-7" tabindex="-1"></a>  y <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">+</span> <span class="dv">2</span> <span class="sc">*</span> x1 <span class="sc">+</span> <span class="fu">rnorm</span>(<span class="dv">100</span>, <span class="at">sd =</span> <span class="dv">2</span>)                      <span class="co"># neither belongs in the model</span></span>
-<span id="cb349-8"><a href="ff-irrelevant.html#cb349-8" tabindex="-1"></a></span>
-<span id="cb349-9"><a href="ff-irrelevant.html#cb349-9" tabindex="-1"></a>  <span class="fu">c</span>(<span class="at">b_none  =</span> <span class="fu">coef</span>(<span class="fu">lm</span>(y <span class="sc">~</span> x1))[<span class="dv">2</span>],</span>
-<span id="cb349-10"><a href="ff-irrelevant.html#cb349-10" tabindex="-1"></a>    <span class="at">b_alone =</span> <span class="fu">coef</span>(<span class="fu">lm</span>(y <span class="sc">~</span> x1 <span class="sc">+</span> irr_alone))[<span class="dv">2</span>],</span>
-<span id="cb349-11"><a href="ff-irrelevant.html#cb349-11" tabindex="-1"></a>    <span class="at">b_close =</span> <span class="fu">coef</span>(<span class="fu">lm</span>(y <span class="sc">~</span> x1 <span class="sc">+</span> irr_close))[<span class="dv">2</span>],</span>
-<span id="cb349-12"><a href="ff-irrelevant.html#cb349-12" tabindex="-1"></a>    <span class="at">se_none  =</span> <span class="fu">coef</span>(<span class="fu">summary</span>(<span class="fu">lm</span>(y <span class="sc">~</span> x1)))[<span class="dv">2</span>, <span class="dv">2</span>],</span>
-<span id="cb349-13"><a href="ff-irrelevant.html#cb349-13" tabindex="-1"></a>    <span class="at">se_alone =</span> <span class="fu">coef</span>(<span class="fu">summary</span>(<span class="fu">lm</span>(y <span class="sc">~</span> x1 <span class="sc">+</span> irr_alone)))[<span class="dv">2</span>, <span class="dv">2</span>],</span>
-<span id="cb349-14"><a href="ff-irrelevant.html#cb349-14" tabindex="-1"></a>    <span class="at">se_close =</span> <span class="fu">coef</span>(<span class="fu">summary</span>(<span class="fu">lm</span>(y <span class="sc">~</span> x1 <span class="sc">+</span> irr_close)))[<span class="dv">2</span>, <span class="dv">2</span>])</span>
-<span id="cb349-15"><a href="ff-irrelevant.html#cb349-15" tabindex="-1"></a>})</span>
-<span id="cb349-16"><a href="ff-irrelevant.html#cb349-16" tabindex="-1"></a></span>
-<span id="cb349-17"><a href="ff-irrelevant.html#cb349-17" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">rowMeans</span>(out), <span class="dv">4</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb355"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb355-1"><a href="ff-irrelevant.html#cb355-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">7</span>)</span>
+<span id="cb355-2"><a href="ff-irrelevant.html#cb355-2" tabindex="-1"></a></span>
+<span id="cb355-3"><a href="ff-irrelevant.html#cb355-3" tabindex="-1"></a>out <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">3000</span>, {</span>
+<span id="cb355-4"><a href="ff-irrelevant.html#cb355-4" tabindex="-1"></a>  x1  <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">100</span>)</span>
+<span id="cb355-5"><a href="ff-irrelevant.html#cb355-5" tabindex="-1"></a>  irr_alone <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">100</span>)                                   <span class="co"># unrelated to x1</span></span>
+<span id="cb355-6"><a href="ff-irrelevant.html#cb355-6" tabindex="-1"></a>  irr_close <span class="ot">&lt;-</span> <span class="fl">0.9</span> <span class="sc">*</span> x1 <span class="sc">+</span> <span class="fu">sqrt</span>(<span class="dv">1</span> <span class="sc">-</span> <span class="fl">0.81</span>) <span class="sc">*</span> <span class="fu">rnorm</span>(<span class="dv">100</span>)       <span class="co"># correlated 0.9 with x1</span></span>
+<span id="cb355-7"><a href="ff-irrelevant.html#cb355-7" tabindex="-1"></a>  y <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">+</span> <span class="dv">2</span> <span class="sc">*</span> x1 <span class="sc">+</span> <span class="fu">rnorm</span>(<span class="dv">100</span>, <span class="at">sd =</span> <span class="dv">2</span>)                      <span class="co"># neither belongs in the model</span></span>
+<span id="cb355-8"><a href="ff-irrelevant.html#cb355-8" tabindex="-1"></a></span>
+<span id="cb355-9"><a href="ff-irrelevant.html#cb355-9" tabindex="-1"></a>  <span class="fu">c</span>(<span class="at">b_none  =</span> <span class="fu">coef</span>(<span class="fu">lm</span>(y <span class="sc">~</span> x1))[<span class="dv">2</span>],</span>
+<span id="cb355-10"><a href="ff-irrelevant.html#cb355-10" tabindex="-1"></a>    <span class="at">b_alone =</span> <span class="fu">coef</span>(<span class="fu">lm</span>(y <span class="sc">~</span> x1 <span class="sc">+</span> irr_alone))[<span class="dv">2</span>],</span>
+<span id="cb355-11"><a href="ff-irrelevant.html#cb355-11" tabindex="-1"></a>    <span class="at">b_close =</span> <span class="fu">coef</span>(<span class="fu">lm</span>(y <span class="sc">~</span> x1 <span class="sc">+</span> irr_close))[<span class="dv">2</span>],</span>
+<span id="cb355-12"><a href="ff-irrelevant.html#cb355-12" tabindex="-1"></a>    <span class="at">se_none  =</span> <span class="fu">coef</span>(<span class="fu">summary</span>(<span class="fu">lm</span>(y <span class="sc">~</span> x1)))[<span class="dv">2</span>, <span class="dv">2</span>],</span>
+<span id="cb355-13"><a href="ff-irrelevant.html#cb355-13" tabindex="-1"></a>    <span class="at">se_alone =</span> <span class="fu">coef</span>(<span class="fu">summary</span>(<span class="fu">lm</span>(y <span class="sc">~</span> x1 <span class="sc">+</span> irr_alone)))[<span class="dv">2</span>, <span class="dv">2</span>],</span>
+<span id="cb355-14"><a href="ff-irrelevant.html#cb355-14" tabindex="-1"></a>    <span class="at">se_close =</span> <span class="fu">coef</span>(<span class="fu">summary</span>(<span class="fu">lm</span>(y <span class="sc">~</span> x1 <span class="sc">+</span> irr_close)))[<span class="dv">2</span>, <span class="dv">2</span>])</span>
+<span id="cb355-15"><a href="ff-irrelevant.html#cb355-15" tabindex="-1"></a>})</span>
+<span id="cb355-16"><a href="ff-irrelevant.html#cb355-16" tabindex="-1"></a></span>
+<span id="cb355-17"><a href="ff-irrelevant.html#cb355-17" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">rowMeans</span>(out), <span class="dv">4</span>)</span></code></pre></div>
 <pre><code>#&gt;  b_none.x1 b_alone.x1 b_close.x1    se_none   se_alone   se_close 
 #&gt;     2.0001     1.9999     1.9896     0.2023     0.2033     0.4675</code></pre>
 <p>The true slope is 2. All three estimates average 2, exactly as promised — adding

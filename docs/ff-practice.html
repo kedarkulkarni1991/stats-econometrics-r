@@ -574,7 +574,13 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="9.3" data-path="ff-elasticity.html"><a href="ff-elasticity.html"><i class="fa fa-check"></i><b>9.3</b> Elasticities: weight and fuel efficiency</a></li>
 <li class="chapter" data-level="9.4" data-path="ff-schooling.html"><a href="ff-schooling.html"><i class="fa fa-check"></i><b>9.4</b> Percentages: the return to schooling</a></li>
 <li class="chapter" data-level="9.5" data-path="ff-hetero.html"><a href="ff-hetero.html"><i class="fa fa-check"></i><b>9.5</b> When logs remove what looked like heteroskedasticity</a></li>
-<li class="chapter" data-level="9.6" data-path="ff-choosing.html"><a href="ff-choosing.html"><i class="fa fa-check"></i><b>9.6</b> Choosing a form</a></li>
+<li class="chapter" data-level="9.6" data-path="ff-choosing.html"><a href="ff-choosing.html"><i class="fa fa-check"></i><b>9.6</b> Squares, and choosing a form</a>
+<ul>
+<li class="chapter" data-level="" data-path="ff-choosing.html"><a href="ff-choosing.html#adding-a-squared-term"><i class="fa fa-check"></i>Adding a squared term</a></li>
+<li class="chapter" data-level="" data-path="ff-choosing.html"><a href="ff-choosing.html#diminishing-returns-to-capital"><i class="fa fa-check"></i>Diminishing returns to capital</a></li>
+<li class="chapter" data-level="" data-path="ff-choosing.html"><a href="ff-choosing.html#choosing-a-form"><i class="fa fa-check"></i>Choosing a form</a></li>
+<li class="chapter" data-level="" data-path="ff-choosing.html"><a href="ff-choosing.html#the-problem-of-zeros"><i class="fa fa-check"></i>The problem of zeros</a></li>
+</ul></li>
 <li class="chapter" data-level="9.7" data-path="ff-irrelevant.html"><a href="ff-irrelevant.html"><i class="fa fa-check"></i><b>9.7</b> Does adding a variable ever cost anything?</a></li>
 <li class="chapter" data-level="9.8" data-path="ff-adjr2.html"><a href="ff-adjr2.html"><i class="fa fa-check"></i><b>9.8</b> R-squared always rises</a>
 <ul>
@@ -685,7 +691,7 @@ direction — the approximation understates the true percentage.</p>
 <p>Adjusted <span class="math inline">\(R^2\)</span> rose, from 0.4051 to 0.4071, so on this criterion the variable
 paid for itself.</p>
 <p>Note how little it rose. A gain of 0.002 is well within the range that a
-variable of pure noise can produce by chance, as Exercise 9.10 shows. Adjusted
+variable of pure noise can produce by chance, as Exercise 9.11 shows. Adjusted
 <span class="math inline">\(R^2\)</span> is a weak criterion, and a near-tie like this one should not decide a
 specification on its own.</p>
 </div>
@@ -708,9 +714,9 @@ function <span class="math inline">\(\ln Y = \beta_0 + \beta_1 \ln L + \beta_2 \
 <li>Test whether returns to scale are constant.</li>
 </ol>
 <div class="answer">
-<div class="sourceCode" id="cb359"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb359-1"><a href="ff-practice.html#cb359-1" tabindex="-1"></a>prod <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/india-production.csv&quot;</span>)</span>
-<span id="cb359-2"><a href="ff-practice.html#cb359-2" tabindex="-1"></a>cobb <span class="ot">&lt;-</span> <span class="fu">lm</span>(logy <span class="sc">~</span> logl <span class="sc">+</span> logk, <span class="at">data =</span> prod)</span>
-<span id="cb359-3"><a href="ff-practice.html#cb359-3" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">coef</span>(<span class="fu">summary</span>(cobb)), <span class="dv">4</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb365"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb365-1"><a href="ff-practice.html#cb365-1" tabindex="-1"></a>prod <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/india-production.csv&quot;</span>)</span>
+<span id="cb365-2"><a href="ff-practice.html#cb365-2" tabindex="-1"></a>cobb <span class="ot">&lt;-</span> <span class="fu">lm</span>(logy <span class="sc">~</span> logl <span class="sc">+</span> logk, <span class="at">data =</span> prod)</span>
+<span id="cb365-3"><a href="ff-practice.html#cb365-3" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">coef</span>(<span class="fu">summary</span>(cobb)), <span class="dv">4</span>)</span></code></pre></div>
 <pre><code>#&gt;             Estimate Std. Error t value Pr(&gt;|t|)
 #&gt; (Intercept)  -6.8059     0.7698  -8.842        0
 #&gt; logl          0.7098     0.0838   8.476        0
@@ -729,17 +735,17 @@ and rearranging:</p>
 unrestricted ones, because subtracting <span class="math inline">\(\ln K\)</span> from both sides moves a known
 quantity and leaves the error untouched — so the <span class="math inline">\(F\)</span> statistic of Section
 <a href="mlr-f.html#mlr-f">8.6</a> can be computed from the two sums of squared residuals.</p>
-<div class="sourceCode" id="cb361"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb361-1"><a href="ff-practice.html#cb361-1" tabindex="-1"></a>restricted <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="fu">I</span>(logy <span class="sc">-</span> logk) <span class="sc">~</span> <span class="fu">I</span>(logl <span class="sc">-</span> logk), <span class="at">data =</span> prod)</span>
-<span id="cb361-2"><a href="ff-practice.html#cb361-2" tabindex="-1"></a></span>
-<span id="cb361-3"><a href="ff-practice.html#cb361-3" tabindex="-1"></a>ssr_r  <span class="ot">&lt;-</span> <span class="fu">sum</span>(<span class="fu">residuals</span>(restricted)<span class="sc">^</span><span class="dv">2</span>)</span>
-<span id="cb361-4"><a href="ff-practice.html#cb361-4" tabindex="-1"></a>ssr_ur <span class="ot">&lt;-</span> <span class="fu">sum</span>(<span class="fu">residuals</span>(cobb)<span class="sc">^</span><span class="dv">2</span>)</span>
-<span id="cb361-5"><a href="ff-practice.html#cb361-5" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fu">nrow</span>(prod); k <span class="ot">&lt;-</span> <span class="dv">2</span>; q <span class="ot">&lt;-</span> <span class="dv">1</span></span>
-<span id="cb361-6"><a href="ff-practice.html#cb361-6" tabindex="-1"></a></span>
-<span id="cb361-7"><a href="ff-practice.html#cb361-7" tabindex="-1"></a>f_stat <span class="ot">&lt;-</span> ((ssr_r <span class="sc">-</span> ssr_ur) <span class="sc">/</span> q) <span class="sc">/</span> (ssr_ur <span class="sc">/</span> (n <span class="sc">-</span> k <span class="sc">-</span> <span class="dv">1</span>))</span>
-<span id="cb361-8"><a href="ff-practice.html#cb361-8" tabindex="-1"></a></span>
-<span id="cb361-9"><a href="ff-practice.html#cb361-9" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">ssr_restricted =</span> ssr_r, <span class="at">ssr_unrestricted =</span> ssr_ur,</span>
-<span id="cb361-10"><a href="ff-practice.html#cb361-10" tabindex="-1"></a>        <span class="at">F =</span> f_stat, <span class="at">critical_5pct =</span> <span class="fu">qf</span>(<span class="fl">0.95</span>, q, n <span class="sc">-</span> k <span class="sc">-</span> <span class="dv">1</span>),</span>
-<span id="cb361-11"><a href="ff-practice.html#cb361-11" tabindex="-1"></a>        <span class="at">p_value =</span> <span class="dv">1</span> <span class="sc">-</span> <span class="fu">pf</span>(f_stat, q, n <span class="sc">-</span> k <span class="sc">-</span> <span class="dv">1</span>)), <span class="dv">5</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb367"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb367-1"><a href="ff-practice.html#cb367-1" tabindex="-1"></a>restricted <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="fu">I</span>(logy <span class="sc">-</span> logk) <span class="sc">~</span> <span class="fu">I</span>(logl <span class="sc">-</span> logk), <span class="at">data =</span> prod)</span>
+<span id="cb367-2"><a href="ff-practice.html#cb367-2" tabindex="-1"></a></span>
+<span id="cb367-3"><a href="ff-practice.html#cb367-3" tabindex="-1"></a>ssr_r  <span class="ot">&lt;-</span> <span class="fu">sum</span>(<span class="fu">residuals</span>(restricted)<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb367-4"><a href="ff-practice.html#cb367-4" tabindex="-1"></a>ssr_ur <span class="ot">&lt;-</span> <span class="fu">sum</span>(<span class="fu">residuals</span>(cobb)<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb367-5"><a href="ff-practice.html#cb367-5" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fu">nrow</span>(prod); k <span class="ot">&lt;-</span> <span class="dv">2</span>; q <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb367-6"><a href="ff-practice.html#cb367-6" tabindex="-1"></a></span>
+<span id="cb367-7"><a href="ff-practice.html#cb367-7" tabindex="-1"></a>f_stat <span class="ot">&lt;-</span> ((ssr_r <span class="sc">-</span> ssr_ur) <span class="sc">/</span> q) <span class="sc">/</span> (ssr_ur <span class="sc">/</span> (n <span class="sc">-</span> k <span class="sc">-</span> <span class="dv">1</span>))</span>
+<span id="cb367-8"><a href="ff-practice.html#cb367-8" tabindex="-1"></a></span>
+<span id="cb367-9"><a href="ff-practice.html#cb367-9" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">ssr_restricted =</span> ssr_r, <span class="at">ssr_unrestricted =</span> ssr_ur,</span>
+<span id="cb367-10"><a href="ff-practice.html#cb367-10" tabindex="-1"></a>        <span class="at">F =</span> f_stat, <span class="at">critical_5pct =</span> <span class="fu">qf</span>(<span class="fl">0.95</span>, q, n <span class="sc">-</span> k <span class="sc">-</span> <span class="dv">1</span>),</span>
+<span id="cb367-11"><a href="ff-practice.html#cb367-11" tabindex="-1"></a>        <span class="at">p_value =</span> <span class="dv">1</span> <span class="sc">-</span> <span class="fu">pf</span>(f_stat, q, n <span class="sc">-</span> k <span class="sc">-</span> <span class="dv">1</span>)), <span class="dv">5</span>)</span></code></pre></div>
 <pre><code>#&gt;   ssr_restricted ssr_unrestricted                F    critical_5pct 
 #&gt;          0.08092          0.03111         59.22323          4.10546 
 #&gt;          p_value 
@@ -757,10 +763,32 @@ is safer, and shows what the test is doing.</p>
 fragile. Labour and capital are highly collinear over this period, which is
 exactly the situation of Section <a href="mlr-assumptions.html#mlr-assumptions">8.4</a>.</p>
 </div>
+<p><strong>9.5</strong> A regression of crop yield on fertiliser gives</p>
+<p><span class="math display">\[\widehat{\text{yield}} = 8.2 + 1.40\,\text{fert} - 0.025\,\text{fert}^2\]</span></p>
+<p>with fertiliser applied ranging from 5 to 40 kg per hectare in the sample.</p>
+<ol style="list-style-type: lower-roman">
+<li>What is the marginal effect of fertiliser at 10 kg? At 30 kg?</li>
+<li>Locate the turning point and say whether it falls inside the data.</li>
+<li>A student reports “the effect of fertiliser is 1.40”. What is wrong?</li>
+</ol>
+<div class="answer">
+<p><strong>(i)</strong> The marginal effect is <span class="math inline">\(\beta_1 + 2\beta_2 x = 1.40 - 0.05x\)</span>.</p>
+<p>At 10 kg: <span class="math inline">\(1.40 - 0.5 = 0.90\)</span> quintals per kg.
+At 30 kg: <span class="math inline">\(1.40 - 1.5 = -0.10\)</span> quintals per kg — already negative.</p>
+<p><strong>(ii)</strong> <span class="math inline">\(x^{*} = -1.40 / (2 \times -0.025) = 28\)</span> kg per hectare.</p>
+<p>That is well inside the range of 5 to 40, so the model is making a substantive
+claim: beyond 28 kg, more fertiliser <em>reduces</em> yield. Unlike the capital example
+in Section <a href="ff-choosing.html#ff-choosing">9.6</a>, this reversal cannot be dismissed as
+extrapolation, and agronomically it is plausible — over-application damages
+crops.</p>
+<p><strong>(iii)</strong> 1.40 is the marginal effect at <span class="math inline">\(\text{fert} = 0\)</span>, a level at which no
+farm in the sample operates. With a squared term in the model there is no single
+“effect of fertiliser”; it must be quoted at stated values of fertiliser.</p>
+</div>
 </div>
 <div id="concept-checks-7" class="section level3 unnumbered hasAnchor">
 <h3>Concept checks<a href="ff-practice.html#concept-checks-7" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p><strong>9.5</strong> A researcher reports that adding six control variables raised <span class="math inline">\(R^2\)</span> from
+<p><strong>9.6</strong> A researcher reports that adding six control variables raised <span class="math inline">\(R^2\)</span> from
 0.31 to 0.44 and concludes the new model is better. Assess.</p>
 <div class="answer">
 <p>The rise in <span class="math inline">\(R^2\)</span> is not evidence of anything: <span class="math inline">\(R^2\)</span> cannot fall when variables
@@ -773,7 +801,7 @@ used for fitting. If the goal is estimating an effect, fit is nearly irrelevant
 and the question is whether the six controls are confounders, mediators or
 colliders — which <span class="math inline">\(R^2\)</span> cannot address.</p>
 </div>
-<p><strong>9.6</strong> Explain why controlling for occupation in a regression of earnings on
+<p><strong>9.7</strong> Explain why controlling for occupation in a regression of earnings on
 education does not produce “the effect of education net of confounding”.</p>
 <div class="answer">
 <p>Occupation is largely a <em>consequence</em> of education, not a common cause of both.
@@ -785,7 +813,7 @@ job — not the total effect, and not a confounding-corrected version of it.</p>
 <p>The estimate is not biased for what it now measures. It measures something
 narrower than what was asked.</p>
 </div>
-<p><strong>9.7</strong> Two researchers analyse the same data. One reports the level–level model
+<p><strong>9.8</strong> Two researchers analyse the same data. One reports the level–level model
 because its <span class="math inline">\(R^2\)</span> is 0.48; the other reports log–log because its <span class="math inline">\(R^2\)</span> is 0.51.
 What is wrong with both arguments?</p>
 <div class="answer">
@@ -796,7 +824,7 @@ comparison is meaningless regardless of which is larger.</p>
 decide the question: how the variable is naturally discussed, whether the
 relationship is plausibly multiplicative, and what the scatter looks like.</p>
 </div>
-<p><strong>9.8</strong> Why does an irrelevant variable that is highly correlated with <span class="math inline">\(x_1\)</span>
+<p><strong>9.9</strong> Why does an irrelevant variable that is highly correlated with <span class="math inline">\(x_1\)</span>
 inflate <span class="math inline">\(\mathrm{se}(\hat{\beta}_1)\)</span> even though its own coefficient is zero in
 the population?</p>
 <div class="answer">
@@ -811,22 +839,22 @@ correlated variable leaves little of it.</p>
 </div>
 <div id="r-exercises-6" class="section level3 unnumbered hasAnchor">
 <h3>R exercises<a href="ff-practice.html#r-exercises-6" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p><strong>9.9</strong> Using <code>wages-india-synthetic.csv</code>, fit the four functional forms
+<p><strong>9.10</strong> Using <code>wages-india-synthetic.csv</code>, fit the four functional forms
 relating annual earnings to education. Report each slope with its
 interpretation in a sentence, and explain why the four <span class="math inline">\(R^2\)</span> values should not
 be compared.</p>
 <div class="answer">
-<div class="sourceCode" id="cb363"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb363-1"><a href="ff-practice.html#cb363-1" tabindex="-1"></a>wages <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/wages-india-synthetic.csv&quot;</span>)</span>
-<span id="cb363-2"><a href="ff-practice.html#cb363-2" tabindex="-1"></a>w <span class="ot">&lt;-</span> <span class="fu">subset</span>(wages, education <span class="sc">&gt;</span> <span class="dv">0</span>)          <span class="co"># log(0) is undefined</span></span>
-<span id="cb363-3"><a href="ff-practice.html#cb363-3" tabindex="-1"></a></span>
-<span id="cb363-4"><a href="ff-practice.html#cb363-4" tabindex="-1"></a>forms <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
-<span id="cb363-5"><a href="ff-practice.html#cb363-5" tabindex="-1"></a>  <span class="at">level_level =</span> <span class="fu">lm</span>(annual_earnings <span class="sc">~</span> education, <span class="at">data =</span> w),</span>
-<span id="cb363-6"><a href="ff-practice.html#cb363-6" tabindex="-1"></a>  <span class="at">log_level   =</span> <span class="fu">lm</span>(<span class="fu">log</span>(annual_earnings) <span class="sc">~</span> education, <span class="at">data =</span> w),</span>
-<span id="cb363-7"><a href="ff-practice.html#cb363-7" tabindex="-1"></a>  <span class="at">level_log   =</span> <span class="fu">lm</span>(annual_earnings <span class="sc">~</span> <span class="fu">log</span>(education), <span class="at">data =</span> w),</span>
-<span id="cb363-8"><a href="ff-practice.html#cb363-8" tabindex="-1"></a>  <span class="at">log_log     =</span> <span class="fu">lm</span>(<span class="fu">log</span>(annual_earnings) <span class="sc">~</span> <span class="fu">log</span>(education), <span class="at">data =</span> w))</span>
-<span id="cb363-9"><a href="ff-practice.html#cb363-9" tabindex="-1"></a></span>
-<span id="cb363-10"><a href="ff-practice.html#cb363-10" tabindex="-1"></a><span class="fu">t</span>(<span class="fu">sapply</span>(forms, <span class="cf">function</span>(m) <span class="fu">c</span>(<span class="at">slope =</span> <span class="fu">coef</span>(m)[<span class="dv">2</span>],</span>
-<span id="cb363-11"><a href="ff-practice.html#cb363-11" tabindex="-1"></a>                              <span class="at">r2    =</span> <span class="fu">summary</span>(m)<span class="sc">$</span>r.squared)))</span></code></pre></div>
+<div class="sourceCode" id="cb369"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb369-1"><a href="ff-practice.html#cb369-1" tabindex="-1"></a>wages <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/wages-india-synthetic.csv&quot;</span>)</span>
+<span id="cb369-2"><a href="ff-practice.html#cb369-2" tabindex="-1"></a>w <span class="ot">&lt;-</span> <span class="fu">subset</span>(wages, education <span class="sc">&gt;</span> <span class="dv">0</span>)          <span class="co"># log(0) is undefined</span></span>
+<span id="cb369-3"><a href="ff-practice.html#cb369-3" tabindex="-1"></a></span>
+<span id="cb369-4"><a href="ff-practice.html#cb369-4" tabindex="-1"></a>forms <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb369-5"><a href="ff-practice.html#cb369-5" tabindex="-1"></a>  <span class="at">level_level =</span> <span class="fu">lm</span>(annual_earnings <span class="sc">~</span> education, <span class="at">data =</span> w),</span>
+<span id="cb369-6"><a href="ff-practice.html#cb369-6" tabindex="-1"></a>  <span class="at">log_level   =</span> <span class="fu">lm</span>(<span class="fu">log</span>(annual_earnings) <span class="sc">~</span> education, <span class="at">data =</span> w),</span>
+<span id="cb369-7"><a href="ff-practice.html#cb369-7" tabindex="-1"></a>  <span class="at">level_log   =</span> <span class="fu">lm</span>(annual_earnings <span class="sc">~</span> <span class="fu">log</span>(education), <span class="at">data =</span> w),</span>
+<span id="cb369-8"><a href="ff-practice.html#cb369-8" tabindex="-1"></a>  <span class="at">log_log     =</span> <span class="fu">lm</span>(<span class="fu">log</span>(annual_earnings) <span class="sc">~</span> <span class="fu">log</span>(education), <span class="at">data =</span> w))</span>
+<span id="cb369-9"><a href="ff-practice.html#cb369-9" tabindex="-1"></a></span>
+<span id="cb369-10"><a href="ff-practice.html#cb369-10" tabindex="-1"></a><span class="fu">t</span>(<span class="fu">sapply</span>(forms, <span class="cf">function</span>(m) <span class="fu">c</span>(<span class="at">slope =</span> <span class="fu">coef</span>(m)[<span class="dv">2</span>],</span>
+<span id="cb369-11"><a href="ff-practice.html#cb369-11" tabindex="-1"></a>                              <span class="at">r2    =</span> <span class="fu">summary</span>(m)<span class="sc">$</span>r.squared)))</span></code></pre></div>
 <p>Level–level: an extra year is worth about ₹5,400. Log–level: about 9.4% more.
 Level–log: a 1% rise in years of schooling is worth about slope/100 rupees.
 Log–log: a 1% rise in years of schooling raises earnings by the slope, in per
@@ -838,48 +866,48 @@ earnings.</p>
 log forms answer a question about a different group of people from the level
 forms — which is the caution in Section <a href="ff-choosing.html#ff-choosing">9.6</a> arriving in practice.</p>
 </div>
-<p><strong>9.10</strong> Demonstrate that <span class="math inline">\(R^2\)</span> cannot fall. Take any regression, add a variable
+<p><strong>9.11</strong> Demonstrate that <span class="math inline">\(R^2\)</span> cannot fall. Take any regression, add a variable
 of pure noise, and confirm. Then repeat 500 times and report how often adjusted
 <span class="math inline">\(R^2\)</span> rises.</p>
 <div class="answer">
-<div class="sourceCode" id="cb364"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb364-1"><a href="ff-practice.html#cb364-1" tabindex="-1"></a>students <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/attendance-grades.csv&quot;</span>)</span>
-<span id="cb364-2"><a href="ff-practice.html#cb364-2" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">31</span>)</span>
-<span id="cb364-3"><a href="ff-practice.html#cb364-3" tabindex="-1"></a></span>
-<span id="cb364-4"><a href="ff-practice.html#cb364-4" tabindex="-1"></a>base <span class="ot">&lt;-</span> <span class="fu">lm</span>(sem_gpa <span class="sc">~</span> attendance <span class="sc">+</span> cum_gpa, <span class="at">data =</span> students)</span>
-<span id="cb364-5"><a href="ff-practice.html#cb364-5" tabindex="-1"></a></span>
-<span id="cb364-6"><a href="ff-practice.html#cb364-6" tabindex="-1"></a>results <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">500</span>, {</span>
-<span id="cb364-7"><a href="ff-practice.html#cb364-7" tabindex="-1"></a>  students<span class="sc">$</span>junk <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="fu">nrow</span>(students))</span>
-<span id="cb364-8"><a href="ff-practice.html#cb364-8" tabindex="-1"></a>  m <span class="ot">&lt;-</span> <span class="fu">lm</span>(sem_gpa <span class="sc">~</span> attendance <span class="sc">+</span> cum_gpa <span class="sc">+</span> junk, <span class="at">data =</span> students)</span>
-<span id="cb364-9"><a href="ff-practice.html#cb364-9" tabindex="-1"></a>  <span class="fu">c</span>(<span class="at">r2_rose  =</span> <span class="fu">summary</span>(m)<span class="sc">$</span>r.squared    <span class="sc">&gt;=</span> <span class="fu">summary</span>(base)<span class="sc">$</span>r.squared,</span>
-<span id="cb364-10"><a href="ff-practice.html#cb364-10" tabindex="-1"></a>    <span class="at">adj_rose =</span> <span class="fu">summary</span>(m)<span class="sc">$</span>adj.r.squared <span class="sc">&gt;</span> <span class="fu">summary</span>(base)<span class="sc">$</span>adj.r.squared)</span>
-<span id="cb364-11"><a href="ff-practice.html#cb364-11" tabindex="-1"></a>})</span>
-<span id="cb364-12"><a href="ff-practice.html#cb364-12" tabindex="-1"></a></span>
-<span id="cb364-13"><a href="ff-practice.html#cb364-13" tabindex="-1"></a><span class="fu">rowMeans</span>(results)</span></code></pre></div>
+<div class="sourceCode" id="cb370"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb370-1"><a href="ff-practice.html#cb370-1" tabindex="-1"></a>students <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/attendance-grades.csv&quot;</span>)</span>
+<span id="cb370-2"><a href="ff-practice.html#cb370-2" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">31</span>)</span>
+<span id="cb370-3"><a href="ff-practice.html#cb370-3" tabindex="-1"></a></span>
+<span id="cb370-4"><a href="ff-practice.html#cb370-4" tabindex="-1"></a>base <span class="ot">&lt;-</span> <span class="fu">lm</span>(sem_gpa <span class="sc">~</span> attendance <span class="sc">+</span> cum_gpa, <span class="at">data =</span> students)</span>
+<span id="cb370-5"><a href="ff-practice.html#cb370-5" tabindex="-1"></a></span>
+<span id="cb370-6"><a href="ff-practice.html#cb370-6" tabindex="-1"></a>results <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">500</span>, {</span>
+<span id="cb370-7"><a href="ff-practice.html#cb370-7" tabindex="-1"></a>  students<span class="sc">$</span>junk <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="fu">nrow</span>(students))</span>
+<span id="cb370-8"><a href="ff-practice.html#cb370-8" tabindex="-1"></a>  m <span class="ot">&lt;-</span> <span class="fu">lm</span>(sem_gpa <span class="sc">~</span> attendance <span class="sc">+</span> cum_gpa <span class="sc">+</span> junk, <span class="at">data =</span> students)</span>
+<span id="cb370-9"><a href="ff-practice.html#cb370-9" tabindex="-1"></a>  <span class="fu">c</span>(<span class="at">r2_rose  =</span> <span class="fu">summary</span>(m)<span class="sc">$</span>r.squared    <span class="sc">&gt;=</span> <span class="fu">summary</span>(base)<span class="sc">$</span>r.squared,</span>
+<span id="cb370-10"><a href="ff-practice.html#cb370-10" tabindex="-1"></a>    <span class="at">adj_rose =</span> <span class="fu">summary</span>(m)<span class="sc">$</span>adj.r.squared <span class="sc">&gt;</span> <span class="fu">summary</span>(base)<span class="sc">$</span>adj.r.squared)</span>
+<span id="cb370-11"><a href="ff-practice.html#cb370-11" tabindex="-1"></a>})</span>
+<span id="cb370-12"><a href="ff-practice.html#cb370-12" tabindex="-1"></a></span>
+<span id="cb370-13"><a href="ff-practice.html#cb370-13" tabindex="-1"></a><span class="fu">rowMeans</span>(results)</span></code></pre></div>
 <p><span class="math inline">\(R^2\)</span> rises in 100% of trials, as the algebra guarantees.</p>
 <p>Adjusted <span class="math inline">\(R^2\)</span> rises in about 31% of them. That is not a flaw: a noise
 variable will occasionally correlate with the outcome by chance, and adjusted
 <span class="math inline">\(R^2\)</span> only charges a fixed price per parameter. It filters noise on average
 without doing so reliably in any single comparison.</p>
 </div>
-<p><strong>9.11</strong> Reproduce the collider simulation of Section <a href="ff-controls.html#ff-controls">9.10</a>, then
+<p><strong>9.12</strong> Reproduce the collider simulation of Section <a href="ff-controls.html#ff-controls">9.10</a>, then
 vary the strength of the collider’s dependence on <span class="math inline">\(x\)</span> and on <span class="math inline">\(u\)</span>. Which matters
 more for the size of the bias?</p>
 <div class="answer">
-<div class="sourceCode" id="cb365"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb365-1"><a href="ff-practice.html#cb365-1" tabindex="-1"></a>bias_at <span class="ot">&lt;-</span> <span class="cf">function</span>(a, b, <span class="at">reps =</span> <span class="dv">400</span>, <span class="at">n =</span> <span class="dv">2000</span>) {</span>
-<span id="cb365-2"><a href="ff-practice.html#cb365-2" tabindex="-1"></a>  est <span class="ot">&lt;-</span> <span class="fu">replicate</span>(reps, {</span>
-<span id="cb365-3"><a href="ff-practice.html#cb365-3" tabindex="-1"></a>    x <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n); u <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n)</span>
-<span id="cb365-4"><a href="ff-practice.html#cb365-4" tabindex="-1"></a>    y <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">*</span> x <span class="sc">+</span> u</span>
-<span id="cb365-5"><a href="ff-practice.html#cb365-5" tabindex="-1"></a>    s <span class="ot">&lt;-</span> a <span class="sc">*</span> x <span class="sc">+</span> b <span class="sc">*</span> u <span class="sc">+</span> <span class="fu">rnorm</span>(n)</span>
-<span id="cb365-6"><a href="ff-practice.html#cb365-6" tabindex="-1"></a>    <span class="fu">coef</span>(<span class="fu">lm</span>(y <span class="sc">~</span> x <span class="sc">+</span> s))[<span class="dv">2</span>]</span>
-<span id="cb365-7"><a href="ff-practice.html#cb365-7" tabindex="-1"></a>  })</span>
-<span id="cb365-8"><a href="ff-practice.html#cb365-8" tabindex="-1"></a>  <span class="fu">round</span>(<span class="fu">mean</span>(est) <span class="sc">-</span> <span class="dv">1</span>, <span class="dv">4</span>)</span>
-<span id="cb365-9"><a href="ff-practice.html#cb365-9" tabindex="-1"></a>}</span>
-<span id="cb365-10"><a href="ff-practice.html#cb365-10" tabindex="-1"></a></span>
-<span id="cb365-11"><a href="ff-practice.html#cb365-11" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">5</span>)</span>
-<span id="cb365-12"><a href="ff-practice.html#cb365-12" tabindex="-1"></a><span class="fu">c</span>(<span class="at">weak_both   =</span> <span class="fu">bias_at</span>(<span class="fl">0.3</span>, <span class="fl">0.3</span>),</span>
-<span id="cb365-13"><a href="ff-practice.html#cb365-13" tabindex="-1"></a>  <span class="at">strong_on_x =</span> <span class="fu">bias_at</span>(<span class="fl">1.2</span>, <span class="fl">0.3</span>),</span>
-<span id="cb365-14"><a href="ff-practice.html#cb365-14" tabindex="-1"></a>  <span class="at">strong_on_u =</span> <span class="fu">bias_at</span>(<span class="fl">0.3</span>, <span class="fl">1.2</span>),</span>
-<span id="cb365-15"><a href="ff-practice.html#cb365-15" tabindex="-1"></a>  <span class="at">strong_both =</span> <span class="fu">bias_at</span>(<span class="fl">1.2</span>, <span class="fl">1.2</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb371"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb371-1"><a href="ff-practice.html#cb371-1" tabindex="-1"></a>bias_at <span class="ot">&lt;-</span> <span class="cf">function</span>(a, b, <span class="at">reps =</span> <span class="dv">400</span>, <span class="at">n =</span> <span class="dv">2000</span>) {</span>
+<span id="cb371-2"><a href="ff-practice.html#cb371-2" tabindex="-1"></a>  est <span class="ot">&lt;-</span> <span class="fu">replicate</span>(reps, {</span>
+<span id="cb371-3"><a href="ff-practice.html#cb371-3" tabindex="-1"></a>    x <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n); u <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n)</span>
+<span id="cb371-4"><a href="ff-practice.html#cb371-4" tabindex="-1"></a>    y <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">*</span> x <span class="sc">+</span> u</span>
+<span id="cb371-5"><a href="ff-practice.html#cb371-5" tabindex="-1"></a>    s <span class="ot">&lt;-</span> a <span class="sc">*</span> x <span class="sc">+</span> b <span class="sc">*</span> u <span class="sc">+</span> <span class="fu">rnorm</span>(n)</span>
+<span id="cb371-6"><a href="ff-practice.html#cb371-6" tabindex="-1"></a>    <span class="fu">coef</span>(<span class="fu">lm</span>(y <span class="sc">~</span> x <span class="sc">+</span> s))[<span class="dv">2</span>]</span>
+<span id="cb371-7"><a href="ff-practice.html#cb371-7" tabindex="-1"></a>  })</span>
+<span id="cb371-8"><a href="ff-practice.html#cb371-8" tabindex="-1"></a>  <span class="fu">round</span>(<span class="fu">mean</span>(est) <span class="sc">-</span> <span class="dv">1</span>, <span class="dv">4</span>)</span>
+<span id="cb371-9"><a href="ff-practice.html#cb371-9" tabindex="-1"></a>}</span>
+<span id="cb371-10"><a href="ff-practice.html#cb371-10" tabindex="-1"></a></span>
+<span id="cb371-11"><a href="ff-practice.html#cb371-11" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">5</span>)</span>
+<span id="cb371-12"><a href="ff-practice.html#cb371-12" tabindex="-1"></a><span class="fu">c</span>(<span class="at">weak_both   =</span> <span class="fu">bias_at</span>(<span class="fl">0.3</span>, <span class="fl">0.3</span>),</span>
+<span id="cb371-13"><a href="ff-practice.html#cb371-13" tabindex="-1"></a>  <span class="at">strong_on_x =</span> <span class="fu">bias_at</span>(<span class="fl">1.2</span>, <span class="fl">0.3</span>),</span>
+<span id="cb371-14"><a href="ff-practice.html#cb371-14" tabindex="-1"></a>  <span class="at">strong_on_u =</span> <span class="fu">bias_at</span>(<span class="fl">0.3</span>, <span class="fl">1.2</span>),</span>
+<span id="cb371-15"><a href="ff-practice.html#cb371-15" tabindex="-1"></a>  <span class="at">strong_both =</span> <span class="fu">bias_at</span>(<span class="fl">1.2</span>, <span class="fl">1.2</span>))</span></code></pre></div>
 <p>The bias requires <em>both</em> dependences. If the collider does not depend on <span class="math inline">\(x\)</span>,
 conditioning on it induces no relationship between <span class="math inline">\(x\)</span> and <span class="math inline">\(u\)</span>; if it does not
 depend on <span class="math inline">\(u\)</span>, there is no <span class="math inline">\(u\)</span> to induce a relationship with.</p>

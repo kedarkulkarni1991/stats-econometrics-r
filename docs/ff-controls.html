@@ -574,7 +574,13 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="9.3" data-path="ff-elasticity.html"><a href="ff-elasticity.html"><i class="fa fa-check"></i><b>9.3</b> Elasticities: weight and fuel efficiency</a></li>
 <li class="chapter" data-level="9.4" data-path="ff-schooling.html"><a href="ff-schooling.html"><i class="fa fa-check"></i><b>9.4</b> Percentages: the return to schooling</a></li>
 <li class="chapter" data-level="9.5" data-path="ff-hetero.html"><a href="ff-hetero.html"><i class="fa fa-check"></i><b>9.5</b> When logs remove what looked like heteroskedasticity</a></li>
-<li class="chapter" data-level="9.6" data-path="ff-choosing.html"><a href="ff-choosing.html"><i class="fa fa-check"></i><b>9.6</b> Choosing a form</a></li>
+<li class="chapter" data-level="9.6" data-path="ff-choosing.html"><a href="ff-choosing.html"><i class="fa fa-check"></i><b>9.6</b> Squares, and choosing a form</a>
+<ul>
+<li class="chapter" data-level="" data-path="ff-choosing.html"><a href="ff-choosing.html#adding-a-squared-term"><i class="fa fa-check"></i>Adding a squared term</a></li>
+<li class="chapter" data-level="" data-path="ff-choosing.html"><a href="ff-choosing.html#diminishing-returns-to-capital"><i class="fa fa-check"></i>Diminishing returns to capital</a></li>
+<li class="chapter" data-level="" data-path="ff-choosing.html"><a href="ff-choosing.html#choosing-a-form"><i class="fa fa-check"></i>Choosing a form</a></li>
+<li class="chapter" data-level="" data-path="ff-choosing.html"><a href="ff-choosing.html#the-problem-of-zeros"><i class="fa fa-check"></i>The problem of zeros</a></li>
+</ul></li>
 <li class="chapter" data-level="9.7" data-path="ff-irrelevant.html"><a href="ff-irrelevant.html"><i class="fa fa-check"></i><b>9.7</b> Does adding a variable ever cost anything?</a></li>
 <li class="chapter" data-level="9.8" data-path="ff-adjr2.html"><a href="ff-adjr2.html"><i class="fa fa-check"></i><b>9.8</b> R-squared always rises</a>
 <ul>
@@ -642,18 +648,18 @@ control.</p>
 <h3>A variable that causes both<a href="ff-controls.html#a-variable-that-causes-both" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>This is the case Unit <a href="multiple-regression.html#multiple-regression">8</a> was built around. Ability
 raises schooling and independently raises earnings.</p>
-<div class="sourceCode" id="cb353"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb353-1"><a href="ff-controls.html#cb353-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">19</span>)</span>
-<span id="cb353-2"><a href="ff-controls.html#cb353-2" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">2000</span></span>
-<span id="cb353-3"><a href="ff-controls.html#cb353-3" tabindex="-1"></a></span>
-<span id="cb353-4"><a href="ff-controls.html#cb353-4" tabindex="-1"></a>confounder <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">1500</span>, {</span>
-<span id="cb353-5"><a href="ff-controls.html#cb353-5" tabindex="-1"></a>  ability <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n)</span>
-<span id="cb353-6"><a href="ff-controls.html#cb353-6" tabindex="-1"></a>  x <span class="ot">&lt;-</span> <span class="fl">0.7</span> <span class="sc">*</span> ability <span class="sc">+</span> <span class="fu">rnorm</span>(n)              <span class="co"># ability raises x</span></span>
-<span id="cb353-7"><a href="ff-controls.html#cb353-7" tabindex="-1"></a>  y <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">*</span> x <span class="sc">+</span> <span class="fl">1.5</span> <span class="sc">*</span> ability <span class="sc">+</span> <span class="fu">rnorm</span>(n)      <span class="co"># and raises y directly</span></span>
-<span id="cb353-8"><a href="ff-controls.html#cb353-8" tabindex="-1"></a>  <span class="fu">c</span>(<span class="at">without_control =</span> <span class="fu">coef</span>(<span class="fu">lm</span>(y <span class="sc">~</span> x))[<span class="dv">2</span>],</span>
-<span id="cb353-9"><a href="ff-controls.html#cb353-9" tabindex="-1"></a>    <span class="at">with_control    =</span> <span class="fu">coef</span>(<span class="fu">lm</span>(y <span class="sc">~</span> x <span class="sc">+</span> ability))[<span class="dv">2</span>])</span>
-<span id="cb353-10"><a href="ff-controls.html#cb353-10" tabindex="-1"></a>})</span>
-<span id="cb353-11"><a href="ff-controls.html#cb353-11" tabindex="-1"></a></span>
-<span id="cb353-12"><a href="ff-controls.html#cb353-12" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">rowMeans</span>(confounder), <span class="dv">4</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb359"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb359-1"><a href="ff-controls.html#cb359-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">19</span>)</span>
+<span id="cb359-2"><a href="ff-controls.html#cb359-2" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">2000</span></span>
+<span id="cb359-3"><a href="ff-controls.html#cb359-3" tabindex="-1"></a></span>
+<span id="cb359-4"><a href="ff-controls.html#cb359-4" tabindex="-1"></a>confounder <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">1500</span>, {</span>
+<span id="cb359-5"><a href="ff-controls.html#cb359-5" tabindex="-1"></a>  ability <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n)</span>
+<span id="cb359-6"><a href="ff-controls.html#cb359-6" tabindex="-1"></a>  x <span class="ot">&lt;-</span> <span class="fl">0.7</span> <span class="sc">*</span> ability <span class="sc">+</span> <span class="fu">rnorm</span>(n)              <span class="co"># ability raises x</span></span>
+<span id="cb359-7"><a href="ff-controls.html#cb359-7" tabindex="-1"></a>  y <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">*</span> x <span class="sc">+</span> <span class="fl">1.5</span> <span class="sc">*</span> ability <span class="sc">+</span> <span class="fu">rnorm</span>(n)      <span class="co"># and raises y directly</span></span>
+<span id="cb359-8"><a href="ff-controls.html#cb359-8" tabindex="-1"></a>  <span class="fu">c</span>(<span class="at">without_control =</span> <span class="fu">coef</span>(<span class="fu">lm</span>(y <span class="sc">~</span> x))[<span class="dv">2</span>],</span>
+<span id="cb359-9"><a href="ff-controls.html#cb359-9" tabindex="-1"></a>    <span class="at">with_control    =</span> <span class="fu">coef</span>(<span class="fu">lm</span>(y <span class="sc">~</span> x <span class="sc">+</span> ability))[<span class="dv">2</span>])</span>
+<span id="cb359-10"><a href="ff-controls.html#cb359-10" tabindex="-1"></a>})</span>
+<span id="cb359-11"><a href="ff-controls.html#cb359-11" tabindex="-1"></a></span>
+<span id="cb359-12"><a href="ff-controls.html#cb359-12" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">rowMeans</span>(confounder), <span class="dv">4</span>)</span></code></pre></div>
 <pre><code>#&gt; without_control.x    with_control.x 
 #&gt;            1.7047            0.9998</code></pre>
 <p>Without the control the estimate is 1.71 against a truth of 1. With it, 1.00.</p>
@@ -667,17 +673,17 @@ regression is for.</p>
 consequence of it.</p>
 <p>Education raises occupational rank, and occupational rank raises earnings. Part
 of how education pays is by getting people into better jobs.</p>
-<div class="sourceCode" id="cb355"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb355-1"><a href="ff-controls.html#cb355-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">19</span>)</span>
-<span id="cb355-2"><a href="ff-controls.html#cb355-2" tabindex="-1"></a></span>
-<span id="cb355-3"><a href="ff-controls.html#cb355-3" tabindex="-1"></a>mediator <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">1500</span>, {</span>
-<span id="cb355-4"><a href="ff-controls.html#cb355-4" tabindex="-1"></a>  educ <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n)</span>
-<span id="cb355-5"><a href="ff-controls.html#cb355-5" tabindex="-1"></a>  occupation <span class="ot">&lt;-</span> <span class="fl">0.6</span> <span class="sc">*</span> educ <span class="sc">+</span> <span class="fu">rnorm</span>(n)                  <span class="co"># education raises rank</span></span>
-<span id="cb355-6"><a href="ff-controls.html#cb355-6" tabindex="-1"></a>  earnings   <span class="ot">&lt;-</span> <span class="fl">0.4</span> <span class="sc">*</span> educ <span class="sc">+</span> <span class="fl">1.0</span> <span class="sc">*</span> occupation <span class="sc">+</span> <span class="fu">rnorm</span>(n)</span>
-<span id="cb355-7"><a href="ff-controls.html#cb355-7" tabindex="-1"></a>  <span class="fu">c</span>(<span class="at">without_control =</span> <span class="fu">coef</span>(<span class="fu">lm</span>(earnings <span class="sc">~</span> educ))[<span class="dv">2</span>],</span>
-<span id="cb355-8"><a href="ff-controls.html#cb355-8" tabindex="-1"></a>    <span class="at">with_control    =</span> <span class="fu">coef</span>(<span class="fu">lm</span>(earnings <span class="sc">~</span> educ <span class="sc">+</span> occupation))[<span class="dv">2</span>])</span>
-<span id="cb355-9"><a href="ff-controls.html#cb355-9" tabindex="-1"></a>})</span>
-<span id="cb355-10"><a href="ff-controls.html#cb355-10" tabindex="-1"></a></span>
-<span id="cb355-11"><a href="ff-controls.html#cb355-11" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">rowMeans</span>(mediator), <span class="dv">4</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb361"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb361-1"><a href="ff-controls.html#cb361-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">19</span>)</span>
+<span id="cb361-2"><a href="ff-controls.html#cb361-2" tabindex="-1"></a></span>
+<span id="cb361-3"><a href="ff-controls.html#cb361-3" tabindex="-1"></a>mediator <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">1500</span>, {</span>
+<span id="cb361-4"><a href="ff-controls.html#cb361-4" tabindex="-1"></a>  educ <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n)</span>
+<span id="cb361-5"><a href="ff-controls.html#cb361-5" tabindex="-1"></a>  occupation <span class="ot">&lt;-</span> <span class="fl">0.6</span> <span class="sc">*</span> educ <span class="sc">+</span> <span class="fu">rnorm</span>(n)                  <span class="co"># education raises rank</span></span>
+<span id="cb361-6"><a href="ff-controls.html#cb361-6" tabindex="-1"></a>  earnings   <span class="ot">&lt;-</span> <span class="fl">0.4</span> <span class="sc">*</span> educ <span class="sc">+</span> <span class="fl">1.0</span> <span class="sc">*</span> occupation <span class="sc">+</span> <span class="fu">rnorm</span>(n)</span>
+<span id="cb361-7"><a href="ff-controls.html#cb361-7" tabindex="-1"></a>  <span class="fu">c</span>(<span class="at">without_control =</span> <span class="fu">coef</span>(<span class="fu">lm</span>(earnings <span class="sc">~</span> educ))[<span class="dv">2</span>],</span>
+<span id="cb361-8"><a href="ff-controls.html#cb361-8" tabindex="-1"></a>    <span class="at">with_control    =</span> <span class="fu">coef</span>(<span class="fu">lm</span>(earnings <span class="sc">~</span> educ <span class="sc">+</span> occupation))[<span class="dv">2</span>])</span>
+<span id="cb361-9"><a href="ff-controls.html#cb361-9" tabindex="-1"></a>})</span>
+<span id="cb361-10"><a href="ff-controls.html#cb361-10" tabindex="-1"></a></span>
+<span id="cb361-11"><a href="ff-controls.html#cb361-11" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">rowMeans</span>(mediator), <span class="dv">4</span>)</span></code></pre></div>
 <pre><code>#&gt; without_control.educ    with_control.educ 
 #&gt;               0.9999               0.4000</code></pre>
 <p>The total effect of education is 1.0: a direct effect of 0.4, plus 0.6 through
@@ -699,18 +705,18 @@ without the researcher noticing that the question changed.</p>
 <p>Suppose <span class="math inline">\(x\)</span> has a genuine effect on <span class="math inline">\(y\)</span> and there is no confounding whatever, so
 a simple regression would have been correct. Now control for a variable that is
 caused by both <span class="math inline">\(x\)</span> and the unobserved part of <span class="math inline">\(y\)</span>.</p>
-<div class="sourceCode" id="cb357"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb357-1"><a href="ff-controls.html#cb357-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">19</span>)</span>
-<span id="cb357-2"><a href="ff-controls.html#cb357-2" tabindex="-1"></a></span>
-<span id="cb357-3"><a href="ff-controls.html#cb357-3" tabindex="-1"></a>collider <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">1500</span>, {</span>
-<span id="cb357-4"><a href="ff-controls.html#cb357-4" tabindex="-1"></a>  x <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n)</span>
-<span id="cb357-5"><a href="ff-controls.html#cb357-5" tabindex="-1"></a>  u <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n)                                  <span class="co"># unobserved, affects y</span></span>
-<span id="cb357-6"><a href="ff-controls.html#cb357-6" tabindex="-1"></a>  y <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">*</span> x <span class="sc">+</span> u                                 <span class="co"># no confounding: x and u independent</span></span>
-<span id="cb357-7"><a href="ff-controls.html#cb357-7" tabindex="-1"></a>  selected <span class="ot">&lt;-</span> <span class="fl">0.8</span> <span class="sc">*</span> x <span class="sc">+</span> <span class="fl">0.8</span> <span class="sc">*</span> u <span class="sc">+</span> <span class="fu">rnorm</span>(n)       <span class="co"># caused by both</span></span>
-<span id="cb357-8"><a href="ff-controls.html#cb357-8" tabindex="-1"></a>  <span class="fu">c</span>(<span class="at">without_control =</span> <span class="fu">coef</span>(<span class="fu">lm</span>(y <span class="sc">~</span> x))[<span class="dv">2</span>],</span>
-<span id="cb357-9"><a href="ff-controls.html#cb357-9" tabindex="-1"></a>    <span class="at">with_control    =</span> <span class="fu">coef</span>(<span class="fu">lm</span>(y <span class="sc">~</span> x <span class="sc">+</span> selected))[<span class="dv">2</span>])</span>
-<span id="cb357-10"><a href="ff-controls.html#cb357-10" tabindex="-1"></a>})</span>
-<span id="cb357-11"><a href="ff-controls.html#cb357-11" tabindex="-1"></a></span>
-<span id="cb357-12"><a href="ff-controls.html#cb357-12" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">rowMeans</span>(collider), <span class="dv">4</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb363"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb363-1"><a href="ff-controls.html#cb363-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">19</span>)</span>
+<span id="cb363-2"><a href="ff-controls.html#cb363-2" tabindex="-1"></a></span>
+<span id="cb363-3"><a href="ff-controls.html#cb363-3" tabindex="-1"></a>collider <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">1500</span>, {</span>
+<span id="cb363-4"><a href="ff-controls.html#cb363-4" tabindex="-1"></a>  x <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n)</span>
+<span id="cb363-5"><a href="ff-controls.html#cb363-5" tabindex="-1"></a>  u <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n)                                  <span class="co"># unobserved, affects y</span></span>
+<span id="cb363-6"><a href="ff-controls.html#cb363-6" tabindex="-1"></a>  y <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">*</span> x <span class="sc">+</span> u                                 <span class="co"># no confounding: x and u independent</span></span>
+<span id="cb363-7"><a href="ff-controls.html#cb363-7" tabindex="-1"></a>  selected <span class="ot">&lt;-</span> <span class="fl">0.8</span> <span class="sc">*</span> x <span class="sc">+</span> <span class="fl">0.8</span> <span class="sc">*</span> u <span class="sc">+</span> <span class="fu">rnorm</span>(n)       <span class="co"># caused by both</span></span>
+<span id="cb363-8"><a href="ff-controls.html#cb363-8" tabindex="-1"></a>  <span class="fu">c</span>(<span class="at">without_control =</span> <span class="fu">coef</span>(<span class="fu">lm</span>(y <span class="sc">~</span> x))[<span class="dv">2</span>],</span>
+<span id="cb363-9"><a href="ff-controls.html#cb363-9" tabindex="-1"></a>    <span class="at">with_control    =</span> <span class="fu">coef</span>(<span class="fu">lm</span>(y <span class="sc">~</span> x <span class="sc">+</span> selected))[<span class="dv">2</span>])</span>
+<span id="cb363-10"><a href="ff-controls.html#cb363-10" tabindex="-1"></a>})</span>
+<span id="cb363-11"><a href="ff-controls.html#cb363-11" tabindex="-1"></a></span>
+<span id="cb363-12"><a href="ff-controls.html#cb363-12" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">rowMeans</span>(collider), <span class="dv">4</span>)</span></code></pre></div>
 <pre><code>#&gt; without_control.x    with_control.x 
 #&gt;              1.00              0.61</code></pre>
 <p>Without the control the estimate is 1.00, and correctly so — there was nothing
