@@ -1,5 +1,6 @@
 ---
-title: "Statistics and Econometrics with R"
+title: "From Chance to Decisions"
+subtitle: "Statistics and Econometrics with R"
 author: "Kedar Kulkarni"
 date: "`r format(Sys.Date(), '%B %Y')`"
 site: bookdown::bookdown_site
@@ -324,7 +325,8 @@ in this book exist because someone asked why.
 
 To cite:
 
-> Kulkarni, K. (2026). *Statistics and Econometrics with R.*
+> Kulkarni, K. (2026). *From Chance to Decisions: Statistics and
+> Econometrics with R.*
 > Azim Premji University.
 > <https://kedarkulkarni1991.github.io/stats-econometrics-r/>
 > Licensed under CC BY 4.0.

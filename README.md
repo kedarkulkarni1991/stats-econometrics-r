@@ -1,4 +1,6 @@
-# Statistics and Econometrics with R
+# From Chance to Decisions
+
+*Statistics and Econometrics with R*
 
 Source for an open textbook used in *Introduction to Statistics and
 Programming* and *Econometric Methods* at Azim Premji University.
@@ -75,6 +77,7 @@ otherwise getting out of the way spreads teaching material further.
 
 ### How to cite
 
-> Kulkarni, K. (2026). *Statistics and Econometrics with R.* Azim Premji
+> Kulkarni, K. (2026). *From Chance to Decisions: Statistics and Econometrics
+> with R.* Azim Premji
 > University. https://kedarkulkarni1991.github.io/stats-econometrics-r/
 > Licensed under CC BY 4.0.
