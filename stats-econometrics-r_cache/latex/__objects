@@ -20,3 +20,9 @@ os-power-table	power_at
 mlr-f-dist	f_stats	xa	xb	xc
 mlr-f-dist-plot	crit	curve_df
 mlr-fwl-plot	dd	fit_lines	ident	lab	pad	pred_att
+ff-cars-plot	both
+ff-irrelevant-sim	out	x1	y
+ff-r2-noise	augmented	base	junk	noise	students
+ff-confounder	confounder	n	x	y
+ff-mediator	mediator
+ff-collider	collider	u	x	y

@@ -17,6 +17,7 @@ rmd_files:
   - "06-simple-regression.Rmd"
   - "07-ols.Rmd"
   - "08-multiple-regression.Rmd"
+  - "09-specification.Rmd"
 
 language:
   ui:

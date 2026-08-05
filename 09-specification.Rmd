@@ -1,0 +1,1137 @@
+# Which Model Should We Fit? {#specification}
+
+```{r setup-09, include = FALSE}
+source("_common.R")
+library(ggplot2)
+```
+
+Every regression so far arrived with its model already written. Semester GPA on
+attendance, prior GPA and admission score; earnings on education, age, sex and
+residence. We estimated what was put in front of us.
+
+In practice nobody hands you the equation. Two decisions have to be made before
+anything can be estimated, and neither is settled by the data alone.
+
+The first is the **form** of the relationship. We have assumed throughout that a
+one-unit rise in $x$ produces the same change in $y$ wherever it occurs — that
+the tenth year of schooling is worth what the second was. Economics rarely
+believes this.
+
+The second is **which variables belong**. Unit \@ref(multiple-regression) showed
+that omitting a relevant variable biases the estimate. It is tempting to
+conclude that more controls are always safer.
+
+They are not. Some variables belong in a regression, some are merely wasteful,
+and some make the estimate worse than leaving them out.
+
+This unit takes the two decisions in turn.
+
+## Is a straight line the right model? {#ff-motivation}
+
+::: {.question}
+A slope of $-0.006$ km per litre per kilogram. Is that a lot?
+:::
+
+Section \@ref(ols-practice) fitted fuel efficiency on weight for 74 cars and
+returned a slope of $-0.00601$.
+
+Nothing about that number tells you whether the effect is large.
+
+```{r ff-units}
+cars <- read.csv("data/car-mileage.csv")
+
+c(per_kg     = coef(lm(mileage_kmpl ~ weight_kg, data = cars))[2],
+  per_tonne  = coef(lm(mileage_kmpl ~ I(weight_kg / 1000), data = cars))[2])
+```
+
+The same relationship, the same data, the same fit — and two numbers differing
+by a factor of a thousand. Measure efficiency in litres per hundred kilometres
+instead and the sign flips.
+
+Two problems follow, and one transformation addresses both.
+
+**Units are arbitrary.** A coefficient in kilograms and one in tonnes describe
+the same relationship, but neither is easier to judge than the other. We would
+prefer a measure that does not change when someone changes their mind about
+units.
+
+**Straight lines are not always the right shape.** Section \@ref(sr-prf) showed
+that the conditional mean of GPA against attendance was not exactly linear, and
+took a line as an approximation. Sometimes a better approximation is available
+at no cost, by transforming a variable before fitting.
+
+Taking logarithms addresses both.
+
+## The four functional forms {#ff-four}
+
+::: {.question}
+Logarithms of what, and what happens to the interpretation?
+:::
+
+Either variable may be entered in levels or in logarithms, giving four
+combinations. Everything else about the regression is unchanged: it is still
+linear in the parameters, still fitted by least squares, still tested with the
+same $t$ and $F$ statistics.
+
+What changes is the meaning of $\beta_1$.
+
+Table: (\#tab:ff-forms) The four functional forms and what the slope means in each.
+
+| Model | Equation | Interpretation of $\beta_1$ |
+|:--|:--|:--|
+| Level–level | $y = \beta_0 + \beta_1 x + u$ | A one-unit rise in $x$ changes $y$ by $\beta_1$ **units** |
+| Log–level | $\ln y = \beta_0 + \beta_1 x + u$ | A one-unit rise in $x$ changes $y$ by $100\beta_1$ **per cent** |
+| Level–log | $y = \beta_0 + \beta_1 \ln x + u$ | A 1% rise in $x$ changes $y$ by $\beta_1/100$ **units** |
+| Log–log | $\ln y = \beta_0 + \beta_1 \ln x + u$ | A 1% rise in $x$ changes $y$ by $\beta_1$ **per cent** |
+
+The last is an **elasticity**, and it is unit-free: it does not matter whether
+weight is in kilograms or tonnes, or price in rupees or lakhs.
+
+::: {.theory}
+All four interpretations follow from one fact of calculus. For small changes,
+
+$$\Delta \ln y \;\approx\; \frac{\Delta y}{y}$$
+
+that is, a change in the logarithm is approximately a *proportional* change in
+the variable. Multiplying by 100 turns it into a percentage.
+
+**Log–level.** Differentiating $\ln y = \beta_0 + \beta_1 x$ with respect to $x$,
+
+$$\frac{1}{y}\frac{dy}{dx} = \beta_1
+\qquad\Longrightarrow\qquad
+\frac{dy/y}{dx} = \beta_1$$
+
+so a one-unit rise in $x$ raises $y$ by a proportion $\beta_1$, which is
+$100\beta_1$ per cent.
+
+**Level–log.** From $y = \beta_0 + \beta_1 \ln x$,
+
+$$dy = \beta_1 \, d(\ln x) = \beta_1 \frac{dx}{x}$$
+
+A 1% rise in $x$ means $dx/x = 0.01$, so $dy = 0.01\beta_1 = \beta_1/100$ units.
+
+**Log–log.** From $\ln y = \beta_0 + \beta_1 \ln x$,
+
+$$\frac{dy/y}{dx/x} = \beta_1$$
+
+which is the definition of an elasticity: the ratio of the proportional change
+in $y$ to the proportional change in $x$.
+:::
+
+::: {.watchout}
+The percentage reading is an approximation, and it degrades as the coefficient
+grows.
+
+For $\beta_1 = 0.0942$ the approximation says 9.42% and the exact figure is
+$100(e^{0.0942} - 1) = `r round(100*(exp(0.0942)-1), 2)`$%. Close enough.
+
+For $\beta_1 = 0.7$ the approximation says 70% and the truth is
+$`r round(100*(exp(0.7)-1), 0)`$%. Above about 0.2, use the exact expression.
+:::
+
+## Elasticities: weight and fuel efficiency {#ff-elasticity}
+
+::: {.question}
+What does the log–log form buy us on the cars?
+:::
+
+```{r ff-cars}
+level_level <- lm(mileage_kmpl ~ weight_kg, data = cars)
+log_log     <- lm(log(mileage_kmpl) ~ log(weight_kg), data = cars)
+
+round(rbind(level_level = c(slope     = coef(level_level)[2],
+                            r_squared = summary(level_level)$r.squared),
+            log_log     = c(slope     = coef(log_log)[2],
+                            r_squared = summary(log_log)$r.squared)), 4)
+```
+
+The log–log slope is $-0.825$: **a car that is 1% heavier is about 0.83% less
+fuel-efficient.**
+
+That is a sentence anyone can evaluate, and — unlike $-0.00601$ — it would be
+unchanged if weight were recorded in tonnes.
+
+```{r ff-cars-plot, echo = FALSE, fig.height = 3.4, cache = TRUE, fig.cap = "The same 74 cars in levels and in logarithms. Both look broadly linear; the logarithmic version is a little tighter around the line, which is the improvement in R-squared from 0.65 to 0.71. The gain here is real but modest -- the case for the log form rests mainly on interpretation."}
+both <- rbind(
+  data.frame(x = cars$weight_kg, y = cars$mileage_kmpl, panel = "Levels"),
+  data.frame(x = log(cars$weight_kg), y = log(cars$mileage_kmpl),
+             panel = "Logarithms"))
+
+ggplot(both, aes(x, y)) +
+  geom_point(alpha = 0.55, colour = book_palette$ink, size = 1.3) +
+  geom_smooth(method = "lm", se = FALSE, colour = book_palette$accent,
+              linewidth = 0.9) +
+  facet_wrap(~ panel, scales = "free") +
+  labs(x = NULL, y = NULL) +
+  theme_book()
+```
+
+The fit also improves, from $R^2 = 0.65$ to $0.71$. That is a modest gain rather
+than a dramatic one, and the case for the log form here rests mainly on
+interpretation. Still, the direction is not an accident: a constant
+*proportional* penalty for weight describes cars better than the constant
+absolute penalty the level–level model imposed.
+
+::: {.watchout}
+A great deal of weak empirical work consists of fitting a straight line to a
+relationship that is not straight, and reporting the slope as though it
+described the whole range.
+
+The residual plot of Section \@ref(ols-hetero) catches this: a *curved* band of
+residuals means the functional form is wrong, not that the variance is
+non-constant.
+
+Fitting a line is a choice. Check it.
+:::
+
+## Percentages: the return to schooling {#ff-schooling}
+
+::: {.question}
+Why is almost every wage regression in economics run in logs?
+:::
+
+Because wages are discussed in percentages. Nobody asks how many rupees a year
+of schooling is worth without immediately wanting to know rupees compared to
+what.
+
+```{r ff-wages}
+wages <- read.csv("data/wages-india-synthetic.csv")
+
+wages$male  <- as.integer(wages$sex == "Male")
+wages$urban <- as.integer(wages$residence == "Urban")
+
+log_simple <- lm(log(annual_earnings) ~ education, data = wages)
+log_full   <- lm(log(annual_earnings) ~ education + age + male + urban,
+                 data = wages)
+
+round(coef(summary(log_full))[, 1:2], 5)
+
+round(c(education_alone         = coef(log_simple)["education"],
+        education_with_controls = coef(log_full)["education"]), 5)
+```
+
+The simple regression gives 0.0942: **one more year of schooling is associated
+with about 9.4% higher annual earnings.** Multiply by 100 and read as a
+percentage; that is the whole rule.
+
+With the controls of Unit \@ref(multiple-regression) in place it falls to
+0.0762, or about 7.6%. The same lesson as Section \@ref(mlr-motivation), now in
+percentage terms: part of the apparent return to education was the fact that the
+educated in this population are disproportionately urban and male.
+
+::: {.intuition}
+Notice what the log form did to the other coefficients as well.
+
+The coefficient on `urban` is 0.80, so urban workers earn roughly 80% more than
+otherwise comparable rural workers — or, exactly,
+$`r round(100*(exp(0.8045)-1), 0)`$% more, since 0.80 is well above the range
+where the approximation is safe.
+
+In levels that same gap was ₹51,287, a number that means nothing until you also
+know what rural workers earn.
+:::
+
+## When logs remove what looked like heteroskedasticity {#ff-hetero}
+
+::: {.question}
+Section \@ref(ols-hetero) met a fan-shaped residual plot and reached for robust
+standard errors. Was that the only option?
+:::
+
+Robust standard errors accept the heteroskedasticity and correct for it. The
+other response is to ask why it was there.
+
+Earnings are a highly skewed variable, and skewed variables often produce
+fan-shaped residuals simply because their upper tail is long. Taking logarithms
+compresses that tail.
+
+```{r ff-hetero-compare}
+spread_by_quartile <- function(m) {
+  q <- cut(fitted(m), quantile(fitted(m), 0:4/4), include.lowest = TRUE)
+  s <- tapply(residuals(m), q, sd)
+  c(round(max(s) / min(s), 3))
+}
+
+c(levels = spread_by_quartile(lm(annual_earnings ~ education, data = wages)),
+  logs   = spread_by_quartile(log_simple))
+```
+
+In levels, the residuals in the top quarter of fitted values are 3.6 times as
+spread out as those in the bottom quarter. In logs the ratio is 1.01 — the
+spread is essentially identical across quartiles.
+
+::: {.keyidea}
+The heteroskedasticity was not a deep feature of the world. It was a consequence
+of measuring earnings in rupees rather than in proportional terms.
+
+This is the second thing a fan-shaped residual plot can be telling you. Section
+\@ref(ols-hetero) treated it as a fact about the variance, to be accepted and
+corrected. Sometimes it is instead a fact about the **scale** of the variable,
+and changing the scale removes it entirely.
+:::
+
+Robust standard errors would have widened the intervals around the problem.
+Taking logs asked why it was there.
+
+## Choosing a form {#ff-choosing}
+
+::: {.question}
+Four options and no test that settles it. How is the choice made?
+:::
+
+::: {.keyidea}
+Three considerations, in order of importance.
+
+**What is the natural way to talk about the variable?** Wages, prices and GDP
+are discussed in percentages, so logs. Test scores, class attendance and family
+size are discussed in units, so levels.
+
+**Does the relationship look multiplicative?** If a proportional change in $x$
+plausibly produces a proportional change in $y$ — as with weight and fuel use —
+logs will fit better and mean more.
+
+**Does the scatter suggest it?** Skewed variables often straighten out in logs,
+and heteroskedasticity often shrinks at the same time.
+:::
+
+What should *not* drive the choice is which version gives the larger $R^2$ or
+the smaller $p$-value. Trying transformations until something is significant
+produces findings that will not replicate — and Section \@ref(ff-r2-limits)
+explains why $R^2$ is particularly unsuited to settling the question.
+
+::: {.watchout}
+**Logarithms are undefined at zero and for negative numbers.**
+
+Earnings data routinely contain zeros — people who did not work. Taking logs
+silently deletes them, and since those are rarely a random subset of the sample,
+the remaining regression answers a different question from the one asked.
+
+```{r ff-zero}
+sum(wages$annual_earnings <= 0)
+```
+
+There are none here, which is a property of this simulated dataset rather than
+of earnings data in general. With real data, check before transforming and say
+what you did.
+:::
+
+## Does adding a variable ever cost anything? {#ff-irrelevant}
+
+::: {.question}
+If omitting a relevant variable causes bias, why not include everything
+available?
+:::
+
+That is the second decision, and the instinct behind it is understandable.
+Section \@ref(mlr-causal) showed that leaving out a relevant variable biases the
+estimate. Including it fixes the problem. Why not include everything?
+
+Start with the easy case: a variable that does not belong in the model at all.
+Its true coefficient is zero.
+
+::: {.keyidea}
+Including an **irrelevant variable** does not bias anything.
+
+The unbiasedness proof of Section \@ref(ols-unbiased) does not require that
+every included variable matter. If $\beta_3 = 0$, then OLS estimates $\beta_3$
+as zero on average and leaves the other coefficients centred on the truth.
+:::
+
+So the cost is not bias. It is precision, and how much precision depends
+entirely on one thing.
+
+```{r ff-irrelevant-sim, cache = TRUE}
+set.seed(7)
+
+out <- replicate(3000, {
+  x1  <- rnorm(100)
+  irr_alone <- rnorm(100)                                   # unrelated to x1
+  irr_close <- 0.9 * x1 + sqrt(1 - 0.81) * rnorm(100)       # correlated 0.9 with x1
+  y <- 1 + 2 * x1 + rnorm(100, sd = 2)                      # neither belongs in the model
+
+  c(b_none  = coef(lm(y ~ x1))[2],
+    b_alone = coef(lm(y ~ x1 + irr_alone))[2],
+    b_close = coef(lm(y ~ x1 + irr_close))[2],
+    se_none  = coef(summary(lm(y ~ x1)))[2, 2],
+    se_alone = coef(summary(lm(y ~ x1 + irr_alone)))[2, 2],
+    se_close = coef(summary(lm(y ~ x1 + irr_close)))[2, 2])
+})
+
+round(rowMeans(out), 4)
+```
+
+The true slope is 2. All three estimates average 2, exactly as promised — adding
+a variable with no effect costs nothing in bias whether or not it is related to
+$x_1$.
+
+The standard errors tell a different story. Adding the unrelated variable moves
+the standard error from 0.202 to 0.203, which is nothing. Adding the correlated
+one moves it to 0.468, more than doubling it.
+
+::: {.intuition}
+This is the $(1-R_j^2)$ factor of Section \@ref(mlr-assumptions), and it is
+worth seeing that it does not care whether the added variable matters.
+
+A control that duplicates the variable of interest consumes its variation
+whether or not it has any effect on the outcome. The regression is left
+estimating a coefficient from whatever variation survives, and pays for the
+privilege in precision.
+:::
+
+## R-squared always rises {#ff-adjr2}
+
+::: {.question}
+Can we use $R^2$ to decide whether a variable belongs?
+:::
+
+The suggestion is natural. $R^2$ measures how much of the variation the model
+accounts for, so a variable that improves the model should raise it.
+
+The difficulty is that *every* variable raises it.
+
+```{r ff-r2-noise, cache = TRUE}
+students <- read.csv("data/attendance-grades.csv")
+
+set.seed(2)
+noise <- as.data.frame(matrix(rnorm(nrow(students) * 10), ncol = 10))
+augmented <- cbind(students, noise)
+
+base <- lm(sem_gpa ~ attendance + cum_gpa + admission_score, data = students)
+junk <- lm(reformulate(c("attendance", "cum_gpa", "admission_score",
+                         names(noise)), "sem_gpa"), data = augmented)
+
+round(c(r2_base        = summary(base)$r.squared,
+        r2_plus_junk   = summary(junk)$r.squared,
+        adj_base       = summary(base)$adj.r.squared,
+        adj_plus_junk  = summary(junk)$adj.r.squared), 4)
+```
+
+The ten added variables are pure random noise, generated without reference to
+the data. They cannot possibly explain semester GPA.
+
+$R^2$ rises anyway, from 0.5421 to 0.5464.
+
+::: {.keyidea}
+$R^2$ can never fall when a variable is added.
+
+Least squares could always set the new coefficient to zero and reproduce the
+old fit exactly. Since it minimises the sum of squared residuals, it will only
+depart from zero if doing so fits *this sample* better — which pure noise
+occasionally does, by chance.
+
+A measure that never falls cannot be used to decide whether something belongs.
+:::
+
+### Adjusted R-squared {-}
+
+The repair is to charge for each parameter estimated.
+
+$$\bar{R}^2 = 1 - \frac{\text{SSR}/(n-k-1)}{\text{SST}/(n-1)}
+\qquad\text{equivalently}\qquad
+\bar{R}^2 = 1 - \frac{(1-R^2)(n-1)}{n-k-1}$$
+
+The ordinary $R^2$ compares two sums of squares directly. The adjusted version
+divides each by its degrees of freedom first, so adding a variable raises $k$,
+shrinks $n-k-1$, and inflates the numerator unless the variable earns its place.
+
+In the output above, adjusted $R^2$ **falls** from 0.5401 to 0.5375. It has
+detected what $R^2$ could not.
+
+::: {.watchout}
+Adjusted $R^2$ can be negative, and it is not a proportion of anything. It is a
+model comparison device, not a measure of fit.
+
+It is also a weak one. It penalises parameters, not irrelevance, and a variable
+that is genuinely useless but happens to correlate with the outcome in this
+sample will still raise it.
+:::
+
+## What R-squared cannot tell you {#ff-r2-limits}
+
+::: {.question}
+The model explains 54% of the variation. Is it a good model?
+:::
+
+There is no answer to that question, because $R^2$ was never a measure of
+whether a model is correct.
+
+::: {.keyidea}
+$R^2$ answers exactly one question: **how much of the variation in $y$ does the
+fitted model account for in this sample?**
+
+It says nothing about whether the coefficients are unbiased, whether the
+standard errors are right, whether the functional form is sensible, or whether
+anything can be interpreted causally.
+:::
+
+Four specific limitations are worth stating plainly.
+
+**A high $R^2$ does not mean the estimate is unbiased.** Omitted variable bias
+depends on what is *missing* from the model. A regression can account for 95% of
+the variation and still have every coefficient wrong, because the variable that
+would have corrected them was never included. Nothing in $R^2$ can detect a
+variable that is not there.
+
+**A low $R^2$ does not mean the model is useless.** Individual behaviour is
+mostly idiosyncratic. Cross-sectional regressions on household data routinely
+report $R^2$ of 0.1 or 0.2, and the coefficients may still be precisely
+estimated and economically important. Section \@ref(ff-schooling) explains 32% of
+the variation in log earnings; the return to schooling is not thereby 32% true.
+
+**$R^2$ cannot be compared across different dependent variables.** The earnings
+regression in levels and the same regression in logs have different $R^2$
+because they are explaining the variation in different quantities. Choosing
+between functional forms on $R^2$ compares two things that are not comparable.
+
+**$R^2$ rewards prediction, not explanation.** A variable measured *after* the
+outcome, or one that is a consequence of it, will improve the fit
+spectacularly and destroy the interpretation. That is the subject of the next
+section.
+
+::: {.intuition}
+The two purposes of regression are worth separating here.
+
+If the goal is **prediction** — forecasting next year's output, flagging which
+loans will default — then fit is close to the whole point, and $R^2$ is a
+reasonable thing to look at.
+
+If the goal is **explanation** — estimating what a year of schooling is worth —
+then fit is nearly beside the point. What matters is whether the comparison
+being made is the right one, and $R^2$ is silent about that.
+
+Most of economics is the second kind of question.
+:::
+
+## Good controls and bad controls {#ff-controls}
+
+::: {.question}
+Adding variables costs precision but not bias. So is a control ever actively
+harmful?
+:::
+
+It is, and this is the most important idea in the unit.
+
+Section \@ref(ff-irrelevant) established that a variable with no effect on $y$
+is harmless. That result is narrower than it looks, because it assumed the
+variable's true coefficient was zero. The dangerous cases are variables that do
+belong to the story — just not in the regression.
+
+Three variables, three simulations, identical structure. In each the true effect
+of $x$ on $y$ is 1, and in each we compare the estimate with and without the
+control.
+
+### A variable that causes both {-}
+
+This is the case Unit \@ref(multiple-regression) was built around. Ability
+raises schooling and independently raises earnings.
+
+```{r ff-confounder, cache = TRUE}
+set.seed(19)
+n <- 2000
+
+confounder <- replicate(1500, {
+  ability <- rnorm(n)
+  x <- 0.7 * ability + rnorm(n)              # ability raises x
+  y <- 1 * x + 1.5 * ability + rnorm(n)      # and raises y directly
+  c(without_control = coef(lm(y ~ x))[2],
+    with_control    = coef(lm(y ~ x + ability))[2])
+})
+
+round(rowMeans(confounder), 4)
+```
+
+Without the control the estimate is 1.71 against a truth of 1. With it, 1.00.
+
+The control repaired the estimate, exactly as advertised. A variable that causes
+both $x$ and $y$ is a **confounder**, and controlling for it is what multiple
+regression is for.
+
+### A variable that x causes {-}
+
+Now change one thing. The added variable is not a cause of $x$; it is a
+consequence of it.
+
+Education raises occupational rank, and occupational rank raises earnings. Part
+of how education pays is by getting people into better jobs.
+
+```{r ff-mediator, cache = TRUE}
+set.seed(19)
+
+mediator <- replicate(1500, {
+  educ <- rnorm(n)
+  occupation <- 0.6 * educ + rnorm(n)                  # education raises rank
+  earnings   <- 0.4 * educ + 1.0 * occupation + rnorm(n)
+  c(without_control = coef(lm(earnings ~ educ))[2],
+    with_control    = coef(lm(earnings ~ educ + occupation))[2])
+})
+
+round(rowMeans(mediator), 4)
+```
+
+The total effect of education is 1.0: a direct effect of 0.4, plus 0.6 through
+occupation.
+
+Without the control we recover 1.00 — correct. **With** the control we get 0.40.
+
+::: {.watchout}
+Controlling for occupation did not remove bias. It removed part of the effect.
+
+Holding occupation fixed means comparing people who ended up in the same job.
+Among such people, education can no longer operate through the route by which
+most of it operates. What survives is only the direct effect.
+
+A variable that lies on the causal path from $x$ to $y$ is a **mediator**, and
+controlling for it answers a narrower question than the one asked — often
+without the researcher noticing that the question changed.
+:::
+
+### A variable that both x and the error cause {-}
+
+The third case is the least intuitive and the most damaging.
+
+Suppose $x$ has a genuine effect on $y$ and there is no confounding whatever, so
+a simple regression would have been correct. Now control for a variable that is
+caused by both $x$ and the unobserved part of $y$.
+
+```{r ff-collider, cache = TRUE}
+set.seed(19)
+
+collider <- replicate(1500, {
+  x <- rnorm(n)
+  u <- rnorm(n)                                  # unobserved, affects y
+  y <- 1 * x + u                                 # no confounding: x and u independent
+  selected <- 0.8 * x + 0.8 * u + rnorm(n)       # caused by both
+  c(without_control = coef(lm(y ~ x))[2],
+    with_control    = coef(lm(y ~ x + selected))[2])
+})
+
+round(rowMeans(collider), 4)
+```
+
+Without the control the estimate is 1.00, and correctly so — there was nothing
+to correct.
+
+Adding the control breaks it, giving 0.61.
+
+::: {.keyidea}
+Here the control **created** bias where none existed.
+
+A variable caused by both $x$ and the error term is a **collider**. Conditioning
+on it induces a relationship between $x$ and $u$ that was not there before,
+which is precisely the failure of CLRM4 that Unit \@ref(multiple-regression)
+warned about — manufactured by the researcher.
+:::
+
+::: {.intuition}
+The mechanism is easier to see in a concrete case.
+
+Suppose a firm hires workers who are either well-qualified or visibly talented,
+and that qualifications and talent are unrelated in the population at large.
+Among the people it hires, the two will be negatively related: someone hired
+despite weak qualifications must have been unusually talented, and the reverse.
+
+Restricting attention to those hired — or controlling for being hired —
+manufactures a correlation between two things that were independent.
+
+This is why controlling for variables measured *after* the treatment, or for
+anything determining who appears in the sample, is dangerous in a way that has
+nothing to do with sample size.
+:::
+
+### What this means in practice {-}
+
+The three simulations are identical in form. Each adds one control to a
+regression, and the results are opposite.
+
+Table: (\#tab:ff-controls) The same operation, three times, with three different consequences. The true effect is 1 in every case.
+
+| The control is | Without it | With it | Verdict |
+|:--|:--|:--|:--|
+| A cause of $x$ and $y$ (**confounder**) | 1.71 | 1.00 | Include it |
+| Caused by $x$ (**mediator**) | 1.00 | 0.40 | Changes the question |
+| Caused by $x$ and by $u$ (**collider**) | 1.00 | 0.61 | Leave it out |
+
+::: {.keyidea}
+No property of the data distinguishes these three cases.
+
+All three controls are correlated with $x$ and with $y$. All three change the
+coefficient. All three are statistically significant. Every diagnostic in this
+book passes in all three regressions.
+
+What separates them is the direction of causation between the variables — which
+is knowledge about the world, not a fact the sample contains.
+:::
+
+This is the honest answer to "which variables should I control for?" The
+question cannot be settled by looking at output. It requires an argument about
+what causes what, made before the regression is run and defended in the text.
+
+::: {.watchout}
+The common practice of adding every available variable and reporting whichever
+specification looks best is not caution. It is an invitation to all three
+problems at once, and it is undetectable in the results.
+:::
+
+## Summary {#ff-summary}
+
+::: {.keyidea}
+- Two decisions precede any estimate: the **form** of the relationship and
+  **which variables** enter. Neither is settled by the data.
+- A level–level slope depends on the units of both variables. Logarithms remove
+  that dependence and often improve the approximation as well.
+- The four forms are level–level, log–level, level–log and log–log, with slopes
+  read as units, per cent, units and per cent respectively. All follow from
+  $\Delta \ln y \approx \Delta y / y$.
+- A **log–log slope is an elasticity** and is unit-free. Cars: a 1% heavier car
+  is 0.83% less fuel-efficient.
+- The **log–level form** is standard for wages. A year of schooling is worth
+  about 9.4% before controls and 7.6% after them.
+- The percentage reading is an approximation. Above about 0.2, use
+  $100(e^{\beta} - 1)$.
+- A fan-shaped residual plot has two possible meanings: non-constant variance,
+  or a badly scaled variable. In the earnings data, logs cut the ratio of
+  residual spreads from 3.6 to 1.01, so it was the second.
+- Logs are undefined at zero, and dropping the zeros silently changes the
+  question being answered.
+- An **irrelevant variable** causes no bias. Its cost is precision, and the cost
+  depends on how strongly it is related to the variable of interest, not on
+  whether it affects the outcome.
+- **$R^2$ can never fall when a variable is added**, so it cannot decide whether
+  one belongs. Ten pure noise variables raised it from 0.5421 to 0.5464.
+- **Adjusted $R^2$** charges for each parameter and fell from 0.5401 to 0.5375 on
+  the same regression. It is a comparison device, not a measure of fit, and a
+  weak one.
+- $R^2$ says nothing about bias, is not comparable across different dependent
+  variables, and is low in most cross-sectional work for reasons that have
+  nothing to do with model quality.
+- Controls are not all alike. A **confounder** should be included; a
+  **mediator** changes the question; a **collider** creates bias where none
+  existed.
+- Nothing in the data distinguishes the three. The decision rests on an argument
+  about what causes what, made before the regression is run.
+:::
+
+## Practice problems {#ff-practice}
+
+::: {.yourturn}
+Work each one before opening the solution. The
+[question bank](#ff-question-bank) that follows has no answers.
+:::
+
+### Numerical problems {-}
+
+**9.1** A regression of log monthly household expenditure on log monthly income
+across 900 Indian households gives a slope of 0.72 with a standard error of
+0.04.
+
+i. Interpret the slope.
+ii. Test whether the elasticity equals one at the 5% level.
+iii. What would an elasticity of one imply about how expenditure shares change
+     with income?
+
+::: {.answer}
+**(i)** A 1% rise in household income is associated with a 0.72% rise in
+expenditure. It is an elasticity, and unchanged if both were measured in
+thousands of rupees.
+
+**(ii)** $H_0: \beta_1 = 1$. Note this is *not* the test R prints, which uses
+zero.
+
+$$t = \frac{0.72 - 1}{0.04} = -7$$
+
+With 898 degrees of freedom the critical value is about 1.96, so we reject
+decisively. The elasticity is below one.
+
+**(iii)** An elasticity of one means expenditure rises in exact proportion to
+income, so the share of income spent is constant. At 0.72 the share *falls* as
+income rises — richer households save a larger fraction, which is a very old
+empirical regularity.
+:::
+
+**9.2** A wage regression in log–level form returns a coefficient of 0.31 on a
+training programme indicator.
+
+i. What does the approximation say the programme is worth?
+ii. Compute the exact percentage.
+iii. Why do they differ by so much here when they agreed in Section
+     \@ref(ff-schooling)?
+
+::: {.answer}
+**(i)** $100 \times 0.31 = 31\%$.
+
+**(ii)** $100(e^{0.31} - 1) = `r round(100*(exp(0.31)-1), 1)`\%$.
+
+**(iii)** The approximation $\Delta \ln y \approx \Delta y / y$ holds for small
+changes and degrades as the change grows. The schooling coefficient was 0.094,
+well inside the safe range; 0.31 is not. The error is always in the same
+direction — the approximation understates the true percentage.
+:::
+
+**9.3** A model with $n = 200$ and $k = 5$ has $R^2 = 0.42$.
+
+i. Compute adjusted $R^2$.
+ii. A sixth variable is added and $R^2$ rises to 0.425. Compute the new adjusted
+    $R^2$ and say whether the variable earned its place.
+
+::: {.answer}
+**(i)** With $k = 5$, $n - k - 1 = 194$:
+
+$$\bar{R}^2 = 1 - \frac{(1-0.42)(199)}{194} = `r round(1-(1-0.42)*199/194, 4)`$$
+
+**(ii)** With $k = 6$, $n - k - 1 = 193$:
+
+$$\bar{R}^2 = 1 - \frac{(1-0.425)(199)}{193} = `r round(1-(1-0.425)*199/193, 4)`$$
+
+Adjusted $R^2$ rose, from 0.4051 to 0.4071, so on this criterion the variable
+paid for itself.
+
+Note how little it rose. A gain of 0.002 is well within the range that a
+variable of pure noise can produce by chance, as Exercise 9.10 shows. Adjusted
+$R^2$ is a weak criterion, and a near-tie like this one should not decide a
+specification on its own.
+:::
+
+**9.3 (continued)** Why does a rise in adjusted $R^2$ not establish that the
+sixth variable belongs in the model?
+
+::: {.answer}
+Because adjusted $R^2$ charges a fixed price per parameter and asks only whether
+the improvement in fit exceeds it. It knows nothing about where the variable
+sits in the causal structure.
+
+A mediator or a collider will often raise adjusted $R^2$ — both are strongly
+related to the outcome — while making the coefficient of interest worse. Section
+\@ref(ff-controls) shows all three cases raising the fit and only one of them
+belonging.
+:::
+
+**9.4** Using `india-production.csv`, estimate a Cobb–Douglas production
+function $\ln Y = \beta_0 + \beta_1 \ln L + \beta_2 \ln K + u$.
+
+i. Interpret both slopes.
+ii. What do they sum to, and what does that mean?
+iii. Test whether returns to scale are constant.
+
+::: {.answer}
+```{r ff-ex-cobb}
+prod <- read.csv("data/india-production.csv")
+cobb <- lm(logy ~ logl + logk, data = prod)
+round(coef(summary(cobb)), 4)
+```
+
+**(i)** A 1% rise in labour is associated with a 0.71% rise in output, holding
+capital fixed; a 1% rise in capital with a 0.79% rise, holding labour fixed.
+Both are elasticities.
+
+**(ii)** They sum to 1.50. Doubling both inputs would raise output by about 150%
+rather than 100% — **increasing returns to scale**.
+
+**(iii)** $H_0: \beta_1 + \beta_2 = 1$. This is a restriction on a *combination*
+of coefficients, so neither printed $t$ statistic tests it.
+
+Impose the restriction by substituting $\beta_2 = 1 - \beta_1$ into the model
+and rearranging:
+
+$$\ln Y - \ln K = \beta_0 + \beta_1(\ln L - \ln K) + u$$
+
+This is the restricted model. Its residuals are directly comparable with the
+unrestricted ones, because subtracting $\ln K$ from both sides moves a known
+quantity and leaves the error untouched — so the $F$ statistic of Section
+\@ref(mlr-f) can be computed from the two sums of squared residuals.
+
+```{r ff-ex-cobb-f}
+restricted <- lm(I(logy - logk) ~ I(logl - logk), data = prod)
+
+ssr_r  <- sum(residuals(restricted)^2)
+ssr_ur <- sum(residuals(cobb)^2)
+n <- nrow(prod); k <- 2; q <- 1
+
+f_stat <- ((ssr_r - ssr_ur) / q) / (ssr_ur / (n - k - 1))
+
+round(c(ssr_restricted = ssr_r, ssr_unrestricted = ssr_ur,
+        F = f_stat, critical_5pct = qf(0.95, q, n - k - 1),
+        p_value = 1 - pf(f_stat, q, n - k - 1)), 5)
+```
+
+$F = 59.2$ against a critical value of 4.11, so constant returns to scale is
+rejected decisively.
+
+::: {.watchout}
+`anova(restricted, cobb)` will **not** do this comparison, and will not warn
+you. The two models have different dependent variables — $\ln Y - \ln K$ against
+$\ln Y$ — so R has no basis for treating them as nested and silently returns
+something else. Computing the statistic from the two sums of squared residuals
+is safer, and shows what the test is doing.
+:::
+
+With 40 annual observations and inputs that trend together, this result is
+fragile. Labour and capital are highly collinear over this period, which is
+exactly the situation of Section \@ref(mlr-assumptions).
+:::
+
+### Concept checks {-}
+
+**9.5** A researcher reports that adding six control variables raised $R^2$ from
+0.31 to 0.44 and concludes the new model is better. Assess.
+
+::: {.answer}
+The rise in $R^2$ is not evidence of anything: $R^2$ cannot fall when variables
+are added, so it would have risen even had all six been random noise.
+
+Adjusted $R^2$ would at least charge for the six parameters, but it too is a
+weak criterion.
+
+More importantly, "better" is undefined without a purpose. If the goal is
+prediction, some measure of fit is relevant, though one computed on data not
+used for fitting. If the goal is estimating an effect, fit is nearly irrelevant
+and the question is whether the six controls are confounders, mediators or
+colliders — which $R^2$ cannot address.
+:::
+
+**9.6** Explain why controlling for occupation in a regression of earnings on
+education does not produce "the effect of education net of confounding".
+
+::: {.answer}
+Occupation is largely a *consequence* of education, not a common cause of both.
+It is a mediator.
+
+Controlling for it compares people who ended up in the same occupation, which
+removes the route through which much of education's effect operates. The
+resulting coefficient is the direct effect — education's value conditional on
+job — not the total effect, and not a confounding-corrected version of it.
+
+The estimate is not biased for what it now measures. It measures something
+narrower than what was asked.
+:::
+
+**9.7** Two researchers analyse the same data. One reports the level–level model
+because its $R^2$ is 0.48; the other reports log–log because its $R^2$ is 0.51.
+What is wrong with both arguments?
+
+::: {.answer}
+The two $R^2$ values are not comparable. One describes the share of variation
+explained in $y$, the other in $\ln y$. These are different quantities, so the
+comparison is meaningless regardless of which is larger.
+
+Beyond that, neither researcher has given a reason of the kind that should
+decide the question: how the variable is naturally discussed, whether the
+relationship is plausibly multiplicative, and what the scatter looks like.
+:::
+
+**9.8** Why does an irrelevant variable that is highly correlated with $x_1$
+inflate $\mathrm{se}(\hat{\beta}_1)$ even though its own coefficient is zero in
+the population?
+
+::: {.answer}
+The standard error depends on $(1-R_j^2)$, where $R_j^2$ comes from regressing
+$x_1$ on the other regressors. That quantity is about the relationship *among
+the explanatory variables* and has nothing to do with the outcome.
+
+A variable strongly related to $x_1$ raises $R_j^2$ whether or not it affects
+$y$. By the argument of Section \@ref(mlr-fwl), the coefficient is estimated
+from the part of $x_1$ the other regressors cannot explain, and a strongly
+correlated variable leaves little of it.
+:::
+
+### R exercises {-}
+
+**9.9** Using `wages-india-synthetic.csv`, fit the four functional forms
+relating annual earnings to education. Report each slope with its
+interpretation in a sentence, and explain why the four $R^2$ values should not
+be compared.
+
+::: {.answer}
+```{r ff-ex-four, eval = FALSE}
+wages <- read.csv("data/wages-india-synthetic.csv")
+w <- subset(wages, education > 0)          # log(0) is undefined
+
+forms <- list(
+  level_level = lm(annual_earnings ~ education, data = w),
+  log_level   = lm(log(annual_earnings) ~ education, data = w),
+  level_log   = lm(annual_earnings ~ log(education), data = w),
+  log_log     = lm(log(annual_earnings) ~ log(education), data = w))
+
+t(sapply(forms, function(m) c(slope = coef(m)[2],
+                              r2    = summary(m)$r.squared)))
+```
+
+Level–level: an extra year is worth about ₹5,400. Log–level: about 9.4% more.
+Level–log: a 1% rise in years of schooling is worth about slope/100 rupees.
+Log–log: a 1% rise in years of schooling raises earnings by the slope, in per
+cent.
+
+The four $R^2$ values are not comparable because the first and third explain
+variation in earnings while the second and fourth explain variation in log
+earnings.
+
+Note also that dropping the zero-education observations changes the sample. The
+log forms answer a question about a different group of people from the level
+forms — which is the caution in Section \@ref(ff-choosing) arriving in practice.
+:::
+
+**9.10** Demonstrate that $R^2$ cannot fall. Take any regression, add a variable
+of pure noise, and confirm. Then repeat 500 times and report how often adjusted
+$R^2$ rises.
+
+::: {.answer}
+```{r ff-ex-r2, eval = FALSE}
+students <- read.csv("data/attendance-grades.csv")
+set.seed(31)
+
+base <- lm(sem_gpa ~ attendance + cum_gpa, data = students)
+
+results <- replicate(500, {
+  students$junk <- rnorm(nrow(students))
+  m <- lm(sem_gpa ~ attendance + cum_gpa + junk, data = students)
+  c(r2_rose  = summary(m)$r.squared    >= summary(base)$r.squared,
+    adj_rose = summary(m)$adj.r.squared > summary(base)$adj.r.squared)
+})
+
+rowMeans(results)
+```
+
+$R^2$ rises in 100% of trials, as the algebra guarantees.
+
+Adjusted $R^2$ rises in about 31% of them. That is not a flaw: a noise
+variable will occasionally correlate with the outcome by chance, and adjusted
+$R^2$ only charges a fixed price per parameter. It filters noise on average
+without doing so reliably in any single comparison.
+:::
+
+**9.11** Reproduce the collider simulation of Section \@ref(ff-controls), then
+vary the strength of the collider's dependence on $x$ and on $u$. Which matters
+more for the size of the bias?
+
+::: {.answer}
+```{r ff-ex-collider, eval = FALSE}
+bias_at <- function(a, b, reps = 400, n = 2000) {
+  est <- replicate(reps, {
+    x <- rnorm(n); u <- rnorm(n)
+    y <- 1 * x + u
+    s <- a * x + b * u + rnorm(n)
+    coef(lm(y ~ x + s))[2]
+  })
+  round(mean(est) - 1, 4)
+}
+
+set.seed(5)
+c(weak_both   = bias_at(0.3, 0.3),
+  strong_on_x = bias_at(1.2, 0.3),
+  strong_on_u = bias_at(0.3, 1.2),
+  strong_both = bias_at(1.2, 1.2))
+```
+
+The bias requires *both* dependences. If the collider does not depend on $x$,
+conditioning on it induces no relationship between $x$ and $u$; if it does not
+depend on $u$, there is no $u$ to induce a relationship with.
+
+This mirrors the omitted variable bias formula of Section \@ref(mlr-causal),
+which was also a product of two terms and vanished if either was zero.
+:::
+
+## Question bank {#ff-question-bank}
+
+### Multiple choice {-}
+
+**QB 9.1** In the model $\ln y = \beta_0 + \beta_1 x + u$, a coefficient of
+0.045 means a one-unit rise in $x$ is associated with
+
+a. a 0.045 unit rise in $y$
+b. a 4.5% rise in $y$
+c. a 0.045% rise in $y$
+d. a 4.5 unit rise in $y$
+
+**QB 9.2** A log–log coefficient is
+
+a. always between 0 and 1
+b. an elasticity, and unit-free
+c. equal to the correlation between the variables
+d. interpretable only if both variables are positive integers
+
+**QB 9.3** Adding an explanatory variable to a regression
+
+a. can raise or lower $R^2$
+b. can never lower $R^2$
+c. can never lower adjusted $R^2$
+d. always raises both
+
+**QB 9.4** Controlling for a variable that lies on the causal path between $x$
+and $y$
+
+a. removes omitted variable bias
+b. estimates the direct rather than the total effect
+c. has no effect on the coefficient
+d. always increases $R^2$ without changing the estimate
+
+**QB 9.5** Including an irrelevant variable uncorrelated with the other
+regressors
+
+a. biases the coefficients downward
+b. leaves the coefficients unbiased and barely changes their standard errors
+c. leaves the coefficients unbiased but sharply raises their standard errors
+d. makes the model unidentifiable
+
+### Short reasoning {-}
+
+**QB 9.6** A study of fertiliser and yield reports a level–level slope of 0.83.
+A colleague asks whether that is a large effect. Explain what further
+information is needed, and what functional form would have avoided the question.
+
+**QB 9.7** Explain why $R^2$ is a reasonable thing to examine when forecasting
+next year's electricity demand, but a poor guide when estimating the effect of a
+school meals programme on attendance.
+
+**QB 9.8** A researcher studying the effect of a job training programme on
+earnings controls for whether the participant is currently employed. Which of
+the three cases in Section \@ref(ff-controls) is this, and what will it do to
+the estimate?
+
+**QB 9.9** Why can adjusted $R^2$ be negative? What does a negative value tell
+you about the model?
+
+**QB 9.10** In a regression of infant mortality on household income across
+districts, a researcher adds "number of hospitals per capita" as a control and
+the income coefficient shrinks by half. Give two different causal stories
+consistent with that result, one in which the control belongs and one in which
+it does not.
+
+**QB 9.11** A dataset records earnings for people who are employed. Explain why
+regressing earnings on education using only these observations is a version of
+the collider problem, and what it implies for interpreting the coefficient.
+
+**QB 9.12** Explain why the choice between level–log and log–log cannot be made
+by comparing $R^2$, but the choice between two different sets of controls in a
+log–log model could in principle be informed by it.
+
+### Numerical {-}
+
+**QB 9.13** A log–level regression of earnings on years of experience gives a
+coefficient of 0.026. Give both the approximate and exact percentage returns to
+one more year, and to ten more years.
+
+**QB 9.14** A model with $n = 150$, $k = 4$ has $\text{SSR} = 240$ and
+$\text{SST} = 600$. Compute $R^2$ and adjusted $R^2$.
+
+**QB 9.15** Two nested models on the same 300 observations have $R^2$ of 0.38
+with 3 regressors and 0.41 with 7. Compute both adjusted $R^2$ values, and the
+$F$ statistic for the four added variables. Do the two criteria agree?
+
+**QB 9.16** A demand equation estimated in log–log form gives a price elasticity
+of $-1.4$ with a standard error of 0.15. Test whether demand is unit-elastic,
+and state what the sign and magnitude imply about total revenue when price
+rises.
+
+## Looking ahead {#ff-looking-ahead}
+
+Every explanatory variable in this book has been a number — years, rupees,
+classes attended. Two of them were not, and we handled them by writing 0 and 1
+without ever asking what that meant.
+
+The next unit takes indicator variables seriously. It shows how a single
+regression can fit different intercepts for different groups, how interaction
+terms let it fit different *slopes* as well, and how the $F$ test of Section
+\@ref(mlr-f) becomes a formal test of whether two groups obey the same
+relationship at all.
+
+That last question — whether one model describes everybody — is where the
+machinery of this unit and the previous one comes together.

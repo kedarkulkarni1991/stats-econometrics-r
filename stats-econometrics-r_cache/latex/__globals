@@ -20,3 +20,9 @@ os-power-table
 mlr-f-dist	
 mlr-f-dist-plot	book_palette	df	f_stats	theme_book	x	y
 mlr-fwl-plot	book_palette	r1	simple	step1	step2	students	theme_book	x	y
+ff-cars-plot	book_palette	cars	theme_book	x	y
+ff-irrelevant-sim	
+ff-r2-noise	
+ff-confounder	
+ff-mediator	n
+ff-collider	n

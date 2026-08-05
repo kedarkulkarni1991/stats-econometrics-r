@@ -1523,9 +1523,10 @@ questioning.
 The model has assumed throughout that a one-unit rise in $x$ has the same
 consequence wherever it occurs — that the tenth year of schooling is worth what
 the second was, and that the effect of experience never flattens. Economics
-rarely believes this. The next unit shows how logarithms, squares and interaction
-terms let a linear model describe relationships that are not linear at all, at no
-cost to any of the machinery developed here.
+rarely believes this. The next unit shows how logarithms let a linear model
+describe relationships that are not linear at all, and how they turn a
+coefficient into a percentage or an elasticity — at no cost to any of the
+machinery developed here.
 
 The unit also treated the choice of controls as settled. It is not. Some
 variables belong in a regression, some are harmless, and some make the estimate
