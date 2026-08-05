@@ -698,14 +698,20 @@ the variable. Multiplying by 100 turns it into a percentage.</p>
 <p>which is the definition of an elasticity: the ratio of the proportional change
 in <span class="math inline">\(y\)</span> to the proportional change in <span class="math inline">\(x\)</span>.</p>
 </div>
-<div class="watchout">
-<p>The percentage reading is an approximation, and it degrades as the coefficient
-grows.</p>
-<p>For <span class="math inline">\(\beta_1 = 0.0942\)</span> the approximation says 9.42% and the exact figure is
-<span class="math inline">\(100(e^{0.0942} - 1) = 9.88\)</span>%. Close enough.</p>
-<p>For <span class="math inline">\(\beta_1 = 0.7\)</span> the approximation says 70% and the truth is
-<span class="math inline">\(101\)</span>%. Above about 0.2, use the exact expression.</p>
+<div class="keyidea">
+<p><strong>The rule for reading a log coefficient as a percentage.</strong></p>
+<p>Whenever <span class="math inline">\(y\)</span> is in logarithms — whether the coefficient belongs to a continuous
+variable or to a 0/1 indicator — the exact percentage change is</p>
+<p><span class="math display">\[100\left(e^{\beta} - 1\right)\]</span></p>
+<p>If <span class="math inline">\(|\beta| &lt; 0.2\)</span>, the approximation <span class="math inline">\(100\beta\)</span> is close enough to report.
+Above that, use the exact expression.</p>
 </div>
+<p>The approximation degrades quickly once the coefficient grows.</p>
+<p>For <span class="math inline">\(\beta_1 = 0.0942\)</span> it says 9.42% and the exact figure is
+<span class="math inline">\(100(e^{0.0942} - 1) = 9.88\)</span>%. For <span class="math inline">\(\beta_1 = 0.7\)</span>
+it says 70% and the truth is <span class="math inline">\(101\)</span>%. The error is
+always in the same direction: the approximation understates the true
+percentage.</p>
 </div>
 <script>
 // Solutions are written as plain fenced divs in the source, so the PDF edition

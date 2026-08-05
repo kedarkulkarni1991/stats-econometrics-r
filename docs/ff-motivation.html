@@ -647,16 +647,26 @@ returned a slope of <span class="math inline">\(-0.00601\)</span>.</p>
 <p>The same relationship, the same data, the same fit — and two numbers differing
 by a factor of a thousand. Measure efficiency in litres per hundred kilometres
 instead and the sign flips.</p>
-<p>Two problems follow, and one transformation addresses both.</p>
+<p>Behind that awkwardness lies a deeper point, and it is the real reason
+economists reach for logarithms.</p>
+<p><strong>Most economic relationships are proportional rather than absolute.</strong></p>
+<p>Losing ₹10,000 is a catastrophe for a household earning ₹50,000 a year and a
+rounding error for one earning ₹50 lakh. The same absolute change means
+something entirely different at different points of the distribution, which is
+why economists instinctively discuss income, prices and output in percentages.</p>
+<p>A level–level model denies this. It insists that a one-unit change in <span class="math inline">\(x\)</span>
+produces the same absolute change in <span class="math inline">\(y\)</span> everywhere — for the smallest car and
+the largest, the poorest household and the richest.</p>
+<p>Two further problems follow from the same source.</p>
 <p><strong>Units are arbitrary.</strong> A coefficient in kilograms and one in tonnes describe
-the same relationship, but neither is easier to judge than the other. We would
-prefer a measure that does not change when someone changes their mind about
+the same relationship, but neither is easier to judge than the other. A
+proportional measure does not change when someone changes their mind about
 units.</p>
 <p><strong>Straight lines are not always the right shape.</strong> Section <a href="sr-prf.html#sr-prf">6.2</a> showed
 that the conditional mean of GPA against attendance was not exactly linear, and
 took a line as an approximation. Sometimes a better approximation is available
 at no cost, by transforming a variable before fitting.</p>
-<p>Taking logarithms addresses both.</p>
+<p>Taking logarithms addresses all three.</p>
 </div>
 <script>
 // Solutions are written as plain fenced divs in the source, so the PDF edition

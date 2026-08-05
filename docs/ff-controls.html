@@ -746,6 +746,12 @@ nothing to do with sample size.</p>
 <h3>What this means in practice<a href="ff-controls.html#what-this-means-in-practice" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>The three simulations are identical in form. Each adds one control to a
 regression, and the results are opposite.</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:ff-dags"></span>
+<img src="stats-econometrics-r_files/figure-html/ff-dags-1.png" alt="The three cases as pictures. Arrows run from cause to effect, and variables in orange are unobserved. The first two are the same triangle with the arrows reversed -- ability causes education, whereas education causes occupation -- and that reversal is the whole difference between a control that repairs an estimate and one that destroys it. In the third, two arrows run into hiring, which is what makes it a collider." width="100%"  />
+<p class="caption">
+Figure 9.3: The three cases as pictures. Arrows run from cause to effect, and variables in orange are unobserved. The first two are the same triangle with the arrows reversed – ability causes education, whereas education causes occupation – and that reversal is the whole difference between a control that repairs an estimate and one that destroys it. In the third, two arrows run into hiring, which is what makes it a collider.
+</p>
+</div>
 <table>
 <caption><span id="tab:ff-controls">Table 9.2: </span> The same operation, three times, with three different consequences. The true effect is 1 in every case.</caption>
 <thead>
@@ -785,14 +791,15 @@ book passes in all three regressions.</p>
 <p>What separates them is the direction of causation between the variables — which
 is knowledge about the world, not a fact the sample contains.</p>
 </div>
-<p>This is the honest answer to “which variables should I control for?” The
-question cannot be settled by looking at output. It requires an argument about
-what causes what, made before the regression is run and defended in the text.</p>
 <div class="watchout">
 <p>The common practice of adding every available variable and reporting whichever
 specification looks best is not caution. It is an invitation to all three
 problems at once, and it is undetectable in the results.</p>
 </div>
+<p>This is the honest answer to “which variables should I control for?” It requires
+an argument about what causes what, made before the regression is run and
+defended in the text.</p>
+<p>The question cannot be settled by looking at output.</p>
 </div>
 </div>
 <script>

@@ -27,3 +27,4 @@ ff-confounder
 ff-mediator	n
 ff-collider	n
 ff-squares-plot	b	book_palette	k	prod	theme_book
+ff-dags	book_palette	x	x1	x2	y

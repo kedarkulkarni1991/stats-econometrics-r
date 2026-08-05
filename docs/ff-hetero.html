@@ -662,6 +662,19 @@ of measuring earnings in rupees rather than in proportional terms.</p>
 corrected. Sometimes it is instead a fact about the <strong>scale</strong> of the variable,
 and changing the scale removes it entirely.</p>
 </div>
+<p>This is why economists often try a log specification before reaching for robust
+standard errors.</p>
+<div class="watchout">
+<p>None of this makes robust standard errors wrong.</p>
+<p>They remain the right tool when the variance genuinely differs across
+observations — when the underlying variability really is larger for some units
+than others, and no transformation will change that. Section
+<a href="ols-hetero.html#ols-hetero">7.6</a>’s advice to report them by default in cross-sectional work
+stands.</p>
+<p>The point is only that a fan-shaped plot is a symptom with two possible causes,
+and reaching for the correction without asking about the cause means never
+discovering that the variable was on the wrong scale.</p>
+</div>
 <p>Robust standard errors would have widened the intervals around the problem.
 Taking logs asked why it was there.</p>
 </div>

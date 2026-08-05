@@ -5,12 +5,14 @@ source("_common.R")
 library(ggplot2)
 ```
 
-Every regression so far arrived with its model already written. Semester GPA on
-attendance, prior GPA and admission score; earnings on education, age, sex and
-residence. We estimated what was put in front of us.
+Up to now, regression has looked almost mechanical. Someone gave us an
+equation, we estimated it, interpreted the coefficients and checked the
+assumptions.
 
-In practice nobody hands you the equation. Two decisions have to be made before
-anything can be estimated, and neither is settled by the data alone.
+Real empirical work is different. Before a regression can be estimated, someone
+has to decide what the equation should be.
+
+Two decisions have to be made, and neither is settled by the data alone.
 
 The first is the **form** of the relationship. We have assumed throughout that a
 one-unit rise in $x$ produces the same change in $y$ wherever it occurs — that
@@ -48,11 +50,25 @@ The same relationship, the same data, the same fit — and two numbers differing
 by a factor of a thousand. Measure efficiency in litres per hundred kilometres
 instead and the sign flips.
 
-Two problems follow, and one transformation addresses both.
+Behind that awkwardness lies a deeper point, and it is the real reason
+economists reach for logarithms.
+
+**Most economic relationships are proportional rather than absolute.**
+
+Losing ₹10,000 is a catastrophe for a household earning ₹50,000 a year and a
+rounding error for one earning ₹50 lakh. The same absolute change means
+something entirely different at different points of the distribution, which is
+why economists instinctively discuss income, prices and output in percentages.
+
+A level–level model denies this. It insists that a one-unit change in $x$
+produces the same absolute change in $y$ everywhere — for the smallest car and
+the largest, the poorest household and the richest.
+
+Two further problems follow from the same source.
 
 **Units are arbitrary.** A coefficient in kilograms and one in tonnes describe
-the same relationship, but neither is easier to judge than the other. We would
-prefer a measure that does not change when someone changes their mind about
+the same relationship, but neither is easier to judge than the other. A
+proportional measure does not change when someone changes their mind about
 units.
 
 **Straight lines are not always the right shape.** Section \@ref(sr-prf) showed
@@ -60,7 +76,7 @@ that the conditional mean of GPA against attendance was not exactly linear, and
 took a line as an approximation. Sometimes a better approximation is available
 at no cost, by transforming a variable before fitting.
 
-Taking logarithms addresses both.
+Taking logarithms addresses all three.
 
 ## The four functional forms {#ff-four}
 
@@ -118,16 +134,25 @@ which is the definition of an elasticity: the ratio of the proportional change
 in $y$ to the proportional change in $x$.
 :::
 
-::: {.watchout}
-The percentage reading is an approximation, and it degrades as the coefficient
-grows.
+::: {.keyidea}
+**The rule for reading a log coefficient as a percentage.**
 
-For $\beta_1 = 0.0942$ the approximation says 9.42% and the exact figure is
-$100(e^{0.0942} - 1) = `r round(100*(exp(0.0942)-1), 2)`$%. Close enough.
+Whenever $y$ is in logarithms — whether the coefficient belongs to a continuous
+variable or to a 0/1 indicator — the exact percentage change is
 
-For $\beta_1 = 0.7$ the approximation says 70% and the truth is
-$`r round(100*(exp(0.7)-1), 0)`$%. Above about 0.2, use the exact expression.
+$$100\left(e^{\beta} - 1\right)$$
+
+If $|\beta| < 0.2$, the approximation $100\beta$ is close enough to report.
+Above that, use the exact expression.
 :::
+
+The approximation degrades quickly once the coefficient grows.
+
+For $\beta_1 = 0.0942$ it says 9.42% and the exact figure is
+$100(e^{0.0942} - 1) = `r round(100*(exp(0.0942)-1), 2)`$%. For $\beta_1 = 0.7$
+it says 70% and the truth is $`r round(100*(exp(0.7)-1), 0)`$%. The error is
+always in the same direction: the approximation understates the true
+percentage.
 
 ## Elasticities: weight and fuel efficiency {#ff-elasticity}
 
@@ -268,6 +293,23 @@ This is the second thing a fan-shaped residual plot can be telling you. Section
 \@ref(ols-hetero) treated it as a fact about the variance, to be accepted and
 corrected. Sometimes it is instead a fact about the **scale** of the variable,
 and changing the scale removes it entirely.
+:::
+
+This is why economists often try a log specification before reaching for robust
+standard errors.
+
+::: {.watchout}
+None of this makes robust standard errors wrong.
+
+They remain the right tool when the variance genuinely differs across
+observations — when the underlying variability really is larger for some units
+than others, and no transformation will change that. Section
+\@ref(ols-hetero)'s advice to report them by default in cross-sectional work
+stands.
+
+The point is only that a fan-shaped plot is a symptom with two possible causes,
+and reaching for the correction without asking about the cause means never
+discovering that the variable was on the wrong scale.
 :::
 
 Robust standard errors would have widened the intervals around the problem.
@@ -424,6 +466,9 @@ and heteroskedasticity often shrinks at the same time.
 diminishing returns or a peak, a squared term states that directly and can be
 tested with the $t$ statistic on $\beta_2$.
 :::
+
+There is no universally correct transformation. There is only the one that best
+matches the economic question being asked.
 
 What should *not* drive the choice is which version gives the larger $R^2$ or
 the smaller $p$-value. Trying transformations until something is significant
@@ -620,22 +665,33 @@ depart from zero if doing so fits *this sample* better — which pure noise
 occasionally does, by chance.
 
 A measure that never falls cannot be used to decide whether something belongs.
+
+This is true even if the new variable is generated by rolling dice.
 :::
 
 ### Adjusted R-squared {-}
 
-The repair is to charge for each parameter estimated.
+**Adjusted $R^2$ penalises a model for estimating more parameters.** A variable
+must improve the fit by more than the price of the parameter it costs, or the
+measure goes down.
+
+In the output above, adjusted $R^2$ **falls** from 0.5401 to 0.5375. It has
+detected what $R^2$ could not.
+
+::: {.deeper}
+The adjustment works by dividing each sum of squares by its degrees of freedom
+before comparing them:
 
 $$\bar{R}^2 = 1 - \frac{\text{SSR}/(n-k-1)}{\text{SST}/(n-1)}
 \qquad\text{equivalently}\qquad
 \bar{R}^2 = 1 - \frac{(1-R^2)(n-1)}{n-k-1}$$
 
-The ordinary $R^2$ compares two sums of squares directly. The adjusted version
-divides each by its degrees of freedom first, so adding a variable raises $k$,
-shrinks $n-k-1$, and inflates the numerator unless the variable earns its place.
+Adding a variable raises $k$ and so shrinks $n-k-1$, which inflates
+$\text{SSR}/(n-k-1)$ unless SSR falls by enough to compensate.
 
-In the output above, adjusted $R^2$ **falls** from 0.5401 to 0.5375. It has
-detected what $R^2$ could not.
+The formula is worth seeing once. It is almost never worth computing by hand,
+since every regression command reports it.
+:::
 
 ::: {.watchout}
 Adjusted $R^2$ can be negative, and it is not a proportion of anything. It is a
@@ -656,8 +712,8 @@ There is no answer to that question, because $R^2$ was never a measure of
 whether a model is correct.
 
 ::: {.keyidea}
-$R^2$ answers exactly one question: **how much of the variation in $y$ does the
-fitted model account for in this sample?**
+**$R^2$ answers exactly one question:** how much of the variation in $y$ does
+the fitted model account for in this sample?
 
 It says nothing about whether the coefficients are unbiased, whether the
 standard errors are right, whether the functional form is sensible, or whether
@@ -843,6 +899,58 @@ nothing to do with sample size.
 The three simulations are identical in form. Each adds one control to a
 regression, and the results are opposite.
 
+```{r ff-dags, echo = FALSE, fig.width = 8, fig.height = 2.5, out.width = "100%", cache = TRUE, fig.cap = "The three cases as pictures. Arrows run from cause to effect, and variables in orange are unobserved. The first two are the same triangle with the arrows reversed -- ability causes education, whereas education causes occupation -- and that reversal is the whole difference between a control that repairs an estimate and one that destroys it. In the third, two arrows run into hiring, which is what makes it a collider."}
+lab <- c("Confounder: include it",
+         "Mediator: changes the question",
+         "Collider: leave it out")
+
+nodes <- rbind(
+  data.frame(x = c(1, 0, 2), y = c(1, 0, 0),
+             t = c("Ability", "Education", "Earnings"),
+             obs = c("no", "yes", "yes"), panel = lab[1]),
+  data.frame(x = c(1, 0, 2), y = c(1, 0, 0),
+             t = c("Occupation", "Education", "Earnings"),
+             obs = c("yes", "yes", "yes"), panel = lab[2]),
+  data.frame(x = c(0, 2, 2, 1), y = c(1, 1, 0, 0),
+             t = c("Education", "Earnings", "Talent", "Hiring"),
+             obs = c("yes", "yes", "no", "yes"), panel = lab[3]))
+
+edges <- rbind(
+  data.frame(x = c(1, 1, 0), y = c(1, 1, 0), xe = c(0, 2, 2), ye = c(0, 0, 0),
+             panel = lab[1]),
+  data.frame(x = c(0, 1, 0), y = c(0, 1, 0), xe = c(1, 2, 2), ye = c(1, 0, 0),
+             panel = lab[2]),
+  data.frame(x = c(0, 2, 0, 2), y = c(1, 0, 1, 0),
+             xe = c(2, 2, 1, 1), ye = c(1, 1, 0, 0), panel = lab[3]))
+
+nodes$panel <- factor(nodes$panel, levels = lab)
+edges$panel <- factor(edges$panel, levels = lab)
+
+## Pull each arrow back from its endpoints so it meets the box, not the text.
+## The boxes are much wider than they are tall, so the horizontal and vertical
+## trims differ; an isotropic one leaves vertical arrows short of their target.
+edges <- transform(edges, len = sqrt((xe - x)^2 + (ye - y)^2))
+edges <- transform(edges, ux = (xe - x) / len, uy = (ye - y) / len)
+edges <- transform(edges,
+  x1 = x  + ux * 0.27, y1 = y  + uy * 0.11,
+  x2 = xe - ux * 0.27, y2 = ye - uy * 0.11)
+
+ggplot() +
+  geom_segment(data = edges, aes(x1, y1, xend = x2, yend = y2),
+               arrow = arrow(length = unit(0.16, "cm"), type = "closed"),
+               colour = "grey40", linewidth = 0.45) +
+  geom_label(data = nodes, aes(x, y, label = t, colour = obs),
+             size = 2.9, linewidth = 0.3, fill = "white",
+             label.padding = unit(0.16, "lines")) +
+  scale_colour_manual(values = c(yes = book_palette$ink,
+                                 no  = book_palette$reject), guide = "none") +
+  facet_wrap(~ panel) +
+  scale_x_continuous(expand = expansion(mult = 0.30)) +
+  scale_y_continuous(expand = expansion(mult = 0.30)) +
+  theme_void(base_size = 11) +
+  theme(strip.text = element_text(size = 9, margin = margin(b = 6)))
+```
+
 Table: (\#tab:ff-controls) The same operation, three times, with three different consequences. The true effect is 1 in every case.
 
 | The control is | Without it | With it | Verdict |
@@ -862,15 +970,17 @@ What separates them is the direction of causation between the variables — whic
 is knowledge about the world, not a fact the sample contains.
 :::
 
-This is the honest answer to "which variables should I control for?" The
-question cannot be settled by looking at output. It requires an argument about
-what causes what, made before the regression is run and defended in the text.
-
 ::: {.watchout}
 The common practice of adding every available variable and reporting whichever
 specification looks best is not caution. It is an invitation to all three
 problems at once, and it is undetectable in the results.
 :::
+
+This is the honest answer to "which variables should I control for?" It requires
+an argument about what causes what, made before the regression is run and
+defended in the text.
+
+The question cannot be settled by looking at output.
 
 ## Summary {#ff-summary}
 
