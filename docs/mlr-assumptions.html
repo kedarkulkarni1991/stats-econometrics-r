@@ -4,13 +4,13 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>8.4 The assumptions | Statistics and Econometrics with R</title>
+  <title>8.4 The assumptions of multiple regression | Statistics and Econometrics with R</title>
   <meta name="description" content="<p>A first course in statistics and econometrics for Indian students, built on
 the progression from question to intuition to rigour to computation to
 interpretation.</p>" />
   <meta name="generator" content="bookdown 0.47 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="8.4 The assumptions | Statistics and Econometrics with R" />
+  <meta property="og:title" content="8.4 The assumptions of multiple regression | Statistics and Econometrics with R" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="<p>A first course in statistics and econometrics for Indian students, built on
@@ -19,7 +19,7 @@ interpretation.</p>" />
   <meta name="github-repo" content="kedarkulkarni1991/stats-econometrics-r" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="8.4 The assumptions | Statistics and Econometrics with R" />
+  <meta name="twitter:title" content="8.4 The assumptions of multiple regression | Statistics and Econometrics with R" />
   
   <meta name="twitter:description" content="<p>A first course in statistics and econometrics for Indian students, built on
 the progression from question to intuition to rigour to computation to
@@ -522,11 +522,12 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="mlr-fwl.html"><a href="mlr-fwl.html#why-the-coefficient-changes"><i class="fa fa-check"></i>Why the coefficient changes</a></li>
 <li class="chapter" data-level="" data-path="mlr-fwl.html"><a href="mlr-fwl.html#why-the-standard-error-usually-grows"><i class="fa fa-check"></i>Why the standard error usually grows</a></li>
 </ul></li>
-<li class="chapter" data-level="8.4" data-path="mlr-assumptions.html"><a href="mlr-assumptions.html"><i class="fa fa-check"></i><b>8.4</b> The assumptions</a>
+<li class="chapter" data-level="8.4" data-path="mlr-assumptions.html"><a href="mlr-assumptions.html"><i class="fa fa-check"></i><b>8.4</b> The assumptions of multiple regression</a>
 <ul>
-<li class="chapter" data-level="" data-path="mlr-assumptions.html"><a href="mlr-assumptions.html#zero-conditional-mean-now-harder-and-easier-at-once"><i class="fa fa-check"></i>Zero conditional mean, now harder and easier at once</a></li>
+<li class="chapter" data-level="" data-path="mlr-assumptions.html"><a href="mlr-assumptions.html#zero-conditional-mean"><i class="fa fa-check"></i>Zero conditional mean</a></li>
 <li class="chapter" data-level="" data-path="mlr-assumptions.html"><a href="mlr-assumptions.html#no-perfect-collinearity"><i class="fa fa-check"></i>No perfect collinearity</a></li>
-<li class="chapter" data-level="" data-path="mlr-assumptions.html"><a href="mlr-assumptions.html#the-cost-of-near-collinearity"><i class="fa fa-check"></i>The cost of near-collinearity</a></li>
+<li class="chapter" data-level="" data-path="mlr-assumptions.html"><a href="mlr-assumptions.html#when-controls-tell-us-the-same-thing"><i class="fa fa-check"></i>When controls tell us the same thing</a></li>
+<li class="chapter" data-level="" data-path="mlr-assumptions.html"><a href="mlr-assumptions.html#the-trade"><i class="fa fa-check"></i>The trade</a></li>
 </ul></li>
 <li class="chapter" data-level="8.5" data-path="mlr-t.html"><a href="mlr-t.html"><i class="fa fa-check"></i><b>8.5</b> Testing one coefficient</a></li>
 <li class="chapter" data-level="8.6" data-path="mlr-f.html"><a href="mlr-f.html"><i class="fa fa-check"></i><b>8.6</b> Testing several coefficients at once</a>
@@ -584,13 +585,18 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 
             <section class="normal" id="section-">
 <div id="mlr-assumptions" class="section level2 hasAnchor" number="8.4">
-<h2><span class="header-section-number">8.4</span> The assumptions<a href="mlr-assumptions.html#mlr-assumptions" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<h2><span class="header-section-number">8.4</span> The assumptions of multiple regression<a href="mlr-assumptions.html#mlr-assumptions" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <div class="question">
-<p>Unit <a href="ols.html#ols">7</a> listed six assumptions. Which of them change?</p>
+<p>One explanatory variable has become several. Does that require a completely new
+set of assumptions?</p>
 </div>
-<p>Almost none of them. The classical linear regression model of Section
-<a href="ols-unbiased.html#ols-unbiased">7.4</a> carries over with the explanatory variable replaced by the
-whole set of explanatory variables, and one genuinely new requirement added.</p>
+<p>Surprisingly, very little changes.</p>
+<p>Everything that made OLS work in Unit <a href="ols.html#ols">7</a> still matters. We still need a
+model that is linear in the parameters, a random sample, a conditional mean that
+is correctly specified, and — if we want the classical standard errors —
+constant error variance.</p>
+<p>The only genuinely new assumption is one that could not arise before: the
+explanatory variables cannot perfectly explain one another.</p>
 <div class="theory">
 <p><strong>CLRM1 — linear in parameters.</strong>
 <span class="math inline">\(y = \beta_0 + \beta_1 x_1 + \cdots + \beta_k x_k + u\)</span>.</p>
@@ -606,31 +612,34 @@ needed only for exact small-sample inference.</p>
 <p><strong>CLRM7 — no perfect collinearity.</strong> No explanatory variable is an exact linear
 combination of the others.</p>
 </div>
-<p>Under CLRM1–CLRM4 the OLS estimators are unbiased: <span class="math inline">\(E(\hat{\beta}_j) = \beta_j\)</span>
-for every <span class="math inline">\(j\)</span>. The proof is the one from Section <a href="ols-unbiased.html#ols-unbiased">7.4</a> with the single
-explanatory variable replaced by the whole set; Section
-<a href="mlr-matrix-note.html#mlr-matrix-note">8.12</a> gives the compact version.</p>
-<p>Two of these deserve more than a restatement.</p>
-<div id="zero-conditional-mean-now-harder-and-easier-at-once" class="section level3 unnumbered hasAnchor">
-<h3>Zero conditional mean, now harder and easier at once<a href="mlr-assumptions.html#zero-conditional-mean-now-harder-and-easier-at-once" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>CLRM4 has become <strong>harder</strong> to state, because it must hold conditional on all of
-the explanatory variables at once. And it has become <strong>easier</strong> to satisfy,
-because <span class="math inline">\(u\)</span> now contains less. Prior GPA and admission score have moved out of the
-error term and into the model, so they can no longer cause it to fail.</p>
+<p>Under CLRM1–CLRM4, OLS remains unbiased, exactly as before. The proof is
+identical to Section <a href="ols-unbiased.html#ols-unbiased">7.4</a>, written in matrix notation rather than
+scalar notation; Section <a href="mlr-matrix-note.html#mlr-matrix-note">8.12</a> gives the compact version.</p>
+<p>Three assumptions deserve comment.</p>
+<div id="zero-conditional-mean" class="section level3 unnumbered hasAnchor">
+<h3>Zero conditional mean<a href="mlr-assumptions.html#zero-conditional-mean" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>The assumption has not changed. The error term must still be unrelated to the
+explanatory variables,</p>
+<p><span class="math display">\[E(u \mid x_1, \ldots, x_k) = 0\]</span></p>
+<p>What has changed is what remains inside <span class="math inline">\(u\)</span>.</p>
+<p>In the simple regression, prior GPA and admission score were omitted variables.
+Because they were correlated with attendance, they threatened the assumption
+directly.</p>
+<p>In the multiple regression they are no longer omitted. They have become
+explanatory variables.</p>
 <div class="keyidea">
-<p>This is the precise sense in which multiple regression is progress.</p>
-<p>It does not make the zero conditional mean assumption true. It moves specific,
-nameable threats out of <span class="math inline">\(u\)</span> and into the regression, where they are controlled
-rather than assumed away.</p>
-<p>Whatever remains in <span class="math inline">\(u\)</span> — motivation, ability, family circumstances — is exactly
-as dangerous as it was.</p>
+<p>That is the sense in which multiple regression improves on simple regression. It
+does not make the assumption true. It removes some of the reasons why it might
+fail.</p>
 </div>
+<p>Whatever is still omitted — motivation, ability, family background — remains
+inside <span class="math inline">\(u\)</span>, and can still bias the coefficients if it is related to the
+explanatory variables.</p>
 </div>
 <div id="no-perfect-collinearity" class="section level3 unnumbered hasAnchor">
 <h3>No perfect collinearity<a href="mlr-assumptions.html#no-perfect-collinearity" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>The new assumption rules out an exact linear relationship among the explanatory
-variables. It is not a claim about the world but a requirement for the arithmetic
-to have an answer at all.</p>
+<p>This assumption is not about economics at all. It is a requirement for the
+regression to be mathematically identifiable.</p>
 <p>Our data contain a violation, and it is instructive.</p>
 <div class="sourceCode" id="cb303"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb303-1"><a href="mlr-assumptions.html#cb303-1" tabindex="-1"></a><span class="fu">head</span>(students<span class="sc">$</span>attendance <span class="sc">+</span> students<span class="sc">$</span>classes_missed)</span></code></pre></div>
 <pre><code>#&gt; [1] 32 32 32 32 32 32</code></pre>
@@ -650,31 +659,50 @@ not, so the data contain no information about that comparison, and no amount of
 cleverness can extract it.</p>
 </div>
 </div>
-<div id="the-cost-of-near-collinearity" class="section level3 unnumbered hasAnchor">
-<h3>The cost of near-collinearity<a href="mlr-assumptions.html#the-cost-of-near-collinearity" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>Perfect collinearity is rare and announces itself immediately. The practically
-important case is the one just short of it: explanatory variables that are
-strongly but not exactly related.</p>
-<p>This is where the price of Section <a href="mlr-fwl.html#mlr-fwl">8.3</a> is paid. The variance of a
-coefficient in a multiple regression is</p>
+<div id="when-controls-tell-us-the-same-thing" class="section level3 unnumbered hasAnchor">
+<h3>When controls tell us the same thing<a href="mlr-assumptions.html#when-controls-tell-us-the-same-thing" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Perfect collinearity is rare. The important case is when two explanatory
+variables contain much of the same information.</p>
+<p>Attendance and prior GPA are not identical. But students with high prior GPAs
+also tend to attend more classes. Part of the variation in attendance can
+therefore already be predicted from prior GPA.</p>
+<p>That is exactly what Section <a href="mlr-fwl.html#mlr-fwl">8.3</a> removed during the residualisation
+step.</p>
+<p>The more predictable attendance becomes, the less independent variation remains
+for estimating its coefficient. Less variation means less information. Less
+information means larger standard errors.</p>
+<p>The variance formula puts a number on it:</p>
 <p><span class="math display">\[\mathrm{Var}(\hat{\beta}_j)
 = \frac{\sigma^2}{\sum_{i=1}^{n}(x_{ij} - \bar{x}_j)^2 \, (1 - R_j^2)}\]</span></p>
-<p>where <span class="math inline">\(R_j^2\)</span> is the <span class="math inline">\(R^2\)</span> from regressing <span class="math inline">\(x_j\)</span> on all the <em>other</em> explanatory
-variables. Compare it with the simple regression formula of Section
-<a href="ols-variance.html#ols-variance">7.5</a>: everything is the same except the extra factor <span class="math inline">\((1-R_j^2)\)</span>
-in the denominator.</p>
+<p>Compare it with the simple regression formula of Section <a href="ols-variance.html#ols-variance">7.5</a>:
+everything is the same except the extra factor <span class="math inline">\((1-R_j^2)\)</span> in the denominator.</p>
 <div class="keyidea">
-<p><span class="math inline">\(R_j^2\)</span> is the share of <span class="math inline">\(x_j\)</span> that the other regressors can already explain — the
-share the partialling-out step of Section <a href="mlr-fwl.html#mlr-fwl">8.3</a> removes.</p>
-<p>When <span class="math inline">\(R_j^2\)</span> is near zero, the control costs almost nothing. When it approaches
-one, <span class="math inline">\((1-R_j^2)\)</span> approaches zero and the variance explodes.</p>
-<p><strong>Adding a control that is closely related to the variable of interest buys
-credibility with precision.</strong></p>
+<p><span class="math inline">\(R_j^2\)</span> is not the <span class="math inline">\(R^2\)</span> from the regression you care about.</p>
+<p>It is the <span class="math inline">\(R^2\)</span> from regressing one explanatory variable on all the others. It
+tells us how much of that variable is already predictable before the regression
+even begins.</p>
+<p>If <span class="math inline">\(R_j^2 = 0\)</span>, the variable contributes completely new information.</p>
+<p>If <span class="math inline">\(R_j^2 = 0.95\)</span>, almost everything it contains was already available from the
+remaining explanatory variables. OLS is then trying to estimate a coefficient
+using only the tiny amount of variation left over.</p>
+<p>That is why the standard error grows.</p>
 </div>
-<p>For attendance, <span class="math inline">\(R_j^2\)</span> was 0.29, so the denominator is multiplied by 0.71 — a
-modest price, and one worth paying. The estimate of <span class="math inline">\(\sigma^2\)</span> also changes, since
-<span class="math inline">\(k+1\)</span> parameters have now been estimated rather than two:</p>
-<p><span class="math display">\[\hat{\sigma}^2 = \frac{\sum_{i=1}^{n}\hat{u}_i^2}{n - k - 1}\]</span></p>
+<p>About 29% of attendance can already be predicted from prior GPA and admission
+score. The coefficient therefore relies on the remaining 71% — the unexpected
+part of attendance. There is still plenty of independent variation left, so the
+increase in the standard error is modest.</p>
+<p>As before, estimating additional coefficients consumes degrees of freedom, so
+the residual variance is now divided by <span class="math inline">\(n-k-1\)</span>.</p>
+</div>
+<div id="the-trade" class="section level3 unnumbered hasAnchor">
+<h3>The trade<a href="mlr-assumptions.html#the-trade" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Multiple regression always involves a trade-off.</p>
+<p>Every additional control makes the comparison more credible by removing another
+potential source of bias.</p>
+<p>But every additional control also consumes variation, making the coefficient
+less precise.</p>
+<p>Good empirical work is largely about deciding which controls are worth that
+price.</p>
 </div>
 </div>
 <script>

@@ -413,15 +413,22 @@ something, and Section \@ref(mlr-assumptions) works out the bill.
 That is the trade the whole method rests on. A control buys a narrower, more
 credible comparison, and pays for it in precision.
 
-## The assumptions {#mlr-assumptions}
+## The assumptions of multiple regression {#mlr-assumptions}
 
 ::: {.question}
-Unit \@ref(ols) listed six assumptions. Which of them change?
+One explanatory variable has become several. Does that require a completely new
+set of assumptions?
 :::
 
-Almost none of them. The classical linear regression model of Section
-\@ref(ols-unbiased) carries over with the explanatory variable replaced by the
-whole set of explanatory variables, and one genuinely new requirement added.
+Surprisingly, very little changes.
+
+Everything that made OLS work in Unit \@ref(ols) still matters. We still need a
+model that is linear in the parameters, a random sample, a conditional mean that
+is correctly specified, and — if we want the classical standard errors —
+constant error variance.
+
+The only genuinely new assumption is one that could not arise before: the
+explanatory variables cannot perfectly explain one another.
 
 ::: {.theory}
 **CLRM1 — linear in parameters.**
@@ -445,36 +452,42 @@ needed only for exact small-sample inference.
 combination of the others.
 :::
 
-Under CLRM1–CLRM4 the OLS estimators are unbiased: $E(\hat{\beta}_j) = \beta_j$
-for every $j$. The proof is the one from Section \@ref(ols-unbiased) with the single
-explanatory variable replaced by the whole set; Section
-\@ref(mlr-matrix-note) gives the compact version.
+Under CLRM1–CLRM4, OLS remains unbiased, exactly as before. The proof is
+identical to Section \@ref(ols-unbiased), written in matrix notation rather than
+scalar notation; Section \@ref(mlr-matrix-note) gives the compact version.
 
-Two of these deserve more than a restatement.
+Three assumptions deserve comment.
 
-### Zero conditional mean, now harder and easier at once {-}
+### Zero conditional mean {-}
 
-CLRM4 has become **harder** to state, because it must hold conditional on all of
-the explanatory variables at once. And it has become **easier** to satisfy,
-because $u$ now contains less. Prior GPA and admission score have moved out of the
-error term and into the model, so they can no longer cause it to fail.
+The assumption has not changed. The error term must still be unrelated to the
+explanatory variables,
+
+$$E(u \mid x_1, \ldots, x_k) = 0$$
+
+What has changed is what remains inside $u$.
+
+In the simple regression, prior GPA and admission score were omitted variables.
+Because they were correlated with attendance, they threatened the assumption
+directly.
+
+In the multiple regression they are no longer omitted. They have become
+explanatory variables.
 
 ::: {.keyidea}
-This is the precise sense in which multiple regression is progress.
-
-It does not make the zero conditional mean assumption true. It moves specific,
-nameable threats out of $u$ and into the regression, where they are controlled
-rather than assumed away.
-
-Whatever remains in $u$ — motivation, ability, family circumstances — is exactly
-as dangerous as it was.
+That is the sense in which multiple regression improves on simple regression. It
+does not make the assumption true. It removes some of the reasons why it might
+fail.
 :::
+
+Whatever is still omitted — motivation, ability, family background — remains
+inside $u$, and can still bias the coefficients if it is related to the
+explanatory variables.
 
 ### No perfect collinearity {-}
 
-The new assumption rules out an exact linear relationship among the explanatory
-variables. It is not a claim about the world but a requirement for the arithmetic
-to have an answer at all.
+This assumption is not about economics at all. It is a requirement for the
+regression to be mathematically identifiable.
 
 Our data contain a violation, and it is instructive.
 
@@ -502,39 +515,66 @@ not, so the data contain no information about that comparison, and no amount of
 cleverness can extract it.
 :::
 
-### The cost of near-collinearity {-}
+### When controls tell us the same thing {-}
 
-Perfect collinearity is rare and announces itself immediately. The practically
-important case is the one just short of it: explanatory variables that are
-strongly but not exactly related.
+Perfect collinearity is rare. The important case is when two explanatory
+variables contain much of the same information.
 
-This is where the price of Section \@ref(mlr-fwl) is paid. The variance of a
-coefficient in a multiple regression is
+Attendance and prior GPA are not identical. But students with high prior GPAs
+also tend to attend more classes. Part of the variation in attendance can
+therefore already be predicted from prior GPA.
+
+That is exactly what Section \@ref(mlr-fwl) removed during the residualisation
+step.
+
+The more predictable attendance becomes, the less independent variation remains
+for estimating its coefficient. Less variation means less information. Less
+information means larger standard errors.
+
+The variance formula puts a number on it:
 
 $$\mathrm{Var}(\hat{\beta}_j)
 = \frac{\sigma^2}{\sum_{i=1}^{n}(x_{ij} - \bar{x}_j)^2 \, (1 - R_j^2)}$$
 
-where $R_j^2$ is the $R^2$ from regressing $x_j$ on all the *other* explanatory
-variables. Compare it with the simple regression formula of Section
-\@ref(ols-variance): everything is the same except the extra factor $(1-R_j^2)$
-in the denominator.
+Compare it with the simple regression formula of Section \@ref(ols-variance):
+everything is the same except the extra factor $(1-R_j^2)$ in the denominator.
 
 ::: {.keyidea}
-$R_j^2$ is the share of $x_j$ that the other regressors can already explain — the
-share the partialling-out step of Section \@ref(mlr-fwl) removes.
+$R_j^2$ is not the $R^2$ from the regression you care about.
 
-When $R_j^2$ is near zero, the control costs almost nothing. When it approaches
-one, $(1-R_j^2)$ approaches zero and the variance explodes.
+It is the $R^2$ from regressing one explanatory variable on all the others. It
+tells us how much of that variable is already predictable before the regression
+even begins.
 
-**Adding a control that is closely related to the variable of interest buys
-credibility with precision.**
+If $R_j^2 = 0$, the variable contributes completely new information.
+
+If $R_j^2 = 0.95$, almost everything it contains was already available from the
+remaining explanatory variables. OLS is then trying to estimate a coefficient
+using only the tiny amount of variation left over.
+
+That is why the standard error grows.
 :::
 
-For attendance, $R_j^2$ was 0.29, so the denominator is multiplied by 0.71 — a
-modest price, and one worth paying. The estimate of $\sigma^2$ also changes, since
-$k+1$ parameters have now been estimated rather than two:
+About 29% of attendance can already be predicted from prior GPA and admission
+score. The coefficient therefore relies on the remaining 71% — the unexpected
+part of attendance. There is still plenty of independent variation left, so the
+increase in the standard error is modest.
 
-$$\hat{\sigma}^2 = \frac{\sum_{i=1}^{n}\hat{u}_i^2}{n - k - 1}$$
+As before, estimating additional coefficients consumes degrees of freedom, so
+the residual variance is now divided by $n-k-1$.
+
+### The trade {-}
+
+Multiple regression always involves a trade-off.
+
+Every additional control makes the comparison more credible by removing another
+potential source of bias.
+
+But every additional control also consumes variation, making the coefficient
+less precise.
+
+Good empirical work is largely about deciding which controls are worth that
+price.
 
 ## Testing one coefficient {#mlr-t}
 
