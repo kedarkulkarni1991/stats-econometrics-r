@@ -4,13 +4,13 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>8.3 How the comparison is actually made | Statistics and Econometrics with R</title>
+  <title>8.3 What does “holding constant” actually mean? | Statistics and Econometrics with R</title>
   <meta name="description" content="<p>A first course in statistics and econometrics for Indian students, built on
 the progression from question to intuition to rigour to computation to
 interpretation.</p>" />
   <meta name="generator" content="bookdown 0.47 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="8.3 How the comparison is actually made | Statistics and Econometrics with R" />
+  <meta property="og:title" content="8.3 What does “holding constant” actually mean? | Statistics and Econometrics with R" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="<p>A first course in statistics and econometrics for Indian students, built on
@@ -19,7 +19,7 @@ interpretation.</p>" />
   <meta name="github-repo" content="kedarkulkarni1991/stats-econometrics-r" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="8.3 How the comparison is actually made | Statistics and Econometrics with R" />
+  <meta name="twitter:title" content="8.3 What does “holding constant” actually mean? | Statistics and Econometrics with R" />
   
   <meta name="twitter:description" content="<p>A first course in statistics and econometrics for Indian students, built on
 the progression from question to intuition to rigour to computation to
@@ -515,10 +515,12 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="mlr-model.html"><a href="mlr-model.html#another-example"><i class="fa fa-check"></i>Another example</a></li>
 <li class="chapter" data-level="" data-path="mlr-model.html"><a href="mlr-model.html#what-holding-fixed-does-not-mean"><i class="fa fa-check"></i>What “holding fixed” does not mean</a></li>
 </ul></li>
-<li class="chapter" data-level="8.3" data-path="mlr-fwl.html"><a href="mlr-fwl.html"><i class="fa fa-check"></i><b>8.3</b> How the comparison is actually made</a>
+<li class="chapter" data-level="8.3" data-path="mlr-fwl.html"><a href="mlr-fwl.html"><i class="fa fa-check"></i><b>8.3</b> What does “holding constant” actually mean?</a>
 <ul>
-<li class="chapter" data-level="" data-path="mlr-fwl.html"><a href="mlr-fwl.html#watching-it-happen"><i class="fa fa-check"></i>Watching it happen</a></li>
-<li class="chapter" data-level="" data-path="mlr-fwl.html"><a href="mlr-fwl.html#two-consequences-worth-noticing"><i class="fa fa-check"></i>Two consequences worth noticing</a></li>
+<li class="chapter" data-level="" data-path="mlr-fwl.html"><a href="mlr-fwl.html#predicting-attendance"><i class="fa fa-check"></i>Predicting attendance</a></li>
+<li class="chapter" data-level="" data-path="mlr-fwl.html"><a href="mlr-fwl.html#using-only-what-could-not-be-predicted"><i class="fa fa-check"></i>Using only what could not be predicted</a></li>
+<li class="chapter" data-level="" data-path="mlr-fwl.html"><a href="mlr-fwl.html#why-the-coefficient-changes"><i class="fa fa-check"></i>Why the coefficient changes</a></li>
+<li class="chapter" data-level="" data-path="mlr-fwl.html"><a href="mlr-fwl.html#why-the-standard-error-usually-grows"><i class="fa fa-check"></i>Why the standard error usually grows</a></li>
 </ul></li>
 <li class="chapter" data-level="8.4" data-path="mlr-assumptions.html"><a href="mlr-assumptions.html"><i class="fa fa-check"></i><b>8.4</b> The assumptions</a>
 <ul>
@@ -558,6 +560,7 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="mlr-question-bank.html"><a href="mlr-question-bank.html#numerical-7"><i class="fa fa-check"></i>Numerical</a></li>
 </ul></li>
 <li class="chapter" data-level="8.11" data-path="mlr-looking-ahead.html"><a href="mlr-looking-ahead.html"><i class="fa fa-check"></i><b>8.11</b> Looking ahead</a></li>
+<li class="chapter" data-level="8.12" data-path="mlr-matrix-note.html"><a href="mlr-matrix-note.html"><i class="fa fa-check"></i><b>8.12</b> Mathematical note: multiple regression in matrix form</a></li>
 </ul></li>
 <li class="divider"></li>
 <li class="toc-after">Kedar Kulkarni · Azim Premji University<br>
@@ -581,38 +584,29 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 
             <section class="normal" id="section-">
 <div id="mlr-fwl" class="section level2 hasAnchor" number="8.3">
-<h2><span class="header-section-number">8.3</span> How the comparison is actually made<a href="mlr-fwl.html#mlr-fwl" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<h2><span class="header-section-number">8.3</span> What does “holding constant” actually mean?<a href="mlr-fwl.html#mlr-fwl" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <div class="question">
-<p>The interpretation says “holding <span class="math inline">\(x_2\)</span> fixed”. But every observation has its own
-<span class="math inline">\(x_2\)</span>, and nothing was held anywhere. What is the estimator really doing?</p>
+<p>Nothing in the data was held anywhere. So what does the regression do?</p>
 </div>
-<p>The previous section said the comparison is statistical rather than
-experimental. That leaves a question unanswered: no two students in these data
-have exactly the same prior GPA and admission score, so which students is the
-coefficient actually comparing?</p>
-<p>The comparison is not made by finding matching students. It is made by an
-algebraic operation on the variables themselves, and the operation can be
-carried out in front of us.</p>
-<p>It is a result usually called the <strong>Frisch–Waugh–Lovell theorem</strong>, and it is
-easier to state as a recipe than as a theorem.</p>
-<div class="keyidea">
-<p>To obtain <span class="math inline">\(\hat{\beta}_1\)</span> from the multiple regression of <span class="math inline">\(y\)</span> on <span class="math inline">\(x_1\)</span> and <span class="math inline">\(x_2\)</span>:</p>
+<p>The phrase <em>holding other variables constant</em> is used constantly in economics.
+It is also one of the least understood.</p>
+<p>Nothing in the data was actually held fixed. Every student has a different
+attendance, a different prior GPA and a different admission score. Nobody reran
+the semester while changing only one variable.</p>
+<p>So what does the regression actually do?</p>
+<div id="predicting-attendance" class="section level3 unnumbered hasAnchor">
+<h3>Predicting attendance<a href="mlr-fwl.html#predicting-attendance" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>The answer can be described as a simple two-step procedure.</p>
 <ol style="list-style-type: decimal">
-<li>Regress <span class="math inline">\(x_1\)</span> on <span class="math inline">\(x_2\)</span>, and keep the residuals <span class="math inline">\(\hat{r}_1\)</span>.</li>
-<li>Regress <span class="math inline">\(y\)</span> on <span class="math inline">\(\hat{r}_1\)</span> alone.</li>
+<li>Predict attendance using the control variables.</li>
+<li>Keep only what cannot be predicted.</li>
+<li>Ask whether that remaining variation predicts grades.</li>
 </ol>
-<p>The slope from that second regression is exactly <span class="math inline">\(\hat{\beta}_1\)</span>.</p>
-</div>
-<p>The first step is where the work happens. Regressing <span class="math inline">\(x_1\)</span> on <span class="math inline">\(x_2\)</span> splits <span class="math inline">\(x_1\)</span>
-into two parts: the part that can be predicted from <span class="math inline">\(x_2\)</span>, and the part that
-cannot. The residual <span class="math inline">\(\hat{r}_1\)</span> is the second part — what remains of <span class="math inline">\(x_1\)</span> once
-everything <span class="math inline">\(x_2\)</span> can account for has been removed.</p>
-<p>By construction that residual is uncorrelated with <span class="math inline">\(x_2\)</span>. Using it in place of
-<span class="math inline">\(x_1\)</span> means the variation we are exploiting no longer moves with <span class="math inline">\(x_2\)</span> at all.</p>
-<div id="watching-it-happen" class="section level3 unnumbered hasAnchor">
-<h3>Watching it happen<a href="mlr-fwl.html#watching-it-happen" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>Take attendance, and remove from it everything that prior GPA and admission score
-can explain.</p>
+<p>Take the first step slowly, because everything rests on it.</p>
+<p>Imagine predicting every student’s attendance using only their previous GPA and
+admission score. Some students attend exactly as much as we would expect. Some
+attend much more. Some attend much less.</p>
+<p>Those unexpected differences are the residuals.</p>
 <div class="sourceCode" id="cb297"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb297-1"><a href="mlr-fwl.html#cb297-1" tabindex="-1"></a>step1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(attendance <span class="sc">~</span> cum_gpa <span class="sc">+</span> admission_score, <span class="at">data =</span> students)</span>
 <span id="cb297-2"><a href="mlr-fwl.html#cb297-2" tabindex="-1"></a>r1    <span class="ot">&lt;-</span> <span class="fu">residuals</span>(step1)</span>
 <span id="cb297-3"><a href="mlr-fwl.html#cb297-3" tabindex="-1"></a></span>
@@ -622,8 +616,13 @@ can explain.</p>
 <pre><code>#&gt;     r2_of_step1 cor_with_cumgpa cor_with_admscr 
 #&gt;          0.2906          0.0000          0.0000</code></pre>
 <p>Prior GPA and admission score together account for 29% of the variation in
-attendance. The residual carries the remaining 71%, and it is uncorrelated with
-both — to machine precision, because that is what least squares guarantees.</p>
+attendance. The residual carries the rest, and it is uncorrelated with both — to
+machine precision, because that is what least squares guarantees.</p>
+<p>That last point is the one that matters. Whatever these residuals contain, they
+contain nothing about prior GPA or admission score.</p>
+</div>
+<div id="using-only-what-could-not-be-predicted" class="section level3 unnumbered hasAnchor">
+<h3>Using only what could not be predicted<a href="mlr-fwl.html#using-only-what-could-not-be-predicted" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Now regress semester GPA on that residual alone.</p>
 <div class="sourceCode" id="cb299"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb299-1"><a href="mlr-fwl.html#cb299-1" tabindex="-1"></a>step2 <span class="ot">&lt;-</span> <span class="fu">lm</span>(students<span class="sc">$</span>sem_gpa <span class="sc">~</span> r1)</span>
 <span id="cb299-2"><a href="mlr-fwl.html#cb299-2" tabindex="-1"></a></span>
@@ -633,59 +632,54 @@ both — to machine precision, because that is what least squares guarantees.</p
 <pre><code>#&gt;   from_two_steps from_lm_directly 
 #&gt;     0.1360121381     0.1360121381</code></pre>
 <p>The same number, to ten significant figures.</p>
+<p>This result is known as the <strong>Frisch–Waugh–Lovell theorem</strong>, and it holds for
+every coefficient in every multiple regression, not just this one.</p>
+<div class="keyidea">
+<p>Multiple regression does not compare students with the same attendance.</p>
+<p>It compares students who differ in the part of attendance that cannot already be
+explained by the other variables.</p>
+</div>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:mlr-fwl-plot"></span>
+<img src="stats-econometrics-r_files/figure-html/mlr-fwl-plot-1.png" alt="The two steps, and what they change. Panel 1 predicts attendance from prior GPA and admission score; the orange line is where a student would sit if the prediction were exact, and the vertical distances from it are the residuals. Panel 2 regresses GPA on those residuals alone. Panel 3 regresses GPA on attendance itself. The horizontal axes in panels 2 and 3 are drawn to the same width, so the two slopes can be compared directly." width="100%"  />
+<p class="caption">
+Figure 8.1: The two steps, and what they change. Panel 1 predicts attendance from prior GPA and admission score; the orange line is where a student would sit if the prediction were exact, and the vertical distances from it are the residuals. Panel 2 regresses GPA on those residuals alone. Panel 3 regresses GPA on attendance itself. The horizontal axes in panels 2 and 3 are drawn to the same width, so the two slopes can be compared directly.
+</p>
+</div>
 <div class="intuition">
-<p>This is what “holding prior record constant” means, stated concretely.</p>
-<p>Two students with the same prior GPA and the same admission score would be
-predicted to attend the same number of classes. If one of them attends more than
-that prediction and the other less, the difference between them is unrelated to
-prior record — it is attendance and nothing else.</p>
-<p>The multiple regression coefficient uses only those departures. It discards the
-part of attendance that could have been anticipated from the other variables, and
-asks what the leftover part is worth.</p>
+<p>Two students with the same prior GPA and admission score are predicted to attend
+roughly the same number of classes.</p>
+<p>If one attends more than predicted and the other less, that difference is
+unrelated to the observed controls.</p>
+<p>Multiple regression asks whether those unexpected differences in attendance are
+associated with differences in grades.</p>
 </div>
 </div>
-<div id="two-consequences-worth-noticing" class="section level3 unnumbered hasAnchor">
-<h3>Two consequences worth noticing<a href="mlr-fwl.html#two-consequences-worth-noticing" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p><strong>The comparison changed because the variation changed.</strong> The simple regression
-used all the variation in attendance. The multiple regression uses only the part
-that prior record cannot account for. Those are different questions asked of
-different variation, and there is no reason for them to give the same answer.</p>
-<p><strong>Some of the variation is thrown away.</strong> The residual <span class="math inline">\(\hat{r}_1\)</span> has less
-spread than attendance itself. Section <a href="ols-variance.html#ols-variance">7.5</a> established that the
-precision of a slope depends on the spread of the explanatory variable, so
-discarding variation must cost something. Section <a href="mlr-assumptions.html#mlr-assumptions">8.4</a> returns
-to the bill.</p>
-<div class="deeper">
-<p><strong>The general case, in matrix form.</strong></p>
-<p>With <span class="math inline">\(k\)</span> explanatory variables, writing out <span class="math inline">\(k+1\)</span> normal equations and solving
-them by hand is unpleasant. Matrix notation does the same work in three lines.</p>
-<p>Collect the observations into an <span class="math inline">\(n \times 1\)</span> vector <span class="math inline">\(Y\)</span> and an <span class="math inline">\(n \times (k+1)\)</span>
-matrix <span class="math inline">\(X\)</span> whose first column is all ones and whose remaining columns are the
-explanatory variables. The model is</p>
-<p><span class="math display">\[Y = X\beta + u\]</span></p>
-<p>The sum of squared residuals is <span class="math inline">\((Y - X\beta)&#39;(Y - X\beta)\)</span>. Differentiating with
-respect to <span class="math inline">\(\beta\)</span> and setting the result to zero,</p>
-<p><span class="math display">\[-2X&#39;Y + 2X&#39;X\beta = 0
-\qquad\Longrightarrow\qquad
-X&#39;X\hat{\beta} = X&#39;Y\]</span></p>
-<p>which is the whole system of normal equations in one line. Provided <span class="math inline">\(X&#39;X\)</span> can be
-inverted,</p>
-<p><span class="math display">\[\hat{\beta} = (X&#39;X)^{-1}X&#39;Y\]</span></p>
-<p>The variance follows the same way. Substituting <span class="math inline">\(Y = X\beta + u\)</span> gives
-<span class="math inline">\(\hat{\beta} = \beta + (X&#39;X)^{-1}X&#39;u\)</span>, and under homoskedasticity,</p>
-<p><span class="math display">\[\mathrm{Var}(\hat{\beta}) = \sigma^2 (X&#39;X)^{-1}\]</span></p>
-<p>We can check the formula directly.</p>
-<div class="sourceCode" id="cb301"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb301-1"><a href="mlr-fwl.html#cb301-1" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="fu">cbind</span>(<span class="dv">1</span>, students<span class="sc">$</span>attendance, students<span class="sc">$</span>cum_gpa, students<span class="sc">$</span>admission_score)</span>
-<span id="cb301-2"><a href="mlr-fwl.html#cb301-2" tabindex="-1"></a>y <span class="ot">&lt;-</span> students<span class="sc">$</span>sem_gpa</span>
-<span id="cb301-3"><a href="mlr-fwl.html#cb301-3" tabindex="-1"></a></span>
-<span id="cb301-4"><a href="mlr-fwl.html#cb301-4" tabindex="-1"></a>b_hat <span class="ot">&lt;-</span> <span class="fu">solve</span>(<span class="fu">t</span>(X) <span class="sc">%*%</span> X) <span class="sc">%*%</span> <span class="fu">t</span>(X) <span class="sc">%*%</span> y</span>
-<span id="cb301-5"><a href="mlr-fwl.html#cb301-5" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">drop</span>(b_hat), <span class="dv">5</span>)</span></code></pre></div>
-<pre><code>#&gt; [1] -7.6603  0.1360  0.5748  0.0835</code></pre>
-<p>The same four numbers <code>lm()</code> reported. Note where the requirement of Section
-<a href="mlr-assumptions.html#mlr-assumptions">8.4</a> appears: if any column of <span class="math inline">\(X\)</span> is an exact linear
-combination of the others, <span class="math inline">\(X&#39;X\)</span> has no inverse and there is no <span class="math inline">\(\hat{\beta}\)</span> to
-compute.</p>
+<div id="why-the-coefficient-changes" class="section level3 unnumbered hasAnchor">
+<h3>Why the coefficient changes<a href="mlr-fwl.html#why-the-coefficient-changes" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>The coefficient changes because the variation changes.</p>
+<p>The simple regression used all the variation in attendance — the third panel of
+the figure. The multiple regression uses only the part that prior record cannot
+account for — the second panel. Those are different questions asked of different
+variation, and there is no reason for them to give the same answer.</p>
+<p>This is worth separating from the more familiar account, which says that
+controls remove bias. They may well do so, and Section <a href="mlr-causal.html#mlr-causal">8.7</a> takes
+that up. But the mechanism is not that something contaminating has been
+subtracted from the answer. It is that the estimator is now working with a
+different set of comparisons.</p>
 </div>
+<div id="why-the-standard-error-usually-grows" class="section level3 unnumbered hasAnchor">
+<h3>Why the standard error usually grows<a href="mlr-fwl.html#why-the-standard-error-usually-grows" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>The residual <span class="math inline">\(\hat{r}_1\)</span> has less spread than attendance itself: a standard
+deviation of 4.6 classes against 5.5.</p>
+<div class="sourceCode" id="cb301"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb301-1"><a href="mlr-fwl.html#cb301-1" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">sd_of_attendance =</span> <span class="fu">sd</span>(students<span class="sc">$</span>attendance),</span>
+<span id="cb301-2"><a href="mlr-fwl.html#cb301-2" tabindex="-1"></a>        <span class="at">sd_of_residual   =</span> <span class="fu">sd</span>(r1)), <span class="dv">3</span>)</span></code></pre></div>
+<pre><code>#&gt; sd_of_attendance   sd_of_residual 
+#&gt;            5.455            4.595</code></pre>
+<p>Section <a href="ols-variance.html#ols-variance">7.5</a> established that the precision of a slope depends on
+the spread of the explanatory variable. Discarding variation must therefore cost
+something, and Section <a href="mlr-assumptions.html#mlr-assumptions">8.4</a> works out the bill.</p>
+<p>That is the trade the whole method rests on. A control buys a narrower, more
+credible comparison, and pays for it in precision.</p>
 </div>
 </div>
 <script>

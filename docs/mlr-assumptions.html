@@ -515,10 +515,12 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="mlr-model.html"><a href="mlr-model.html#another-example"><i class="fa fa-check"></i>Another example</a></li>
 <li class="chapter" data-level="" data-path="mlr-model.html"><a href="mlr-model.html#what-holding-fixed-does-not-mean"><i class="fa fa-check"></i>What “holding fixed” does not mean</a></li>
 </ul></li>
-<li class="chapter" data-level="8.3" data-path="mlr-fwl.html"><a href="mlr-fwl.html"><i class="fa fa-check"></i><b>8.3</b> How the comparison is actually made</a>
+<li class="chapter" data-level="8.3" data-path="mlr-fwl.html"><a href="mlr-fwl.html"><i class="fa fa-check"></i><b>8.3</b> What does “holding constant” actually mean?</a>
 <ul>
-<li class="chapter" data-level="" data-path="mlr-fwl.html"><a href="mlr-fwl.html#watching-it-happen"><i class="fa fa-check"></i>Watching it happen</a></li>
-<li class="chapter" data-level="" data-path="mlr-fwl.html"><a href="mlr-fwl.html#two-consequences-worth-noticing"><i class="fa fa-check"></i>Two consequences worth noticing</a></li>
+<li class="chapter" data-level="" data-path="mlr-fwl.html"><a href="mlr-fwl.html#predicting-attendance"><i class="fa fa-check"></i>Predicting attendance</a></li>
+<li class="chapter" data-level="" data-path="mlr-fwl.html"><a href="mlr-fwl.html#using-only-what-could-not-be-predicted"><i class="fa fa-check"></i>Using only what could not be predicted</a></li>
+<li class="chapter" data-level="" data-path="mlr-fwl.html"><a href="mlr-fwl.html#why-the-coefficient-changes"><i class="fa fa-check"></i>Why the coefficient changes</a></li>
+<li class="chapter" data-level="" data-path="mlr-fwl.html"><a href="mlr-fwl.html#why-the-standard-error-usually-grows"><i class="fa fa-check"></i>Why the standard error usually grows</a></li>
 </ul></li>
 <li class="chapter" data-level="8.4" data-path="mlr-assumptions.html"><a href="mlr-assumptions.html"><i class="fa fa-check"></i><b>8.4</b> The assumptions</a>
 <ul>
@@ -558,6 +560,7 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="mlr-question-bank.html"><a href="mlr-question-bank.html#numerical-7"><i class="fa fa-check"></i>Numerical</a></li>
 </ul></li>
 <li class="chapter" data-level="8.11" data-path="mlr-looking-ahead.html"><a href="mlr-looking-ahead.html"><i class="fa fa-check"></i><b>8.11</b> Looking ahead</a></li>
+<li class="chapter" data-level="8.12" data-path="mlr-matrix-note.html"><a href="mlr-matrix-note.html"><i class="fa fa-check"></i><b>8.12</b> Mathematical note: multiple regression in matrix form</a></li>
 </ul></li>
 <li class="divider"></li>
 <li class="toc-after">Kedar Kulkarni · Azim Premji University<br>
@@ -604,8 +607,9 @@ needed only for exact small-sample inference.</p>
 combination of the others.</p>
 </div>
 <p>Under CLRM1–CLRM4 the OLS estimators are unbiased: <span class="math inline">\(E(\hat{\beta}_j) = \beta_j\)</span>
-for every <span class="math inline">\(j\)</span>. The proof is the one from Section <a href="ols-unbiased.html#ols-unbiased">7.4</a> written in
-matrix form, and nothing about it is new.</p>
+for every <span class="math inline">\(j\)</span>. The proof is the one from Section <a href="ols-unbiased.html#ols-unbiased">7.4</a> with the single
+explanatory variable replaced by the whole set; Section
+<a href="mlr-matrix-note.html#mlr-matrix-note">8.12</a> gives the compact version.</p>
 <p>Two of these deserve more than a restatement.</p>
 <div id="zero-conditional-mean-now-harder-and-easier-at-once" class="section level3 unnumbered hasAnchor">
 <h3>Zero conditional mean, now harder and easier at once<a href="mlr-assumptions.html#zero-conditional-mean-now-harder-and-easier-at-once" class="anchor-section" aria-label="Anchor link to header"></a></h3>

@@ -19,3 +19,4 @@ os-power-calc
 os-power-table	
 mlr-f-dist	
 mlr-f-dist-plot	book_palette	df	f_stats	theme_book	x	y
+mlr-fwl-plot	book_palette	r1	simple	step1	step2	students	theme_book	x	y

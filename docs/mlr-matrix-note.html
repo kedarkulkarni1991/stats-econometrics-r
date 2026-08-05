@@ -4,13 +4,13 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>5.8 Practice problems | Statistics and Econometrics with R</title>
+  <title>8.12 Mathematical note: multiple regression in matrix form | Statistics and Econometrics with R</title>
   <meta name="description" content="<p>A first course in statistics and econometrics for Indian students, built on
 the progression from question to intuition to rigour to computation to
 interpretation.</p>" />
   <meta name="generator" content="bookdown 0.47 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="5.8 Practice problems | Statistics and Econometrics with R" />
+  <meta property="og:title" content="8.12 Mathematical note: multiple regression in matrix form | Statistics and Econometrics with R" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="<p>A first course in statistics and econometrics for Indian students, built on
@@ -19,7 +19,7 @@ interpretation.</p>" />
   <meta name="github-repo" content="kedarkulkarni1991/stats-econometrics-r" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="5.8 Practice problems | Statistics and Econometrics with R" />
+  <meta name="twitter:title" content="8.12 Mathematical note: multiple regression in matrix form | Statistics and Econometrics with R" />
   
   <meta name="twitter:description" content="<p>A first course in statistics and econometrics for Indian students, built on
 the progression from question to intuition to rigour to computation to
@@ -35,8 +35,8 @@ interpretation.</p>" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="ts-summary.html"/>
-<link rel="next" href="ts-question-bank.html"/>
+<link rel="prev" href="mlr-looking-ahead.html"/>
+
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -583,550 +583,55 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="ts-practice" class="section level2 hasAnchor" number="5.8">
-<h2><span class="header-section-number">5.8</span> Practice problems<a href="ts-practice.html#ts-practice" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<div class="yourturn">
-<p>Work each one before opening the solution. The
-<a href="ts-question-bank.html#ts-question-bank">question bank</a> that follows has no answers.</p>
+<div id="mlr-matrix-note" class="section level2 hasAnchor" number="8.12">
+<h2><span class="header-section-number">8.12</span> Mathematical note: multiple regression in matrix form<a href="mlr-matrix-note.html#mlr-matrix-note" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="deeper">
+<p>Nothing in this unit depends on what follows. It is here for readers who would
+like to see the general case written compactly, and it can be skipped without
+consequence.</p>
+<p><strong>The estimator.</strong> With <span class="math inline">\(k\)</span> explanatory variables, writing out <span class="math inline">\(k+1\)</span> normal
+equations and solving them by hand is unpleasant. Matrix notation does the same
+work in three lines.</p>
+<p>Collect the observations into an <span class="math inline">\(n \times 1\)</span> vector <span class="math inline">\(Y\)</span> and an
+<span class="math inline">\(n \times (k+1)\)</span> matrix <span class="math inline">\(X\)</span> whose first column is all ones and whose remaining
+columns are the explanatory variables. The model is</p>
+<p><span class="math display">\[Y = X\beta + u\]</span></p>
+<p>The sum of squared residuals is <span class="math inline">\((Y - X\beta)&#39;(Y - X\beta)\)</span>. Differentiating
+with respect to <span class="math inline">\(\beta\)</span> and setting the result to zero,</p>
+<p><span class="math display">\[-2X&#39;Y + 2X&#39;X\beta = 0
+\qquad\Longrightarrow\qquad
+X&#39;X\hat{\beta} = X&#39;Y\]</span></p>
+<p>which is the whole system of normal equations in one line. Provided <span class="math inline">\(X&#39;X\)</span> can be
+inverted,</p>
+<p><span class="math display">\[\hat{\beta} = (X&#39;X)^{-1}X&#39;Y\]</span></p>
+<p><strong>The variance.</strong> Substituting <span class="math inline">\(Y = X\beta + u\)</span> gives
+<span class="math inline">\(\hat{\beta} = \beta + (X&#39;X)^{-1}X&#39;u\)</span>. The second term has expectation zero
+under CLRM4, which is unbiasedness. Taking the variance and using
+<span class="math inline">\(\mathrm{Var}(Au) = A\,\mathrm{Var}(u)\,A&#39;\)</span>, then imposing homoskedasticity,</p>
+<p><span class="math display">\[\mathrm{Var}(\hat{\beta}) = \sigma^2 (X&#39;X)^{-1}\]</span></p>
+<p>This is a <span class="math inline">\((k+1) \times (k+1)\)</span> matrix. Its diagonal holds the variances of the
+individual coefficients — the square roots of which are the standard errors R
+prints — and its off-diagonal entries hold the covariances between them, which
+is what the <span class="math inline">\(F\)</span> test of Section <a href="mlr-f.html#mlr-f">8.6</a> needs in order to test several
+coefficients jointly.</p>
+<p><strong>Checking it.</strong> The formula is short enough to compute directly.</p>
+<div class="sourceCode" id="cb333"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb333-1"><a href="mlr-matrix-note.html#cb333-1" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="fu">cbind</span>(<span class="dv">1</span>, students<span class="sc">$</span>attendance, students<span class="sc">$</span>cum_gpa, students<span class="sc">$</span>admission_score)</span>
+<span id="cb333-2"><a href="mlr-matrix-note.html#cb333-2" tabindex="-1"></a>y <span class="ot">&lt;-</span> students<span class="sc">$</span>sem_gpa</span>
+<span id="cb333-3"><a href="mlr-matrix-note.html#cb333-3" tabindex="-1"></a></span>
+<span id="cb333-4"><a href="mlr-matrix-note.html#cb333-4" tabindex="-1"></a>b_hat <span class="ot">&lt;-</span> <span class="fu">solve</span>(<span class="fu">t</span>(X) <span class="sc">%*%</span> X) <span class="sc">%*%</span> <span class="fu">t</span>(X) <span class="sc">%*%</span> y</span>
+<span id="cb333-5"><a href="mlr-matrix-note.html#cb333-5" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">drop</span>(b_hat), <span class="dv">5</span>)</span></code></pre></div>
+<pre><code>#&gt; [1] -7.6603  0.1360  0.5748  0.0835</code></pre>
+<p>The same four numbers <code>lm()</code> reported in Section <a href="mlr-model.html#mlr-model">8.2</a>.</p>
+<p><strong>Where collinearity appears.</strong> The requirement in Section
+<a href="mlr-assumptions.html#mlr-assumptions">8.4</a> that no explanatory variable be an exact linear
+combination of the others is exactly the requirement that <span class="math inline">\(X&#39;X\)</span> be invertible.
+If one column of <span class="math inline">\(X\)</span> can be written in terms of the others, <span class="math inline">\(X\)</span> is not of full
+rank, <span class="math inline">\(X&#39;X\)</span> is singular, and there is no <span class="math inline">\(\hat{\beta}\)</span> to compute — which is
+what R is reporting when it returns <code>NA</code>.</p>
 </div>
-<div id="concept-checks-3" class="section level3 unnumbered hasAnchor">
-<h3>Concept checks<a href="ts-practice.html#concept-checks-3" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p><strong>5.1</strong> Why is the standard error of a difference of means larger than the
-standard error of either mean on its own?</p>
-<div class="answer">
-<p>Because the two sample means each carry sampling variation, and both end up in
-the difference. Formally, <span class="math inline">\(\mathrm{Var}(aX) = a^2\mathrm{Var}(X)\)</span> with <span class="math inline">\(a = -1\)</span>
-gives <span class="math inline">\((-1)^2 = +1\)</span>, so the variances add:</p>
-<p><span class="math display">\[\mathrm{Var}[\bar{X} - \bar{Y}] = \frac{\sigma_x^2}{n} + \frac{\sigma_y^2}{m}\]</span></p>
-<p>Subtracting a noisy quantity does not cancel noise; it adds more. This is why
-detecting a difference between two groups takes more data than estimating one
-group’s mean to the same precision.</p>
+
 </div>
-<p><strong>5.2</strong> A study reports that two groups differ with <span class="math inline">\(p = 0.003\)</span>. A colleague
-concludes the difference is large. What is wrong?</p>
-<div class="answer">
-<p>The <span class="math inline">\(p\)</span>-value measures how incompatible the data are with the claim of no
-difference. It says nothing about the size of the difference.</p>
-<p>A very small <span class="math inline">\(p\)</span>-value can come from a tiny difference measured in a large
-sample. The size of the difference is reported by the confidence interval, in
-the units of the problem, and that is what has to be inspected before calling a
-result large or important.</p>
-</div>
-<p><strong>5.3</strong> Why does R’s <code>t.test()</code> report fractional degrees of freedom?</p>
-<div class="answer">
-<p>Because it performs Welch’s test by default, which does not assume the two
-populations have equal variances. The correction for that extra uncertainty
-adjusts the degrees of freedom downwards, and the adjustment is generally not a
-whole number.</p>
-<p>The pooled test, obtained with <code>var.equal = TRUE</code>, uses <span class="math inline">\(n + m - 2\)</span> degrees of
-freedom, which always is.</p>
-</div>
-<p><strong>5.4</strong> The same twenty households are surveyed before and after a cash
-transfer. Why is a two-sample test the wrong tool?</p>
-<div class="answer">
-<p>Because the two columns are not independent samples — each household appears in
-both. The design produces one number per household, the change.</p>
-<p>Households differ enormously among themselves, and that variation is present
-identically in both columns. A two-sample test treats it as noise, and it
-swamps the change we are trying to detect. Taking differences within households
-removes it, leaving only the quantity of interest.</p>
-</div>
-<p><strong>5.5</strong> Villages that received a road show higher incomes than villages that
-did not. State two distinct reasons this need not mean the road raised incomes.</p>
-<div class="answer">
-<p>First, the villages may have differed beforehand. Roads are not built at random
-— they tend to reach places that are more accessible, more populous, more
-politically connected or already better off. Those same features raise incomes
-on their own.</p>
-<p>Second, the two groups may differ in things that changed alongside the road:
-electrification, a market, a school. The road is correlated with a bundle of
-improvements, and a comparison of means attributes the whole bundle to it.</p>
-<p>In both cases the arithmetic is correct and the causal reading is not.</p>
-</div>
-</div>
-<div id="explain-3" class="section level3 unnumbered hasAnchor">
-<h3>Explain<a href="ts-practice.html#explain-3" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p><strong>5.6</strong> Explain the trade-off between the pooled and Welch tests, and why
-modern practice prefers Welch.</p>
-<div class="answer">
-<p>Pooling assumes the two populations share a standard deviation. If true, both
-samples estimate the same quantity, they can be combined, and the resulting
-test has <span class="math inline">\(n + m - 2\)</span> degrees of freedom — more than Welch allows, so more
-power.</p>
-<p>If false, the pooled estimate averages two different quantities and the test is
-wrong in a way nothing in the output reveals. Welch avoids the assumption
-entirely, at the cost of fewer degrees of freedom.</p>
-<p>The reason to prefer Welch is asymmetric risk. When the variances really are
-equal, Welch loses very little. When they are not, pooling misleads. And the
-assumption cannot be verified — a test of equal variances can only fail to
-reject, which is not the same as establishing it.</p>
-</div>
-<p><strong>5.7</strong> A researcher tests whether men and women in a firm are paid differently,
-finds <span class="math inline">\(p = 0.02\)</span>, and concludes the firm discriminates. Evaluate.</p>
-<div class="answer">
-<p>The test establishes that average pay differs by more than sampling variation
-would explain. That is not the same as discrimination.</p>
-<p>Men and women in the firm may differ in role, seniority, years of experience,
-hours, or field of training, and any of those could account for a pay gap
-without anyone being treated differently for the same work. The comparison of
-raw means attributes the whole difference to sex because sex is the only
-variable in the analysis.</p>
-<p>Establishing discrimination requires comparing like with like — people doing
-the same work with the same experience — which is a question of design and, in
-later units, of holding other variables constant. The two-sample test is not
-capable of it.</p>
-</div>
-</div>
-<div id="numerical-problems-3" class="section level3 unnumbered hasAnchor">
-<h3>Numerical problems<a href="ts-practice.html#numerical-problems-3" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p><strong>5.8</strong> Two irrigation methods are trialled. Drip irrigation on 15 plots yields
-a mean of 38.4 quintals per hectare; flood irrigation on 18 plots yields 35.9.
-Population standard deviations are known to be 3.2 and 4.1 respectively.</p>
-<ol style="list-style-type: lower-roman">
-<li>Test at the 5% level whether the mean yields differ.</li>
-<li>Construct a 95% confidence interval for the difference.</li>
-<li>Does the interval agree with the test?</li>
-</ol>
-<div class="answer">
-<p><strong>(i)</strong> The standard error of the difference is</p>
-<p><span class="math display">\[\sqrt{\frac{3.2^2}{15} + \frac{4.1^2}{18}} = \sqrt{0.6827 + 0.9339}
-= \sqrt{1.6166} = 1.271\]</span></p>
-<p><span class="math display">\[Z_{calc} = \frac{38.4 - 35.9}{1.271} = \frac{2.5}{1.271} = 1.967\]</span></p>
-<p>Since <span class="math inline">\(1.967 &gt; 1.96\)</span>, we reject <span class="math inline">\(H_0\)</span> at the 5% level — but only just.</p>
-<p><strong>(ii)</strong> <span class="math inline">\(2.5 \pm 1.96(1.271) = 2.5 \pm 2.491 = [0.009,\ 4.991]\)</span>.</p>
-<p><strong>(iii)</strong> Yes. The interval excludes zero, and the test rejects. Both do so by
-the narrowest possible margin, which is the same fact stated twice: the interval
-endpoint sits at 0.009 because <span class="math inline">\(Z_{calc}\)</span> sits at 1.967.</p>
-<p>A result this marginal should be reported as marginal. Nothing about it
-justifies confidence that drip irrigation is better.</p>
-</div>
-<p><strong>5.9</strong> Two samples give <span class="math inline">\(n = 10\)</span>, <span class="math inline">\(s_x = 4\)</span> and <span class="math inline">\(m = 14\)</span>, <span class="math inline">\(s_y = 6\)</span>.</p>
-<ol style="list-style-type: lower-roman">
-<li>Compute the pooled variance estimate.</li>
-<li>How many degrees of freedom does the pooled test use?</li>
-<li>Why is it not <span class="math inline">\(n + m\)</span>?</li>
-</ol>
-<div class="answer">
-<p><strong>(i)</strong></p>
-<p><span class="math display">\[s_p^2 = \frac{(10-1)16 + (14-1)36}{10 + 14 - 2}
-= \frac{144 + 468}{22} = \frac{612}{22} = 27.82\]</span></p>
-<p>so <span class="math inline">\(s_p = 5.27\)</span>, lying between 4 and 6 and closer to 6 because the larger
-sample carries more weight.</p>
-<p><strong>(ii)</strong> <span class="math inline">\(n + m - 2 = 22\)</span>.</p>
-<p><strong>(iii)</strong> Because two quantities were estimated from the data before the spread
-could be measured — one sample mean in each group. Each costs a degree of
-freedom, exactly as in Section <a href="u3-variance.html#u3-variance">3.2</a>, where estimating a single
-mean cost one.</p>
-</div>
-<p><strong>5.10</strong> A programme is evaluated by comparing 200 participants with 200
-non-participants. Participants’ mean income is ₹4,200 higher, with a standard
-error of ₹1,400 for the difference.</p>
-<ol style="list-style-type: lower-roman">
-<li>Test whether the difference is zero at the 5% level.</li>
-<li>Construct a 95% interval.</li>
-<li>The programme was open to anyone who applied. What can be concluded about
-its effect?</li>
-</ol>
-<div class="answer">
-<p><strong>(i)</strong> <span class="math inline">\(Z_{calc} = 4200/1400 = 3.0\)</span>, which exceeds 1.96. We reject the claim
-that the two groups have the same mean income.</p>
-<p><strong>(ii)</strong> <span class="math inline">\(4200 \pm 1.96(1400) = [₹1{,}456,\ ₹6{,}944]\)</span>.</p>
-<p><strong>(iii)</strong> Nothing about its effect. Because the programme was open to
-applicants, participants selected themselves. People who apply to income
-programmes may be more motivated, better informed, or better connected — or,
-equally plausibly, more desperate and worse off to begin with. The direction of
-the bias is not even clear.</p>
-<p>The interval is a correct statement about the difference between two groups of
-people. It is not an estimate of what the programme did to anybody.</p>
-</div>
-</div>
-<div id="r-exercises-3" class="section level3 unnumbered hasAnchor">
-<h3>R exercises<a href="ts-practice.html#r-exercises-3" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p><strong>5.11</strong> Using <code>data/student-survey-sleep.csv</code>, test whether urban and rural
-students report different average hours of sleep. Report the interval and say
-what you conclude.</p>
-<div class="answer">
-<div class="sourceCode" id="cb213"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb213-1"><a href="ts-practice.html#cb213-1" tabindex="-1"></a>sleep <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/student-survey-sleep.csv&quot;</span>)</span>
-<span id="cb213-2"><a href="ts-practice.html#cb213-2" tabindex="-1"></a></span>
-<span id="cb213-3"><a href="ts-practice.html#cb213-3" tabindex="-1"></a><span class="fu">aggregate</span>(sleep <span class="sc">~</span> residence, <span class="at">data =</span> sleep,</span>
-<span id="cb213-4"><a href="ts-practice.html#cb213-4" tabindex="-1"></a>          <span class="cf">function</span>(x) <span class="fu">round</span>(<span class="fu">c</span>(<span class="at">n =</span> <span class="fu">length</span>(x), <span class="at">mean =</span> <span class="fu">mean</span>(x), <span class="at">sd =</span> <span class="fu">sd</span>(x)), <span class="dv">2</span>))</span></code></pre></div>
-<pre><code>#&gt;   residence sleep.n sleep.mean sleep.sd
-#&gt; 1     Rural   21.00       6.52     1.53
-#&gt; 2     Urban   85.00       6.60     1.12</code></pre>
-<div class="sourceCode" id="cb215"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb215-1"><a href="ts-practice.html#cb215-1" tabindex="-1"></a><span class="fu">t.test</span>(sleep <span class="sc">~</span> residence, <span class="at">data =</span> sleep)</span></code></pre></div>
-<pre><code>#&gt; 
-#&gt;  Welch Two Sample t-test
-#&gt; 
-#&gt; data:  sleep by residence
-#&gt; t = -0.21, df = 26, p-value = 0.8
-#&gt; alternative hypothesis: true difference in means between group Rural and group Urban is not equal to 0
-#&gt; 95 percent confidence interval:
-#&gt;  -0.8064  0.6540
-#&gt; sample estimates:
-#&gt; mean in group Rural mean in group Urban 
-#&gt;               6.524               6.600</code></pre>
-<p>The two group means are close and the interval for the difference contains
-zero, so we fail to reject. There is no evidence here that urban and rural
-students sleep different amounts on average.</p>
-<p>Note what “no evidence of a difference” is not: evidence of no difference. With
-these sample sizes, a real difference of well under an hour would be difficult
-to detect at all, and the interval says as much by being wide.</p>
-</div>
-<p><strong>5.12</strong> Test whether social media use differs between North and South Indian
-students in the same dataset, using both Welch and the pooled test. Do they
-agree, and which would you report?</p>
-<div class="answer">
-<div class="sourceCode" id="cb217"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb217-1"><a href="ts-practice.html#cb217-1" tabindex="-1"></a><span class="fu">rbind</span>(</span>
-<span id="cb217-2"><a href="ts-practice.html#cb217-2" tabindex="-1"></a>  <span class="at">welch  =</span> <span class="fu">unlist</span>(<span class="fu">t.test</span>(socialmediahours <span class="sc">~</span> region, <span class="at">data =</span> sleep)[<span class="fu">c</span>(<span class="st">&quot;statistic&quot;</span>, <span class="st">&quot;parameter&quot;</span>, <span class="st">&quot;p.value&quot;</span>)]),</span>
-<span id="cb217-3"><a href="ts-practice.html#cb217-3" tabindex="-1"></a>  <span class="at">pooled =</span> <span class="fu">unlist</span>(<span class="fu">t.test</span>(socialmediahours <span class="sc">~</span> region, <span class="at">data =</span> sleep, <span class="at">var.equal =</span> <span class="cn">TRUE</span>)[<span class="fu">c</span>(<span class="st">&quot;statistic&quot;</span>, <span class="st">&quot;parameter&quot;</span>, <span class="st">&quot;p.value&quot;</span>)])</span>
-<span id="cb217-4"><a href="ts-practice.html#cb217-4" tabindex="-1"></a>)</span></code></pre></div>
-<pre><code>#&gt;        statistic.t parameter.df p.value
-#&gt; welch       0.9172        50.63  0.3634
-#&gt; pooled      0.9845       104.00  0.3271</code></pre>
-<p>The two agree closely here, which is what happens when the sample standard
-deviations are similar — the pooled and separate estimates of the variance are
-then nearly the same number.</p>
-<p>Report Welch. It gives the same answer when the assumption holds and a correct
-one when it does not, so there is no situation in which pooling is the safer
-choice.</p>
-</div>
-<p><strong>5.13</strong> Take the wage data as a population and draw independent samples of 200
-urban and 200 rural workers. Test whether mean annual earnings differ, and
-report the interval. Then say what the interval does and does not establish.</p>
-<div class="answer">
-<div class="sourceCode" id="cb219"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb219-1"><a href="ts-practice.html#cb219-1" tabindex="-1"></a>wages <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/wages-india-synthetic.csv&quot;</span>)</span>
-<span id="cb219-2"><a href="ts-practice.html#cb219-2" tabindex="-1"></a></span>
-<span id="cb219-3"><a href="ts-practice.html#cb219-3" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">9</span>)</span>
-<span id="cb219-4"><a href="ts-practice.html#cb219-4" tabindex="-1"></a>urban <span class="ot">&lt;-</span> <span class="fu">sample</span>(wages<span class="sc">$</span>annual_earnings[wages<span class="sc">$</span>residence <span class="sc">==</span> <span class="st">&quot;Urban&quot;</span>], <span class="dv">200</span>)</span>
-<span id="cb219-5"><a href="ts-practice.html#cb219-5" tabindex="-1"></a>rural <span class="ot">&lt;-</span> <span class="fu">sample</span>(wages<span class="sc">$</span>annual_earnings[wages<span class="sc">$</span>residence <span class="sc">==</span> <span class="st">&quot;Rural&quot;</span>], <span class="dv">200</span>)</span>
-<span id="cb219-6"><a href="ts-practice.html#cb219-6" tabindex="-1"></a></span>
-<span id="cb219-7"><a href="ts-practice.html#cb219-7" tabindex="-1"></a><span class="fu">t.test</span>(urban, rural)</span></code></pre></div>
-<pre><code>#&gt; 
-#&gt;  Welch Two Sample t-test
-#&gt; 
-#&gt; data:  urban and rural
-#&gt; t = 6.5, df = 223, p-value = 0.0000000005
-#&gt; alternative hypothesis: true difference in means is not equal to 0
-#&gt; 95 percent confidence interval:
-#&gt;  47095 88103
-#&gt; sample estimates:
-#&gt; mean of x mean of y 
-#&gt;    100811     33212</code></pre>
-<p>The difference is large and the interval is nowhere near zero, so urban workers
-in this population earn substantially more than rural workers.</p>
-<p>What the interval establishes is the size of that gap. What it does not
-establish is that moving a worker from a village to a city would raise their
-earnings by that amount. Urban and rural workers differ in education,
-occupation and industry, and the sample says nothing about which part of the gap
-belongs to the place and which to the people.</p>
-</div>
-<p><strong>5.14</strong> Simulate the point that variances add. Draw two independent samples of
-100 from a population with <span class="math inline">\(\sigma = 10\)</span>, and compare the observed standard
-deviation of <span class="math inline">\(\bar{x}\)</span> with that of <span class="math inline">\(\bar{x} - \bar{y}\)</span> across 5,000
-repetitions. Check both against theory.</p>
-<div class="answer">
-<div class="sourceCode" id="cb221"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb221-1"><a href="ts-practice.html#cb221-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">4</span>)</span>
-<span id="cb221-2"><a href="ts-practice.html#cb221-2" tabindex="-1"></a>sims <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">5000</span>, {</span>
-<span id="cb221-3"><a href="ts-practice.html#cb221-3" tabindex="-1"></a>  x <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">100</span>, <span class="at">mean =</span> <span class="dv">50</span>, <span class="at">sd =</span> <span class="dv">10</span>)</span>
-<span id="cb221-4"><a href="ts-practice.html#cb221-4" tabindex="-1"></a>  y <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">100</span>, <span class="at">mean =</span> <span class="dv">50</span>, <span class="at">sd =</span> <span class="dv">10</span>)</span>
-<span id="cb221-5"><a href="ts-practice.html#cb221-5" tabindex="-1"></a>  <span class="fu">c</span>(<span class="at">one_mean =</span> <span class="fu">mean</span>(x), <span class="at">difference =</span> <span class="fu">mean</span>(x) <span class="sc">-</span> <span class="fu">mean</span>(y))</span>
-<span id="cb221-6"><a href="ts-practice.html#cb221-6" tabindex="-1"></a>})</span>
-<span id="cb221-7"><a href="ts-practice.html#cb221-7" tabindex="-1"></a></span>
-<span id="cb221-8"><a href="ts-practice.html#cb221-8" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">sd_of_one_mean       =</span> <span class="fu">sd</span>(sims[<span class="st">&quot;one_mean&quot;</span>, ]),</span>
-<span id="cb221-9"><a href="ts-practice.html#cb221-9" tabindex="-1"></a>        <span class="at">theory_one_mean      =</span> <span class="dv">10</span> <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="dv">100</span>),</span>
-<span id="cb221-10"><a href="ts-practice.html#cb221-10" tabindex="-1"></a>        <span class="at">sd_of_difference     =</span> <span class="fu">sd</span>(sims[<span class="st">&quot;difference&quot;</span>, ]),</span>
-<span id="cb221-11"><a href="ts-practice.html#cb221-11" tabindex="-1"></a>        <span class="at">theory_difference    =</span> <span class="fu">sqrt</span>(<span class="dv">10</span><span class="sc">^</span><span class="dv">2</span><span class="sc">/</span><span class="dv">100</span> <span class="sc">+</span> <span class="dv">10</span><span class="sc">^</span><span class="dv">2</span><span class="sc">/</span><span class="dv">100</span>)), <span class="dv">4</span>)</span></code></pre></div>
-<pre><code>#&gt;    sd_of_one_mean   theory_one_mean  sd_of_difference theory_difference 
-#&gt;            0.9989            1.0000            1.4260            1.4142</code></pre>
-<p>The difference is about <span class="math inline">\(\sqrt{2}\)</span> times as variable as a single mean, exactly
-as <span class="math inline">\(\sqrt{\sigma^2/n + \sigma^2/m}\)</span> predicts. Note also that the difference is
-centred on zero: both populations have mean 50, and the estimator is unbiased
-for a difference of zero.</p>
-</div>
-<p><strong>5.15</strong> Demonstrate the cost of ignoring pairing. Using <code>marriage-ages.csv</code>,
-report the paired and unpaired <span class="math inline">\(p\)</span>-values, and explain the gap by comparing the
-standard deviation of the differences with the standard deviations of the two
-columns.</p>
-<div class="answer">
-<div class="sourceCode" id="cb223"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb223-1"><a href="ts-practice.html#cb223-1" tabindex="-1"></a>couples <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/marriage-ages.csv&quot;</span>)</span>
-<span id="cb223-2"><a href="ts-practice.html#cb223-2" tabindex="-1"></a></span>
-<span id="cb223-3"><a href="ts-practice.html#cb223-3" tabindex="-1"></a><span class="fu">c</span>(<span class="at">paired   =</span> <span class="fu">t.test</span>(couples<span class="sc">$</span>partner1, couples<span class="sc">$</span>partner2, <span class="at">paired =</span> <span class="cn">TRUE</span>)<span class="sc">$</span>p.value,</span>
-<span id="cb223-4"><a href="ts-practice.html#cb223-4" tabindex="-1"></a>  <span class="at">unpaired =</span> <span class="fu">t.test</span>(couples<span class="sc">$</span>partner1, couples<span class="sc">$</span>partner2)<span class="sc">$</span>p.value)</span></code></pre></div>
-<pre><code>#&gt;   paired unpaired 
-#&gt;  0.01496  0.60699</code></pre>
-<div class="sourceCode" id="cb225"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb225-1"><a href="ts-practice.html#cb225-1" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">sd_partner1  =</span> <span class="fu">sd</span>(couples<span class="sc">$</span>partner1),</span>
-<span id="cb225-2"><a href="ts-practice.html#cb225-2" tabindex="-1"></a>        <span class="at">sd_partner2  =</span> <span class="fu">sd</span>(couples<span class="sc">$</span>partner2),</span>
-<span id="cb225-3"><a href="ts-practice.html#cb225-3" tabindex="-1"></a>        <span class="at">sd_of_diffs  =</span> <span class="fu">sd</span>(couples<span class="sc">$</span>partner1 <span class="sc">-</span> couples<span class="sc">$</span>partner2)), <span class="dv">3</span>)</span></code></pre></div>
-<pre><code>#&gt; sd_partner1 sd_partner2 sd_of_diffs 
-#&gt;      11.156      10.174       2.635</code></pre>
-<p>The two columns each have a standard deviation of about 11 years, because the
-couples range from their mid-thirties to their seventies. The differences have a
-standard deviation of about 2.6 years.</p>
-<p>That is the whole explanation. The unpaired test measures the small gap against
-the huge between-couple variation and sees nothing. The paired test removes that
-variation — it is common to both columns and cancels on subtraction — and
-measures the gap against what is left.</p>
-</div>
-</div>
-<div id="paired-designs" class="section level3 unnumbered hasAnchor">
-<h3>Paired designs<a href="ts-practice.html#paired-designs" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p><strong>5.16</strong> A paired test on <span class="math inline">\(n\)</span> pairs has <span class="math inline">\(n - 1\)</span> degrees of freedom, not
-<span class="math inline">\(2n - 2\)</span>. Why, when there are <span class="math inline">\(2n\)</span> numbers in the dataset?</p>
-<div class="answer">
-<p>Because the analysis is not performed on the <span class="math inline">\(2n\)</span> numbers. It is performed on
-the <span class="math inline">\(n\)</span> differences.</p>
-<p>Taking differences reduces <span class="math inline">\(2n\)</span> observations to <span class="math inline">\(n\)</span>, one per pair. From those
-<span class="math inline">\(n\)</span> we estimate one quantity, <span class="math inline">\(\bar{d}\)</span>, before we can measure their spread, so
-one degree of freedom is spent and <span class="math inline">\(n - 1\)</span> remain — exactly as in the one-sample
-case of Section <a href="u3-variance.html#u3-variance">3.2</a>.</p>
-<p>The <span class="math inline">\(2n - 2\)</span> of the pooled two-sample test is right for a design in which the
-<span class="math inline">\(2n\)</span> observations really are <span class="math inline">\(2n\)</span> independent pieces of information. In a paired
-design they are not: knowing one member of a pair tells you a great deal about
-the other.</p>
-</div>
-<p><strong>5.17</strong> What feature of the data determines whether pairing was worth doing?</p>
-<div class="answer">
-<p>The correlation between the two columns.</p>
-<p>Pairing removes whatever is common to both members of a pair. If the two
-measurements are strongly related — the same household in two rounds, the same
-plot in two seasons — then a great deal is common, differencing removes it, and
-the standard error falls sharply.</p>
-<p>If the two columns happen to be unrelated, there is nothing common to remove.
-Differencing then leaves the variability essentially unchanged, and the paired
-test performs about as well as the unpaired one, losing only the few degrees of
-freedom.</p>
-<p>So pairing rarely costs much and can gain a great deal. What determines which
-happens is not a choice; it is a property of the design.</p>
-</div>
-<p><strong>5.18</strong> A researcher measures productivity at the same 30 firms before and
-after a policy change, then runs a two-sample <span class="math inline">\(t\)</span>-test. Describe what will
-happen to the <span class="math inline">\(p\)</span>-value and why.</p>
-<div class="answer">
-<p>It will be too large — often dramatically so — and the researcher will
-under-report a real effect.</p>
-<p>Firms differ enormously among themselves in productivity: a large firm and a
-small one may differ by a factor of ten, while the policy might move any single
-firm by a few per cent. In a two-sample test that between-firm variation is
-counted as noise, and it swamps the change being looked for.</p>
-<p>The pairing is exactly what removes it. Each firm’s before-measurement acts as
-its own comparison, so the firm’s general productivity level cancels and only
-its change remains. Writing <span class="math inline">\(x_i = \mu + \alpha_i + \delta_i\)</span> and
-<span class="math inline">\(y_i = \mu + \alpha_i + \varepsilon_i\)</span>, the large firm effect <span class="math inline">\(\alpha_i\)</span> appears
-in both and disappears on subtraction.</p>
-<p>The error is conservative rather than anti-conservative, which is why it often
-goes unnoticed: the researcher simply concludes there is no effect.</p>
-</div>
-<p><strong>5.19</strong> A new irrigation technique is trialled on eight plots. Yields in
-quintals per hectare before and after are</p>
-<table>
-<thead>
-<tr class="header">
-<th align="left">Plot</th>
-<th align="left">1</th>
-<th align="left">2</th>
-<th align="left">3</th>
-<th align="left">4</th>
-<th align="left">5</th>
-<th align="left">6</th>
-<th align="left">7</th>
-<th align="left">8</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="left">Before</td>
-<td align="left">32</td>
-<td align="left">28</td>
-<td align="left">35</td>
-<td align="left">30</td>
-<td align="left">33</td>
-<td align="left">29</td>
-<td align="left">31</td>
-<td align="left">34</td>
-</tr>
-<tr class="even">
-<td align="left">After</td>
-<td align="left">35</td>
-<td align="left">33</td>
-<td align="left">37</td>
-<td align="left">36</td>
-<td align="left">37</td>
-<td align="left">30</td>
-<td align="left">36</td>
-<td align="left">40</td>
-</tr>
-</tbody>
-</table>
-<ol style="list-style-type: lower-roman">
-<li>Explain why this is a paired design.</li>
-<li>Compute the differences, <span class="math inline">\(\bar{d}\)</span> and <span class="math inline">\(s_d\)</span>.</li>
-<li>Test at the 5% level whether the technique changed yields.</li>
-<li>Construct a 95% confidence interval for the mean change.</li>
-</ol>
-<div class="answer">
-<p><strong>(i)</strong> Each plot is measured twice. The two columns are not eight plots and
-eight other plots; they are the same eight plots under two conditions, so every
-observation in one column has a natural partner in the other. Plots differ in
-soil, slope and drainage, and those differences are present identically in both
-rounds.</p>
-<p><strong>(ii)</strong> Differences (after <span class="math inline">\(-\)</span> before): <span class="math inline">\(3, 5, 2, 6, 4, 1, 5, 6\)</span>.</p>
-<p><span class="math display">\[\bar{d} = \frac{32}{8} = 4.0\]</span></p>
-<p>Deviations from 4: <span class="math inline">\(-1, 1, -2, 2, 0, -3, 1, 2\)</span>, whose squares sum to 24, so</p>
-<p><span class="math display">\[s_d^2 = \frac{24}{7} = 3.4286 \qquad s_d = 1.852\]</span></p>
-<p>and the standard error is <span class="math inline">\(1.852/\sqrt{8} = 0.655\)</span>.</p>
-<p><strong>(iii)</strong></p>
-<p><span class="math display">\[t = \frac{4.0}{0.655} = 6.11\]</span></p>
-<p>with <span class="math inline">\(df = 7\)</span>. The critical value is <span class="math inline">\(t_{0.025,\,7} = 2.365\)</span>, and
-<span class="math inline">\(6.11 &gt; 2.365\)</span>, so we reject <span class="math inline">\(H_0: \mu_d = 0\)</span>. The <span class="math inline">\(p\)</span>-value is 0.0005.</p>
-<p><strong>(iv)</strong> <span class="math inline">\(4.0 \pm 2.365(0.655) = [2.45,\ 5.55]\)</span> quintals per hectare.</p>
-<p>Note the interval is in the units of the problem and excludes zero, agreeing
-with the test. Note also that the estimated gain of 4 quintals per hectare is
-large in agronomic terms as well as statistically detectable — the two
-questions are separate, and here both answers happen to be favourable.</p>
-</div>
-<p><strong>5.20</strong> Seven workers are timed on a task, in minutes, before and after
-training.</p>
-<table>
-<thead>
-<tr class="header">
-<th align="left">Worker</th>
-<th align="left">1</th>
-<th align="left">2</th>
-<th align="left">3</th>
-<th align="left">4</th>
-<th align="left">5</th>
-<th align="left">6</th>
-<th align="left">7</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="left">Before</td>
-<td align="left">14</td>
-<td align="left">12</td>
-<td align="left">15</td>
-<td align="left">13</td>
-<td align="left">16</td>
-<td align="left">11</td>
-<td align="left">14</td>
-</tr>
-<tr class="even">
-<td align="left">After</td>
-<td align="left">11</td>
-<td align="left">10</td>
-<td align="left">13</td>
-<td align="left">12</td>
-<td align="left">13</td>
-<td align="left">11</td>
-<td align="left">12</td>
-</tr>
-</tbody>
-</table>
-<ol style="list-style-type: lower-roman">
-<li>State the hypotheses for a test that training <em>reduced</em> completion time.</li>
-<li>Compute the test statistic and its degrees of freedom.</li>
-<li>Test at the 5% level.</li>
-<li>Construct the appropriate one-sided 95% bound and interpret it.</li>
-</ol>
-<div class="answer">
-<p><strong>(i)</strong> Working with <span class="math inline">\(d_i = \text{before}_i - \text{after}_i\)</span>, so that a
-reduction in time gives a positive difference:</p>
-<p><span class="math display">\[H_0 : \mu_d \leq 0 \qquad H_A : \mu_d &gt; 0\]</span></p>
-<p>The equality lives in <span class="math inline">\(H_0\)</span>, as always, and the claim we want evidence <em>for</em>
-sits in <span class="math inline">\(H_A\)</span>.</p>
-<p><strong>(ii)</strong> Differences: <span class="math inline">\(3, 2, 2, 1, 3, 0, 2\)</span>. So <span class="math inline">\(\bar{d} = 13/7 = 1.857\)</span> and
-<span class="math inline">\(s_d = 1.069\)</span>, giving a standard error of <span class="math inline">\(1.069/\sqrt{7} = 0.404\)</span> and</p>
-<p><span class="math display">\[t = \frac{1.857}{0.404} = 4.60\]</span></p>
-<p>with <span class="math inline">\(df = 6\)</span>.</p>
-<p><strong>(iii)</strong> Right-tailed at 5%, so the critical value is <span class="math inline">\(t_{0.05,\,6} = 1.943\)</span> —
-not 2.447. Since <span class="math inline">\(4.60 &gt; 1.943\)</span> we reject <span class="math inline">\(H_0\)</span>; the one-sided <span class="math inline">\(p\)</span>-value is
-0.0019.</p>
-<p><strong>(iv)</strong> A one-sided lower bound spends all of <span class="math inline">\(\alpha\)</span> in one tail:</p>
-<p><span class="math display">\[\bar{d} - t_{0.05,\,6}\,\frac{s_d}{\sqrt{n}} = 1.857 - 1.943(0.404) = 1.07\]</span></p>
-<p>so the interval is <span class="math inline">\([1.07,\ \infty)\)</span>. With 95% confidence, training reduced
-completion time by at least 1.07 minutes. We have deliberately given up any
-statement about how large the reduction might be, because the question only
-asked whether there was one.</p>
-</div>
-<p><strong>5.21</strong> Using <code>marriage-ages.csv</code>, verify by direct computation that
-<code>paired = TRUE</code> does nothing more than take differences. Then run the one-sided
-test of whether partner 1 is older.</p>
-<div class="answer">
-<div class="sourceCode" id="cb227"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb227-1"><a href="ts-practice.html#cb227-1" tabindex="-1"></a>couples <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/marriage-ages.csv&quot;</span>)</span>
-<span id="cb227-2"><a href="ts-practice.html#cb227-2" tabindex="-1"></a>d <span class="ot">&lt;-</span> couples<span class="sc">$</span>partner1 <span class="sc">-</span> couples<span class="sc">$</span>partner2</span>
-<span id="cb227-3"><a href="ts-practice.html#cb227-3" tabindex="-1"></a></span>
-<span id="cb227-4"><a href="ts-practice.html#cb227-4" tabindex="-1"></a><span class="co"># Three routes to the same number</span></span>
-<span id="cb227-5"><a href="ts-practice.html#cb227-5" tabindex="-1"></a><span class="fu">c</span>(<span class="at">by_hand   =</span> <span class="fu">mean</span>(d) <span class="sc">/</span> (<span class="fu">sd</span>(d) <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="fu">length</span>(d))),</span>
-<span id="cb227-6"><a href="ts-practice.html#cb227-6" tabindex="-1"></a>  <span class="at">one_sample =</span> <span class="fu">t.test</span>(d, <span class="at">mu =</span> <span class="dv">0</span>)<span class="sc">$</span>statistic,</span>
-<span id="cb227-7"><a href="ts-practice.html#cb227-7" tabindex="-1"></a>  <span class="at">paired     =</span> <span class="fu">t.test</span>(couples<span class="sc">$</span>partner1, couples<span class="sc">$</span>partner2, <span class="at">paired =</span> <span class="cn">TRUE</span>)<span class="sc">$</span>statistic)</span></code></pre></div>
-<pre><code>#&gt;      by_hand one_sample.t     paired.t 
-#&gt;            3            3            3</code></pre>
-<p>Identical, as they must be: <code>paired = TRUE</code> subtracts the columns and calls the
-one-sample routine.</p>
-<div class="sourceCode" id="cb229"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb229-1"><a href="ts-practice.html#cb229-1" tabindex="-1"></a><span class="fu">t.test</span>(couples<span class="sc">$</span>partner1, couples<span class="sc">$</span>partner2,</span>
-<span id="cb229-2"><a href="ts-practice.html#cb229-2" tabindex="-1"></a>       <span class="at">paired =</span> <span class="cn">TRUE</span>, <span class="at">alternative =</span> <span class="st">&quot;greater&quot;</span>)</span></code></pre></div>
-<pre><code>#&gt; 
-#&gt;  Paired t-test
-#&gt; 
-#&gt; data:  couples$partner1 and couples$partner2
-#&gt; t = 3, df = 9, p-value = 0.007
-#&gt; alternative hypothesis: true mean difference is greater than 0
-#&gt; 95 percent confidence interval:
-#&gt;  0.9724    Inf
-#&gt; sample estimates:
-#&gt; mean difference 
-#&gt;             2.5</code></pre>
-<p>The one-sided <span class="math inline">\(p\)</span>-value is half the two-sided one, 0.0075 against 0.015, and the
-interval is now a lower bound: partner 1 is older by at least 1.02 years.</p>
-<p>The one-sided test is defensible here only because the direction was decided
-before looking — we asked whether partner 1 is older, not whether the two
-differ. Choosing the direction after seeing that eight of ten differences were
-positive would not be a test at all.</p>
-</div>
-<p><strong>5.22</strong> Show that the benefit of pairing depends on the correlation between the
-two columns. Simulate pairs of measurements with correlation 0, 0.5 and 0.9, a
-true difference of 4, and <span class="math inline">\(n = 10\)</span>, and compare how often each test rejects.</p>
-<div class="answer">
-<div class="sourceCode" id="cb231"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb231-1"><a href="ts-practice.html#cb231-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">7</span>)</span>
-<span id="cb231-2"><a href="ts-practice.html#cb231-2" tabindex="-1"></a></span>
-<span id="cb231-3"><a href="ts-practice.html#cb231-3" tabindex="-1"></a>power_at <span class="ot">&lt;-</span> <span class="cf">function</span>(rho, <span class="at">reps =</span> <span class="dv">4000</span>) {</span>
-<span id="cb231-4"><a href="ts-practice.html#cb231-4" tabindex="-1"></a>  out <span class="ot">&lt;-</span> <span class="fu">replicate</span>(reps, {</span>
-<span id="cb231-5"><a href="ts-practice.html#cb231-5" tabindex="-1"></a>    a <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">10</span>)</span>
-<span id="cb231-6"><a href="ts-practice.html#cb231-6" tabindex="-1"></a>    b <span class="ot">&lt;-</span> rho <span class="sc">*</span> a <span class="sc">+</span> <span class="fu">sqrt</span>(<span class="dv">1</span> <span class="sc">-</span> rho<span class="sc">^</span><span class="dv">2</span>) <span class="sc">*</span> <span class="fu">rnorm</span>(<span class="dv">10</span>)</span>
-<span id="cb231-7"><a href="ts-practice.html#cb231-7" tabindex="-1"></a>    x <span class="ot">&lt;-</span> <span class="dv">50</span> <span class="sc">+</span> <span class="dv">10</span> <span class="sc">*</span> a</span>
-<span id="cb231-8"><a href="ts-practice.html#cb231-8" tabindex="-1"></a>    y <span class="ot">&lt;-</span> <span class="dv">50</span> <span class="sc">+</span> <span class="dv">10</span> <span class="sc">*</span> b <span class="sc">+</span> <span class="dv">4</span>                       <span class="co"># true difference is 4</span></span>
-<span id="cb231-9"><a href="ts-practice.html#cb231-9" tabindex="-1"></a>    <span class="fu">c</span>(<span class="at">paired   =</span> <span class="fu">t.test</span>(x, y, <span class="at">paired =</span> <span class="cn">TRUE</span>)<span class="sc">$</span>p.value <span class="sc">&lt;</span> <span class="fl">0.05</span>,</span>
-<span id="cb231-10"><a href="ts-practice.html#cb231-10" tabindex="-1"></a>      <span class="at">unpaired =</span> <span class="fu">t.test</span>(x, y)<span class="sc">$</span>p.value           <span class="sc">&lt;</span> <span class="fl">0.05</span>,</span>
-<span id="cb231-11"><a href="ts-practice.html#cb231-11" tabindex="-1"></a>      <span class="at">se_paired   =</span> <span class="fu">sd</span>(x <span class="sc">-</span> y) <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="dv">10</span>),</span>
-<span id="cb231-12"><a href="ts-practice.html#cb231-12" tabindex="-1"></a>      <span class="at">se_unpaired =</span> <span class="fu">sqrt</span>(<span class="fu">var</span>(x)<span class="sc">/</span><span class="dv">10</span> <span class="sc">+</span> <span class="fu">var</span>(y)<span class="sc">/</span><span class="dv">10</span>))</span>
-<span id="cb231-13"><a href="ts-practice.html#cb231-13" tabindex="-1"></a>  })</span>
-<span id="cb231-14"><a href="ts-practice.html#cb231-14" tabindex="-1"></a>  <span class="fu">c</span>(<span class="at">rho =</span> rho, <span class="fu">rowMeans</span>(out))</span>
-<span id="cb231-15"><a href="ts-practice.html#cb231-15" tabindex="-1"></a>}</span>
-<span id="cb231-16"><a href="ts-practice.html#cb231-16" tabindex="-1"></a></span>
-<span id="cb231-17"><a href="ts-practice.html#cb231-17" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">t</span>(<span class="fu">sapply</span>(<span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.5</span>, <span class="fl">0.9</span>), power_at)), <span class="dv">3</span>)</span></code></pre></div>
-<pre><code>#&gt;      rho paired unpaired se_paired se_unpaired
-#&gt; [1,] 0.0  0.125    0.126     4.348       4.408
-#&gt; [2,] 0.5  0.212    0.073     3.069       4.402
-#&gt; [3,] 0.9  0.717    0.014     1.374       4.389</code></pre>
-<p>Read the two standard error columns first, because they explain everything else.
-The paired standard error falls from about 4.35 to 1.37 as the correlation
-rises. The unpaired standard error sits near 4.40 throughout — it is computed
-from the two columns separately and so cannot notice that they are related at
-all.</p>
-<p>The rejection rates follow. At <span class="math inline">\(\rho = 0\)</span> the two tests are equivalent, and the
-paired one is marginally worse because it has 9 degrees of freedom against 18.
-At <span class="math inline">\(\rho = 0.9\)</span> the paired test rejects about 72% of the time and the unpaired
-test almost never does.</p>
-<p>That last figure deserves a moment. The unpaired test does not merely fail to
-improve as the correlation rises; it gets <em>worse</em>. With strongly correlated
-columns the observed difference is tightly concentrated near its true value of
-4, while the standard error the unpaired test uses stays at 4.4 — so its
-statistic sits reliably near <span class="math inline">\(4/4.4 \approx 0.9\)</span> and almost never strays past
-the critical value. Ignoring a strong pairing produces a test that is
-consistently, confidently unable to see anything.</p>
-</div>
-</div>
-</div>
+<!-- </div> -->
 <script>
 // Solutions are written as plain fenced divs in the source, so the PDF edition
 // can typeset them as boxes. On the web they should stay hidden until asked
@@ -1148,8 +653,8 @@ document.addEventListener("DOMContentLoaded", function () {
           </div>
         </div>
       </div>
-<a href="ts-summary.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="ts-question-bank.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="mlr-looking-ahead.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -1180,7 +685,7 @@ gitbook.start({
     "size": 2
   },
   "edit": {
-    "link": "https://github.com/kedarkulkarni1991/stats-econometrics-r/edit/main/05-two-sample.Rmd",
+    "link": "https://github.com/kedarkulkarni1991/stats-econometrics-r/edit/main/08-multiple-regression.Rmd",
     "text": "Edit"
   },
   "history": {

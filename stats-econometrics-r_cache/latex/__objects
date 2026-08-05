@@ -19,3 +19,4 @@ os-power-calc	crit	delta	se
 os-power-table	power_at
 mlr-f-dist	f_stats	xa	xb	xc
 mlr-f-dist-plot	crit	curve_df
+mlr-fwl-plot	dd	fit_lines	ident	lab	pad	pred_att

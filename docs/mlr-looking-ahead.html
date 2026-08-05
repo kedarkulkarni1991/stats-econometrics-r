@@ -36,7 +36,7 @@ interpretation.</p>" />
   
   
 <link rel="prev" href="mlr-question-bank.html"/>
-
+<link rel="next" href="mlr-matrix-note.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -515,10 +515,12 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="mlr-model.html"><a href="mlr-model.html#another-example"><i class="fa fa-check"></i>Another example</a></li>
 <li class="chapter" data-level="" data-path="mlr-model.html"><a href="mlr-model.html#what-holding-fixed-does-not-mean"><i class="fa fa-check"></i>What “holding fixed” does not mean</a></li>
 </ul></li>
-<li class="chapter" data-level="8.3" data-path="mlr-fwl.html"><a href="mlr-fwl.html"><i class="fa fa-check"></i><b>8.3</b> How the comparison is actually made</a>
+<li class="chapter" data-level="8.3" data-path="mlr-fwl.html"><a href="mlr-fwl.html"><i class="fa fa-check"></i><b>8.3</b> What does “holding constant” actually mean?</a>
 <ul>
-<li class="chapter" data-level="" data-path="mlr-fwl.html"><a href="mlr-fwl.html#watching-it-happen"><i class="fa fa-check"></i>Watching it happen</a></li>
-<li class="chapter" data-level="" data-path="mlr-fwl.html"><a href="mlr-fwl.html#two-consequences-worth-noticing"><i class="fa fa-check"></i>Two consequences worth noticing</a></li>
+<li class="chapter" data-level="" data-path="mlr-fwl.html"><a href="mlr-fwl.html#predicting-attendance"><i class="fa fa-check"></i>Predicting attendance</a></li>
+<li class="chapter" data-level="" data-path="mlr-fwl.html"><a href="mlr-fwl.html#using-only-what-could-not-be-predicted"><i class="fa fa-check"></i>Using only what could not be predicted</a></li>
+<li class="chapter" data-level="" data-path="mlr-fwl.html"><a href="mlr-fwl.html#why-the-coefficient-changes"><i class="fa fa-check"></i>Why the coefficient changes</a></li>
+<li class="chapter" data-level="" data-path="mlr-fwl.html"><a href="mlr-fwl.html#why-the-standard-error-usually-grows"><i class="fa fa-check"></i>Why the standard error usually grows</a></li>
 </ul></li>
 <li class="chapter" data-level="8.4" data-path="mlr-assumptions.html"><a href="mlr-assumptions.html"><i class="fa fa-check"></i><b>8.4</b> The assumptions</a>
 <ul>
@@ -558,6 +560,7 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="mlr-question-bank.html"><a href="mlr-question-bank.html#numerical-7"><i class="fa fa-check"></i>Numerical</a></li>
 </ul></li>
 <li class="chapter" data-level="8.11" data-path="mlr-looking-ahead.html"><a href="mlr-looking-ahead.html"><i class="fa fa-check"></i><b>8.11</b> Looking ahead</a></li>
+<li class="chapter" data-level="8.12" data-path="mlr-matrix-note.html"><a href="mlr-matrix-note.html"><i class="fa fa-check"></i><b>8.12</b> Mathematical note: multiple regression in matrix form</a></li>
 </ul></li>
 <li class="divider"></li>
 <li class="toc-after">Kedar Kulkarni · Azim Premji University<br>
@@ -596,9 +599,7 @@ worse than leaving them out — a possibility that surprises most readers, since
 the instinct is that controlling for more is always safer. Distinguishing good
 controls from bad ones is the second theme of the next unit, and it depends on
 exactly the bias formula derived here.</p>
-
 </div>
-<!-- </div> -->
 <script>
 // Solutions are written as plain fenced divs in the source, so the PDF edition
 // can typeset them as boxes. On the web they should stay hidden until asked
@@ -620,8 +621,8 @@ document.addEventListener("DOMContentLoaded", function () {
           </div>
         </div>
       </div>
-<a href="mlr-question-bank.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-
+<a href="mlr-question-bank.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="mlr-matrix-note.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

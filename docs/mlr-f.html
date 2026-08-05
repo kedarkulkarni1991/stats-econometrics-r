@@ -515,10 +515,12 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="mlr-model.html"><a href="mlr-model.html#another-example"><i class="fa fa-check"></i>Another example</a></li>
 <li class="chapter" data-level="" data-path="mlr-model.html"><a href="mlr-model.html#what-holding-fixed-does-not-mean"><i class="fa fa-check"></i>What “holding fixed” does not mean</a></li>
 </ul></li>
-<li class="chapter" data-level="8.3" data-path="mlr-fwl.html"><a href="mlr-fwl.html"><i class="fa fa-check"></i><b>8.3</b> How the comparison is actually made</a>
+<li class="chapter" data-level="8.3" data-path="mlr-fwl.html"><a href="mlr-fwl.html"><i class="fa fa-check"></i><b>8.3</b> What does “holding constant” actually mean?</a>
 <ul>
-<li class="chapter" data-level="" data-path="mlr-fwl.html"><a href="mlr-fwl.html#watching-it-happen"><i class="fa fa-check"></i>Watching it happen</a></li>
-<li class="chapter" data-level="" data-path="mlr-fwl.html"><a href="mlr-fwl.html#two-consequences-worth-noticing"><i class="fa fa-check"></i>Two consequences worth noticing</a></li>
+<li class="chapter" data-level="" data-path="mlr-fwl.html"><a href="mlr-fwl.html#predicting-attendance"><i class="fa fa-check"></i>Predicting attendance</a></li>
+<li class="chapter" data-level="" data-path="mlr-fwl.html"><a href="mlr-fwl.html#using-only-what-could-not-be-predicted"><i class="fa fa-check"></i>Using only what could not be predicted</a></li>
+<li class="chapter" data-level="" data-path="mlr-fwl.html"><a href="mlr-fwl.html#why-the-coefficient-changes"><i class="fa fa-check"></i>Why the coefficient changes</a></li>
+<li class="chapter" data-level="" data-path="mlr-fwl.html"><a href="mlr-fwl.html#why-the-standard-error-usually-grows"><i class="fa fa-check"></i>Why the standard error usually grows</a></li>
 </ul></li>
 <li class="chapter" data-level="8.4" data-path="mlr-assumptions.html"><a href="mlr-assumptions.html"><i class="fa fa-check"></i><b>8.4</b> The assumptions</a>
 <ul>
@@ -558,6 +560,7 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="mlr-question-bank.html"><a href="mlr-question-bank.html#numerical-7"><i class="fa fa-check"></i>Numerical</a></li>
 </ul></li>
 <li class="chapter" data-level="8.11" data-path="mlr-looking-ahead.html"><a href="mlr-looking-ahead.html"><i class="fa fa-check"></i><b>8.11</b> Looking ahead</a></li>
+<li class="chapter" data-level="8.12" data-path="mlr-matrix-note.html"><a href="mlr-matrix-note.html"><i class="fa fa-check"></i><b>8.12</b> Mathematical note: multiple regression in matrix form</a></li>
 </ul></li>
 <li class="divider"></li>
 <li class="toc-after">Kedar Kulkarni · Azim Premji University<br>
@@ -729,7 +732,7 @@ distribution the theory predicts.</p>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:mlr-f-dist-plot"></span>
 <img src="stats-econometrics-r_files/figure-html/mlr-f-dist-plot-1.png" alt="Four thousand F statistics computed from data in which the two tested variables have no effect whatever, against the F distribution with 2 and 76 degrees of freedom. The shaded region beyond the 5% critical value is where the test rejects -- and since the null is true here, every rejection in it is a Type I error." width="90%"  />
 <p class="caption">
-Figure 8.1: Four thousand F statistics computed from data in which the two tested variables have no effect whatever, against the F distribution with 2 and 76 degrees of freedom. The shaded region beyond the 5% critical value is where the test rejects – and since the null is true here, every rejection in it is a Type I error.
+Figure 8.2: Four thousand F statistics computed from data in which the two tested variables have no effect whatever, against the F distribution with 2 and 76 degrees of freedom. The shaded region beyond the 5% critical value is where the test rejects – and since the null is true here, every rejection in it is a Type I error.
 </p>
 </div>
 <p>The simulated quantiles match the theoretical ones closely, and the test rejects
