@@ -505,6 +505,59 @@ coef(lm(sem_gpa ~ attendance + classes_missed, data = students))
 R returns `NA` for the second coefficient. It has not failed; it is reporting
 that the question has no answer.
 
+#### Why there is no answer {-}
+
+The reason can be seen with one substitution. Since
+$\text{missed} = 32 - \text{attendance}$, the fitted part of the model is
+
+$$
+\begin{aligned}
+\beta_0 + \beta_1\,\text{att} + \beta_2\,\text{missed}
+&= \beta_0 + \beta_1\,\text{att} + \beta_2(32 - \text{att}) \\[4pt]
+&= \underbrace{(\beta_0 + 32\beta_2)}_{\text{intercept}}
+ + \underbrace{(\beta_1 - \beta_2)}_{\text{slope}}\,\text{att}
+\end{aligned}
+$$
+
+The two coefficients enter only through their **difference**. Any pair with the
+same $\beta_1 - \beta_2$ produces exactly the same fitted values, and therefore
+exactly the same sum of squared residuals.
+
+Least squares chooses the coefficients that minimise that sum. Here infinitely
+many pairs minimise it equally well, so there is nothing to choose between them.
+
+```{r mlr-collinear-why}
+att <- students$attendance
+mis <- students$classes_missed
+
+## Three quite different pairs, all with the same difference b1 - b2.
+fit_at <- function(b0, b1, b2) b0 + b1 * att + b2 * mis
+
+round(c(pair1_vs_pair2 = max(abs(fit_at(1.562, 0.189, 0) -
+                                 fit_at(1.562 -  32, 1.189, 1))),
+        pair1_vs_pair3 = max(abs(fit_at(1.562, 0.189, 0) -
+                                 fit_at(1.562 - 160, 5.189, 5)))), 10)
+```
+
+A slope of 0.189 on attendance with 0 on classes missed, a slope of 1.189 with
+1, and a slope of 5.189 with 5 all fit the data identically. The differences are
+zero to machine precision.
+
+The data cannot distinguish between them, and neither can any estimator.
+
+::: {.deeper}
+The same fact appears in the two-step procedure of Section \@ref(mlr-fwl).
+
+Regress attendance on classes missed, and the fit is perfect: $R^2 = 1$, and
+every residual is zero. Step two would then regress GPA on a variable that does
+not vary at all.
+
+That is assumption CLRM3 failing, and it is also the variance formula of the
+next subsection with $R_j^2 = 1$, so that $(1 - R_j^2) = 0$ and the denominator
+vanishes. Perfect collinearity is not a separate problem from the one the next
+subsection describes. It is the same problem at its limit.
+:::
+
 ::: {.intuition}
 The coefficient on attendance is supposed to answer: what happens to the grade
 when attendance rises by one, holding classes missed fixed?
@@ -582,8 +635,42 @@ price.
 Does the machinery of Unit \@ref(ols) still work?
 :::
 
-It does, unchanged apart from the degrees of freedom. To test whether a single
-population coefficient equals zero,
+It does, unchanged apart from the degrees of freedom. Before using it, it is
+worth recalling why it works at all.
+
+### Every coefficient is an estimate {-}
+
+The four numbers in the first column of a regression output are not facts about
+the population. They were computed from one sample of 680 students.
+
+A different sample of 680 students would have produced four different numbers.
+
+::: {.keyidea}
+Each $\hat{\beta}_j$ is a **statistic** — a quantity computed from a sample — and
+so each has a sampling distribution, exactly as the sample mean did in Unit
+\@ref(estimation).
+
+Section \@ref(ols-sampling) drew that distribution for the simple regression
+slope by taking five thousand samples and plotting the result. The same is true
+of every coefficient here, and of all of them jointly.
+:::
+
+That is what makes the rest of this unit possible. Unbiasedness says the
+distribution of $\hat{\beta}_j$ is centred on $\beta_j$. The standard error
+estimates its width. And the Central Limit Theorem of Unit
+\@ref(towards-inference) says that in reasonably large samples the distribution
+is approximately normal, whatever the distribution of the errors — which is why
+CLRM6 matters so little in practice.
+
+So the problem is the one this book has been solving since Unit
+\@ref(estimation). We have a single draw from a distribution centred on the
+quantity we want, and we know roughly how wide that distribution is. Everything
+that followed from that — standard errors, confidence intervals, $t$ statistics,
+$p$-values — applies here without modification.
+
+### The test {-}
+
+To test whether a single population coefficient equals zero,
 
 $$H_0 : \beta_j = 0
 \qquad\qquad

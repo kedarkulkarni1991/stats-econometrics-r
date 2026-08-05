@@ -529,7 +529,11 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="mlr-assumptions.html"><a href="mlr-assumptions.html#when-controls-tell-us-the-same-thing"><i class="fa fa-check"></i>When controls tell us the same thing</a></li>
 <li class="chapter" data-level="" data-path="mlr-assumptions.html"><a href="mlr-assumptions.html#the-trade"><i class="fa fa-check"></i>The trade</a></li>
 </ul></li>
-<li class="chapter" data-level="8.5" data-path="mlr-t.html"><a href="mlr-t.html"><i class="fa fa-check"></i><b>8.5</b> Testing one coefficient</a></li>
+<li class="chapter" data-level="8.5" data-path="mlr-t.html"><a href="mlr-t.html"><i class="fa fa-check"></i><b>8.5</b> Testing one coefficient</a>
+<ul>
+<li class="chapter" data-level="" data-path="mlr-t.html"><a href="mlr-t.html#every-coefficient-is-an-estimate"><i class="fa fa-check"></i>Every coefficient is an estimate</a></li>
+<li class="chapter" data-level="" data-path="mlr-t.html"><a href="mlr-t.html#the-test"><i class="fa fa-check"></i>The test</a></li>
+</ul></li>
 <li class="chapter" data-level="8.6" data-path="mlr-f.html"><a href="mlr-f.html"><i class="fa fa-check"></i><b>8.6</b> Testing several coefficients at once</a>
 <ul>
 <li class="chapter" data-level="" data-path="mlr-f.html"><a href="mlr-f.html#why-separate-tests-fail"><i class="fa fa-check"></i>Why separate tests fail</a></li>
@@ -650,6 +654,49 @@ Knowing one is knowing the other. Ask R to use both.</p>
 #&gt;          1.562          0.189             NA</code></pre>
 <p>R returns <code>NA</code> for the second coefficient. It has not failed; it is reporting
 that the question has no answer.</p>
+<div id="why-there-is-no-answer" class="section level4 unnumbered hasAnchor">
+<h4>Why there is no answer<a href="mlr-assumptions.html#why-there-is-no-answer" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>The reason can be seen with one substitution. Since
+<span class="math inline">\(\text{missed} = 32 - \text{attendance}\)</span>, the fitted part of the model is</p>
+<p><span class="math display">\[
+\begin{aligned}
+\beta_0 + \beta_1\,\text{att} + \beta_2\,\text{missed}
+&amp;= \beta_0 + \beta_1\,\text{att} + \beta_2(32 - \text{att}) \\[4pt]
+&amp;= \underbrace{(\beta_0 + 32\beta_2)}_{\text{intercept}}
++ \underbrace{(\beta_1 - \beta_2)}_{\text{slope}}\,\text{att}
+\end{aligned}
+\]</span></p>
+<p>The two coefficients enter only through their <strong>difference</strong>. Any pair with the
+same <span class="math inline">\(\beta_1 - \beta_2\)</span> produces exactly the same fitted values, and therefore
+exactly the same sum of squared residuals.</p>
+<p>Least squares chooses the coefficients that minimise that sum. Here infinitely
+many pairs minimise it equally well, so there is nothing to choose between them.</p>
+<div class="sourceCode" id="cb307"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb307-1"><a href="mlr-assumptions.html#cb307-1" tabindex="-1"></a>att <span class="ot">&lt;-</span> students<span class="sc">$</span>attendance</span>
+<span id="cb307-2"><a href="mlr-assumptions.html#cb307-2" tabindex="-1"></a>mis <span class="ot">&lt;-</span> students<span class="sc">$</span>classes_missed</span>
+<span id="cb307-3"><a href="mlr-assumptions.html#cb307-3" tabindex="-1"></a></span>
+<span id="cb307-4"><a href="mlr-assumptions.html#cb307-4" tabindex="-1"></a><span class="do">## Three quite different pairs, all with the same difference b1 - b2.</span></span>
+<span id="cb307-5"><a href="mlr-assumptions.html#cb307-5" tabindex="-1"></a>fit_at <span class="ot">&lt;-</span> <span class="cf">function</span>(b0, b1, b2) b0 <span class="sc">+</span> b1 <span class="sc">*</span> att <span class="sc">+</span> b2 <span class="sc">*</span> mis</span>
+<span id="cb307-6"><a href="mlr-assumptions.html#cb307-6" tabindex="-1"></a></span>
+<span id="cb307-7"><a href="mlr-assumptions.html#cb307-7" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">pair1_vs_pair2 =</span> <span class="fu">max</span>(<span class="fu">abs</span>(<span class="fu">fit_at</span>(<span class="fl">1.562</span>, <span class="fl">0.189</span>, <span class="dv">0</span>) <span class="sc">-</span></span>
+<span id="cb307-8"><a href="mlr-assumptions.html#cb307-8" tabindex="-1"></a>                                 <span class="fu">fit_at</span>(<span class="fl">1.562</span> <span class="sc">-</span>  <span class="dv">32</span>, <span class="fl">1.189</span>, <span class="dv">1</span>))),</span>
+<span id="cb307-9"><a href="mlr-assumptions.html#cb307-9" tabindex="-1"></a>        <span class="at">pair1_vs_pair3 =</span> <span class="fu">max</span>(<span class="fu">abs</span>(<span class="fu">fit_at</span>(<span class="fl">1.562</span>, <span class="fl">0.189</span>, <span class="dv">0</span>) <span class="sc">-</span></span>
+<span id="cb307-10"><a href="mlr-assumptions.html#cb307-10" tabindex="-1"></a>                                 <span class="fu">fit_at</span>(<span class="fl">1.562</span> <span class="sc">-</span> <span class="dv">160</span>, <span class="fl">5.189</span>, <span class="dv">5</span>)))), <span class="dv">10</span>)</span></code></pre></div>
+<pre><code>#&gt; pair1_vs_pair2 pair1_vs_pair3 
+#&gt;              0              0</code></pre>
+<p>A slope of 0.189 on attendance with 0 on classes missed, a slope of 1.189 with
+1, and a slope of 5.189 with 5 all fit the data identically. The differences are
+zero to machine precision.</p>
+<p>The data cannot distinguish between them, and neither can any estimator.</p>
+<div class="deeper">
+<p>The same fact appears in the two-step procedure of Section <a href="mlr-fwl.html#mlr-fwl">8.3</a>.</p>
+<p>Regress attendance on classes missed, and the fit is perfect: <span class="math inline">\(R^2 = 1\)</span>, and
+every residual is zero. Step two would then regress GPA on a variable that does
+not vary at all.</p>
+<p>That is assumption CLRM3 failing, and it is also the variance formula of the
+next subsection with <span class="math inline">\(R_j^2 = 1\)</span>, so that <span class="math inline">\((1 - R_j^2) = 0\)</span> and the denominator
+vanishes. Perfect collinearity is not a separate problem from the one the next
+subsection describes. It is the same problem at its limit.</p>
+</div>
 <div class="intuition">
 <p>The coefficient on attendance is supposed to answer: what happens to the grade
 when attendance rises by one, holding classes missed fixed?</p>
@@ -657,6 +704,7 @@ when attendance rises by one, holding classes missed fixed?</p>
 missing one fewer. There is no student for whom one changed and the other did
 not, so the data contain no information about that comparison, and no amount of
 cleverness can extract it.</p>
+</div>
 </div>
 </div>
 <div id="when-controls-tell-us-the-same-thing" class="section level3 unnumbered hasAnchor">

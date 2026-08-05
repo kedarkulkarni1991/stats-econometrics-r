@@ -529,7 +529,11 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="mlr-assumptions.html"><a href="mlr-assumptions.html#when-controls-tell-us-the-same-thing"><i class="fa fa-check"></i>When controls tell us the same thing</a></li>
 <li class="chapter" data-level="" data-path="mlr-assumptions.html"><a href="mlr-assumptions.html#the-trade"><i class="fa fa-check"></i>The trade</a></li>
 </ul></li>
-<li class="chapter" data-level="8.5" data-path="mlr-t.html"><a href="mlr-t.html"><i class="fa fa-check"></i><b>8.5</b> Testing one coefficient</a></li>
+<li class="chapter" data-level="8.5" data-path="mlr-t.html"><a href="mlr-t.html"><i class="fa fa-check"></i><b>8.5</b> Testing one coefficient</a>
+<ul>
+<li class="chapter" data-level="" data-path="mlr-t.html"><a href="mlr-t.html#every-coefficient-is-an-estimate"><i class="fa fa-check"></i>Every coefficient is an estimate</a></li>
+<li class="chapter" data-level="" data-path="mlr-t.html"><a href="mlr-t.html#the-test"><i class="fa fa-check"></i>The test</a></li>
+</ul></li>
 <li class="chapter" data-level="8.6" data-path="mlr-f.html"><a href="mlr-f.html"><i class="fa fa-check"></i><b>8.6</b> Testing several coefficients at once</a>
 <ul>
 <li class="chapter" data-level="" data-path="mlr-f.html"><a href="mlr-f.html#why-separate-tests-fail"><i class="fa fa-check"></i>Why separate tests fail</a></li>
@@ -589,20 +593,48 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <div class="question">
 <p>Does the machinery of Unit <a href="ols.html#ols">7</a> still work?</p>
 </div>
-<p>It does, unchanged apart from the degrees of freedom. To test whether a single
-population coefficient equals zero,</p>
+<p>It does, unchanged apart from the degrees of freedom. Before using it, it is
+worth recalling why it works at all.</p>
+<div id="every-coefficient-is-an-estimate" class="section level3 unnumbered hasAnchor">
+<h3>Every coefficient is an estimate<a href="mlr-t.html#every-coefficient-is-an-estimate" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>The four numbers in the first column of a regression output are not facts about
+the population. They were computed from one sample of 680 students.</p>
+<p>A different sample of 680 students would have produced four different numbers.</p>
+<div class="keyidea">
+<p>Each <span class="math inline">\(\hat{\beta}_j\)</span> is a <strong>statistic</strong> — a quantity computed from a sample — and
+so each has a sampling distribution, exactly as the sample mean did in Unit
+<a href="estimation.html#estimation">2</a>.</p>
+<p>Section <a href="ols-sampling.html#ols-sampling">7.3</a> drew that distribution for the simple regression
+slope by taking five thousand samples and plotting the result. The same is true
+of every coefficient here, and of all of them jointly.</p>
+</div>
+<p>That is what makes the rest of this unit possible. Unbiasedness says the
+distribution of <span class="math inline">\(\hat{\beta}_j\)</span> is centred on <span class="math inline">\(\beta_j\)</span>. The standard error
+estimates its width. And the Central Limit Theorem of Unit
+<a href="towards-inference.html#towards-inference">1</a> says that in reasonably large samples the distribution
+is approximately normal, whatever the distribution of the errors — which is why
+CLRM6 matters so little in practice.</p>
+<p>So the problem is the one this book has been solving since Unit
+<a href="estimation.html#estimation">2</a>. We have a single draw from a distribution centred on the
+quantity we want, and we know roughly how wide that distribution is. Everything
+that followed from that — standard errors, confidence intervals, <span class="math inline">\(t\)</span> statistics,
+<span class="math inline">\(p\)</span>-values — applies here without modification.</p>
+</div>
+<div id="the-test" class="section level3 unnumbered hasAnchor">
+<h3>The test<a href="mlr-t.html#the-test" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>To test whether a single population coefficient equals zero,</p>
 <p><span class="math display">\[H_0 : \beta_j = 0
 \qquad\qquad
 t = \frac{\hat{\beta}_j}{\mathrm{se}(\hat{\beta}_j)}
 \;\sim\; t_{\,n-k-1}\]</span></p>
 <p>and confidence intervals follow as before.</p>
-<div class="sourceCode" id="cb307"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb307-1"><a href="mlr-t.html#cb307-1" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">coef</span>(<span class="fu">summary</span>(full)), <span class="dv">4</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb309"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb309-1"><a href="mlr-t.html#cb309-1" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">coef</span>(<span class="fu">summary</span>(full)), <span class="dv">4</span>)</span></code></pre></div>
 <pre><code>#&gt;                 Estimate Std. Error t value Pr(&gt;|t|)
 #&gt; (Intercept)      -7.6603     1.2944  -5.918        0
 #&gt; attendance        0.1360     0.0104  13.040        0
 #&gt; cum_gpa           0.5748     0.0441  13.026        0
 #&gt; admission_score   0.0835     0.0158   5.299        0</code></pre>
-<div class="sourceCode" id="cb309"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb309-1"><a href="mlr-t.html#cb309-1" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">confint</span>(full), <span class="dv">4</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb311"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb311-1"><a href="mlr-t.html#cb311-1" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">confint</span>(full), <span class="dv">4</span>)</span></code></pre></div>
 <pre><code>#&gt;                    2.5 %  97.5 %
 #&gt; (Intercept)     -10.2019 -5.1188
 #&gt; attendance        0.1155  0.1565
@@ -616,6 +648,7 @@ attendance runs from 0.116 to 0.157.</p>
 GPA and admission score. It says nothing about a model with different controls,
 where the coefficient, its standard error and its significance may all differ.</p>
 <p>A <span class="math inline">\(t\)</span> statistic is a statement about one column of one regression.</p>
+</div>
 </div>
 </div>
 <script>

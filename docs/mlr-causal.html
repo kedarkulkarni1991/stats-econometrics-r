@@ -529,7 +529,11 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="mlr-assumptions.html"><a href="mlr-assumptions.html#when-controls-tell-us-the-same-thing"><i class="fa fa-check"></i>When controls tell us the same thing</a></li>
 <li class="chapter" data-level="" data-path="mlr-assumptions.html"><a href="mlr-assumptions.html#the-trade"><i class="fa fa-check"></i>The trade</a></li>
 </ul></li>
-<li class="chapter" data-level="8.5" data-path="mlr-t.html"><a href="mlr-t.html"><i class="fa fa-check"></i><b>8.5</b> Testing one coefficient</a></li>
+<li class="chapter" data-level="8.5" data-path="mlr-t.html"><a href="mlr-t.html"><i class="fa fa-check"></i><b>8.5</b> Testing one coefficient</a>
+<ul>
+<li class="chapter" data-level="" data-path="mlr-t.html"><a href="mlr-t.html#every-coefficient-is-an-estimate"><i class="fa fa-check"></i>Every coefficient is an estimate</a></li>
+<li class="chapter" data-level="" data-path="mlr-t.html"><a href="mlr-t.html#the-test"><i class="fa fa-check"></i>The test</a></li>
+</ul></li>
 <li class="chapter" data-level="8.6" data-path="mlr-f.html"><a href="mlr-f.html"><i class="fa fa-check"></i><b>8.6</b> Testing several coefficients at once</a>
 <ul>
 <li class="chapter" data-level="" data-path="mlr-f.html"><a href="mlr-f.html#why-separate-tests-fail"><i class="fa fa-check"></i>Why separate tests fail</a></li>
@@ -661,18 +665,18 @@ likely to be wrong.</p>
 <h3>Checking the arithmetic<a href="mlr-causal.html#checking-the-arithmetic" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>The decomposition is exact in a sample, not merely a statement about
 expectations. We can verify it on the grades data.</p>
-<div class="sourceCode" id="cb327"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb327-1"><a href="mlr-causal.html#cb327-1" tabindex="-1"></a>long <span class="ot">&lt;-</span> <span class="fu">coef</span>(unrestricted)</span>
-<span id="cb327-2"><a href="mlr-causal.html#cb327-2" tabindex="-1"></a></span>
-<span id="cb327-3"><a href="mlr-causal.html#cb327-3" tabindex="-1"></a>d_cum <span class="ot">&lt;-</span> <span class="fu">coef</span>(<span class="fu">lm</span>(cum_gpa <span class="sc">~</span> attendance, <span class="at">data =</span> students))[<span class="dv">2</span>]</span>
-<span id="cb327-4"><a href="mlr-causal.html#cb327-4" tabindex="-1"></a>d_adm <span class="ot">&lt;-</span> <span class="fu">coef</span>(<span class="fu">lm</span>(admission_score <span class="sc">~</span> attendance, <span class="at">data =</span> students))[<span class="dv">2</span>]</span>
-<span id="cb327-5"><a href="mlr-causal.html#cb327-5" tabindex="-1"></a></span>
-<span id="cb327-6"><a href="mlr-causal.html#cb327-6" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">short_regression =</span> <span class="fu">coef</span>(restricted)[<span class="st">&quot;attendance&quot;</span>],</span>
-<span id="cb327-7"><a href="mlr-causal.html#cb327-7" tabindex="-1"></a>        <span class="at">long_coefficient =</span> long[<span class="st">&quot;attendance&quot;</span>],</span>
-<span id="cb327-8"><a href="mlr-causal.html#cb327-8" tabindex="-1"></a>        <span class="at">bias_via_cum_gpa =</span> long[<span class="st">&quot;cum_gpa&quot;</span>] <span class="sc">*</span> d_cum,</span>
-<span id="cb327-9"><a href="mlr-causal.html#cb327-9" tabindex="-1"></a>        <span class="at">bias_via_adm     =</span> long[<span class="st">&quot;admission_score&quot;</span>] <span class="sc">*</span> d_adm,</span>
-<span id="cb327-10"><a href="mlr-causal.html#cb327-10" tabindex="-1"></a>        <span class="at">reassembled      =</span> long[<span class="st">&quot;attendance&quot;</span>] <span class="sc">+</span></span>
-<span id="cb327-11"><a href="mlr-causal.html#cb327-11" tabindex="-1"></a>                           long[<span class="st">&quot;cum_gpa&quot;</span>] <span class="sc">*</span> d_cum <span class="sc">+</span></span>
-<span id="cb327-12"><a href="mlr-causal.html#cb327-12" tabindex="-1"></a>                           long[<span class="st">&quot;admission_score&quot;</span>] <span class="sc">*</span> d_adm), <span class="dv">6</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb329"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb329-1"><a href="mlr-causal.html#cb329-1" tabindex="-1"></a>long <span class="ot">&lt;-</span> <span class="fu">coef</span>(unrestricted)</span>
+<span id="cb329-2"><a href="mlr-causal.html#cb329-2" tabindex="-1"></a></span>
+<span id="cb329-3"><a href="mlr-causal.html#cb329-3" tabindex="-1"></a>d_cum <span class="ot">&lt;-</span> <span class="fu">coef</span>(<span class="fu">lm</span>(cum_gpa <span class="sc">~</span> attendance, <span class="at">data =</span> students))[<span class="dv">2</span>]</span>
+<span id="cb329-4"><a href="mlr-causal.html#cb329-4" tabindex="-1"></a>d_adm <span class="ot">&lt;-</span> <span class="fu">coef</span>(<span class="fu">lm</span>(admission_score <span class="sc">~</span> attendance, <span class="at">data =</span> students))[<span class="dv">2</span>]</span>
+<span id="cb329-5"><a href="mlr-causal.html#cb329-5" tabindex="-1"></a></span>
+<span id="cb329-6"><a href="mlr-causal.html#cb329-6" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">short_regression =</span> <span class="fu">coef</span>(restricted)[<span class="st">&quot;attendance&quot;</span>],</span>
+<span id="cb329-7"><a href="mlr-causal.html#cb329-7" tabindex="-1"></a>        <span class="at">long_coefficient =</span> long[<span class="st">&quot;attendance&quot;</span>],</span>
+<span id="cb329-8"><a href="mlr-causal.html#cb329-8" tabindex="-1"></a>        <span class="at">bias_via_cum_gpa =</span> long[<span class="st">&quot;cum_gpa&quot;</span>] <span class="sc">*</span> d_cum,</span>
+<span id="cb329-9"><a href="mlr-causal.html#cb329-9" tabindex="-1"></a>        <span class="at">bias_via_adm     =</span> long[<span class="st">&quot;admission_score&quot;</span>] <span class="sc">*</span> d_adm,</span>
+<span id="cb329-10"><a href="mlr-causal.html#cb329-10" tabindex="-1"></a>        <span class="at">reassembled      =</span> long[<span class="st">&quot;attendance&quot;</span>] <span class="sc">+</span></span>
+<span id="cb329-11"><a href="mlr-causal.html#cb329-11" tabindex="-1"></a>                           long[<span class="st">&quot;cum_gpa&quot;</span>] <span class="sc">*</span> d_cum <span class="sc">+</span></span>
+<span id="cb329-12"><a href="mlr-causal.html#cb329-12" tabindex="-1"></a>                           long[<span class="st">&quot;admission_score&quot;</span>] <span class="sc">*</span> d_adm), <span class="dv">6</span>)</span></code></pre></div>
 <pre><code>#&gt;  short_regression.attendance  long_coefficient.attendance 
 #&gt;                     0.188952                     0.136012 
 #&gt;     bias_via_cum_gpa.cum_gpa bias_via_adm.admission_score 

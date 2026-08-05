@@ -529,7 +529,11 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="mlr-assumptions.html"><a href="mlr-assumptions.html#when-controls-tell-us-the-same-thing"><i class="fa fa-check"></i>When controls tell us the same thing</a></li>
 <li class="chapter" data-level="" data-path="mlr-assumptions.html"><a href="mlr-assumptions.html#the-trade"><i class="fa fa-check"></i>The trade</a></li>
 </ul></li>
-<li class="chapter" data-level="8.5" data-path="mlr-t.html"><a href="mlr-t.html"><i class="fa fa-check"></i><b>8.5</b> Testing one coefficient</a></li>
+<li class="chapter" data-level="8.5" data-path="mlr-t.html"><a href="mlr-t.html"><i class="fa fa-check"></i><b>8.5</b> Testing one coefficient</a>
+<ul>
+<li class="chapter" data-level="" data-path="mlr-t.html"><a href="mlr-t.html#every-coefficient-is-an-estimate"><i class="fa fa-check"></i>Every coefficient is an estimate</a></li>
+<li class="chapter" data-level="" data-path="mlr-t.html"><a href="mlr-t.html#the-test"><i class="fa fa-check"></i>The test</a></li>
+</ul></li>
 <li class="chapter" data-level="8.6" data-path="mlr-f.html"><a href="mlr-f.html"><i class="fa fa-check"></i><b>8.6</b> Testing several coefficients at once</a>
 <ul>
 <li class="chapter" data-level="" data-path="mlr-f.html"><a href="mlr-f.html#why-separate-tests-fail"><i class="fa fa-check"></i>Why separate tests fail</a></li>
@@ -616,11 +620,11 @@ prints — and its off-diagonal entries hold the covariances between them, which
 is what the <span class="math inline">\(F\)</span> test of Section <a href="mlr-f.html#mlr-f">8.6</a> needs in order to test several
 coefficients jointly.</p>
 <p><strong>Checking it.</strong> The formula is short enough to compute directly.</p>
-<div class="sourceCode" id="cb333"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb333-1"><a href="mlr-matrix-note.html#cb333-1" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="fu">cbind</span>(<span class="dv">1</span>, students<span class="sc">$</span>attendance, students<span class="sc">$</span>cum_gpa, students<span class="sc">$</span>admission_score)</span>
-<span id="cb333-2"><a href="mlr-matrix-note.html#cb333-2" tabindex="-1"></a>y <span class="ot">&lt;-</span> students<span class="sc">$</span>sem_gpa</span>
-<span id="cb333-3"><a href="mlr-matrix-note.html#cb333-3" tabindex="-1"></a></span>
-<span id="cb333-4"><a href="mlr-matrix-note.html#cb333-4" tabindex="-1"></a>b_hat <span class="ot">&lt;-</span> <span class="fu">solve</span>(<span class="fu">t</span>(X) <span class="sc">%*%</span> X) <span class="sc">%*%</span> <span class="fu">t</span>(X) <span class="sc">%*%</span> y</span>
-<span id="cb333-5"><a href="mlr-matrix-note.html#cb333-5" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">drop</span>(b_hat), <span class="dv">5</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb335"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb335-1"><a href="mlr-matrix-note.html#cb335-1" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="fu">cbind</span>(<span class="dv">1</span>, students<span class="sc">$</span>attendance, students<span class="sc">$</span>cum_gpa, students<span class="sc">$</span>admission_score)</span>
+<span id="cb335-2"><a href="mlr-matrix-note.html#cb335-2" tabindex="-1"></a>y <span class="ot">&lt;-</span> students<span class="sc">$</span>sem_gpa</span>
+<span id="cb335-3"><a href="mlr-matrix-note.html#cb335-3" tabindex="-1"></a></span>
+<span id="cb335-4"><a href="mlr-matrix-note.html#cb335-4" tabindex="-1"></a>b_hat <span class="ot">&lt;-</span> <span class="fu">solve</span>(<span class="fu">t</span>(X) <span class="sc">%*%</span> X) <span class="sc">%*%</span> <span class="fu">t</span>(X) <span class="sc">%*%</span> y</span>
+<span id="cb335-5"><a href="mlr-matrix-note.html#cb335-5" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">drop</span>(b_hat), <span class="dv">5</span>)</span></code></pre></div>
 <pre><code>#&gt; [1] -7.6603  0.1360  0.5748  0.0835</code></pre>
 <p>The same four numbers <code>lm()</code> reported in Section <a href="mlr-model.html#mlr-model">8.2</a>.</p>
 <p><strong>Where collinearity appears.</strong> The requirement in Section
