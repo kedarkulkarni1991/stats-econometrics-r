@@ -28,3 +28,4 @@ ff-mediator	mediator
 ff-collider	collider	u	x	y
 ff-squares-plot	me	turn
 ff-dags	edges	lab	nodes
+dv-lines-plot	grid	pool	pooled_fit	shown

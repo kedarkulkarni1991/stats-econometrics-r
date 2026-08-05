@@ -18,6 +18,7 @@ rmd_files:
   - "07-ols.Rmd"
   - "08-multiple-regression.Rmd"
   - "09-specification.Rmd"
+  - "10-dummy-variables.Rmd"
 
 language:
   ui:

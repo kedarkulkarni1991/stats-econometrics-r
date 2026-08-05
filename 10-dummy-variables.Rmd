@@ -1,0 +1,928 @@
+# Dummy Variables: Does One Line Fit Everyone? {#dummy-variables}
+
+```{r setup-10, include = FALSE}
+source("_common.R")
+library(ggplot2)
+```
+
+Every explanatory variable so far has been a number. Years of schooling, classes
+attended, capital per worker — quantities that can be larger or smaller, and for
+which "a one-unit increase" means something.
+
+Much of what economists want to compare is not like that. Rural and urban.
+Treated and untreated. Before and after the reform. These are categories, not
+quantities, and there is no sense in which one is one unit more than another.
+
+Twice already we have handled such a variable by writing 0 and 1 and moving on.
+It is time to ask what that actually did — and then to ask a question the
+technique makes possible.
+
+Every regression in this book has fitted **one line to everybody**. One return
+to schooling for all workers, one effect of attendance for all students. That is
+an assumption, and a strong one. It may be that the relationship differs across
+groups, and that fitting a single line describes nobody in particular.
+
+This unit shows how to put groups into a regression, how to let a relationship
+differ between them, and how to test whether it does.
+
+## Variables that are not numbers {#dv-motivation}
+
+::: {.question}
+How do you put "urban" into an equation?
+:::
+
+The wage data record where each worker lives.
+
+```{r dv-look}
+wages <- read.csv("data/wages-india-synthetic.csv")
+wages$lw <- log(wages$annual_earnings)
+
+table(wages$residence)
+```
+
+There is no arithmetic to do here. Urban minus rural is not a number, and no
+amount of care about units will make it one.
+
+What we can do is record whether a condition holds.
+
+::: {.keyidea}
+A **dummy variable** — also called an indicator, or a binary variable — takes
+the value 1 when a condition is true and 0 when it is false.
+
+$$\text{urban}_i =
+\begin{cases}
+1 & \text{if worker } i \text{ lives in an urban area} \\
+0 & \text{otherwise}
+\end{cases}$$
+
+It is a number, so a regression can use it. What makes it different from other
+numbers is that it takes only two values, so "a one-unit increase" means
+switching from one group to the other.
+:::
+
+```{r dv-make}
+wages$urban <- as.integer(wages$residence == "Urban")
+wages$male  <- as.integer(wages$sex == "Male")
+
+head(data.frame(residence = wages$residence, urban = wages$urban))
+```
+
+The choice of which category gets the 1 is arbitrary. Coding rural as 1 instead
+would flip the sign of the coefficient and change nothing else.
+
+## One dummy: a shift in the intercept {#dv-intercept}
+
+::: {.question}
+What does the coefficient on a 0/1 variable mean?
+:::
+
+Start with the simplest possible regression: log earnings on the urban dummy and
+nothing else.
+
+$$\ln(\text{earnings}) = \beta_0 + \beta_1 \,\text{urban} + u$$
+
+Work out what the model predicts for each group by substituting the only two
+values the variable can take.
+
+::: {.theory}
+For a rural worker, $\text{urban} = 0$:
+
+$$E[\ln(\text{earnings}) \mid \text{rural}] = \beta_0$$
+
+For an urban worker, $\text{urban} = 1$:
+
+$$E[\ln(\text{earnings}) \mid \text{urban}] = \beta_0 + \beta_1$$
+
+Subtracting the first from the second:
+
+$$\beta_1 = E[\ln(\text{earnings}) \mid \text{urban}]
+- E[\ln(\text{earnings}) \mid \text{rural}]$$
+:::
+
+::: {.keyidea}
+The intercept is the mean of the **base group** — the one coded 0.
+
+The coefficient is the **difference in means** between the two groups.
+
+Nothing about a slope has changed conceptually. It is still the change in $y$
+for a one-unit change in $x$; it is only that the single available unit is the
+whole distance from one group to the other.
+:::
+
+```{r dv-one}
+one_dummy <- lm(lw ~ urban, data = wages)
+round(coef(summary(one_dummy)), 5)
+
+round(tapply(wages$lw, wages$residence, mean), 5)
+```
+
+The intercept, 9.818, is exactly the rural mean. The coefficient, 1.076, is
+exactly the gap between the two means.
+
+Because the outcome is in logarithms, Section \@ref(ff-four) tells us how to
+read it: urban workers earn about
+$`r round(100*(exp(1.075997)-1), 0)`$% more than rural workers. The coefficient
+is far above 0.2, so the exact expression is required and the approximation of
+108% would be badly wrong.
+
+### Something familiar {-}
+
+Look again at what this regression is doing. It is comparing the mean of one
+group with the mean of another and reporting a standard error for the
+difference.
+
+That is the two-sample $t$-test of Unit \@ref(two-sample).
+
+```{r dv-ttest}
+c(regression_t = coef(summary(one_dummy))[2, 3],
+  t_test       = abs(t.test(lw ~ residence, data = wages,
+                            var.equal = TRUE)$statistic))
+```
+
+Not merely similar. The same number, to every digit R prints.
+
+::: {.keyidea}
+**A regression on a single dummy variable is a two-sample $t$-test.**
+
+The pooled two-sample test of Section \@ref(ts-unknown) assumed a common
+variance in the two groups; the regression assumes homoskedasticity, which here
+says the same thing. Given the same assumption, they are the same procedure
+written two ways.
+:::
+
+::: {.intuition}
+This is worth pausing on, because it reframes everything that came before.
+
+Unit \@ref(two-sample) looked like a self-contained topic with its own formula.
+It was a special case of regression all along — the case with one explanatory
+variable that happens to be binary.
+
+And regression can do what the $t$-test cannot. Add controls and the comparison
+becomes a difference between groups *among people alike in other respects*,
+which is precisely what Unit \@ref(multiple-regression) was about.
+:::
+
+```{r dv-controlled}
+controlled <- lm(lw ~ urban + education + age + male, data = wages)
+round(coef(summary(controlled))[, 1:2], 5)
+```
+
+The urban premium falls from 1.076 to 0.805 once education, age and sex are held
+fixed. Part of the raw gap was the fact that urban workers are better educated —
+not a return to living in a city.
+
+## More than two categories {#dv-categories}
+
+::: {.question}
+Residence has two categories. What about a variable with seven?
+:::
+
+The data also record religion, which takes seven values.
+
+```{r dv-religion-table}
+table(wages$religion)
+```
+
+The temptation is to code these 1 through 7 and enter that as a variable. It
+would run, and it would be meaningless: it would impose that the step from
+category 1 to category 2 has the same effect as the step from 6 to 7, and that
+category 4 sits midway between 3 and 5. The numbers are labels, not quantities.
+
+The correct approach is one dummy per category — but not quite all of them.
+
+### The dummy variable trap {-}
+
+Suppose we build a dummy for urban and another for rural, and include both.
+
+```{r dv-trap}
+wages$rural <- 1 - wages$urban
+
+coef(lm(lw ~ urban + rural, data = wages))
+```
+
+`NA` again, and for the reason established in Section \@ref(mlr-assumptions):
+$\text{urban} + \text{rural} = 1$ for every worker, which is exactly the
+intercept's column. One column is an exact linear combination of the others, so
+CLRM7 fails.
+
+::: {.keyidea}
+**The dummy variable trap.** With $g$ categories, include $g-1$ dummies, not
+$g$.
+
+The omitted category is the **base group**. Every coefficient is a comparison
+with it, and the intercept describes it.
+
+This is not a statistical subtlety but the same arithmetic as Section
+\@ref(mlr-assumptions): a full set of category dummies always sums to one, and
+the regression already has a column of ones.
+:::
+
+An alternative is to drop the intercept instead and keep all $g$ dummies, in
+which case each coefficient is a group mean rather than a difference. Both are
+defensible; what is not defensible is keeping both the intercept and all $g$
+dummies.
+
+### Letting R do it {-}
+
+R handles this automatically if the variable is a factor.
+
+```{r dv-religion}
+religion_fit <- lm(lw ~ factor(religion), data = wages)
+round(coef(summary(religion_fit))[, 1:2], 4)
+```
+
+Six coefficients for seven categories. The missing one is Buddhist, which R
+chose because it comes first alphabetically — that is the only reason.
+
+::: {.watchout}
+The base group is arbitrary, and the default is rarely the best choice.
+
+Here it is a category with 174 observations out of 20,000. Every coefficient in
+the table is a comparison with a small group, and every standard error is
+inflated by that group's imprecision. Nothing is *wrong* — the fitted values,
+$R^2$ and $F$ statistic are identical whatever the base — but the table is
+harder to read than it needs to be.
+
+A large or otherwise natural category makes a better reference.
+:::
+
+```{r dv-relevel}
+wages$religion <- relevel(factor(wages$religion), ref = "Hindu")
+round(coef(summary(lm(lw ~ religion, data = wages)))[, 1:2], 4)
+```
+
+With the largest group as the base, each coefficient is a comparison with it and
+the standard errors are smaller.
+
+::: {.intuition}
+Notice that changing the base group changed every coefficient without changing
+the model at all. The fit is identical; only the comparison being reported has
+moved.
+
+A coefficient on a dummy is never meaningful on its own. It is meaningful
+relative to a base group, and a reader who does not know which group that is
+cannot interpret the table.
+:::
+
+## Interactions: letting the slope differ {#dv-interactions}
+
+::: {.question}
+A dummy shifts the line up or down. What if the groups differ in more than that?
+:::
+
+Everything so far has moved the intercept. The model
+
+$$\ln(\text{earnings}) = \beta_0 + \beta_1\,\text{educ} + \beta_2\,\text{urban} + u$$
+
+fits two lines, one for each group, but forces them to be **parallel**. Urban
+workers earn more at every level of education, by the same amount.
+
+That is an assumption, and there is no reason to believe it. The return to a
+year of schooling might itself differ between rural and urban labour markets.
+
+To allow that, add the product of the two variables.
+
+$$\ln(\text{earnings}) = \beta_0 + \beta_1\,\text{educ} + \beta_2\,\text{urban}
++ \beta_3\,(\text{educ} \times \text{urban}) + u$$
+
+The product is called an **interaction term**.
+
+::: {.theory}
+Substitute the two possible values of the dummy, as before.
+
+For rural workers, $\text{urban} = 0$, so both terms containing it vanish:
+
+$$E[\ln(\text{earnings})] = \beta_0 + \beta_1\,\text{educ}$$
+
+For urban workers, $\text{urban} = 1$:
+
+$$
+\begin{aligned}
+E[\ln(\text{earnings})]
+&= \beta_0 + \beta_1\,\text{educ} + \beta_2 + \beta_3\,\text{educ} \\[4pt]
+&= (\beta_0 + \beta_2) + (\beta_1 + \beta_3)\,\text{educ}
+\end{aligned}
+$$
+
+So the model fits two completely separate lines:
+
+- $\beta_2$ is the difference in **intercepts**;
+- $\beta_3$ is the difference in **slopes**.
+:::
+
+```{r dv-interaction}
+interacted <- lm(lw ~ education * urban, data = wages)
+round(coef(summary(interacted)), 5)
+```
+
+R expands `education * urban` into `education + urban + education:urban`.
+
+Read the four numbers as two lines:
+
+```{r dv-two-lines}
+b <- coef(interacted)
+
+round(rbind(rural = c(intercept = b[1],           slope = b[2]),
+            urban = c(intercept = b[1] + b[3],    slope = b[2] + b[4])), 5)
+```
+
+For rural workers a year of schooling is worth about 8.0%; for urban workers,
+about 6.9%. The interaction coefficient is $-0.0109$ with a $t$ statistic of
+$-3.08$, so the difference is more than sampling variation would produce.
+
+::: {.watchout}
+**With an interaction in the model, $\beta_1$ is not "the effect of education".**
+
+It is the effect of education *in the base group only* — here, rural workers.
+The urban return requires adding the interaction coefficient.
+
+This is the same warning as the squared term of Section \@ref(ff-choosing), and
+for the same reason: once a variable appears twice, no single coefficient
+answers the question on its own.
+:::
+
+```{r dv-lines-plot, echo = FALSE, fig.height = 3.8, cache = TRUE, fig.cap = "Log earnings against education for rural and urban workers, with a 2,000-worker sample drawn for legibility. The solid lines are fitted separately to each group; the dashed line is the single pooled regression that ignores residence. The two group lines differ in level and, less obviously, in steepness -- the urban line is slightly flatter. The pooled line describes neither group."}
+set.seed(4)
+shown <- wages[sample(nrow(wages), 2000), ]
+
+pooled_fit <- lm(lw ~ education, data = wages)
+grid <- expand.grid(education = 0:15, urban = 0:1)
+grid$lw <- predict(interacted, grid)
+grid$Residence <- ifelse(grid$urban == 1, "Urban", "Rural")
+
+pool <- data.frame(education = 0:15)
+pool$lw <- predict(pooled_fit, pool)
+
+ggplot(shown, aes(education, lw)) +
+  geom_jitter(aes(colour = residence), width = 0.25, alpha = 0.16, size = 0.7) +
+  geom_line(data = pool, aes(education, lw), colour = "grey25",
+            linetype = "dashed", linewidth = 0.8) +
+  geom_line(data = grid, aes(education, lw, colour = Residence),
+            linewidth = 1.1) +
+  scale_colour_manual(values = c(Rural = book_palette$reject,
+                                 Urban = book_palette$accent)) +
+  labs(x = "Years of education", y = "Log annual earnings", colour = NULL) +
+  theme_book() +
+  theme(legend.position = "top")
+```
+
+::: {.intuition}
+An interaction is how a regression says "it depends".
+
+Without one, the model insists that education is worth the same everywhere and
+that living in a city is worth the same at every level of schooling. With one,
+each answer is allowed to depend on the other.
+
+Note that the dependence runs both ways, and reading it either way is
+legitimate. The return to education differs by residence; equivalently, the
+urban premium differs by education. The same coefficient says both, because
+$\text{educ} \times \text{urban}$ does not know which variable we regard as
+primary.
+:::
+
+## Do two groups share the same line? {#dv-chow}
+
+::: {.question}
+The intercepts differ and the slopes differ. Is one regression adequate for
+both groups, or not?
+:::
+
+We now have two things that might differ between groups, and a question that
+asks about both at once:
+
+$$H_0 : \beta_2 = 0 \;\text{ and }\; \beta_3 = 0$$
+
+Under this null, urban and rural workers share the same intercept *and* the same
+slope — a single line describes everyone.
+
+Section \@ref(mlr-f) established that a claim about two coefficients at once
+needs an $F$ test, not two $t$ tests. Applied to a group split, this test has a
+name of its own: the **Chow test**.
+
+### Two ways to see it {-}
+
+The first way is the one the test is usually taught with. Fit the regression
+three times — once on the pooled sample, once on each group separately — and ask
+whether splitting the sample improved the fit by more than chance.
+
+```{r dv-chow-hand}
+pooled <- lm(lw ~ education, data = wages)
+rural  <- lm(lw ~ education, data = subset(wages, urban == 0))
+urban  <- lm(lw ~ education, data = subset(wages, urban == 1))
+
+ssr <- function(m) sum(residuals(m)^2)
+
+round(c(pooled = ssr(pooled), rural = ssr(rural), urban = ssr(urban),
+        separate_total = ssr(rural) + ssr(urban)), 2)
+```
+
+Separate regressions must fit at least as well as a pooled one, for the reason
+given in Section \@ref(mlr-f): the pooled model is the separate model with the
+differences restricted to zero. The question is whether the improvement is
+larger than restricting nothing would produce by chance.
+
+::: {.theory}
+With $k$ parameters in each group's regression and $n_1$, $n_2$ observations,
+
+$$F = \frac{\big[\text{SSR}_P - (\text{SSR}_1 + \text{SSR}_2)\big] \big/ k}
+{(\text{SSR}_1 + \text{SSR}_2) \big/ (n_1 + n_2 - 2k)}$$
+
+The numerator is the improvement per restriction; the denominator estimates
+$\sigma^2$ from the unrestricted model. The degrees of freedom are $k$ and
+$n_1 + n_2 - 2k$.
+:::
+
+```{r dv-chow-f}
+n <- nrow(wages); k <- 2
+
+f_chow <- ((ssr(pooled) - (ssr(rural) + ssr(urban))) / k) /
+          ((ssr(rural) + ssr(urban)) / (n - 2 * k))
+
+round(c(F = f_chow, critical_5pct = qf(0.95, k, n - 2 * k),
+        p_value = 1 - pf(f_chow, k, n - 2 * k)), 4)
+```
+
+$F = 1198.5$ against a critical value of 3.00. The rural and urban wage
+equations are not the same.
+
+### The second way is the interaction model {-}
+
+The other route is to fit the interacted model of Section
+\@ref(dv-interactions) and test its two extra coefficients jointly.
+
+```{r dv-chow-anova}
+anova(pooled, interacted)
+```
+
+The same $F$ statistic and the same degrees of freedom. R has rounded it to
+1199 in the table; the two are the same number.
+
+::: {.keyidea}
+**Running separate regressions and fitting one interacted regression are the
+same thing.**
+
+```{r dv-chow-identity}
+round(c(separate_ssr  = ssr(rural) + ssr(urban),
+        interacted_ssr = ssr(interacted)), 4)
+```
+
+The sums of squared residuals are identical, because the two models fit
+identical lines to identical data. Section \@ref(dv-interactions) already showed
+the coefficients matching: the interacted model's base coefficients are the
+rural regression, and adding the interaction terms gives the urban one.
+:::
+
+::: {.intuition}
+Given that they are the same test, the interaction approach is usually the more
+useful one.
+
+Splitting the sample gives a yes-or-no answer about whether the groups differ.
+The interacted regression gives that *and* tells you which coefficient differs,
+by how much, and with what standard error — here, that the intercepts differ
+enormously and the slopes differ by $-0.011$.
+
+The split version also cannot easily hold other variables fixed across the
+comparison, and it estimates a separate error variance for each group where the
+interacted model pools them.
+:::
+
+### What rejecting does and does not mean {-}
+
+::: {.watchout}
+The Chow test says the groups differ. It does not say why.
+
+Urban and rural workers differ in education, occupation, industry, and much
+else. A rejection is consistent with a genuinely different labour market and
+equally consistent with the two groups differing in variables the model omits —
+the omitted variable problem of Section \@ref(mlr-causal), which does not go
+away because a group indicator was added.
+:::
+
+There is also a failure mode in the other direction. With 20,000 observations,
+this test detects a slope difference of 0.011 — a difference that may be too
+small to matter for any decision anyone would make.
+
+::: {.keyidea}
+A significant Chow test means the groups are *detectably* different, not
+*importantly* different.
+
+That distinction is the one from Section \@ref(os-errors): with enough data, any
+difference that is not exactly zero will eventually be rejected. Whether it
+matters is a question about economics, and the test cannot answer it.
+:::
+
+## Summary {#dv-summary}
+
+::: {.keyidea}
+- A **dummy variable** takes the value 1 when a condition holds and 0 otherwise.
+  It converts a category into something a regression can use, and "a one-unit
+  increase" becomes "switching groups".
+- With one dummy and nothing else, the intercept is the **base group mean** and
+  the coefficient is the **difference in means**. On the wage data these are
+  9.818 and 1.076, matching the two group means exactly.
+- **A regression on a single dummy is the two-sample $t$-test** of Unit
+  \@ref(two-sample). The $t$ statistics agree to every digit. Unit
+  \@ref(two-sample) was a special case of regression all along.
+- Adding controls turns that raw comparison into a comparison among people alike
+  in other respects. The urban premium falls from 1.076 to 0.805.
+- With $g$ categories, include $g-1$ dummies. Including all $g$ alongside an
+  intercept is the **dummy variable trap** — a violation of CLRM7, since the
+  dummies sum to the intercept's column of ones.
+- The omitted category is the **base group**. Changing it changes every
+  coefficient and no part of the fit. A dummy coefficient means nothing until
+  the reader knows the base.
+- Never code an unordered category as 1, 2, 3. That imposes equal spacing and an
+  ordering the variable does not have.
+- An **interaction term** $x \times D$ lets the *slope* differ across groups.
+  Without one the two group lines are forced parallel.
+- In the interacted model, $\beta_2$ is the difference in intercepts and
+  $\beta_3$ the difference in slopes, so the two groups get entirely separate
+  lines: 8.0% per year of schooling in rural areas against 6.9% in urban.
+- With an interaction present, the coefficient on $x$ alone is the effect **in
+  the base group**, not the effect of $x$.
+- The **Chow test** asks whether one line fits both groups:
+  $H_0: \beta_2 = \beta_3 = 0$. It is the $F$ test of Section \@ref(mlr-f)
+  applied to a group split.
+- Separate regressions and one interacted regression are the same model. Their
+  sums of squared residuals are identical, and both give $F = 1198.5$ here. The
+  interacted version is more informative and easier to control.
+- A rejection means the groups are detectably different, not that the difference
+  matters, and not that the difference is causal.
+:::
+
+## Practice problems {#dv-practice}
+
+::: {.yourturn}
+Work each one before opening the solution. The
+[question bank](#dv-question-bank) that follows has no answers.
+:::
+
+### Numerical problems {-}
+
+**10.1** A regression of monthly household expenditure (₹) on a dummy for urban
+residence gives
+
+$$\widehat{\text{expenditure}} = 8{,}400 + 3{,}150\,\text{urban}$$
+
+i. What is average expenditure among rural households?
+ii. Among urban households?
+iii. If the dummy had been coded 1 for rural instead, what would the two
+     coefficients be?
+
+::: {.answer}
+**(i)** ₹8,400. With `urban = 0` only the intercept remains.
+
+**(ii)** $8{,}400 + 3{,}150 = ₹11{,}550$.
+
+**(iii)** The intercept becomes the urban mean, ₹11,550, and the coefficient
+becomes $8{,}400 - 11{,}550 = -₹3{,}150$. The fitted values, residuals and $R^2$
+are all unchanged — only the reported comparison has reversed.
+:::
+
+**10.2** A wage regression uses four occupational categories: agriculture,
+manufacturing, services and government.
+
+i. How many dummies should be included alongside an intercept?
+ii. With agriculture as the base group, interpret a coefficient of 0.32 on
+    services in a log-wage regression.
+iii. What happens to that coefficient if government becomes the base group?
+
+::: {.answer}
+**(i)** Three. Including four alongside an intercept is the dummy variable trap.
+
+**(ii)** Service workers earn about
+$100(e^{0.32}-1) = `r round(100*(exp(0.32)-1), 1)`\%$ more than agricultural
+workers. As the coefficient exceeds 0.2, the exact expression is needed.
+
+**(iii)** It changes, because it now measures services against government rather
+than against agriculture. The difference between services and agriculture is
+still recoverable from the new table — it is the difference between their two
+coefficients.
+:::
+
+**10.3** From a log-earnings regression with an interaction:
+
+$$\widehat{\ln w} = 9.2 + 0.081\,\text{educ} + 0.74\,\text{urban}
+- 0.015\,(\text{educ} \times \text{urban})$$
+
+i. Write the fitted line for rural workers and for urban workers.
+ii. What is the return to a year of schooling in each group?
+iii. At what level of education do the two groups have equal predicted earnings?
+
+::: {.answer}
+**(i)** Rural ($\text{urban}=0$): $\widehat{\ln w} = 9.2 + 0.081\,\text{educ}$.
+
+Urban ($\text{urban}=1$):
+$\widehat{\ln w} = (9.2 + 0.74) + (0.081 - 0.015)\,\text{educ}
+= 9.94 + 0.066\,\text{educ}$.
+
+**(ii)** About 8.1% per year in rural areas, 6.6% in urban areas.
+
+**(iii)** Set the two equal:
+
+$$9.2 + 0.081e = 9.94 + 0.066e
+\quad\Longrightarrow\quad
+0.015e = 0.74
+\quad\Longrightarrow\quad
+e = `r round(0.74/0.015, 1)`$$
+
+At about 49 years of education — far beyond anything observed. Within any real
+range of schooling the urban line lies above the rural one, and the negative
+interaction narrows the gap without closing it. This is the same lesson as the
+turning point in Section \@ref(ff-choosing): a crossing point outside the data
+is an artefact of extrapolation, not a finding.
+:::
+
+**10.4** A Chow test on rural and urban income–consumption regressions gives
+$\text{SSR}_P = 38{,}710.67$, $\text{SSR}_R = 8{,}661.60$ and
+$\text{SSR}_U = 10{,}107.18$, with $n_R = n_U = 150$.
+
+i. Compute the $F$ statistic.
+ii. State the degrees of freedom and conclude at the 5% level.
+
+::: {.answer}
+**(i)** $k = 2$ (intercept and slope).
+
+$$F = \frac{[38{,}710.67 - (8{,}661.60 + 10{,}107.18)]/2}
+{(8{,}661.60 + 10{,}107.18)/(300 - 4)}
+= \frac{19{,}941.89/2}{18{,}768.78/296}
+= \frac{9{,}970.95}{63.41} = `r round((38710.67-18768.78)/2/(18768.78/296), 1)`$$
+
+**(ii)** Degrees of freedom 2 and 296; the 5% critical value is about
+`r round(qf(0.95, 2, 296), 2)`. Since $157.25$ vastly exceeds it, reject: rural
+and urban households do not share the same income–consumption relationship.
+:::
+
+### Concept checks {-}
+
+**10.5** A student includes dummies for all five states in a sample, plus an
+intercept, and reports that R returned `NA` for the last one. Explain what
+happened and give two ways to fix it.
+
+::: {.answer}
+The five dummies sum to 1 for every observation, which is exactly the
+intercept's column. One column is an exact linear combination of the others, so
+CLRM7 fails and there is no unique solution — the situation of Section
+\@ref(mlr-assumptions).
+
+Two fixes: drop one dummy and treat that state as the base group, or drop the
+intercept and keep all five, in which case each coefficient is a state mean
+rather than a difference.
+:::
+
+**10.6** Explain why entering a five-category variable as the numbers 1 to 5 is
+usually wrong, and describe the one circumstance in which it might be defensible.
+
+::: {.answer}
+It imposes that the categories are equally spaced and ordered — that moving from
+1 to 2 has the same effect as moving from 4 to 5, and that 3 lies between 2 and
+4. For unordered categories such as religion or state, none of that is
+meaningful.
+
+It might be defensible if the categories are genuinely ordered *and* roughly
+equally spaced on the scale that matters — for example, five income bands of
+equal width. Even then, entering dummies and inspecting whether the coefficients
+rise evenly is the safer choice, because it tests the assumption instead of
+imposing it.
+:::
+
+**10.7** In a regression of log wages on experience, a female dummy, and their
+interaction, the coefficient on experience is 0.043 and the interaction
+coefficient is $-0.011$. A colleague reports "the return to experience is 4.3%".
+What is wrong, and what are the two correct figures?
+
+::: {.answer}
+0.043 is the return to experience **in the base group** — men, since the dummy
+marks women. It is not the return for the sample as a whole.
+
+The two correct figures are about 4.3% per year for men and
+$0.043 - 0.011 = 0.032$, about 3.2% per year, for women.
+:::
+
+**10.8** A Chow test on 40,000 observations rejects at $p < 0.001$, but the two
+estimated slopes are 0.0512 and 0.0524. What should be reported?
+
+::: {.answer}
+That the groups are statistically distinguishable and economically
+indistinguishable.
+
+The slopes differ by roughly one part in forty. With 40,000 observations the
+test has enough power to detect differences far too small to affect any
+decision, exactly as Section \@ref(os-errors) described. Reporting only the
+$p$-value would give a seriously misleading impression; reporting both numbers
+alongside it does not.
+:::
+
+### R exercises {-}
+
+**10.9** Using `wages-india-synthetic.csv`, confirm that a regression on a
+single dummy reproduces the two-sample $t$-test for the male–female earnings
+gap. Report the coefficient, the two group means and both $t$ statistics.
+
+::: {.answer}
+```{r dv-ex-ttest, eval = FALSE}
+wages <- read.csv("data/wages-india-synthetic.csv")
+wages$lw   <- log(wages$annual_earnings)
+wages$male <- as.integer(wages$sex == "Male")
+
+fit <- lm(lw ~ male, data = wages)
+
+c(coefficient = coef(fit)[2],
+  female_mean = mean(wages$lw[wages$male == 0]),
+  male_mean   = mean(wages$lw[wages$male == 1]),
+  reg_t       = coef(summary(fit))[2, 3],
+  ttest_t     = abs(t.test(lw ~ sex, data = wages, var.equal = TRUE)$statistic))
+```
+
+The intercept is the female mean, the coefficient is the gap, and the two $t$
+statistics agree exactly.
+
+Note what this does *not* establish. The gap is a difference in average log
+earnings between two groups; it is not a measure of discrimination, since men
+and women in these data differ in education, age and residence. Adding those as
+controls changes the question to a narrower one, and Section \@ref(ff-controls)
+is the reason even that would need an argument.
+:::
+
+**10.10** Using `student-survey-sleep.csv`, test whether the relationship
+between social media hours and sleep differs between urban and rural students.
+Fit the interacted model, interpret each coefficient, and carry out the Chow
+test.
+
+::: {.answer}
+```{r dv-ex-sleep, eval = FALSE}
+sleep <- read.csv("data/student-survey-sleep.csv")
+
+pooled     <- lm(sleep ~ socialmediahours, data = sleep)
+interacted <- lm(sleep ~ socialmediahours * residence, data = sleep)
+
+round(coef(summary(interacted)), 4)
+anova(pooled, interacted)
+```
+
+Nothing is significant. The interaction coefficient is 0.068 with a standard
+error of 0.237, and the joint $F$ test does not come close to rejecting.
+
+The honest conclusion is that these 106 students provide no evidence that the
+relationship differs by residence — not that it is the same. With 32 rural
+students the test has very little power, so failing to reject was close to
+guaranteed whatever the truth. This is Section \@ref(os-errors) in practice, and
+it is the opposite failure mode from the wage data, where 20,000 observations
+made a trivial difference significant.
+:::
+
+**10.11** Show that the base group affects no part of the fit. Regress log
+earnings on religion using two different base categories and compare the fitted
+values, $R^2$ and $F$ statistic.
+
+::: {.answer}
+```{r dv-ex-base, eval = FALSE}
+wages$rel <- factor(wages$religion)
+
+fit_a <- lm(lw ~ rel, data = wages)
+fit_b <- lm(lw ~ relevel(rel, ref = "Hindu"), data = wages)
+
+c(max_fitted_difference = max(abs(fitted(fit_a) - fitted(fit_b))),
+  r2_a = summary(fit_a)$r.squared, r2_b = summary(fit_b)$r.squared,
+  f_a  = summary(fit_a)$fstatistic[1],
+  f_b  = summary(fit_b)$fstatistic[1])
+```
+
+The fitted values agree to machine precision and both summary statistics are
+identical. Only the coefficient table differs, because only the comparison being
+reported has changed.
+:::
+
+**10.12** Fit a model allowing the return to education to differ by sex *and* by
+residence simultaneously. Report the four implied slopes and comment on whether
+the three-way structure is worth the complexity.
+
+::: {.answer}
+```{r dv-ex-two-way, eval = FALSE}
+m <- lm(lw ~ education * male + education * urban, data = wages)
+round(coef(summary(m)), 5)
+
+b <- coef(m)
+outer_slopes <- c(
+  rural_female = b["education"],
+  rural_male   = b["education"] + b["education:male"],
+  urban_female = b["education"] + b["education:urban"],
+  urban_male   = b["education"] + b["education:male"] + b["education:urban"])
+round(outer_slopes, 5)
+```
+
+This specification allows each dummy to shift the education slope but assumes
+those shifts add — the urban adjustment is the same for men and women. A full
+three-way interaction would relax that too, at the cost of more parameters and a
+table few readers will follow.
+
+The judgement is the one from Section \@ref(ff-irrelevant): every additional
+interaction consumes variation and widens standard errors. Interactions should
+be included because a question requires them, not because they are available.
+:::
+
+## Question bank {#dv-question-bank}
+
+### Multiple choice {-}
+
+**QB 10.1** In the regression $y = \beta_0 + \beta_1 D + u$ where $D$ is a dummy,
+$\beta_0$ is
+
+a. the mean of $y$ in the whole sample
+b. the mean of $y$ in the group with $D = 0$
+c. the mean of $y$ in the group with $D = 1$
+d. the difference between the two group means
+
+**QB 10.2** A categorical variable with six categories requires
+
+a. six dummies and an intercept
+b. five dummies and an intercept
+c. six dummies and no intercept, or five and an intercept
+d. one variable coded 1 to 6
+
+**QB 10.3** In $y = \beta_0 + \beta_1 x + \beta_2 D + \beta_3(xD) + u$, the slope
+for the group with $D = 1$ is
+
+a. $\beta_1$ &nbsp;&nbsp; b. $\beta_3$ &nbsp;&nbsp; c. $\beta_1 + \beta_3$
+&nbsp;&nbsp; d. $\beta_1 + \beta_2 + \beta_3$
+
+**QB 10.4** A regression of $y$ on a single dummy variable is equivalent to
+
+a. a one-sample $t$-test
+b. a paired $t$-test
+c. a two-sample $t$-test assuming equal variances
+d. a chi-squared test
+
+**QB 10.5** The Chow test compares
+
+a. two coefficients within one regression
+b. a pooled regression against separate regressions for each group
+c. two different dependent variables
+d. $R^2$ across two models with different sample sizes
+
+### Short reasoning {-}
+
+**QB 10.6** Explain why including a dummy for every category alongside an
+intercept is an arithmetic problem rather than a statistical one.
+
+**QB 10.7** A researcher reports that switching the base group "changed the
+results". What has actually changed, and what has not?
+
+**QB 10.8** Why does the interacted regression give the same $F$ statistic as
+fitting two separate regressions? State what the interacted version tells you
+that the split does not.
+
+**QB 10.9** A study interacts a treatment dummy with baseline income and finds a
+significant interaction. Explain what that means in words, and give the two
+equivalent readings of the coefficient.
+
+**QB 10.10** Explain why a large sample makes a Chow test more likely to reject
+even when the two groups are economically almost identical.
+
+**QB 10.11** In a regression of crop yield on rainfall with an irrigation dummy
+and its interaction, the interaction coefficient is negative. Interpret this,
+and say why it is economically plausible.
+
+**QB 10.12** A colleague argues that since a dummy regression is just a
+$t$-test, nothing is gained by using regression. Give two things regression can
+do that the $t$-test cannot.
+
+### Numerical {-}
+
+**QB 10.13** A log-wage regression on a public-sector dummy gives a coefficient
+of 0.28. Compute the exact percentage premium and explain why $28\%$ would be
+the wrong figure to report.
+
+**QB 10.14** For $\widehat{y} = 40 + 6x + 15D - 2(xD)$, compute the predicted
+value for both groups at $x = 5$ and $x = 10$, and find the value of $x$ at which
+the groups are predicted to be equal.
+
+**QB 10.15** A Chow test on two groups of 80 and 120 observations, with a
+regression containing an intercept and three slopes, gives
+$\text{SSR}_P = 940$, $\text{SSR}_1 = 310$ and $\text{SSR}_2 = 505$. Compute $F$
+and state its degrees of freedom.
+
+**QB 10.16** Three regional dummies are entered with the North as base, giving
+coefficients of $-0.14$ (South), $0.09$ (East) and $-0.22$ (West) on log output.
+What is the predicted difference in log output between the South and the West,
+and which region has the highest predicted output?
+
+## Looking ahead {#dv-looking-ahead}
+
+The relationships in this unit were allowed to differ across groups, but every
+observation was still a separate individual, observed once.
+
+A great deal of economic data is not like that. The same states are observed
+year after year; the same households are revisited; the same firms report
+annually. Such data carry information that a single cross-section cannot,
+because a unit observed twice can be compared **with itself**.
+
+That comparison is the closest this book will come to the thought experiment of
+Section \@ref(sr-motivation) — the same student, observed twice, differing only
+in attendance. It cannot be arranged in a cross-section at all. It can sometimes
+be arranged when the same unit is observed more than once, and doing so removes
+every difference between units that stays fixed over time, whether or not it was
+ever measured.
+
+That is the subject of the next unit, and it is the first genuinely new answer
+to the causal problem since Unit \@ref(multiple-regression).
