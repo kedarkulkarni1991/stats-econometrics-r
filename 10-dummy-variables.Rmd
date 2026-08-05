@@ -17,10 +17,12 @@ Twice already we have handled such a variable by writing 0 and 1 and moving on.
 It is time to ask what that actually did — and then to ask a question the
 technique makes possible.
 
-Every regression in this book has fitted **one line to everybody**. One return
-to schooling for all workers, one effect of attendance for all students. That is
-an assumption, and a strong one. It may be that the relationship differs across
-groups, and that fitting a single line describes nobody in particular.
+Every regression in this book has assumed that the same relationship holds for
+everyone. One return to schooling for every worker. One attendance effect for
+every student. One production function for every firm.
+
+That assumption is rarely stated aloud, but every regression makes it unless we
+tell it otherwise.
 
 This unit shows how to put groups into a regression, how to let a relationship
 differ between them, and how to test whether it does.
@@ -42,6 +44,12 @@ table(wages$residence)
 
 There is no arithmetic to do here. Urban minus rural is not a number, and no
 amount of care about units will make it one.
+
+The difficulty is not peculiar to residence. A great deal of what economists
+want to compare arrives in exactly this form: male and female, treated and
+control, public and private school, manufacturing and services, before and after
+the introduction of GST. In every case the variable sorts observations into
+groups rather than placing them on a scale.
 
 What we can do is record whether a condition holds.
 
@@ -184,9 +192,13 @@ table(wages$religion)
 ```
 
 The temptation is to code these 1 through 7 and enter that as a variable. It
-would run, and it would be meaningless: it would impose that the step from
-category 1 to category 2 has the same effect as the step from 6 to 7, and that
-category 4 sits midway between 3 and 5. The numbers are labels, not quantities.
+would run, and it would be meaningless.
+
+Such a coding tells the regression that the categories are equally spaced and
+ordered. It would treat "Christian minus Buddhist" as the same distance as
+"Muslim minus Jain", and would place Jain exactly midway between Hindu and
+Muslim. None of those statements means anything. The numbers are labels, not
+quantities.
 
 The correct approach is one dummy per category — but not quite all of them.
 
@@ -234,6 +246,38 @@ round(coef(summary(religion_fit))[, 1:2], 4)
 Six coefficients for seven categories. The missing one is Buddhist, which R
 chose because it comes first alphabetically — that is the only reason.
 
+::: {.deeper}
+**`factor()` is not doing anything clever.**
+
+It builds the dummy variables for you, drops one, and hands the rest to the same
+`lm()` that has been used all along. We can see the columns it made.
+
+```{r dv-model-matrix}
+X <- model.matrix(~ factor(religion), data = wages)
+
+head(X[, 1:4], 3)
+colSums(X)
+```
+
+Those are ones and zeros, exactly as if they had been typed by hand. The column
+of ones is the intercept, and the six others are the dummies — note that their
+totals are the category counts from the table above, and that Buddhist has no
+column at all.
+
+Doing it manually gives the same answer:
+
+```{r dv-manual}
+wages$christian <- as.integer(wages$religion == "Christian")
+wages$hindu     <- as.integer(wages$religion == "Hindu")
+
+round(coef(lm(lw ~ christian + hindu, data = wages)), 4)
+```
+
+Here the base group is everyone else, since only two dummies were built. That is
+the point: `factor()` saves typing and prevents the trap, but the model it fits
+is one you could have assembled yourself.
+:::
+
 ::: {.watchout}
 The base group is arbitrary, and the default is rarely the best choice.
 
@@ -280,7 +324,34 @@ workers earn more at every level of education, by the same amount.
 That is an assumption, and there is no reason to believe it. The return to a
 year of schooling might itself differ between rural and urban labour markets.
 
-To allow that, add the product of the two variables.
+```{r dv-shift-tilt, echo = FALSE, fig.height = 3, fig.width = 7.5, cache = TRUE, fig.cap = "The two things a group variable can do. On the left the groups differ only in level, which is all a dummy on its own can express. On the right they differ in level and in rate of change, which requires an interaction term."}
+lab_st <- c("A dummy shifts the line", "An interaction tilts it")
+xg <- seq(0, 10, length.out = 50)
+
+st <- rbind(
+  data.frame(x = xg, y = 1 + 0.50 * xg, g = "Base group",  panel = lab_st[1]),
+  data.frame(x = xg, y = 3 + 0.50 * xg, g = "Other group", panel = lab_st[1]),
+  data.frame(x = xg, y = 1 + 0.50 * xg, g = "Base group",  panel = lab_st[2]),
+  data.frame(x = xg, y = 3 + 0.15 * xg, g = "Other group", panel = lab_st[2]))
+st$panel <- factor(st$panel, levels = lab_st)
+
+ggplot(st, aes(x, y, colour = g)) +
+  geom_line(linewidth = 1.1) +
+  facet_wrap(~ panel) +
+  scale_colour_manual(values = c("Base group"  = book_palette$reject,
+                                 "Other group" = book_palette$accent)) +
+  coord_cartesian(ylim = c(0, 9)) +
+  labs(x = "x", y = "y", colour = NULL) +
+  theme_book(base_size = 11) +
+  theme(legend.position = "top", axis.text = element_blank(),
+        panel.grid.minor = element_blank())
+```
+
+::: {.keyidea}
+A dummy variable **shifts**. An interaction **tilts**.
+:::
+
+To allow the tilt, add the product of the two variables.
 
 $$\ln(\text{earnings}) = \beta_0 + \beta_1\,\text{educ} + \beta_2\,\text{urban}
 + \beta_3\,(\text{educ} \times \text{urban}) + u$$
@@ -481,9 +552,31 @@ The interacted regression gives that *and* tells you which coefficient differs,
 by how much, and with what standard error — here, that the intercepts differ
 enormously and the slopes differ by $-0.011$.
 
-The split version also cannot easily hold other variables fixed across the
-comparison, and it estimates a separate error variance for each group where the
+It also scales. Adding controls to the interacted model changes nothing
+structural:
+
+$$y = \beta_0 + \beta_1 x + \beta_2 D + \beta_3 (xD) + \beta_4 z + u$$
+
+is still one regression, with one set of standard errors, and $z$ is held fixed
+across the whole comparison. The split-sample version would require estimating
+two separate multiple regressions and then finding some way to compare
+coefficients across them, with no ready standard error for the difference.
+
+Finally, the split estimates a separate error variance for each group, where the
 interacted model pools them.
+:::
+
+::: {.intuition}
+It is worth knowing how far this idea reaches.
+
+A great deal of modern empirical economics is built by interacting dummy
+variables with other variables. Difference-in-differences interacts a
+treated-group dummy with a post-reform dummy; event studies interact a treatment
+dummy with a full set of time dummies; work on heterogeneous treatment effects
+interacts treatment with the characteristics of the people receiving it.
+
+None of those methods is developed in this book. All of them are assembled from
+the two ideas in this unit.
 :::
 
 ### What rejecting does and does not mean {-}

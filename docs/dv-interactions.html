@@ -675,7 +675,16 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 workers earn more at every level of education, by the same amount.</p>
 <p>That is an assumption, and there is no reason to believe it. The return to a
 year of schooling might itself differ between rural and urban labour markets.</p>
-<p>To allow that, add the product of the two variables.</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:dv-shift-tilt"></span>
+<img src="stats-econometrics-r_files/figure-html/dv-shift-tilt-1.png" alt="The two things a group variable can do. On the left the groups differ only in level, which is all a dummy on its own can express. On the right they differ in level and in rate of change, which requires an interaction term." width="90%"  />
+<p class="caption">
+Figure 10.1: The two things a group variable can do. On the left the groups differ only in level, which is all a dummy on its own can express. On the right they differ in level and in rate of change, which requires an interaction term.
+</p>
+</div>
+<div class="keyidea">
+<p>A dummy variable <strong>shifts</strong>. An interaction <strong>tilts</strong>.</p>
+</div>
+<p>To allow the tilt, add the product of the two variables.</p>
 <p><span class="math display">\[\ln(\text{earnings}) = \beta_0 + \beta_1\,\text{educ} + \beta_2\,\text{urban}
 + \beta_3\,(\text{educ} \times \text{urban}) + u\]</span></p>
 <p>The product is called an <strong>interaction term</strong>.</p>
@@ -697,8 +706,8 @@ E[\ln(\text{earnings})]
 <li><span class="math inline">\(\beta_3\)</span> is the difference in <strong>slopes</strong>.</li>
 </ul>
 </div>
-<div class="sourceCode" id="cb392"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb392-1"><a href="dv-interactions.html#cb392-1" tabindex="-1"></a>interacted <span class="ot">&lt;-</span> <span class="fu">lm</span>(lw <span class="sc">~</span> education <span class="sc">*</span> urban, <span class="at">data =</span> wages)</span>
-<span id="cb392-2"><a href="dv-interactions.html#cb392-2" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">coef</span>(<span class="fu">summary</span>(interacted)), <span class="dv">5</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb398"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb398-1"><a href="dv-interactions.html#cb398-1" tabindex="-1"></a>interacted <span class="ot">&lt;-</span> <span class="fu">lm</span>(lw <span class="sc">~</span> education <span class="sc">*</span> urban, <span class="at">data =</span> wages)</span>
+<span id="cb398-2"><a href="dv-interactions.html#cb398-2" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">coef</span>(<span class="fu">summary</span>(interacted)), <span class="dv">5</span>)</span></code></pre></div>
 <pre><code>#&gt;                 Estimate Std. Error t value Pr(&gt;|t|)
 #&gt; (Intercept)      9.41615    0.01332  706.96  0.00000
 #&gt; education        0.07977    0.00192   41.47  0.00000
@@ -706,10 +715,10 @@ E[\ln(\text{earnings})]
 #&gt; education:urban -0.01090    0.00354   -3.08  0.00208</code></pre>
 <p>R expands <code>education * urban</code> into <code>education + urban + education:urban</code>.</p>
 <p>Read the four numbers as two lines:</p>
-<div class="sourceCode" id="cb394"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb394-1"><a href="dv-interactions.html#cb394-1" tabindex="-1"></a>b <span class="ot">&lt;-</span> <span class="fu">coef</span>(interacted)</span>
-<span id="cb394-2"><a href="dv-interactions.html#cb394-2" tabindex="-1"></a></span>
-<span id="cb394-3"><a href="dv-interactions.html#cb394-3" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">rbind</span>(<span class="at">rural =</span> <span class="fu">c</span>(<span class="at">intercept =</span> b[<span class="dv">1</span>],           <span class="at">slope =</span> b[<span class="dv">2</span>]),</span>
-<span id="cb394-4"><a href="dv-interactions.html#cb394-4" tabindex="-1"></a>            <span class="at">urban =</span> <span class="fu">c</span>(<span class="at">intercept =</span> b[<span class="dv">1</span>] <span class="sc">+</span> b[<span class="dv">3</span>],    <span class="at">slope =</span> b[<span class="dv">2</span>] <span class="sc">+</span> b[<span class="dv">4</span>])), <span class="dv">5</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb400"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb400-1"><a href="dv-interactions.html#cb400-1" tabindex="-1"></a>b <span class="ot">&lt;-</span> <span class="fu">coef</span>(interacted)</span>
+<span id="cb400-2"><a href="dv-interactions.html#cb400-2" tabindex="-1"></a></span>
+<span id="cb400-3"><a href="dv-interactions.html#cb400-3" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">rbind</span>(<span class="at">rural =</span> <span class="fu">c</span>(<span class="at">intercept =</span> b[<span class="dv">1</span>],           <span class="at">slope =</span> b[<span class="dv">2</span>]),</span>
+<span id="cb400-4"><a href="dv-interactions.html#cb400-4" tabindex="-1"></a>            <span class="at">urban =</span> <span class="fu">c</span>(<span class="at">intercept =</span> b[<span class="dv">1</span>] <span class="sc">+</span> b[<span class="dv">3</span>],    <span class="at">slope =</span> b[<span class="dv">2</span>] <span class="sc">+</span> b[<span class="dv">4</span>])), <span class="dv">5</span>)</span></code></pre></div>
 <pre><code>#&gt;       intercept.(Intercept) slope.education
 #&gt; rural                 9.416         0.07977
 #&gt; urban                10.375         0.06886</code></pre>
@@ -727,7 +736,7 @@ answers the question on its own.</p>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:dv-lines-plot"></span>
 <img src="stats-econometrics-r_files/figure-html/dv-lines-plot-1.png" alt="Log earnings against education for rural and urban workers, with a 2,000-worker sample drawn for legibility. The solid lines are fitted separately to each group; the dashed line is the single pooled regression that ignores residence. The two group lines differ in level and, less obviously, in steepness -- the urban line is slightly flatter. The pooled line describes neither group." width="90%"  />
 <p class="caption">
-Figure 10.1: Log earnings against education for rural and urban workers, with a 2,000-worker sample drawn for legibility. The solid lines are fitted separately to each group; the dashed line is the single pooled regression that ignores residence. The two group lines differ in level and, less obviously, in steepness – the urban line is slightly flatter. The pooled line describes neither group.
+Figure 10.2: Log earnings against education for rural and urban workers, with a 2,000-worker sample drawn for legibility. The solid lines are fitted separately to each group; the dashed line is the single pooled regression that ignores residence. The two group lines differ in level and, less obviously, in steepness – the urban line is slightly flatter. The pooled line describes neither group.
 </p>
 </div>
 <div class="intuition">

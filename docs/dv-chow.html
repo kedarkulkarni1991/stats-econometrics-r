@@ -683,14 +683,14 @@ name of its own: the <strong>Chow test</strong>.</p>
 <p>The first way is the one the test is usually taught with. Fit the regression
 three times — once on the pooled sample, once on each group separately — and ask
 whether splitting the sample improved the fit by more than chance.</p>
-<div class="sourceCode" id="cb396"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb396-1"><a href="dv-chow.html#cb396-1" tabindex="-1"></a>pooled <span class="ot">&lt;-</span> <span class="fu">lm</span>(lw <span class="sc">~</span> education, <span class="at">data =</span> wages)</span>
-<span id="cb396-2"><a href="dv-chow.html#cb396-2" tabindex="-1"></a>rural  <span class="ot">&lt;-</span> <span class="fu">lm</span>(lw <span class="sc">~</span> education, <span class="at">data =</span> <span class="fu">subset</span>(wages, urban <span class="sc">==</span> <span class="dv">0</span>))</span>
-<span id="cb396-3"><a href="dv-chow.html#cb396-3" tabindex="-1"></a>urban  <span class="ot">&lt;-</span> <span class="fu">lm</span>(lw <span class="sc">~</span> education, <span class="at">data =</span> <span class="fu">subset</span>(wages, urban <span class="sc">==</span> <span class="dv">1</span>))</span>
-<span id="cb396-4"><a href="dv-chow.html#cb396-4" tabindex="-1"></a></span>
-<span id="cb396-5"><a href="dv-chow.html#cb396-5" tabindex="-1"></a>ssr <span class="ot">&lt;-</span> <span class="cf">function</span>(m) <span class="fu">sum</span>(<span class="fu">residuals</span>(m)<span class="sc">^</span><span class="dv">2</span>)</span>
-<span id="cb396-6"><a href="dv-chow.html#cb396-6" tabindex="-1"></a></span>
-<span id="cb396-7"><a href="dv-chow.html#cb396-7" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">pooled =</span> <span class="fu">ssr</span>(pooled), <span class="at">rural =</span> <span class="fu">ssr</span>(rural), <span class="at">urban =</span> <span class="fu">ssr</span>(urban),</span>
-<span id="cb396-8"><a href="dv-chow.html#cb396-8" tabindex="-1"></a>        <span class="at">separate_total =</span> <span class="fu">ssr</span>(rural) <span class="sc">+</span> <span class="fu">ssr</span>(urban)), <span class="dv">2</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb402"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb402-1"><a href="dv-chow.html#cb402-1" tabindex="-1"></a>pooled <span class="ot">&lt;-</span> <span class="fu">lm</span>(lw <span class="sc">~</span> education, <span class="at">data =</span> wages)</span>
+<span id="cb402-2"><a href="dv-chow.html#cb402-2" tabindex="-1"></a>rural  <span class="ot">&lt;-</span> <span class="fu">lm</span>(lw <span class="sc">~</span> education, <span class="at">data =</span> <span class="fu">subset</span>(wages, urban <span class="sc">==</span> <span class="dv">0</span>))</span>
+<span id="cb402-3"><a href="dv-chow.html#cb402-3" tabindex="-1"></a>urban  <span class="ot">&lt;-</span> <span class="fu">lm</span>(lw <span class="sc">~</span> education, <span class="at">data =</span> <span class="fu">subset</span>(wages, urban <span class="sc">==</span> <span class="dv">1</span>))</span>
+<span id="cb402-4"><a href="dv-chow.html#cb402-4" tabindex="-1"></a></span>
+<span id="cb402-5"><a href="dv-chow.html#cb402-5" tabindex="-1"></a>ssr <span class="ot">&lt;-</span> <span class="cf">function</span>(m) <span class="fu">sum</span>(<span class="fu">residuals</span>(m)<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb402-6"><a href="dv-chow.html#cb402-6" tabindex="-1"></a></span>
+<span id="cb402-7"><a href="dv-chow.html#cb402-7" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">pooled =</span> <span class="fu">ssr</span>(pooled), <span class="at">rural =</span> <span class="fu">ssr</span>(rural), <span class="at">urban =</span> <span class="fu">ssr</span>(urban),</span>
+<span id="cb402-8"><a href="dv-chow.html#cb402-8" tabindex="-1"></a>        <span class="at">separate_total =</span> <span class="fu">ssr</span>(rural) <span class="sc">+</span> <span class="fu">ssr</span>(urban)), <span class="dv">2</span>)</span></code></pre></div>
 <pre><code>#&gt;         pooled          rural          urban separate_total 
 #&gt;          27385          18048           6405          24453</code></pre>
 <p>Separate regressions must fit at least as well as a pooled one, for the reason
@@ -705,13 +705,13 @@ larger than restricting nothing would produce by chance.</p>
 <span class="math inline">\(\sigma^2\)</span> from the unrestricted model. The degrees of freedom are <span class="math inline">\(k\)</span> and
 <span class="math inline">\(n_1 + n_2 - 2k\)</span>.</p>
 </div>
-<div class="sourceCode" id="cb398"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb398-1"><a href="dv-chow.html#cb398-1" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fu">nrow</span>(wages); k <span class="ot">&lt;-</span> <span class="dv">2</span></span>
-<span id="cb398-2"><a href="dv-chow.html#cb398-2" tabindex="-1"></a></span>
-<span id="cb398-3"><a href="dv-chow.html#cb398-3" tabindex="-1"></a>f_chow <span class="ot">&lt;-</span> ((<span class="fu">ssr</span>(pooled) <span class="sc">-</span> (<span class="fu">ssr</span>(rural) <span class="sc">+</span> <span class="fu">ssr</span>(urban))) <span class="sc">/</span> k) <span class="sc">/</span></span>
-<span id="cb398-4"><a href="dv-chow.html#cb398-4" tabindex="-1"></a>          ((<span class="fu">ssr</span>(rural) <span class="sc">+</span> <span class="fu">ssr</span>(urban)) <span class="sc">/</span> (n <span class="sc">-</span> <span class="dv">2</span> <span class="sc">*</span> k))</span>
-<span id="cb398-5"><a href="dv-chow.html#cb398-5" tabindex="-1"></a></span>
-<span id="cb398-6"><a href="dv-chow.html#cb398-6" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">F =</span> f_chow, <span class="at">critical_5pct =</span> <span class="fu">qf</span>(<span class="fl">0.95</span>, k, n <span class="sc">-</span> <span class="dv">2</span> <span class="sc">*</span> k),</span>
-<span id="cb398-7"><a href="dv-chow.html#cb398-7" tabindex="-1"></a>        <span class="at">p_value =</span> <span class="dv">1</span> <span class="sc">-</span> <span class="fu">pf</span>(f_chow, k, n <span class="sc">-</span> <span class="dv">2</span> <span class="sc">*</span> k)), <span class="dv">4</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb404"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb404-1"><a href="dv-chow.html#cb404-1" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fu">nrow</span>(wages); k <span class="ot">&lt;-</span> <span class="dv">2</span></span>
+<span id="cb404-2"><a href="dv-chow.html#cb404-2" tabindex="-1"></a></span>
+<span id="cb404-3"><a href="dv-chow.html#cb404-3" tabindex="-1"></a>f_chow <span class="ot">&lt;-</span> ((<span class="fu">ssr</span>(pooled) <span class="sc">-</span> (<span class="fu">ssr</span>(rural) <span class="sc">+</span> <span class="fu">ssr</span>(urban))) <span class="sc">/</span> k) <span class="sc">/</span></span>
+<span id="cb404-4"><a href="dv-chow.html#cb404-4" tabindex="-1"></a>          ((<span class="fu">ssr</span>(rural) <span class="sc">+</span> <span class="fu">ssr</span>(urban)) <span class="sc">/</span> (n <span class="sc">-</span> <span class="dv">2</span> <span class="sc">*</span> k))</span>
+<span id="cb404-5"><a href="dv-chow.html#cb404-5" tabindex="-1"></a></span>
+<span id="cb404-6"><a href="dv-chow.html#cb404-6" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">F =</span> f_chow, <span class="at">critical_5pct =</span> <span class="fu">qf</span>(<span class="fl">0.95</span>, k, n <span class="sc">-</span> <span class="dv">2</span> <span class="sc">*</span> k),</span>
+<span id="cb404-7"><a href="dv-chow.html#cb404-7" tabindex="-1"></a>        <span class="at">p_value =</span> <span class="dv">1</span> <span class="sc">-</span> <span class="fu">pf</span>(f_chow, k, n <span class="sc">-</span> <span class="dv">2</span> <span class="sc">*</span> k)), <span class="dv">4</span>)</span></code></pre></div>
 <pre><code>#&gt;             F critical_5pct       p_value 
 #&gt;      1198.536         2.996         0.000</code></pre>
 <p><span class="math inline">\(F = 1198.5\)</span> against a critical value of 3.00. The rural and urban wage
@@ -721,7 +721,7 @@ equations are not the same.</p>
 <h3>The second way is the interaction model<a href="dv-chow.html#the-second-way-is-the-interaction-model" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>The other route is to fit the interacted model of Section
 <a href="dv-interactions.html#dv-interactions">10.4</a> and test its two extra coefficients jointly.</p>
-<div class="sourceCode" id="cb400"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb400-1"><a href="dv-chow.html#cb400-1" tabindex="-1"></a><span class="fu">anova</span>(pooled, interacted)</span></code></pre></div>
+<div class="sourceCode" id="cb406"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb406-1"><a href="dv-chow.html#cb406-1" tabindex="-1"></a><span class="fu">anova</span>(pooled, interacted)</span></code></pre></div>
 <pre><code>#&gt; Analysis of Variance Table
 #&gt; 
 #&gt; Model 1: lw ~ education
@@ -736,8 +736,8 @@ equations are not the same.</p>
 <div class="keyidea">
 <p><strong>Running separate regressions and fitting one interacted regression are the
 same thing.</strong></p>
-<div class="sourceCode" id="cb402"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb402-1"><a href="dv-chow.html#cb402-1" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">separate_ssr  =</span> <span class="fu">ssr</span>(rural) <span class="sc">+</span> <span class="fu">ssr</span>(urban),</span>
-<span id="cb402-2"><a href="dv-chow.html#cb402-2" tabindex="-1"></a>        <span class="at">interacted_ssr =</span> <span class="fu">ssr</span>(interacted)), <span class="dv">4</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb408"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb408-1"><a href="dv-chow.html#cb408-1" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">separate_ssr  =</span> <span class="fu">ssr</span>(rural) <span class="sc">+</span> <span class="fu">ssr</span>(urban),</span>
+<span id="cb408-2"><a href="dv-chow.html#cb408-2" tabindex="-1"></a>        <span class="at">interacted_ssr =</span> <span class="fu">ssr</span>(interacted)), <span class="dv">4</span>)</span></code></pre></div>
 <pre><code>#&gt;   separate_ssr interacted_ssr 
 #&gt;          24453          24453</code></pre>
 <p>The sums of squared residuals are identical, because the two models fit
@@ -752,9 +752,25 @@ useful one.</p>
 The interacted regression gives that <em>and</em> tells you which coefficient differs,
 by how much, and with what standard error — here, that the intercepts differ
 enormously and the slopes differ by <span class="math inline">\(-0.011\)</span>.</p>
-<p>The split version also cannot easily hold other variables fixed across the
-comparison, and it estimates a separate error variance for each group where the
+<p>It also scales. Adding controls to the interacted model changes nothing
+structural:</p>
+<p><span class="math display">\[y = \beta_0 + \beta_1 x + \beta_2 D + \beta_3 (xD) + \beta_4 z + u\]</span></p>
+<p>is still one regression, with one set of standard errors, and <span class="math inline">\(z\)</span> is held fixed
+across the whole comparison. The split-sample version would require estimating
+two separate multiple regressions and then finding some way to compare
+coefficients across them, with no ready standard error for the difference.</p>
+<p>Finally, the split estimates a separate error variance for each group, where the
 interacted model pools them.</p>
+</div>
+<div class="intuition">
+<p>It is worth knowing how far this idea reaches.</p>
+<p>A great deal of modern empirical economics is built by interacting dummy
+variables with other variables. Difference-in-differences interacts a
+treated-group dummy with a post-reform dummy; event studies interact a treatment
+dummy with a full set of time dummies; work on heterogeneous treatment effects
+interacts treatment with the characteristics of the people receiving it.</p>
+<p>None of those methods is developed in this book. All of them are assembled from
+the two ideas in this unit.</p>
 </div>
 </div>
 <div id="what-rejecting-does-and-does-not-mean" class="section level3 unnumbered hasAnchor">

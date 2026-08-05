@@ -675,9 +675,12 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 #&gt;  Buddhist Christian     Hindu      Jain    Muslim      Sikh    Tribal 
 #&gt;       174       546     16588        22      2143       411       116</code></pre>
 <p>The temptation is to code these 1 through 7 and enter that as a variable. It
-would run, and it would be meaningless: it would impose that the step from
-category 1 to category 2 has the same effect as the step from 6 to 7, and that
-category 4 sits midway between 3 and 5. The numbers are labels, not quantities.</p>
+would run, and it would be meaningless.</p>
+<p>Such a coding tells the regression that the categories are equally spaced and
+ordered. It would treat “Christian minus Buddhist” as the same distance as
+“Muslim minus Jain”, and would place Jain exactly midway between Hindu and
+Muslim. None of those statements means anything. The numbers are labels, not
+quantities.</p>
 <p>The correct approach is one dummy per category — but not quite all of them.</p>
 <div id="the-dummy-variable-trap" class="section level3 unnumbered hasAnchor">
 <h3>The dummy variable trap<a href="dv-categories.html#the-dummy-variable-trap" class="anchor-section" aria-label="Anchor link to header"></a></h3>
@@ -720,6 +723,43 @@ dummies.</p>
 #&gt; factor(religion)Tribal      0.0981     0.1504</code></pre>
 <p>Six coefficients for seven categories. The missing one is Buddhist, which R
 chose because it comes first alphabetically — that is the only reason.</p>
+<div class="deeper">
+<p><strong><code>factor()</code> is not doing anything clever.</strong></p>
+<p>It builds the dummy variables for you, drops one, and hands the rest to the same
+<code>lm()</code> that has been used all along. We can see the columns it made.</p>
+<div class="sourceCode" id="cb390"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb390-1"><a href="dv-categories.html#cb390-1" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="fu">model.matrix</span>(<span class="sc">~</span> <span class="fu">factor</span>(religion), <span class="at">data =</span> wages)</span>
+<span id="cb390-2"><a href="dv-categories.html#cb390-2" tabindex="-1"></a></span>
+<span id="cb390-3"><a href="dv-categories.html#cb390-3" tabindex="-1"></a><span class="fu">head</span>(X[, <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>], <span class="dv">3</span>)</span></code></pre></div>
+<pre><code>#&gt;   (Intercept) factor(religion)Christian factor(religion)Hindu
+#&gt; 1           1                         0                     1
+#&gt; 2           1                         0                     0
+#&gt; 3           1                         0                     1
+#&gt;   factor(religion)Jain
+#&gt; 1                    0
+#&gt; 2                    0
+#&gt; 3                    0</code></pre>
+<div class="sourceCode" id="cb392"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb392-1"><a href="dv-categories.html#cb392-1" tabindex="-1"></a><span class="fu">colSums</span>(X)</span></code></pre></div>
+<pre><code>#&gt;               (Intercept) factor(religion)Christian     factor(religion)Hindu 
+#&gt;                     20000                       546                     16588 
+#&gt;      factor(religion)Jain    factor(religion)Muslim      factor(religion)Sikh 
+#&gt;                        22                      2143                       411 
+#&gt;    factor(religion)Tribal 
+#&gt;                       116</code></pre>
+<p>Those are ones and zeros, exactly as if they had been typed by hand. The column
+of ones is the intercept, and the six others are the dummies — note that their
+totals are the category counts from the table above, and that Buddhist has no
+column at all.</p>
+<p>Doing it manually gives the same answer:</p>
+<div class="sourceCode" id="cb394"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb394-1"><a href="dv-categories.html#cb394-1" tabindex="-1"></a>wages<span class="sc">$</span>christian <span class="ot">&lt;-</span> <span class="fu">as.integer</span>(wages<span class="sc">$</span>religion <span class="sc">==</span> <span class="st">&quot;Christian&quot;</span>)</span>
+<span id="cb394-2"><a href="dv-categories.html#cb394-2" tabindex="-1"></a>wages<span class="sc">$</span>hindu     <span class="ot">&lt;-</span> <span class="fu">as.integer</span>(wages<span class="sc">$</span>religion <span class="sc">==</span> <span class="st">&quot;Hindu&quot;</span>)</span>
+<span id="cb394-3"><a href="dv-categories.html#cb394-3" tabindex="-1"></a></span>
+<span id="cb394-4"><a href="dv-categories.html#cb394-4" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">coef</span>(<span class="fu">lm</span>(lw <span class="sc">~</span> christian <span class="sc">+</span> hindu, <span class="at">data =</span> wages)), <span class="dv">4</span>)</span></code></pre></div>
+<pre><code>#&gt; (Intercept)   christian       hindu 
+#&gt;     10.2140      0.4378     -0.1439</code></pre>
+<p>Here the base group is everyone else, since only two dummies were built. That is
+the point: <code>factor()</code> saves typing and prevents the trap, but the model it fits
+is one you could have assembled yourself.</p>
+</div>
 <div class="watchout">
 <p>The base group is arbitrary, and the default is rarely the best choice.</p>
 <p>Here it is a category with 174 observations out of 20,000. Every coefficient in
@@ -729,8 +769,8 @@ inflated by that group’s imprecision. Nothing is <em>wrong</em> — the fitted
 harder to read than it needs to be.</p>
 <p>A large or otherwise natural category makes a better reference.</p>
 </div>
-<div class="sourceCode" id="cb390"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb390-1"><a href="dv-categories.html#cb390-1" tabindex="-1"></a>wages<span class="sc">$</span>religion <span class="ot">&lt;-</span> <span class="fu">relevel</span>(<span class="fu">factor</span>(wages<span class="sc">$</span>religion), <span class="at">ref =</span> <span class="st">&quot;Hindu&quot;</span>)</span>
-<span id="cb390-2"><a href="dv-categories.html#cb390-2" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">coef</span>(<span class="fu">summary</span>(<span class="fu">lm</span>(lw <span class="sc">~</span> religion, <span class="at">data =</span> wages)))[, <span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>], <span class="dv">4</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb396"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb396-1"><a href="dv-categories.html#cb396-1" tabindex="-1"></a>wages<span class="sc">$</span>religion <span class="ot">&lt;-</span> <span class="fu">relevel</span>(<span class="fu">factor</span>(wages<span class="sc">$</span>religion), <span class="at">ref =</span> <span class="st">&quot;Hindu&quot;</span>)</span>
+<span id="cb396-2"><a href="dv-categories.html#cb396-2" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">coef</span>(<span class="fu">summary</span>(<span class="fu">lm</span>(lw <span class="sc">~</span> religion, <span class="at">data =</span> wages)))[, <span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>], <span class="dv">4</span>)</span></code></pre></div>
 <pre><code>#&gt;                   Estimate Std. Error
 #&gt; (Intercept)        10.0701     0.0097
 #&gt; religionBuddhist    0.1222     0.0956

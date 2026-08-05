@@ -805,17 +805,17 @@ alongside it does not.</p>
 single dummy reproduces the two-sample <span class="math inline">\(t\)</span>-test for the male–female earnings
 gap. Report the coefficient, the two group means and both <span class="math inline">\(t\)</span> statistics.</p>
 <div class="answer">
-<div class="sourceCode" id="cb404"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb404-1"><a href="dv-practice.html#cb404-1" tabindex="-1"></a>wages <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/wages-india-synthetic.csv&quot;</span>)</span>
-<span id="cb404-2"><a href="dv-practice.html#cb404-2" tabindex="-1"></a>wages<span class="sc">$</span>lw   <span class="ot">&lt;-</span> <span class="fu">log</span>(wages<span class="sc">$</span>annual_earnings)</span>
-<span id="cb404-3"><a href="dv-practice.html#cb404-3" tabindex="-1"></a>wages<span class="sc">$</span>male <span class="ot">&lt;-</span> <span class="fu">as.integer</span>(wages<span class="sc">$</span>sex <span class="sc">==</span> <span class="st">&quot;Male&quot;</span>)</span>
-<span id="cb404-4"><a href="dv-practice.html#cb404-4" tabindex="-1"></a></span>
-<span id="cb404-5"><a href="dv-practice.html#cb404-5" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">lm</span>(lw <span class="sc">~</span> male, <span class="at">data =</span> wages)</span>
-<span id="cb404-6"><a href="dv-practice.html#cb404-6" tabindex="-1"></a></span>
-<span id="cb404-7"><a href="dv-practice.html#cb404-7" tabindex="-1"></a><span class="fu">c</span>(<span class="at">coefficient =</span> <span class="fu">coef</span>(fit)[<span class="dv">2</span>],</span>
-<span id="cb404-8"><a href="dv-practice.html#cb404-8" tabindex="-1"></a>  <span class="at">female_mean =</span> <span class="fu">mean</span>(wages<span class="sc">$</span>lw[wages<span class="sc">$</span>male <span class="sc">==</span> <span class="dv">0</span>]),</span>
-<span id="cb404-9"><a href="dv-practice.html#cb404-9" tabindex="-1"></a>  <span class="at">male_mean   =</span> <span class="fu">mean</span>(wages<span class="sc">$</span>lw[wages<span class="sc">$</span>male <span class="sc">==</span> <span class="dv">1</span>]),</span>
-<span id="cb404-10"><a href="dv-practice.html#cb404-10" tabindex="-1"></a>  <span class="at">reg_t       =</span> <span class="fu">coef</span>(<span class="fu">summary</span>(fit))[<span class="dv">2</span>, <span class="dv">3</span>],</span>
-<span id="cb404-11"><a href="dv-practice.html#cb404-11" tabindex="-1"></a>  <span class="at">ttest_t     =</span> <span class="fu">abs</span>(<span class="fu">t.test</span>(lw <span class="sc">~</span> sex, <span class="at">data =</span> wages, <span class="at">var.equal =</span> <span class="cn">TRUE</span>)<span class="sc">$</span>statistic))</span></code></pre></div>
+<div class="sourceCode" id="cb410"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb410-1"><a href="dv-practice.html#cb410-1" tabindex="-1"></a>wages <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/wages-india-synthetic.csv&quot;</span>)</span>
+<span id="cb410-2"><a href="dv-practice.html#cb410-2" tabindex="-1"></a>wages<span class="sc">$</span>lw   <span class="ot">&lt;-</span> <span class="fu">log</span>(wages<span class="sc">$</span>annual_earnings)</span>
+<span id="cb410-3"><a href="dv-practice.html#cb410-3" tabindex="-1"></a>wages<span class="sc">$</span>male <span class="ot">&lt;-</span> <span class="fu">as.integer</span>(wages<span class="sc">$</span>sex <span class="sc">==</span> <span class="st">&quot;Male&quot;</span>)</span>
+<span id="cb410-4"><a href="dv-practice.html#cb410-4" tabindex="-1"></a></span>
+<span id="cb410-5"><a href="dv-practice.html#cb410-5" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">lm</span>(lw <span class="sc">~</span> male, <span class="at">data =</span> wages)</span>
+<span id="cb410-6"><a href="dv-practice.html#cb410-6" tabindex="-1"></a></span>
+<span id="cb410-7"><a href="dv-practice.html#cb410-7" tabindex="-1"></a><span class="fu">c</span>(<span class="at">coefficient =</span> <span class="fu">coef</span>(fit)[<span class="dv">2</span>],</span>
+<span id="cb410-8"><a href="dv-practice.html#cb410-8" tabindex="-1"></a>  <span class="at">female_mean =</span> <span class="fu">mean</span>(wages<span class="sc">$</span>lw[wages<span class="sc">$</span>male <span class="sc">==</span> <span class="dv">0</span>]),</span>
+<span id="cb410-9"><a href="dv-practice.html#cb410-9" tabindex="-1"></a>  <span class="at">male_mean   =</span> <span class="fu">mean</span>(wages<span class="sc">$</span>lw[wages<span class="sc">$</span>male <span class="sc">==</span> <span class="dv">1</span>]),</span>
+<span id="cb410-10"><a href="dv-practice.html#cb410-10" tabindex="-1"></a>  <span class="at">reg_t       =</span> <span class="fu">coef</span>(<span class="fu">summary</span>(fit))[<span class="dv">2</span>, <span class="dv">3</span>],</span>
+<span id="cb410-11"><a href="dv-practice.html#cb410-11" tabindex="-1"></a>  <span class="at">ttest_t     =</span> <span class="fu">abs</span>(<span class="fu">t.test</span>(lw <span class="sc">~</span> sex, <span class="at">data =</span> wages, <span class="at">var.equal =</span> <span class="cn">TRUE</span>)<span class="sc">$</span>statistic))</span></code></pre></div>
 <p>The intercept is the female mean, the coefficient is the gap, and the two <span class="math inline">\(t\)</span>
 statistics agree exactly.</p>
 <p>Note what this does <em>not</em> establish. The gap is a difference in average log
@@ -829,13 +829,13 @@ between social media hours and sleep differs between urban and rural students.
 Fit the interacted model, interpret each coefficient, and carry out the Chow
 test.</p>
 <div class="answer">
-<div class="sourceCode" id="cb405"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb405-1"><a href="dv-practice.html#cb405-1" tabindex="-1"></a>sleep <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/student-survey-sleep.csv&quot;</span>)</span>
-<span id="cb405-2"><a href="dv-practice.html#cb405-2" tabindex="-1"></a></span>
-<span id="cb405-3"><a href="dv-practice.html#cb405-3" tabindex="-1"></a>pooled     <span class="ot">&lt;-</span> <span class="fu">lm</span>(sleep <span class="sc">~</span> socialmediahours, <span class="at">data =</span> sleep)</span>
-<span id="cb405-4"><a href="dv-practice.html#cb405-4" tabindex="-1"></a>interacted <span class="ot">&lt;-</span> <span class="fu">lm</span>(sleep <span class="sc">~</span> socialmediahours <span class="sc">*</span> residence, <span class="at">data =</span> sleep)</span>
-<span id="cb405-5"><a href="dv-practice.html#cb405-5" tabindex="-1"></a></span>
-<span id="cb405-6"><a href="dv-practice.html#cb405-6" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">coef</span>(<span class="fu">summary</span>(interacted)), <span class="dv">4</span>)</span>
-<span id="cb405-7"><a href="dv-practice.html#cb405-7" tabindex="-1"></a><span class="fu">anova</span>(pooled, interacted)</span></code></pre></div>
+<div class="sourceCode" id="cb411"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb411-1"><a href="dv-practice.html#cb411-1" tabindex="-1"></a>sleep <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/student-survey-sleep.csv&quot;</span>)</span>
+<span id="cb411-2"><a href="dv-practice.html#cb411-2" tabindex="-1"></a></span>
+<span id="cb411-3"><a href="dv-practice.html#cb411-3" tabindex="-1"></a>pooled     <span class="ot">&lt;-</span> <span class="fu">lm</span>(sleep <span class="sc">~</span> socialmediahours, <span class="at">data =</span> sleep)</span>
+<span id="cb411-4"><a href="dv-practice.html#cb411-4" tabindex="-1"></a>interacted <span class="ot">&lt;-</span> <span class="fu">lm</span>(sleep <span class="sc">~</span> socialmediahours <span class="sc">*</span> residence, <span class="at">data =</span> sleep)</span>
+<span id="cb411-5"><a href="dv-practice.html#cb411-5" tabindex="-1"></a></span>
+<span id="cb411-6"><a href="dv-practice.html#cb411-6" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">coef</span>(<span class="fu">summary</span>(interacted)), <span class="dv">4</span>)</span>
+<span id="cb411-7"><a href="dv-practice.html#cb411-7" tabindex="-1"></a><span class="fu">anova</span>(pooled, interacted)</span></code></pre></div>
 <p>Nothing is significant. The interaction coefficient is 0.068 with a standard
 error of 0.237, and the joint <span class="math inline">\(F\)</span> test does not come close to rejecting.</p>
 <p>The honest conclusion is that these 106 students provide no evidence that the
@@ -849,15 +849,15 @@ made a trivial difference significant.</p>
 earnings on religion using two different base categories and compare the fitted
 values, <span class="math inline">\(R^2\)</span> and <span class="math inline">\(F\)</span> statistic.</p>
 <div class="answer">
-<div class="sourceCode" id="cb406"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb406-1"><a href="dv-practice.html#cb406-1" tabindex="-1"></a>wages<span class="sc">$</span>rel <span class="ot">&lt;-</span> <span class="fu">factor</span>(wages<span class="sc">$</span>religion)</span>
-<span id="cb406-2"><a href="dv-practice.html#cb406-2" tabindex="-1"></a></span>
-<span id="cb406-3"><a href="dv-practice.html#cb406-3" tabindex="-1"></a>fit_a <span class="ot">&lt;-</span> <span class="fu">lm</span>(lw <span class="sc">~</span> rel, <span class="at">data =</span> wages)</span>
-<span id="cb406-4"><a href="dv-practice.html#cb406-4" tabindex="-1"></a>fit_b <span class="ot">&lt;-</span> <span class="fu">lm</span>(lw <span class="sc">~</span> <span class="fu">relevel</span>(rel, <span class="at">ref =</span> <span class="st">&quot;Hindu&quot;</span>), <span class="at">data =</span> wages)</span>
-<span id="cb406-5"><a href="dv-practice.html#cb406-5" tabindex="-1"></a></span>
-<span id="cb406-6"><a href="dv-practice.html#cb406-6" tabindex="-1"></a><span class="fu">c</span>(<span class="at">max_fitted_difference =</span> <span class="fu">max</span>(<span class="fu">abs</span>(<span class="fu">fitted</span>(fit_a) <span class="sc">-</span> <span class="fu">fitted</span>(fit_b))),</span>
-<span id="cb406-7"><a href="dv-practice.html#cb406-7" tabindex="-1"></a>  <span class="at">r2_a =</span> <span class="fu">summary</span>(fit_a)<span class="sc">$</span>r.squared, <span class="at">r2_b =</span> <span class="fu">summary</span>(fit_b)<span class="sc">$</span>r.squared,</span>
-<span id="cb406-8"><a href="dv-practice.html#cb406-8" tabindex="-1"></a>  <span class="at">f_a  =</span> <span class="fu">summary</span>(fit_a)<span class="sc">$</span>fstatistic[<span class="dv">1</span>],</span>
-<span id="cb406-9"><a href="dv-practice.html#cb406-9" tabindex="-1"></a>  <span class="at">f_b  =</span> <span class="fu">summary</span>(fit_b)<span class="sc">$</span>fstatistic[<span class="dv">1</span>])</span></code></pre></div>
+<div class="sourceCode" id="cb412"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb412-1"><a href="dv-practice.html#cb412-1" tabindex="-1"></a>wages<span class="sc">$</span>rel <span class="ot">&lt;-</span> <span class="fu">factor</span>(wages<span class="sc">$</span>religion)</span>
+<span id="cb412-2"><a href="dv-practice.html#cb412-2" tabindex="-1"></a></span>
+<span id="cb412-3"><a href="dv-practice.html#cb412-3" tabindex="-1"></a>fit_a <span class="ot">&lt;-</span> <span class="fu">lm</span>(lw <span class="sc">~</span> rel, <span class="at">data =</span> wages)</span>
+<span id="cb412-4"><a href="dv-practice.html#cb412-4" tabindex="-1"></a>fit_b <span class="ot">&lt;-</span> <span class="fu">lm</span>(lw <span class="sc">~</span> <span class="fu">relevel</span>(rel, <span class="at">ref =</span> <span class="st">&quot;Hindu&quot;</span>), <span class="at">data =</span> wages)</span>
+<span id="cb412-5"><a href="dv-practice.html#cb412-5" tabindex="-1"></a></span>
+<span id="cb412-6"><a href="dv-practice.html#cb412-6" tabindex="-1"></a><span class="fu">c</span>(<span class="at">max_fitted_difference =</span> <span class="fu">max</span>(<span class="fu">abs</span>(<span class="fu">fitted</span>(fit_a) <span class="sc">-</span> <span class="fu">fitted</span>(fit_b))),</span>
+<span id="cb412-7"><a href="dv-practice.html#cb412-7" tabindex="-1"></a>  <span class="at">r2_a =</span> <span class="fu">summary</span>(fit_a)<span class="sc">$</span>r.squared, <span class="at">r2_b =</span> <span class="fu">summary</span>(fit_b)<span class="sc">$</span>r.squared,</span>
+<span id="cb412-8"><a href="dv-practice.html#cb412-8" tabindex="-1"></a>  <span class="at">f_a  =</span> <span class="fu">summary</span>(fit_a)<span class="sc">$</span>fstatistic[<span class="dv">1</span>],</span>
+<span id="cb412-9"><a href="dv-practice.html#cb412-9" tabindex="-1"></a>  <span class="at">f_b  =</span> <span class="fu">summary</span>(fit_b)<span class="sc">$</span>fstatistic[<span class="dv">1</span>])</span></code></pre></div>
 <p>The fitted values agree to machine precision and both summary statistics are
 identical. Only the coefficient table differs, because only the comparison being
 reported has changed.</p>
@@ -866,16 +866,16 @@ reported has changed.</p>
 residence simultaneously. Report the four implied slopes and comment on whether
 the three-way structure is worth the complexity.</p>
 <div class="answer">
-<div class="sourceCode" id="cb407"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb407-1"><a href="dv-practice.html#cb407-1" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">lm</span>(lw <span class="sc">~</span> education <span class="sc">*</span> male <span class="sc">+</span> education <span class="sc">*</span> urban, <span class="at">data =</span> wages)</span>
-<span id="cb407-2"><a href="dv-practice.html#cb407-2" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">coef</span>(<span class="fu">summary</span>(m)), <span class="dv">5</span>)</span>
-<span id="cb407-3"><a href="dv-practice.html#cb407-3" tabindex="-1"></a></span>
-<span id="cb407-4"><a href="dv-practice.html#cb407-4" tabindex="-1"></a>b <span class="ot">&lt;-</span> <span class="fu">coef</span>(m)</span>
-<span id="cb407-5"><a href="dv-practice.html#cb407-5" tabindex="-1"></a>outer_slopes <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
-<span id="cb407-6"><a href="dv-practice.html#cb407-6" tabindex="-1"></a>  <span class="at">rural_female =</span> b[<span class="st">&quot;education&quot;</span>],</span>
-<span id="cb407-7"><a href="dv-practice.html#cb407-7" tabindex="-1"></a>  <span class="at">rural_male   =</span> b[<span class="st">&quot;education&quot;</span>] <span class="sc">+</span> b[<span class="st">&quot;education:male&quot;</span>],</span>
-<span id="cb407-8"><a href="dv-practice.html#cb407-8" tabindex="-1"></a>  <span class="at">urban_female =</span> b[<span class="st">&quot;education&quot;</span>] <span class="sc">+</span> b[<span class="st">&quot;education:urban&quot;</span>],</span>
-<span id="cb407-9"><a href="dv-practice.html#cb407-9" tabindex="-1"></a>  <span class="at">urban_male   =</span> b[<span class="st">&quot;education&quot;</span>] <span class="sc">+</span> b[<span class="st">&quot;education:male&quot;</span>] <span class="sc">+</span> b[<span class="st">&quot;education:urban&quot;</span>])</span>
-<span id="cb407-10"><a href="dv-practice.html#cb407-10" tabindex="-1"></a><span class="fu">round</span>(outer_slopes, <span class="dv">5</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb413"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb413-1"><a href="dv-practice.html#cb413-1" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">lm</span>(lw <span class="sc">~</span> education <span class="sc">*</span> male <span class="sc">+</span> education <span class="sc">*</span> urban, <span class="at">data =</span> wages)</span>
+<span id="cb413-2"><a href="dv-practice.html#cb413-2" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">coef</span>(<span class="fu">summary</span>(m)), <span class="dv">5</span>)</span>
+<span id="cb413-3"><a href="dv-practice.html#cb413-3" tabindex="-1"></a></span>
+<span id="cb413-4"><a href="dv-practice.html#cb413-4" tabindex="-1"></a>b <span class="ot">&lt;-</span> <span class="fu">coef</span>(m)</span>
+<span id="cb413-5"><a href="dv-practice.html#cb413-5" tabindex="-1"></a>outer_slopes <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb413-6"><a href="dv-practice.html#cb413-6" tabindex="-1"></a>  <span class="at">rural_female =</span> b[<span class="st">&quot;education&quot;</span>],</span>
+<span id="cb413-7"><a href="dv-practice.html#cb413-7" tabindex="-1"></a>  <span class="at">rural_male   =</span> b[<span class="st">&quot;education&quot;</span>] <span class="sc">+</span> b[<span class="st">&quot;education:male&quot;</span>],</span>
+<span id="cb413-8"><a href="dv-practice.html#cb413-8" tabindex="-1"></a>  <span class="at">urban_female =</span> b[<span class="st">&quot;education&quot;</span>] <span class="sc">+</span> b[<span class="st">&quot;education:urban&quot;</span>],</span>
+<span id="cb413-9"><a href="dv-practice.html#cb413-9" tabindex="-1"></a>  <span class="at">urban_male   =</span> b[<span class="st">&quot;education&quot;</span>] <span class="sc">+</span> b[<span class="st">&quot;education:male&quot;</span>] <span class="sc">+</span> b[<span class="st">&quot;education:urban&quot;</span>])</span>
+<span id="cb413-10"><a href="dv-practice.html#cb413-10" tabindex="-1"></a><span class="fu">round</span>(outer_slopes, <span class="dv">5</span>)</span></code></pre></div>
 <p>This specification allows each dummy to shift the education slope but assumes
 those shifts add — the urban adjustment is the same for men and women. A full
 three-way interaction would relax that too, at the cost of more parameters and a
