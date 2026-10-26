@@ -1147,6 +1147,78 @@ to estimate how large a sample is needed before the standard error of mean
 annual earnings falls below ₹4,000. Verify your answer by simulation as well as
 by formula, and explain any discrepancy between the two.
 
+### More multiple choice {-}
+
+**QB 2.18** A random sample of 5 observations is drawn from a population: 1, 2, 4, 9, 9.
+Which of the following is the point *estimator* of the population mean $\mu$?
+
+a. The sample mean, $\bar{X}$
+b. 5
+c. The sample median
+d. 4
+
+**QB 2.19** A sample of 10 professors worked the following hours in a week: 48, 22, 19, 65,
+72, 37, 55, 60, 49, 28. What is the point estimate of the population mean weekly
+working hours?
+
+a. $42.5$
+b. $44.0$
+c. $45.5$
+d. $48.0$
+
+**QB 2.20** A random sample of 18 students has IQ test scores with a sample mean of 133.22.
+This value serves as the point estimate of
+
+a. the sample standard deviation
+b. the population mean IQ score
+c. the population proportion
+d. the margin of error
+
+**QB 2.21** In a random sample of 400 death certificates of college students, 98 were due
+to motorcycle accidents. What is the point estimate of the proportion of all
+college-student deaths due to motorcycle accidents?
+
+a. $0.200$
+b. $0.220$
+c. $0.245$
+d. $0.265$
+
+**QB 2.22** Suppose $p = 0.4$ and a random sample of size $n = 100$ is drawn. What is
+$SD(X)$, the standard deviation of the *number* of sampled members in favour of
+a policy?
+
+a. $0.049$
+b. $0.24$
+c. $4.90$
+d. $24.0$
+
+**QB 2.23** With the same values ($p = 0.4$, $n = 100$), what is $SD(\hat{p})$, the standard
+error of the sample *proportion*?
+
+a. $0.0049$
+b. $0.049$
+c. $0.24$
+d. $4.90$
+
+**QB 2.24** In a random sample of 100 students from a large university, 20 are
+first-generation college-goers. Which of the following correctly gives the
+estimate of the proportion of first-generation students at the university,
+together with the variance of this estimate?
+
+a. Estimate $= 0.20$, variance $= 0.04$
+b. Estimate $= 0.20$, variance $= 0.0016$
+c. Estimate $= 0.20$, variance $= 0.16$
+d. Estimate $= 0.20$, variance $= 0.0020$
+
+### More numerical {-}
+
+**QB 2.25** In a random sample of 1,200 engineers there were 28 Hispanic Americans, 45
+African Americans and 104 females. Estimate the proportion of all engineers who
+are (a) Hispanic American, (b) African American and (c) female. Also estimate
+the standard error of each estimate.
+
+**QB 2.26** In a random sample of 1,000 secondary-school teachers in Karnataka, 518 are
+female. Estimate the proportion of female teachers and its standard error.
 
 ## Looking ahead {#u2-looking-ahead}
 

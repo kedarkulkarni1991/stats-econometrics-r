@@ -951,6 +951,139 @@ iii. Verify that they sum to zero, and explain why that had to happen.
 iv. Explain why this does *not* demonstrate that $E(u \mid x) = 0$ in the
     population.
 
+### More short reasoning {-}
+
+**QB 6.15** Let $children$ denote the number of children ever born to a woman and $educ$
+her years of education, in the model $children = \beta_0 + \beta_1\,educ + u$.
+
+i. What kinds of factors are contained in $u$? Are these likely to be correlated
+   with the level of education?
+ii. Will a simple regression analysis uncover the ceteris paribus effect of
+    education on fertility? Explain.
+
+**QB 6.16** A professor estimates $Y_i = \beta_0 + \beta_1 X_i + u_i$, where $Y$ is the exam
+score and $X$ is the allotted time in minutes, and $u_i$ represents prior
+preparation, subject aptitude and test anxiety.
+
+i. Suppose the professor randomly assigns test durations (90 or 120 minutes)
+   across 400 students. Explain why $E[u_i \mid X_i] = 0$ holds in this
+   experimental setup.
+ii. Suppose instead that students choose whether to take the 90-minute or
+    120-minute version. Identify at least two unobserved factors in $u_i$ that
+    are likely to differ between students who choose 120 minutes and those who
+    choose 90.
+iii. In the self-selected setting, show why $E[u_i \mid X_i = 120] \neq 0$ and say
+     whether $\hat{\beta}_1$ will overstate or understate the true causal effect
+     of time pressure.
+
+**QB 6.17** A researcher evaluates a job-training programme using
+$\text{Earnings}_i = \beta_0 + \beta_1\,\text{Training}_i + u_i$, where
+$\text{Training}_i = 1$ if the worker participated and 0 otherwise.
+
+i. True or false, with explanation: "If $E[u_i] = 0$, then $\hat{\beta}_1$ is
+   guaranteed to be an unbiased estimate of the causal impact of training on
+   earnings."
+ii. Suppose highly motivated workers are more likely to sign up for the voluntary
+    programme. Express this in terms of $E[u_i \mid \text{Training}_i = 1]$ and
+    $E[u_i \mid \text{Training}_i = 0]$.
+iii. How does this selection violate $E[u_i \mid X_i] = 0$?
+
+**QB 6.18** A macroeconomist estimates
+$\text{Unemployment}_i = \beta_0 + \beta_1\,\text{InterestRate}_i + u_i$ across 50
+countries, where $u_i$ captures unobserved country-level macroeconomic shocks.
+
+i. Identify two macroeconomic variables or shocks contained in $u_i$ that
+   influence unemployment.
+ii. Central banks typically raise interest rates during booms and lower them
+    during recessions. Explain how this violates
+    $E[u \mid \text{InterestRate}] = 0$.
+iii. Given this behaviour, will the simple OLS estimate $\hat{\beta}_1$ understate
+     or overstate the true effect of higher interest rates on employment?
+
+**QB 6.19** An analyst studies household behaviour during inflationary periods using
+cross-country data:
+$\text{Consumption}_i = \beta_0 + \beta_1\,\text{Inflation}_i + u_i$, where
+$\text{Consumption}_i$ is real growth in aggregate household consumption (%) and
+$u_i$ contains unobserved demand and supply shocks.
+
+i. Name two unobserved macroeconomic factors contained in $u_i$.
+ii. A global oil price surge simultaneously raises inflation and lowers real
+    incomes. Compare $E[u \mid \text{Inflation} = \text{High}]$ with
+    $E[u \mid \text{Inflation} = \text{Low}]$. Does $E[u \mid \text{Inflation}] = 0$
+    hold?
+iii. Explain why a simple regression of consumption on inflation confuses
+     supply-side crises with the household response to inflation.
+
+**QB 6.20** A researcher evaluates India's MGNREGA across rural districts using
+$\text{Unemployment}_i = \beta_0 + \beta_1\,\text{MGNREGA\_Expenditure}_i + u_i$,
+where $u_i$ represents unobserved district economic conditions.
+
+i. Identify two district-level factors contained in $u_i$.
+ii. Explain why $E[u \mid \text{MGNREGA\_Expenditure}] \neq 0$.
+iii. If $E[u \mid \text{MGNREGA\_Expenditure} = \text{High}] > 0$ because high
+     spending goes to districts experiencing severe unobserved distress, what
+     happens to the estimated coefficient? Can the researcher conclude that
+     work programmes cause higher rural unemployment?
+
+**QB 6.21** In the model $Score = \beta_0 + \beta_1\,StudyHours + u$, $u$ captures ability,
+motivation and other unobserved factors. A student interprets the assumption
+$E[u] = 0$ as: "Ability, motivation and other unobserved factors do not affect
+exam scores on average." Do you agree? Explain what the assumption actually
+means.
+
+**QB 6.22** Consider the consumption function $cons_i = \beta_0 + \beta_1\,inc_i + u_i$,
+where $cons$ and $inc$ are monthly household consumption and income (in ₹). What
+are some factors contained in $u$? Is the zero conditional mean assumption
+likely to hold? Explain your answer.
+
+**QB 6.23** Consider the relationship between the unemployment rate (%) and the GDP growth
+rate (%) across a random sample of countries, with GDP growth as the dependent
+variable. Write the population regression function. What are some factors
+contained in the error term? Do you think the zero conditional mean assumption is
+likely to hold? Why or why not?
+
+**QB 6.24** Consider the relationship between seasonal rainfall and crop yield across
+districts, with crop yield as the dependent variable. Write the population
+regression function. What are some factors contained in the error term? Do you
+think the zero conditional mean assumption is likely to hold? Why or why not?
+
+**QB 6.25** Consider the population regression function
+$Y_i = \beta_0 + \beta_1 I_i + u_i$, where $Y$ is crop yield (tonnes per hectare)
+and $I$ is the percentage of cultivated area that is irrigated. What does the
+zero conditional mean assumption $E[u_i \mid I_i] = 0$ mean in the context of
+this relationship?
+
+**QB 6.26** For the CAT-score and college-grade relationship, write down the population
+regression function (PRF) and the sample regression function (SRF), clearly
+distinguishing the population parameters from their OLS estimates. What does
+$E[u_i \mid x_i] = 0$ mean in this context? Suppose students with greater
+motivation tend to score higher on the CAT and also obtain higher college grades;
+if motivation is omitted, explain why the zero conditional mean assumption might
+be violated. If $E[u_i \mid x_i] \neq 0$, can the OLS slope be interpreted as a
+causal effect? Explain.
+
+### More numerical {-}
+
+**QB 6.27** Twenty workers have the following years of education $X$ and hourly wages $Y$
+(in ₹); the data are hypothetical.
+
+| Education $X$ | 8 | 8 | 8 | 8 | 10 | 10 | 10 | 10 | 12 | 12 |
+|--:|--:|--:|--:|--:|--:|--:|--:|--:|--:|--:|
+| Wage $Y$ | 90 | 100 | 110 | 120 | 105 | 115 | 125 | 135 | 125 | 135 |
+
+| Education $X$ | 12 | 12 | 14 | 14 | 14 | 14 | 16 | 16 | 16 | 16 |
+|--:|--:|--:|--:|--:|--:|--:|--:|--:|--:|--:|
+| Wage $Y$ | 145 | 155 | 145 | 155 | 165 | 175 | 165 | 175 | 185 | 195 |
+
+i. Construct a scatter plot of wages against education. What does it suggest?
+   Do workers with the same education necessarily earn the same wage?
+ii. For each value of education, calculate the average wage $E[Y \mid X = x]$.
+iii. Interpret $E[Y \mid X = 12]$ in words. Is it the wage of every worker with 12
+     years of education?
+iv. Compute the error $u_i = Y_i - E[Y_i \mid X_i]$ for each worker.
+v. Check whether $E[u \mid X] = 0$ at each level of education, and explain how
+   this differs from $E[u] = 0$.
+
 ## Looking ahead {#sr-looking-ahead}
 
 We have a target, a model and a criterion.

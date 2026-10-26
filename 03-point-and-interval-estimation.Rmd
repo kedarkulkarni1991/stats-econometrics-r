@@ -1919,6 +1919,258 @@ rural workers, using samples of 300 from each. Report both intervals, state
 whether they overlap, and explain carefully what that does and does not tell
 you about the difference between the two groups.
 
+### More multiple choice {-}
+
+**QB 3.19** A sample of 10 professors worked the following hours in a week: 48, 22, 19, 65,
+72, 37, 55, 60, 49, 28. What is the estimated population variance of weekly
+hours worked, using $n - 1$ in the denominator?
+
+a. $303.70$
+b. $337.17$
+c. $291.45$
+d. $350.20$
+
+**QB 3.20** For the same data, what is the estimated population standard deviation of
+weekly hours worked?
+
+a. $15.42$
+b. $16.98$
+c. $18.36$
+d. $19.75$
+
+**QB 3.21** If the population mean is instead known to be 46 hours per week, what is the
+estimated population variance, using $n$ in the denominator?
+
+a. $337.17$
+b. $320.50$
+c. $303.70$
+d. $295.00$
+
+**QB 3.22** Why does the sample variance use $n - 1$ rather than $n$ in the denominator when
+the population mean is unknown and estimated by $\bar{X}$?
+
+a. To make the variance larger for small samples
+b. To correct for the loss of one degree of freedom from estimating $\bar{X}$
+c. Because $n - 1$ is always an even number
+d. It is simply a convention with no statistical justification
+
+**QB 3.23** From one random sample, a researcher computes a 90% confidence interval for
+$\mu$ and obtains $[12.4,\ 15.6]$. Which one of the following is a correct
+interpretation?
+
+a. $P(12.4 \leq \mu \leq 15.6) = 0.90$.
+b. 90% of the observations in the sample lie between 12.4 and 15.6.
+c. There is a 90% chance that the mean of the *next* sample falls between 12.4
+   and 15.6.
+d. If samples were drawn repeatedly and an interval constructed the same way
+   each time, about 90% of those intervals would contain $\mu$.
+
+**QB 3.24** A 90% confidence interval for the population mean implies:
+
+a. If all possible samples are taken and confidence intervals calculated, 99% of
+   those intervals would include the true population mean somewhere in their
+   interval.
+b. You can be 90% confident that you have selected a sample whose interval
+   includes the population mean.
+c. Neither (a) nor (b) is correct.
+d. Both (a) and (b) are correct.
+
+**QB 3.25** A 95% confidence interval for the mean weight of newborn babies in a hospital
+is (2.8 kg, 3.2 kg). Which of the following is a correct interpretation?
+
+a. 95% of all newborn babies in the hospital weigh between 2.8 kg and 3.2 kg.
+b. If many random samples were drawn and an interval constructed from each in the
+   same way, about 95% of those intervals would contain the true population mean.
+c. There is a 95% probability that the true population mean lies between 2.8 kg
+   and 3.2 kg.
+d. There is a 95% probability that the sample mean lies between 2.8 kg and
+   3.2 kg.
+
+**QB 3.26** In a random sample of 400 voters, 100 said they would vote for Party X. The 90%
+confidence interval for the proportion of all voters supporting Party X is
+
+a. $[0.214,\ 0.286]$
+b. $[0.714,\ 0.786]$
+c. $[0.179,\ 0.321]$
+d. $[0.208,\ 0.292]$
+
+**QB 3.27** 500 randomly selected adults were asked whether they follow a daily exercise
+routine; 310 said yes. What is the 90% confidence interval for the true
+proportion, and what is the margin of error?
+
+a. CI $= [0.584,\ 0.656]$, margin of error $= 0.036$
+b. CI $= [0.578,\ 0.662]$, margin of error $= 0.042$
+c. CI $= [0.564,\ 0.676]$, margin of error $= 0.056$
+d. CI $= [0.553,\ 0.687]$, margin of error $= 0.067$
+
+**QB 3.28** If the desired margin of error for estimating a population mean is halved
+(holding $\sigma$ and the confidence level constant), the required sample size
+will
+
+a. increase four-fold
+b. double
+c. be halved
+d. stay the same
+
+**QB 3.29** Which of the following are true about the margin of error? *(select all that
+apply)*
+
+a. Increasing $\sigma$, holding $n$ and the confidence level fixed, increases the
+   margin of error.
+b. Increasing $n$, holding $\sigma$ and the confidence level fixed, decreases the
+   margin of error.
+c. The margin of error does not depend on the value of the sample mean.
+d. Doubling $n$ halves the margin of error.
+
+**QB 3.30** A random sample of size $n = 100$ gives a sample mean $\bar{X} = 50$ and a
+sample standard deviation $s = 10$. Which of the following are true? *(select all
+that apply)*
+
+a. The 95% confidence interval for $\mu$ is $[48.04,\ 51.96]$.
+b. The 99% confidence interval for $\mu$ is $[47.42,\ 52.58]$.
+c. The 99% interval will be wider than the 95% interval.
+d. The 99% interval will be narrower than the 95% interval.
+
+**QB 3.31** A random sample of 64 gig-delivery workers has a mean daily earning of
+$\bar{x} = 520$ INR and a sample standard deviation of $s = 120$ INR. Which
+**two** of the following statements are correct?
+
+a. The 95% confidence interval for the population mean daily earning is wider
+   than the 90% confidence interval computed from the same sample.
+b. Once the 95% confidence interval has been computed from this sample, there is
+   a 95% probability that the true population mean lies inside it.
+c. The null hypothesis $H_0: \mu = 492$ (against $H_a: \mu \neq 492$) would be
+   rejected at the 10% level of significance.
+d. About 95% of all individual gig-delivery workers earn a daily amount that lies
+   within the 95% confidence interval for the population mean.
+
+**QB 3.32** A researcher wants to estimate the average monthly mobile data usage (in GB) of
+college students. The population standard deviation is known to be 15 GB. What
+is the minimum sample size required to estimate the population mean with a
+margin of error of 3 GB at a 95% confidence level?
+
+a. $n = 25$
+b. $n = 68$
+c. $n = 96$
+d. $n = 97$
+
+**QB 3.33** The average life of a sample of 10 car tyres is 28,400 km, with a known
+population standard deviation of 3,300 km. What is the 90% confidence interval
+for the mean tyre life?
+
+a. $[27062.63,\ 29737.36]$
+b. $[26683.51,\ 30116.48]$
+c. $[26354.67,\ 30445.32]$
+d. $[25968.52,\ 30831.48]$
+
+**QB 3.34** A random sample of 18 students has IQ scores with sample mean 133.22 and sample
+standard deviation 10.21. Since the population standard deviation is unknown,
+which distribution should be used to construct the confidence interval?
+
+a. The standard normal ($Z$) distribution
+b. The chi-square distribution
+c. Student's $t$ distribution with 17 degrees of freedom
+d. The $F$ distribution
+
+**QB 3.35** For the same IQ data, what is the 90% confidence interval for the population
+mean IQ score, using $t_{17,\,0.05} = 1.739$?
+
+a. $[128.14,\ 138.27]$
+b. $[129.03,\ 137.40]$
+c. $[126.24,\ 140.19]$
+d. $[130.00,\ 136.50]$
+
+**QB 3.36** Car-tyre lifetimes have a population standard deviation of 3,300 km. What
+sample size is needed to estimate the mean tyre life with a margin of error of
+500 km at a 95% confidence level (use $Z_{0.025} = 1.96$)?
+
+a. $132$
+b. $168$
+c. $201$
+d. $250$
+
+**QB 3.37** In a random sample of 1,000 secondary-school teachers in Karnataka, 518 are
+female. What is the 95% confidence interval for the proportion of female
+teachers?
+
+a. $[0.480,\ 0.556]$
+b. $[0.487,\ 0.548]$
+c. $[0.495,\ 0.540]$
+d. $[0.500,\ 0.536]$
+
+**QB 3.38** In a survey of 800 randomly selected college students, 584 said they own a
+laptop. What is the 95% confidence interval for the true proportion of students
+who own a laptop?
+
+a. $[0.680,\ 0.780]$
+b. $[0.699,\ 0.761]$
+c. $[0.710,\ 0.750]$
+d. $[0.650,\ 0.810]$
+
+### More numerical {-}
+
+**QB 3.39** The widths (in inches) of slots on nine successively produced duralumin
+forgings are
+
+$$8.751,\ 8.744,\ 8.749,\ 8.750,\ 8.752,\ 8.749,\ 8.764,\ 8.746,\ 8.753.$$
+
+i. Estimate the mean width of a slot.
+ii. Estimate the population standard deviation.
+
+**QB 3.40** The following are scores on a statistics exam of a random sample of ten
+students:
+
+$$47.03,\ 66.28,\ 80.42,\ 81.37,\ 59.89,\ 53.10,\ 70.53,\ 86.83,\ 73.30,\ 71.95.$$
+
+i. Find the point estimate of the population mean exam score.
+ii. Taking the population standard deviation to be 10.226, find the 75%, 90% and
+    95% confidence interval estimates of the population mean.
+iii. Without assuming the population standard deviation is known, find the 80%,
+     90% and 95% confidence interval estimates.
+iv. Taking $\sigma = 10.226$, find a value that, with 95% confidence, is larger
+    than the population mean.
+v. Without assuming $\sigma$ is known, find a value that, with 99% confidence, is
+   smaller than the population mean.
+
+**QB 3.41** The average monthly salary of a sample of 10 employees is ₹29,584.45. The
+salaries are known to be normally distributed with a standard deviation of
+₹3,250.
+
+i. Determine a 95% confidence interval estimate of the mean salary.
+ii. Find the salary amount that, with 99% confidence, is larger than the
+    population mean.
+iii. Find the salary amount that, with 90% confidence, is smaller than the
+     population mean.
+
+**QB 3.42** Eight hundred randomly selected college students were asked whether they own a
+laptop, and 584 said yes.
+
+i. Construct a 95% confidence interval for the true proportion of students who
+   own laptops, and determine the margin of error.
+ii. What sample size is needed to estimate the proportion with a 2% margin of
+    error at a 90% confidence level?
+
+**QB 3.43** In a random sample of 1,000 secondary-school teachers in Karnataka, 518 are
+female. Construct a 90% upper confidence bound for the proportion of female
+teachers.
+
+**QB 3.44** The time taken to serve a customer at a bank counter is recorded for a random
+sample of 5 customers (in minutes): 12, 15, 9, 10, 14. The population standard
+deviation is *not* known. Find the 90% confidence interval for the mean service
+time.
+
+**QB 3.45** The battery life (in hours) of a random sample of 5 laptops of a new model was
+recorded: 8, 7, 9, 6, 8. The population standard deviation is *not* known. Find
+the 90% confidence interval for the mean battery life.
+
+**QB 3.46** A researcher wants to estimate the average number of hours university students
+spend studying per week. The population standard deviation is known to be 10
+hours. What sample size is required to estimate the population mean with a
+margin of error of 2.5 hours at a 95% confidence level?
+
+**QB 3.47** Using the exam scores in the numerical question above, write R code that
+reproduces the point estimate, the sample standard deviation, and the 80%, 90%
+and 95% confidence intervals for the mean without assuming $\sigma$ is known.
 
 ## Looking ahead {#u3-looking-ahead}
 
