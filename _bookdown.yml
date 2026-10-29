@@ -19,6 +19,7 @@ rmd_files:
   - "08-multiple-regression.Rmd"
   - "09-specification.Rmd"
   - "10-dummy-variables.Rmd"
+  - "11-panel-data.Rmd"
 
 language:
   ui:

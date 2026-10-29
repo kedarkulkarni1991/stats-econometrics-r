@@ -1568,6 +1568,185 @@ deliberately performs a paired test on two variables that are *not* paired in
 any meaningful sense. Report what R does, and explain why the output is
 meaningless even though no error is raised.
 
+### More multiple choice {-}
+
+**QB 5.30** When performing a two-sample $t$-test, what does a large test statistic
+indicate?
+
+a. The difference between the two means is small
+b. The difference between the two means is large
+c. The null hypothesis is always true
+d. The data must be non-normal
+
+**QB 5.31** In a two-sample $t$-test, a test statistic close to zero most likely indicates
+
+a. The difference between the two means is small
+b. The difference between the two means is large
+c. The null hypothesis is always true
+d. The data must be non-normal
+
+**QB 5.32** In a left-tailed two-sample test of $H_0: \mu_1 - \mu_2 = 0$ against
+$H_a: \mu_1 - \mu_2 < 0$, which of the following values of the test statistic
+provides the strongest evidence against the null hypothesis?
+
+a. $-2.5$
+b. $+2.5$
+c. $-0.4$
+d. $+0.3$
+
+### More short reasoning {-}
+
+**QB 5.33** A study compares a treatment group and a control group to which households
+were randomly assigned. The two-sided tests on age of household head and
+household size give $p$-values of 0.73 and 0.42, whereas the test on monthly
+fuel expenditure gives a $p$-value of 0.000. What might explain these
+differences? In each case, is it more likely that the difference arose purely by
+chance, or that it reflects a true effect of the intervention? Explain your
+reasoning.
+
+**QB 5.34** An NGO randomly assigns some vendors an LPG iron box (treatment) and lets
+others continue with coal-powered boxes (control). Tests on age give a large
+$p$-value, but tests on average monthly income and daily clothes ironed both give
+$p = 0.000$. Given random assignment, is it more likely that these differences
+arose purely by chance or that they reflect a true effect of the intervention?
+Explain your reasoning.
+
+### More numerical {-}
+
+**QB 5.35** An experiment compares two methods of cultivating wheat. There are 12
+observations for shallow ploughing and 14 for deep ploughing, with sample mean
+yields of 45.355 kg and 48.254 kg respectively. The population standard
+deviation is known to be 0.8 kg for shallow ploughing and 1.0 kg for deep
+ploughing. At the 5% significance level, test whether the population mean yield
+is the same under the two methods.
+
+**QB 5.36** An experiment is performed to test the difference in effectiveness of two
+methods of cultivating wheat. Twelve patches of ground are treated with shallow
+ploughing and 14 with deep ploughing. The average yield per ground area is 45.2
+kg for shallow ploughing and 48.6 kg for deep ploughing. Suppose the population
+standard deviations are known: $\sigma_S = 0.8$ kg and $\sigma_D = 1.0$ kg. At the
+5% level of significance, are the data consistent with the hypothesis that the
+mean yield is the same for both methods?
+
+**QB 5.37** An administrator claims that the average college GPA of male students is the
+same as that of female students. In the data, 428 males have an average GPA of
+2.776 with sample standard deviation 0.539, while 428 females have an average
+GPA of 2.854 with sample standard deviation 0.532. Assuming unequal population
+variances, test the claim at the 1% and 5% significance levels, and compute the
+99% and 95% confidence intervals for the difference in mean GPA.
+
+**QB 5.38** A college administrator claims that students taking a calculus course study the
+same number of hours per week as students not taking calculus. Suppose the
+research question is instead whether calculus students study *less*. The
+calculus group has 579 students with mean weekly study hours 13.80 and standard
+deviation 7.61; the no-calculus group has 277 students with mean 14.18 and
+standard deviation 8.20. Assuming unequal population variances, test the
+question at the 10% and 5% significance levels, and compute the 90% and 95%
+confidence intervals for $\mu_C - \mu_N$.
+
+**QB 5.39** Two separate tuck shops operate on campus. In a sample of 65 transactions at
+shop A the average amount spent was ₹49.40, and in a sample of 50 transactions at
+shop B it was ₹55.45. Based on previous information the standard deviation is
+₹5.85 at shop A and ₹8.50 at shop B.
+
+i. At the 5% significance level, is there a difference in the average amount
+   spent per transaction at the two shops?
+ii. What is the $p$-value of the test statistic? Interpret it.
+iii. Construct a 95% confidence interval for the difference in means and use it
+     to test the administration's claim.
+
+**QB 5.40** The college administration is evaluating a shift from 1.5-hour lectures to
+2-hour slots, on the assumption that more in-class instruction improves student
+performance. In a pilot study, Section I (1.5-hour lectures, $n = 20$) had mean
+grade 73.92 and standard deviation 23.91; Section II (2-hour lectures, $m = 20$)
+had mean grade 74.73 and standard deviation 10.70. Design a test of the
+administration's claim. Specify the null and alternative hypotheses clearly.
+Assume unequal variances and $\alpha = 0.10$.
+
+**QB 5.41** To determine the effectiveness of a new method of teaching reading, 20
+nonreading children were randomly divided into two groups of 10. The first group
+was taught by the standard method and the second by an experimental method.
+
+| | Standard | Experimental |
+|:--|--:|--:|
+| Average score | 65.6 | 70.4 |
+| Standard deviation | 5.4 | 4.8 |
+| $n$ | 10 | 10 |
+
+Are these data strong enough to show, at the 5% level of significance, that the
+experimental method results in a higher mean test score? Assume equal population
+variances.
+
+**QB 5.42** You were randomly assigned to a Red or a Black group by the colour of a card.
+The data give:
+
+| | $n$ | Mean age | SD | Mean height | SD |
+|:--|--:|--:|--:|--:|--:|
+| Red | 18 | 19.000 | 0.686 | 164.278 | 10.016 |
+| Black | 13 | 19.154 | 0.801 | 165.462 | 9.692 |
+
+Use Welch's two-sample $t$-test to check whether the two groups are balanced in
+age and in height. Reach each decision both by comparing the test statistic with
+the critical value and by constructing the 95% confidence interval for
+$\mu_R - \mu_B$.
+
+**QB 5.43** Consider the claim that males are strictly taller than females, on average. The
+data give 15 males with mean height 172.200 cm and standard deviation 7.930, and
+16 females with mean height 157.813 cm and standard deviation 4.902. Use
+Welch's two-sample $t$-test at $\alpha = 0.05$. State the hypotheses (explaining
+where the claim goes), find the critical value and the test statistic, and
+construct the corresponding one-sided 95% confidence interval.
+
+**QB 5.44** An NGO randomly provided some vendors with an LPG iron box (treatment group)
+while others continued with coal-powered boxes (control group).
+
+| | Control ($N = 850$) | | Treatment ($N = 481$) | |
+|:--|--:|--:|--:|--:|
+| | Mean | SD | Mean | SD |
+| Age | 44.55 | 10.60 | 44.44 | 10.23 |
+| Per cloth ironing rate (₹) | 8.87 | 1.28 | 8.94 | 1.43 |
+| Average monthly income (₹) | 17,968.9 | 3,307.3 | 20,705.2 | 3,680.4 |
+| Daily clothes ironed | 121.6 | 31.42 | 152.8 | 46.96 |
+
+i. For a two-sample test comparing the groups on **age**, state the null and
+   alternative hypotheses.
+ii. Calculate the test statistic and the corresponding $p$-value.
+iii. Interpret the $p$-value and state your conclusion at the 5% level.
+iv. Repeat parts (i) to (iii) for the **ironing rate**.
+
+**QB 5.45** An NGO is testing an improved smokeless cookstove. Some rural households were
+randomly given the cookstove (treatment) while others kept the traditional one
+(control). The NGO believes the new stove **reduces** the time households spend
+collecting firewood.
+
+| | Control ($N = 640$) | | Treatment ($N = 360$) | |
+|:--|--:|--:|--:|--:|
+| | Mean | SD | Mean | SD |
+| Age of household head (years) | 41.30 | 11.20 | 41.05 | 10.80 |
+| Household size | 5.20 | 1.80 | 5.30 | 1.90 |
+| Weekly hours collecting firewood | 14.20 | 4.60 | 13.50 | 4.90 |
+| Monthly fuel expenditure (₹) | 640 | 180 | 410 | 150 |
+
+Let $\mu_T$ and $\mu_C$ be the population mean weekly hours collecting firewood in
+the treatment and control groups.
+
+i. State the hypotheses for a one-sided test of whether the stove reduces weekly
+   hours, with the alternative of the form $H_a: \mu_T - \mu_C < 0$.
+ii. Calculate the test statistic and the corresponding $p$-value.
+iii. State your conclusion at the 5% level using the $p$-value approach.
+iv. Construct the appropriate one-sided 95% confidence interval for
+    $\mu_T - \mu_C$ and say whether it is consistent with your conclusion.
+
+### R and data {-}
+
+**QB 5.46** In the built-in `mtcars` data, test whether cars with manual transmissions
+(`am = 1`) have a higher mean `mpg` than cars with automatic transmissions
+(`am = 0`). Assume unequal population variances. Note that
+`t.test(mpg ~ am)` orders the groups by the factor levels of `am` (0 then 1);
+keep this in mind when choosing the `alternative`.
+
+**QB 5.47** In the `mtcars` data, test whether the mean quarter-mile time (`qsec`) differs
+between manual and automatic cars. Assume unequal population variances.
 
 ## Looking ahead {#ts-looking-ahead}
 

@@ -1,0 +1,1582 @@
+# Panel Data: Comparing a Unit with Itself {#panel-data}
+
+```{r setup-11, include = FALSE}
+source("_common.R")
+library(ggplot2)
+```
+
+Every regression so far has used a cross-section: many units, each observed
+once. A worker, a household, a district, a firm — one row each.
+
+Unit \@ref(multiple-regression) tried to make such comparisons fair by measuring
+the other differences between units and holding them constant. It could do that
+only for what we measured. The farmer's skill, the quality of the soil, the
+honesty of the district administration, the management culture of the firm — the
+differences most likely to matter are exactly the ones that never appear in a
+survey.
+
+Now suppose each unit is observed **more than once**. The same farms, season
+after season. The same states, year after year. The same households, revisited.
+
+That changes what is possible. A farm observed twice can be compared **with
+itself**. Whatever about the farm stays the same between the two visits — its
+soil, its location, its owner's temperament — cancels out of the comparison,
+whether or not anyone ever measured it.
+
+This unit is about how to use that idea properly. We spend most of our time on
+one estimator, the **fixed effects estimator**, because understanding what it
+does — and what it quietly throws away — is the heart of panel data analysis.
+Two others follow: **random effects**, which is more efficient when its
+assumption holds, and **correlated random effects**, which sits between them and
+turns out to be the most useful of the three.
+
+## The same unit, observed again {#pd-motivation}
+
+::: {.question}
+Does fertiliser raise yield — or do farms with good soil simply use more of it?
+:::
+
+Suppose we want to know how much fertiliser raises crop yield. A survey of 1,000
+farms in a single season records yield and fertiliser use, and the two are
+strongly positively related.
+
+Is that the effect of fertiliser?
+
+Not necessarily. Farms with better soil get higher yields whatever they do, and
+they may also find fertiliser more worthwhile, so they use more of it. Soil
+quality is then driving both numbers. The cross-section cannot separate the two
+stories, and soil quality is not in the survey to control for.
+
+Recall the thought experiment of Section \@ref(sr-motivation): the same student,
+observed twice, differing only in attendance. A cross-section can never supply
+it, because no unit appears twice. A panel can supply something close to it.
+
+Follow one farm through five seasons. Its soil does not change. If its yield
+rises in the seasons it applies more fertiliser, the soil cannot be the
+explanation, because the soil was the same in all five seasons. The comparison
+is between the farm and itself.
+
+::: {.keyidea}
+**Panel data** follow the same units over several time periods. Their value is
+that a unit can be compared with itself, which removes every characteristic that
+stays fixed over time — measured or not.
+:::
+
+## What panel data look like {#pd-structure}
+
+Panel data are usually stored in **long form**: one row for each unit in each
+period.
+
+To learn how the methods behave we need to know the truth, so we begin with a
+simulated panel in which we do. This is the same device Unit \@ref(interval-estimation)
+used for confidence intervals: build a world, run the method, and compare with
+what we built.
+
+```{r pd-make}
+make_panel <- function(N = 200, T = 5, beta = 0.30, rho = 0.6, gamma = 0.20,
+                       seed = NULL) {
+  if (!is.null(seed)) set.seed(seed)
+  a     <- rnorm(N, sd = 0.5)            # soil quality: never observed
+  habit <- rnorm(N, sd = 0.5)            # a farm's lasting fertiliser habit
+  canal <- rbinom(N, 1, 0.4)             # on a canal: fixed, observed
+  d <- data.frame(farm = rep(1:N, each = T), season = rep(1:T, times = N))
+  d$canal  <- canal[d$farm]
+  d$lfert  <- 1 + rho * a[d$farm] + habit[d$farm] + rnorm(N * T, sd = 0.5)
+  d$lyield <- 2 + beta * d$lfert + gamma * d$canal + a[d$farm] +
+              rnorm(N * T, sd = 0.3)
+  d$soil   <- a[d$farm]                  # kept only so we can check our work
+  d
+}
+
+farms <- make_panel(seed = 11)
+head(farms[, c("farm", "season", "lfert", "lyield", "canal")], 10)
+```
+
+There are `r length(unique(farms$farm))` farms observed over
+`r length(unique(farms$season))` seasons, so `r nrow(farms)` rows. `lfert` is the
+log of fertiliser applied and `lyield` the log of yield. A panel in which every
+unit appears in every period is **balanced**; otherwise it is
+**unbalanced**.
+
+The truth is built in. Each extra 1% of fertiliser raises yield by **0.30%**: the
+true $\beta_1$ is 0.30. Soil quality `soil` ($a_i$) also raises yield, and farms
+with better soil use more fertiliser (`rho = 0.6`). The column `soil` is kept
+only so that we can check our answers; a real survey would not have it.
+
+### The model {-}
+
+Write the outcome for unit $i$ in period $t$ as
+
+$$y_{it} = \beta_0 + \beta_1 x_{it} + a_i + u_{it},
+\qquad i = 1,\ldots,N, \quad t = 1,\ldots,T$$
+
+There are two kinds of unobserved influence here, and keeping them apart is the
+whole subject.
+
+::: {.keyidea}
+- $a_i$ is the **unobserved effect**: everything about unit $i$ that is
+  constant over time and not in the model. It has no $t$ subscript.
+- $u_{it}$ is the **idiosyncratic error**: whatever changes from period to
+  period. A good season, a pest outbreak, a delayed delivery of seed.
+
+Their sum, $v_{it} = a_i + u_{it}$, is the **composite error**. Pooled OLS treats
+$v_{it}$ as a single error term.
+:::
+
+### Two sources of variation {-}
+
+Any variable in a panel varies in two ways: **between** units (farm 7 uses more
+fertiliser than farm 8, on average) and **within** a unit over time (farm 7 used
+more this season than last). The decomposition is exact.
+
+```{r pd-variation}
+demean <- function(v, g) v - ave(v, g)          # subtract each unit's own mean
+
+within_sd  <- function(v, g) sd(demean(v, g))
+between_sd <- function(v, g) sd(tapply(v, g, mean))
+
+round(rbind(
+  lfert  = c(overall = sd(farms$lfert),
+             between = between_sd(farms$lfert, farms$farm),
+             within  = within_sd(farms$lfert, farms$farm)),
+  lyield = c(overall = sd(farms$lyield),
+             between = between_sd(farms$lyield, farms$farm),
+             within  = within_sd(farms$lyield, farms$farm))), 3)
+```
+
+Fertiliser use differs a good deal between farms and less within a farm over
+time. This matters because, as we are about to see, the fixed effects estimator
+uses **only the within column**.
+
+## Why pooling fails {#pd-pooled}
+
+::: {.question}
+What goes wrong if we ignore the panel structure and run OLS on all
+`r nrow(farms)` rows?
+:::
+
+**Pooled OLS** stacks every observation and regresses $y$ on $x$ as if each row
+were an independent draw.
+
+```{r pd-pooled}
+pooled <- lm(lyield ~ lfert, data = farms)
+round(coef(summary(pooled)), 4)
+```
+
+The estimate is `r round(coef(pooled)[2], 3)`, against a truth of 0.30. Two
+different things have gone wrong.
+
+### Problem 1: bias {-}
+
+The soil quality $a_i$ sits inside the composite error $v_{it}$. If it is
+correlated with fertiliser use, pooled OLS violates the zero conditional mean
+assumption exactly as in Section \@ref(mlr-causal): the omitted variable bias
+formula applies, with $a_i$ as the omitted variable.
+
+$$\text{plim}\,\hat{\beta}_1^{\text{pooled}} = \beta_1 +
+\frac{\mathrm{Cov}(x_{it}, a_i)}{\mathrm{Var}(x_{it})}$$
+
+We can check this against the simulation, which tells us every ingredient.
+
+```{r pd-bias-formula}
+cov_xa <- 0.6 * 0.5^2                    # rho times Var(a)
+var_x  <- 0.6^2 * 0.5^2 + 0.5^2 + 0.5^2 # soil + habit + season-to-season noise
+round(c(truth = 0.30, bias = cov_xa / var_x,
+        predicted = 0.30 + cov_xa / var_x,
+        pooled_estimate = unname(coef(pooled)[2])), 3)
+```
+
+The estimate is far above the truth, and close to what the formula predicts (this
+is one sample; the average over many panels, in Section \@ref(pd-mc), is 0.555).
+It would be mistaken to call this a small-sample accident: a bigger panel would
+only estimate the wrong number more precisely.
+
+### Problem 2: standard errors {-}
+
+The second problem is separate, and it would remain even if there were no bias.
+The same $a_i$ appears in all five of a farm's composite errors, so those errors
+are **correlated with one another**. Pooled OLS assumes they are independent.
+
+```{r pd-icc}
+farms$res_pooled <- resid(pooled)
+wide <- reshape(farms[, c("farm", "season", "res_pooled")],
+                idvar = "farm", timevar = "season", direction = "wide")
+round(cor(wide[, -1])[1:3, 1:3], 2)
+```
+
+Residuals from the same farm in different seasons correlate at about 0.7.
+Treating `r nrow(farms)` rows as `r nrow(farms)` independent pieces of
+information overstates how much we know, and the usual standard errors are too
+small — the same lesson as Section \@ref(ols-hetero), for a different reason.
+
+The remedy is the **cluster-robust standard error**, which allows arbitrary
+correlation among the observations of one unit and treats the unit, not the
+row, as the independent draw.
+
+```{r pd-cluster-fn}
+cluster_se <- function(m, cluster) {
+  X <- model.matrix(m); u <- residuals(m); G <- length(unique(cluster))
+  bread <- solve(crossprod(X))
+  meat  <- crossprod(rowsum(X * u, cluster))   # sum scores within each unit
+  sqrt(diag(G / (G - 1) * bread %*% meat %*% bread))
+}
+
+round(c(usual = coef(summary(pooled))[2, 2],
+        clustered = cluster_se(pooled, farms$farm)[2]), 4)
+```
+
+The clustered standard error is about 50% larger. Cluster at the level of the
+unit that is observed repeatedly, and use these standard errors for every
+estimator in this unit.
+
+Clustering repairs only problem 2. It does nothing for problem 1: an estimate
+that is centred on the wrong number is no better for having an honest
+standard error.
+
+### Seeing it {-}
+
+Plot twelve farms. Each farm has its own cloud of five points, and its own
+trend within the cloud.
+
+```{r pd-lines, fig.height = 4.6}
+set.seed(21)
+pick <- sample(unique(farms$farm), 12)
+sub  <- farms[farms$farm %in% pick, ]
+
+ggplot(sub, aes(lfert, lyield, colour = factor(farm), group = farm)) +
+  geom_point(size = 2, show.legend = FALSE) +
+  geom_smooth(method = "lm", se = FALSE, linewidth = 0.6, show.legend = FALSE) +
+  geom_abline(intercept = coef(pooled)[1], slope = coef(pooled)[2],
+              colour = book_palette$ink, linewidth = 1.3, linetype = "dashed") +
+  labs(x = "Log fertiliser", y = "Log yield",
+       title = "Each farm's own slope is shallow; the pooled line is steep",
+       subtitle = "Dashed line: pooled OLS. Coloured lines: each farm on its own") +
+  theme_book()
+```
+
+Within any one farm the relationship is flat-ish — about 0.30. Across farms the
+clouds are stacked: farms to the right sit higher, because they have better
+soil. The dashed pooled line mixes the two, so it is far steeper than any single
+farm's own line. The fixed effects estimator is an average of the farms' *own*
+lines.
+
+## The fixed effects estimator {#pd-fe}
+
+::: {.question}
+What exactly does the fixed effects estimator do — and what does it throw away?
+:::
+
+### The within transformation {-}
+
+Start with the model for one unit, and **average it over time**:
+
+$$\bar{y}_i = \beta_0 + \beta_1 \bar{x}_i + a_i + \bar{u}_i,
+\qquad \text{where } \bar{y}_i = \frac{1}{T}\sum_{t=1}^{T} y_{it}$$
+
+Because $a_i$ does not change with $t$, it appears in the averaged equation
+exactly as it appeared in the original. Now **subtract** the averaged equation
+from the original, period by period:
+
+::: {.theory}
+$$
+\begin{aligned}
+y_{it} - \bar{y}_i
+  &= \beta_1 (x_{it} - \bar{x}_i) + (a_i - a_i) + (u_{it} - \bar{u}_i)
+  \\[4pt]
+\ddot{y}_{it} &= \beta_1 \ddot{x}_{it} + \ddot{u}_{it}
+\end{aligned}
+$$
+
+where a double dot marks a variable **minus its unit's own time average**. The
+intercept $\beta_0$ cancels too, and so does $a_i$.
+:::
+
+This is the **fixed effects transformation**, also called the **within
+transformation**. The unobserved effect has vanished from the equation. Whatever
+$a_i$ is, and however it is related to $x$, it cannot bias an estimate made from
+this equation because it is no longer there.
+
+The **fixed effects (within) estimator** is OLS on the transformed variables:
+
+$$\hat{\beta}_1^{FE} = \frac{\sum_{i}\sum_{t} \ddot{x}_{it}\,\ddot{y}_{it}}
+                          {\sum_{i}\sum_{t} \ddot{x}_{it}^{\,2}}$$
+
+Nothing about it is exotic. It is the slope formula of Unit \@ref(ols), applied
+to deviations from each unit's own mean instead of deviations from the overall
+mean.
+
+```{r pd-fe-demean}
+farms$y_dd <- demean(farms$lyield, farms$farm)
+farms$x_dd <- demean(farms$lfert,  farms$farm)
+
+fe_by_hand <- sum(farms$x_dd * farms$y_dd) / sum(farms$x_dd^2)
+c(fixed_effects = fe_by_hand, pooled = unname(coef(pooled)[2]), truth = 0.30)
+```
+
+The fixed effects estimate is `r round(fe_by_hand, 3)`, close to the truth, where
+pooled OLS gave `r round(coef(pooled)[2], 3)`.
+
+::: {.intuition}
+A farm with good soil has high $y$ in all five seasons and high $x$ in all five.
+Subtracting the farm's own averages shifts the whole cloud of that farm's points
+to the origin, wherever it started. Good soil and bad soil are now the same
+cloud. All that survives is how the farm moves around *its own centre*: a season
+with more fertiliser than usual against a season with less.
+
+The comparison is the one we wanted: each farm against itself.
+:::
+
+The identifying assumption is **strict exogeneity**: given $a_i$, the
+idiosyncratic error in *every* period is uncorrelated with the explanatory
+variable in *every* period. What the estimator does **not** require is that
+$a_i$ be uncorrelated with $x$. It permits arbitrary correlation between the
+unobserved effect and the explanatory variables, in every period. That is its
+whole advantage.
+
+### The same number, three ways {-}
+
+The fixed effects estimate can be reached by several routes. They agree exactly.
+
+**Route 1: the demeaned regression** is the one above.
+
+**Route 2: dummy variables.** Treat each farm's $a_i$ as a parameter to be
+estimated — a separate intercept for each farm — by including a dummy for every
+farm, exactly as in Unit \@ref(dummy-variables).
+
+$$y_{it} = \beta_1 x_{it} + \underbrace{\alpha_1 D1_i + \alpha_2 D2_i + \cdots + \alpha_N DN_i}_{\text{one intercept per farm}} + u_{it}$$
+
+```{r pd-lsdv}
+lsdv <- lm(lyield ~ lfert + factor(farm), data = farms)
+
+c(demeaned = fe_by_hand, dummies = unname(coef(lsdv)["lfert"]))
+length(coef(lsdv))
+```
+
+The coefficient on `lfert` is identical to every digit. It is the
+**dummy variable regression**, or LSDV (least squares dummy variables). With 200
+farms the model has `r length(coef(lsdv))` parameters. That is why nobody runs it
+in a large panel: the demeaning route gives the same slope without ever
+estimating the 200 intercepts.
+
+The agreement is Frisch–Waugh–Lovell (Section \@ref(mlr-fwl)) at work. Including
+a dummy for every farm and then asking for the effect of $x$ is the same as
+first removing from $x$ and $y$ the part explained by the farm dummies — and
+what is left after regressing a variable on a full set of unit dummies is
+precisely its deviation from the unit mean.
+
+**Route 3: first differences.** Subtract the previous period instead of the unit
+mean:
+
+$$\Delta y_{it} = y_{it} - y_{i,t-1}
+\quad\Rightarrow\quad
+\Delta y_{it} = \beta_1 \Delta x_{it} + \Delta u_{it}$$
+
+$a_i$ cancels here too. With two periods this is the same estimator again. The
+next sections return to when the two differ.
+
+::: {.watchout}
+All three routes remove $a_i$ by comparing a unit only with itself, so all three
+are **blind to anything constant over time** and all three use only within-unit
+variation. Their differences are in efficiency and in what they assume about
+$u_{it}$, not in what they can see.
+:::
+
+### The degrees of freedom {-}
+
+The demeaned regression is an ordinary OLS regression on $NT$ rows with one
+slope, so one might expect $NT - 1$ degrees of freedom, and a standard error
+computed accordingly. That is wrong.
+
+Within each farm, the demeaned errors $\ddot{u}_{it}$ must add up to zero,
+because they are deviations from the farm's own average. They are therefore not
+$T$ free numbers but $T - 1$. Each of the $N$ units costs one degree of freedom,
+and the correct count is
+
+$$\text{df} = NT - N - k = N(T-1) - k$$
+
+where $k$ is the number of slopes. An `lm()` on demeaned data does not know this
+and uses $NT - k$.
+
+```{r pd-df}
+n <- nrow(farms); N <- 200; k <- 1
+m_dd <- lm(y_dd ~ x_dd - 1, data = farms)
+
+s2_naive     <- sum(resid(m_dd)^2) / (n - k)
+s2_corrected <- sum(resid(m_dd)^2) / (n - N - k)
+
+round(c(
+  se_from_lm_on_demeaned = coef(summary(m_dd))[1, 2],
+  se_correct_df          = sqrt(s2_corrected / sum(farms$x_dd^2)),
+  se_from_dummy_regression = coef(summary(lsdv))["lfert", 2]), 5)
+```
+
+The dummy-variable regression gets the degrees of freedom right automatically,
+since it knows it estimated 200 intercepts. A package's fixed effects routine
+corrects for it as well. The correction matters most when $T$ is small: here it
+raises the standard error by about 12%, and with $T = 2$ the naive standard error
+would be too small by a factor of $\sqrt{2}$.
+
+### The fit {-}
+
+Two $R^2$ figures can be reported, and they answer different questions.
+
+```{r pd-r2}
+r2_within <- summary(m_dd)$r.squared
+r2_lsdv   <- summary(lsdv)$r.squared
+round(c(within = r2_within, with_dummies = r2_lsdv), 3)
+```
+
+The **within $R^2$** is the share of the *time variation* in $y$ explained by the
+time variation in $x$ — the fit of the demeaned equation. The $R^2$ of the dummy
+regression is far higher, because 200 farm dummies explain most of the
+variation between farms. That high number is not an achievement. It says that
+farms differ a lot, which we knew, and tells us nothing about how well
+fertiliser explains yield.
+
+### The farm intercepts {-}
+
+The unobserved effects themselves can be recovered, because $a_i$ is the part of
+the farm's average yield that its average fertiliser does not explain:
+
+$$\hat{\alpha}_i = \bar{y}_i - \hat{\beta}_1^{FE}\,\bar{x}_i$$
+
+(These are the dummy coefficients of the LSDV regression. Packages that report an
+overall "intercept" after fixed effects usually report the average of the
+$\hat{\alpha}_i$.)
+
+```{r pd-ahat}
+ybar <- tapply(farms$lyield, farms$farm, mean)
+xbar <- tapply(farms$lfert,  farms$farm, mean)
+ahat <- ybar - fe_by_hand * xbar
+
+truth <- tapply(2 + 0.20 * farms$canal + farms$soil, farms$farm, mean)
+
+round(c(correlation_with_truth = cor(ahat, truth)), 3)
+```
+
+The estimated intercepts track the true ones closely, but only closely. Each is
+based on just $T = 5$ observations, and unlike $\hat{\beta}_1$ they do **not**
+become reliable as we add farms: a new farm brings a new $a_i$ to be estimated,
+so no information about any one $a_i$ accumulates. Only a longer $T$ would help.
+That is why we treat $a_i$ as something to be removed, not as something to be
+estimated.
+
+### What the transformation throws away {-}
+
+Subtracting a unit's average removes $a_i$, but it removes **anything else that
+is constant over time** with it. `canal` — whether the farm lies on a canal — is
+observed, but it never changes for a given farm, so
+
+$$\ddot{canal}_{it} = canal_i - canal_i = 0 \quad \text{for every } i \text{ and } t$$
+
+```{r pd-timeinv}
+farms$canal_dd <- demean(farms$canal, farms$farm)
+range(farms$canal_dd)
+
+coef(lm(y_dd ~ x_dd + canal_dd - 1, data = farms))
+```
+
+The coefficient on `canal` is `NA`: R reports that the variable is a column of
+zeros and cannot be estimated. In the dummy regression the same thing is
+visible as perfect collinearity, because `canal` equals a combination of farm
+dummies.
+
+::: {.watchout}
+**The fixed effects estimator cannot estimate the effect of any variable that is
+constant over time.** Gender, caste, a farm's location, years of schooling in a
+panel of adults, a state's colonial history, distance to a river: all are swept
+away along with $a_i$. This is the price of the estimator's main virtue. It
+cannot be paid back by a larger sample.
+:::
+
+Two partial escapes are worth knowing.
+
+First, a time-constant variable can be **interacted with year dummies**. Years
+of schooling cannot enter, but "schooling × 2019" and "schooling × 2020" can,
+and their coefficients show how the return to schooling *in each year differs from
+the return in the base year*. Neither the base-year return nor any year's
+return can be recovered, only the changes.
+
+Second, the **correlated random effects** approach later in this unit can
+estimate a coefficient on a time-constant variable while still allowing $a_i$ to
+be correlated with the time-varying regressors — under a stronger assumption
+about the time-constant variable.
+
+A related trap: if you include a full set of year dummies, you cannot estimate
+the effect of a variable whose change over time is the same for everyone.
+Experience in a panel of workers who are all employed in every year rises by
+exactly one every year. Its within variation is identical to a time trend, and
+a time trend is exactly what year dummies capture.
+
+```{r pd-exper}
+farms$experience <- farms$season + 5      # every farm gains one season a year
+
+with_years <- lm(lyield ~ lfert + factor(season) + experience + factor(farm),
+                 data = farms)
+coef(with_years)["experience"]
+```
+
+Again `NA`. The farm effect absorbs how much experience a farm began with; after
+that, experience cannot be told apart from the season dummies.
+
+### Fixed effects or first differences? {-}
+
+Both estimators remove $a_i$. When do they differ?
+
+**With two periods they are the same estimator**, provided each is run properly:
+the first-difference regression needs an intercept (the change in the average
+outcome between the two periods), which in the fixed effects version appears as
+a dummy for the second period.
+
+```{r pd-fd-t2}
+two <- subset(farms, season <= 2)
+two <- two[order(two$farm, two$season), ]
+
+dy <- two$lyield[two$season == 2] - two$lyield[two$season == 1]
+dx <- two$lfert [two$season == 2] - two$lfert [two$season == 1]
+
+fd_t2 <- coef(lm(dy ~ dx))["dx"]
+fe_t2 <- coef(lm(lyield ~ lfert + factor(season) + factor(farm),
+                 data = two))["lfert"]
+round(c(first_difference = unname(fd_t2), fixed_effects = unname(fe_t2)), 6)
+```
+
+**With three or more periods they differ**, although both are consistent as $N$
+grows. The choice turns on the idiosyncratic errors $u_{it}$.
+
+```{r pd-fd-t5}
+farms <- farms[order(farms$farm, farms$season), ]
+first_diff <- function(v, g) ave(v, g, FUN = function(z) c(NA, diff(z)))
+farms$dy <- first_diff(farms$lyield, farms$farm)
+farms$dx <- first_diff(farms$lfert,  farms$farm)
+
+fd_t5 <- coef(lm(dy ~ dx - 1, data = farms))["dx"]
+round(c(first_difference = unname(fd_t5), fixed_effects = fe_by_hand), 4)
+```
+
+- If the $u_{it}$ are **serially uncorrelated** — a bad season now says nothing
+  about the next — fixed effects is the more efficient estimator, and its standard
+  errors are the ones to believe. This is the usual maintained assumption.
+- If the $u_{it}$ are **highly persistent**, so that shocks accumulate like a
+  random walk, then the *differences* $\Delta u_{it}$ are uncorrelated and first
+  differencing is better.
+- Nothing about the demeaned residuals tells you which holds, because they are
+  not the $u_{it}$. A test is available in the differenced equation.
+
+When the two estimators give very different answers it is worth reporting both
+and asking why.
+
+### Fixed effects and measurement error {-}
+
+The fixed effects estimator pays a price for working only with within variation.
+If $x$ is measured with error, the damage depends on how much of the true
+variation survives. Fertiliser use is recorded from memory; suppose each
+recorded value carries an error with standard deviation 0.4.
+
+```{r pd-measerr, cache = TRUE}
+set.seed(3)
+one_rep <- function() {
+  d <- make_panel()
+  d$lfert_noisy <- d$lfert + rnorm(nrow(d), sd = 0.4)
+  fe_slope <- function(x) {
+    xd <- demean(x, d$farm); yd <- demean(d$lyield, d$farm)
+    sum(xd * yd) / sum(xd^2)
+  }
+  c(clean = fe_slope(d$lfert), noisy = fe_slope(d$lfert_noisy))
+}
+rowMeans(replicate(300, one_rep()))
+```
+
+A noise standard deviation of 0.4 is a modest part of the *overall* variation in
+fertiliser (standard deviation about 0.8). But a large part of that overall
+variation is *between* farms, which fixed effects discards. What remains —
+the within variation — is smaller, so the same noise is a larger share of it
+and attenuates the slope more. The estimate falls from 0.30 to about 0.18.
+
+::: {.watchout}
+Removing the unobserved effect by differencing out the between variation makes
+the problem of **classical measurement error worse**, not better. Panel methods
+that remove bias from one source can amplify it from another. If $x$ is noisy
+and mostly persistent, a fixed effects estimate may be biased towards zero.
+:::
+
+### Unbalanced panels and attrition {-}
+
+Real panels often have gaps: some units are missing in some periods. Fixed
+effects handles this without difficulty. Each unit's mean is taken over **its
+own** periods, one degree of freedom is lost per unit, and the rest is unchanged.
+
+```{r pd-unbal}
+unbal <- farms[!(farms$farm %in% 1:10 & farms$season > 1), ]   # 10 farms seen once
+table(Periods_observed = table(unbal$farm))
+```
+
+A unit observed only **once** plays no role at all. Its demeaned $x$ and $y$ are
+exactly zero. In this panel ten farms contribute nothing to the fixed effects
+estimate, although they remain in the data.
+
+The harder question is *why* the panel is unbalanced. Suppose farms disappear
+from the survey.
+
+- If a farm drops out for reasons related to $a_i$ — farms on poor soil are more
+  likely to be lost to follow-up — fixed effects is **still fine**, because $a_i$
+  is removed from the estimating equation anyway. This is a real advantage over
+  methods that need $a_i$ to be uncorrelated with everything.
+- If the farm drops out for reasons related to the **idiosyncratic error**
+  $u_{it}$ — farms are lost precisely because a bad season ruined them — the
+  remaining sample is selected on the outcome, and the estimates are biased.
+
+### Inference {-}
+
+Fixed effects standard errors assume $u_{it}$ is homoskedastic and serially
+uncorrelated. Neither is safe to assume, and both are easy to relax by
+clustering on the unit, exactly as for pooled OLS.
+
+```{r pd-fe-se}
+c(classical = coef(summary(lsdv))["lfert", 2],
+  clustered = cluster_se(lsdv, farms$farm)["lfert"])
+```
+
+Cluster whenever the unit is observed repeatedly. With few units — say, fewer
+than about twenty states — cluster-robust standard errors themselves become
+unreliable, and a long $T$ with small $N$ raises further difficulties not
+discussed here.
+
+### What to remember about fixed effects {-}
+
+::: {.keyidea}
+- The estimator **demeans** each unit's data and runs OLS: the unobserved effect
+  $a_i$ and every other time-constant variable disappear.
+- It permits **any** correlation between $a_i$ and the explanatory variables. It
+  needs *strict exogeneity* of the time-varying errors.
+- It is identical to OLS with a dummy for each unit; the demeaned version just
+  avoids estimating the dummies. Degrees of freedom are $N(T-1) - k$.
+- It uses **only within variation**. Units that never vary, and variables that
+  never vary, contribute nothing.
+- With $T = 2$ it equals first differencing; with $T \ge 3$ the two differ, and
+  fixed effects is preferred when $u_{it}$ is not highly persistent.
+- It is **not** a cure for omitted variables that *change* over time, and it
+  can aggravate measurement error.
+:::
+
+### The between estimator {-}
+
+For completeness, the opposite operation: regress unit **averages** on unit
+averages and use only between variation.
+
+$$\bar{y}_i = \beta_0 + \beta_1 \bar{x}_i + (a_i + \bar{u}_i)$$
+
+```{r pd-between}
+unit <- data.frame(ybar = as.numeric(ybar), xbar = as.numeric(xbar))
+between <- coef(lm(ybar ~ xbar, data = unit))["xbar"]
+round(c(between = unname(between), within = fe_by_hand, truth = 0.30), 3)
+```
+
+The between estimate is far from the truth, because $a_i$ is correlated with
+$\bar{x}_i$. If $a_i$ is related to $x$, the between estimator is biased. It is
+mainly useful as a building block, as the next sections show.
+
+## Random effects {#pd-re}
+
+::: {.question}
+What if we are willing to assume that the unobserved effect is *not* correlated
+with the explanatory variables?
+:::
+
+Fixed effects pays for its robustness by discarding the between variation. If
+$a_i$ were uncorrelated with $x_{it}$ — if soil quality had nothing to do with
+how much fertiliser a farm uses — pooled OLS would not be biased, and the between
+variation would be perfectly good information about $\beta_1$. Discarding it
+would waste data.
+
+The **random effects** model makes that assumption. It treats $a_i$ as a random
+draw from a population, independent of the regressors:
+
+$$\mathrm{Cov}(x_{it}, a_i) = 0 \quad \text{for all } t$$
+
+Under this assumption pooled OLS is consistent — but still inefficient and with
+wrong standard errors, since the composite error is serially correlated:
+
+$$\mathrm{Var}(v_{it}) = \sigma_a^2 + \sigma_u^2, \qquad
+\mathrm{Corr}(v_{it}, v_{is}) = \frac{\sigma_a^2}{\sigma_a^2 + \sigma_u^2}
+\quad (t \neq s)$$
+
+The efficient way to estimate a regression with an error of this known structure
+is **generalised least squares**. For this error structure GLS has a particularly
+simple form: it is OLS after subtracting only *part* of each unit's mean.
+
+::: {.theory}
+Define the **quasi-demeaned** variables
+
+$$y_{it} - \theta\,\bar{y}_i, \qquad x_{it} - \theta\,\bar{x}_i,
+\qquad \theta = 1 - \sqrt{\frac{\sigma_u^2}{\sigma_u^2 + T\sigma_a^2}}$$
+
+Running OLS on these variables, including an intercept (which is multiplied by
+$1-\theta$), gives the random effects estimator.
+:::
+
+Look at the two extremes of $\theta$.
+
+- $\theta = 0$: nothing is subtracted, and random effects is **pooled OLS**. This
+  happens when $\sigma_a^2 = 0$: there is no unobserved effect to worry about.
+- $\theta = 1$: the whole unit mean is subtracted, and random effects is the
+  **fixed effects** estimator. This happens as $T$ or $\sigma_a^2$ gets large.
+
+Random effects is therefore a weighted compromise between the within estimator
+and the between estimator. Where is it on the scale?
+
+```{r pd-theta, fig.height = 3.8}
+th <- expand.grid(T = 2:30, ratio = c(0.25, 1, 4))
+th$theta <- 1 - sqrt(1 / (1 + th$T * th$ratio))
+th$ratio <- factor(th$ratio, labels = c("sigma_a^2 / sigma_u^2 = 0.25",
+                                        "= 1", "= 4"))
+
+ggplot(th, aes(T, theta, colour = ratio)) +
+  geom_line(linewidth = 1) +
+  scale_colour_manual(values = c(book_palette$soft, book_palette$accent,
+                                 book_palette$reject), name = NULL) +
+  labs(x = "Number of periods T", y = expression(theta),
+       title = "Random effects moves towards fixed effects as T grows",
+       subtitle = "At θ = 1 it is fixed effects; at θ = 0 it is pooled OLS") +
+  theme_book() + theme(legend.position = "bottom")
+```
+
+The more periods we have, and the bigger the unobserved effect relative to the
+idiosyncratic noise, the more random effects behaves like fixed effects.
+
+In practice $\sigma_a^2$ and $\sigma_u^2$ must themselves be estimated. A simple
+approach (Swamy–Arora) uses the residual variance from the within regression for
+$\sigma_u^2$, and the between regression to back out $\sigma_a^2$.
+
+```{r pd-re-fn}
+# Fixed and random effects for one regressor, balanced panel.
+fe_re <- function(d, id, y, x) {
+  g <- d[[id]]; n <- nrow(d); N <- length(unique(g)); T <- n / N
+  yb <- ave(d[[y]], g); xb <- ave(d[[x]], g)
+  yd <- d[[y]] - yb;    xd <- d[[x]] - xb
+
+  b_fe  <- sum(xd * yd) / sum(xd^2)
+  s2u   <- sum((yd - b_fe * xd)^2) / (n - N - 1)
+  se_fe <- sqrt(s2u / sum(xd^2))
+
+  btw   <- lm(yb ~ xb, data = data.frame(yb, xb)[!duplicated(g), ])
+  s2a   <- max(sum(resid(btw)^2) / (N - 2) - s2u / T, 0)
+  theta <- 1 - sqrt(s2u / (s2u + T * s2a))
+
+  yq <- d[[y]] - theta * yb; xq <- d[[x]] - theta * xb
+  re <- lm(yq ~ I(rep(1 - theta, n)) + xq - 1)
+  c(b_fe = b_fe, se_fe = se_fe,
+    b_re = unname(coef(re)[2]), se_re = coef(summary(re))[2, 2],
+    theta = theta, sigma2_a = s2a, sigma2_u = s2u)
+}
+
+est <- fe_re(farms, "farm", "lyield", "lfert")
+round(est, 4)
+```
+
+The estimated variance components are reasonably close to the truth
+($\sigma_a^2 = 0.25$, $\sigma_u^2 = 0.09$), and `theta` is `r round(est["theta"], 2)`: random effects subtracts about
+`r round(100 * est["theta"])`% of each farm's mean.
+
+Look at the slope. The random effects estimate is
+`r round(est["b_re"], 3)`: higher than the fixed effects estimate of
+`r round(est["b_fe"], 3)`, and higher than the truth of 0.30. It is not
+as wrong as pooled OLS, because it removes part of the farm effect, but it is
+still biased — because soil is correlated with fertiliser, and random effects
+assumes it is not.
+
+::: {.watchout}
+**Random effects is more efficient than fixed effects only if its assumption is
+true.** If $\mathrm{Cov}(x_{it}, a_i) \neq 0$ it is inconsistent, and a large
+sample only makes the wrong answer more precise. Fixed effects makes no such
+assumption.
+:::
+
+## Fixed or random? The Hausman test {#pd-hausman}
+
+::: {.question}
+Can the data tell us whether the random effects assumption holds?
+:::
+
+Compare the two estimators. If $a_i$ is uncorrelated with $x$, both are
+consistent and should give similar answers. If it is correlated, fixed effects
+is still consistent and random effects is not, and they should differ.
+
+This is the logic of the **Hausman test**. Under $H_0$ (random effects valid) the
+two estimators estimate the same number, and the random effects one is efficient:
+
+$$H = \frac{\big(\hat{\beta}^{FE} - \hat{\beta}^{RE}\big)^2}
+           {\widehat{\mathrm{Var}}(\hat{\beta}^{FE}) - \widehat{\mathrm{Var}}(\hat{\beta}^{RE})}
+\;\sim\; \chi^2_1 \quad \text{(for one slope)}$$
+
+A large $H$ rejects $H_0$: the estimators disagree by more than sampling noise
+would allow, and fixed effects should be preferred.
+
+```{r pd-hausman}
+hausman <- function(e) {
+  h <- (e["b_fe"] - e["b_re"])^2 / (e["se_fe"]^2 - e["se_re"]^2)
+  c(H = unname(h), p_value = unname(1 - pchisq(h, 1)))
+}
+round(hausman(est), 5)
+```
+
+The test rejects emphatically here, as it should, since we built the data to
+violate the random effects assumption.
+
+::: {.watchout}
+The Hausman test has three limitations.
+
+1. The variance formula assumes random effects is efficient, which requires the
+   errors to be homoskedastic and serially uncorrelated apart from $a_i$. With
+   clustering, the denominator can come out **negative**, and the test is invalid.
+2. It compares slopes only. It says nothing about whether the fixed effects
+   estimate is *right* — only that the two differ.
+3. A failure to reject is not proof that random effects is valid; in small panels
+   the test has little power.
+:::
+
+The next section gives a version of the test that does not rely on any of these.
+
+## Correlated random effects {#pd-cre}
+
+::: {.question}
+Is there a way to keep the fixed effects estimate, test the random effects
+assumption, and still estimate the effect of `canal`?
+:::
+
+The **correlated random effects** (CRE) approach, due to Mundlak and
+Chamberlain, makes the same reasoning that underlies fixed effects explicit.
+
+The random effects problem is that $a_i$ may be related to $x_{it}$. So model
+that relationship directly. Suppose $a_i$ depends on the farm's *average*
+fertiliser use:
+
+$$a_i = \psi\,\bar{x}_i + c_i, \qquad \mathrm{Cov}(x_{it}, c_i) = 0$$
+
+Here $c_i$ is whatever is left of the unobserved effect after the part related
+to $\bar{x}_i$ has been taken out. It **is** uncorrelated with $x$, by
+construction. Substitute into the model:
+
+$$y_{it} = \beta_0 + \beta_1 x_{it} + \psi\,\bar{x}_i + c_i + u_{it}$$
+
+This is a random effects model with one extra regressor: the **unit mean of
+$x$**. The problem that made random effects biased has been moved into an
+explicit, estimated term.
+
+```{r pd-cre}
+farms$xbar <- ave(farms$lfert, farms$farm)
+
+cre <- lm(lyield ~ lfert + xbar, data = farms)
+
+round(rbind(
+  coef(summary(cre))[c("lfert", "xbar"), 1:2],
+  fixed_effects = c(fe_by_hand, NA)), 4)
+```
+
+Three results follow from adding $\bar{x}_i$.
+
+::: {.keyidea}
+1. **The coefficient on $x_{it}$ equals the fixed effects estimate** — here
+   `r round(coef(cre)["lfert"], 4)`, to every digit. Controlling for the unit's
+   average makes the remaining variation in $x$ the *within* variation, so the
+   coefficient measures the same thing as the within estimator.
+2. **The coefficient on $\bar{x}_i$ is the difference between the between and
+   the within effects**: $\hat{\psi} = \hat{\beta}^{B} - \hat{\beta}^{W}$.
+   A farm using more fertiliser *on average* has a higher yield for reasons
+   that go beyond what extra fertiliser does within a farm.
+3. **Testing $\psi = 0$ is a test of the random effects assumption.** If $\psi =
+   0$, the between and within effects coincide and random effects is valid. It is
+   the Hausman test in regression form.
+:::
+
+Checking point 2 against the between estimate computed earlier:
+
+```{r pd-cre-between}
+round(c(psi_hat = unname(coef(cre)["xbar"]),
+        between_minus_within = unname(between) - fe_by_hand), 4)
+```
+
+Point 3 has a considerable practical advantage over the Hausman test: the
+regression can use **cluster-robust standard errors**, so the test remains valid
+when the errors are heteroskedastic or serially correlated.
+
+```{r pd-cre-test}
+se_cre <- cluster_se(cre, farms$farm)
+t_psi  <- coef(cre)["xbar"] / se_cre["xbar"]
+round(c(psi_hat = unname(coef(cre)["xbar"]),
+        clustered_se = unname(se_cre["xbar"]),
+        t_statistic = unname(t_psi)), 3)
+```
+
+$t$ is very large, so $\psi \neq 0$ and the random effects assumption is
+rejected — the same message as the Hausman test, now in a form that survives
+clustering.
+
+### Recovering time-constant variables {-}
+
+The key practical gain: once $\bar{x}_i$ is in the equation, time-constant
+variables such as `canal` can be added, and their coefficients **are** estimable.
+
+```{r pd-cre-canal}
+cre2 <- lm(lyield ~ lfert + canal + xbar, data = farms)
+round(cbind(estimate = coef(cre2),
+            clustered_se = cluster_se(cre2, farms$farm))[2:4, ], 4)
+```
+
+The estimated effect of `canal` is `r round(coef(cre2)["canal"], 3)` (standard
+error about 0.06), against a true value of 0.20, with the fixed effects estimator
+unable to produce any number at all. The slope on `lfert` is unchanged.
+
+::: {.watchout}
+This is not free. The coefficient on `canal` is credible only if `canal` is
+uncorrelated with $c_i$, the part of the unobserved effect left over after
+$\bar{x}_i$ is accounted for. In the simulation we made it so — `canal` is
+independent of soil. In a real panel that is a substantive assumption about the
+time-constant variable, and it is stronger than anything fixed effects needed.
+The time-varying coefficient $\hat{\beta}_1$ does **not** depend on it.
+:::
+
+::: {.deeper}
+With several time-varying regressors, include the unit mean of **each**:
+$\bar{x}_{1i}, \bar{x}_{2i}, \ldots$. With an **unbalanced** panel the means are
+taken over each unit's own available periods.
+
+Chamberlain's more general version replaces the single mean by the entire
+history, $x_{i1}, \ldots, x_{iT}$, which allows $a_i$ to depend on the *pattern*
+of $x$ over time rather than just its average. Mundlak's version is much easier
+to use and usually all that is needed.
+
+Adding the means to a pooled OLS regression with clustered standard errors gives
+the same coefficients as above, in a balanced panel; it is the random-effects
+weighting that would, in general, differ.
+:::
+
+## All four on trial {#pd-mc}
+
+::: {.question}
+Do these four estimators really behave as claimed?
+:::
+
+We have one sample of 200 farms. To see how each estimator behaves in general,
+simulate many panels and record each estimate. We do it twice: once with soil
+correlated with fertiliser (as before) and once with `rho = 0`, so that the
+random effects assumption is true.
+
+```{r pd-mc, cache = TRUE}
+four_estimates <- function(d) {
+  e <- fe_re(d, "farm", "lyield", "lfert")
+  xb <- ave(d$lfert, d$farm)
+  c(Pooled = unname(coef(lm(lyield ~ lfert, data = d))["lfert"]),
+    Fixed   = unname(e["b_fe"]),
+    Random  = unname(e["b_re"]),
+    CRE     = unname(coef(lm(lyield ~ lfert + xb, data = d))["lfert"]))
+}
+
+set.seed(2026)
+run_mc <- function(rho, reps = 600)
+  t(replicate(reps, four_estimates(make_panel(rho = rho))))
+
+mc <- rbind(
+  data.frame(run_mc(0.6), world = "Soil correlated with fertiliser"),
+  data.frame(run_mc(0.0), world = "Soil uncorrelated with fertiliser"))
+
+methods <- c("Pooled", "Fixed", "Random", "CRE")
+long <- do.call(rbind, lapply(methods, function(m)
+  data.frame(world = mc$world, method = m, estimate = mc[[m]])))
+long$method <- factor(long$method, levels = methods)
+
+ggplot(long, aes(method, estimate, fill = method)) +
+  geom_boxplot(show.legend = FALSE, outlier.size = 0.6) +
+  geom_hline(yintercept = 0.30, colour = book_palette$reject, linewidth = 0.9) +
+  scale_fill_manual(values = c(book_palette$soft, book_palette$accent,
+                               book_palette$fill, book_palette$ink)) +
+  facet_wrap(~ world) +
+  labs(x = NULL, y = "Estimated effect of fertiliser",
+       title = "600 panels, true effect 0.30 (horizontal line)") +
+  theme_book()
+```
+
+```{r pd-mc-table}
+summ <- function(d) round(rbind(mean = colMeans(d[, 1:4]),
+                                sd   = apply(d[, 1:4], 2, sd)), 3)
+list(correlated   = summ(mc[mc$world == "Soil correlated with fertiliser", ]),
+     uncorrelated = summ(mc[mc$world == "Soil uncorrelated with fertiliser", ]))
+```
+
+The pattern is the whole content of this unit.
+
+- **Soil correlated with fertiliser.** Pooled and random effects are biased;
+  fixed effects and CRE are centred on 0.30.
+- **Soil uncorrelated with fertiliser.** All four are unbiased. Random effects
+  is the most precise; fixed effects and CRE give up a little precision by
+  ignoring the between variation, and pooled OLS is the *least* precise of
+  all, because it ignores the serial correlation.
+
+CRE gets the consistency of fixed effects for the time-varying coefficient.
+What it does not do is make fixed effects any *more efficient* — its slope has
+the same spread. Its extra value is the test of $\psi = 0$ and the ability to
+include time-constant variables.
+
+## Real data: profit and scale in Indian states {#pd-asi}
+
+::: {.question}
+Do industrial profits rise with the size of a state's manufacturing sector?
+:::
+
+The file `asi-state-profit.csv` has the gross value added (GVA) and profit of
+registered manufacturing in each state, by year, taken from the Annual Survey of
+Industries. We ask whether, in a year when a state's manufacturing sector is
+larger, a larger fraction of its value added is retained as profit.
+
+The outcome is the **profit share** (profit divided by GVA), the explanatory
+variable the log of GVA. We keep the 21 states observed in all 43 years from
+1980 to 2023 so that the panel is balanced.
+
+```{r pd-asi-data}
+asi <- read.csv("data/asi-state-profit.csv")
+years_seen <- table(asi$state)
+asi <- asi[asi$state %in% names(years_seen)[years_seen == 43], ]
+asi$lgva <- log(asi$gva)
+asi$xbar <- ave(asi$lgva, asi$state)
+
+c(states = length(unique(asi$state)), rows = nrow(asi))
+```
+
+Profit share is bounded above by 1 and can be strongly negative in bad years,
+so a few extreme values will matter.
+
+```{r pd-asi-fit}
+pooled_a <- lm(profit_share ~ lgva, data = asi)
+fe_a     <- lm(profit_share ~ lgva + factor(state), data = asi)
+cre_a    <- lm(profit_share ~ lgva + xbar, data = asi)
+est_a    <- fe_re(asi, "state", "profit_share", "lgva")
+
+res <- rbind(
+  Pooled = c(coef(pooled_a)["lgva"], cluster_se(pooled_a, asi$state)["lgva"]),
+  Fixed  = c(coef(fe_a)["lgva"],     cluster_se(fe_a, asi$state)["lgva"]),
+  Random = c(est_a["b_re"], NA),
+  CRE    = c(coef(cre_a)["lgva"],    cluster_se(cre_a, asi$state)["lgva"]))
+colnames(res) <- c("Estimate", "Clustered SE")
+round(res, 4)
+```
+
+The pooled slope is `r round(coef(pooled_a)["lgva"], 3)`; fixed effects is
+`r round(coef(fe_a)["lgva"], 3)`. A state where manufacturing is larger than
+*its own* usual level retains about 0.8 percentage points more of value added as
+profit for each 10% rise in GVA ($0.083 \times 0.10$). Pooled OLS understates it,
+since it also compares states that differ in size for other reasons.
+
+Now test whether the random effects assumption holds.
+
+```{r pd-asi-test}
+round(hausman(est_a), 4)
+
+se_psi <- cluster_se(cre_a, asi$state)["xbar"]
+round(c(psi_hat = unname(coef(cre_a)["xbar"]), clustered_se = unname(se_psi),
+        t = unname(coef(cre_a)["xbar"] / se_psi)), 3)
+```
+
+The Hausman test is borderline ($p$ close to 0.06) and the clustered test on
+$\hat{\psi}$ does not reject. Different questions, different answers, and here
+neither is decisive. With only 21 states, no test is going to be definitive.
+
+### Time matters too {-}
+
+Everything so far removed what is constant over time within a state. But
+profit shares, GVA and prices all drift over 43 years for reasons that affect
+every state at once: inflation, liberalisation, a changing mix of industries.
+Anything common to all states in a year can be absorbed by adding a **dummy for
+each year** — the unit-and-time version of fixed effects, called **two-way fixed
+effects**.
+
+```{r pd-asi-twoway}
+fe2_a  <- lm(profit_share ~ lgva + factor(state) + factor(yr), data = asi)
+cre2_a <- lm(profit_share ~ lgva + xbar + factor(yr), data = asi)
+
+round(rbind(
+  `Fixed, state only`    = c(coef(fe_a)["lgva"],  cluster_se(fe_a, asi$state)["lgva"]),
+  `Fixed, state + year`  = c(coef(fe2_a)["lgva"], cluster_se(fe2_a, asi$state)["lgva"]),
+  `CRE: coefficient on x` = c(coef(cre2_a)["lgva"], cluster_se(cre2_a, asi$state)["lgva"]),
+  `CRE: coefficient on mean` = c(coef(cre2_a)["xbar"], cluster_se(cre2_a, asi$state)["xbar"])),
+  4)
+```
+
+The estimate **more than doubles**, to `r round(coef(fe2_a)["lgva"], 3)`, once
+year effects are included. GVA is measured in current rupees, so it rises in
+every state every year with inflation, and the profit share has its own trend; a
+regression that ignores common time effects mixes that trend into the slope.
+After removing it, a state's own deviation from its yearly norm is what
+remains. And now the CRE coefficient on the mean is different from zero
+($t \approx -2.4$), so the random effects assumption fails once time is
+controlled for.
+
+::: {.watchout}
+The two sets of results are a reminder that a specification choice can change the
+answer as much as the choice of estimator. Neither state nor year dummies will
+remove a **time-varying, state-specific** influence — a state's policy change in
+1995, a new industrial estate — and a causal reading of 0.18 would need an
+argument that no such influence moves with GVA. Fixed effects supports the
+claim "within a state, in years when GVA is high, the profit share is high".
+It does not by itself support "raising GVA raises profits".
+:::
+
+## Choosing and using the estimators {#pd-choosing}
+
+| Question | If **yes** | If **no** |
+|:--|:--|:--|
+| Could $a_i$ be correlated with the regressors? | Fixed effects or CRE | Random effects is possible |
+| Do you need the effect of a time-constant variable? | CRE (with an assumption) | Fixed effects |
+| Is there a trend or shock common to all units? | Add time dummies | — |
+| Is $T$ very small and $N$ large? | Cluster on the unit | Take extra care with inference |
+
+Some practical principles.
+
+1. **Default to fixed effects** (or CRE) when the question is causal. The
+   random effects assumption — that the unobserved effect is unrelated to
+   everything in the model — is rarely credible for the questions economists ask.
+2. **Report the Mundlak test, not only the Hausman test**, because it survives
+   clustering.
+3. **Fixed effects removes only what is constant over time.** An omitted
+   variable that changes within the unit, in a way related to $x$, still biases
+   the estimate.
+4. **Cluster standard errors on the unit.** Always.
+5. **Check how much within variation there is.** If $x$ barely changes within
+   units, the fixed effects estimate will be imprecise, and measurement error
+   will be a larger share of what does vary.
+6. **Do not interpret the unit dummies.** They are controls, not findings.
+
+::: {.deeper}
+When the regressors include a **lagged dependent variable**, $y_{i,t-1}$, strict
+exogeneity fails by construction, and fixed effects is biased. The bias shrinks
+at rate $1/T$ (the "Nickell bias"), so it is small in a long panel and large in a
+short one. The usual remedies are instrumental-variable estimators in
+differences. They go beyond this book, but you should know to be suspicious of
+any short-panel regression with a lagged outcome on the right-hand side.
+:::
+
+## Summary {#pd-summary}
+
+::: {.keyidea}
+- **Panel data** follow the same units over several periods. A unit can then be
+  compared with itself, which removes everything about it that stays constant.
+- The model is $y_{it} = \beta_0 + \beta_1 x_{it} + a_i + u_{it}$. $a_i$ is the
+  **unobserved effect**, constant over time; $u_{it}$ is the **idiosyncratic
+  error**; their sum is the **composite error**.
+- **Pooled OLS** is biased when $a_i$ is correlated with $x$, and its standard
+  errors are wrong because the composite errors of one unit are correlated.
+  Cluster-robust standard errors fix only the second problem.
+- The **fixed effects (within) estimator** subtracts each unit's time average
+  from every variable, so $a_i$ drops out, and runs OLS. It permits arbitrary
+  correlation between $a_i$ and $x$. Degrees of freedom are $N(T-1) - k$.
+- It is **identical** to OLS with a dummy for every unit, and with $T = 2$ it is
+  identical to first differencing.
+- It uses **only within variation**, so it cannot estimate the effect of any
+  variable constant over time, and it can worsen measurement error.
+- A unit observed once contributes nothing. **Attrition** related to $a_i$ is
+  harmless; attrition related to $u_{it}$ is not.
+- **Random effects** assumes $\mathrm{Cov}(x_{it}, a_i) = 0$ and estimates by GLS,
+  subtracting a fraction $\theta$ of each unit's mean. It lies between pooled OLS
+  ($\theta = 0$) and fixed effects ($\theta = 1$), and is the most efficient
+  estimator **only if** its assumption holds.
+- The **Hausman test** compares fixed and random effects. It is invalid under
+  clustering and heteroskedasticity.
+- **Correlated random effects** adds the unit means of $x$ to the regression.
+  The coefficient on $x$ equals the fixed effects estimate, the coefficient on
+  the mean tests the random effects assumption robustly, and time-constant
+  variables become estimable — under a stronger assumption about them.
+- In the simulation, pooled and random effects were biased (about 0.55 and 0.35
+  against 0.30) when soil was related to fertiliser; fixed effects and CRE were
+  not.
+:::
+
+## Practice problems {#pd-practice}
+
+::: {.yourturn}
+Work each one before opening the solution. The
+[question bank](#pd-question-bank) that follows has no answers.
+:::
+
+### Numerical problems {-}
+
+**11.1** Three farms are each observed in three seasons. $x$ is fertiliser and
+$y$ is yield.
+
+| Farm | $x_{i1}$ | $x_{i2}$ | $x_{i3}$ | $y_{i1}$ | $y_{i2}$ | $y_{i3}$ |
+|:--|--:|--:|--:|--:|--:|--:|
+| 1 | 1 | 2 | 3 | 2 | 3 | 7 |
+| 2 | 4 | 5 | 6 | 7 | 10 | 10 |
+| 3 | 2 | 4 | 6 | 5 | 9 | 10 |
+
+i. Compute each farm's mean of $x$ and of $y$.
+ii. Compute the demeaned values $\ddot{x}_{it}$ and $\ddot{y}_{it}$.
+iii. Compute the fixed effects estimate $\hat{\beta}_1$.
+iv. Is the pooled OLS slope larger or smaller than your answer? Why?
+
+::: {.answer}
+```{r pd-ex1, echo = FALSE}
+x <- c(1,2,3, 4,5,6, 2,4,6); y <- c(2,3,7, 7,10,10, 5,9,10)
+f <- rep(1:3, each = 3)
+```
+
+**(i)** $\bar{x} = 2, 5, 4$ and $\bar{y} = 4, 9, 8$ for farms 1, 2, 3.
+
+**(ii)** Farm 1: $\ddot{x} = (-1, 0, 1)$, $\ddot{y} = (-2, -1, 3)$. Farm 2:
+$\ddot{x} = (-1, 0, 1)$, $\ddot{y} = (-2, 1, 1)$. Farm 3:
+$\ddot{x} = (-2, 0, 2)$, $\ddot{y} = (-3, 1, 2)$.
+
+**(iii)** $\sum\ddot{x}\ddot{y} = (2+0+3) + (2+0+1) + (6+0+4) = 18$ and
+$\sum\ddot{x}^2 = 2 + 2 + 8 = 12$, so $\hat{\beta}_1^{FE} = 18/12 = 1.5$.
+
+**(iv)** The pooled slope is `r round(coef(lm(y ~ x))[2], 3)`, larger than 1.5.
+Farms with higher $x$ also have higher average $y$, in a way the within-farm
+movements do not account for: farm 2 has both the largest $x$ and the largest
+$y$ on average. Pooled OLS credits all of that to $x$, which is the same
+composite-error bias as in the simulation. Check: `lm(y ~ x + factor(f))`
+reproduces 1.5.
+:::
+
+**11.2** A panel has $N = 50$ units and $T = 6$ periods. A fixed effects model is
+estimated by running OLS on demeaned data with three regressors, and the
+software reports a standard error of 0.040 for one coefficient.
+
+i. How many degrees of freedom did the regression use, and how many should it
+   have used?
+ii. By what factor should the reported standard error be multiplied?
+iii. Give the corrected standard error.
+
+::: {.answer}
+**(i)** It used $NT - k = 300 - 3 = 297$. The correct figure is
+$NT - N - k = 300 - 50 - 3 = 247$.
+
+**(ii)** The estimate of $\sigma_u^2$ is a sum of squared residuals divided by
+the degrees of freedom, so the standard error scales with
+$\sqrt{297/247} = `r round(sqrt(297/247), 4)`$.
+
+**(iii)** $0.040 \times `r round(sqrt(297/247), 4)` =
+`r round(0.040 * sqrt(297/247), 4)`$.
+:::
+
+**11.3** A researcher estimates a log-wage equation on a panel of workers with
+fixed effects. For each variable, say whether its coefficient can be estimated,
+and why.
+
+i. Union membership, which changes for some workers.
+ii. Gender.
+iii. Years of schooling, in a panel of adults whose schooling is complete.
+iv. Years of work experience, with a full set of year dummies, where every worker
+    is employed in every year.
+v. Years of schooling interacted with the year dummies.
+
+::: {.answer}
+**(i)** Yes: it varies within workers.
+
+**(ii)** No. It is constant for each worker, so it is removed by the within
+transformation.
+
+**(iii)** No, for the same reason: constant for each adult.
+
+**(iv)** No. Experience rises by one for every worker every year, so after the
+worker's effect is removed it is perfectly collinear with the year dummies.
+
+**(v)** Yes, but only the *differences* in the return to schooling between each
+year and the base year. The return in any single year is not identified.
+:::
+
+**11.4** Estimated variance components in a random effects model are
+$\hat{\sigma}_a^2 = 0.04$ and $\hat{\sigma}_u^2 = 0.16$.
+
+i. Compute $\theta$ for $T = 4$.
+ii. Compute $\theta$ for $T = 16$.
+iii. What does the difference tell you about how random effects relates to fixed
+     effects as $T$ grows?
+iv. Compute the correlation between two composite errors from the same unit.
+
+::: {.answer}
+**(i)** $\theta = 1 - \sqrt{0.16/(0.16 + 4 \times 0.04)} = 1 - \sqrt{0.5} =
+`r round(1 - sqrt(0.5), 3)`$.
+
+**(ii)** $\theta = 1 - \sqrt{0.16/(0.16 + 16 \times 0.04)} = 1 - \sqrt{0.2} =
+`r round(1 - sqrt(0.2), 3)`$.
+
+**(iii)** $\theta$ rises with $T$: random effects subtracts more of each unit's
+mean and moves towards fixed effects ($\theta = 1$).
+
+**(iv)** $0.04/(0.04 + 0.16) = 0.2$.
+:::
+
+**11.5** Fixed and random effects estimates of one slope are
+$\hat{\beta}^{FE} = 0.30$ with standard error 0.040, and $\hat{\beta}^{RE} =
+0.35$ with standard error 0.030.
+
+i. Compute the Hausman statistic.
+ii. The 5% critical value of $\chi^2_1$ is 3.84. What do you conclude?
+iii. Why would you not be reassured if a colleague reported the result of this
+     test from a regression with clustered standard errors?
+
+::: {.answer}
+**(i)** $H = (0.30 - 0.35)^2/(0.040^2 - 0.030^2) = 0.0025/0.0007 =
+`r round(0.0025/0.0007, 3)`$.
+
+**(ii)** It is below 3.84, so we do not reject the random effects assumption at
+5% ($p \approx `r round(1 - pchisq(0.0025/0.0007, 1), 3)`$). It is close to the
+boundary, so the conclusion is fragile.
+
+**(iii)** The formula takes the difference of the two variances, which is
+justified only if random effects is efficient. With clustered standard errors
+that is no longer true, and the denominator can be negative or meaningless. The
+regression form of the test, adding the unit means, avoids the problem.
+:::
+
+**11.6** A CRE regression of log wage on union status (time-varying) and its
+unit mean gives the following, with clustered standard errors.
+
+| | Estimate | SE |
+|:--|--:|--:|
+| union | 0.08 | 0.02 |
+| mean of union | 0.14 | 0.05 |
+
+i. What is the fixed effects estimate of the union effect?
+ii. What is the between effect of union status?
+iii. Test whether random effects is valid, and state the conclusion.
+
+::: {.answer}
+**(i)** 0.08. In a CRE regression the coefficient on the time-varying variable
+equals the fixed effects estimate.
+
+**(ii)** The coefficient on the mean is the between effect minus the within
+effect, so the between effect is $0.14 + 0.08 = 0.22$.
+
+**(iii)** $t = 0.14/0.05 = 2.8$, which exceeds 1.96. Reject $\psi = 0$: the
+unobserved effect is related to the unit's average union status, and random
+effects would be biased. Workers who are more often unionised earn more than
+the within-worker change in union status can explain, probably because of
+unobserved differences between workers.
+:::
+
+**11.7** In a pooled regression, $\mathrm{Var}(x) = 0.40$ and
+$\mathrm{Cov}(x, a) = 0.12$. The true $\beta_1 = 0.50$.
+
+i. What does pooled OLS estimate in a large sample?
+ii. What would it estimate if $\mathrm{Cov}(x, a) = 0$?
+iii. What does fixed effects estimate in the first case?
+
+::: {.answer}
+**(i)** $0.50 + 0.12/0.40 = 0.80$.
+
+**(ii)** 0.50 — the unobserved effect no longer biases it, though the standard
+errors are still wrong.
+
+**(iii)** 0.50, whatever the covariance. Fixed effects allows any correlation
+between $a_i$ and $x$.
+:::
+
+**11.8** Four units are each observed in two periods.
+
+| Unit | $x_1$ | $x_2$ | $y_1$ | $y_2$ |
+|:--|--:|--:|--:|--:|
+| 1 | 1 | 2 | 3 | 6 |
+| 2 | 2 | 2 | 4 | 5 |
+| 3 | 3 | 5 | 7 | 11 |
+| 4 | 4 | 6 | 8 | 12 |
+
+i. Compute the first-difference slope, with an intercept.
+ii. Verify that the fixed effects estimate is the same.
+
+::: {.answer}
+```{r pd-ex8, echo = FALSE}
+x1 <- c(1,2,3,4); x2 <- c(2,2,5,6); y1 <- c(3,4,7,8); y2 <- c(6,5,11,12)
+dx <- x2 - x1; dy <- y2 - y1
+fd <- sum((dx - mean(dx)) * (dy - mean(dy))) / sum((dx - mean(dx))^2)
+xx <- c(x1, x2); yy <- c(y1, y2); u <- rep(1:4, 2); tt <- rep(1:2, each = 4)
+fe <- unname(coef(lm(yy ~ xx + factor(tt) + factor(u)))["xx"])
+```
+
+**(i)** $\Delta x = (1, 0, 2, 2)$, $\Delta y = (3, 1, 4, 4)$, with means 1.25 and
+3. Then $\sum(\Delta x - 1.25)(\Delta y - 3) = 4.0$ and
+$\sum(\Delta x - 1.25)^2 = 2.75$, so the slope is $4.0/2.75 =
+`r round(4/2.75, 4)`$.
+
+**(ii)** Fixed effects with a dummy for the second period, as the first
+difference regression with an intercept requires, gives `r round(fe, 4)`. The
+two are identical when $T = 2$.
+:::
+
+### R exercises {-}
+
+**11.9** Using the simulation function of Section \@ref(pd-structure), set
+`rho = 0` and `N = 100`, `T = 3`. Compute the pooled, fixed effects, random
+effects and CRE estimates and the Hausman statistic. Does the Hausman test
+reject? Should it?
+
+::: {.answer}
+```{r pd-ex9, eval = FALSE}
+d <- make_panel(N = 100, T = 3, rho = 0, seed = 5)
+e <- fe_re(d, "farm", "lyield", "lfert")
+round(e, 4)
+hausman(e)
+
+xb <- ave(d$lfert, d$farm)
+coef(lm(lyield ~ lfert + xb, data = d))
+```
+
+With `rho = 0` the random effects assumption is true, so the test should not
+reject, and 5% of the time it will anyway — that is what a 5% significance level
+means. Run it with several seeds and count the rejections.
+:::
+
+**11.10** Using `asi-state-profit.csv`, estimate the fixed effects regression of
+profit share on log GVA using **all** states (the unbalanced panel), with
+clustered standard errors. How many states contribute? Compare with the balanced
+panel in the text.
+
+::: {.answer}
+```{r pd-ex10, eval = FALSE}
+asi_all <- read.csv("data/asi-state-profit.csv")
+asi_all$lgva <- log(asi_all$gva)
+
+table(table(asi_all$state))                 # how many years each state appears
+
+fe_all <- lm(profit_share ~ lgva + factor(state), data = asi_all)
+c(coef(fe_all)["lgva"], cluster_se(fe_all, asi_all$state)["lgva"])
+```
+
+The table shows that states observed in only one year contribute nothing, since
+their demeaned values are zero. Check which dropped out by counting states with
+a single row. The estimate differs from the balanced-panel one because the extra
+states have fewer years and a different mix of industries — and, if their
+absence from the full panel is related to outcomes, because of the selection
+problems discussed under unbalanced panels.
+:::
+
+## Question bank {#pd-question-bank}
+
+::: {.watchout}
+**No answers are given for this section, by design.**
+:::
+
+### Multiple choice {-}
+
+**QB 11.1** In the model $y_{it} = \beta_1 x_{it} + a_i + u_{it}$, the term $a_i$ is
+
+a. the idiosyncratic error
+b. constant over time for unit $i$
+c. observed for each $i$
+d. uncorrelated with $x_{it}$ by definition
+
+**QB 11.2** The within transformation
+
+a. subtracts the overall mean from each observation
+b. subtracts each unit's time average from its observations
+c. subtracts the previous period's value from each observation
+d. adds a dummy for each time period
+
+**QB 11.3** The fixed effects estimator requires which of the following?
+*(select all that apply)*
+
+a. $a_i$ uncorrelated with $x_{it}$
+b. $u_{it}$ uncorrelated with $x_{is}$ for all periods $s$
+c. variation in $x_{it}$ over time within units
+d. a balanced panel
+
+**QB 11.4** In a fixed effects regression with $N$ units, $T$ periods and $k$
+time-varying regressors, the degrees of freedom are
+
+a. $NT - k$
+b. $NT - N - k$
+c. $N(T-1)$
+d. $NT - T - k$
+
+**QB 11.5** Which of the following can be estimated by a fixed effects regression?
+*(select all that apply)*
+
+a. the effect of gender in a panel of workers
+b. the effect of a state's rainfall in each year
+c. the effect of years of schooling in a panel of adults
+d. the effect of union membership for workers who change status
+
+**QB 11.6** With two periods, the first difference estimator with an intercept is
+
+a. more efficient than fixed effects
+b. less efficient than fixed effects
+c. identical to fixed effects with a dummy for the second period
+d. biased if $a_i$ is correlated with $x$
+
+**QB 11.7** In the random effects estimator, $\theta = 0$ corresponds to
+
+a. fixed effects
+b. pooled OLS
+c. the between estimator
+d. first differences
+
+**QB 11.8** The coefficient on $\bar{x}_i$ in a Mundlak regression equals
+
+a. the between effect
+b. the within effect
+c. the between effect minus the within effect
+d. the fixed effect for unit $i$
+
+### Short reasoning {-}
+
+**QB 11.9** Explain, without algebra, why the fixed effects estimator is not
+biased by a characteristic of the unit that stays constant and is unrelated to
+anything observed.
+
+**QB 11.10** A researcher says: "I include a dummy for every district, so I have
+controlled for rainfall in each district's history." Is this fully correct? What
+does it control for and what not?
+
+**QB 11.11** Explain why a unit observed in only one period plays no role in a
+fixed effects estimation, even though it is in the data.
+
+**QB 11.12** Why can fixed effects be *more* damaged by measurement error in $x$
+than pooled OLS?
+
+**QB 11.13** A fixed effects regression is estimated with a full set of year
+dummies. A colleague asks for the effect of age in a panel in which everyone is
+observed annually. Explain why this cannot be estimated.
+
+**QB 11.14** State the assumption on which random effects relies and give one
+reason it might fail in a panel of households.
+
+**QB 11.15** Describe two advantages of the Mundlak regression test over the
+Hausman test.
+
+**QB 11.16** A panel of firms loses firms that go bankrupt. Under what
+circumstances does this attrition bias a fixed effects estimate, and under what
+circumstances does it not?
+
+### Numerical {-}
+
+**QB 11.17** Two farms are observed over three seasons. Farm A has $x = (2, 4, 6)$
+and $y = (5, 9, 10)$; farm B has $x = (1, 2, 3)$ and $y = (2, 3, 7)$. Compute the
+fixed effects slope and the pooled OLS slope.
+
+**QB 11.18** A fixed effects regression on 120 households observed for 4 years
+gives a residual sum of squares of 54 from the demeaned regression with 2
+regressors. Compute $\hat{\sigma}_u^2$ with the correct degrees of freedom.
+
+**QB 11.19** With $\hat{\sigma}_a^2 = 0.36$ and $\hat{\sigma}_u^2 = 0.09$, compute
+$\theta$ for $T = 5$ and the correlation between two composite errors from the
+same unit.
+
+**QB 11.20** A CRE regression of log output on log capital and its unit mean
+gives coefficients 0.35 (SE 0.06) and 0.20 (SE 0.07), clustered. Report the fixed
+effects estimate, the implied between estimate, and your conclusion about the
+random effects assumption.
+
+## Looking ahead {#pd-looking-ahead}
+
+Panel data buy one thing: protection against everything about a unit that stays
+constant. They do not protect against what changes.
+
+The next question follows naturally. Suppose a policy is introduced in some
+states in one year and not in others. A panel of states, observed before and after,
+with state and year dummies — a **two-way fixed effects** regression — compares
+how outcomes changed in treated states with how they changed in untreated ones.
+That comparison of changes is the idea behind **difference-in-differences**, and it
+is the most widely used application of the methods in this unit.
+
+It rests on an assumption fixed effects alone cannot test: that the treated
+states, absent the policy, would have followed the same trend as the others. When
+that is plausible, panel data come closest to the controlled experiment that
+Section \@ref(sr-motivation) wished for.

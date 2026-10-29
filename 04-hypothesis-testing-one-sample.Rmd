@@ -1840,6 +1840,326 @@ i. Which provides stronger evidence that the effect is *large*?
 ii. Which had more power against a given effect size?
 iii. Explain why these two questions have different answers.
 
+### More multiple choice {-}
+
+**QB 4.28** A researcher conducts a hypothesis test and obtains a $p$-value of 0.03, with a
+significance level of $\alpha = 0.05$. Which of the following statements are
+correct? *(select all that apply)*
+
+a. The null hypothesis is rejected, since the $p$-value is less than $\alpha$.
+b. The result is statistically significant at the 5% level.
+c. If $H_0$ is true, repeating this experiment many times would lead to a false
+   rejection of $H_0$ in about 5% of cases.
+d. There is a 3% probability that the null hypothesis is true.
+
+**QB 4.29** A doctor tests a patient for a disease. The null hypothesis is that the patient
+does not have the disease. Which of the following statements are correct?
+*(select all that apply)*
+
+a. Concluding the patient has the disease when they do not is a Type I error.
+b. Concluding the patient does not have the disease when they do is a Type II
+   error.
+c. The probability of a Type I error is denoted by $\alpha$.
+d. Reducing $\alpha$ always reduces the probability of a Type II error.
+
+**QB 4.30** A researcher tests a null hypothesis at the significance level
+$\alpha = 0.01$. Which of the following correctly describes what
+$\alpha = 0.01$ means?
+
+a. The probability that the null hypothesis is true is 1%.
+b. If the null hypothesis is false, the probability of failing to reject it is 1%.
+c. If the null hypothesis is true, the probability of rejecting it is 1%.
+d. The probability that the alternative hypothesis is true is 99%.
+
+**QB 4.31** The $p$-value of a hypothesis test is the probability of
+
+a. rejecting the null hypothesis
+b. accepting the null hypothesis
+c. accepting the alternative hypothesis
+d. obtaining a sample mean at least as extreme as the one observed, assuming the
+   null hypothesis is true
+
+**QB 4.32** A tea company claims each packet contains *at least* 250 g of tea. A quality
+inspector suspects packets contain less than 250 g and wants to test this. Which
+hypotheses should be used?
+
+a. $H_0: \mu \geq 250$, $H_A: \mu < 250$
+b. $H_0: \mu \leq 250$, $H_A: \mu > 250$
+c. $H_0: \mu = 250$, $H_A: \mu \neq 250$
+d. $H_0: \mu < 250$, $H_A: \mu \geq 250$
+
+**QB 4.33** A courier company claims its average delivery time is *at most* 48 hours. A
+customer group suspects deliveries take longer than 48 hours. Which hypotheses
+should be used?
+
+a. $H_0: \mu \geq 48$, $H_A: \mu < 48$
+b. $H_0: \mu \leq 48$, $H_A: \mu > 48$
+c. $H_0: \mu = 48$, $H_A: \mu \neq 48$
+d. $H_0: \mu > 48$, $H_A: \mu \leq 48$
+
+**QB 4.34** A ride-hailing company claims that the average waiting time for its cabs is 8
+minutes. A consumer group believes that customers wait **longer** than this. It
+records the waiting times for a random sample of 25 rides and, since the
+population standard deviation is unknown, plans to carry out a one-sided
+$t$-test. Which of the following correctly states the null and alternative
+hypotheses?
+
+a. $H_0: \mu = 8$ versus $H_a: \mu \neq 8$
+b. $H_0: \mu = 8$ versus $H_a: \mu < 8$
+c. $H_0: \bar{x} = 8$ versus $H_a: \bar{x} > 8$
+d. $H_0: \mu = 8$ versus $H_a: \mu > 8$
+
+### More short reasoning {-}
+
+**QB 4.35** Suppose two economists, Neha and Rahul, collect data on attendance in
+government schools to test the effect of a free-breakfast scheme on student
+attendance. In truth, the scheme had no effect on attendance. Neha's analysis
+concludes that attendance after the introduction of the scheme is higher than
+before it. Rahul's analysis concludes that attendance before and after the
+scheme has remained the same. Specifically, Neha has committed a Type I error,
+whereas Rahul has made no error of either type. Do you agree? Why or why not?
+
+**QB 4.36** A "reject" decision means that the sample provides sufficient evidence
+against $H_0$ at the stated significance level. Explain why it does *not* prove
+that the alternative hypothesis is true.
+
+**QB 4.37** In a one-sided test, how does the direction of $H_A$ determine the rejection
+region? If $H_A: \mu > \mu_0$, do we use a lower or an upper confidence bound,
+and why? What if $H_A: \mu < \mu_0$?
+
+**QB 4.38** The regulator in India requires that any sunscreen marketed as "super
+sunscreen" has a mean Sun Protection Factor (SPF) of at least 50. A sample of
+$n = 10$ bottles is drawn from a production batch and each is tested. In this
+setting, what would a Type I error mean? What would a Type II error mean?
+
+**QB 4.39** A fast bowler's good-length delivery should pitch 6.0 metres from the batting
+crease; pitching too short or too full both signal a lack of control. The coach
+records the pitching length of $n = 10$ deliveries and tests $H_0: \mu = 6.0$
+against $H_A: \mu \neq 6.0$. What would a Type I error mean here? What would a
+Type II error mean?
+
+**QB 4.40** Four groups of students each draw a random sample of 10 bottles from the *same*
+production batch and each test the same hypothesis at $\alpha = 0.05$. Is it
+possible for the groups to reach different decisions? Explain why, and say what
+this implies about reading a single decision as the truth about the batch.
+
+### More numerical {-}
+
+**QB 4.41** A consumer research organisation states that the mean caffeine content per
+12-ounce bottle of a population of caffeinated soft drinks is 37.7 mg. A random
+sample of 36 bottles has a mean caffeine content of 35.28 mg. Assume the
+population standard deviation is 10.8 mg. At $\alpha = 0.01$, can you reject the
+claim? Report the hypotheses, the critical value, the test statistic, the
+$p$-value and a confidence interval.
+
+**QB 4.42** Historical data indicate that household water use is normally distributed with a
+mean of 360 gallons and a standard deviation of 40 gallons per day. A random
+sample of 200 households has an average daily water use of 374 gallons.
+
+i. Are these data consistent with the historical distribution at the 5% level of
+   significance?
+ii. What is the $p$-value?
+
+**QB 4.43** Traffic authorities claim that traffic lights are red for a time that is
+normally distributed with mean 30 seconds and standard deviation 1.4 seconds. A
+sample of 40 traffic lights has an average red-light time of 32.2 seconds. Can we
+conclude that the claim is false at the 5% level? At the 1% level?
+
+**QB 4.44** A random sample of 100 applicants has a mean total score of 502 on the CAT.
+According to a report, the mean total score for applicants is more than 499.
+Assume the population standard deviation is 10.6. At the 1% significance level,
+is there enough evidence to support the report's claim?
+
+**QB 4.45** All cigarettes presently sold have an average nicotine content of at least 1.5
+mg per cigarette. A firm claims to have discovered a new technique for curing
+tobacco leaves that gives an average nicotine content of less than 1.5 mg. A
+sample of 20 of the firm's cigarettes has an average nicotine content of 1.42 mg.
+Assume the population standard deviation is 0.7 mg. At the 5% level of
+significance, what conclusion can be drawn?
+
+**QB 4.46** A used-car dealer says that the mean price of a three-year-old sport utility
+vehicle in good condition is ₹20,00,000. You suspect this is incorrect. A random
+sample of 22 similar vehicles has a mean price of ₹20,64,000 and a sample
+standard deviation of ₹1,99,000. At the 5% level of significance, what
+conclusion can be drawn?
+
+**QB 4.47** A recently published study claimed that the average monthly salary of full
+professors at colleges and universities in India is ₹87,800. Students at a
+private university believe their professors earn more and test the claim with a
+random sample of 10 salaries (in thousands of rupees):
+
+$$91.0,\ 79.8,\ 102.0,\ 93.5,\ 82.0,\ 88.6,\ 90.0,\ 98.6,\ 101.0,\ 84.0.$$
+
+i. Is the null hypothesis rejected at the 10% level of significance?
+ii. Is it rejected at the 5% level?
+iii. State the conclusion in rupees.
+
+**QB 4.48** A state Department of Transportation claims that the mean wait time for various
+services at its locations is at most 6 minutes. A random sample of 34 services
+has a mean wait time of 10.3 minutes and a sample standard deviation of 8.0
+minutes. Test the claim at the 5% and 1% levels of significance.
+
+**QB 4.49** The dean of a university estimates that the mean number of classroom hours per
+week for full-time faculty is 11.0. A random sample of eight faculty members
+reports the following hours for one week:
+
+$$11.8,\ 8.6,\ 10.5,\ 7.9,\ 6.4,\ 10.4,\ 10.0,\ 8.2.$$
+
+Can you reject the dean's claim at $\alpha = 0.01$? At $\alpha = 0.05$? At
+$\alpha = 0.10$?
+
+**QB 4.50** The college administration states that the average college GPA of students is
+3.0. A random sample of 856 students has a mean college GPA of 2.814. Assume the
+population standard deviation is 0.5. Can you reject the claim at the 1%, 5% and
+10% significance levels? Give 90%, 95% and 99% confidence intervals for the mean
+GPA and show that they agree with your decisions.
+
+**QB 4.51** The instructor of a mathematics course claims that the average quiz score is at
+least 7.75. A sample of 856 students has a sample mean of 7.87 and a sample
+variance of 1.73. Is there enough evidence to conclude that the claim is false?
+Test at the 1%, 5% and 10% significance levels, and give a 90%, 95% and 99%
+lower confidence bound for the mean score.
+
+**QB 4.52** A lecturer claims that the average height of students in a class is greater
+than 165 cm. A random sample of 32 students has a mean height of 168.19 cm and a
+sample standard deviation of 6.74 cm. Test the claim at the 5% significance level
+and compute the 90% and 95% one-sided confidence bounds for the population mean
+height.
+
+**QB 4.53** A college administrator claims that the average age of students in the class is
+less than 20 years. A sample of 32 students has a mean age of 18.84 years and a
+sample standard deviation of 2.48 years. Test the claim at the 5% significance
+level and compute the 90% and 95% one-sided confidence bounds for the population
+mean age.
+
+**QB 4.54** The current average spending on food per day for a student on campus is
+estimated to be ₹250. A college administrator believes this is overstated. A
+random sample of 12 students reports the following daily food expenditures (in
+₹):
+
+$$230,\ 245,\ 218,\ 260,\ 225,\ 240,\ 235,\ 210,\ 250,\ 220,\ 238,\ 228.$$
+
+At the 1% level of significance, is there sufficient evidence that the mean daily
+food spending per student is less than ₹250?
+
+**QB 4.55** A regulator draws a random sample of $n = 10$ bottles from a production batch
+of "super sunscreen" and records each bottle's SPF. The product must have a mean
+SPF of at least 50. Four groups obtain the following samples.
+
+| Group | SPF readings | Mean | SD |
+|:--|:--|--:|--:|
+| 1 | 45.6, 48.3, 47.0, 47.0, 48.4, 46.6, 49.8, 47.7, 51.4, 44.1 | 47.590 | 2.065 |
+| 2 | 45.8, 42.9, 38.0, 34.6, 48.4, 43.0, 43.5, 44.5, 50.5, 51.4 | 44.260 | 5.228 |
+| 3 | 52.1, 53.5, 65.9, 49.8, 48.9, 34.9, 37.9, 61.2, 64.5, 50.7 | 51.940 | 10.240 |
+| 4 | 47.5, 51.3, 35.8, 44.8, 45.6, 58.4, 42.1, 50.2, 52.3, 54.5 | 48.250 | 6.531 |
+
+For each group, test at $\alpha = 0.05$ whether the regulator should approve the
+label, and state your decision. Do all four groups make the same decision?
+
+**QB 4.56** A bowling coach records the pitching length (in metres) of $n = 10$ deliveries
+by a fast bowler. A good length is 6.0 m. Four groups obtain the following
+samples.
+
+| Group | Pitching lengths | Mean | SD |
+|:--|:--|--:|--:|
+| 5 | 5.87, 5.79, 5.35, 6.34, 6.35, 5.85, 6.07, 5.58, 5.94, 6.22 | 5.936 | 0.323 |
+| 6 | 5.85, 6.02, 6.33, 6.18, 5.82, 6.48, 6.53, 6.30, 6.18, 6.21 | 6.190 | 0.239 |
+| 7 | 6.26, 5.62, 6.32, 5.75, 6.06, 5.97, 6.14, 6.53, 6.16, 5.96 | 6.077 | 0.269 |
+| 8 | 6.20, 6.03, 5.50, 5.46, 5.84, 6.60, 5.92, 6.20, 6.38, 5.60 | 5.973 | 0.382 |
+
+For each group, test at $\alpha = 0.05$ whether the bowler's mean pitching length
+differs from 6.0 m. Should the selection committee include the bowler?
+
+**QB 4.57** A random sample of 500 voters in the country indicated that 302 are in favour of
+the death penalty.
+
+i. A policymaker claims that at least a two-thirds majority of voters favour the
+   death penalty. State the null and alternative hypotheses.
+ii. Construct the appropriate confidence interval to test this claim at the 5%
+    level of significance.
+iii. Using the interval, state your conclusion.
+
+**QB 4.58** A random sample of 400 households in a district indicated that 232 are covered
+by health insurance.
+
+i. A policymaker claims that 60% of households in the district are covered by
+   health insurance. State the null and alternative hypotheses.
+ii. Construct the appropriate confidence interval to test this claim at the 5%
+    level of significance.
+iii. Using the interval, state your conclusion.
+
+**QB 4.59** The following data show the daily social media usage (in hours) of college
+students: $4,\ 6,\ 3,\ 7,\ 5$.
+
+i. Estimate the population mean.
+ii. Estimate the population standard deviation and variance.
+iii. A researcher claims that college students spend an average of 3.5 hours per
+     day on social media. At significance levels of 5% and 1%, is there
+     sufficient evidence to refute the claim?
+
+**QB 4.60** The daily expenditure on meals (in ₹) of a random sample of 8 college students
+is $80,\ 65,\ 90,\ 75,\ 95,\ 80,\ 70,\ 85$.
+
+i. Estimate the population mean daily expenditure on meals.
+ii. Estimate the population standard deviation and variance.
+iii. The college canteen claims that students spend an average of ₹70 per day on
+     meals. At significance levels of 5% and 1%, is there sufficient evidence to
+     refute the canteen's claim?
+
+**QB 4.61** An economics instructor claims that the time spent studying per week by a
+student at the university is 50 hours on average. A sample of 64 students yields
+a sample mean studying time of 55 hours per week. Can we conclude, at the 5%
+level of significance, that the instructor is incorrect? Take $\sigma = 20$. How
+does your answer change at the 1% level?
+
+**QB 4.62** Use the same study-time data as the previous question (sample of 64 students,
+sample mean 55 hours), but suppose $\sigma$ is not known and the sample standard
+deviation is $s = 20.5$. Can we conclude at the 10% level that the instructor's
+claim of 50 hours is incorrect? At the 5% level?
+
+**QB 4.63** A study examining healthcare utilisation among the elderly collects data on
+monthly doctor visits. A sample of 49 older adults averages 5.8 visits per month.
+The population standard deviation is known to be 2.5 visits per month. A policy
+analyst claims that elderly individuals make at least 6.5 visits per month on
+average.
+
+i. Formulate the null and alternative hypotheses to test whether the analyst's
+   claim is incorrect.
+ii. Conduct the test at the 5% significance level using the critical value
+    method.
+iii. Compute the $p$-value and state your conclusion.
+
+**QB 4.64** A new fitness coach has been hired by the national athletics team, and the
+governing body wants to show that the average distance covered by an athlete in
+two hours is greater than 30.0 km. A random sample of 12 athletes yields the
+following distances (in km):
+
+$$32.1,\ 29.8,\ 34.2,\ 31.4,\ 26.8,\ 33.6,\ 30.8,\ 31.4,\ 32.5,\ 29.6,\ 35.9,\ 33.4.$$
+
+Do these data establish that the mean distance covered is greater than 30.0 km at
+the 5% level of significance? Use *both* the critical-value approach and the
+confidence-interval approach, and confirm that they lead to the same
+conclusion.
+
+### R and data {-}
+
+**QB 4.65** The built-in `mtcars` data set contains performance data on 32 cars from 1974.
+A magazine claims the average car from this era gets 18 mpg, and a reviewer
+believes the true average is higher. Using R, test whether the mean `mpg` of the
+cars is greater than 18.
+
+**QB 4.66** A manufacturer states that the average car in `mtcars` weighs 3,000 lbs. Using
+R, test whether the mean `wt` differs from 3. Note that `wt` is measured in
+thousands of pounds.
+
+**QB 4.67** A buyer's guide claims that at least half of cars from this era got better than
+20 mpg. Using `mtcars` and R, test whether the true proportion of cars with
+`mpg` above 20 is less than 0.5.
+
+**QB 4.68** A dealer says manual and automatic cars were equally common (50% each) in this
+era. Using `mtcars` and R, test whether the true proportion of manual cars
+(`am = 1`) differs from 0.5.
+
 ## Looking ahead {#os-looking-ahead}
 
 We have now completed the basic toolkit of statistical inference for a single
